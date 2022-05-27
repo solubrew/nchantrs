@@ -1,0 +1,35 @@
+'imgadd':
+  'Name': 'Add Image'
+  'Description':
+  'UUID':
+  'Icon': 'addimage.png'
+  'Shortcut':
+  'Tip': ''
+  'Fx': 'nchantrs.actions.images.imgadd'
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+'imgdelete':
+  'Name':
+  'Description':
+  'UUID':
+  'Icon': 'imgdelete.png'
+  'Shortcut':
+  'Tip': ''
+  'Fx': 'nchantrs.actions.images.imgdelete'
+  'Params':
+'imgedit':
+  'Name':
+  'Description':
+  'UUID':
+  'Icon': 'addimage.png'
+  'Shortcut':
+  'Tip': ''
+  'Fx': 'nchantrs.actions.images.imgedit'
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':

@@ -1,0 +1,124 @@
+---
+'<(META)>':
+  'docid': ''
+  'name': 'Nchantd Account Entry Main YAML Configuration Document'
+  'description': >
+  'expirary': '<[expiration]>'
+  'version': '<[version]>'
+  'path': '<[LEXIvrs]>panda/LEXI/'
+  'outline': '<[outline]>'
+  'authority': 'document|this'
+  'security': 'sec|lvl2'
+  '<(WT)>': -32
+'sequence':
+  '0':
+    'method': 'setup'
+    'params':
+    'active': 1
+  '1':
+    'method': 'showSplashScreen'
+    'params':
+    'active': 0
+'gui':
+  dialogs:
+    'NchantdAccountEntry':
+      'title': 'Nchantd Account Entry'
+      description: >
+        A single pane dialog box with a simple form to enter a wallet address
+        to analyze
+        have the ability to add and drop addresses
+      'size':
+        'left': 50
+        'top': 50
+        'width': 400
+        'height': 300
+      import: 'addressentry_1pane'
+      theme: 'original'
+      toolbars: #
+      layout:
+        'style': '1Pane'
+        'center':
+          'name': 'Entry Widget'
+          'widget': 'nchantrs.widgets.forms.NchantdDynamicRecordEntryForm'
+          '<(SOURCE)>':
+            'view':
+              'vw_accounts':
+                'columns': ['name', 'address', 'description', 'chain']
+                'params':
+                  'filters':
+          '<(SINK)>':
+            'table':
+              'accounts':
+                fields:
+                  'Name': 'name'
+                  'Description': 'description'
+                  'Address': 'address'
+                  'Chain': 'chain'
+          params:
+            'outline':
+            fields:
+              'name':
+                'label': 'Name'
+                'default':
+                'size':
+                  'h': 1
+                  'w': 50
+                <(SOURCE)>:
+              'description':
+                'label': 'Description'
+                'default':
+                'size':
+                  'h': 1
+                  'w': 50
+                <(SOURCE)>:
+              'address':
+                'label': 'Address'
+                'default':
+                'size':
+                  'h': 1
+                  'w': 50
+                <(SOURCE)>:
+              'chain':
+                'label': 'Chain'
+                'default':
+                'size':
+                  'h': 1
+                  'w': 50
+                <(SOURCE)>:
+                  'view':
+                    'vw_chains':
+                      'columns': ['name']
+                      'params':
+                        'filters':
+            buttons:
+              delete:
+              new:
+              submit:
+          data:
+'dstruct':
+  'config':
+    'style': 'single'
+    'chunking': 'custom'
+  store:
+    'db':
+      path: &path '{0}/data/db/{1}.db'
+      name: 'nchantdaccountentry'
+      config:
+        'table':
+          'accounts':
+            description: >
+              table of accounts to monitor using the given ethereum address or
+              .eth name
+            columns: ['name', 'description', 'address', 'chainid']
+            'records':
+        'view':
+          'vw_accounts':
+            description:
+            cmd: >
+              CREATE VIEW vw_accounts AS
+                SELECT
+                  a.name, a.description, a.address, a.chainid
+                FROM accounts a
+        'index':
+    wdir: '/home/solubrew/Design/SB/Projects/Nchantrs/3_Work/1_DELTA/nchantdaccountentry'
+args:

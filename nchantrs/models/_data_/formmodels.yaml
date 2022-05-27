@@ -1,0 +1,29 @@
+---
+<(META)>:
+  docid:
+  Name:
+  description: >
+  expirary: <[expiration]>
+  Version: <[Version]>
+  path: <[LEXIvrs]>panda/LEXI/
+  outline: <[outline]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+NchantdAPIEntryFormModel:
+  'name':
+  'description':
+  tables:
+    apis:
+      columns: ['name', 'key', 'url']
+  'views':
+    'vw_active_apis':
+      cmd: >
+        SELECT
+          name, key, url
+        FROM apis
+        WHERE active = 1 AND dlt = 0
+NchantdDynamicRecordEntryFormModel:
+  'tables':
+    'columns':
+  'views':

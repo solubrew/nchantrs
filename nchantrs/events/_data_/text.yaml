@@ -1,0 +1,411 @@
+'bold':
+  'Name': 'Bold'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+'capitalize':
+  'Name':
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+copy:
+  'Name': 'Copy'
+  'Description':
+  'UUID':
+  'Icon': 'copy.png'
+  'Shortcut': 'Ctrl+c'
+  'Tip': 'Copy Selection'
+  'Fx':
+  'Params':
+'cut':
+  'Name': 'Cut'
+  'Description':
+  'UUID':
+  'Icon': 'cut.png'
+  'Shortcut': 'Ctrl+x'
+  'Tip': 'Cut Selection'
+  'Fx':
+  'Params':
+edit:
+  'Name': 'Edit'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip': 'Add New Document to <[obj]>'
+  'Fx':
+  'Params':
+'findinapplication':
+  'Name': 'Find...'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+'findinsheet':
+  'Name': 'Find...'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+'findinworkbook':
+  'Name': 'Find...'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+findreplaceinapplication:
+  'Name': 'Find & Replace...'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+findreplaceinsheet:
+  'Name': 'Find & Replace...'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+findreplaceinworkbook:
+  'Name': 'Find & Replace...'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+'format':
+  'Name': 'Format'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip': ''
+  'Fx': 'nchantrs.actions.action.'
+  'Params':
+'italic':
+  'Name': 'Italic'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+linespacing1:
+  'Name':     'Line Spacing: 1'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+linespacing1.5:
+  'Name': 'Line Spacing: 1.5'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+linespacing2:
+  'Name': 'Line Spacing: 2'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+'lowercase':
+  'Name': 'lowercase'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+'paste':
+  'Name': Paste
+  'Description':
+  'UUID':
+  'Icon': 'paste.png'
+  'Shortcut': 'Ctrl+v'
+  'Tip': 'Paste Cut or Copied Selection'
+  'Fx':
+  'Params':
+'pasteformats':
+  'Name': 'Paste Formats'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+pasteunformattedtext:
+  'Name': 'Paste Unformatted Text'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+pastespecial:
+  'Name': 'Paste Special...'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+paragraphspacingincrease:
+  'Name': 'Increase Paragraph Spacing'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+paragraphspacingdecrease:
+  'Name': 'Decrease Paragraph Spacing'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+'propercase':
+  'Name': 'Proper Case'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+'selectall':
+  'Name': 'Select All'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx': 'nchantrs.actions.action.'
+  'Params':
+'select':
+  'Name': 'Select'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx': 'nchantrs.actions.action.'
+  'Params':
+'sentencecase':
+  'Name': 'Sentence case'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+'shadow':
+  'Name': 'Shadow'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip': 'Add Shadow to Text and/or Object'
+  'Fx': 'nchantrs.actions.action.'
+  'Params':
+'spacing':
+  'Name':
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+'strikethrough':
+  'Name': 'Strikethrough'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+'superscript':
+  'Name': 'Superscript'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip': 'Format Selected as Superscript'
+  'Fx':
+  'Params':
+    size: 40
+'subscript':
+  'Name': 'Subscript'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip': 'Format Selected as Subscript'
+  'Fx':
+  'Params':
+    size: 40
+'styles':
+  'Name': 'Styles'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip': 'Add New Document to <[obj]>'
+  'Fx':
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+'text':
+  'Name': 'Text'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+'texthighlighting':
+  'Name': 'Text Highlighting'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+'textwrap':
+  'Name': 'Wrap Text'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+'togglecase':
+  'Name': 'tOGGLE cASE'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+'trackchanges':
+  'Name': 'Track Changes'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+'underline':
+  'Name': 'Underline'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+underlinedouble:
+  'Name': 'Double Underline'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+'uppercase':
+  'Name': 'UPPERCASE'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':

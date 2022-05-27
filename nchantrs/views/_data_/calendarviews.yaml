@@ -1,0 +1,29 @@
+---
+<(META)>:
+  docid:
+  Name:
+  description: >
+  expirary: <[expiration]>
+  Version: <[Version]>
+  path: <[LEXIvrs]>panda/LEXI/
+  outline: <[outline]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+NchantdDayCalendarView:
+  'description': >
+  'source':
+    'events':
+      'filter':
+        'WHERE':
+          'startdate': <[date]>
+          'enddate': <[date]>
+NchantdMonthCalendarView:
+  'description': >
+  source:
+NchantdWeekCalendarView:
+  'description': >
+  source:
+NchantdYearCalendarView:
+  'description': >
+  source:

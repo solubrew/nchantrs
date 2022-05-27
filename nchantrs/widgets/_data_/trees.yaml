@@ -1,0 +1,27 @@
+---
+<(META)>:
+  DOCid:
+  Name:
+  description: >
+  expirary: <[expiration]>
+  Version: <[Version]>
+  path: <[LEXIvrs]>panda/LEXI/
+  outline: <[outline]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+NchantdTree:
+  size:
+    'w': 100
+    'h': 1000
+  nchantdtreeview:
+    FixedWidth: 150
+    Animated: False
+    IndentSize: 8
+  nodeeditordialog:
+    widget: nchantrs.dialogs.NchantdNodeEditor
+
+NchantdTimeTree:
+  size:
+    'w': 100
+    'h': 1000

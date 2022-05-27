@@ -1,0 +1,39 @@
+developer:
+  'Name': 'Developer'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+extensions:
+  'Name': 'Extensions'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx':
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+'tools':
+  'Name': 'Tools'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip': ''
+  'Fx': 'nchantrs.actions.developer.tools'
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':

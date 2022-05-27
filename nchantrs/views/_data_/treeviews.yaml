@@ -1,0 +1,27 @@
+NchantdTreeView:
+  FixedWidth: 250
+  Animated: False
+  IndentSize: 8
+  url: '{0}/themes/_data_/img'
+  stylesheet: >
+    QTreeView::branch:has-siblings:!adjoins-item {
+      border-image: url( stylesheet-vline.png ) 0;
+    }
+    QTreeView::branch:has-siblings:adjoins-item {
+    	border-image: url( stylesheet-branch-more.png ) 0;
+    }
+    QTreeView::branch:!has-children:!has-siblings:adjoins-item {
+    	border-image: url( stylesheet-branch-end.png ) 0;
+    }
+    QTreeView::branch:has-children:!has-siblings:closed,
+    QTreeView::branch:closed:has-children:has-siblings {
+    	border-image: none;
+      image: url( <[url]>/stylesheet-branch-closed.png );
+    }
+    QTreeView::branch:open:has-children:!has-siblings,
+    QTreeView::branch:open:has-children:has-siblings {
+    	border-image: none;
+      image: url( stylesheet-branch-open.png );
+    }
+nodeeditordialog:
+  widget: nchantrs.dialogs.NchantdNodeEditor

@@ -1,0 +1,146 @@
+---
+<(META)>:
+  docid:
+  name: Pheonix Organisms Nchantrs YAML Configuration Document
+  description: >
+    Provide defaults for Nchantrs module
+  expirary: <[expiration]>
+  version: '<[version]>'
+  path: '<[LEXIvrs]>panda/LEXI/'
+  outline: '<[outline]>'
+  authority: 'document|this'
+  security: 'sec|lvl2'
+  <(WT)>: -32
+actions:
+desktop:
+  title: 'Generic Desktop'
+  size:
+    left: 50
+    top: 50
+    width: 1850
+    height: 800
+dialogs:
+
+menubar:
+  0:
+    'file':
+      '0': 'open'
+      '1': 'new'
+      '2': 'save'
+      '3': 'saveas'
+      '4': 'savecopy'
+      '5': 'close'
+      '6': 'exit'
+  1:
+    'edit':
+      '0': 'redo'
+      '1': 'undo'
+      '2': 'cut'
+      '3': 'copy'
+      '4': 'paste'
+      '5': 'preferences'
+  2:
+    'format':
+      '0': 'bold'
+      '1': 'italic'
+      '2': 'underline'
+      '3': 'underlinedouble'
+      '4': 'strikethrough'
+  3:
+    'ui':
+      '0': 'toolbars'
+      '1': 'windowsplit'
+      '2': 'sidebar'
+      '3': 'statusbar'
+  4:
+    'developer':
+      '0': 'extensions'
+  5:
+    'help':
+      '0': 'about'
+'toolbars':
+  '0.0':
+    'file':
+      0: 'new'
+      1: 'open'
+      2: 'save'
+      3: 'saveas'
+      4: 'exit'
+  '0.1':
+    'edit':
+      0: 'copy'
+      1: 'cut'
+      2: 'paste'
+      3: 'pasteformats'
+layout:
+  style: '3Pane'
+  'right':
+    'tabs':
+      '0': 'editor'
+  'center':
+    'tabs':
+      '0': 'editor'
+  'left':
+    'tabs':
+      '0': 'editor'
+'metaedit':
+  'python':
+    '<(TMPLT)>':
+  'yaml':
+    '<(MTMPLT)>':
+      'menu':
+      'toolbars':
+      'mainwidget':
+        'tab0':
+          'title': 'Nchantrs Configuration Editor'
+          '<@[tab:.inc]@>':
+            '<(TMPLT)>':
+              <(META)>:
+              <(ANY)>:
+              <(DNA)>:
+        'tab1':
+          'title': 'Nchantrs Actions Configuration Editor'
+          '<(TMPLT)>':
+            'Name':
+              'widget': 'TextLine'
+              'size':
+            'Description':
+              'widget': 'TextLine'
+              'size':
+            'UUID':
+              'widget': 'TextLine'
+              'size':
+            'Icon':
+              'widget': 'TextLine'
+              'size':
+            'Tip':
+              'widget': 'TextLine'
+              'size':
+            'Fx':
+              'widget': 'TextLine'
+              'size':
+                x: 50
+            'Params':
+              'widget': 'TextEditor'
+              'size':
+                x: 50
+                y: 100
+        tab2:
+          'title': 'Nchantrs Widgets Configuration Editor'
+          '<(TMPLT)>':
+styles:
+  '1Pane':
+    'positions': ['center']
+  '2Pane':
+    'positions': ['left', 'center']
+  '3Pane':
+    'positions': ['left', 'center', 'right']
+tabs:  #This outlines the default tabs for an Nchantrs application center pane
+  editor:
+    'name': 'Editor'
+    'widget': 'nchantrs.widgets.texts.texts.DocEditor'
+    'size':
+    layout:
+    dstruct:
+      model:
+      params:

@@ -1,0 +1,197 @@
+---
+<(META)>:
+  DOCid: d1eebbdc-b1f9-467d-850e-f9ddb80dde61
+  Name: 'Nchantrs Action Organism Configuration Document'
+  description: >
+    The action layer coordinates a decoupled gui control from the initated
+    action allowing for dynamic modification and addition of actions.
+    These actions will be triggered from a variety of controls including
+    buttons, menus, etc.  will need a way of communicating context for some
+    controls...i.e. right click controls
+    Base actions encompasses actions which are likely to be used as defaults
+    for a wide range of basic applications
+  expirary: '<[expiration]>'
+  Version: '<[version]>'
+  path: '<[LEXIvrs]>panda/LEXI/'
+  outline: '<[outline]>'
+  authority: 'document|this'
+  security: 'sec|lvl2'
+  <(WT)>: -32
+'base':
+  'about':
+    'Name': 'About'
+    'Description':
+    'UUID': 869525a0-0f67-4964-beb8-b8d588f2bee2
+    'Icon': 'about.png'
+    'Tip': 'About'
+    'Fx': 'nchantrs.actions.actions.about'
+    'Params':
+      'Dialog':
+        'title':
+        'size':
+        'grid':
+  'admin':
+    'Name': 'Admin'
+    'Description':
+    'UUID':
+    'Icon':
+    'Tip':
+    'Fx': 'nchantrs.actions.actions.admin'
+    'Params':
+  'close':
+    'Name': 'Close'
+    'Description':
+    'UUID': 9811a5e1-af56-4139-ba69-a38d7a97695d
+    'Icon': 'close.png'
+    'Tip': 'Close Workbook'
+    'Fx': 'nchantrs.actions.actions.close'
+    'Params':
+  'exit':
+    'Name': 'Exit'
+    'Description':
+    'UUID': 0a17cbb0-ab1c-4423-b07f-b544772a0da5
+    'Icon': 'exit.png'
+    'Shortcut': 'Ctrl+q'
+    'Tip': 'Exit Application'
+    'Fx': 'nchantrs.actions.actions.exit'
+    'Params':
+  'file':
+    'Name': 'File'
+    'Description':
+    'UUID': 7fd2107c-76c2-4c35-88b2-4f42ee229850
+    'Icon':
+    'Shortcut':
+    'Tip': ''
+    'Fx': 'nchantrs.actions.actions.file'
+    'Params':
+  'help':
+    'Name': 'Help'
+    'Description':
+    'UUID': 68e5f088-e8ca-4d59-b76d-517adb64c321
+    'Icon':
+    'Shortcut':
+    'Tip': ''
+    'Fx': 'nchantrs.actions.actions.help'
+    'Params':
+      'Dialog':
+        'title':
+        'size':
+        'grid':
+  'insert':
+    'Name': 'Insert'
+    'Description':
+    'UUID': 06cc9dde-cf43-4dbb-9a40-9b282edb6f3f
+    'Icon':
+    'Shortcut':
+    'Tip': ''
+    'Fx': 'nchantrs.actions.actions.insert'
+    'Params':
+      'Dialog':
+        'title':
+        'size':
+        'grid':
+  'new':
+    'Name': 'New'
+    'Description':
+    'UUID': 8da9cd5a-b46c-49a2-bdb1-f09df2ab6005
+    'Icon': 'newFile.png'
+    'Shortcut': 'Ctrl+n'
+    'Tip': 'Create New <[obj]>'
+    'Fx': 'nchantrs.actions.actions.newFile'
+    'Params':
+  'open':
+    'Name': 'Open'
+    'Description':
+    'UUID':
+    'Icon': 'open.png'
+    'Shortcut': 'Ctrl+o'
+    'Tip': 'Open <[obj]>'
+    'Fx': 'nchantrs.actions.actions.open'
+    'Params':
+      'Dialog':
+        'title':
+        'size':
+        'grid':
+  'preferences':
+    'Name': 'Preferences...'
+    'Description':
+    'UUID': 24f877e0-193d-4276-8cfb-171f18ea1b36
+    'Icon':
+    'Shortcut':
+    'Tip':
+    'Fx': 'nchantrs.actions.actions.preferences'
+    'Params':
+      'Dialog':
+        'title':
+        'size':
+        'grid':
+  'redo':
+    'Name': 'Redo'
+    'Description':
+    'UUID': 0fdb9077-16f5-4512-89b7-c4dd243a5bde
+    'Icon': 'redo.png'
+    'Shortcut': 'Ctrl+y'
+    'Tip': 'Redo Last Undo'
+    'Fx': 'nchantrs.actions.actions.redo'
+    'Params':
+  'save':
+    'Name': 'Save'
+    'Description':
+    'UUID': 061f46bd-3e81-4532-8b9f-6bc6cda4e347
+    'Icon': 'save.png'
+    'Shortcut': 'Ctrl+s'
+    'Tip': 'Save Current Document'
+    'Fx': 'nchantrs.actions.actions.save'
+    'Params':
+  'saveall':
+    'Name': 'Save All'
+    'Description':
+    'UUID': e289b080-e07a-45a5-9103-c91ee8731178
+    'Icon':
+    'Shortcut':
+    'Tip':
+    'Fx': 'nchantrs.actions.actions.saveall'
+    'Params':
+  'saveas':
+    'Name': 'Save As'
+    'Description':
+    'UUID': 00dfd8b1-b7e0-4bdb-80d8-2686512a44ac
+    'Icon':
+    'Shortcut':
+    'Tip':
+    'Fx': 'nchantrs.actions.actions.saveas'
+    'Params':
+      'Dialog':
+        'title':
+        'size':
+        'grid':
+  'savecopy':
+    'Name': 'Save Copy'
+    'Description':
+    'UUID': 9b09d1dd-98df-44b9-92d1-7f56e7800044
+    'Icon':
+    'Shortcut':
+    'Tip':
+    'Fx': 'nchantrs.actions.actions.savecopy'
+    'Params':
+      'Dialog':
+        'title':
+        'size':
+        'grid':
+  'undo':
+    'Name': 'Undo'
+    'Description':
+    'UUID': f827f993-bbca-4f8e-b125-d91ca6f07afb
+    'Icon': 'undo.png'
+    'Shortcut': 'Ctrl+z'
+    'Tip': 'Undo Last Action'
+    'Fx': 'nchantrs.actions.actions.undo'
+    'Params':
+'charts': <(INCL)>charts.yaml
+'datasource': <(INCL)>datasource.yaml
+'developer': <(INCL)>developer.yaml
+'display': <(INCL)>display.yaml
+'format': <(INCL)>format.yaml
+'images': <(INCL)>images.yaml
+'tables': <(INCL)>tables.yaml
+'text': <(INCL)>text.yaml

@@ -1,0 +1,15 @@
+---
+<(META)>:
+  docid:
+  Name:
+  description: >
+  expirary: <[expiration]>
+  Version: <[Version]>
+  path: <[LEXIvrs]>panda/LEXI/
+  outline: <[outline]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+NchantdTabModel:
+  'name': 'Default Nchantd Tab Model'
+  'description':

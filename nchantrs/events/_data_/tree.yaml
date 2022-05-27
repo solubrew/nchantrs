@@ -1,0 +1,9 @@
+'tree':
+  'Name':
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip': 'Add New Document to <[obj]>'
+  'Fx': 'nchantrs.actions.base.'
+  'Params':

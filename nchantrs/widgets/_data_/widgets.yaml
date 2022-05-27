@@ -1,0 +1,33 @@
+---
+<(META)>:
+  DOCid:
+  Name:
+  description: >
+  expirary: <[expiration]>
+  Version: <[Version]>
+  path: <[LEXIvrs]>panda/LEXI/
+  outline: <[outline]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+RegisteredWidgets:
+  <(CHART)>:
+  <(CUSTOM)>: > #allow for adhoc custom widgets using full python or a mix of python and yaml
+    need a method for telling the widget where to read the data from
+    widgetdata:
+      path: group000.label000
+      entry: 'Summary'
+      layer: data #format, formula, data
+    group000.textbox000
+  <(DOCEDIT)>: 'nchantrs.widgets.editors.NchantdDocEditor'
+  <(LABEL)>: nchantrs.widgets.annotations.NchantdLabel
+  <(SCRATCHEDIT)>: 'nchantrs.widgets.editors.NchantdScratchEditor'
+  <(TEXTBOX)>: nchantrs.widgets.editors.NchantdEntryBox
+'expandCFG':
+  'fonts':
+    'default':
+      'font': 'Times'
+      'size': 12
+      'style': 'regular'
+  'styles':
+    default:

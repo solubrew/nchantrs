@@ -1,0 +1,104 @@
+---
+<(META)>:
+	DOCid: <^[uuid]^>
+	name: Ecosystems Level TODO Module Python Document
+	description: >
+		The TODO module handles all current and short term actions and interactions
+		from realtime to contextual planning with request feedbacks for uncompleted
+		and new actions
+	expirary: <[expiration]>
+	version: <[version]>
+	path: <[LEXIvrs]>
+	outline: <[outline]>
+	authority: document|this
+	security: sec|lvl2
+	<(WT)>: -32
+comms:
+	channels:
+		action:
+		needaction:
+		waitingon:
+configurations:
+	GTD:
+		name: Getting Things Done
+		tags: [X,NX,WO]
+	PP:
+		name: Productivity Panda
+		tags: [X,NX,WO,FUP]
+		oline:
+			X:.Action:
+				<(NODE)>:
+					text: |
+						Put Action tasks below:  Need Tools and Context Requirements: (OD->OutsideDaylight, ID->InsideDaylight, I->Inside, BH->BusinessHours)
+						@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+						Shift 0 -> 0000 - 0200:
+							- <[shift0_actions]>
+						Shift 1 -> 0200 - 0900:
+							- <[shift0_actions]>
+						Shift 3 -> 0900 - 1200:
+							- <[shift0_actions]>
+						Shift 4 -> 1200 - 1700:
+							- <[shift0_actions]>
+						Shift 5 -> 1700 - 2100:
+							- <[shift0_actions]>
+						Shift 6 -> 2100 - 0000:
+							- <[shift0_actions]>
+						@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+						@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Automated Action InBox@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+				Life:
+				Launcher:
+				MTGs:
+			cXs:.Current:
+				<(NODE)>:
+					text: |
+						!!!:::TODOset this to autoupdate with information from file link location /home/solubrew/ActiveOPs /ActiveProjects /ActiveQuests!!!!
+						cX: current action
+						Active Operations
+						Active Projects
+							stor_SBCloud
+								cX:
+						dev_LEXI
+							cX:
+						Active Quests
+			nX:.NeedAction:
+				<(NODE)>:
+					text: |
+						Put Need Action tasks below: Need action Tools and Context Requirements:
+						@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+						Next Monday:
+							- <@[next_actions_monday]@>
+						Next Tuesday:
+							- <@[next_actions_monday]@>
+						Next Wednesday:
+							- <@[next_actions_monday]@>
+						Next Thursday:
+							- <@[next_actions_monday]@>
+						Next Friday:
+							- <@[next_actions_monday]@>
+						Next Saturday:
+							- <@[next_actions_monday]@>
+						Next Sunday:
+							- <@[next_actions_monday]@>
+						[#=<[tag]>=#]
+						-------------------------------------------------------------------------
+						[#=TODOdump=#]
+			WO:.WaitingOn:
+				<(NODE)>:
+					text: >
+	BJ:
+		name: Bullet Journal
+		tags:
+	PT:
+		name: Pomedoro Technique
+		tags:
+	TCM:
+		name: Task Completion Model
+
+
+
+
+
+
+
+
+

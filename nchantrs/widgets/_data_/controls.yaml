@@ -1,0 +1,148 @@
+---
+<(META)>:
+  DOCid:
+  Name:
+  description: >
+  expirary: <[expiration]>
+  Version: <[Version]>
+  path: <[LEXIvrs]>panda/LEXI/
+  outline: <[outline]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+NchantdButton:
+  checkable: False
+  icon:
+  enabled: True
+  text: Generic Button
+  auto_default: False
+  handlers:
+    clicked_handler:
+NchantdSubmissionButtons:
+  buttons:
+    new:
+      checkable: False
+      icon:
+      enabled: True
+      text: 'New'
+      handlers:
+    submit:
+      checkable: False
+      icon:
+      enabled: True
+      text: 'Submit'
+      handlers:
+    delete:
+      checkable: False
+      icon:
+      enabled: True
+      text: 'Delete'
+      handlers:
+NchantdNumberPad:
+  'buttons':
+    'zero':
+      'text': '0'
+    'one':
+      'text': '1'
+    'two':
+      'text': '2'
+    'three':
+      'text': '3'
+    'four':
+      'text': '4'
+    'five':
+      'text': '5'
+    'six':
+      'text': '6'
+    'seven':
+      'text': '7'
+    'eight':
+      'text': '8'
+    'nine':
+      'text': '9'
+NchantdMathPad:
+  'equal':
+    text: '='
+  'addition':
+    'text': '+'
+  'division':
+    'text': '/'
+  'multiplication':
+    'text': '*'
+  'subtraction':
+    'text': '-'
+  'decimal':
+    'text': '.'
+  'power':
+    'text': 'x^y'
+  'squared':
+    'text': 'x^2'
+  'cubed':
+    'text': 'x^3'
+  'sqrt':
+    'text': 'sqrt'
+  'leftparentheses':
+    'text': '('
+  'leftparentheses':
+    'text': ')'
+  'naturalnumber':
+    'text': 'e'
+  'naturallog':
+    text': 'ln()'
+  'log':
+    'text': 'log'
+  'scientificnotation':
+    'text': '*10^x'
+checkbox:
+  name:
+  checked: False
+  enabled: False
+  handlers:
+    stateChanged_handler:
+    toggled_handler:
+dropdown:
+  name:
+  default_items:
+  handlers:
+    activated_handler:
+    current_index_changed_handler:
+    highlighted_handler:
+incrementbox:
+  name:
+  min:
+  max:
+  range:
+  default_value:
+  handlers:
+    value_changed_handler:
+list:
+  name:
+progressbar:
+  name:
+radio:
+  name:
+  checked: False
+  label:
+  handlers:
+    toggled_handler:
+slider:
+  name:
+  min:
+  max:
+  step:
+  default_value:
+  tickinterval:
+  tickposition:
+  handlers:
+    value_changed_handler:
+    slider_pressed_handler:
+    slider_moved_handler:
+    slider_released_handler:
+textbox:
+  name:
+  default_value:
+  handlers:
+toggle:
+  name:
+  checked: False
+  handlers:

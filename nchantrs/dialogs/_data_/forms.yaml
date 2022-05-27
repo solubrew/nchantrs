@@ -1,0 +1,55 @@
+simpleentrydialog:
+  title: Simple Entry Dialog
+  description:
+  'size':
+    'left': 50
+    'top': 50
+    'width': 400
+    'height': 300
+  theme:
+  layout:
+NchantdNodeEditor:
+  title: 'Nchantd Node Editor'
+  description:
+  layout:
+    fields:
+      'name':
+        'label': 'Name'
+        'editable': 1
+        'visible': 1
+      'nodetype':
+        'label': 'Node Type'
+        'editable': 0
+        'visible': 1
+      'parentid':
+        'label': 'Parent Node ID'
+        'editable': 1
+        'visible': 0
+      'position':
+        'label': 'Sibling Position'
+        'editable': 1
+        'visible': 1
+      'treeid':
+        'label': 'Tree ID'
+        'editable': 0
+        'visible': 0
+      'readonly':
+        'label': 'Read Only Node'
+        'editable': 1
+        'visible': 1
+      'editable':
+        'label': 'Node Editability'
+        'editable': 0
+        'visible': 1
+      'visible':
+        'label': 'Node Visibility'
+        'editable': 1
+        'visible': 1
+      'moveable':
+        'label': 'Node Moveability'
+        'editable': 1
+        'visible': 1
+      'pregnable':
+        'label': 'Node Pregnability'
+        'editable': 1
+        'visible': 1

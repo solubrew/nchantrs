@@ -1,0 +1,117 @@
+'cellupdate':
+  'Name': ''
+  'Description':
+  'UUID':
+  'Icon': '.png'
+  'Shortcut':
+  'Tip': ''
+  'Fx': 'nchantrs.actions.tables.cellupdate'
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+'columnadd':
+  'Name': 'Add Column'
+  'Description':
+  'UUID':
+  'Icon': 'addcolumn.png'
+  'Shortcut':
+  'Tip': ''
+  'Fx': 'nchantrs.actions.tables.addcolumn'
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+'columndelete':
+  'Name': ''
+  'Description':
+  'UUID':
+  'Icon': '.png'
+  'Shortcut':
+  'Tip': ''
+  'Fx': 'nchantrs.actions.tables.columndelete'
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+'columnupdate':
+  'Name': ''
+  'Description':
+  'UUID':
+  'Icon': '.png'
+  'Shortcut':
+  'Tip': ''
+  'Fx': 'nchantrs.actions.tables.columnupdate'
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+'rowadd':
+  'Name': 'Add Row'
+  'Description':
+  'UUID':
+  'Icon': 'addrow.png'
+  'Shortcut':
+  'Tip': 'Add Row to Table'
+  'Fx': 'nchantrs.actions.tables.rowadd'
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+'rowdelete':
+  'Name': 'Delete Row'
+  'Description':
+  'UUID':
+  'Icon': 'rowdelete.png'
+  'Shortcut':
+  'Tip': ''
+  'Fx': 'nchantrs.actions.tables.rowdelete'
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+'rowupdate':
+  'Name': ''
+  'Description':
+  'UUID':
+  'Icon': '.png'
+  'Shortcut':
+  'Tip': ''
+  'Fx': 'nchantrs.actions.tables.rowupdate'
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+'tableadd':
+  'Name': 'Add Table'
+  'Description':
+  'UUID':
+  'Icon': 'addsheet.png'
+  'Shortcut':
+  'Tip': ''
+  'Fx': 'nchantrs.actions.tables.tableadd'
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+'tabledelete':
+  'Name': ''
+  'Description':
+  'UUID':
+  'Icon': '.png'
+  'Shortcut':
+  'Tip': ''
+  'Fx': 'nchantrs.actions.tables.tabledelete'
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':

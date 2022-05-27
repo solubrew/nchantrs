@@ -1,0 +1,64 @@
+---
+<(META)>:
+  docid:
+  Name:
+  description: >
+  expirary: <[expiration]>
+  Version: <[Version]>
+  path: <[LEXIvrs]>panda/LEXI/
+  outline: <[outline]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+NchantdBridgeModel:
+  'name': 'Nchantd Bridge Model'
+  'description':
+  <(SOURCE)>:
+    'view':
+      'bridges':
+        'columns': ['endpoint', 'key', 'bridge']
+  'tables':
+    'bridges':
+      'columns': ['endpoint', 'key', 'params', 'bridge']
+NchantdCloakModel:
+  'name': 'Nchantd Cloak Model'
+  'description':
+    The configurations for the generic Nchantd Cloak Application Model
+    including data for aspects of launching a new nchantd application and/or
+    new instances of running a new nchantd application
+  'tables':
+    'application':
+      'columns': ['launchdate', 'creation', 'modified']
+    'appevents':
+        'columns': ['uuid', 'eventtype', 'command']
+    'appinitalization':
+      'columns': ['userstoreagepath', 'os', '']
+      options:
+        'os': ['linux', 'windows', 'macos']
+    'applisteners':
+      'columns': ['uuid', 'listener', 'service']
+    'appoptions':
+      'columns': ['option', 'table', 'field']
+    'appusers':
+      'columns': ['username', 'password']
+  'views':
+    'vw_initalization_os_options':
+      cmd: >
+        SELECT
+          option
+        FROM appoptions
+        WHERE actv = 1 AND dlt = 0 AND table = 'initalization' AND field = 'os'
+    'vw_active_listeners':
+      cmd: >
+        SELECT
+        FROM applisteners
+        WHERE actv = 1 AND dlt = 0
+    'vw_last_active_listeners':
+      cmd: >
+        SELECT
+        FROM applisteners
+        WHERE actv = 1 AND dlt = 0
+    'vw_active_application':
+      cmd: >
+        SELECT
+        FROM vw_active_application

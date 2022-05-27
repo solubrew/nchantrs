@@ -1,0 +1,25 @@
+---
+<(META)>:
+  docid:
+  Name:
+  description: >
+  expirary: <[expiration]>
+  Version: <[Version]>
+  path: <[LEXIvrs]>panda/LEXI/
+  outline: <[outline]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+NchantdCalendarModel:
+  'name':
+  'description':
+  tables:
+    events:
+      columns: [description, startdate, enddate, starttime, endtime]
+  'views':
+    'vw_active_events':
+      cmd: >
+        SELECT
+          description, startdate, enddate, starttime, endtime
+        FROM events
+        WHERE active = 1 AND dlt = 0

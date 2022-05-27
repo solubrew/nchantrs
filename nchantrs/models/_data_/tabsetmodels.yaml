@@ -1,0 +1,86 @@
+---
+<(META)>:
+  docid:
+  Name:
+  description: >
+  expirary: <[expiration]>
+  Version: <[Version]>
+  path: <[LEXIvrs]>panda/LEXI/
+  outline: <[outline]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+NchantdTabSetModel:
+  'name': 'Default Nchantd Tab Model'
+  'description': >
+    readonly property vs editable property
+    readonly applies to the data in the widget and editable applies to the
+    widget itself
+  <(SOURCE)>:
+    'view':
+      'tabs':
+        'columns': ['name', 'widget', 'widgdata', 'parentid', 'position',
+                    'readonly', 'editable', 'visible', 'moveable']
+        'params':
+          'filters':
+
+  'views':
+    'vw_tabs':
+      'description':
+      'cmd': >
+         CREATE VIEW vw_tabs AS
+          SELECT
+            'name', 'widget', 'widgdata', 'parentid', 'position',
+            'readonly', 'editable', 'visible', 'moveable'
+          FROM tabs
+          WHERE actv = 1
+  'tabset':
+    '0':
+      'name': 'Default Tab'
+      'title': <[Tab.:count]>
+      'widget': 'nchantrs.widgets.editors.NchantdEditor'
+
+NchantdWeekOfDaysTabModel:
+  'description':
+  'tables':
+  'views':
+  tabs:
+    0:
+      'Sunday':
+    1:
+      'Monday':
+    2:
+      'Tuesday':
+    3:
+      'Wednesday':
+    4:
+      'Thursday':
+    5:
+      'Friday':
+    6:
+      'Saturday':
+NchantdMonthOfDaysTabModel:
+  'description':
+  'tables':
+  'views':
+  tabsets:
+    yearsummary:
+      tabs:
+        summary:
+          title: 'Summary'
+          widget: 'nchantrs.widgets.dashboards.NchantdYearlySummary'
+    monthsummary:
+      tabs:
+        summary:
+          title: 'Summary'
+          widget: 'nchantrs.widgets.dashboards.NchantdMonthlySummary'
+    monthdaily:
+      tabs:
+        day:
+          'title': '<(DAY)>'
+          'widget': 'nchantrs.widgets.dashboards.NchantdDailySummary'
+    weeksummary:
+      tabs:
+        summary:
+          title: 'Summary'
+          widget: 'nchantrs.widgets.dashboards.NchantdWeeklySummary'

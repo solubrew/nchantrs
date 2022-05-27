@@ -1,0 +1,94 @@
+'addchart':
+  'Name': 'Add Chart'
+  'Description':
+  'UUID':
+  'Icon': 'addchart.png'
+  'Shortcut':
+  'Tip': 'Add Chart Sheet to Workbook'
+  'Fx': 'nchantrs.actions.charts.addchart'
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+'editchart':
+  'Name': 'Edit Chart'
+  'Description':
+    'Edit chart with context of selection'
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip': 'Edit Selected Chart'
+  'Fx': 'nchantrs.actions.charts.editchart'
+  'Params':
+    'Dialog':
+      'title':
+      'size':
+      'grid':
+'plotarea':
+  'Name': 'Area Graph'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip': 'Add Bar Chart Sheet to Workbook'
+  'Fx': 'nchantrs.actions.charts.plotarea'
+'plotbar':
+  'Name': 'Bar Chart'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip': 'Add Bar Chart Sheet to Workbook'
+  'Fx': 'nchantrs.actions.charts.plotbar'
+'plotbubble':
+  'Name': 'Bubble Plot'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip': 'Add Bar Chart Sheet to Workbook'
+  'Fx': 'nchantrs.actions.charts.plotbubble'
+'plotfittedline':
+  'Name': 'Fitted Line Plot'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip': 'Add Bar Chart Sheet to Workbook'
+  'Fx': 'nchantrs.actions.charts.plotfittedline'
+'plotline':
+  'Name': 'Line Plot'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip': 'Add Bar Chart Sheet to Workbook'
+  'Fx': 'nchantrs.actions.charts.plotline'
+'plotpie':
+  'Name': 'Pie Chart'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip': 'Add Bar Chart Sheet to Workbook'
+  'Fx': nchantrs.actions.charts.plotpie
+  'Params':
+'plotscatter':
+  'Name': 'Scatter Plot'
+  'Description':
+  'UUID':
+  'Icon': ''
+  'Shortcut': ''
+  'Tip': 'Add Bar Chart Sheet to Workbook'
+  'Fx': 'nchantrs.actions.charts.plotscatter'
+  'Params':
+'plottimeseries':
+  'Name': 'Time Series Plot'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip': 'Add Bar Chart Sheet to Workbook'
+  'Fx': 'nchantrs.actions.charts.plottimeseries'
+  'Params':

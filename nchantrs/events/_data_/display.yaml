@@ -1,0 +1,83 @@
+'screenfull':
+  'Name': 'Full Screen'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx': 'nchantrs.actions.display.screenfull'
+  'Params':
+'sidebar':
+  'Name': 'Sidebar'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx': 'nchantrs.actions.display.sidebar'
+  'Params':
+'statusbar':
+  'Name': 'Status Bar'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx': 'nchantrs.actions.display.statusbar'
+  'Params':
+'toolbars':
+  'Name': 'Toolbars'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx': 'nchantrs.actions.display.toolbars'
+  'Params':
+'ui':
+  'Name': 'UI'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx': 'nchantrs.actions.display.ui'
+  'Params':
+'view':
+  'Name':
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip': ''
+  'Fx': 'nchantrs.actions.display.view'
+  'Params':
+'window':
+  'Name': 'Window'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip': ''
+  'Fx': 'nchantrs.actions.display.window'
+  'Params':
+  'Fx':
+  'Params':
+windowsplit:
+  'Name': 'Split Windows'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx': 'nchantrs.actions.display.windowsplit'
+  'Params':
+'zoom':
+  'Name': 'Zoom'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx': 'nchantrs.actions.display.zoom'
+  'Params':

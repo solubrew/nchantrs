@@ -1,0 +1,39 @@
+adddatasource:
+  'Name': 'Add Datasource'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx': 'nchantrs.actions.datasource.adddatasource'
+  'Params':
+    Dialog:
+      title:
+      size:
+      grid:
+linkdatasource:
+  'Name': 'Link Datasource'
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip':
+  'Fx': 'nchantrs.actions.datasource.linkdatasource'
+  'Params':
+    Dialog:
+      title:
+      size:
+      grid:
+'bookmarks':
+  'Name': Bookmarks
+  'Description':
+  'UUID':
+  'Icon':
+  'Shortcut':
+  'Tip': 'Add bookmark to source address'
+  'Fx': 'nchantrs.actions.datasource.bookmarks'
+  'Params':
+    Dialog:
+      title:
+      size:
+      grid:

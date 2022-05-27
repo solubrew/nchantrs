@@ -1,0 +1,20 @@
+---
+'db':
+  path: &path '{0}/data/db/{1}.db'
+  name: 'nchantdmoonbags'
+  config:
+    table:
+      accounts:
+        description: >
+          table of accounts to monitor using the given ethereum address or
+          .eth name
+        columns: ['name', 'description', 'address', 'chainid']
+        'records':
+      'apis':
+        'description': >
+        'columns': ['name', 'key', 'endpoint', 'service']
+        'records':
+          - ['worldbridger', '5572c400-869a-4598-b7b6-81d70abce352', 'https//:192.168.1.106/sb-intra/moonbags/api/{ep}', 'worldbridger']
+          - ['etherscan', '', '', '']
+          - ['coinmarketcap', '', '', '']
+          - ['infura', '', '', '']

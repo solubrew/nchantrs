@@ -1,0 +1,36 @@
+
+
+
+
+
+
+
+
+
+
+
+collisions:
+
+comms:
+
+draw:
+
+loop:
+	screen:
+		size:
+			x: 800
+			y: 600
+		color: [255,255,255]
+		name: Basic Window
+nodes:
+
+
+sprites:
+
+
+vectors:
+
+
+worlds:
+
+

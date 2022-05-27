@@ -1,0 +1,24 @@
+---
+<(META)>:
+  docid:
+  Name:
+  description: >
+  expirary: <[expiration]>
+  Version: <[Version]>
+  path: <[LEXIvrs]>panda/LEXI/
+  outline: <[outline]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+NchantdCloakView:
+  'title':
+  'description': >
+  'size':
+    'left':
+    'top':
+    'width':
+    'height':
+  'source':
+    'vw_application'
+  'menubar':
+  'toolbars':

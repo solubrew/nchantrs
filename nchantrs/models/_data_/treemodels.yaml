@@ -1,0 +1,104 @@
+---
+<(META)>:
+  docid:
+  name:
+  description: >
+    Nchantd Tree Model Configurations for providing default options for each
+    predefined model
+  expirary: <[expiration]>
+  Version: <[Version]>
+  path: <[LEXIvrs]>panda/LEXI/
+  outline: <[outline]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+NchantdTreeModel:
+  'description':
+  <(SOURCE)>:
+    'view':
+      trnodes:  #nid should be set to unique
+        _work: >
+          add a uuid column to all appnodes in order to be able to track them
+          if a user moves them in the tree structure this is used to push out
+          updates to app structure while allowing a user to have control over
+          its organization? is this valuable? should all nodes get a uuid
+          and maybe all tabs
+        'columns': ['nid', 'name', 'ntype', 'parentid', 'position', 'tabset',
+                    'treeid', 'readonly', 'editable', 'visible', 'moveable',
+                    'pregnable', 'isparent', 'expanded', 'tabfocus']
+        'params':
+          'filters': #need a visibliity and datalink column for filtering
+                      #add fields for icon links within the datatable
+  tables:
+    trnodes:
+      description: >
+        possibly build this up for use in the application instead of relying
+        on the more dynamic build within the configuration, use the treeid
+        to allow for virtual trees to allow for reuse of the node
+        design such that when adding a node to a subtree a decision is made
+        whether or not to bring the subtree? but this duplicates all entries
+        of the tree
+
+        implement virtual tree system by include a node type of vtree
+        where a vtree nodes name is the real node nid of the virtual node
+        nid=1, name='Fred', ntype=tree, pid=0, treeid=0
+        nide=2, name=1, ntype=vtree, pid=1, treeid=0
+
+        implement multiparent node tree system by connecting to
+        parents table
+
+      columns: ['nid', 'name', 'ntype', 'parentid', 'position', 'tabset',
+                'treeid', 'readonly', 'editable', 'visible', 'moveable',
+                'pregnable', 'isparent', 'expanded', 'tabfocus']
+      records:
+      fields:
+        'ntype':
+          'expected_values': ['node', 'vnode', 'mpnode']
+    parents:
+      'description': >
+      'columns': ['nid', 'parentid']
+      'records':
+      'fields':
+  'views':
+    'vw_nodes':
+      'description': >
+      'cmd': >
+        CREATE VIEW
+          SELECT
+            nid, name, ntype, parentid, position, tabset, treeid,
+            readonly, editable, visible, moveable, pregnable,
+            isparent, expanded, 'tabfocus'
+          FROM trnodes n
+          WHERE ntype = 'node'
+    'vw_last_node':
+      'description': >
+        Return the max nid in the nodes table
+      'cmd': >
+        CREATE VIEW vw_last_node AS
+          SELECT
+            max(nid) as lastnode
+          FROM trnodes
+    'vw_multiparent_nodes':
+      'description': >
+      'cmd': >
+        CREATE VIEW
+          SELECT
+            nid, name, ntype, parentid, position, tabset, treeid,
+            readonly, editable, visible, moveable, pregnable,
+            isparent, expanded
+          FROM trnodes n
+          WHERE ntype = 'mpnode'
+    'vw_virtual_nodes':
+      'description': >
+      'cmd': >
+        CREATE VIEW
+          SELECT
+            nid, name, ntype, parentid, position, tabset, treeid,
+            readonly, editable, visible, moveable, pregnable,
+            isparent, expanded
+          FROM trnodes n
+          WHERE ntype = 'vnode'
+NchantdTimeTreeModel:
+  'description':
+  'tables':
+  'views':
