@@ -5,11 +5,8 @@
 	docid:   #																	||
 	name:	#																	||
 	description: >  #															||
-
 	expirary: <[expiration]>  #													||
 	version: <[version]>  #														||
-	path: <[LEXIvrs]>  #														||
-	outline: <[outline]>  #														||
 	authority: document|this  #													||
 	security: sec|lvl2  #														||
 	<(WT)>: -32  #																||
@@ -21,8 +18,6 @@ from os.path import abspath, dirname, join
 from fxsquirl import fxsquirl
 from fxsquirl.fxsquirl import Chunker
 from nchantrs.libraries import pyqt
-#===============================================================================||
-
 #===============================================================================||
 here = join(dirname(__file__),'')#												||
 there = abspath(join('../../..'))#												||set path at pheonix level
@@ -47,7 +42,6 @@ def getNodeBase(nodetype, treeid=0, tabfocus=0):
 		base = [1, 0, 1, 0, 1, 1, 0]
 	elif nodetype == 'usernode':
 		base = [1, 0, 1, 0, 1, 1, 0]
-
 	return treeid + base + tabfocus
 
 def getTabBase(tabtype):
@@ -55,3 +49,9 @@ def getTabBase(tabtype):
 	if nodetype == 'tab':
 		base = []
 	return base
+
+#==============================Source Materials=================================||
+'''
+
+'''
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

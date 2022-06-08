@@ -7,8 +7,6 @@
 	description: >  #															||
 	expirary: <[expiration]>  #													||
 	version: <[version]>  #														||
-	path: <[LEXIvrs]>  #														||
-	outline: <[outline]>  #														||
 	authority: document|this  #													||
 	security: sec|lvl2  #														||
 	<(WT)>: -32  #																||
@@ -19,19 +17,21 @@ from os.path import abspath, dirname, exists, join
 from sys import argv, exit
 #===============================================================================||
 from condor import condor, thing#												||
-from nchantrs.libraries import pyqt
+from nchantrs.libraries import pyqt, qpandas
 from nchantrs import utils
 from nchantrs.models import tablemodels
 from nchantrs.views import tableviews
 #===============================================================================||
 here = join(dirname(__file__),'')#												||
 there = abspath(join('../../..'))#												||set path at pheonix level
-version = '0.0.0.0.0.0'#														||
+log = True
 #===============================================================================||
-pxcfg = f'{here}/_data_/tables.yaml'
+pxcfg = join(abspath(here), f'_data_/tables.yaml')
+
 class NchantdTable(pyqt.QTableWidget):
 	''' '''
-	def __init__(self, parent, data=[], cfg={}):
+
+	def __init__(self, parent=None, data=[], cfg={}):
 		''' '''
 		self.parent = parent
 		self.config = condor.instruct(pxcfg).select('NchantdTable')
@@ -40,10 +40,12 @@ class NchantdTable(pyqt.QTableWidget):
 			self.config.override(parent.config)
 		super(NchantdTable, self).__init__()
 		self.model = tablemodels.NchantdTableModel(self).initModel()
+
 	def initModel(self):
 		''' '''
 		self.model.initModel()
 		return self
+
 	def initView(self):
 		''' '''
 		#self.setModel(self.model)
@@ -63,10 +65,41 @@ class NchantdTable(pyqt.QTableWidget):
 				y += 1
 			x += 1
 		return self
+
 	def initWidget(self):
 		''' '''
 		self.initModel()
 		self.initView()
+		return self
+
+class NchantdDataFrameTable(qpandas.DataTabWidget):
+	''' '''
+
+	def __init__(self):
+		''' '''
+		self.parent = parent
+		self.config = condor.instruct(pxcfg).select('NchantdDataFrameTable')
+		self.config.override(cfg)
+		if parent:
+			self.config.override(parent.config)
+		super(NchantdDataFrameTable, self).__init__()
+		self.model = tablemodels.NchantdDataFrameModel()
+		self.view = tableviews.NchantdDataFrameView()
+
+	def initModel(self):
+		''' '''
+		return self
+
+	def initView(self):
+		''' '''
+		return self
+
+	def initWidget(self):
+		''' '''
+		return self
+
+	def buildTable(self):
+		''' '''
 		return self
 
 
@@ -83,6 +116,7 @@ class NchantdTaskTable(NchantdTable):
 			self.config.override(parent.config)
 		super(NchantdTable, self).__init__()
 		self.buildPane()
+
 	def buildPane(self):
 		''' '''
 		columns = ['name', 'description', 'due date', 'duration', 'dependacies',

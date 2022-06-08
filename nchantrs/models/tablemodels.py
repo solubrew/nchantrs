@@ -23,16 +23,15 @@ from condor import condor
 from fxsquirl import fxsquirl
 from nchantrs.libraries import pyqt, qpandas
 #=======================================================================||
-
-#=======================================================================||
 here = join(dirname(__file__),'')#										||
 there = abspath(join('../../..'))#										||set path at pheonix level
-version = '0.0.0.0.0.0'#														||
 log = False
 #=======================================================================||
 pxcfg = f'{here}/_data_/tablemodels.yaml'
+
 class NchantdTableModel(qpandas.DataFrameModel):
 	''' '''
+
 	def __init__(self, parent=None, cfg={}):
 		''' '''
 		self.parent = parent
@@ -40,36 +39,30 @@ class NchantdTableModel(qpandas.DataFrameModel):
 			cfg = self.parent.config
 		self.config = condor.instruct(pxcfg).select('NchantdTable')
 		self.config.override(cfg)
+		super(NchantdTableModel, self).__init__()
+
 	def initModel(self):
 		''' '''
 		return self
-#		qpandas.DataFrameModel.__init__(self)
-	# 	if log: print('CFG', cfg)
-	#
-	# 	self.loadData(app.src.getModelSrc('table', cfg))
-	# def loadData(self, getter):
-	# 	''' '''
-	# 	while True:
-	# 		data = next(getter, None)
-	# 		if data == None:
-	# 			break
-	# 		self.data = DataFrame()
-	#
-	# 		yield self
-	# 	yield None
-	def nextRecord(self):
+
+	def nextRecord(self, id):
 		''' '''
 		return self
-	def prevRecord(self):
+
+	def prevRecord(self, id):
 		''' '''
 
 		return self
+
 	def refresh(self):
 		''' '''
 		return self
-	def createRecord(self):
+
+	def createRecord(self, record):
 		''' '''
-	def deleteRecord(self):
+
+	def deleteRecord(self, record):
 		''' '''
-	def submitRecord(self):
+
+	def submitRecord(self, record):
 		''' '''

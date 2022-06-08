@@ -7,8 +7,6 @@
 	description: >
 	expirary: <[expiration]>
 	version: <[version]>
-	path: <[LEXIvrs]>
-	outline: <[outline]>
 	authority: document|this
 	security: sec|lvl2
 	<(WT)>: -32
@@ -28,34 +26,38 @@ from nchantrs.widgets import widgets
 #===============================================================================||
 here = join(dirname(__file__),'')#												||
 there = abspath(join('../../..'))#												||set path at pheonix level
-version = '0.0.0.0.0.0'#														||
+home = expanduser('~')
 log = True
 #===============================================================================||
-pxcfg = f'{here}_data_/dialogs.yaml'#									||
+pxcfg = join(abspath(here), f'_data_/dialogs.yaml')#							||
+
 class Cape(pyqt.QApplication):
 	''' '''
+
 	def __init__(self, name, cfg={}):
 		''' '''
-		home = expanduser('~')
-		appcfg = f'{home}/.config/{name}/{name}.yaml'
+		appcfg = join(abspath(home), f'.config/{name}/{name}.yaml')
 		if not exists(appcfg):
 			fonql.touch(appcfg)
 		self.config.override(pxcfg).override(cfg)
 		self.config.override(appcfg)
-		if log: print('CONFIG', self.config.dikt.keys())
 		reset = None if 'setup' not in self.config.dikt['args'] else 3659#	||
 		pyqt.QApplication.__init__(self, self.config.dikt['args'])#				||
 		self.newInstance = True
-		self.initDB(reset)
 		self.name = name
 		self.slug = name.lower().replace(' ', '')
 		self.model = NchantdSigilModel(self).initModel()
+		self.initDB(reset)
 		self.initUI(name)
 		self.exec_()
+
 	def initDB(self, reset=3659):
 		''' '''
-		self.src = models.initDB(self.config.dikt, reset)
+		#not to create a dialog model to replace this and mimic application models
+		#self.src = models.initDB(self.config.dikt, reset)
+		self.src = self.model.src
 		return self
+
 	def initUI(self, name):
 		'''Initialize UI setting the main application layout and building
 		 	landing widgets'''
@@ -67,6 +69,8 @@ class Cape(pyqt.QApplication):
 		self.main.recentFileActs = []
 		self.main.show()
 		return self
+
+
 class Sigil(pyqt.QDialog):
 	'''Sigil is the base class for individual dialogs used to interact with the
 		user these Sigils allow the user to alter their Cloak'''
@@ -85,11 +89,12 @@ class Sigil(pyqt.QDialog):
 		self.setAttribute(pyqt.Qt.WA_DeleteOnClose)#							||
 		themes.importTheme(self)
 		self.model = parent.model
+
 	def buildDialog(self):
 		'''Build the dialog from the provided parameters '''
 		position = 'center'
 		self.layout = pyqt.QVBoxLayout()
-		if log: print('Config Position', self.dtop['layout'][position])
+		if log: print('Config Position', self.dtop['layout'][position]['params'])
 		style = self.dtop['layout']['style']
 		cnt = 0
 		for pos in self.config.dikt['styles'][style]['positions']:
@@ -97,25 +102,30 @@ class Sigil(pyqt.QDialog):
 			self.model.registerListener(self.pane[pos])
 			self.layout.addWidget(self.pane[pos], cnt)
 			cnt += 1
-
 		self.setLayout(self.layout)
 		return self
+
 	def buildLayout(self, layout):
 		''' '''
 		if layout == 'autoform':
 			pass
 		return self
+
 	def getData(self):
 		if self.records == None:
 			return self.defaults
 		return self.records
+
 	def setDefaults(self, defaults):
 		''' '''
 		self.defaults = defaults
 		return self
+
 	def setSource(self, src):
 		self.src = src
 		return self
+
+
 def setExistingDirectory(self):
 	options = pyqt.QFileDialog.DontResolveSymlinks | pyqt.QFileDialog.ShowDirsOnly
 	label = 'Choose Report Directory'
@@ -131,3 +141,10 @@ def setExistingDirectory(self):
 		self.Widgets['dirbrowser'].append(d)
 	outpath = self.Widgets['dirlabel'].text()
 	self.outputFile = outpath
+
+
+#==============================Source Materials=================================||
+'''
+
+'''
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

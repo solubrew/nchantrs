@@ -36,6 +36,7 @@ version = '0.0.0.0.0.0'#														||
 log = True
 #===============================================================================||
 pxcfg = f'{here}/_data_/models.yaml'
+
 class NchantdDynamicRecordEntryFormModel():
 	''' '''
 	def __init__(self):
@@ -46,6 +47,8 @@ class NchantdDynamicRecordEntryFormModel():
 		if parent:
 			self.config.override(parent.config)
 		super(NchantdDynamicRecordEntryFormModel, self).__init__(parent)
+
+
 class NchantdAPIEntryFormModel():
 	''' '''
 	def __init__(self):

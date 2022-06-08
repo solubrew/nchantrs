@@ -53,17 +53,20 @@ class NchantdTreeView(pyqt.QTreeView):
 		self.initContextMenu()
 		self.initTriggers()
 		return self
+
 	def initContextMenu(self):
 		''' '''
 		self.setContextMenuPolicy(pyqt.Qt.CustomContextMenu)
 		self.customContextMenuRequested.connect(self.onRightClick)
 		return self
+
 	def initTriggers(self):
 		''' '''
 		self.doubleClicked.connect(self.onLeftDoubleClick)
 		self.expanded.connect(self.onExpand)
 		self.clicked.connect(self.onLeftClick)
 		return self
+
 	def initUI(self):
 		''' '''
 		cfgview = self.config.dikt
@@ -71,6 +74,7 @@ class NchantdTreeView(pyqt.QTreeView):
 		self.setAnimated(cfgview['Animated'])
 		self.setIndentation(cfgview['IndentSize'])
 		return self
+
 	def mousePressEvent(self, event):
 		''' '''
 		#tree.mousePressEventLog(event, 1)
@@ -80,11 +84,14 @@ class NchantdTreeView(pyqt.QTreeView):
 			pass
 			#self.setNodeFocus(event.data)
 		super().mousePressEvent(event)
+
 	def onExpand(self):
 		''' '''
 		return self
+
 	def onRightClick(self):
 		''' '''
+
 	def onLeftDoubleClick(self, signal):
 		'''launch a dialog that allows for modification of parameters
 				of the tree node if node is marked as editable:
@@ -99,6 +106,7 @@ class NchantdTreeView(pyqt.QTreeView):
 			dialog = self.config.dikt['nodeeditordialog']['widget']
 			launchDialog(dialog, node)
 		return self
+
 	def onLeftClick(self, signal):
 		'''Need to send signal to load center widget with correct tabset and
 		populate those tabs with data based on the node selected

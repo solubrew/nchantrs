@@ -1,7 +1,7 @@
 ---
 '<(META)>':
-  'docid': ''
-  'name': 'Nchantd Account Entry Main YAML Configuration Document'
+  'docid': 'ce794b66-ab43-4897-9e07-ba379690bb23'
+  'name': 'Nchantd Analysis Main YAML Configuration Document'
   'description': >
   'expirary': '<[expiration]>'
   'version': '<[version]>'
@@ -19,12 +19,11 @@
     'active': 0
 'gui':
   dialogs:
-    'NchantdAccountEntry':
-      'title': 'Nchantd Account Entry'
+    'NchantdAnalysis':
+      'title': 'Nchantd Analysis'
       description: >
-        A single pane dialog box with a simple form to enter a wallet address
-        to analyze
-        have the ability to add and drop addresses
+        A single pane application to show a split pane dashboard with a graph
+        and a table
       'size':
         'left': 50
         'top': 50
@@ -37,7 +36,7 @@
         'style': '1Pane'
         'center':
           'name': 'Entry Widget'
-          'widget': 'nchantrs.widgets.forms.NchantdDynamicRecordEntryForm'
+          'widget': 'nchantrs.widgets.dashboards.NchantdAnalysisDashboard'
           '<(SOURCE)>':
             'view':
               'vw_accounts':
@@ -55,43 +54,7 @@
           params:
             'outline':
             fields:
-              'name':
-                'label': 'Name'
-                'default':
-                'size':
-                  'h': 1
-                  'w': 50
-                <(SOURCE)>:
-              'description':
-                'label': 'Description'
-                'default':
-                'size':
-                  'h': 1
-                  'w': 50
-                <(SOURCE)>:
-              'address':
-                'label': 'Address'
-                'default':
-                'size':
-                  'h': 1
-                  'w': 50
-                <(SOURCE)>:
-              'chain':
-                'label': 'Chain'
-                'default':
-                'size':
-                  'h': 1
-                  'w': 50
-                <(SOURCE)>:
-                  'view':
-                    'vw_chains':
-                      'columns': ['name']
-                      'params':
-                        'filters':
             buttons:
-              delete:
-              new:
-              submit:
           data:
 'dstruct':
   'config':

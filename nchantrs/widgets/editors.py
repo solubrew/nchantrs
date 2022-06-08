@@ -33,7 +33,9 @@ version = '0.0.0.0.0.0'#														||
 log = True
 #===============================================================================||
 pxcfg = join(abspath(here), '_data_/editors.yaml')#									||assign default config
+
 class NchantdDocEditor(pyqt.QTextEdit):#(pyqt.QsciScintillaBase):
+
 	def __init__(self, parent=None, cfg={}):
 		'''Document editor widget built on top of QsciScintilla widget
 			I believe this requires PyQt5, not sure what is available as a
@@ -45,6 +47,7 @@ class NchantdDocEditor(pyqt.QTextEdit):#(pyqt.QsciScintillaBase):
 			if log: print('Parent', parent.config.dikt)
 			self.config.override(parent.config)
 		super(NchantdDocEditor, self).__init__()
+
 	def initModel(self):
 		''' '''
 		if log: print('CONFIG', self.config.dikt)
@@ -52,17 +55,21 @@ class NchantdDocEditor(pyqt.QTextEdit):#(pyqt.QsciScintillaBase):
 		self.data = j.loads(self.config.dikt['tab']['widgdata'])
 		self.setText(self.data.get('text'))
 		return self
+
 	def initWidget(self):
 		''' '''
 		self.initModel()
 		return self
+
 	def onEnterEvent(self):
 		'''Run a save of the doc editor data to the database '''
+
 	def mousePressEvent(self, event):
 		''' '''
 		editor.mousePressEventLog(event)
 		super().mousePressEvent(event)
 		return self
+
 class NchantdCodeEditor(NchantdDocEditor):
 	''' '''
 	def __init__(self, parent=None):
@@ -75,8 +82,10 @@ class NchantdCodeEditor(NchantdDocEditor):
 		'''Set working directory for import/export of files from editor
 			widget'''
 		return self
+
 class NchantdEntryEditor(pyqt.QWidget):
 	''' '''
+
 	def __init__(self, parent=None, cfg={}):
 		''' '''
 		self.parent = parent
@@ -85,15 +94,18 @@ class NchantdEntryEditor(pyqt.QWidget):
 		if parent:
 			self.config.override(parent.config)
 		super(NchantdEntryEditor, self).__init__(parent)
+
 	def initModel(self):
 		''' '''
 		self.buildEditor()
 		return self
+
 	def initWidget(self):
 		''' '''
 		self.layout = pyqt.QVBoxLayout()
 		self.initModel()
 		return self
+
 	def buildEditor(self):
 		''' '''
 		if log: print('Nchantd Entry Editor', self.config.dikt.keys())
@@ -103,16 +115,21 @@ class NchantdEntryEditor(pyqt.QWidget):
 		self.layout.addWidget(self.textbox)
 		self.setLayout(self.layout)
 		return self
+
 	def createLabel(self, name):
 		''' '''
 		self.label = annotations.NchantdLabel(name)
 		return self
+
 	def createTextBox(self, value):
 		''' '''
 		self.textbox = annotations.NchantdEntryBox(self)
 		return self
+
+
 class NchantdJournalEditor(pyqt.QWidget):
 	''' '''
+
 	def __init__(self, parent=None, cfg={}):
 		''' '''
 		self.parent = parent
@@ -123,23 +140,27 @@ class NchantdJournalEditor(pyqt.QWidget):
 		super(NchantdJournalEditor, self).__init__()
 		self.model = editormodels.NchantdJournalEditorModel(self)
 		#self.view = editorviews.NchantdJournalEditorView(self)
+
 	def initModel(self):
 		''' '''
 		if log: print('CONFIG', self.config.dikt)
 		self.name = self.config.dikt['tab']['name']
 		self.model.initModel()
 		return self
+
 #	def initView(self):
 #		''' '''
 #		self.view.initView()
 #		self.setLayout(self.view.layout)
 #		return self
+
 	def initWidget(self):
 		''' '''
 		self.initModel()
 		self.buildEditor()
 #		self.initView()
 		return self
+
 	def buildEditor(self):
 		''' '''
 		self.layout = pyqt.QVBoxLayout()
@@ -149,9 +170,12 @@ class NchantdJournalEditor(pyqt.QWidget):
 		self.layout.addWidget(self.editor)
 		self.setLayout(self.layout)
 		return self
+
+
 class NchantdScratchEditor(pyqt.QWidget):
 	'''Continous text editor that autosaves and restores has a clear button and
 	 	a save tab which allows you to save a seperate document or as a tab'''
+
 	def __init__(self, parent=None, cfg={}):
 		''' '''
 		self.parent = parent
@@ -162,10 +186,12 @@ class NchantdScratchEditor(pyqt.QWidget):
 		super(NchantdScratchEditor, self).__init__(parent)
 		self.model = editormodels.NchantdScratchEditorModel(self)
 		self.view = editorviews.NchantdScratchEditorView(self)
+
 	def initModel(self):
 		''' '''
 		self.model.initModel()
 		return self
+
 	def initView(self):
 		''' '''
 		mainLayout = pyqt.QGridLayout()
@@ -177,27 +203,34 @@ class NchantdScratchEditor(pyqt.QWidget):
 		mainLayout.addWidget(self.editor, 2, 1, 1, 2)
 		self.setLayout(mainLayout)
 		return self
+
 	def initWidget(self):
 		''' '''
 		self.initModel()
 		self.initView()
 		return self
+
 	def createEditor(self):
 		''' '''
 		self.editor = pyqt.QTextEdit(self)
 		self.editor.setHorizontalScrollBarPolicy(pyqt.Qt.ScrollBarAlwaysOff)
 		return self
+
 	def createExportButton(self):
 		''' '''
 		self.btn_export = controls.NchantdButton(self, {'name': 'Export'})
 		return self
+
 	def createMakeTabButton(self):
 		''' '''
 		self.btn_maketab = controls.NchantdButton(self, {'name': 'Clear'})
 		return self
+
 	def clear(self):
 		''' '''
+
 	def export(self):
 		''' '''
+
 	def setTheme(self):
 		''' '''

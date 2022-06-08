@@ -240,7 +240,12 @@ class NchantdSigilModel():
 		''' '''
 		if log: print('initDB Called by', inspect.currentframe().f_back.f_code.co_name)
 		reset = None if 'setup' not in self.config.dikt['args'] else 3659#		||
-		self.src = models.initDB(self.config.dikt, reset)
+
+		name = self.parent.name.lower()
+		path = join(abspath(expanduser('~')), f'.config/{name}/{name}.db')
+		cfg = self.config.dikt['dstruct']['store']
+
+		self.src = Chunker(path, name, cfg, reset)
 		return self
 
 	def initListenerSetModel(self):

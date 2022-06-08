@@ -2,8 +2,8 @@
 '''  #																			||
 ---  #																			||
 <(META)>:  #																	||
-	docid: '202520ac-28ad-4b1f-ac39-103a98d765b2'  #							||
-	name: Nchantd Moon Bags#													||
+	docid: '7bdf0ef6-3a8c-40e6-95c0-9bbb0d40fe34' #								||
+	name: Nchantd Analysis#														||
 	description: >  #															||
 	expirary: <[expiration]>  #													||
 	version: <[version]>  #														||
@@ -28,31 +28,22 @@ there = abspath(join(''))#												||set path at pheonix level
 here = join(dirname(__file__),'')#												||
 log = True
 #===============================================================================||
-pxcfg = f'{there}/_data_/nchantdaccountentry.yaml'
+pxcfg = join(abspath(here), f'_data_/nchantdanalysis.yaml')
 
-class NchantdAccountEntry(Cape):
+class NchantdAnalysis(Cape):
 	'''A Dialog for entrying Account Addresses with detail information into a
 		table'''
 
 	def __init__(self, args):
-		# '''Create new database eventually have checks in place so as not to
-		# 	delete user db also have a way of backing up any nonblockchain data
-		# 	so it can be selectively reimported to a new database if needed'''
+		''' '''
 		ucfg = f'{there}/_data_/user.yaml'
 		self.config = condor.instruct(pxcfg).override(ucfg).addArgs(args)
 		if log: print('CONFIG', self.config.dikt.keys())
-		super(NchantdAccountEntry, self).__init__('NchantdAccountEntry')#					||
+		super(NchantdAnalysis, self).__init__('NchantdAnalysis')#				||
 
 	def setup(self):
 		''''''
-		self.dialogAddAccounts()
-		return self
-
-	def dialogAddAccounts(self, params=None):
-		'''Build dialog to make the appropriate number of account entries
-			available to the user based on NFT held by main account'''
-		return self
 
 
 if __name__ == '__main__':
-	NchantdAccountEntry(sys.argv)
+	NchantdAnalysis(sys.argv)

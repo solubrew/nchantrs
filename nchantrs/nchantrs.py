@@ -1,9 +1,9 @@
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Nchantrs@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 '''  #																			||
 ---  #																			||
-<(META)>:  #																	||
+<(META)>: '3a0f63bb-96be-4c2f-bd5b-31fc64fd00b3' #								||
 	docid:   #																	||
-	name: Nchantrs Python Excecution Document  #				||
+	name: Nchantrs Module Nchantrs Python Excecution Document  #				||
 	description: >  #															||
 		Nchantrs allows for the modular creation of a gui app via  #			||
 		configuration files.  The main window holds a grid of widgets such  #	||
@@ -11,20 +11,15 @@
 		open etc refers to the data used to populate the widgets.  The  #		||
 		default data format for nchantrs applications is yaml files with the  #	||
 		ability to override with an sql storage method  #						||
-
 		leverage PyQt5TableModels to integrate tables
-
 	expirary: <[expiration]>  #													||
 	version: <[version]>  #														||
-	path: <[LEXIvrs]>  #														||
-	outline: <[outline]>  #														||
 	authority: document|this  #													||
 	security: sec|lvl2  #														||
 	<(WT)>: -32  #																||
 ''' #																			||
 # -*- coding: utf-8 -*-#														||
 #================================Core Modules===================================||
-import time
 from os.path import abspath, dirname, exists, join, expanduser
 from sys import argv, exit
 #===============================================================================||
@@ -39,13 +34,14 @@ from nchantrs.widgets import widgets, tabsets
 #===============================================================================||
 here = join(dirname(__file__),'')#												||
 there = abspath(join('../../..'))#												||set path at pheonix level
-version = '0.0.0.0.0.0'#														||
 log = True
 #===============================================================================||
 pxcfg = join(abspath(here), '_data_/nchantrs.yaml')#								||
+
 class NchantdCloak(pyqt.QApplication):#											||
 	'''The Nchantrs Cloak wraps a set of configurations, modules and data into
 		a beautiful application '''#											||
+
 	def __init__(self, name, parent=None, cfg=None):#							||
 		'''Initialize the application and the database then update all sink
 			data tables from the established source endpoints '''#				||

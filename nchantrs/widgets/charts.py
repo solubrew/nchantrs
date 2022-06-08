@@ -1,4 +1,4 @@
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 '''
 ---
 <(META)>:
@@ -35,9 +35,10 @@ from nchantrs.views import tableviews
 #===============================================================================||
 here = join(dirname(__file__),'')#												||
 there = abspath(join('../../..'))#												||set path at pheonix level
-version = '0.0.0.0.0.0'#														||
+log = True
 #===============================================================================||
 pxcfg = join(abspath(here), '_data_/charts.yaml')
+
 class NchantdChart(FigureCanvas):
 	"""A canvas that updates itself every second with a new plot."""
 	def __init__(self, parent=None, cfg={}, fig=None, df=None):
@@ -75,7 +76,84 @@ class NchantdChart(FigureCanvas):
 		pass
 
 
-class NchantdTimeSeriesChart(NchantdChart):
+class NchantdAreaChart(NchantdChart):
+	''' '''
+
+	def __init__(self, parent=None, cfg={}):
+		''' '''
+		self.parent = parent
+		self.config = condor.instruct(pxcfg).select('NchantdAreaChart')
+		self.config.override(cfg)
+		if parent:
+			self.config.override(parent.config)
+		super(NchantdTimeSeriesChart, self).__init__(parent)
+
+
+class NchantdBarChart(NchantdChart):
+	''' '''
+
+	def __init__(self, parent=None, cfg={}):
+		''' '''
+		self.parent = parent
+		self.config = condor.instruct(pxcfg).select('NchantdBarChart')
+		self.config.override(cfg)
+		if parent:
+			self.config.override(parent.config)
+		super(NchantdTimeSeriesChart, self).__init__(parent)
+
+class NchantdBubbleChart(NchantdChart):
+	''' '''
+
+	def __init__(self, parent=None, cfg={}):
+		''' '''
+		self.parent = parent
+		self.config = condor.instruct(pxcfg).select('NchantdBubbleChart')
+		self.config.override(cfg)
+		if parent:
+			self.config.override(parent.config)
+		super(NchantdTimeSeriesChart, self).__init__(parent)
+
+
+class NchantdLineChart(NchantdChart):
+	''' '''
+
+	def __init__(self, parent=None, cfg={}):
+		''' '''
+		self.parent = parent
+		self.config = condor.instruct(pxcfg).select('NchantdLineChart')
+		self.config.override(cfg)
+		if parent:
+			self.config.override(parent.config)
+		super(NchantdTimeSeriesChart, self).__init__(parent)
+
+
+class NchantdPieChart(NchantdChart):
+	''' '''
+
+	def __init__(self, parent=None, cfg={}):
+		''' '''
+		self.parent = parent
+		self.config = condor.instruct(pxcfg).select('NchantdPieChart')
+		self.config.override(cfg)
+		if parent:
+			self.config.override(parent.config)
+		super(NchantdTimeSeriesChart, self).__init__(parent)
+
+
+class NchantdRadarChart(NchantdAreaChart):
+	''' '''
+
+	def __init__(self, parent=None, cfg={}):
+		''' '''
+		self.parent = parent
+		self.config = condor.instruct(pxcfg).select('NchantdRadarChart')
+		self.config.override(cfg)
+		if parent:
+			self.config.override(parent.config)
+		super(NchantdTimeSeriesChart, self).__init__(parent)
+
+
+class NchantdTimeSeriesChart(NchantdLineChart):
 	''' '''
 	def __init__(self, parent=None, cfg={}):
 		''' '''
@@ -89,44 +167,6 @@ class NchantdTimeSeriesChart(NchantdChart):
 	def initWidget(self):
 		''' '''
 		return self
-
-
-class NchantdRSI(NchantdTimeSeriesChart):
-	'''Relative Strength Index Chart'''
-	def __init__(self, parent=None, cfg={}):
-		''' '''
-		self.parent = parent
-		self.config = condor.instruct(pxcfg).select('NchantdRSIChart')
-		self.config.override(cfg)
-		if parent:
-			self.config.override(parent.config)
-		super(NchantdRSI, self).__init__(parent)
-
-
-class NchantdPriceHistoryChart(NchantdTimeSeriesChart):
-	'''Price History over Time Chart'''
-	def __init__(self, parent=None, cfg={}):
-		''' '''
-		self.parent = parent
-		self.config = condor.instruct(pxcfg).select('NchantdPriceHistoryChart')
-		self.config.override(cfg)
-		if parent:
-			self.config.override(parent.config)
-		super(NchantdPriceHistoryChart, self).__init__(parent)
-
-	def bollinger_bands(self):
-		pass
-
-
-class NchantdVolumeChart(NchantdChart):
-	'''Volume Bar Chart'''
-	def __init__(self, parent=None, cfg={}):
-		''' '''
-		self.parent = parent
-		self.config = condor.instruct(pxcfg).select('NchantdVolumeChart')
-		self.config.override(cfg)
-		if parent:
-			self.config.override(parent.config)
 
 
 class NchantdSMAChart(NchantdTimeSeriesChart):
@@ -149,42 +189,6 @@ class NchantdWMAChart(NchantdTimeSeriesChart):
 		self.config.override(cfg)
 		if parent:
 			self.config.override(parent.config)
-
-
-class NchantdParetoChart(NchantdChart):
-	''' '''
-	def __init__(self, parent=None, cfg={}):
-		''' '''
-		self.parent = parent
-		self.config = condor.instruct(pxcfg).select('NchantdParetoChart')
-		self.config.override(cfg)
-		if parent:
-			self.config.override(parent.config)
-		super(NchantdParetoChart, self).__init__(parent)
-
-
-class NchantdCountChart(NchantdChart):
-	''' '''
-	def __init__(self, parent=None, cfg={}):
-		''' '''
-		self.parent = parent
-		self.config = condor.instruct(pxcfg).select('NchantdCountChart')
-		self.config.override(cfg)
-		if parent:
-			self.config.override(parent.config)
-		super(NchantdCountChart, self).__init__(parent)
-
-
-class NchantdPercentageChart(NchantdChart):
-	''' '''
-	def __init__(self, parent=None, cfg={}):
-		''' '''
-		self.parent = parent
-		self.config = condor.instruct(pxcfg).select('NchantdPercentageChart')
-		self.config.override(cfg)
-		if parent:
-			self.config.override(parent.config)
-		super(NchantdPercentageChart, self).__init__(parent)
 
 
 #===========================Code Source Examples================================||
