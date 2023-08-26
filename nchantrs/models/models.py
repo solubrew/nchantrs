@@ -15,7 +15,7 @@
 #================================Core Modules===================================||
 from os.path import abspath, dirname, join
 #===============================================================================||
-from fxsquirl import fxsquirl
+from squirl import squirl
 from fxsquirl.fxsquirl import Chunker
 from nchantrs.libraries import pyqt
 #===============================================================================||

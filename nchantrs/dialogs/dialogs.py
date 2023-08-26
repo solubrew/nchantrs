@@ -16,7 +16,7 @@
 from os.path import abspath, dirname, exists, join, expanduser
 #===============================================================================||
 from condor import condor
-from fxsquirl.orgnql import fonql
+from squirl.orgnql import fonql
 from nchantrs.libraries import pyqt
 from nchantrs.themes import themes
 from nchantrs import nchantrs
@@ -31,8 +31,8 @@ log = True
 #===============================================================================||
 pxcfg = join(abspath(here), f'_data_/dialogs.yaml')#							||
 
-class Cape(pyqt.QApplication):
-	''' '''
+class NchantdCape(pyqt.QApplication):
+	'''Cape is the base class for single pane applications'''
 
 	def __init__(self, name, cfg={}):
 		''' '''
@@ -46,12 +46,13 @@ class Cape(pyqt.QApplication):
 		self.newInstance = True
 		self.name = name
 		self.slug = name.lower().replace(' ', '')
-		self.model = NchantdSigilModel(self).initModel()
-		self.initDB(reset)
+
+		self.model = NchantdSigilModel(self).initModel(reset)
+		#self.model.initDB(reset)
 		self.initUI(name)
 		self.exec_()
 
-	def initDB(self, reset=3659):
+	def initApp(self):
 		''' '''
 		#not to create a dialog model to replace this and mimic application models
 		#self.src = models.initDB(self.config.dikt, reset)
@@ -63,7 +64,7 @@ class Cape(pyqt.QApplication):
 		 	landing widgets'''
 		dtop = self.config.dikt['gui']['dialogs'][name]#										||
 		if log: print('UI',dtop)
-		self.main = Sigil(name, self).setSource(self.src).buildDialog()
+		self.main = NchantdSigil(name, self).setSource(self.model.src).buildDialog()
 		self.main.MaxRecentFiles = 10#												||
 		self.main.windowList = []#													||
 		self.main.recentFileActs = []
@@ -71,7 +72,7 @@ class Cape(pyqt.QApplication):
 		return self
 
 
-class Sigil(pyqt.QDialog):
+class NchantdSigil(pyqt.QDialog):
 	'''Sigil is the base class for individual dialogs used to interact with the
 		user these Sigils allow the user to alter their Cloak'''
 	def __init__(self, name, parent=None, cfg: dict={}):
@@ -79,7 +80,7 @@ class Sigil(pyqt.QDialog):
 		self.config = condor.instruct(pxcfg).override(cfg)#	||
 		if parent:
 			self.config.override(parent.config)
-		super(Sigil, self).__init__()
+		super(NchantdSigil, self).__init__()
 		self.dtop = self.config.dikt['gui']['dialogs'][name]
 		self.setWindowTitle(self.dtop['title'])#										||
 		self.setGeometry(self.dtop['size']['left'], self.dtop['size']['top'],#			||

@@ -14,7 +14,7 @@
   <(WT)>: -32
 NchantdTreeModel:
   'description':
-  <(SOURCE)>:
+  <(SOURCE)>:  #how is this different than the trnodes under tables?
     'view':
       trnodes:  #nid should be set to unique
         _work: >

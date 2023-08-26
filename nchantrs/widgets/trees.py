@@ -22,7 +22,9 @@ from os.path import abspath, dirname, join
 from condor import condor
 from nchantrs.libraries import pyqt
 from nchantrs.views.treeviews import NchantdTreeView, NchantdTimeTreeView
-from nchantrs.models.treemodels import NchantdTreeModel, NchantdTimeTreeModel
+from nchantrs.views.treeviews import NchantdFileSystemView
+from nchantrs.models.treemodels import NchantdFileSystemModel, NchantdTreeModel
+from nchantrs.models.treemodels import NchantdTimeTreeModel
 from nchantrs.widgets import tabsets
 #===============================================================================||
 here = join(dirname(__file__),'')#												||
@@ -31,6 +33,7 @@ version = '0.0.0.0.0.0'#														||
 log = False
 #===============================================================================||
 pxcfg = f'{here}_data_/trees.yaml'
+
 class NchantdTree(pyqt.QWidget):
 	'''Generic Tree Widget built to integrate Nchantd models and views'''
 	def __init__(self, parent=None, cfg={}, root=None):
@@ -97,6 +100,18 @@ class NchantdCustomTree(NchantdTree):
 			self.config.override(parent.config)
 		super(NchantdCustomTree, self).__init__(parent, cfg, root)
 
+class NchantdFileSystemTree(NchantdTree):
+	''' '''
+	def __init__(self, parent=None, cfg={}, root=None):
+		''' '''
+		self.src = parent.src
+		self.config = condor.instruct(pxcfg).select('NchantdFileSystemTree')
+		self.config.override(cfg)
+		if parent:
+			self.config.override(parent.config)
+		super(NchantdFileSystemTree, self).__init__(parent, cfg, root)
+		self.model = NchantdFileSystemModel(self)
+		self.view = NchantdFileSystemView(self)
 
 class NchantdMindTree(NchantdTree):
 	'''Provide a Basic Mind Map Widget'''

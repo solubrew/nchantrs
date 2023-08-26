@@ -45,6 +45,22 @@ class NchantdTableModel(qpandas.DataFrameModel):
 		''' '''
 		return self
 
+	def createRecord(self, rid, data):
+		''' '''
+		self.parent.model.insertRecord()
+		return self
+
+	def editRecord(self, rid, data):
+		''' '''
+		self.parent.model.updateRecord()
+		return self
+
+	def getRecord(self, rid):
+		''' '''
+
+	def removeRecord(self, rid):
+		''' '''
+
 	def nextRecord(self, id):
 		''' '''
 		return self
@@ -53,16 +69,3 @@ class NchantdTableModel(qpandas.DataFrameModel):
 		''' '''
 
 		return self
-
-	def refresh(self):
-		''' '''
-		return self
-
-	def createRecord(self, record):
-		''' '''
-
-	def deleteRecord(self, record):
-		''' '''
-
-	def submitRecord(self, record):
-		''' '''

@@ -22,7 +22,7 @@ from fxsquirl.orgnql import fonql
 from nchantrs.libraries import pyqt
 from nchantrs.themes import themes
 from nchantrs import nchantrs
-from nchantrs.dialogs.dialogs import Sigil
+from nchantrs.dialogs.dialogs import NchantdSigil
 #===============================================================================||
 here = join(dirname(__file__),'')#												||
 there = abspath(join('../../..'))#												||set path at pheonix level
@@ -30,7 +30,7 @@ version = '0.0.0.0.0.0'#														||
 log = True
 #===============================================================================||
 pxcfg = f'{here}_data_/forms.yaml'
-class SimpleEntryDialog(Sigil):
+class SimpleEntryDialog(NchantdSigil):
 	''' '''
 	def __init__(self, name, fields, cfg: dict={}):
 		''' '''
@@ -41,26 +41,26 @@ class SimpleEntryDialog(Sigil):
 	def buildDialog(self):
 		''' '''
 		return self
-class PreferencesDialog(Sigil):
+class PreferencesDialog(NchantdSigil):
 	''' '''
 	def __init__(self):
 		''' '''
 	def buildDialog(self):
 		''' '''
 		return self
-class SplashDialog(Sigil):
+class SplashDialog(NchantdSigil):
 	''' '''
 	def __init__(self):
 		''' '''
 	def buildDialog(self):
 		''' '''
 		return self
-class NchantdNodeEditor(Sigil):
+class NchantdNodeEditor(NchantdSigil):
 	'''General Record Editor Dialog specialized for editing a tree nodes fields
 	'''
 	def __init__(self):
 		''' '''
-class NchantdNodeEditor(Sigil):
+class NchantdNodeEditor(NchantdSigil):
 	''' '''
 	def __init__(self, name, parent=None):
 		''' '''

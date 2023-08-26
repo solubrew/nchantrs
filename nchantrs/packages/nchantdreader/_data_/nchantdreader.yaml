@@ -1,3 +1,124 @@
+---
+'<(META)>':
+  'docid': ''
+  'name': 'Nchantd Reader Main YAML Configuration Document'
+  'description': >
+  'expirary': '<[expiration]>'
+  'version': '<[version]>'
+  'authority': 'document|this'
+  'security': 'sec|lvl2'
+  '<(WT)>': -32
+'sequence':
+  '0':
+    'method': 'setup'
+    'params':
+    'active': 1
+  '1':
+    'method': 'showSplashScreen'
+    'params':
+    'active': 0
+'gui':
+  dialogs:
+    'NchantdAccountEntry':
+      'title': 'Nchantd Reader'
+      description: >
+        A dual pane application providing the ability to read and write
+        Mark Down while subscribing to and submitting to RSS Feeds
+      'size':
+        'left': 50
+        'top': 50
+        'width': 400
+        'height': 300
+      import: 'addressentry_1pane'
+      theme: 'original'
+      toolbars: #
+      layout:
+        'style': '1Pane'
+        'center':
+          'name': 'Entry Widget'
+          'widget': 'nchantrs.widgets.forms.NchantdDynamicRecordEntryForm'
+          '<(SOURCE)>':
+            'view':
+              'vw_accounts':
+                'columns': ['name', 'address', 'description', 'chain']
+                'params':
+                  'filters':
+          '<(SINK)>':
+            'table':
+              'accounts':
+                fields:
+                  'Name': 'name'
+                  'Description': 'description'
+                  'Address': 'address'
+                  'Chain': 'chain'
+          params:
+            'outline':
+            fields:
+              'name':
+                'label': 'Name'
+                'default':
+                'size':
+                  'h': 1
+                  'w': 50
+                <(SOURCE)>:
+              'description':
+                'label': 'Description'
+                'default':
+                'size':
+                  'h': 1
+                  'w': 50
+                <(SOURCE)>:
+              'address':
+                'label': 'Address'
+                'default':
+                'size':
+                  'h': 1
+                  'w': 50
+                <(SOURCE)>:
+              'chain':
+                'label': 'Chain'
+                'default':
+                'size':
+                  'h': 1
+                  'w': 50
+                <(SOURCE)>:
+                  'view':
+                    'vw_chains':
+                      'columns': ['name']
+                      'params':
+                        'filters':
+            buttons:
+              delete:
+              new:
+              submit:
+          data:
+'dstruct':
+  'config':
+    'style': 'single'
+    'chunking': 'custom'
+  store:
+    'db':
+      path: &path '{0}/data/db/{1}.db'
+      name: 'nchantdaccountentry'
+      config:
+        'table':
+          'accounts':
+            description: >
+              table of accounts to monitor using the given ethereum address or
+              .eth name
+            columns: ['name', 'description', 'address', 'chainid']
+            'records':
+        'view':
+          'vw_accounts':
+            description:
+            cmd: >
+              CREATE VIEW vw_accounts AS
+                SELECT
+                  a.name, a.description, a.address, a.chainid
+                FROM accounts a
+        'index':
+    wdir: 'jobNchantrs/1_DELTA/nchantrs/nchantrs/packages/nchantdreader'
+args:
 
 
 

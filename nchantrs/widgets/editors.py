@@ -94,16 +94,14 @@ class NchantdEntryEditor(pyqt.QWidget):
 		if parent:
 			self.config.override(parent.config)
 		super(NchantdEntryEditor, self).__init__(parent)
-
-	def initModel(self):
-		''' '''
-		self.buildEditor()
-		return self
+		self.model = NchantdEntryModel(self)
+		self.view = NchantdEntryView(self)
 
 	def initWidget(self):
 		''' '''
 		self.layout = pyqt.QVBoxLayout()
-		self.initModel()
+		self.model.initModel()
+		self.buildEditor()
 		return self
 
 	def buildEditor(self):
@@ -123,7 +121,7 @@ class NchantdEntryEditor(pyqt.QWidget):
 
 	def createTextBox(self, value):
 		''' '''
-		self.textbox = annotations.NchantdEntryBox(self)
+		self.textbox = annotations.NchantdEntryBox(self).initWidget()
 		return self
 
 

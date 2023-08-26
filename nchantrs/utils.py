@@ -18,10 +18,9 @@
 from os.path import abspath, dirname, exists, join
 #===============================================================================||
 from condor import condor
-from fxsquirl.orgnql import yonql
+from squirl.orgnql import yonql
 #===============================================================================||
 here = join(dirname(__file__),'')#												||
-there = abspath(join('../../..'))#												||set path at pheonix level
 version = '0.0.0.0.0.0'#														||
 #===============================================================================||
 pxcfg = f'{here}_data_/utils.yaml'

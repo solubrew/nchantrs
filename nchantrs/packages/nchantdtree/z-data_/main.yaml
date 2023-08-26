@@ -1,0 +1,92 @@
+---
+<(META)>:
+  docid:
+  name: Nchantrd Tree Main YAML Configuration Document
+  description: >
+    Provide configurations to Nchantrs module to generate Nchantrd tree
+    application
+  expirary: <[expiration]>
+  version: '<[version]>'
+  path: '<[LEXIvrs]>panda/LEXI/'
+  outline: '<[outline]>'
+  authority: 'document|this'
+  security: 'sec|lvl2'
+  <(WT)>: -32
+desktop:
+  title: 'Nchantd Tree'
+  size:
+    left: 50
+    top: 50
+    width: 1850
+    height: 800
+menubar:
+  0:
+    'file':
+      '0': 'open'
+      '1': 'new'
+      '2': 'save'
+      '3': 'saveas'
+      '4': 'savecopy'
+      '5': 'close'
+      '6': 'exit'
+  1:
+    'edit':
+      '0': 'redo'
+      '1': 'undo'
+      '2': 'cut'
+      '3': 'copy'
+      '4': 'paste'
+      '5': 'preferences'
+  2:
+    'format':
+      '0': 'bold'
+      '1': 'italic'
+      '2': 'underline'
+      '3': 'underlinedouble'
+      '4': 'strikethrough'
+  3:
+    'ui':
+      '0': 'toolbars'
+      '1': 'windowsplit'
+      '2': 'sidebar'
+      '3': 'statusbar'
+  4:
+    'developer':
+      '0': 'extensions'
+  5:
+    'help':
+      '0': 'about'
+'toolbars':
+  'file':
+    0: 'new'
+    1: 'open'
+    2: 'save'
+    3: 'saveas'
+    4: 'exit'
+  'edit':
+    0: 'copy'
+    1: 'cut'
+    2: 'paste'
+    3: 'pasteformat'
+layout:
+  '3Pane':
+    'right':
+      'tree':
+        'name': 'Hiearchy Tree'
+        'widget': 'pheonix.organisms.nchantrs.widgets.nchantdTreeView'
+        'datasource':
+    'center':
+      'tabs':
+        '<@[tab]@>':  #need to build a loop here
+          'name':
+          'widget':
+        'dargs':
+          'name': 'Main'
+          'widget': 'pheonix.organisms.nchantrs.widgets.textEditor'
+          'datasource':
+    'left':
+      'tabs':
+        'scratch':
+          'name': 'Scratch'
+          'widget': 'pheonix.organisms.nchantrs.widgets.textEditor'
+          'datasource':

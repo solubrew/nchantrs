@@ -1,8 +1,8 @@
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 '''  #																			||
 ---  #																			||
-<(META)>: 'b0383757-eb6b-4d01-a5af-f0b4bc6b3b44' #								||
-	docid:   #																	||
+<(META)>: #								||
+	DOCid: 'b0383757-eb6b-4d01-a5af-f0b4bc6b3b44' #								||
 	name: Nchantrs Module Widgets Forms Python Excecution Document  #			||
 	description: >  #															||
 	expirary: <[expiration]>  #													||
@@ -19,7 +19,7 @@ from sys import argv, exit
 from condor import condor, thing#												||
 from nchantrs.libraries import pyqt
 from nchantrs.models.tablemodels import NchantdTableModel
-from nchantrs.widgets.controls import NchantdSubmissionButtons
+from nchantrs.widgets.controls import NchantdSubmissionButtons, NchantdNavigationButtons
 from nchantrs.widgets.editors import NchantdEntryEditor
 #===============================================================================||
 here = join(dirname(__file__),'')#												||
@@ -61,6 +61,8 @@ class NchantdDynamicRecordEntryForm(pyqt.QWidget):
 		self.loadFields()
 		self.entryBTNs = NchantdSubmissionButtons(self).initWidget()
 		self.layout.addWidget(self.entryBTNs)
+		self.navBTNs = NchantdNavigationButtons(self).initWidget()
+		self.layout.addWidget(self.navBTNs)
 		return self
 
 	def configView(self, cols: dict={}):
@@ -84,12 +86,21 @@ class NchantdDynamicRecordEntryForm(pyqt.QWidget):
 	def loadControls(self):
 		''' '''
 		if log: print('New Button\n', self.entryBTNs.newbutton.__dir__())
+
 		if self.entryBTNs.newbutton.isEnabled:
 			self.entryBTNs.newbutton.clicked.connect(self.newEntry)
 		if self.entryBTNs.submitbutton.isEnabled:
 			self.entryBTNs.submitbutton.clicked.connect(self.submitEntry)
-		if self.entryBTNs.deletebutton.isEnabled:
-			self.entryBTNs.deletebutton.clicked.connect(self.deleteEntry)
+		if self.navBTNs.deletebutton.isEnabled:
+			self.navBTNs.deletebutton.clicked.connect(self.deleteEntry)
+
+		if self.navBTNs.prevbutton.isEnabled:
+			self.navBTNs.prevbutton.clicked.connect(self.prevEntry)
+		if self.navBTNs.jumpbutton.isEnabled:
+			self.navBTNs.jumpbutton.clicked.connect(self.jumpEntry)
+		if self.navBTNs.nextbutton.isEnabled:
+			self.navBTNs.nextbutton.clicked.connect(self.nextEntry)
+
 		return self
 
 	def loadFields(self):
@@ -99,6 +110,11 @@ class NchantdDynamicRecordEntryForm(pyqt.QWidget):
 			cfg = self.config.dikt['params']['fields'][field]
 			self.fieldWDGTs[field] = NchantdEntryEditor(self, cfg).initWidget()
 			self.layout.addWidget(self.fieldWDGTs[field])
+		return self
+
+	def jumpEntry(self, record):
+		''' '''
+		self.model.getRecord(rid)
 		return self
 
 	def newEntry(self, record, action=None):
@@ -112,6 +128,16 @@ class NchantdDynamicRecordEntryForm(pyqt.QWidget):
 			#should it be required? this is a question of integration with
 			#FxSQuiRL vs full abstraction to the config layer
 		self.model.createRecord(record)
+		return self
+
+	def nextEntry(self, record):
+		''' '''
+		self.model.getRecord(rid)
+		return self
+
+	def prevEntry(self, record):
+		''' '''
+		self.model.getRecord(rid)
 		return self
 
 	def submitEntry(self, record):

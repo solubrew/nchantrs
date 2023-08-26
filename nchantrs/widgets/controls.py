@@ -161,6 +161,34 @@ class NchantdMathPad(pyqt.QWidget):
 			cfg = parent.config
 		self.config = condor.instruct(pxcfg).override(cfg)
 
+class NchantdNavigationButtons(pyqt.QWidget):
+	''' '''
+	def __init__(self, parent=None, cfg={}):
+		''' '''
+		self.config = condor.instruct(pxcfg).override(cfg)
+		self.config.select('NchantdSubmissionButtons')
+		if parent:
+			self.config.override(parent.config)
+		self.parent = parent
+		pyqt.QWidget.__init__(self)
+		self.layout = pyqt.QHBoxLayout()
+		if log: print('Nchantd Submission Buttons', self.config.dikt)
+		self.config.dikt['buttons']['new']['text'] = 'Next'
+		self.newbutton = NchantdButton(self, self.config.dikt['buttons']['new'])
+		self.newbutton.initWidget()
+		self.layout.addWidget(self.newbutton)
+		self.config.dikt['buttons']['submit']['text'] = 'Jump'
+		self.submitbutton = NchantdButton(self, self.config.dikt['buttons']['submit'])
+		self.submitbutton.initWidget()
+		self.layout.addWidget(self.submitbutton)
+		self.config.dikt['buttons']['delete']['text'] = 'Prev'
+		self.deletebutton = NchantdButton(self, self.config.dikt['buttons']['delete'])
+		self.deletebutton.initWidget()
+		self.layout.addWidget(self.deletebutton)
+		self.setLayout(self.layout)
+	def initWidget(self):
+		''' '''
+		return self
 
 class NchantdNumberButton():
 	''' '''

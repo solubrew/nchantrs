@@ -1,0 +1,12 @@
+---
+'db':
+  path: &path '{0}/data/db/{1}.db'
+  name: 'nchantdmoonbags'
+  config:
+    table:
+      todo:
+        description: >
+          table of accounts to monitor using the given ethereum address or
+          .eth name
+        columns: ['TASK', 'DESCRIPTION', 'CONCERN', 'DUE_DT']
+        'records':

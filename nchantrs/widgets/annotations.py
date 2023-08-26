@@ -26,6 +26,7 @@ there = abspath(join('../../..'))#						||set path at pheonix level
 version = '0.0.0.0.0.0'#												||
 #=======================================================================||
 pxcfg = f'{here}_data_/annotations.yaml'#									||assign default config
+
 class NchantdLabel(pyqt.QLabel):
 	'''Standard Nchantd Label'''
 	def __init__(self, text=None, parent=None, cfg={}):
@@ -37,23 +38,28 @@ class NchantdLabel(pyqt.QLabel):
 		self.config.override(cfg)
 		super(NchantdLabel, self).__init__()
 		self.setText(text)
+
 	def buildWidget(self, cfg):
 		''' '''
 		self.setText(cfg['text'])
 		font = pyqt.QFont(cfg['font'], cfg['size'], pyqt.QFont.Bold)
 		self.setFont(font)
+
 	def initModel(self):
 		''' '''
 		self.model.data = self.parent.labeltext
 		return self
+
 	def initView(self):
 		''' '''
 		self.setText(self.model.data)
 		self.setFixedHeight(25)
 		return self
+
 	def initWidget(self):
 		''' '''
 		return self
+
 class NchantdEntryBox(pyqt.QLineEdit):
 	'''Standard Nchantd Entry Box'''
 	def __init__(self, parent=None, value=None, cfg={}):
@@ -64,9 +70,11 @@ class NchantdEntryBox(pyqt.QLineEdit):
 		self.config = condor.instruct(pxcfg).select('NchantdEntryBox')
 		self.config.override(cfg)
 		super(NchantdEntryBox, self).__init__(value)
+
 	def initWidget(self):
 		self.returnPressed.connect(self.enteredText)
 		return self
+
 	def enteredText(self):
 		'''on text entered it needs to be added to a data structure for
 			assemblying an update record
@@ -74,6 +82,7 @@ class NchantdEntryBox(pyqt.QLineEdit):
 			class function but how to access it on selection of a submit button'''
 		print('Text Entered')
 		return self
+
 class NchantdDisplayBox():
 	''' '''
 	def __init__(self, parent=None, cfg={}):
@@ -86,19 +95,24 @@ class NchantdDisplayBox():
 		super(NchantdEntryBox, self).__init__()
 		self.model = annotationmodels.NchantdDisplayBoxModel(self)
 		self.view = annotationviews.NchantdDisplayBoxView(self)
+
 	def initModel(self):
 		''' '''
 		self.model.initModel()
 		return self
+
 	def initView(self):
 		''' '''
 		self.view.initView()
 		return self
+
 	def initWidget(self):
 		''' '''
 		self.initModel()
 		self.initView()
 		return self
+
+
 class NchantdProgressBar(pyqt.QProgressBar):
 	def __init__(self, parent=None, cfg={}):
 		''' '''

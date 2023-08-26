@@ -17,7 +17,7 @@ from os.path import abspath, dirname, join
 #===============================================================================||
 from condor import condor, thing#												||
 from nchantrs.libraries import pyqt
-from nchants.widgets.charts import charts
+from nchantrs.widgets.charts import baseCharts
 #===============================================================================||
 here = join(dirname(__file__),'')#												||
 there = abspath(join('../../..'))#												||set path at pheonix level
@@ -25,7 +25,7 @@ log = True
 #===============================================================================||
 pxcfg = join(abspath(here), '_data_/financialCharts.yaml')
 
-class NchantdRSI(charts.NchantdTimeSeriesChart):
+class NchantdRSI(baseCharts.NchantdTimeSeriesChart):
 	'''Relative Strength Index Chart'''
 	def __init__(self, parent=None, cfg={}):
 		''' '''
@@ -37,7 +37,7 @@ class NchantdRSI(charts.NchantdTimeSeriesChart):
 		super(NchantdRSI, self).__init__(parent)
 
 
-class NchantdPriceHistoryChart(charts.NchantdTimeSeriesChart):
+class NchantdPriceHistoryChart(baseCharts.NchantdTimeSeriesChart):
 	'''Price History over Time Chart'''
 	def __init__(self, parent=None, cfg={}):
 		''' '''
@@ -51,7 +51,7 @@ class NchantdPriceHistoryChart(charts.NchantdTimeSeriesChart):
 	def bollinger_bands(self):
 		pass
 
-class NchantdVolumeChart(charts.NchantdTimeSeriesChart):
+class NchantdVolumeChart(baseCharts.NchantdTimeSeriesChart):
 	'''Volume Bar Chart'''
 	def __init__(self, parent=None, cfg={}):
 		''' '''
@@ -61,7 +61,7 @@ class NchantdVolumeChart(charts.NchantdTimeSeriesChart):
 		if parent:
 			self.config.override(parent.config)
 
-class NchantdMACDChart(charts.NchantdTimeSeriesChart):
+class NchantdMACDChart(baseCharts.NchantdTimeSeriesChart):
 	''' '''
 
 	def __init__(self):

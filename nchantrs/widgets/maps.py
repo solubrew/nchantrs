@@ -61,6 +61,7 @@ class NchantdMap():
 		self.model()
 		self.view()
 		return self
+
 class NchantdMindMap():
 	'''Provide a Canvas area to place and arrange nodes for defining a mind map
 		'''
@@ -87,3 +88,8 @@ class NchantdMindMap():
 		self.model()
 		self.view()
 		return self
+
+#===========================Code Source Examples================================||
+'''
+'''
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

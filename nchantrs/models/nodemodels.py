@@ -40,29 +40,39 @@ class NchantdNodeModel():
 		self.config = condor.instruct(pxcfg).override(cfg)
 		super(NchantdNodeModel, self).__init__()
 		self.name = 'NodeModel'
+
 	def initModel(self):
 		''' '''
 		return self
+
+
 class NchantdConnectorNodeModel(NchantdNodeModel):
 	''' '''
 	def __init__(self, parent=None, cfg={}):
 		''' '''
+
 	def initModel(self):
 		''' '''
 		return self
+
+
 class NchantdMultiNodeConnectorModel(NchantdNodeModel):
 	''' '''
 	def __init__(self, parent=None, cfg={}):
 		''' '''
+
 	def countLegs(self):
 		''' '''
 		return self
+
 	def addLeg(self):
 		''' '''
 		return self
+
 	def editLegProportation(self):
 		''' '''
 		return self
+
 	def setLegProporation(self):
 		''' '''
 		return self

@@ -23,10 +23,9 @@ from nchantrs.models import tablemodels
 from nchantrs.views import tableviews
 #===============================================================================||
 here = join(dirname(__file__),'')#												||
-there = abspath(join('../../..'))#												||set path at pheonix level
 log = True
 #===============================================================================||
-pxcfg = join(abspath(here), f'_data_/tables.yaml')
+pxcfg = join(abspath(here), '_data_', 'tables.yaml')
 
 class NchantdTable(pyqt.QTableWidget):
 	''' '''
@@ -72,7 +71,7 @@ class NchantdTable(pyqt.QTableWidget):
 		self.initView()
 		return self
 
-class NchantdDataFrameTable(qpandas.DataTabWidget):
+class NchantdDataFrameTable(qpandas.DataTableWidget):
 	''' '''
 
 	def __init__(self):

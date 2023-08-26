@@ -2,7 +2,7 @@
 
 from nchantrs.dialogs import dialogs
 
-class Preferences(dialogs.Sigil):
+class Preferences(dialogs.NchantdSigil):
 	''' '''
 	def __init__(self, app, cfg: dict={}, parent=None):
 		''' '''

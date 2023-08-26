@@ -27,87 +27,85 @@ here = join(dirname(__file__),'')#												||
 there = abspath(join('../../..'))#												||set path at pheonix level
 version = '0.0.0.0.0.0'#														||
 #===============================================================================||
+pxcfg = f'{here}_data_/media.yaml'
+
 class NchantdImagePane(pyqt.QWidget):
 	''' '''
 	def __init__(self, app, cfg, parent=None):
 		'''' '''
-		super(NchantdImagePane, self).__init__(parent)
-		pxcfg = f'{here}_data_/widgets.yaml'
 		self.config = condor.instruct(pxcfg).select('paneviews').override(cfg)
-		self.app = app
+		super(NchantdImagePane, self).__init__(parent)
 		self.view = NchantdImageView(app, cfg, parent)
-		self.layout = pyqt.QVBoxLayout()
-		self.layout.addWidget(self.view)
-		self.setLayout(self.layout)
+
+
 	def initModel(self):
 		''' '''
 		return self
+
 	def initView(self):
 		''' '''
 		return self
+
 	def initWidget(self):
 		''' '''
 		return self
+
 class NchantdVideoPane(pyqt.QWidget):
 	''' '''
-	def __init__(self, app, cfg, parent=None):
+	def __init__(self, parent=None, cfg={}):
 		'''' '''
-		super(NchantdImagePane, self).__init__(parent)
-		pxcfg = f'{here}_data_/widgets.yaml'
 		self.config = condor.instruct(pxcfg).select('paneviews').override(cfg)
-		self.app = app
+		super(NchantdImagePane, self).__init__(parent)
 		self.view = NchantdImageView(app, cfg, parent)
-		self.layout = pyqt.QVBoxLayout()
-		self.layout.addWidget(self.view)
-		self.setLayout(self.layout)
+
 	def initModel(self):
 		''' '''
 		return self
+
 	def initView(self):
 		''' '''
 		return self
+
 	def initWidget(self):
 		''' '''
 		return self
+
 class NchantdPDFPane(pyqt.QWidget):
 	''' '''
 	def __init__(self, app, cfg, parent=None):
 		'''' '''
-		super(NchantdImagePane, self).__init__(parent)
-		pxcfg = f'{here}_data_/widgets.yaml'
 		self.config = condor.instruct(pxcfg).select('paneviews').override(cfg)
-		self.app = app
+		super(NchantdImagePane, self).__init__(parent)
 		self.view = NchantdImageView(app, cfg, parent)
-		self.layout = pyqt.QVBoxLayout()
-		self.layout.addWidget(self.view)
-		self.setLayout(self.layout)
+
 	def initModel(self):
 		''' '''
 		return self
+
 	def initView(self):
 		''' '''
 		return self
+
 	def initWidget(self):
 		''' '''
 		return self
+
 class NchantdRSSPane(pyqt.QWidget):
 	''' '''
 	def __init__(self, app, cfg, parent=None):
 		'''' '''
-		super(NchantdImagePane, self).__init__(parent)
-		pxcfg = f'{here}_data_/widgets.yaml'
 		self.config = condor.instruct(pxcfg).select('paneviews').override(cfg)
-		self.app = app
+		super(NchantdImagePane, self).__init__(parent)
 		self.view = NchantdImageView(app, cfg, parent)
-		self.layout = pyqt.QVBoxLayout()
-		self.layout.addWidget(self.view)
-		self.setLayout(self.layout)
+
 	def initModel(self):
 		''' '''
 		return self
+
 	def initView(self):
 		''' '''
 		return self
+
 	def initWidget(self):
 		''' '''
 		return self

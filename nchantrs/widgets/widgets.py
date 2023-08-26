@@ -21,6 +21,8 @@ from os.path import abspath, dirname, exists, join
 from condor import condor
 from condor.thing import thingify
 from nchantrs.libraries import pyqt
+from nchantrs.widgets.trees import NchantdTree
+from nchantrs.widgets.charts import charts
 #===============================================================================||
 here = join(dirname(__file__),'')#												||
 there = abspath(join('../../..'))#												||
@@ -81,7 +83,7 @@ def loadWidget(parent, cfg={}, pos=None):
 	if 'widget' in cfg.keys():
 		if cfg['widget']:
 			if log: print('Widget', cfg['widget'])
-			widget = thingify(cfg['widget'])(parent, cfg)
+			widget = thingify(cfg['widget'], None, None, True)(parent, cfg)
 			if pos:
 				widget.initWidget(pos)
 			else:

@@ -15,7 +15,9 @@ try:
 except:
 	print('PySide2 Import Failed')
 #===============================================================================||
-	from PyQt5.QtCore import pyqtSignal as Signal, pyqtSlot as Slot, QAbstractListModel, QAbstractItemModel#||
+	from PyQt5.QtCore import pyqtSignal as Signal, pyqtSlot as Slot
+	from PyQt5.QtCore import QAbstractListModel, QAbstractItemModel
+	from PyQt5.QtCore import QAbstractTableModel#||
 	from PyQt5.QtCore import QModelIndex, QDir, QDate, Qt, QSettings, QTimer, QUrl#						||
 #===============================================================================||
 	from PyQt5.QtGui import QIcon, QFont, QPixmap, QStandardItemModel, QImage, QPainter
@@ -33,7 +35,7 @@ except:
 	from PyQt5.QtWidgets import QLineEdit, QMenu, QMenuBar, QPushButton, QSpinBox#	||
 	from PyQt5.QtWidgets import QTextBrowser, QScrollArea, QSizePolicy, QProgressBar, QFileSystemModel#	||
 	from PyQt5.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QTabWidget, QTableWidget, QTextEdit, QGroupBox, QTableView, QTreeView
-	from PyQt5.QtWidgets import QBoxLayout, QCalendarWidget, QCheckBox, QRadioButton, QSlider
+	from PyQt5.QtWidgets import QBoxLayout, QCalendarWidget, QCheckBox, QRadioButton, QSlider, QStyledItemDelegate
 #===============================================================================||
 	from PyQt5.Qsci import QsciScintillaBase
 #===============================================================================||

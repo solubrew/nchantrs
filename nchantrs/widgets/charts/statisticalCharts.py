@@ -17,6 +17,7 @@ from os.path import abspath, dirname, join
 #===============================================================================||
 from condor import condor, thing#												||
 from nchantrs.libraries import pyqt
+from nchantrs.widgets.charts import baseCharts
 #===============================================================================||
 here = join(dirname(__file__),'')#												||
 there = abspath(join('../../..'))#												||set path at pheonix level
@@ -24,7 +25,7 @@ log = True
 #===============================================================================||
 pxcfg = join(abspath(here), '_data_/statisticalCharts.yaml')
 
-class NchantdParetoChart(NchantdChart):
+class NchantdParetoChart(baseCharts.NchantdChart):
 	''' '''
 
 	def __init__(self, parent=None, cfg={}):
@@ -37,7 +38,7 @@ class NchantdParetoChart(NchantdChart):
 		super(NchantdParetoChart, self).__init__(parent)
 
 
-class NchantdCountChart(NchantdChart):
+class NchantdCountChart(baseCharts.NchantdChart):
 	''' '''
 
 	def __init__(self, parent=None, cfg={}):
@@ -50,7 +51,7 @@ class NchantdCountChart(NchantdChart):
 		super(NchantdCountChart, self).__init__(parent)
 
 
-class NchantdPercentageChart(NchantdChart):
+class NchantdPercentageChart(baseCharts.NchantdChart):
 	''' '''
 
 	def __init__(self, parent=None, cfg={}):

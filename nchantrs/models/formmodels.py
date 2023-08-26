@@ -1,17 +1,15 @@
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-'''
----
-<(META)>:
-	DOCid: <^(UUID)^>
-	name:
-	description: >
-	expirary: <[expiration]>
-	version: <[version]>
-	path: <[LEXIvrs]>
-	outline: <[outline]>
-	authority: document|this
-	security: sec|lvl2
-	<(WT)>: -32
+'''  #																			||
+---  #																			||
+<(META)>:  #																	||
+	DOCid: <^(UUID)^>  #														||
+	name:  #																	||
+	description: >  #															||
+	expirary: <[expiration]>  #													||
+	version: <[version]>  #														||
+	authority: document|this  #													||
+	security: sec|lvl2  #														||
+	<(WT)>: -32  #																||
 '''
 # -*- coding: utf-8 -*-
 #================================Core Modules===================================||
@@ -38,8 +36,8 @@ log = True
 pxcfg = f'{here}/_data_/models.yaml'
 
 class NchantdDynamicRecordEntryFormModel():
-	''' '''
-	def __init__(self):
+	'''A model that consolidates the models of the entry fields '''
+	def __init__(self, parent=None, cfg={}):
 		''' '''
 		self.parent = parent
 		self.config = condor.instruct(pxcfg)
@@ -47,6 +45,43 @@ class NchantdDynamicRecordEntryFormModel():
 		if parent:
 			self.config.override(parent.config)
 		super(NchantdDynamicRecordEntryFormModel, self).__init__(parent)
+
+	def initModel(self):
+		''' '''
+		for self.model.fieldWDGTs.keys():
+			self.model.fieldWDGTs[]
+		return self
+
+	def createRecord(self, rid, data):
+		'''Store an individual record of one or many fields '''
+		self.parent.model.insertRecord()
+		return self
+
+	def editRecord(self, rid, data):
+		''' '''
+		self.parent.model.updateRecord()
+		return self
+
+	def entryFieldModels(self):
+		'''Combine and connect to the dynamic entry fields and controls in
+			the form '''
+		return self
+
+	def getRecord(self, rid):
+		''' '''
+
+	def removeRecord(self, rid):
+		''' '''
+
+	def nextRecord(self, id):
+		''' '''
+		return self
+
+	def prevRecord(self, id):
+		''' '''
+
+		return self
+
 
 
 class NchantdAPIEntryFormModel():

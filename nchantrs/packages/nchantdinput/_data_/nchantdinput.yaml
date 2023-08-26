@@ -1,0 +1,140 @@
+---
+'<(META)>':
+  'docid': ''
+  'name': 'Nchantd Input Main YAML Configuration Document'
+  'description': >
+  'expirary': '<[expiration]>'
+  'version': '<[version]>'
+  'authority': 'document|this'
+  'security': 'sec|lvl2'
+  '<(WT)>': -32
+theme: 'original'
+menubar:
+  0:
+    'admin':
+      '0': 'preferences'
+      '2': 'exit'
+  1:
+    'help':
+      '0': 'about'
+  '2':
+    'lookup':
+      0: 'address'
+'sequence':
+  '0':
+    'method': 'setup'
+    'params':
+    'active': 1
+  '1':
+    'method': 'showSplashScreen'
+    'params':
+    'active': 0
+'gui':
+  dialogs:
+    'NchantdInput':
+      'title': 'Nchantd Input'
+      description: >
+        A single pane dialog box with a simple form to enter a wallet address
+        to analyze
+        have the ability to add and drop addresses
+      'size':
+        'left': 50
+        'top': 50
+        'width': 400
+        'height': 300
+      import: 'addressentry_1pane'
+      theme: 'original'
+      toolbars: #
+      layout:
+        'style': '1Pane'
+        'center':
+          'name': 'Entry Widget'
+          'widget': 'nchantrs.widgets.forms.NchantdDynamicRecordEntryForm'
+          #This is defining the primary sink and source for the application
+          '<(SOURCE)>':
+            'view':
+              'vw_accounts':
+                'columns': ['name', 'address', 'description', 'chain']
+                'params':
+                  'filters':
+          '<(SINK)>':
+            'table':
+              '':
+                fields:
+                  'Name': 'name'
+                  'Description': 'description'
+                  'Address': 'address'
+                  'Chain': 'chain'
+          params:  #this is outlining the fields for the GUI
+            'outline':
+            fields:
+              'name':
+                'label': 'Task:'
+                'default':
+                'size':
+                  'h': 1
+                  'w': 50
+                <(SOURCE)>:
+              'description':
+                'label': 'Description:'
+                'default':
+                'size':
+                  'h': 10
+                  'w': 50
+                <(SOURCE)>:
+              'concern':
+                'label': 'Concern:'
+                'default':
+                'size':
+                  'h': 1
+                  'w': 50
+                <(SOURCE)>:
+              'concern':
+                'label': 'Due:'
+                'default':
+                'size':
+                  'h': 1
+                  'w': 50
+                <(SOURCE)>:
+                  'view':
+                    'vw_chains':
+                      'columns': ['name']
+                      'params':
+                        'filters':
+            buttons:
+              delete:
+              new:
+              submit:
+              next:
+              prev:
+              jump:
+          data:
+'dstruct':
+  'config':
+    'style': 'single'
+    'chunking': 'custom'
+  store:
+    'db':
+      path: &path '{0}/data/db/{1}.db'
+      name: 'nchantdinputs'
+      config:
+        #here is definition of the tables in the db
+        table:
+          todo:
+            description: >
+              table of accounts to monitor using the given ethereum address or
+              .eth name
+            sink: #what about placing an id here of some kind
+            columns: ['TASK', 'DESCRIPTION', 'CONCERN', 'DUE_DT']
+            'records':
+        'view':
+          'VW_TODO':
+            description:
+            cmd: >
+              CREATE VIEW VW_TODO AS
+                SELECT
+                  t.TODO, t.DESCRIPTION, t.CONCERN, t.DUE_DT
+                FROM TODO t
+        'index':
+    wdir: '{path}/tskNchantrs/1_DELTA/nchantrs/nchantrs/packages/nchantdinput/data'
+args:

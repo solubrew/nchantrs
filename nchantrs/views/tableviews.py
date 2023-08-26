@@ -26,8 +26,37 @@ there = abspath(join('../../..'))#												||set path at pheonix level
 version = '0.0.0.0.0.0'#														||
 #===============================================================================||
 pxcfg = f'{here}/_data_/tableviews.yaml'
-class NchantdTableView(pyqt.QListView):
-	def __init__(self, parent=None):
+class NchantdListView(pyqt.QListView):
+	def __init__(self, parent=None, cfg={}):
+		''' '''
+		self.parent = parent
+		if parent:
+			cfg = self.parent.config
+		self.config = condor.instruct(pxcfg).select('NchantdListView')
+		self.config.override(cfg)
+		super(NchantdListView, self).__init__()
+
+	def initView(self):
+		''' '''
+		self.setModel(self.parent.model)
+		self.setFixedWidth(1000)
+		self.setRowCount(30)
+		coln = 25
+		self.setColumnCount(coln)
+		headers = [calcERN(x) for x in range(1,coln+1)]
+		print('Headers', headers)
+		self.setHorizontalHeaderLabels(headers)
+		x = 0
+		for row in data:
+			y = 0
+			for col in row:
+				self.setItem(x,y, pyqt.QTableWidgetItem(col))
+				y += 1
+			x += 1
+		return widget
+
+class NchantdTableView(pyqt.QTableView):
+	def __init__(self, parent=None, cfg={}):
 		''' '''
 		self.parent = parent
 		if parent:
@@ -35,6 +64,7 @@ class NchantdTableView(pyqt.QListView):
 		self.config = condor.instruct(pxcfg).select('NchantdTableView')
 		self.config.override(cfg)
 		super(NchantdTableView, self).__init__()
+
 	def initView(self):
 		''' '''
 		self.setModel(self.parent.model)

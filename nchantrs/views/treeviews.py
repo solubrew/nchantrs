@@ -154,22 +154,27 @@ class NchantdTreeView(pyqt.QTreeView):
 		event.on_clickleft_press(fx)
 
 		return
+
 	def onNodeDeselection(self, fx, mod=None):
 		'''On deslection of tree node save any changes to node options'''
 		event.on_clickleft_release(fx)
 		return
+
 	def onEnter(self, fx, mod=None):
 		'''Need to build if a node was selected an enter create a new sibling
 			node. shift-enter creates a new child node, ctrl-enter creates
 			a new tab in the node'''
 		event.on_enter_kp(fx, mod)
 		return
+
 	def onDelete(self, fx, mod=None):
 		'''Launch Dialog to confirm deletion of node, which marks as deleted in database
 			and is not removed until a database cleanup is run'''
 		#expand this to allow for multiple connections to content and only delete
 		#connections until no connections are left then remove content...this requires
 		#the knowledge of parents by their children
+
+
 class NchantdTimeTreeView(NchantdTreeView):
 	''' '''
 	def __init__(self, parent):
@@ -181,6 +186,8 @@ class NchantdTimeTreeView(NchantdTreeView):
 			cfg = parent.config
 		self.config = condor.instruct(pxcfg).override(cfg)
 		super(NchantdTimeTreeView, self).__init__(parent)
+
+
 class NchantdCustomTreeview(NchantdTreeView):
 	''' '''
 	def __init__(self, parent):
@@ -191,6 +198,18 @@ class NchantdCustomTreeview(NchantdTreeView):
 			cfg = parent.config
 		self.config = condor.instruct(pxcfg).override(cfg)
 		super(NchantdCustomTreeView, self).__init__(parent)
+
+class NchantdFileSystemView(NchantdTreeView):
+	''' '''
+	def __init__(self, parent):
+		''' '''
+		pxcfg = f'{here}_data_/treeviews.yaml'
+		self.parent = parent
+		if parent:
+			cfg = parent.config
+		self.config = condor.instruct(pxcfg).override(cfg)
+		super(NchantdFileSystemView, self).__init__(parent)
+
 #===========================Code Source Examples================================||
 '''
 '''

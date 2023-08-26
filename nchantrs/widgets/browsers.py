@@ -44,6 +44,7 @@ class NchantdJupyterBrowser():
 	def initWidget(self):
 		''' '''
 		return self
+
 class NchantdRSSBrowser():
 	def __init__(self, parent=None, cfg={}, url="http://www.google.com"):
 		''' '''
@@ -57,6 +58,7 @@ class NchantdRSSBrowser():
 	def initWidget(self):
 		''' '''
 		return self
+
 class NchantdWebBrowser(pyqt.QWebEngineView):
 	''' '''
 	def __init__(self, parent=None, cfg={}, url="http://www.google.com"):
@@ -76,6 +78,7 @@ class NchantdWebBrowser(pyqt.QWebEngineView):
 	def initWidget(self):
 		''' '''
 		return self
+
 class NchantdWebSourceBrowser():
 	def __init__(self, parent=None, cfg={}, url="http://www.google.com"):
 		''' '''
