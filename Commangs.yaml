@@ -1,9 +1,0 @@
----
-Nchantrs Python Commands: >
-  <{CLI:=>python main.py <@{ARGs}@>}>
-
-Application Setup: >
-  <{CLI:=>python main.py setup}>
-
-Application Run: >
-  <{CLI:=>python main.py}>

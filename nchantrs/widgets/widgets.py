@@ -22,7 +22,7 @@ from condor import condor
 from condor.thing import thingify
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.trees import NchantdTree
-from nchantrs.widgets.charts import charts
+from nchantrs.widgets import charts
 #===============================================================================||
 here = join(dirname(__file__),'')#												||
 there = abspath(join('../../..'))#												||

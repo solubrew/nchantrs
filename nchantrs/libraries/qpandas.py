@@ -36,4 +36,4 @@ from pyqt5pandas.views.DataTableView import DataTableWidget
 from pyqt5pandas.views.CustomDelegates import DtypeComboDelegate
 from pyqt5pandas.models.mime import PandasCellMimeType, PandasCellPayload
 #from util import getCsvData, getRandomData
-import pandas_profiling, pandasgui, sweetviz
+#import pandas_profiling, pandasgui, sweetviz
