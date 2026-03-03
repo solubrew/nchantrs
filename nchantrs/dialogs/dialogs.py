@@ -73,6 +73,11 @@ class NchantdCape(NchantdPanties):
         landing widgets"""
         if cfg is None:
             cfg = {}
+        
+        # DEBUG: Log the cfg at start of initView
+        logma.info(f"NchantdCape.initView START - cfg: {cfg}")
+        logma.info(f"NchantdCape.initView START - cfg.get('requires_auth'): {cfg.get('requires_auth', 'NOT_IN_CFG')}")
+        
         super().initView()
         self.view.initView()
 
@@ -85,6 +90,8 @@ class NchantdCape(NchantdPanties):
         # ==== ADD AUTHENTICATION CHECK HERE ====
         # Check if this application requires authentication
         requires_auth = cfg.get('requires_auth', True)  # Default to True
+        logma.info(f"NchantdCape.initView - requires_auth: {requires_auth}")
+        
         if requires_auth:
             logma.info("Authentication required - showing password dialog")
             if not self._show_password_dialog():
@@ -92,6 +99,8 @@ class NchantdCape(NchantdPanties):
                 self.quit()
                 return self
             logma.info("Authentication successful")
+        else:
+            logma.info("Authentication NOT required - skipping password dialog")
         # =======================================
 
         # Now add the widget since layout is initialized
