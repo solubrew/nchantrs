@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   fill="#000000"
+   width="800px"
+   height="800px"
+   viewBox="0 0 1920 1920"
+   version="1.1"
+   id="svg4"
+   sodipodi:docname="move-right-svgrepo-com.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs8" />
+  <sodipodi:namedview
+     id="namedview6"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.0475"
+     inkscape:cx="377.08831"
+     inkscape:cy="400.47733"
+     inkscape:window-width="1920"
+     inkscape:window-height="990"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4" />
+  <path
+     d="M1684.903 255v1410.58H1920V255h-235.097Zm-778.84 34.406L739.732 455.62l387.087 387.087H0v235.096h1126.819L739.732 1464.89l166.33 166.214 670.85-670.849-670.85-670.849Z"
+     fill-rule="evenodd"
+     id="path2" />
+  <path
+     style="fill:#ffffff;stroke-width:0.954654"
+     d="m 342.7193,644.38995 -33.88159,-33.89168 80.42601,-80.43024 c 44.23431,-44.23663 80.42602,-80.75149 80.42602,-81.14413 0,-0.39263 -105.68019,-0.71388 -234.84487,-0.71388 H 0 V 400 351.78998 h 234.84487 c 129.16468,0 234.84487,-0.32315 234.84487,-0.71812 0,-0.39497 -36.0853,-36.8015 -80.18955,-80.90341 l -80.18954,-80.18528 34.1244,-34.13427 34.12439,-34.13427 139.14391,139.14146 139.14391,139.14147 -139.13958,139.14203 C 440.1809,615.6677 377.35046,678.28162 377.08449,678.28162 c -0.26598,0 -15.73031,-15.25125 -34.36519,-33.89167 z"
+     id="path183"
+     transform="scale(2.4)" />
+  <path
+     style="fill:#ffffff;stroke-width:0.954654"
+     d="M 702.6253,400 V 106.44391 H 751.31265 800 V 400 693.55609 H 751.31265 702.6253 Z"
+     id="path185"
+     transform="scale(2.4)" />
+</svg>

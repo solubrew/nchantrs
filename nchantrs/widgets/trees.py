@@ -1,0 +1,453 @@
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+"""  #																			||
+---  #																			||
+<(META)>:  #																	||
+	docid:   #																	||
+	name:	#																	||
+	description: >  #															||
+		Develop Qt5TreeModel module and leverage it instead of adhoc
+		building it here  #			||
+	expirary: <[expiration]>  #													||
+	version: <[version]>  #														||
+	path: <[LEXIvrs]>  #														||
+	outline: <[outline]>  #														||
+	authority: document|this  #													||
+	security: sec|lvl2  #														||
+	<(WT)>: -32  #																||
+"""  # ||
+# -*- coding: utf-8 -*-#														||
+# ===============================Core Modules====================================||
+from os.path import abspath, dirname, join, expanduser
+from pathlib import Path
+
+# ===============================================================================||
+from condor import condor
+from nchantrs.libraries import pyqt
+from nchantrs.views.treeviews import NchantdTreeView  # , NchantdTimeTreeView
+from nchantrs.models.treemodels import NchantdApplicationTreeModel, NchantdTreeModel, NchantdTimeTreeModel
+from nchantrs.widgets.widgets import NchantdWidgetMixin
+from ogma.logma import Logma
+
+# ===============================================================================||
+here = join(dirname(__file__), "")  # ||
+logma = Logma(__name__)
+# logma.off()
+
+# ===============================================================================||
+pxcfg = join(here, "_data_", "trees.yaml")
+
+
+class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
+    """
+    :class: NchantdTree(pyqt.QTreeWidget)
+
+    The NchantdTree class is a subclass of pyqt.QTreeWidget. It is used to create a simple tree view widget.
+
+    Parameters:
+        - parent (QWidget): The parent widget for the NchantdTree. Default is None.
+        - cfg (dict): The configuration settings for the NchantdTree. Default is an empty dictionary.
+        - root: The root item for the tree. Default is None.
+
+    Attributes:
+        - parent: The parent widget of the NchantdTree.
+        - config: The configuration settings for the NchantdTree.
+        - new_instance: The function to create a new instance of the parent widget.
+        - model: The NchantdTreeModel object associated with the NchantdTree.
+        - view: The NchantdTreeView object associated with the NchantdTree.
+        - nodes: The list of tree nodes in the NchantdTree.
+
+    Methods:
+        - __init__(self, parent=None, cfg={}, root=None): Initializes the NchantdTree object.
+        - initModel(self): Initializes the model for the NchantdTree.
+        - initView(self): Initializes the view for the NchantdTree.
+        - initWidget(self, pos=None): Initializes the NchantdTree widget.
+
+    Example Usage:
+        tree = NchantdTree()
+        tree.initWidget()
+    """
+
+    def __init__(self, parent=None, cfg={}, root=None):
+        """ """
+        self.parent = parent
+        self.config = condor.Instruct(pxcfg).override(cfg)
+        if parent:
+            self.config.override(self.parent.config)
+        self.init_variables()
+        super().__init__()
+        # self.new_instance = self.app.model.new_instance
+        logma.info(f"Parent {self.parent}")
+        self.model = NchantdTreeModel(self, root)
+        self.view = NchantdTreeView(self, self.config)
+        self.setDragEnabled(True)  # Enable dragging
+        self.setAcceptDrops(True)  # Allow drops
+        self.setDropIndicatorShown(True)  # Show where drops will occur
+        self.nodes = []
+        self.expansion_state = {}
+
+    def initModel(self):
+        """ """
+        super().initModel()
+        self.model.initModel()
+        return self
+
+    def initView(self):
+        """ """
+        self.view.initView()
+        # Adjust header size policy to allow horizontal scrolling
+        header = self.header()
+        header.setSectionResizeMode(pyqt.QHeaderView.ResizeToContents)  # Auto resize to fit content
+        header.setStretchLastSection(False)  # Prevent stretching the last column
+        # Enable horizontal scroll
+        # self.setHorizontalScrollBarPolicy(pyqt.Qt.ScrollBarAsNeeded)
+        self.setAutoScroll(False)
+        return self
+
+    def initWidget(self, pos=None, initialize_database_objects=True):
+        """ """
+        self.initModel()
+        self.initView()
+        return self
+
+    def closeEvent(self, event):
+        """Handle window close event to save the tree state."""
+        self.save_tree_expansion_state()
+        super().closeEvent(event)
+
+    def dragMoveEvent(self, event):
+        """Allow drag move inside the tree."""
+        event.accept()
+
+    def dropEvent(self, event):
+        """Handle the drop event to reparent dragged nodes."""
+        new_parent_item = self.itemAt(event.pos())
+        logma.info(f"Source Item {new_parent_item}")
+        item = self.currentItem()
+        logma.info(f"Current Item {item}")
+        # need to rewrite the logic here so that the dropped item becomes the child
+        # need to alter the dropped item parent and children
+        if item and new_parent_item:  # TODO: Error
+            if new_parent_item.parent:
+                item.parent.removeChild(item)
+                new_parent_item.addChild(item)
+                # self.expandAll()
+                self.model.swap_parent(item, new_parent_item)
+        else:
+            super().dropEvent(event)  # Fallback default behavior
+
+    def goto_node(self, node):
+        """"""
+        self.view.set_current_node(node)
+        return self
+
+    def refresh(self):
+        """"""
+        h_scroll = self.horizontalScrollBar().value()
+        #self.cached_splitter_size = self.app.view.splitter.sizes()
+        self.view.init_tree()
+        self.horizontalScrollBar().setValue(h_scroll)
+        #self.app.view.splitter.setSizes(self.cached_splitter_size)
+        return self
+
+    def reset_expansion_state(self):
+        """Reset the saved expansion state to the tree."""
+        if not self.expansion_state:
+            return
+        self._reset_tree_state(self.invisibleRootItem())
+        return self
+
+    def save_expansion_state(self):
+        """Save the expansion state of the tree."""
+        self.expansion_state = {}
+        self._save_tree_state(self.invisibleRootItem())
+        return self
+
+    def scrollTo(self, index, hint=None):
+        # Store current horizontal scroll position
+        h_scroll = self.horizontalScrollBar().value()
+        # Call parent scrollTo (this will handle vertical scrolling)
+        super().scrollTo(index, hint)
+        # Restore horizontal scroll position
+        self.horizontalScrollBar().setValue(h_scroll)
+        return self
+
+    def sort_tree(self, column=0):
+        """Sort the tree items based on the specified column."""
+        self.model.sort(column)
+
+    def sort_children(self, pid, column=0):
+        """"""
+
+    def _reset_tree_state(self, item):
+        """Recursive helper to reset state of each item."""
+        for i in range(item.childCount()):
+            child = item.child(i)
+            if id(child) in self.expansion_state:
+                child.setExpanded(self.expansion_state[id(child)])
+            self._reset_tree_state(child)
+        return self
+
+    def _save_tree_state(self, item):
+        """Recursive helper to save state of each item."""
+        for i in range(item.childCount()):
+            child = item.child(i)
+            self.expansion_state[id(child)] = child.isExpanded()
+            self._save_tree_state(child)
+        return self
+
+
+class NchantdGroupTree(NchantdTree):
+    """"""
+
+    def __init__(self, parent=None, cfg=None):
+        """ """
+        self.parent = parent
+        self.config = condor.Instruct(pxcfg).select("Nchantd")
+        if self.parent:
+            self.config.override(parent.config)
+        super().__init__(self)
+        self.config.override(cfg)
+
+    def initModel(self):
+        """"""
+        super().initModel()
+        return self
+
+    def initView(self):
+        """"""
+        super().initView()
+        return self
+
+    def initWidget(self):
+        """"""
+        self.initModel()
+        self.initView()
+        return self
+
+
+class NchantdApplicationTree(NchantdTree):
+    """"""
+
+    def __init__(self, parent=None, cfg=None):
+        """ """
+        super().__init__(parent, cfg)
+        self.parent = parent
+        self.config.override(condor.Instruct(pxcfg).select("NchantdApplicationTree"))
+        if self.parent:
+            self.config.override(parent.config)
+        self.config.override(cfg)
+        self.model = NchantdApplicationTreeModel(self, None, self.config)
+        self.note = None
+
+    def initModel(self):
+        """"""
+        super().initModel()
+
+        return self
+
+    def initView(self):
+        """"""
+        super().initView()
+        return self
+
+    def initWidget(self, pos=None, initialize_database_objects=True):
+        """"""
+        self.initModel()
+        self.initView()
+        return self
+
+    def on_node_changed(self):
+        """"""
+        # if self.model.current_tab_has_changed is True:
+        #     self.model.save_tab()  # store the current tab data to the database
+        return self
+
+    def __getstate__(self):
+        """"""
+        state = self.__dict__.copy()
+        # Remove the unpicklable entries.
+        if state.get("unpickable_attribute", False):
+            del state["unpicklable_attribute"]
+        return state
+
+    def __setstate__(self, state):
+        """"""
+
+
+class NchantdFileSystem(pyqt.QTreeWidget):
+    """"""
+
+    def __init__(self, parent=None, cfg=None):
+        """ """
+        super().__init__(parent)
+        self.parent = parent
+        self.config = condor.Instruct(pxcfg).select("NchantdFileSystem")
+        if self.parent:
+            self.config.override(parent.config)
+        self.config.override(cfg)
+        self.file_system_toolbar = None
+        self.root_path = None
+        self.root_dir = None
+        self.current_level_files = []
+        self.current_level_directories = []
+        self.current_level_path = None
+        self.setColumnCount(1)
+        self.setHeaderLabel("File System")
+        self.setSortingEnabled(True)
+
+    def initModel(self):
+        """"""
+        # super().initModel()
+        logma.info(f"Root Path: {self.config.dikt.get('root', None)}")
+        self.set_root(self.config.dikt.get("root", None))
+        # Add the root item
+        # self.add_root_item()
+        # self.context_menu = self.parent.context_menu
+        return self
+
+    def initView(self):
+        """"""
+        # super().initView()#causes some looping issues
+        # Initial population of the directory structure
+        self.itemExpanded.connect(self.on_item_expanded)  # Connect to the itemExpanded signal
+        self.itemPressed.connect(self.on_item_expanded)
+        return self
+
+    def initWidget(self):
+        """"""
+        self.initModel()
+        self.initView()
+        return self
+
+    def build_tree(self):
+        """
+        Build the entire tree structure from the root directory.
+        """
+        self.clear()  # Clear the tree before rebuilding
+
+        # Add the root folder to the tree
+        root_item = pyqt.QTreeWidgetItem(self, [str(self.root_dir)])
+        root_item.setExpanded(True)  # Expand the root node
+        self.add_top_level_items(self.root_dir, root_item)
+
+    def add_root_item(self):
+        """
+        Add the root directory node and lazily load its children.
+        """
+        self.clear()
+        logma.info(f"Root Dir: {self.root_dir}")
+        root_item = pyqt.QTreeWidgetItem(self, [str(self.root_dir)])
+        root_item.setData(0, pyqt.Qt.UserRole, self.root_dir)  # Store the path data
+        root_item.setChildIndicatorPolicy(pyqt.QTreeWidgetItem.ShowIndicator)  # Show "+" for expandable
+        self.addTopLevelItem(root_item)
+
+    def add_top_level_items(self, path, parent_item):
+        """
+        Recursively add items to the tree structure.
+        :param path: Current directory path.
+        :param parent_item: The parent tree widget item to which child items will be added.
+        """
+        try:
+            for item in sorted(path.iterdir(), key=lambda x: x.name):  # Iterate through files and directories
+                if item.is_dir():  # If the item is a directory, recursively add its children
+                    tree_item = pyqt.QTreeWidgetItem(parent_item, [item.name])
+                    self.add_top_level_items(item, tree_item)
+        except PermissionError:  # Handle directories the user does not have permission to access
+            pass
+
+    def get_children(self, tree_item, location="local"):
+        """"""
+        if location == "local":
+            directory = tree_item.data(0, pyqt.Qt.UserRole)
+            for child in sorted(directory.iterdir()):
+                yield child
+        elif location == "google_drive":
+            self.get_children_google_drive()
+        elif location == "dropbox":
+            self.get_children_dropbox()
+        else:
+            pass
+
+    def get_current_level_files(self):
+        """"""
+        logma.info(f"Current Level Files: {self.current_level_files}")
+        return self.current_level_files
+
+    def get_current_level_directories(self):
+        """"""
+        logma.info(f"Current Level Files: {self.current_level_directories}")
+        return self.current_level_directories
+
+    def lazy_load_children(self, tree_item):
+        """
+        Load and append the children of the given directory item.
+        :param tree_item: The QTreeWidgetItem representing a directory.
+        """
+        logma.inspect_caller()
+        self.current_level_files = []
+        self.current_level_directories = []
+        directory = tree_item.data(0, pyqt.Qt.UserRole)  # Get the directory path stored in the item's data
+        # TODO implement read depth to allow for flattening files
+        logma.info(f"Directory {directory}")
+        if directory is None:
+            return
+        if not directory.is_dir():  # Ensure it's a directory
+            self.current_level_files.append(tree_item)
+            self.current_level_path = directory.parent
+            return
+        self.current_level_path = directory
+        # Clear any existing placeholder children
+        tree_item.takeChildren()
+        logma.info(f"Current Level Files: {self.current_level_files}")
+        try:
+            for child in sorted(directory.iterdir(), key=lambda x: x.name):
+                if child.is_dir():
+                    child_item = pyqt.QTreeWidgetItem(tree_item, [child.name])
+                    child_item.setData(0, pyqt.Qt.UserRole, child)  # Store path data in the item
+                    # For directories, add a placeholder child to make them expandable
+                    child_item.setChildIndicatorPolicy(pyqt.QTreeWidgetItem.ShowIndicator)
+                    self.current_level_directories.append(child)
+                else:
+                    # logma.info(f"Item {tree_item}")
+                    self.current_level_files.append(child)
+        except PermissionError:
+            logma.info("Skip directories we don't have permission to access")
+        logma.info(f"Current Level Files: {self.current_level_files}")
+        logma.info(f"Current Level Path: {self.current_level_path}")
+        return self
+
+    def on_item_expanded(self, item):
+        """
+        Handle the expansion of an item to lazily load its children.
+        :param item: The QTreeWidgetItem that was expanded.
+        """
+        # if item.childCount() == 0:  # Only load children if none are already loaded
+        self.lazy_load_children(item)
+        logma.info(f"Current Level Files: {self.current_level_files}")
+        # else:
+        #    pass
+        # need to fill out file list
+        return self
+
+    def set_root(self, path=None):
+        """"""
+        self.root_path = path
+        if self.root_path is None:
+            self.root_path = expanduser("~")
+        self.current_level_path = self.root_path
+        self.root_dir = Path(self.root_path)
+        # self.build_tree()
+        self.add_root_item()
+        return self
+
+    def sync_filesystem(self):
+        """
+        Synchronize the tree with the current state of the filesystem.
+        """
+        self.build_tree()
+
+
+# ===========================Code Source Examples================================||
+"""
+"""
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

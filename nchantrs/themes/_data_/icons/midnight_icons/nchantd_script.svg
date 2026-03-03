@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 15.0.2, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+
+<svg
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   width="48px"
+   height="48px"
+   viewBox="0 0 48 48"
+   enable-background="new 0 0 48 48"
+   xml:space="preserve"
+   sodipodi:docname="nchantd_script.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs21" /><sodipodi:namedview
+   id="namedview19"
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1.0"
+   inkscape:pageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   showgrid="false"
+   inkscape:zoom="16.8125"
+   inkscape:cx="24"
+   inkscape:cy="24"
+   inkscape:window-width="1920"
+   inkscape:window-height="992"
+   inkscape:window-x="1920"
+   inkscape:window-y="32"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="g16" />
+<g
+   id="g16">
+	<polygon
+   fill="#FFFFFF"
+   points="12,7 28,7 36,14 36,41 12,41  "
+   id="polygon2" />
+	<rect
+   x="11"
+   y="6"
+   fill="#333333"
+   width="2"
+   height="36"
+   id="rect4" />
+	<rect
+   x="11"
+   y="6"
+   fill="#333333"
+   width="17"
+   height="2"
+   id="rect6" />
+	<rect
+   x="35"
+   y="14"
+   fill="#333333"
+   width="2"
+   height="28"
+   id="rect8"
+   style="fill:#000000" />
+	<rect
+   x="11"
+   y="40"
+   fill="#333333"
+   width="26"
+   height="2"
+   id="rect10" />
+	<polygon
+   fill="#333333"
+   points="28,6 37,14 37,16 35,15 27,8  "
+   id="polygon12" />
+	<path
+   fill="#333333"
+   d="M25,8c2,0,3,4,2,8c0,0,8-3.123,8,1c0,1,1-2,1-2l-8-8C28,7,24.441,8,25,8z"
+   id="path14" />
+<path
+   style="fill:#000000;stroke-width:0.0594796"
+   d="M 11.033457,24 V 6.0074349 l 8.460967,7.26e-5 8.460966,7.26e-5 4.490707,3.991461 4.490706,3.9914609 0.01631,0.976332 0.01631,0.976332 -0.544282,-0.273355 c -0.299355,-0.150345 -0.562632,-0.251312 -0.58506,-0.224371 -0.02243,0.02694 -0.143517,0.316642 -0.269087,0.643779 -0.420237,1.094813 -0.567285,1.271787 -0.567285,0.682736 0,-0.160411 -0.05374,-0.435304 -0.119434,-0.610874 -0.232704,-0.621957 -0.695121,-0.988495 -1.516253,-1.201867 -0.475491,-0.123557 -1.778005,-0.125634 -2.584404,-0.0041 -0.963555,0.145195 -2.860992,0.642845 -3.643465,0.95559 -0.08966,0.03584 -0.0948,0.01744 -0.04417,-0.158111 0.162789,-0.564394 0.293714,-1.8487 0.294023,-2.884208 6.19e-4,-2.069024 -0.418173,-3.5422382 -1.240458,-4.3636638 -0.576169,-0.5755654 -0.03462,-0.534439 -7.037473,-0.534439 H 12.996283 V 24 40.02974 h 11.98513 11.98513 v 0.981412 0.981413 H 24 11.033457 Z"
+   id="path116" /></g>
+</svg>

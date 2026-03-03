@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   width="800px"
+   height="800px"
+   viewBox="0 0 48 48"
+   version="1.1"
+   id="svg11"
+   sodipodi:docname="data-source-svgrepo-com.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs15" />
+  <sodipodi:namedview
+     id="namedview13"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.05625"
+     inkscape:cx="150.05917"
+     inkscape:cy="401.89349"
+     inkscape:window-width="1920"
+     inkscape:window-height="990"
+     inkscape:window-x="1920"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg11" />
+  <title
+     id="title2">data-source</title>
+  <g
+     id="Layer_2"
+     data-name="Layer 2">
+    <g
+       id="invisible_box"
+       data-name="invisible box">
+      <rect
+         width="48"
+         height="48"
+         fill="none"
+         id="rect4" />
+    </g>
+    <g
+       id="icons_Q2"
+       data-name="icons Q2">
+      <path
+         d="M46,9c0-6.8-19.7-7-22-7S2,2.2,2,9V39c0,6.8,19.7,7,22,7s22-.2,22-7V9.3h0Zm-4,9.8C41,20,34.4,22,24,22S7,20,6,18.8V13.4C11.9,15.9,22.4,16,24,16s12.1-.1,18-2.6Zm0,10C41,30,34.4,32,24,32S7,30,6,28.8V23.4C11.9,25.9,22.4,26,24,26s12.1-.1,18-2.6ZM24,6c9.8,0,16.3,1.8,17.8,3-1.5,1.2-8,3-17.8,3S7.7,10.2,6.2,9C7.7,7.8,14.2,6,24,6Zm0,36C13.6,42,7,40,6,38.8V33.4C11.9,35.9,22.4,36,24,36s12.1-.1,18-2.6v5.4C41,40,34.4,42,24,42Z"
+         id="path7" />
+    </g>
+  </g>
+  <path
+     style="fill:#ffffff;stroke:#000000;stroke-width:14.2012"
+     d="m 351.71598,198.72039 c -3.12426,-0.17998 -13.77515,-0.77752 -23.66864,-1.32788 -90.34481,-5.02573 -177.14193,-21.95923 -214.73361,-41.89301 -4.26338,-2.26074 -7.7516,-4.72919 -7.7516,-5.48544 0,-2.22589 19.70545,-11.5212 35.59261,-16.78949 44.02134,-14.59777 102.64502,-24.60323 176.95177,-30.20083 28.20099,-2.12441 129.54081,-2.44711 156.68639,-0.49895 79.53973,5.70835 138.56236,15.54806 184.05236,30.68353 16.11369,5.36136 35.59261,14.5834 35.59261,16.85085 0,1.73401 -16.03567,9.95492 -27.68464,14.19292 -43.96874,15.99622 -109.8692,27.3721 -192.4337,33.21832 -13.80207,0.97729 -110.26469,1.96076 -122.60355,1.24998 z"
+     id="path307"
+     transform="scale(0.06)" />
+</svg>

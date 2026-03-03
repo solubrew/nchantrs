@@ -1,0 +1,30 @@
+---
+<(META)>:
+  DOCid:
+  Name:
+  description: >
+  expirary: <[expiration]>
+  Version: <[Version]>
+  path: <[LEXIvrs]>panda/LEXI/
+  outline: <[outline]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+NchantdAPIEntryForm:
+  'title': 'Nchantd API Entry Form'
+  description: >
+    Leverage a prebuilt dialog to create form for entering, editing and
+    removing API Keys for various services
+  fields:
+    'Name':
+      'widget': 'NchantedEntryEditor'
+      'size':
+      'store': 'apis.name'
+    'Key':
+      'widget':
+      'size':
+      'store': 'apis.key'
+    'URL':
+      'widget':
+      'size':
+      'store': 'apis.url'

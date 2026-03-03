@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   width="800px"
+   height="800px"
+   viewBox="0 0 48 48"
+   fill="none"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="format-brush-svgrepo-com.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs12">
+    <rect
+       x="476.98482"
+       y="582.35714"
+       width="227.25017"
+       height="167.45186"
+       id="rect370" />
+  </defs>
+  <sodipodi:namedview
+     id="namedview10"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.0475"
+     inkscape:cx="354.17661"
+     inkscape:cy="401.43198"
+     inkscape:window-width="1920"
+     inkscape:window-height="990"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg8" />
+  <path
+     d="M34 5H6V20H34V5Z"
+     fill="#2F88FF"
+     stroke="#000000"
+     stroke-width="4"
+     stroke-linejoin="round"
+     id="path4"
+     style="fill:#ffffff" />
+  <path
+     d="M34.0251 12H43V28.1014L19 31.2004V43"
+     stroke="#000000"
+     stroke-width="4"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path6" />
+  <rect
+     style="fill:#000000;stroke-width:0.0603749"
+     id="rect426"
+     width="3.9303331"
+     height="10.092634"
+     x="34.306995"
+     y="35.293728" />
+  <rect
+     style="fill:#000000;stroke-width:0.06"
+     id="rect480"
+     width="10.518766"
+     height="4.0770445"
+     x="30.817039"
+     y="38.391243" />
+  <path
+     style="fill:#ffffff;stroke-width:0.954654"
+     d="m 571.83771,731.26492 v -24.34368 h -28.63962 -28.63962 v -33.41289 -33.41288 h 28.63962 28.63962 v -25.77566 -25.77566 h 32.45823 32.45824 v 25.77566 25.77566 h 25.77565 25.77566 v 33.41288 33.41289 h -25.77566 -25.77565 v 24.34368 24.34367 h -32.45824 -32.45823 z"
+     id="path308"
+     transform="scale(0.06)" />
+</svg>

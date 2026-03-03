@@ -1,0 +1,125 @@
+---
+<(META)>:
+  docid:
+  Name:
+  description: >
+  expirary: <[expiration]>
+  Version: <[Version]>
+  path: <[LEXIvrs]>panda/LEXI/
+  outline: <[outline]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+NchantdCloakView:
+  max_recent_files: 10
+  menubar:
+    File:
+      New:
+        new_instance:
+        new_user:
+      Open:
+        open_instance:
+      Import Document:
+        import_document:
+        import_filesystem:
+        import_website:
+      Export Document:
+        export_script:
+        export_matrix:
+        export_slideshow:
+        export_image:
+        export_tree:
+      Name:
+        change_instance_name:
+      Save:
+        save_instance:
+        save_as:
+        save_copy:
+        save_without_history:
+      exit:
+    Edit:
+      undo:
+      redo:
+      copy:
+      cut:
+      Insert:
+        insert_node:
+        insert_tab:
+      Paste:
+        paste_whole:
+        paste_formats:
+        paste_image:
+        paste_text:
+        paste_numbers:
+      Remove:
+        remove_tab:
+        remove_node:
+    View:
+      Tree:
+        sort_tree_ascending:
+        sort_tree_descending:
+        sort_children_ascending:
+        sort_children_descending:
+      TabSet:
+    Documents:
+      Add Document:
+        add_script:
+        add_matrix:
+        add_pdf:
+        add_slideshow:
+        add_image:
+
+      Merge Document:
+        merge_script:
+        merge_matrix:
+        merge_pdf:
+        merge_slideshow:
+      Remove Document:
+    Tools:
+      Script Tools:
+      Matrix Tools:
+      PDF Tools:
+    Data Sources:
+      Local Sources:
+      Nchantd Sources:
+    Search:
+      search_tree:
+      search_node:
+      search_tab:
+      search_internet:
+      search_path:
+    Theme:
+      theme_switch:
+      theme_custom:
+    Extensions:
+      Packages:
+        add_nchantd_action_package:
+        add_nchantd_arena_package:
+        add_nchantd_bliss_package:
+        add_nchantd_concern_package:
+        add_nchantd_fund_package:
+        add_nchantd_intelligence_package:
+        add_nchantd_library_package:
+        add_nchantd_mirror_package:
+        add_nchantd_robotics_package:
+        add_nchantd_social_package:
+        add_nchantd_vision_package:
+      DataSources:
+      AddOns:
+    Help:
+      about:
+      contact:
+  toolbars:
+NchantdPantiesView:
+  'title':
+  'description': >
+  'position':
+    'left':
+    'top':
+  'width':
+  'height':
+  'source':
+    'vw_application'
+  'menubar':
+  'toolbars':
+  'theme': 'midnight_frost'

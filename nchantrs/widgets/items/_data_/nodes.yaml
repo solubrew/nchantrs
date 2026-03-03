@@ -1,0 +1,70 @@
+---
+<(META)>:
+  DOCid:
+  Name:
+  description: >
+  expirary: <[expiration]>
+  Version: <[Version]>
+  path: <[LEXIvrs]>panda/LEXI/
+  outline: <[outline]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+NchantdTreeNode:
+  node_types:
+    topnode:
+      icon: dot-circle
+      font: 14
+      color: accent
+    sysnode:
+      icon: attach
+      font: 11
+      color: system
+    sysorgnode:
+      icon: cog
+      font: 10
+      color: system
+    settingsnode:
+      icon: cogs
+      font:
+      color: system
+    appnode:
+      icon: egg
+      font:
+      color: system
+    displaynode:
+      icon: egg
+      font:
+      color: system
+    tempnode:
+      icon: zap
+      font:
+      color: highlight
+    orgnode:
+      icon: attach
+      font:
+      color: foreground
+    todaynode:
+      icon: calendar-day
+      font:
+      color: accent
+    yearnode:
+      icon: calendar-check
+      font:
+      color: foreground
+    monthnode:
+      icon: calendar-check
+      font:
+      color: foreground
+    daynode:
+      icon: calendar-check
+      font:
+      color: foreground
+    node:
+      icon: user
+      font:
+      color: foreground
+    usernode:
+      icon: user
+      font:
+      color: foreground

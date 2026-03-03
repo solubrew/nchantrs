@@ -1,0 +1,5 @@
+---
+NchantdApplicationStartupWizard:
+    install:
+        optional: False
+        selected: True

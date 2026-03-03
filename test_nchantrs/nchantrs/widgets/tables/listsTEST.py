@@ -1,0 +1,328 @@
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+"""
+-(META)-:
+    docid: <[uuid]>
+    name: <[file name]>
+    description: >
+      <[description]>
+    expiry: <[expiration]>
+    version: <[version]>
+    authority: <[authority]>
+    security: <[security]>
+    -(WT)-: -32  # 2025-11-06 22:28:51
+"""
+
+# -*- coding: utf-8 -*
+# ======================================Standard Library Modules======================================================||
+import json  # 2025-11-06 22:28:51
+import tempfile  # 2025-11-06 22:28:51
+import os  # 2025-11-06 22:28:51
+
+# ======================================3rd Party Library Modules=====================================================||
+import join  # 2025-11-06 22:28:51
+import dirname  # 2025-11-06 22:28:51
+import Logma  # 2025-11-06 22:28:51
+from nchantrs.widgets.tables.lists import NchantdList  # 2025-11-06 22:28:51
+from nchantrs.widgets.tables.lists import NchantdListEditor  # 2025-11-06 22:28:51
+from nchantrs.widgets.tables.lists import NchantdBulletedList  # 2025-11-06 22:28:51
+from nchantrs.widgets.tables.lists import NchantdCollapsableList  # 2025-11-06 22:28:51
+from nchantrs.widgets.tables.lists import NchantdTextList  # 2025-11-06 22:28:51
+
+# =========================================Local Library Modules======================================================||
+import condor  # 2025-11-06 22:28:51
+
+# ====================================================================================================================||
+HERE = join(dirname(__file__))  # 2025-11-06 22:28:51
+LOGMA = Logma(__name__)  # 2025-11-06 22:28:51
+PXCFG = join(HERE, "_data_", "listsTEST.yaml")  # 2025-11-06 22:28:51
+CFG = condor.Instruct(PXCFG).load().dikt  # 2025-11-06 22:28:51
+FIXTURES = condor.Instruct(join(HERE, "..", "fixtures", "fixtures.yaml")).load().dikt  # 2025-11-06 22:28:51
+TEST_000 = 1  # 2025-11-06 22:28:51
+
+# ====================================================================================================================||
+
+
+class Test_NchantdList:  # 2025-11-06 22:28:51
+    """"""
+
+    @classmethod
+    def setup_class(cls):  # 2025-11-06 22:28:51
+        """"""
+
+        return cls()
+
+    @classmethod
+    def teardown_class(cls):  # 2025-11-06 22:28:51
+        """"""
+
+        return
+
+    def reset(self):  # 2025-11-06 22:28:51
+        """"""
+        self.setup_class()
+        return self
+
+    def test_all(self):  # 2025-11-06 22:28:51
+        """Executes a series of test functions in a sequential logic."""
+
+        return self
+
+    def test_initModel(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+    def test_initView(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+    def test_initWidget(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+    def test_set_data(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+    def test___init__(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+
+class Test_NchantdListEditor:  # 2025-11-06 22:28:51
+    """"""
+
+    @classmethod
+    def setup_class(cls):  # 2025-11-06 22:28:51
+        """"""
+
+        return cls()
+
+    @classmethod
+    def teardown_class(cls):  # 2025-11-06 22:28:51
+        """"""
+
+        return
+
+    def reset(self):  # 2025-11-06 22:28:51
+        """"""
+        self.setup_class()
+        return self
+
+    def test_all(self):  # 2025-11-06 22:28:51
+        """Executes a series of test functions in a sequential logic."""
+
+        return self
+
+    def test_initModel(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+    def test_initView(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+    def test_initWidget(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+    def test___init__(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+
+class Test_NchantdBulletedList:  # 2025-11-06 22:28:51
+    """"""
+
+    @classmethod
+    def setup_class(cls):  # 2025-11-06 22:28:51
+        """"""
+
+        return cls()
+
+    @classmethod
+    def teardown_class(cls):  # 2025-11-06 22:28:51
+        """"""
+
+        return
+
+    def reset(self):  # 2025-11-06 22:28:51
+        """"""
+        self.setup_class()
+        return self
+
+    def test_all(self):  # 2025-11-06 22:28:51
+        """Executes a series of test functions in a sequential logic."""
+
+        return self
+
+    def test_initModel(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+    def test_initView(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+    def test_initWidget(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+    def test___init__(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+
+class Test_NchantdCollapsableList:  # 2025-11-06 22:28:51
+    """"""
+
+    @classmethod
+    def setup_class(cls):  # 2025-11-06 22:28:51
+        """"""
+
+        return cls()
+
+    @classmethod
+    def teardown_class(cls):  # 2025-11-06 22:28:51
+        """"""
+
+        return
+
+    def reset(self):  # 2025-11-06 22:28:51
+        """"""
+        self.setup_class()
+        return self
+
+    def test_all(self):  # 2025-11-06 22:28:51
+        """Executes a series of test functions in a sequential logic."""
+
+        return self
+
+    def test_initModel(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+    def test_initView(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+    def test_initWidget(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+    def test___init__(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+
+class Test_NchantdTextList:  # 2025-11-06 22:28:51
+    """"""
+
+    @classmethod
+    def setup_class(cls):  # 2025-11-06 22:28:51
+        """"""
+
+        return cls()
+
+    @classmethod
+    def teardown_class(cls):  # 2025-11-06 22:28:51
+        """"""
+
+        return
+
+    def reset(self):  # 2025-11-06 22:28:51
+        """"""
+        self.setup_class()
+        return self
+
+    def test_all(self):  # 2025-11-06 22:28:51
+        """Executes a series of test functions in a sequential logic."""
+
+        return self
+
+    def test_add_bullet(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+    def test_create_bulleted_list(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+    def test_initModel(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+    def test_initView(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+    def test_initWidget(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+    def test_setTitle(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+    def test___init__(self):  # 2025-11-06 22:28:51
+        """"""
+        if TEST_000:
+            pass
+
+
+class Test_Functions:  # 2025-11-06 22:28:51
+    """"""
+
+    @classmethod
+    def setup_class(cls):  # 2025-11-06 22:28:51
+        """"""
+
+        return cls()
+
+    @classmethod
+    def teardown_class(cls):  # 2025-11-06 22:28:51
+        """"""
+
+        return
+
+    def reset(self):  # 2025-11-06 22:28:51
+        """"""
+        self.setup_class()
+        return self
+
+    def test_all(self):  # 2025-11-06 22:28:51
+        """Executes a series of test functions in a sequential logic."""
+
+        return self
+
+
+# ====================================================================================================================||
+"""
+
+  # 2025-11-06 22:28:51
+
+
+"""
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

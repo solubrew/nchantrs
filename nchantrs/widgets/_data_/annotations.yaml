@@ -1,0 +1,18 @@
+---
+<(META)>:
+  DOCid:
+  Name:
+  description: >
+  expirary: <[expiration]>
+  Version: <[Version]>
+  path: <[LEXIvrs]>panda/LEXI/
+  outline: <[outline]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+NchantdLabel:
+  text:
+  size: [20, 20]
+  font:
+    type: 'Times'
+    size: 12

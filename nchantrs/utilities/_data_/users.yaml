@@ -1,0 +1,6 @@
+---
+NchantdUser:
+  password:
+    rules:
+      size: 8
+      expiration: 7200

@@ -1,0 +1,30 @@
+---
+NchantdConfigStoreDocument:
+  document:
+    uuid:
+    name:
+    description:
+    metadata:
+      author:
+      encoding:
+      tags:
+      context:
+      hash:
+      policy_fk:
+      creon_dttm:
+      modon_dttm:
+    document:
+  template:
+    uuid:
+    name:
+    description:
+    metadata:
+        author:
+        encoding:
+        tags:
+        context:
+        hash:
+        policy_fk:
+        creon_dttm:
+        modon_dttm:
+    document:

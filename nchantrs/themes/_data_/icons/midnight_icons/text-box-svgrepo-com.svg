@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   fill="#000000"
+   width="800px"
+   height="800px"
+   viewBox="0 0 20 20"
+   version="1.1"
+   id="svg177"
+   sodipodi:docname="text-box-svgrepo-com.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs181" />
+  <sodipodi:namedview
+     id="namedview179"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.0475"
+     inkscape:cx="377.08831"
+     inkscape:cy="400.47733"
+     inkscape:window-width="1920"
+     inkscape:window-height="990"
+     inkscape:window-x="1920"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg177" />
+  <path
+     d="M0 0h6v6H0V0zm2 2v2h2V2H2zm12-2h6v6h-6V0zm2 2v2h2V2h-2zm-2 12h6v6h-6v-6zm2 2v2h2v-2h-2zM0 14h6v6H0v-6zm2 2v2h2v-2H2zM6 2h8v2H6V2zm0 14h8v2H6v-2zM16 6h2v8h-2V6zM2 6h2v8H2V6zm5 1h6v2H7V7zm2 2h2v4H9V9z"
+     id="path175" />
+  <path
+     style="fill:#ffffff;stroke-width:0.954654"
+     d="M 240.57279,599.52267 V 559.90453 H 200.47733 160.38186 V 400 240.09547 h 40.09547 40.09546 V 200.47733 160.85919 H 400 559.42721 v 39.61814 39.61814 h 40.09546 40.09547 V 400 559.90453 h -40.09547 -40.09546 v 39.61814 39.61814 H 400 240.57279 Z M 440.09547,440.57279 v -80.19093 h 40.09546 40.09547 V 319.80907 279.23628 H 400 279.7136 v 40.57279 40.57279 h 40.09547 40.09546 v 80.19093 80.19093 H 400 440.09547 Z"
+     id="path252"
+     transform="scale(0.025)" />
+  <path
+     style="fill:#ffffff;stroke-width:0.954654"
+     d="M 80.190931,120.2864 V 80.668258 h 39.618139 39.61814 V 120.2864 159.90453 H 119.80907 80.190931 Z"
+     id="path254"
+     transform="scale(0.025)" />
+  <path
+     style="fill:#ffffff;stroke-width:0.954654"
+     d="m 80.190931,679.7136 v -39.61813 h 39.618139 39.61814 v 39.61813 39.61814 H 119.80907 80.190931 Z"
+     id="path256"
+     transform="scale(0.025)" />
+  <path
+     style="fill:#ffffff;stroke-width:0.954654"
+     d="m 640.57279,679.7136 v -39.61813 h 39.61814 39.61814 v 39.61813 39.61814 h -39.61814 -39.61814 z"
+     id="path258"
+     transform="scale(0.025)" />
+  <path
+     style="fill:#ffffff;stroke-width:0.954654"
+     d="M 640.57279,120.2864 V 80.668258 h 39.61814 39.61814 v 39.618142 39.61813 h -39.61814 -39.61814 z"
+     id="path260"
+     transform="scale(0.025)" />
+</svg>

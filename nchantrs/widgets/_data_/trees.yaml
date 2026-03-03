@@ -1,0 +1,40 @@
+---
+<(META)>:
+  DOCid:
+  Name:
+  description: >
+  expirary: <[expiration]>
+  Version: <[Version]>
+  path: <[LEXIvrs]>panda/LEXI/
+  outline: <[outline]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+NchantdTree:
+  size: [60, 800]
+  nchantdtreeview:
+    FixedWidth: 60
+    Animated: False
+    IndentSize: 8
+  nodeeditordialog:
+    widget: test_nchantrs.dialogs.NchantdNodeEditor
+NchantdProjecTree:
+  StandAloneApp: False
+NchantdTimeTree:
+  size: [60, 800]
+NchantdCountryTree:
+  countries:
+    united_states:
+      name: United States
+      divisions:
+        by: states
+        states:
+
+
+
+
+
+
+
+
+

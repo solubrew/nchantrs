@@ -1,0 +1,72 @@
+# windows_security.yaml
+windows:
+  installer_type: "msi"  # More secure than exe
+  code_signing:
+    required: true
+    certificate_type: "extended_validation"
+  security_features:
+    - "app_container_isolation"
+    - "control_flow_guard"
+    - "data_execution_prevention"
+  chromium_flags:
+    - "--enable-win32k-lockdown"
+    - "--disable-extensions-except"
+    - "--enable-logging=stderr"
+  registry_protection:
+    - "HKEY_CURRENT_USER\\Software\\YourApp"
+  firewall_rules:
+    - allow_outbound_https: true
+    - allow_outbound_http: false
+# macos_security.yaml
+macos:
+  distribution_method: "app_store"  # Most secure
+  notarization:
+    required: true
+    hardened_runtime: true
+  security_features:
+    - "system_integrity_protection"
+    - "gatekeeper_compliance"
+    - "sandboxing"
+  chromium_flags:
+    - "--enable-sandbox-logging"
+    - "--enable-features=MacSyscallSandbox"
+  entitlements:
+    - "com.apple.security.network.client"
+    - "com.apple.security.files.user-selected.read-write"
+# linux_security.yaml
+linux:
+  package_formats:
+    - "flatpak"     # Most secure
+    - "snap"        # Good security
+    - "appimage"    # Portable but less secure
+    - "deb/rpm"     # Traditional packages
+  security_features:
+    - "user_namespaces"
+    - "seccomp_filtering"
+    - "apparmor_profiles"
+  chromium_flags:
+    - "--enable-sandbox"
+    - "--enable-seccomp-sandbox"
+  selinux_policy: "confined_app"
+  apparmor_profile: "browser_profile"
+# build_security.yaml
+build_pipeline:
+  code_signing:
+    windows:
+      certificate: "extended_validation"
+      timestamp_server: "http://timestamp.digicert.com"
+    macos:
+      developer_id: true
+      notarization: true
+    linux:
+      gpg_signing: true
+
+  security_scanning:
+    static_analysis: true
+    dependency_check: true
+    vulnerability_scan: true
+
+  integrity_verification:
+    checksums: "sha256"
+    signatures: "required"
+    reproducible_builds: true

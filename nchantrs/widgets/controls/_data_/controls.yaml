@@ -1,0 +1,75 @@
+---
+<(META)>:
+  DOCid:
+  Name:
+  description: >
+  expirary: <[expiration]>
+  Version: <[Version]>
+  path: <[LEXIvrs]>panda/LEXI/
+  outline: <[outline]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+NchantdCheckbox:
+  checkable: False
+  checked: False
+  icon:
+  enabled: True
+  text: Generic Button
+  auto_default: False
+  handlers:
+    stateChanged_handler:
+    toggled_handler:
+checkbox:
+  name:
+  checked: False
+  enabled: False
+  handlers:
+    stateChanged_handler:
+    toggled_handler:
+dropdown:
+  name:
+  default_items:
+  handlers:
+    activated_handler:
+    current_index_changed_handler:
+    highlighted_handler:
+incrementbox:
+  name:
+  min:
+  max:
+  range:
+  default_value:
+  handlers:
+    value_changed_handler:
+list:
+  name:
+progressbar:
+  name:
+radio:
+  name:
+  checked: False
+  label:
+  handlers:
+    toggled_handler:
+slider:
+  name:
+  min:
+  max:
+  step:
+  default_value:
+  tickinterval:
+  tickposition:
+  handlers:
+    value_changed_handler:
+    slider_pressed_handler:
+    slider_moved_handler:
+    slider_released_handler:
+textbox:
+  name:
+  default_value:
+  handlers:
+toggle:
+  name:
+  checked: False
+  handlers:

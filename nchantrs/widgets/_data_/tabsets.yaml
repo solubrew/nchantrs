@@ -1,0 +1,22 @@
+---
+<(META)>:
+  DOCid:
+  Name:
+  description: >
+  expirary: <[expiration]>
+  Version: <[Version]>
+  path: <[LEXIvrs]>panda/LEXI/
+  outline: <[outline]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+NchantdTabSet:
+  actions:
+    keyboard:
+    left_click:
+    middle_click:
+    right_click:
+  size: [950, 1000]
+NchantdTab:
+NchantdDocEditorTab:
+NchantdJournalEditorTab:

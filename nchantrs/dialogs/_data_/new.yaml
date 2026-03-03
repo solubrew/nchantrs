@@ -1,0 +1,23 @@
+---
+NewNchantdNodeSigil:
+  gui:
+    dialogs:
+      node:
+        title:
+        size:
+          left:
+          top:
+          width:
+          height:
+        layout:
+          style:
+          center:
+            name:
+            widget:
+            size:
+              w:
+              h:
+NewNchantdTabSigil:
+  "text": ""
+  default_text: ""
+  short_name: ""

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   width="24"
+   height="24"
+   viewBox="0 0 24 24"
+   fill="none"
+   stroke="#000000"
+   stroke-width="2"
+   stroke-linecap="round"
+   stroke-linejoin="round"
+   version="1.1"
+   id="svg4"
+   sodipodi:docname="pie-chart-2.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs8" />
+  <sodipodi:namedview
+     id="namedview6"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="33.625"
+     inkscape:cx="12"
+     inkscape:cy="12"
+     inkscape:window-width="1920"
+     inkscape:window-height="992"
+     inkscape:window-x="1920"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4" />
+  <path
+     d="M12 2a10 10 0 1 0 10 10H12V2zM21.18 8.02c-1-2.3-2.85-4.17-5.16-5.18"
+     id="path2" />
+  <path
+     style="fill:#ffffff;stroke-width:0.0594796"
+     d="M 11.434944,20.967257 C 8.0895604,20.738492 5.1495401,18.692447 3.7949525,15.650366 2.7805666,13.372296 2.7628544,10.764571 3.7461205,8.4609665 4.8218828,5.9406616 7.0606135,4.0118032 9.7161282,3.3172932 10.052156,3.2294102 10.260377,3.1876599 10.906695,3.078573 l 0.08142,-0.013742 0.0078,4.6014134 0.0078,4.6014136 0.06481,0.140289 c 0.09666,0.209224 0.307795,0.418162 0.523017,0.517569 l 0.185407,0.08564 4.575205,0.008 4.575206,0.008 -0.01982,0.155581 c -0.04143,0.325223 -0.195357,1.034673 -0.298596,1.376268 -0.950877,3.146237 -3.477455,5.492818 -6.690729,6.214069 -0.733429,0.164625 -1.751535,0.24425 -2.483272,0.194212 z"
+     id="path84" />
+</svg>

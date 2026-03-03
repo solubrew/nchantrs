@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   width="800px"
+   height="800px"
+   viewBox="0 0 48 48"
+   fill="none"
+   version="1.1"
+   id="svg12"
+   sodipodi:docname="increase-decimal-places-svgrepo-com.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs16" />
+  <sodipodi:namedview
+     id="namedview14"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.0475"
+     inkscape:cx="377.08831"
+     inkscape:cy="400.47733"
+     inkscape:window-width="1920"
+     inkscape:window-height="990"
+     inkscape:window-x="1920"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg12" />
+  <rect
+     width="48"
+     height="48"
+     fill="white"
+     fill-opacity="0.01"
+     id="rect2" />
+  <path
+     d="M27 9C27 6.23858 24.7614 4 22 4C19.2386 4 17 6.23858 17 9V19C17 21.7614 19.2386 24 22 24C24.7614 24 27 21.7614 27 19V9Z"
+     stroke="#000000"
+     stroke-width="4"
+     id="path4" />
+  <path
+     d="m 28.273503,43.983278 5.999999,-6 -5.999999,-6"
+     stroke="#000000"
+     stroke-width="4"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path6" />
+  <path
+     d="M8 24H9"
+     stroke="#000000"
+     stroke-width="4"
+     stroke-linecap="round"
+     id="path8" />
+  <path
+     d="M 9.3230534,38.066299 H 30.323053"
+     stroke="#000000"
+     stroke-width="4"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path10" />
+</svg>

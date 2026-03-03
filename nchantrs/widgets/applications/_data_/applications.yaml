@@ -1,0 +1,112 @@
+---
+<(META)>:
+  docid:
+  name: Nchantrs YAML Configuration Document
+  description: >
+    Provide defaults for Nchantrs module
+  expirary: <[expiration]>
+  version: '<[version]>'
+  path: '<[LEXIvrs]>panda/LEXI/'
+  outline: '<[outline]>'
+  authority: 'document|this'
+  security: 'sec|lvl2'
+  <(WT)>: -32
+NchantdPanties:
+  gui:
+    desktop:
+      'title': ''
+      'position':
+        'left': 50
+        'top': 50
+      theme: 'midnight_mist'
+      menubar:
+      styles:
+        '1Pane':
+          'positions': ['center']
+        '2Pane':
+          'positions': ['left', 'center']
+        '3Pane':
+          'positions': ['left', 'center', 'right']
+      layout:
+        'style':
+      filetoolbar:
+      edittoolbar:
+      datatoolbar:
+      tabsets:
+    dialogs:
+    toolbars:
+  dstruct:
+    config:
+      'style': 'single'
+      'chunking': 'custom'
+    database:
+      path: '{0}/data/db/{1}.db'
+      'name': ''
+      objects:
+        table:
+    filebase:
+      wdir: 'Documents/NchantdLibrary'
+      active: True
+  register:
+    - nchantrs.widgets.browsers.browsers.NchantdWebViewer
+NchantdCloak:
+  config: {}
+  gui:
+    desktop:
+      'title': ''
+      icon: ''
+      'position':
+        'left': 50
+        'top': 50
+#        'width': 1850
+#        'height': 1100
+      theme: 'midnight_mist'
+      menubar:
+        0:
+          'admin':
+            '0': 'preferences'
+            '2': 'exit'
+        1:
+          'help':
+            '0': 'about'
+        '2':
+          'lookup':
+            0: 'address'
+      styles:
+        '1Pane':
+          'positions': ['center']
+        '2Pane':
+          'positions': ['left', 'center']
+        '3Pane':
+          'positions': ['left', 'center', 'right']
+      layout:
+        'style': '3Pane' #3VPane, 2VPane, 1V2HPane,
+        'left':
+          'Name': 'Navigation'
+          'widget': 'widgets.trees.NchantdApplicationTree'
+          'size': [60, 800]
+        center:
+          'Name': Main Tabs Set
+          'widget': 'widgets.tabsets.NchantdTabSet'
+          'height': 980
+        right:
+          'Name':
+          widget: 'widgets.tabsets.NchantdTabSet'
+          size:
+      tabsets:
+    dialogs:
+    toolbars:
+  register:
+  sequence:
+    0:
+      'method': 'view.showSplashScreen'
+      'params':
+      'active': 0
+    1:
+      'method': 'setup'
+      'params':
+      'active': 1
+    2:
+      method: 'launchDialog'
+      params:
+      active: 0

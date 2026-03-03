@@ -1,0 +1,88 @@
+---
+NchantdNewInstanceWizard:
+  dstruct:
+    database:
+      objects:
+        view:
+      attach:
+        view:
+            vwt_doc_media_:
+                cmd: >
+                    CREATE TEMP VIEW vwt_doc_media_<[instance_id]> AS
+                    SELECT
+                        *
+                    FROM main.vw_doc_media
+                    UNION
+                    SELECT
+                        *
+                    FROM <[instance_id]>.vw_doc_media
+            vwt_doc_media_content_:
+                cmd: >
+                    CREATE TEMP VIEW vwt_doc_media_content_<[instance_id]> AS
+                    SELECT
+                        *
+                    FROM main.vw_doc_media_content
+                    UNION
+                    SELECT
+                        *
+                    FROM <[instance_id]>.vw_media_content
+            vwt_doc_tag_:
+                cmd: >
+                    CREATE TEMP VIEW vwt_doc_tag_<[instance_id]> AS
+                    SELECT
+                        *
+                    FROM main.vw_doc_tag
+                    UNION
+                    SELECT
+                        *
+                    FROM <[instance_id]>.vw_doc_tag
+            vwt_doc_tag_group_:
+                cmd: >
+                    CREATE TEMP VIEW vwt_doc_tag_group_<[instance_id]> AS
+                    SELECT
+                        *
+                    FROM main.vw_doc_tag_group
+                    UNION
+                    SELECT
+                        *
+                    FROM <[instance_id]>.vw_doc_tag_group
+            vwt_doc_user_:
+                cmd: >
+                    CREATE TEMP VIEW vwt_doc_user_<[instance_id]> AS
+                    SELECT
+                        *
+                    FROM main.vw_doc_user
+                    UNION
+                    SELECT
+                        *
+                    FROM <[instance_id]>.vw_doc_user
+            vwt_sources_:
+                cmd: >
+                    CREATE TEMP VIEW vwt_sources_<[instance_id]> AS
+                    SELECT
+                        *
+                    FROM main.vw_sources
+                    UNION
+                    SELECT
+                        *
+                    FROM <[instance_id]>.vw_sources
+            vwt_tab_:
+                cmd: >
+                    CREATE TEMP VIEW vwt_tab_<[instance_id]> AS
+                    SELECT
+                        *
+                    FROM main.vw_app_tab
+                    UNION
+                    SELECT
+                        *
+                    FROM <[instance_id]>.vw_tab
+            vwt_tree_node_:
+                cmd: >
+                    CREATE TEMP VIEW vwt_tree_node_<[instance_id]> AS
+                    SELECT
+                        *
+                    FROM main.vw_app_tree_node
+                    UNION
+                    SELECT
+                        *
+                    FROM <[instance_id]>.vw_tree_node

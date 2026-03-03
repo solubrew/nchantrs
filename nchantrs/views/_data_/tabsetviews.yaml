@@ -1,0 +1,16 @@
+view:
+  FixedWidth: 500
+  Animated: False
+  IndentSize: 8
+NchantdTabSetView:
+  actions:
+    keyboard:
+    left_click:
+    middle_click:
+    right_click:
+      add_tab:
+      duplicate_tab:
+      copy_tab_right:
+      move_tab_node:
+      move_tab_position:
+      remove_tab:

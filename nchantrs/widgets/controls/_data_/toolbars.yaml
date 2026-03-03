@@ -1,0 +1,125 @@
+NchantdButtonBar:
+NchantdToolBar:
+NchantdApplicationToolBar:
+  actions:
+    0: new_instance
+    1: import_document
+    2: export_document
+    3: save_instance
+    4: undo
+    5: redo
+    6: copy
+    7: cut
+    8: paste_whole
+    9: print
+    10: refresh
+    11: zoom_window_in
+    12: zoom_window_out
+    13: open_tree
+    14: right_tabset_maximize_split
+    15: right_tabset_minimize_split
+    16: search_instance
+    17: pop_out_tab
+NchantdSettingsToolBar:
+  actions:
+    0: launch_settings_manager
+    1: launch_extensions_manager
+    2: launch_library_manager
+    3: launch_
+NchantdTextFormattingToolBar:
+  actions:
+    0: text_bold
+    1: text_italic
+    2: text_underline
+    3: text_strikethrough
+    4: text_subscript
+    5: text_superscript
+    6: text_font_style
+    7: text_font_size
+    8: text_copy_formats
+    9: text_paste_formats
+    10: text_wrap
+    11: text_rotate
+    12: text_shadow
+    13: text_lowercase
+    14: text_uppercase
+    15: text_propercase
+    16: text_double_underline
+NchantdCellFormattingToolBar:
+  actions:
+    0: cell_fill_color
+    1: cell_left_border_active
+    2: cell_left_border_size
+    3: cell_left_border_color
+    4: cell_right_border_active
+    5: cell_right_border_size
+    6: cell_right_border_color
+    7: cell_top_border_active
+    8: cell_top_border_size
+    9: cell_top_border_color
+    10: cell_bottom_border_active
+    11: cell_bottom_border_size
+    12: cell_bottom_border_color
+    13: cell_align_top
+    14: cell_align_center
+    15: cell_align_bottom
+    16: cell_align_left
+    17: cell_align_middle
+    18: cell_align_right
+    19: cell_wrap_text
+    20: cell_rotate_text
+    21: cell_merge_cells
+    22: cell_copy_formats
+    23: cell_paste_formats
+NchantdDataFormattingToolBar:
+  actions:
+    0: percentage
+    1: currency
+    2: decimal_plus
+    3: decimal_minus
+    4: short_date
+    5: long_date
+    6: time
+    7: fraction
+    8: text
+    9: accounting
+    10: scientific
+    11: number
+menubar:
+  0.0:
+    'file':
+      '0': 'open'
+      '1': 'new'
+      '2': 'save'
+      '3': 'saveas'
+      '4': 'savecopy'
+      '5': 'close'
+      '6': 'exit'
+  0.1:
+    'edit':
+      '0': 'redo'
+      '1': 'undo'
+      '2': 'cut'
+      '3': 'copy'
+      '4': 'paste'
+      '5': 'preferences'
+  0.2:
+    'format':
+      '0': 'bold'
+      '1': 'italic'
+      '2': 'underline'
+      '3': 'underlinedouble'
+      '4': 'strikethrough'
+  0.3:
+    'ui':
+      '0': 'toolbars'
+      '1': 'windowsplit'
+      '2': 'sidebar'
+      '3': 'statusbar'
+  0.4:
+    'developer':
+      '0': 'extensions'
+  0.5:
+    'help':
+      '0': 'about'
+

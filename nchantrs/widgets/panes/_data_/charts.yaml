@@ -1,0 +1,4 @@
+NchantdChartConfigPane:
+  border_styles: ["solid", "dashed", "dotted"]
+  border_colors: ["Black", "White"]
+  chart_colors: ["Black", "White"]

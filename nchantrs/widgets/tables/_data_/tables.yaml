@@ -1,0 +1,22 @@
+---
+<(META)>:
+  DOCid:
+  Name:
+  description: >
+  expirary: <[expiration]>
+  Version: <[Version]>
+  path: <[LEXIvrs]>panda/LEXI/
+  outline: <[outline]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+NchantdTableMixin:
+NchantdBulletedList:
+NchantdTable:
+  num_rows: 20
+  num_columns: 20
+  column_widths:
+NchantdDataFrameTable:
+  layout: 'vertical'
+  justify: 'left'
+  text: 'Table Name'

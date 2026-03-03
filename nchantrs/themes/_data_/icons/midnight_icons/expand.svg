@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   fill="#000000"
+   width="800px"
+   height="800px"
+   viewBox="0 0 32 32"
+   version="1.1"
+   id="svg6"
+   sodipodi:docname="expand.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs10" />
+  <sodipodi:namedview
+     id="namedview8"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.0475"
+     inkscape:cx="400"
+     inkscape:cy="400.47733"
+     inkscape:window-width="1920"
+     inkscape:window-height="990"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg6" />
+  <title
+     id="title2">expand</title>
+  <path
+     d="M13.816 5.989l-7.785 0.046 0.003 7.735 2.59-2.591 3.454 3.454 2.665-2.665-3.453-3.454 2.526-2.525zM12.079 17.35l-3.454 3.455-2.59-2.592-0.003 7.799 7.785-0.018-2.526-2.525 3.454-3.453-2.666-2.666zM19.922 14.633l3.453-3.454 2.59 2.591 0.004-7.735-7.785-0.046 2.526 2.525-3.454 3.454 2.666 2.665zM23.375 20.805l-3.453-3.455-2.666 2.666 3.454 3.453-2.526 2.525 7.785 0.018-0.004-7.799-2.59 2.592z"
+     id="path4" />
+  <path
+     style="fill:#ffffff;stroke:#000000;stroke-width:8.65954"
+     d="m 258.95038,321.96017 -43.19456,-43.19456 -31.83102,31.82038 -31.83101,31.82037 -0.62923,-13.12023 c -0.34608,-7.21613 -0.62924,-50.14171 -0.62924,-95.39019 v -82.26995 l 61.73263,-0.634 c 33.95295,-0.3487 77.44855,-0.63399 96.65689,-0.63399 h 34.92426 l -31.26205,31.26206 -31.26207,31.26205 43.19423,43.20206 43.19423,43.20205 -32.93425,32.93426 -32.93425,32.93425 z"
+     id="path362"
+     transform="scale(0.04)" />
+  <path
+     style="fill:#ffffff;stroke:#000000;stroke-width:8.65954"
+     d="m 464.91649,332.21959 -32.92646,-32.93683 43.19249,-43.20033 43.1925,-43.20032 L 487.11296,181.62006 455.8509,150.358 h 34.92426 c 19.20834,0 62.70394,0.28529 96.65689,0.63399 l 61.73263,0.634 v 43.60029 c 0,23.98016 -0.28551,66.90338 -0.63447,95.38496 l -0.63447,51.78466 -31.82447,-31.81384 -31.82447,-31.81383 -43.20192,43.1941 -43.20193,43.1941 z"
+     id="path364"
+     transform="scale(0.04)" />
+  <path
+     style="fill:#ffffff;stroke:#000000;stroke-width:8.65954"
+     d="m 487.35158,618.13768 31.49348,-31.50432 -43.19234,-43.20017 -43.19234,-43.20016 32.69301,-32.69301 32.69301,-32.693 43.2002,43.19237 43.2002,43.19238 31.82446,-31.81381 31.82444,-31.81382 0.63353,52.34351 c 0.34845,28.78894 0.63397,71.99746 0.63449,96.01894 l 9.6e-4,43.67541 H 552.51139 455.8581 Z"
+     id="path366"
+     transform="scale(0.04)" />
+  <path
+     style="fill:#ffffff;stroke:#000000;stroke-width:8.65954"
+     d="m 150.83611,617.42243 c 4.3e-4,-17.72076 0.2861,-60.92912 0.63483,-96.01859 l 0.63404,-63.79902 31.82411,31.81348 31.82411,31.81347 43.2002,-43.19238 43.2002,-43.19237 32.69301,32.693 32.69301,32.69301 -43.19234,43.20016 -43.19234,43.20017 31.49348,31.50432 31.49348,31.50432 h -96.65329 -96.65329 z"
+     id="path368"
+     transform="scale(0.04)" />
+</svg>

@@ -1,0 +1,81 @@
+---
+NchantdWebBrowser:
+  actions:
+    left_click:
+    middle_click:
+    right_click:
+  dstruct:
+    database:
+      objects:
+        table:
+NchantdWebManager:
+NchantdWebViewer:
+  default_url: "http://www.duckduckgo.com"
+  javascript:
+    code:
+      dark_mode:
+        text: |
+          (function() {
+            // Force websites that support 'prefers-color-scheme'
+            let style = document.createElement('style');
+            style.textContent = `
+              @media (prefers-color-scheme: light) {
+                  :root {
+                      color-scheme: dark !important;
+                      filter: invert(1) hue-rotate(180deg) !important;
+                  }
+              }
+            `;
+            document.head.appendChild(style);
+          
+            // Apply additional custom dark mode CSS
+            document.body.style.backgroundColor = '#121212';
+            document.body.style.color = '#FFFFFF';
+          })();
+      fill_form:
+        text: |
+          (function() {
+              document.querySelector('input[name="username"]').value = 'YourUsername';
+              document.querySelector('input[name="password"]').value = 'YourPassword';
+          })();
+      javascript_python_bridge:
+        text: |
+          if (typeof window.extensionAPI === "undefined") {
+              window.extensionAPI = {
+                  request: function(method, params) {
+                      return new Promise((resolve) => {
+                          apiLayer.handleRequest(JSON.stringify({method: method, params: params}), (response) => {
+                              resolve(JSON.parse(response));
+                          });
+                      });
+                  }
+              };
+              console.log("Extension API injected into the page.");
+          }
+      theme:
+        text: |
+          (function() {
+              if (window.matchMedia) {
+              // Force light mode preference
+              window.matchMedia('(prefers-color-scheme: dark)').matches = false;
+              console.log("Theme set to light via JS injection.");
+          }
+          // Apply custom CSS
+          var root = document.documentElement;
+          root.style.setProperty('--background-color', '#FFFFFF'); // Light background
+          root.style.setProperty('--text-color', '#000000');       // Dark text
+          root.style.setProperty('--link-color', '#1a73e8');       // Blue links
+          console.log("Custom CSS applied.");
+          })();
+  dstruct:
+    database:
+      objects:
+        table:
+          app_action:
+            columns: ['code_group_txt', 'lookup_code_txt', 'name_txt', 'description_ltxt', 'UUID', 'icon_txt',
+                      'short_cut_txt', 'tip_txt', 'advanced_tip_txt', 'widget_txt', 'params_dict']
+            records:
+
+          browse_history:
+            columns: ["url"]
+            records: []

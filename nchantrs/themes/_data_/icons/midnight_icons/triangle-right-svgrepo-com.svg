@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   fill="#000000"
+   width="800px"
+   height="800px"
+   viewBox="0 0 24 24"
+   id="triangle-ruler-penci"
+   class="icon line"
+   version="1.1"
+   sodipodi:docname="triangle-ruler-penci-svgrepo-com.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs6" />
+  <sodipodi:namedview
+     id="namedview4"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.05625"
+     inkscape:cx="400"
+     inkscape:cy="400"
+     inkscape:window-width="1920"
+     inkscape:window-height="1018"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="triangle-ruler-penci" />
+  <path
+     id="primary"
+     d="M 22.830674,21.876798 H 1.327943 V 2.6746604 Z"
+     style="fill:none;stroke:#000000;stroke-width:1.90499;stroke-linecap:round;stroke-linejoin:round"
+     sodipodi:nodetypes="cccc" />
+  <path
+     style="fill:#ffffff;stroke:#5f5fdf;stroke-width:0.946746"
+     d="M 76.686391,429.35747 V 161.43683 L 262.48521,327.36265 c 102.18935,91.25921 235.64497,210.39191 296.56804,264.73933 60.92308,54.34743 112.25326,100.2451 114.06706,101.99482 l 3.29784,3.18131 H 376.55227 76.686391 Z"
+     id="path1077"
+     transform="scale(0.03)" />
+</svg>

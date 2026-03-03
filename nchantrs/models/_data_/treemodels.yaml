@@ -1,0 +1,352 @@
+---
+<(META)>:
+  docid: <[docid]>
+  name: <[name]>
+  description: >
+    Nchantd Tree Model Configurations for providing default options for each
+    predefined model
+  expirary: <[expiration]>
+  version: <[Version]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+NchantdTreeModel:
+  'description': >
+    Base Tree Model for the Nchantrs Framework
+  dstruct:
+    database:
+      objects:
+        table:
+          app_tree_node:
+            description: >
+              nid => Node ID: the unique node id for the primary tree in the application
+              name => Name: The display value on the node of each branch of the tree
+              ntype => Node Type: The application uses node types to control overall application functionality 
+                              and custom subtree usage
+                    Options: [appnode, usernode, virtualnode]
+              parentid => Parent ID: is used to attribute children to their parents within the tree. The 0 value represents 
+                                  the parent being the application itself
+                      Options: 
+              position => Position: Active control of the position of the node upon the tree. T
+                                TODO: this is not built out for full control as needed
+              tabset => Tabset Widget name that the node will launch upon getting focus
+              treeid => Tree ID: the treeid 
+              readonly => Read Only: 
+              editable => Editable: 
+              visible => Visible: 
+              moveable => Moveable: 
+              pregnable => Pregnable: 
+              isparent => Is Parent: 
+              expanded => Expanded:
+              tabfocus => Tab Focus:
+                possibly build this up for use in the application instead of relying
+                on the more dynamic build within the configuration, use the treeid
+                to allow for virtual trees to allow for reuse of the node
+                design such that when adding a node to a subtree a decision is made
+                whether or not to bring the subtree? but this duplicates all entries
+                of the tree
+        
+                implement virtual tree system by include a node type of vtree
+                where a vtree nodes name is the real node nid of the virtual node
+                nid=1, name='Fred', ntype=tree, pid=0, treeid=0
+                nide=2, name=1, ntype=vtree, pid=1, treeid=0
+        
+                implement multiparent node tree system by connecting to
+                parents table
+              
+                parameters will control visual features stored as a serialized dictionary:
+                  font:
+                  size:
+                  background_color:
+                  foreground_color:
+
+            columns: [{"name": 'nid_txt', "type": "text", "constraint": "unique"}, {"name": 'icon_txt', "type": "text"},
+                      {"name": 'name_txt', "type": "text"}, {"name": 'ntype_txt', "type": "text"},
+                      {"name": 'pid_txt', "type": "text"}, {"name": 'position_int', "type": "integer"},
+                      {"name": 'parameters_dict', "type": "text"}, {"name": 'source_txt', "type": "text"},
+                      {"name": 'treeid_txt', "type": "text"}, {"name": 'readonly_bit', "type": "integer"},
+                      {"name": 'editable_bit', "type": "integer"}, {"name": 'visible_bit', "type": "integer"},
+                      {"name": 'moveable_bit', "type": "integer"}, {"name": 'pregnable_bit', "type": "integer"},
+                      {"name": 'isparent_bit', "type": "integer"}, {"name": 'expanded_bit', "type": "integer"},
+                      {"name": 'tabfocus_int', "type": "integer"}]
+            records: []
+            system_records:
+              - [ '067ca837-17f6-74e7-8000-f7de9b7927f1', '', 'Home', 'displaynode', 0, 0, "{'focus': 'office'}" ]
+              #- [ '066fa3bd-1b73-7313-8000-f4f2f333c279', '', 'Home', 'topnode', "067ca837-17f6-74e7-8000-f7de9b7927f1", 0, "{'focus': 'office'}" ]
+#              - [ '066a7cf6-5aca-7912-8000-4e27f26fd8c2', '', 'Action', 'displaynode', 0, 500, "{'focus': 'action'}" ]
+#              - [ '067cbcf0-8244-7f75-8000-bc46aca2db8f', '', 'Tasks', 'usernode', '066a7cf6-5aca-7912-8000-4e27f26fd8c2', 0, "{'focus': 'action'}" ]
+#              - [ '067cbcf0-8245-74d2-8000-bd7b33800c59', '', 'Projects', 'usernode', '066a7cf6-5aca-7912-8000-4e27f26fd8c2', 1, "{'focus': 'action'}" ]
+#              - [ '067cbcf0-8245-73a2-8000-46a5409373f7', '', 'Communications', 'usernode', '066a7cf6-5aca-7912-8000-4e27f26fd8c2', 2, "{'focus': 'action'}" ]
+              - [ '067ce332-8864-7d0b-8000-bfd314a580cc', '', 'Journal', 'displaynode', 0, 9000, "{'focus': 'userapp'}" ]
+              #- [ '066a7cf6-5aca-7912-8000-4e27f26fd8c2', '', 'Today', 'todaynode', "067ca837-17f6-7748-8000-df5777c83135", 0, "{'focus': 'action'}" ]
+#              - [ '067cb445-4b41-7a87-8000-7f796c2c0633', '', 'Fund', 'displaynode', 0, 1000, "{'focus': 'fund'}" ]
+#              - [ '067cb445-4b41-7d81-8000-ac38a828c6f5', '', 'Vision', 'displaynode', 0, 1500, "{'focus': 'vision'}" ]
+#              - [ '067cb445-4b41-7f05-8000-9a6cd60d92c2', '', 'Social Focus', 'displaynode', 0, 2000, "{}" ]
+#              - [ '067cb445-4b41-7fb7-8000-2c0ccbdcfb83', '', 'Mech Focus', 'displaynode', 0, 2500, "{}" ]
+#              - [ '067cb445-4b41-7fb7-8000-2c0ccbdcfb83', '', 'Dev Focus', 'displaynode', 0, 2500, "{}" ]
+#              - [ '067cb445-4b42-705a-8000-9b32839b09b2', '', 'Anal Focus', 'displaynode', 0, 3000, "{}" ]
+              - [ '066a7cf6-5aca-79a2-8000-f4b5405a0427', '', 'Settings', 'displaynode', 0, 10000, "{'focus': 'app'}" ]
+              #- [ '067d5e25-a405-7122-8000-1574a03c4522', '', 'Automation', 'sysorgnode', '066a7cf6-5aca-79a2-8000-f4b5405a0427', 0, "{'focus': 'app'}" ]
+              #- [ '066c9768-8efd-7816-8000-3bd305f0de84', '', 'Sources', 'sysorgnode', '066a7cf6-5aca-79a2-8000-f4b5405a0427', 0, "{'focus': 'app'}" ]
+              - [ '066abcfb-5af0-7027-8000-980e6c9d841b', '', 'Help', 'sysorgnode', '066a7cf6-5aca-79a2-8000-f4b5405a0427', 1, "{'focus': 'app'}" ]
+            fields:
+              'ntype':
+                'expected_values':
+                  'topnode':
+                    description: >
+                      An appnode that is at the top level of the application tree
+                  'appnode':
+                    description: >
+                      An appnode represents the primary areas the app will interact with these nodes are permanent. 
+                      Are fixed in their location, size, text, and formats
+                  'node':
+                    description: >
+                      A base node that is generated by the application according to the various business rules within
+                      the application
+                  'usernode':
+                    description: >
+                      A node created by the user
+                  'vnode':
+                    description: >
+                      A node placed within a virtual tree or virtually within the application tree this will reference 
+                      a real node from the application tree
+                  'tempnode':
+                    description: >
+                      A node that will disappear once the tasks/information have been cleared.  This will be used for
+                      things like an Alerts node
+              'parameters':
+                'expected_values':
+                  font:
+                  size:
+                  background_color:
+                  foreground_color:
+              source:
+                expected_values:
+                  user_<[name]>:
+                  system_local:
+                  system_remote:
+                  tools_package_<[name]>: 'there will be many tools package'
+                  extension_<[name]>:
+          doc_tree_node:
+            description: >
+              nid => Node ID: the unique node id for the primary tree in the application
+              name => Name: The display value on the node of each branch of the tree
+              ntype => Node Type: The application uses node types to control overall application functionality 
+                              and custom subtree usage
+                    Options: [appnode, usernode, virtualnode]
+              parentid => Parent ID: is used to attribute children to their parents within the tree. The 0 value represents 
+                                  the parent being the application itself
+                      Options: 
+              position => Position: Active control of the position of the node upon the tree. T
+                                TODO: this is not built out for full control as needed
+              tabset => Tabset Widget name that the node will launch upon getting focus
+              treeid => Tree ID: the treeid 
+              readonly => Read Only: 
+              editable => Editable: 
+              visible => Visible: 
+              moveable => Moveable: 
+              pregnable => Pregnable: 
+              isparent => Is Parent: 
+              expanded => Expanded:
+              tabfocus => Tab Focus:
+                possibly build this up for use in the application instead of relying
+                on the more dynamic build within the configuration, use the treeid
+                to allow for virtual trees to allow for reuse of the node
+                design such that when adding a node to a subtree a decision is made
+                whether or not to bring the subtree? but this duplicates all entries
+                of the tree
+
+                implement virtual tree system by include a node type of vtree
+                where a vtree nodes name is the real node nid of the virtual node
+                nid=1, name='Fred', ntype=tree, pid=0, treeid=0
+                nide=2, name=1, ntype=vtree, pid=1, treeid=0
+
+                implement multiparent node tree system by connecting to
+                parents table
+
+                parameters will control visual features stored as a serialized dictionary:
+                  font:
+                  size:
+                  background_color:
+                  foreground_color:
+
+            columns: [{"name": 'nid_txt', "type": "text", "constraint": "unique"}, {"name": 'icon_txt', "type": "text"},
+                      {"name": 'name_txt', "type": "text"}, {"name": 'ntype_txt', "type": "text"},
+                      {"name": 'pid_txt', "type": "text"}, {"name": 'position_int', "type": "integer"},
+                      {"name": 'parameters_dict', "type": "text"}, {"name": 'source_txt', "type": "text"},
+                      {"name": 'treeid_txt', "type": "text"}, {"name": 'readonly_bit', "type": "integer"},
+                      {"name": 'editable_bit', "type": "integer"}, {"name": 'visible_bit', "type": "integer"},
+                      {"name": 'moveable_bit', "type": "integer"}, {"name": 'pregnable_bit', "type": "integer"},
+                      {"name": 'isparent_bit', "type": "integer"}, {"name": 'expanded_bit', "type": "integer"},
+                      {"name": 'tabfocus_int', "type": "integer"}]
+            records: [ ]
+        'view':
+          vw_tree_node:
+            cmd: >
+              CREATE VIEW vw_tree_node AS
+                SELECT
+                *, 'app' as "app_data_type"
+                FROM vw_app_tree_node vatn
+                UNION
+                SELECT
+                *, 'doc' as "app_data_type"
+                FROM vw_doc_tree_node vdtn
+  'tabsets':
+NchantdTimeTreeModel:
+  'description':
+  dstruct:
+    objects:
+      table:
+      view:
+  tabsets:
+    century_tabset:
+      - ['Century', 'NchantdCenturyOverview']
+    decade_tabset:
+      - ['Decade', 'NchantdDecadeOverview']
+    year_tabset:
+      - ['Year', 'NchantdYearOverview']
+    month_tabset:
+      - ['Month', 'NchantdMonthOverview']
+    week_tabset:
+      - ['Week', 'NchantdWeekOverview']
+    day_tabaset:
+      - ['Day', 'NchantdDayOverview']
+    hour_tabset:
+      - ['Hour', 'NchantdHourOverview']
+    min_tabset:
+      - ['Min', 'NchantdMinOverview']
+  structures:
+    century_decade:
+      century: decade
+    century_decade_year:
+      century:
+        decade: year
+    century_decade_year_month:
+      century:
+        decade:
+          year: month
+    century_decade_year_month_week:
+      century:
+        decade:
+          year:
+            month: week
+    century_decade_year_month_week_day:
+      century:
+        decade:
+          year:
+            month:
+              week: day
+    century_decade_year_month_day_hour:
+      century:
+        decade:
+          year:
+            month:
+              day: hour
+    century_decade_year_month_week_day_hour:
+      century:
+        decade:
+          year:
+            month:
+              week:
+                day: hour
+    century_decade_year_month_week_day_hour_minute:
+      century:
+        decade:
+          year:
+            month:
+              week:
+                day:
+                  hour: minute
+    century_decade_year_month_day_hour_minute:
+      century:
+        decade:
+          year:
+            month:
+              day:
+                hour: minute
+    decade_year:
+      decade: year
+    decade_year_month:
+      decade:
+        year: month
+    decade_year_month_week:
+      decade:
+        year:
+          month: week
+    decade_year_month_week_day:
+      decade:
+        year:
+          month:
+            week: day
+    decade_year_month_day:
+      decade:
+        year:
+          month: day
+    13:
+      decade:
+        year:
+          month:
+            day: hour
+    14:
+      decade:
+        year:
+          month:
+            week: day
+    15:
+      decade:
+        year:
+          month:
+            week:
+              day:
+                hour: minute
+    16:
+      decade:
+        year:
+          month:
+            day:
+              hour: minute
+    17:
+      year: month
+    18:
+      year:
+        month: week
+    19:
+      year:
+        month: day
+    20:
+      year:
+        month:
+          day: hour
+    21:
+      year:
+        month:
+          day:
+            hour: minute
+    22:
+      month: day
+    23:
+      month:
+        day: hour
+    24:
+      month:
+        day:
+          hour: minute
+    25:
+      month:
+        day: hour
+    26:
+      month:
+        day:
+          hour: minute
+
+
+
+
+
+
+
+
+
+
+
+

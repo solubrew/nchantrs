@@ -1,0 +1,85 @@
+---
+NchantdFAQs:
+  FAQs:
+    - Q: Why should I use Nchantd Office?
+      A: > 
+        Nchantd Office is the next step in merging online and offline computer usage in a way that gives power to the 
+        user like no software has done before.  Opening up the fully power of the web to the power user in everyone.
+    -
+      Q: How does Nchantrs plan to make money to support continued development?
+      A: >
+          Through White Labelled Applications, Affiliate Links, Data Brokering and Promotions.  We are upfront about all
+          data collection and usage of that data.  Full transparency and value sharing are the core principles 
+          Nchantd Office will uphold.
+
+    -
+      Q: What are Document Nodes, Browsing Nodes and System Nodes?
+      A: >
+        Document Nodes allow a user to build an exportable document tree combining various document types.  
+        Browsing Nodes allow a user quick access to information like email, todos and general web browsing across 
+        instances but kept isolated from any "Documents". There is no exporting of data from this area
+        System Nodes contain settings and access to all accounts and data the user has made available to Nchantd Office
+        while a user may add tabs to these areas for personal use they are shared across instances and also not 
+        available for exporting of any data.
+NchantdHelpDexChat:
+
+NchantdHelpDocs:
+  Documentation:
+    User:
+      Chapter1:
+        name: Gettings Started
+        description:
+        sections:
+      Chapter2:
+        name: Understanding Documents
+        description:
+        sections:
+      Chapter3:
+        name: Accessing Data Sources
+        description:
+        sections:
+      Chapter4:
+        name: Getting the most out of Journaling
+        description:
+        sections:
+      Chapter5:
+        name: Leveraging NchantdTODOs
+        description:
+        sections:
+      Chapter6:
+        name: Using Deep Integration Services
+        description:
+        sections:
+      Chapter7:
+        name: Completeing Surveys
+        description:
+        sections:
+    Developer:
+      Chapter1:
+        name: Getting Started
+        description:
+        sections:
+      Chapter2:
+        name: Understanding Documents
+        description:
+        sections:
+      Chapter3:
+        name:
+        description:
+        sections:
+      Chapter4:
+        name:
+        description:
+        sections:
+      Chapter5:
+        name:
+        description:
+        sections:
+      Chapter6:
+        name:
+        description:
+        sections:
+      Chapter7:
+        name:
+        description:
+        sections:

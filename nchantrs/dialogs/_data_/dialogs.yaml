@@ -1,0 +1,99 @@
+
+Cape:
+  styles:
+    '1Pane':
+      'positions': ['center']
+    '2Pane':
+      'positions': ['left', 'center']
+    '3Pane':
+      'positions': ['left', 'center', 'right']
+NchantdCape:
+  gui:
+    dialogs:
+      base:
+        title:
+        size:
+          left:
+          top:
+          width:
+          height:
+        layout:
+          style:
+          center:
+            name:
+            widget:
+            size:
+              w:
+              h:
+    desktop:
+      'title': ''
+      'position':
+        'left': 50
+        'top': 50
+      theme: 'midnight_mist'
+NchantdErrorNotifySigil:
+  gui:
+    dialogs:
+      error:
+        title:
+        size:
+          left:
+          top:
+          width:
+          height:
+        layout:
+          style:
+          center:
+            name:
+            widget:
+            size:
+              w:
+              h:
+NchantdSigil:
+  gui:
+    dialogs:
+      base:
+        title:
+        size:
+          left:
+          top:
+          width:
+          height:
+        layout:
+          style:
+          center:
+            name:
+            widget:
+            size:
+              w:
+              h:
+styles:
+  '1Pane':
+    'positions': ['center']
+  '2Pane':
+    'positions': ['left', 'center']
+  '3Pane':
+    'positions': ['left', 'center', 'right']
+new:
+  description:
+    layout:
+open:
+  description:
+  layout:
+preferences_2pane:
+  description:
+  layout:
+    '2Pane':
+      'right':
+      'left':
+preferences_1pane:
+  description:
+  layout:
+    1pane:
+      'center':
+saveas:
+  description:
+  layout:
+savecopy:
+  description:
+  layout:

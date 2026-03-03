@@ -1,0 +1,26 @@
+---
+NchantdWebProfile:
+    #agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.5938.62 Safari/537.36"
+    #agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:111.0) Gecko/20100101 Firefox/111.0"
+    agent: "Mozilla/5.0 (<[system-information]>) AppleWebKit/<[webkit-version]> (KHTML, like Gecko) Chrome/<[chrome-version]> Safari/<[safari-version]>" # <[CustomBrowser]>/<[custom-version]>"
+    #agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36"
+    config:
+        system-information:
+            - "Windows NT 10.0; Win64; x64"
+            - "Macintosh; Intel Mac OS X 10_15_7"
+            - "X11; Linux x86_64"
+            - "Linux; Android 10; K"
+            - "iPhone; CPU iPhone OS 14_0 like Mac OS X"
+        webkit-version:
+            - 537.36
+        chrome-version:
+            - 126.0.0.0
+            #- 117.0.5938.62
+            #- 102.0.6099.109
+        safari-version:
+            - 537.36
+    settings:
+        plugins: True
+        dns_prefetch: False
+        local_content_can_access_remote_urls: True
+        local_content_can_access_file_urls: False

@@ -1,0 +1,21 @@
+---
+NchantdPackageSettings:
+    packages:
+        "Nchantd Action":
+            "requires_pro": False
+        "Nchantd Analytics":
+            "requires_pro": True
+        "Nchantd Coliseum":
+            "requires_pro": True
+        "Nchantd Developer":
+            "requires_pro": True
+        "Nchantd Employment":
+            "requires_pro": True
+        "Nchantd Fund":
+            "requires_pro": False
+        "Nchantd Health":
+            "requires_pro": True
+        "Nchantd Mech":
+            "requires_pro": True
+        "Nchantd Vision":
+            "requires_pro": False

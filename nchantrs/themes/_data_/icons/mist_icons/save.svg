@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Generator: Adobe Illustrator 16.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+
+<svg
+   version="1.1"
+   id="Layer_1"
+   x="0px"
+   y="0px"
+   width="48px"
+   height="48px"
+   viewBox="0 0 48 48"
+   enable-background="new 0 0 48 48"
+   xml:space="preserve"
+   sodipodi:docname="Save.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg"><defs
+   id="defs1033" /><sodipodi:namedview
+   id="namedview1031"
+   pagecolor="#ffffff"
+   bordercolor="#666666"
+   borderopacity="1.0"
+   inkscape:pageshadow="2"
+   inkscape:pageopacity="0.0"
+   inkscape:pagecheckerboard="0"
+   showgrid="false"
+   inkscape:zoom="17.479167"
+   inkscape:cx="12.586412"
+   inkscape:cy="24"
+   inkscape:window-width="1920"
+   inkscape:window-height="1020"
+   inkscape:window-x="0"
+   inkscape:window-y="32"
+   inkscape:window-maximized="1"
+   inkscape:current-layer="g1028" />
+<g
+   id="g1028">
+	<path
+   fill="#333333"
+   d="M37,6L7,6v36h34V9.993L37,6z M15,8h18v8.993L32,18H16l-1-1.007V8z M37,40H11V24h2.995h17.972H37V40z"
+   id="path1020"
+   style="fill:#5f5fdf;fill-opacity:1" />
+	<polygon
+   fill="#FFFFFF"
+   points="13.995,24 11,24 11,40 37,40 37,24 31.967,24  "
+   id="polygon1022" />
+	<path
+   fill="#FFFFFF"
+   d="M32,18l1-1.007V8H15v8.993L16,18H32z M27,9h4v8h-4V9z"
+   id="path1024" />
+	<rect
+   x="27"
+   y="9"
+   fill="#333333"
+   height="8"
+   id="rect1026"
+   width="4"
+   style="fill:#5f5fdf;fill-opacity:1" />
+</g>
+</svg>

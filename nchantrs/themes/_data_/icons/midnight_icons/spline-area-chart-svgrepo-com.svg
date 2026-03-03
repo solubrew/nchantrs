@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   width="800px"
+   height="800px"
+   viewBox="0 0 16 16"
+   version="1.1"
+   id="svg6"
+   sodipodi:docname="spline-area-chart-svgrepo-com.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs10" />
+  <sodipodi:namedview
+     id="namedview8"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.0475"
+     inkscape:cx="316.46778"
+     inkscape:cy="401.43198"
+     inkscape:window-width="1920"
+     inkscape:window-height="990"
+     inkscape:window-x="1920"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg6" />
+  <path
+     fill="#444"
+     d="M1 15v-15h-1v16h16v-1h-15z"
+     id="path2" />
+  <path
+     fill="#444"
+     d="M10 7c-2 0-2.080-1-4-1-2.34 0-4 3-4 3v5h14v-12c-2 0-3.86 5-6 5z"
+     id="path4" />
+  <path
+     style="fill:#ffffff;stroke:#ffffff;stroke-width:8.65954;fill-opacity:1;stroke-opacity:1"
+     d="m 100.23866,575.02421 v -124.2598 l 2.54687,-4.37982 c 14.65742,-25.2062 38.7914,-55.92634 62.31453,-79.32015 36.23586,-36.03664 73.48658,-57.63411 111.31192,-64.53715 7.12975,-1.30116 13.9229,-1.71398 27.16797,-1.65099 35.73597,0.16993 54.42145,5.20773 99.73965,26.89083 34.22455,16.37521 57.5441,22.04812 91.77978,22.3271 18.37064,0.14971 26.82654,-1.77611 42.84811,-9.75858 16.16032,-8.0516 29.38394,-18.29374 49.23005,-38.13034 22.72033,-22.70944 24.14217,-24.39748 85.13101,-101.06894 30.76923,-38.68119 55.40458,-64.82275 74.59177,-79.1523 16.98571,-12.68542 36.74191,-21.26808 48.95644,-21.26808 H 800 V 400 699.28401 H 450.11933 100.23866 Z"
+     id="path377"
+     transform="scale(0.02)" />
+  <path
+     style="fill:#ffffff;stroke:#ffffff;stroke-width:8.65954;stroke-opacity:1;fill-opacity:1"
+     d="M 0,400 V 0.47732697 H 24.821002 49.642005 V 375.65632 750.83532 H 424.821 800 V 775.179 799.52267 H 400 0 Z"
+     id="path379"
+     transform="scale(0.02)" />
+</svg>

@@ -1,0 +1,81 @@
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+"""
+---
+<(META)>:
+	docid:
+	name:
+	description: >
+	version: 0.0.0.0.0.0
+	authority: filesystem
+	security: seclvl2
+	<(WT)>: -32
+"""
+# -*- coding: utf-8 -*
+# ======================================Standard Library Modules======================================================||
+from os.path import abspath, dirname, join
+import datetime as dt
+
+# ======================================3rd Party Library Modules=====================================================||
+
+# ======================================Solutions Brewer Library Modules==============================================||
+from condor import condor
+from nchantrs.libraries import pyqt
+from nchantrs.themes.themes import NchantdTheme
+from ogma.logma import Logma
+
+# ====================================================================================================================||
+here = join(dirname(__file__), "")  # ||
+log = True
+logma = Logma(__name__)
+
+# ====================================================================================================================||
+pxcfg = join(here, "_data_", "wizards.yaml")
+pxcfg = {}
+
+
+class NchantdWizard(pyqt.QWizard):
+    """"""
+
+    def __init__(self, parent=None, cfg=None):
+        """ """
+        self.parent = parent
+        self.config = condor.Instruct(pxcfg).select("NchantdWizard")
+        if self.parent:
+            self.config.override(parent.config)
+        self.config.override(cfg)
+        super().__init__()
+        self.theme = NchantdTheme(self)
+        self.set_theme(self.config.dikt["gui"]["desktop"]["theme"])
+
+    def initModel(self):
+        """"""
+        return self
+
+    def initView(self):
+        """"""
+        cancel_button = self.button(pyqt.QWizard.CancelButton)
+        if cancel_button:
+            cancel_button.clicked.connect(self.cmd_on_cancel)
+        return self
+
+    def initWizard(self):
+        """"""
+        self.initModel()
+        self.initView()
+        return self
+
+    @pyqt.Slot()
+    def cmd_on_cancel(self):
+        # Code to execute when Cancel is clicked
+        print("Cancel button clicked!")
+        self.reject()  # To close the wizard
+        return self
+
+    def set_theme(self, theme="midnight_mist"):
+        """"""
+        self.theme.set_theme(theme)
+
+
+# ====================================================================================================================||
+
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

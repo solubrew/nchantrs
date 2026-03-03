@@ -1,0 +1,445 @@
+---
+NchantdApplicationSkeleton:
+  version: 0.0
+  folder_structure:
+    top:
+      _data_:
+        <[app_name]>.yaml:
+      app:
+        _data_:
+          models.yaml:
+            text: >
+              <[app_code_name]>TreeModel:
+                dstruct:
+                  database:
+                    objects:
+                      table:
+                        trnodes:
+                          records:
+        widgets:
+          _data_:
+        models.py:
+          text: >
+            # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+            """
+            ---
+            <(META)>:
+            	docid:
+            	name:
+            	description: >
+            	version: 0.0.0.0.0.0
+            	authority: filesystem
+            	security: seclvl2
+            	<(WT)>: -32
+            """
+            # -*- coding: utf-8 -*
+            # ======================================Standard Library Modules======================================================||
+            from os.path import abspath, dirname, join
+            import datetime as dt
+            # ======================================3rd Party Library Modules=====================================================||
+
+            # ======================================Solutions Brewer Library Modules==============================================||
+            from condor import condor
+            from nchantrs.models import treemodels, applicationmodels
+            from nchantrs.models.tabsetmodels import NchantdTabSetModel
+            from thing.thing import Thing
+            from ogma.logma import Logma
+
+            # ====================================================================================================================||
+            here = join(dirname(__file__), '')  # ||
+            log = True
+            logma = Logma(__name__)
+
+            # ====================================================================================================================||
+            pxcfg = join(here, '_data_', 'models.yaml')
+
+            class NFDCloakModel(applicationmodels.NchantdCloakModel):
+            	""""""
+            	def __init__(self, parent=None, cfg=None):
+            		""" """
+            		self.parent = parent
+            		self.config = condor.instruct(pxcfg).select('NFDCloakModel')
+            		if self.parent:
+            			self.config.override(parent.config)
+            		self.config.override(cfg)
+            		super(NFDCloakModel, self).__init__(self.parent, self.config)
+            		self.accounts = None
+
+            	def initModel(self, reset=None):
+            		""""""
+            		super().initModel(reset)
+            		return self
+
+            	def addAsset(self):
+            		"""
+            		Add Asset to application
+            			db entry - ASSET, trnodes, tabs
+            		:return:
+            		"""
+            		return self
+
+            	def addDebit(self):
+            		"""
+            		Add Debit to application
+            			db entry - DEBIT, trnodes, tabs
+            		:return:
+            		"""
+            		return self
+
+            	def addExpense(self):
+            		"""
+            		Add Expense to application
+            			db entry - EXPENSE, trnodes, tabs
+
+            		launch a dialog
+
+            		:return:
+            		"""
+            		dialog = NchantdDialog(self.parent, self.config).initWidget()
+            		if dialog['recurring']:
+            			self.parent.tree.model.addRecurringExpenseNode()
+            		self.parent.model.store.docs['db'].write("")
+
+            		return self
+
+            	def addReceipt(self):
+            		"""
+            		:return:
+            		"""
+            		return self
+
+
+            class NFDTreeModel(treemodels.NchantdTimeTreeModel):
+            	""" """
+
+            	def __init__(self, parent=None, root=None, cfg=None):
+            		""" """
+            		self.config = condor.instruct(pxcfg).select('NFDTreeModel')
+            		logma.info(f"NFDTreeModel Config\n {self.config.dikt.keys()}")
+            		self.parent = parent
+            		if parent:
+            			self.config.override(parent.config)
+            		logma.info(f"NFDTreeModel Config\n {self.config.dikt['dstruct']['database']['objects']['table']['trnodes']['records']}")
+            		self.config.override(cfg)
+            		logma.info(f"NFDTreeModel Config\n {self.config.dikt['dstruct']['database']['objects']['table']['trnodes']['records']}")
+            		super(NFDTreeModel, self).__init__(self.parent, root, 'Nchantd Fund', self.config)
+            		logma.info(f"NFDTreeModel Config\n {self.config.dikt['dstruct']['database']['objects']['table']['trnodes']['records']}")
+            		logma.info(f"Parent {self.parent}")
+            		if log: logma.info(f'TODOTreeModel\n {self.parent.parent.model.store}')
+            		self.today = None
+
+            	def initModel(self):
+            		""""""
+            		pid = '066a7cf6-5aca-7912-8000-4e27f26fd8c2' # TODO: move to a config file
+            		super().initModel()
+            		# TODO: need to create a node for today and then transfer information to the timeline node for that date
+            		self.current_nid = self.genYearMonthTreeData(self.store, 0, pid)
+            		self.setToday(self.current_nid)
+            		cfg = {}
+            		table = 'ACCOUNTS'
+            		df = next(self.parent.parent.model.store.docs['db'].read({"table": [table]})).dikt[table]['df']
+            		self.parent.parent.model.accounts = df
+            		table = 'trnodes'
+            		pid = "066a7eb3-d4e8-7011-8000-0965a5d8112e"
+            		cfg = {"WHERE": {"EQUAL": {"parentid" : [pid]}}}
+            		account_nodes = next(self.parent.parent.model.store.docs['db'].read({"table": [table]}, cfg)).dikt[table]['df']
+            		pos = len(account_nodes['name'].values.tolist())
+            		for account in self.parent.parent.model.accounts['name'].values.tolist():
+            			if account not in account_nodes['name'].values.tolist():
+            				self.addAccountNode(account, pid, pos)
+            				pos += 1
+
+            		# table = 'ASSETS'
+            		# self.assets = next(self.parent.parent.model.store.docs['db'].read({"table": [table]})).dikt[table]['df']
+            		# table = 'trnodes'
+            		# pid = "066a7eb3-d4e8-7011-8000-0965a5d8112e"
+            		# cfg = {"WHERE": {"EQUAL": {"parentid" : [pid]}}}
+            		# asset_nodes = next(self.parent.parent.model.store.docs['db'].read({"table": [table]}, cfg)).dikt[table]['df']
+            		# pos = len(asset_nodes['name'].values.tolist())
+            		# for asset in self.assets['name'].values.tolist():
+            		# 	if asset not in asset_nodes['name'].values.tolist():
+            		# 		self.addAssetNode(asset, pid, pos)
+            		# 		pos += 1
+            		#
+
+            		return self
+
+            	def addAccountNode(self, account, pid, pos=0):
+            		""""""
+            		self.addAccountTabSet(self.add_node(account, 'node', pid, pos))
+            		return self
+
+            	def addAccountTabSet(self, pid, pos=0):
+            		"""
+
+            		#add tabset for account
+            			#Account Overview page
+            			#Account Institution web page
+            			#Account Settings Page - have api setup here and account edits
+
+            		:param pid:
+            		:param pos:
+            		:return:
+            		"""
+            		self.add_tab('Overview', pid, pos, 'NchantdAccountOverviewDashBoard')
+            		pos += 1
+            		self.add_tab('Home Page', pid, pos, 'NchantdBrowser')
+            		pos += 1
+            		self.add_tab('Account Settings', pid, pos, 'NchantdAccountSettingsPane')
+            		return self
+
+            	def addAssetNode(self, asset, pid, pos=0):
+            		""""""
+            		self.addAssetTabSet(self.add_node(asset, 'node', pid, pos))
+
+            	def addAssetTabSet(self, pid, pos=0):
+            		""""""
+            		self.add_tab('Overview', pid, pos, 'NchantdAsssetOverviewDashBoard')
+            		pos += 1
+            		cfg = {'link': ''}
+            		self.add_tab('Maintenance', pid, pos, 'NchantdBrowser', cfg)
+            		return self
+
+            	def addConcernNode(self, concern, pid, pos=0):
+            		""""""
+            		self.addConcernTabSet(self.add_node(concern, 'node', pid, pos))
+
+            	def addConcernTabSet(self, pid, pos=0):
+            		""""""
+            		self.add_tab('Overview', pid, pos, 'NchantdConcernOverviewDashBoard')
+            		pos += 1
+            		self.add_tab('Details', pid, pos, 'NchantdConcernDetailsPane')
+            		return self
+
+            	def addDebtNode(self, debt, pid, pos=0):
+            		""""""
+            		self.addDebtTabSet(self.add_node(debt, 'node', pid, pos))
+            		return self
+
+            	def addDebtTabSet(self, pid, pos=0):
+            		""""""
+            		self.add_tab('Overview', pid, pos, 'NchantdDebtOverviewDashBoard')
+            		pos += 1
+            		self.add_tab('Debt', pid, pos, 'NchantdDebtPane')
+            		return self
+
+            	def addExpenseNode(self, expense, pid, pos=0):
+            		"""
+            		:return:
+            		"""
+            		self.addExpenseTabSet(self.add_node(expense, 'node', pid, pos))
+            		return self
+
+            	def addReceiptNode(self, receipt, pid, pos=0):
+            		"""
+            		:return:
+            		"""
+            		self.addReceiptTabSet(self.add_node(receipt, 'node', pid, pos))
+            		return self
+
+            	def addProjectNode(self, project, pid, pos=0):
+            		""""""
+            		self.addProjectTabSet(self.add_node(project, 'node', pid, pos))
+
+            	def addProjectTabSet(self, pid, pos=0):
+            		""""""
+            		self.add_tab('Overview', pid, pos, 'NchantdProjectOverviewDashBoard')
+
+            	def addRecurringExpenseNode(self):
+            		""""""
+            		pid = ''
+            		self.addExpenseTabSet(pid)
+            		return self
+
+            	def addRecurringExpenseTabSet(self, pid, pos=0):
+            		""""""
+            		self.add_tab('Overview', pid, pos, '')
+            		pos += 1
+            		self.add_tab('Home Page', pid, pos, '')
+            		return self
+
+            	def addResource(self):
+            		""""""
+            		pid = ''
+            		self.addResourceTabSet(pid)
+            		return self
+
+            	def addResourceTabSet(self, pid, pos=0):
+            		""""""
+            		self.add_tab('Overview', pid, pos, '')
+            		return self
+
+            	def addRecurringRevenue(self):
+            		""""""
+            		self.addRecurringRevenueTabSet(pid, pos)
+
+            	def addRecurringRevenueTabSet(self, pid, pos=0):
+            		""""""
+            		self.add_tab('Overview', pid, pos, '')
+            		return self
+
+            	def generateAccountNodes(self):
+            		""""""
+            		pid = '066a7eb3-d4e8-7011-8000-0965a5d8112e'
+            		self.acocunts = self.getAccounts()
+            		for account in self.accounts:
+            			self.addAccountNode(account, pid)
+            		return self
+
+            	def generateAssetNodes(self):
+            		""""""
+            		pid = '066a8704-54bc-7fc3-8000-3a252c8d6950'
+            		self.assets = self.getAssets()
+            		for asset in self.assets:
+            			self.addAssetNode(asset, pid)
+            		return self
+
+            	def generateDebtNodes(self):
+            		""""""
+            		pid = '066a8704-54bd-7212-8000-177d18ea17aa'
+            		self.debts = self.getDebts()
+            		for debt in self.debts:
+            			self.addDebtNode(debt, pid)
+            		return self
+
+            	def generateExpenseNodes(self):
+            		""""""
+            		pid = '066a82ac-40d7-7ae0-8000-3090ee05090e'
+            		self.expenses = self.getExpenses()
+            		for expense in self.expenses:
+            			self.addExpenseNode(expense, pid)
+            		return self
+
+            	def generateReceiptNodes(self):
+            		""""""
+            		pid = '066a82ac-40d7-7bc8-8000-19ab84e1ea93'
+            		self.receipts = self.getReceipts()
+            		for receipt in self.receipts:
+            			self.addReceiptNode(receipt, pid)
+            		return self
+
+
+            	def setToday(self, nid):
+            		"""
+            		Sets the current date as today and updates the action node if necessary.
+
+            		:param nid: The unique identifier of the action node.
+            		:return: None
+            		"""
+            		self.now = dt.datetime.now()
+            		# if self.today != self.now.strftime('%Y-%m-%d'):
+            		# 	self.updateActionNode(nid)
+            		self.today = self.now.strftime('%Y-%m-%d')
+            		return self
+
+            	# def updateActionNode(self, nid):
+            	# 	"""
+            	# 	Update the action node with the given nid.
+            	#
+            	# 	:param nid: The ID of the node to update.
+            	# 	:return: None
+            	# 	"""
+            	#
+            	# 	self.deleteChildren(1)
+            	# 	logma.info(f"Create Today Node")
+            	# 	self.add_node(self.today, 'livenode', nid, 0, 'NTDActionTabSet')
+            	# 	return self
+
+            	def updateTimeline(self):
+            		""""""
+            		self.now = dt.datetime.now()
+            		return self
+
+            class NFDTabSetModel(NchantdTabSetModel):
+            	"""
+            	Setup actions will be ran on an run of a new application or new instance of the application
+            	updates will be ran each time an application is opened when new_applicaiton/new_instance is False
+
+            	"""
+
+            	def __init__(self, parent, cfg):
+            		""""""
+            		self.config = condor.instruct(pxcfg).select('NFDTabSetModel')
+            		if parent:
+            			self.config.override(parent.config)
+            		self.config.override(cfg)
+            		super(NFDTabSetModel, self).__init__(parent, self.config)
+
+            	def initModel(self, pos, node, newInstance=False):
+            		""""""
+            		super().initModel(pos, node, newInstance)
+
+            		return self
+
+            # ====================================================================================================================||
+
+            # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+      <[app_name]>.py:
+          text: >
+            # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+            """
+            ---
+            <(META)>:
+            	docid:
+            	name:
+            	description: >
+            	version: 0.0.0.0.0.0
+            	authority: filesystem
+            	security: seclvl2
+            	<(WT)>: -32
+            """
+            # -*- coding: utf-8 -*
+            # ======================================Standard Library Modules======================================================||
+            import sys
+            from os.path import abspath, dirname, join
+
+            # ======================================3rd Party Library Modules=====================================================||
+
+            # ======================================Solutions Brewer Library Modules==============================================||
+            from condor import condor
+            from nchantrs.nchantrs import NchantdCloak
+              from ogma.logma import Logma
+
+            # ====================================================================================================================||
+            here = join(dirname(__file__), '')  # ||
+            log = True
+            logma = Logma(__name__)
+
+            # ====================================================================================================================||
+            pxcfg = join(here, '_data_', '<[app_name_lower]>.yaml')
+
+            class <[app_name]>(NchantdCloak):
+            	""" """
+            	def __init__(self, args, parent=None):
+            		""" """
+            		self.config = condor.instruct(pxcfg).load().addArgs(args)
+            		if parent:
+            			self.config.override(parent.config)
+            		super(<[app_name]>, self).__init__('<[app_name]>', self.config)
+            		self.application_NCD = 'e3b42fcc-2473-4143-820e-0dbf1322983b'
+            		self.model = <[app_code_name]>CloakModel(self, self.config)
+            		self.initApp()
+
+            	def setup(self):
+            		""""""
+            		self.applicationSetup()
+            		return self
+
+            	def applicationSetup(self):
+            		""" """
+            		self.newApp = True
+            		self.instanceSetup()
+            		self.newApp = False
+            		return self
+            	def instanceSetup(self):
+            		""" """
+            		self.newInstance = True
+            		self.model.updateData()
+            		self.newInstance = False
+            		return self
+
+
+            # ====================================================================================================================||
+
+            # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+

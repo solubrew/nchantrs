@@ -1,0 +1,17 @@
+---
+NchantdWizard:
+  gui:
+    desktop:
+      theme: 'midnight_mist'
+  dstruct:
+    database:
+    data:
+      app_tags:
+        - ['Finance', '', '']
+        - ['Personal Budgeting', '', '']
+        - ['Business Accounting', '', '']
+        - ['Investing', '', '']
+        - ['Document Management', '', '']
+        - ['Games', '', '']
+      app_tag_groups:
+        - ['finance_options', '', 0, 0]

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   width="800px"
+   height="800px"
+   viewBox="0 0 24 24"
+   fill="none"
+   version="1.1"
+   id="svg10"
+   sodipodi:docname="justify-fill-svgrepo-com.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs14" />
+  <sodipodi:namedview
+     id="namedview12"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="false"
+     inkscape:zoom="1.0475"
+     inkscape:cx="400"
+     inkscape:cy="400.47733"
+     inkscape:window-width="1920"
+     inkscape:window-height="990"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg10" />
+  <path
+     d="M3 6H21"
+     stroke="#323232"
+     stroke-width="2"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path2" />
+  <path
+     d="M3 14H21"
+     stroke="#323232"
+     stroke-width="2"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path4" />
+  <path
+     d="M3 10L21 10"
+     stroke="#323232"
+     stroke-width="2"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path6" />
+  <path
+     d="M3 18L21 18"
+     stroke="#323232"
+     stroke-width="2"
+     stroke-linecap="round"
+     stroke-linejoin="round"
+     id="path8" />
+  <path
+     style="fill:#000000;stroke:#000000;stroke-width:8.65954"
+     d="m 88.116464,230.45098 c -7.04378,-2.708 -13.921132,-9.25082 -17.618742,-16.76174 -4.416153,-8.97048 -4.416153,-18.408 0,-27.37848 3.761231,-7.64015 10.627221,-14.09111 17.889754,-16.80837 l 5.240233,-1.96062 H 400 706.37229 l 5.24024,1.96062 c 7.26252,2.71726 14.12852,9.16822 17.88975,16.80837 2.66139,5.40605 3.069,7.22421 3.069,13.68924 0,6.46503 -0.40761,8.28319 -3.069,13.68924 -3.76123,7.64015 -10.62723,14.09111 -17.88975,16.80837 l -5.24024,1.96062 -306.64676,-0.0497 C 95.513993,232.35914 93.039351,232.3436 88.116464,230.45098 Z"
+     id="path312"
+     transform="scale(0.03)" />
+  <path
+     style="fill:#000000;stroke:#000000;stroke-width:8.65954"
+     d="m 90.965192,364.72784 c -14.48745,-4.53857 -23.7193,-17.1266 -23.525162,-32.07759 0.133776,-10.30244 5.499446,-20.28719 14.038474,-26.12359 9.964826,-6.81093 -16.524755,-6.288 318.521496,-6.288 335.23528,0 308.54605,-0.53054 318.5869,6.33305 5.30856,3.62875 10.6458,10.7849 12.72078,17.05597 1.92951,5.83147 1.53243,15.34774 -0.90379,21.65944 -2.77691,7.19439 -9.4758,14.23827 -16.80007,17.66527 l -5.72793,2.68007 -306.44391,0.17783 c -251.55055,0.14597 -307.164532,-0.0479 -310.466788,-1.08245 z"
+     id="path314"
+     transform="scale(0.03)" />
+  <path
+     style="fill:#000000;stroke:#000000;stroke-width:8.65954"
+     d="m 91.646778,498.24004 c -18.626322,-4.95099 -29.046479,-25.51093 -22.06036,-43.52716 2.790607,-7.19659 9.495904,-14.24314 16.809763,-17.66527 l 5.727924,-2.68007 H 400 707.87589 l 5.72793,2.68007 c 7.32427,3.427 14.02316,10.47088 16.80007,17.66527 2.43622,6.3117 2.8333,15.82797 0.90379,21.65944 -2.07498,6.27107 -7.41222,13.42722 -12.72078,17.05597 -10.04451,6.86609 16.72703,6.33992 -319.02614,6.27022 -262.36175,-0.0545 -303.362537,-0.24867 -307.913982,-1.45847 z"
+     id="path316"
+     transform="scale(0.03)" />
+  <path
+     style="fill:#000000;stroke:#000000;stroke-width:8.65954"
+     d="m 88.116464,630.45098 c -7.04378,-2.708 -13.921132,-9.25082 -17.618742,-16.76174 -4.416153,-8.97048 -4.416153,-18.408 0,-27.37848 3.761231,-7.64015 10.627221,-14.09111 17.889754,-16.80837 l 5.240233,-1.96062 H 400 706.37229 l 5.24024,1.96062 c 7.26252,2.71726 14.12852,9.16822 17.88975,16.80837 2.66139,5.40605 3.069,7.22421 3.069,13.68924 0,6.46503 -0.40761,8.28319 -3.069,13.68924 -3.76123,7.64015 -10.62723,14.09111 -17.88975,16.80837 l -5.24024,1.96062 -306.64676,-0.0497 C 95.513993,632.35914 93.039351,632.3436 88.116464,630.45098 Z"
+     id="path318"
+     transform="scale(0.03)" />
+</svg>

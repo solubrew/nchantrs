@@ -1,0 +1,311 @@
+---
+NchantdTheme:
+  foci:
+    "action":
+      "theme": "midnight_eruption"
+    "anal":
+      "theme": "midnight_howl"
+    "fund":
+      "theme": "midnight_aurora"
+    "mech":
+      "theme": "midnight_frost"
+    "office":
+      "theme": "midnight_mist"
+    "social":
+      "theme": "midnight_bloom"
+    "app":
+      "theme": "midnight_dusk"
+    "user":
+      "theme": "midnight_mist"
+    "userapp":
+      "theme": "midnight_dusk"
+    "vision":
+      "theme": "midnight_moon"
+Themes:
+  midday_aurora: #Green
+    name: 'Midday Aurora'
+    active: True
+    palette:
+      primary:
+        highlight: '#5F5FDF'
+        background: '#FFFFFF'
+        accent: '#19C26B'
+        color: '#4F5665' #Grey
+        system: '#B4B4B4'
+        foreground: '#F0F0F0' #White
+    iconset:
+      primary:
+        iconset_a000:
+  midday_bloom: #Pink
+    name: 'Midday Bloom'
+    active: True
+    palette:
+      primary:
+        highlight: '#d9897b'
+        background: '#FFFFFF'
+        accent: '#D97BCB'
+        color: '#4F5665' #Grey
+        system: '#B4B4B4'
+        foreground: '#F0F0F0' #White
+    iconset:
+      primary:
+        iconset_a000:
+  midday_eruption: #Red
+    name: 'Midday Eruption'
+    active: True
+    palette:
+      primary:
+        highlight: '#19C26B'
+        background: '#FFFFFF'
+        accent: '#B71F1F'
+        color: '#4F5665' #Grey
+        system: '#B4B4B4'
+        foreground: '#F0F0F0' #White
+    iconset:
+      primary:
+        iconset_a000:
+  midday_frost: #Blue
+    name: 'Midday Frost'
+    active: True
+    palette:
+      primary:
+        highlight: '#BDDDFF'
+        background: '#FFFFFF'
+        accent: '#191cc2'
+        color: '#4F5665' #Grey
+        system: '#B4B4B4'
+        foreground: '#F0F0F0' #White
+    iconset:
+      primary:
+        iconset_a000:
+  midday_metal: #Gold
+    name: 'Midday Metal'
+    active: False
+    palette:
+      primary:
+        highlight: '#FF00E1' #Bright magenta
+        background: '#FFFFFF' #white
+        accent: '#FFD700' #gold
+        color: '#4F5665' #Grey
+        system: '#B4B4B4' #Silver
+        foreground: '#F0F0F0' #White
+        accent_0_off: '#7300FF' #Blue/purple
+        accent_1_off: '#0061FF' #Bright blue
+        accent_2_off: '#00FFF3' #Bright aqua
+  midday_mist: #Purple
+    name: 'Midday Mist'
+    active: True
+    palette:
+      primary:
+        highlight: '#19C26B'
+        background: '#FFFFFF'
+        accent: '#5F5FDF'
+        color: '#4F5665' #Grey
+        foreground: '#F0F0F0' #White
+    iconset:
+      primary:
+        accent: 'mist_icons'
+        base: 'midday_icons'
+  midday_moon: #Yellow
+    name: 'Midday Moon'
+    active: True
+    palette:
+      primary:
+        highlight: '#FF00E1' #Bright magenta
+        background: '#FFFFFF' #black
+        accent: '#F6FF00' #Yellow
+        #accent: '#FFD700'
+        color: '#4F5665' #Grey
+        system: '#B4B4B4' #Silver
+        foreground: '#F0F0F0' #White
+        accent_0_off: '#7300FF' #Blue/purple
+        accent_1_off: '#0061FF' #Bright blue
+        accent_2_off: '#00FFF3' #Bright aqua
+    iconset:
+      primary:
+        iconset_a000:
+  midday_ocean: #Teal
+    name: 'Midday Ocean'
+    active: False
+    palette:
+      primary:
+        highlight: '#19C26B'
+        background: '#FFFFFF'
+        accent: '#'
+        color: '#4F5665' #Grey
+        system: '#B4B4B4' #Silver
+        foreground: '#F0F0F0' #White
+    iconset:
+      primary:
+        iconset_a000:
+  midday_sunset: #Orange
+    name: 'Midday Sunset'
+    active: False
+    palette:
+      primary:
+        highlight: '#19C26B'
+        background: '#FFFFFF'
+        accent: '#'
+        color: '#4F5665' #Grey
+        system: '#B4B4B4' #Silver
+        foreground: '#F0F0F0' #White
+    iconset:
+      primary:
+        iconset_a000:
+  midnight_aurora: #Green
+    name: 'Midnight Aurora'
+    active: True
+    palette:
+      primary:
+        highlight: '#5F5FDF'
+        background: '#000000'
+        accent: '#19C26B'
+        color: '#4F5665' #Grey
+        system: '#B4B4B4' #Silver
+        foreground: '#F0F0F0' #White
+    iconset:
+      primary:
+        accent: 'aurora_icons'
+        base: 'midnight_icons'
+  midnight_bloom: #Pink
+    name: 'Midnight Bloom'
+    active: True
+    palette:
+      primary:
+        highlight: '#d9897b'
+        background: '#000000'
+        accent: '#D97BCB'
+        color: '#4F5665' #Grey
+        system: '#B4B4B4' #Silver
+        foreground: '#F0F0F0' #White
+    iconset:
+      primary:
+        accent: 'bloom_icons'
+        base: 'midnight_icons'
+  midnight_dusk: #System Grey
+    name: 'Midnight Bloom'
+    active: True
+    palette:
+      primary:
+        highlight: '#d9897b'
+        background: '#000000'
+        accent: '#4F5665'
+        color: '#4F5665' #Grey
+        system: '#B4B4B4' #Silver
+        foreground: '#F0F0F0' #White
+    iconset:
+      primary:
+        accent: 'dusk_icons'
+        base: 'midnight_icons'
+  midnight_eruption: #Red
+    name: 'Midnight Eruption'
+    active: True
+    palette:
+      primary:
+        highlight: '#19C26B'
+        background: '#000000'
+        accent: '#B71F1F'
+        color: '#4F5665' #Grey
+        system: '#B4B4B4' #Silver
+        foreground: '#F0F0F0' #White
+    iconset:
+      primary:
+        accent: 'eruption_icons'
+        base: 'midnight_icons'
+  midnight_frost: #Blue
+    name: 'Midnight Frost'
+    active: True
+    palette:
+      primary:
+        highlight: '#BDDDFF'
+        background: '#000000'
+        accent: '#191cc2'
+        color: '#4F5665' #Grey
+        system: '#B4B4B4' #Silver
+        foreground: '#F0F0F0' #White
+    iconset:
+      primary:
+        accent: 'frost_icons'
+        base: 'midnight_icons'
+  midnight_metal: #Gold
+    name: 'Midnight Metal'
+    active: False
+    palette:
+      primary:
+        highlight: '#FF00E1' #Bright magenta
+        background: '#000000' #black
+        accent: '#FFD700' #gold
+        color: '#4F5665' #Grey
+        system: '#B4B4B4' #Silver
+        foreground: '#F0F0F0' #White
+        accent_0_off: '#7300FF' #Blue/purple
+        accent_1_off: '#0061FF' #Bright blue
+        accent_2_off: '#00FFF3' #Bright aqua
+    iconset:
+      primary:
+        accent: 'metal_icons'
+        base: 'midnight_icons'
+  midnight_mist: #Purple
+    name: 'Midnight Mist'
+    active: True
+    palette:
+      primary:
+        highlight: '#19C26B'
+        background: '#000000'
+        accent: '#5F5FDF'
+        color: '#4F5665' #Grey
+        system: '#B4B4B4' #Silver
+        foreground: '#F0F0F0' #White
+    iconset:
+      primary:
+        accent: 'mist_icons'
+        base: 'midnight_icons'
+  midnight_moon: #Yellow
+    name: 'Midnight Moon'
+    active: True
+    palette:
+      primary:
+        highlight: '#FF00E1' #Bright magenta
+        background: '#000000' #black
+        accent: '#F6FF00' #Yellow
+        #accent: '#FFD700'
+        color: '#4F5665' #Grey
+        system: '#B4B4B4' #Silver
+        foreground: '#F0F0F0' #White
+        accent_0_off: '#7300FF' #Blue/purple
+        accent_1_off: '#0061FF' #Bright blue
+        accent_2_off: '#00FFF3' #Bright aqua
+    iconset:
+      primary:
+        accent: 'moon_icons'
+        base: 'midnight_icons'
+  midnight_ocean: #Teal
+    name: 'Midnight Ocean'
+    active: False
+    palette:
+      primary:
+        highlight: '#19C26B'
+        background: '#000000'
+        accent: '#'
+        color: '#4F5665' #Grey
+        system: '#B4B4B4' #Silver
+        foreground: '#F0F0F0' #White
+    iconset:
+      primary:
+        accent: 'ocean_icons'
+        base: 'midnight_icons'
+  midnight_howl: #Orange
+    name: 'Midnight Howl'
+    active: True
+    palette:
+      primary:
+        highlight: '#191CC2'
+        background: '#000000'
+        accent: '#F77F05'
+        color: '#4F5665' #Grey
+        system: '#B4B4B4' #Silver
+        foreground: '#F0F0F0' #White
+    iconset:
+      primary:
+        accent: 'howl_icons'
+        base: 'midnight_icons'

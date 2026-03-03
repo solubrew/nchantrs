@@ -1,0 +1,38 @@
+---
+<(META)>:
+  docid: '1c9268cd-775f-4914-9b04-1b2448b24f4a'
+  name:
+  description: >
+  expirary: <[expiration]>
+  version: <[Version]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+themes:
+  midnight_mist:
+    "axes.facecolor": "#ced0d6"  # Plot background
+    "axes.grid": True  # Enable grid
+    "grid.color": '#000000'  # Grid color
+    "axes.edgecolor": "#5F5FDF"  # Border color for axes
+    "xtick.color": "#ffffff"  # Tick color for x-axis
+    "ytick.color": "#ffffff"  # Tick color for y-axis
+    "axes.labelcolor": "#ffffff"  # Axes label color
+    "figure.facecolor": "#000000"  # Background color for the entire figure
+    "font.family": "serif"  # Font family
+    "font.size": 12  # Font size
+    "axes.titlesize": 16  # Title font size
+    "axes.titlecolor": "#ffffff"
+    "axes.labelsize": 14  # Axes label font size
+    "legend.frameon": True  # Enable legend frame
+    "legend.framealpha": 0.8  # Transparency of legend frame
+    "legend.facecolor": "#eeeeee"  # Background color for legend
+    "legend.edgecolor": "#4d4d4d"  # Border color of legend
+  midnight_:
+    'axes.facecolor': '#9B99B2'
+    'figure.facecolor': '#000000'
+    'lines.color': '#ffffff'
+    'xtick.color': '#ffffff'
+    'ytick.color': '#ffffff'
+    'axes.labelcolor': '#ffffff'
+url: https://matplotlib.org/stable/tutorials/introductory/customizing.html
+matplotlib: >

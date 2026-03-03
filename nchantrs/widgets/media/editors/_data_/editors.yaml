@@ -1,0 +1,42 @@
+---
+<(META)>:
+  DOCid:
+  Name:
+  description: >
+  expirary: <[expiration]>
+  Version: <[Version]>
+  path: <[LEXIvrs]>panda/LEXI/
+  outline: <[outline]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+NchantdComboBox:
+  default:
+    - default items
+  size:
+  font:
+    type: 'Times'
+    size: 12
+NchantdDocEditor:
+  "size": ["auto", "auto"]
+nchantdlineeditor:
+  max_width:
+  fixed_width:
+NchantdDropDown:
+  size:
+  font:
+    type: 'Times'
+    size: 12
+  layout: 'vertical'
+  justify: 'left'
+NchantdEntryEditor:
+  layout: 'vertical'
+  justify: 'top'
+NchantdEntryBox:
+  font:
+    type: 'Times'
+    size: 12
+  entry:
+    default_text: 'Place entry text here.'
+    style: 'single'
+    size: 'auto'

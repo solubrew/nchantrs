@@ -1,0 +1,194 @@
+---
+<(META)>:
+  DOCid:
+  Name:
+  description: >
+  expirary: <[expiration]>
+  Version: <[Version]>
+  path: <[LEXIvrs]>panda/LEXI/
+  outline: <[outline]>
+  authority: document|this
+  security: sec|lvl2
+  <(WT)>: -32
+NchantdButton:
+  font:
+    type: "Times"
+    size: 16
+  checkable: False
+  icon:
+  enabled: True
+  text: Generic Button
+  auto_default: False
+  alignment: Right
+  tooltip: 'Generic Button Tip push button to activate'
+  handlers:
+    clicked_handler:
+  size:
+NchantdLabeledButton:
+  layout: horizontal
+  justify: 'left'
+NchantdNumberPad:
+  'buttons':
+    'zero':
+      'text': '0'
+    'one':
+      'text': '1'
+    'two':
+      'text': '2'
+    'three':
+      'text': '3'
+    'four':
+      'text': '4'
+    'five':
+      'text': '5'
+    'six':
+      'text': '6'
+    'seven':
+      'text': '7'
+    'eight':
+      'text': '8'
+    'nine':
+      'text': '9'
+NchantdMathPad:
+  'equal':
+    text: '='
+  'addition':
+    'text': '+'
+  'division':
+    'text': '/'
+  'multiplication':
+    'text': '*'
+  'subtraction':
+    'text': '-'
+  'decimal':
+    'text': '.'
+  'power':
+    'text': 'x^y'
+  'squared':
+    'text': 'x^2'
+  'cubed':
+    'text': 'x^3'
+  'sqrt':
+    'text': 'sqrt'
+  'leftparentheses':
+    'text': '('
+  'rightparentheses':
+    'text': ')'
+  'naturalnumber':
+    'text': 'e'
+  'naturallog':
+    text': 'ln()'
+  'log':
+    'text': 'log'
+  'scientificnotation':
+    'text': '*10^x'
+NchantdNavigationButtons:
+  buttons:
+    prev:
+      checkable: False
+      icon:
+      enabled: True
+      text: 'Previous'
+      handlers:
+    input:
+      checkable: False
+      label: 'Input'
+      default: ''
+      icon:
+      enabled: True
+      text: 'Input'
+      handlers:
+    jump:
+      input:
+      checkable: False
+      icon:
+      enabled: True
+      text: 'Jump'
+      handlers:
+    next:
+      checkable: False
+      icon:
+      enabled: True
+      text: 'Next'
+      handlers:
+NchantdOkButtons:
+  buttons:
+    ok:
+      checkable: False
+      icon:
+      enabled: True
+      text: 'Ok'
+      handlers:
+    cancel:
+      checkable: False
+      label: 'Input'
+      default: ''
+      icon:
+      enabled: True
+      text: 'Cancel'
+      handlers:
+  justify: center
+NchantdSaveButtons:
+  buttons:
+    new:
+      checkable: False
+      icon:
+      enabled: True
+      text: 'New'
+      handlers:
+    save:
+      checkable: False
+      label: 'Input'
+      default: ''
+      icon:
+      enabled: True
+      text: 'Save'
+      handlers:
+  justify: center
+NchantdSubmissionButtons:
+  buttons:
+    new:
+      checkable: False
+      icon:
+      enabled: True
+      text: 'New'
+      handlers:
+    submit:
+      checkable: False
+      icon:
+      enabled: True
+      text: 'Submit'
+      handlers:
+    delete:
+      checkable: False
+      icon:
+      enabled: True
+      text: 'Delete'
+      handlers:
+NchantdSaveButton:
+  buttons:
+    save:
+      checkable: False
+      icon:
+      enabled: True
+      text: 'Save'
+      handlers:
+NchantdTabSideButtons:
+  buttons:
+    center_tab:
+      checkable: False
+      label: ''
+      default: ''
+      icon:
+      enabled: True
+      text: 'Center'
+      handlers:
+    right_tab:
+      checkable: False
+      label: ''
+      default: ''
+      icon:
+      enabled: True
+      text: 'Right'
+      handlers:
+  justify: center
