@@ -89,7 +89,8 @@ class NchantdCape(NchantdPanties):
 
         # ==== ADD AUTHENTICATION CHECK HERE ====
         # Check if this application requires authentication
-        requires_auth = cfg.get('requires_auth', True)  # Default to True
+        # Always require auth for now - ensure password dialog always shows
+        requires_auth = True  # Force authentication for security
         logma.info(f"NchantdCape.initView - requires_auth: {requires_auth}")
         
         if requires_auth:
