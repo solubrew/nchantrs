@@ -73,6 +73,7 @@ dependencies = [
     "mplfinance",
     "zmq",
     "psutil",
+    "black",
 ]
 
 [project.urls]
