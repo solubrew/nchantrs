@@ -18,6 +18,8 @@ All notable changes to the Nchantrs project will be documented in this file.
 
 ### Fixed
 - Syntax error: nested double quotes in f-string
+- syntax.py: Removed 4 duplicate class definitions (585 → 165 lines)
+- syntax.py: Fixed FIXME triple-quote regex issues using raw strings
 - Removed unused imports across multiple files
 - Widget initialization timing issues
 
