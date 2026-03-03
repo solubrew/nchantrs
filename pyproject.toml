@@ -76,6 +76,7 @@ dependencies = [
     "black",
     "jsonschema",
     'ruamel-yaml',
+    'networkx',
 ]
 
 [project.urls]
