@@ -28,7 +28,7 @@ from nchantrs.widgets.browsers.initialize import _configure_qt_environment
 from nchantrs.wizards.apps import NchantdApplicationStartupWizard  # , NchantdQuickStartWizard
 from ogma.logma import Logma
 from squirl.objnql import txtonql
-from pyularity.pyularity import Pyularity
+#from pyularity.pyularity import Pyularity
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
