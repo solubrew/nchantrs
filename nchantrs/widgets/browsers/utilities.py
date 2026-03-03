@@ -22,7 +22,6 @@ from condor import condor
 from ogma.logma import Logma
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidgetMixin
-from pyffice.web.url import PyfficeURL
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
