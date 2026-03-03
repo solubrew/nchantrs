@@ -75,6 +75,12 @@ class NchantdCape(NchantdPanties):
     def initView(self, cfg=None):
         """Initialize UI setting the main application layout and building
         landing widgets"""
+        # FORCE PRINT - to ensure we see this in all cases
+        print("="*60)
+        print("NchantdCape.initView() STARTING NOW")
+        print(f"cfg passed: {cfg}")
+        print("="*60)
+        
         logma.critical("="*60)
         logma.critical("NchantdCape.initView() STARTING")
         logma.critical(f"cfg passed: {cfg}")
@@ -83,6 +89,9 @@ class NchantdCape(NchantdPanties):
         if cfg is None:
             cfg = {}
         
+        # Force print
+        print(f"cfg after None check: {cfg}")
+        
         # DEBUG: Log the cfg at start of initView
         logma.critical(f"NchantdCape.initView - cfg at start: {cfg}")
         
@@ -90,24 +99,31 @@ class NchantdCape(NchantdPanties):
         self.view.initView()
 
         # Create central widget for the main window
+        print("Creating central widget and main_layout...")
         central_widget = pyqt.QWidget()
         self.main_layout = pyqt.QVBoxLayout()
         central_widget.setLayout(self.main_layout)
         self.main_widget.setCentralWidget(central_widget)
+        print(f"main_layout created: {self.main_layout}")
 
         # ==== ADD AUTHENTICATION CHECK HERE ====
         # Check if this application requires authentication
         # Always require auth for now - ensure password dialog always shows
         requires_auth = True  # Force authentication for security
-        logma.info(f"NchantdCape.initView - requires_auth: {requires_auth}")
+        
+        # Force print
+        print(f"requires_auth: {requires_auth}")
+        logma.critical(f"NchantdCape.initView - requires_auth: {requires_auth}")
         
         if requires_auth:
-            logma.info("Authentication required - showing password dialog")
+            print("Authentication required - showing password dialog NOW")
+            logma.critical("Authentication required - showing password dialog NOW")
             if not self._show_password_dialog():
-                logma.info("Authentication cancelled - exiting")
+                print("Authentication cancelled - exiting")
+                logma.critical("Authentication cancelled - exiting")
                 self.quit()
                 return self
-            logma.info("Authentication successful")
+            logma.critical("Authentication successful")
         else:
             logma.info("Authentication NOT required - skipping password dialog")
         # =======================================
@@ -126,6 +142,11 @@ class NchantdCape(NchantdPanties):
 
     def _show_password_dialog(self):
         """Show password dialog for authentication"""
+        # FORCE PRINT - to ensure we see this in all cases
+        print("="*50)
+        print("_show_password_dialog() CALLED - ABOUT TO SHOW DIALOG")
+        print("="*50)
+        
         logma.critical("="*50)
         logma.critical("_show_password_dialog() CALLED")
         logma.critical("="*50)
@@ -156,17 +177,22 @@ class NchantdCape(NchantdPanties):
         layout.addWidget(buttons)
 
         # Show dialog
+        print("About to call dialog.exec()...")
         result = dialog.exec()
+        print(f"dialog.exec() returned: {result}")
         
         if result == pyqt.QDialog.Accepted:
             password = passphrase_input.text()
             if password:
+                print("Password accepted")
                 logma.info("Password accepted")
                 return True
             else:
+                print("Empty password - rejecting")
                 logma.info("Empty password - rejecting")
                 return False
         
+        print("Dialog cancelled")
         logma.info("Dialog cancelled")
         return False
 
