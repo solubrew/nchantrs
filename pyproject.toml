@@ -75,6 +75,7 @@ dependencies = [
     "psutil",
     "black",
     "jsonschema",
+    'ruamel-yaml',
 ]
 
 [project.urls]
