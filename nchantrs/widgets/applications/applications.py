@@ -93,7 +93,7 @@ class NchantdPanties(pyqt.QApplication):
             self.config = config
         else:
             self.config.override(config)
-        logma.info(f"Panties Config {self.config.dikt.get("config", None)}")
+        logma.info(f"Panties Config {self.config.dikt.get('config', None)}")
         self.parent = parent
         self.config.override(cfg)
         self.application_name = name
