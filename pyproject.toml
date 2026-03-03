@@ -74,6 +74,7 @@ dependencies = [
     "zmq",
     "psutil",
     "black",
+    "jsonschema",
 ]
 
 [project.urls]
