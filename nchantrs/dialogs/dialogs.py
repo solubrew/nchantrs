@@ -82,6 +82,18 @@ class NchantdCape(NchantdPanties):
         central_widget.setLayout(self.main_layout)
         self.main_widget.setCentralWidget(central_widget)
 
+        # ==== ADD AUTHENTICATION CHECK HERE ====
+        # Check if this application requires authentication
+        requires_auth = cfg.get('requires_auth', True)  # Default to True
+        if requires_auth:
+            logma.info("Authentication required - showing password dialog")
+            if not self._show_password_dialog():
+                logma.info("Authentication cancelled - exiting")
+                self.quit()
+                return self
+            logma.info("Authentication successful")
+        # =======================================
+
         # Now add the widget since layout is initialized
         if cfg.get("widget", None):
             logma.info(f"Add Widget {cfg['widget']}")
@@ -93,6 +105,50 @@ class NchantdCape(NchantdPanties):
         self.main_widget.show()
 
         return self
+
+    def _show_password_dialog(self):
+        """Show password dialog for authentication"""
+        logma.info("Showing password dialog")
+        
+        dialog = pyqt.QDialog(self.main_widget)
+        dialog.setWindowTitle("Nchantrs Authentication")
+        dialog.setMinimumWidth(350)
+        dialog.setWindowFlags(dialog.windowFlags() | pyqt.Qt.Dialog)
+
+        layout = pyqt.QVBoxLayout(dialog)
+
+        # Icon
+        icon_label = pyqt.QLabel("🔐")
+        icon_label.setAlignment(pyqt.Qt.AlignCenter)
+        icon_label.setStyleSheet("font-size: 48px;")
+        layout.addWidget(icon_label)
+
+        layout.addWidget(pyqt.QLabel("Enter master passphrase to continue:"))
+
+        passphrase_input = pyqt.QLineEdit()
+        passphrase_input.setEchoMode(pyqt.QLineEdit.Password)
+        passphrase_input.returnPressed.connect(dialog.accept)
+        layout.addWidget(passphrase_input)
+
+        buttons = pyqt.QDialogButtonBox(pyqt.QDialogButtonBox.Ok | pyqt.QDialogButtonBox.Cancel)
+        buttons.accepted.connect(dialog.accept)
+        buttons.rejected.connect(dialog.reject)
+        layout.addWidget(buttons)
+
+        # Show dialog
+        result = dialog.exec()
+        
+        if result == pyqt.QDialog.Accepted:
+            password = passphrase_input.text()
+            if password:
+                logma.info("Password accepted")
+                return True
+            else:
+                logma.info("Empty password - rejecting")
+                return False
+        
+        logma.info("Dialog cancelled")
+        return False
 
     def add_widget(self, widget):
         """"""
