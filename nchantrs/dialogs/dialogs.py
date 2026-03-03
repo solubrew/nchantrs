@@ -63,6 +63,10 @@ class NchantdCape(NchantdPanties):
         self.newApplication = True
         self.src = None
 
+        # CRITICAL: Initialize the view immediately after setup
+        # This ensures main_layout is created before any widget operations
+        self.initView(cfg)
+
     @property
     def main(self):
         """Expose main_widget as main for compatibility with theme initialization"""
