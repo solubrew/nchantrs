@@ -71,12 +71,16 @@ class NchantdCape(NchantdPanties):
     def initView(self, cfg=None):
         """Initialize UI setting the main application layout and building
         landing widgets"""
+        logma.critical("="*60)
+        logma.critical("NchantdCape.initView() STARTING")
+        logma.critical(f"cfg passed: {cfg}")
+        logma.critical("="*60)
+        
         if cfg is None:
             cfg = {}
         
         # DEBUG: Log the cfg at start of initView
-        logma.info(f"NchantdCape.initView START - cfg: {cfg}")
-        logma.info(f"NchantdCape.initView START - cfg.get('requires_auth'): {cfg.get('requires_auth', 'NOT_IN_CFG')}")
+        logma.critical(f"NchantdCape.initView - cfg at start: {cfg}")
         
         super().initView()
         self.view.initView()
@@ -118,7 +122,9 @@ class NchantdCape(NchantdPanties):
 
     def _show_password_dialog(self):
         """Show password dialog for authentication"""
-        logma.info("Showing password dialog")
+        logma.critical("="*50)
+        logma.critical("_show_password_dialog() CALLED")
+        logma.critical("="*50)
         
         dialog = pyqt.QDialog(self.main_widget)
         dialog.setWindowTitle("Nchantrs Authentication")
