@@ -23,7 +23,7 @@ import zmq
 from condor import condor
 from ogma.logma import Logma
 from nchantrs.widgets.managers import NchantdManager
-from pyularity.pyularity import Pyularity
+#from pyularity.pyularity import Pyularity
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -43,7 +43,7 @@ class NchantdCommunicationsManager(object):
         self.config = condor.Instruct(pxcfg).select("NchantdCommunicationsManager").override(cfg)
         self.socket = None
         self.reply = None
-        self.supervisor = Pyularity()
+        #self.supervisor = Pyularity()
 
     def initManager(self):
         """"""
