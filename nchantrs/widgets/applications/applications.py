@@ -40,7 +40,6 @@ from nchantrs.extensions.packages.nchantdlibrary.nchantdlibrary import NchantdLi
 from nchantrs.updates.db import DBUpdate
 from nchantrs.utilities.comms import NchantdCommunicationsManager
 from nchantrs.views.applicationviews import NchantdCloakView, NchantdPantiesView
-from nchantrs.agents.agents import NchantdSentinelManager
 from nchantrs.widgets.controls.menus import NchantdContextMenu
 from ogma.logma import Logma
 
