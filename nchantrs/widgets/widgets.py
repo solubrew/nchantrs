@@ -26,7 +26,7 @@ from ogma.logma import Logma
 from condor.utils import thingify
 from nchantrs.utilities.utils import lookup
 from nchantrs.widgets.controls.menus import NchantdMenu, NchantdContextMenu
-from pyffice.items.colors import PyfficeColor
+#from pyffice.items.colors import PyfficeColor
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")
@@ -474,13 +474,13 @@ class NchantdWidgetMixin(object):
 
     def set_background(self, color=None, hex=None):
         """"""
-        logma.info(f"Set Background {color} {hex}")
-        if color is not None:
-            cfg = {"unit": {"color": color}}
-            color = PyfficeColor(cfg).load_unit()
-        if hex is not None:
-            cfg = {"unit": {"hex": hex}}
-            color = PyfficeColor(cfg).load_unit()
+        # logma.info(f"Set Background {color} {hex}")
+        # if color is not None:
+        #     cfg = {"unit": {"color": color}}
+        #     color = PyfficeColor(cfg).load_unit()
+        # if hex is not None:
+        #     cfg = {"unit": {"hex": hex}}
+        #     color = PyfficeColor(cfg).load_unit()
 
         logma.info(f"Set Background {color.get_hex()}")
         self.setStyleSheet(f"background-color: {color.get_hex()}; color: {color.calculate_text_color()}")
