@@ -74,14 +74,33 @@ class NchantdTheme:
 
     def import_theme(self, named_style="midnight_frost", palette=None, name=None):
         """ """
+        logma.info(f"[THEME] Loading theme: {named_style}")
         if name is None:
             name = generate_theme_name(palette)
         qss = join(here, "_data_", "themes", f"{named_style}.qss")
+        logma.info(f"[THEME] QSS file path: {qss}")
+        logma.info(f"[THEME] File exists: {exists(qss)}")
+        
+        # Read and log QSS content summary
+        try:
+            qss_content = open(qss, "r").read()
+            logma.info(f"[THEME] QSS content length: {len(qss_content)} chars")
+            # Check for any # references in the raw QSS
+            hash_lines = [line for line in qss_content.split('\n') if '#' in line and 'green' in line.lower()]
+            if hash_lines:
+                logma.info(f"[THEME] Lines with # and green: {hash_lines}")
+        except Exception as e:
+            logma.warning(f"[THEME] Could not read QSS: {e}")
+            qss_content = ""
+            
         if named_style == "dynamic":
-            self.app.setStyleSheet(self.create_theme(palette, name, open(qss, "r").read()))
+            styled = self.create_theme(palette, name, qss_content)
+            logma.info(f"[THEME] Dynamic theme created, length: {len(styled)}")
+            self.app.setStyleSheet(styled)
         else:
             try:
-                self.app.setStyleSheet(open(qss, "r").read())
+                logma.info(f"[THEME] Setting stylesheet directly for: {named_style}")
+                self.app.setStyleSheet(qss_content)
             except Exception as e:
                 logma.warning(f"Could find style {named_style}")
                 raise e
