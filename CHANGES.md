@@ -26,9 +26,14 @@ All notable changes to the Nchantrs project will be documented in this file.
 - Widget initialization timing issues
 - Theme CSS: `#green` → `green` (invalid hex color name)
 - logma.off() causing dialogs to not appear
+- **P0-1.1**: Checkable attribute bug (PySide6 compatibility) in entries.py
+- **P0-1.4**: Auth bypass - insecure default password + debug exception bypass in users.py
 
 ### Security
 - Password dialog authentication added to NchantdCape
+- **P0-1.4**: Fixed auth bypass vulnerabilities in users.py
+  - Removed insecure default password generation (user.upper() + uuid)
+  - Removed debug mode exception that exposed password hash
 
 ### Technical Debt
 - Documentation rewritten (STATE.md, CHANGES.md, BREAKING_CHANGES.md)
