@@ -10,6 +10,8 @@ All notable changes to the Nchantrs project will be documented in this file.
 - AXN Upgrade Plan for systematic improvements
 - Comprehensive TODO inventory (102 items documented)
 - GlainMixin class for optional glain integration
+- DataSourceDumper debug utilities for inspecting dialog data sources
+- Verbose theme loading logs for debugging CSS issues
 
 ### Changed
 - Force authentication always required (requires_auth = True)
@@ -22,6 +24,8 @@ All notable changes to the Nchantrs project will be documented in this file.
 - syntax.py: Fixed FIXME triple-quote regex issues using raw strings
 - Removed unused imports across multiple files
 - Widget initialization timing issues
+- Theme CSS: `#green` → `green` (invalid hex color name)
+- logma.off() causing dialogs to not appear
 
 ### Security
 - Password dialog authentication added to NchantdCape
@@ -29,6 +33,13 @@ All notable changes to the Nchantrs project will be documented in this file.
 ### Technical Debt
 - Documentation rewritten (STATE.md, CHANGES.md, BREAKING_CHANGES.md)
 - TODO comments organized into AXN plan
+- Code audit: nchantdoffice reviewed as reference implementation
+
+### Upgrade Scope
+- **Scope**: nchantrs + nchantdoffice
+- **Breaking changes**: OK if documented in BREAKING_CHANGES.md
+- **Resolution**: Address in nchantdoffice (reference implementation)
+- **Goal**: nchantrs becomes core codebase for Solutions Brewer products
 
 ---
 

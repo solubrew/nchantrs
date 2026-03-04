@@ -202,7 +202,30 @@ nchantrs/
 | **NchantdPyKey** | Child app | 🔴 Auth bug open |
 | **NchantdCape** | Core component | ✅ Stable |
 | **NchantdCloak** | Core component | ✅ Stable |
-| **NchantdOffice** | Parent app | ⏳ Pending |
+| **NchantdOffice** | Reference implementation | ⏳ Pending |
+
+---
+
+## Upgrade Scope (2026-03-03)
+
+### Scope Definition
+| Item | Details |
+|------|---------|
+| **Scope** | nchantrs + nchantdoffice |
+| **Breaking changes** | OK if documented |
+| **Resolution target** | nchantdoffice (reference impl) |
+| **Goal** | nchantrs = core codebase for Solutions Brewer products |
+
+### nchantdoffice (Reference Implementation)
+- 11 Python files
+- Working tree/tab generation patterns
+- DB-driven widget architecture
+- NchantdCloak-based implementation
+
+### nchantrs (Core Framework)
+- 429 Python files
+- 102 TODO/FIXME items
+- 25 AXN-tracked tasks
 
 ---
 

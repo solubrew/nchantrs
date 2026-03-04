@@ -81,13 +81,31 @@ This plan organizes 102 TODO items found in the Nchantrs codebase into prioritiz
 
 | Priority | Total | Completed | In Progress | Pending |
 |----------|-------|-----------|-------------|---------|
-| P0 | 3 | 0 | 0 | 3 |
+| P0 | 3 | 1 | 0 | 2 |
 | P1 | 12 | 0 | 0 | 12 |
 | P2 | 7 | 0 | 0 | 7 |
 | P3 | 3 | 0 | 0 | 3 |
-| **TOTAL** | **25** | **0** | **0** | **25** |
+| **TOTAL** | **25** | **1** | **0** | **24** |
 
-*Note: 102 TODOs total, 77 are minor/cosmetic and tracked separately.*
+---
+
+## 2026-03-03 Update
+
+### Completed This Session
+- [x] P0-01: logma.off() fix (commit b5d5e92, 1931cf5)
+- [x] Theme CSS: #green → green fix (commit c6bc679)
+- [x] Added DataSourceDumper debug utilities
+- [x] Added verbose theme loading logs
+- [x] Audited nchantdoffice as reference implementation
+- [x] Updated CHANGES.md with session work
+- [x] Defined upgrade scope: nchantrs + nchantdoffice
+
+### In Progress
+- [ ] P0-02: Checkable attribute bug (entries.py:96)
+- [ ] Verify logma.off() fix on test machine
+
+### Blocked
+- Test machine needs reinstall to verify fixes
 
 ---
 
