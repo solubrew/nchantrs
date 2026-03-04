@@ -32,6 +32,9 @@ Nchantrs is a Python module for rapidly creating PyQt5/PySide6 applications usin
 | Issue | Status | Description |
 |-------|--------|-------------|
 | **NchantdPyKey Auth Bug** | 🔴 Open | Empty dialog appears, password dialog not showing. Investigation ongoing in NchantdCape.initView() flow |
+| **logma.off() causing dialogs not to show** | ✅ FIXED | Commits b5d5e92 + 1931cf5 - Requires reinstall on test machine |
+| **Checkable attribute bug** | 🟡 Pending | `media/editors/entries.py:96` - needs investigation |
+| **syntax.py remaining FIXMEs** | 🟡 Pending | Some FIXMEs remain after commit 1931cf5 |
 
 ---
 
