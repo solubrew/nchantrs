@@ -1,134 +1,135 @@
 # Nchantrs Upgrade Plan (AXN)
 
-## 🎯 CURRENT FOCUS: Production Readiness
+## 🎯 SCOPE: nchantrs + nchantdoffice
+
+**Goal:** nchantrs becomes the core codebase for Solutions Brewer products.
 
 ---
 
-## 📋 Phase 1: Core Stability (Immediate)
+## 📊 AUDIT COMPLETE
 
-### Authentication & Security
-| Priority | Item | Status | Location |
-|----------|------|--------|----------|
-| 🔴 P0 | Fix NchantdPyKey empty dialog bug | 🔴 OPEN | dialogs.py - initView() not executing |
-| 🔴 P0 | Fix auth bypass in NchantdPyKeyWidget | 🔴 OPEN | _check_nchantrs_auth() skips auth |
-| 🟡 P1 | Implement RSA key pair for encryption | 🔴 OPEN | utilities/users.py:233 |
-| 🟡 P1 | Add password dialog standardization | 🔴 OPEN | utilities/users.py:106 |
-| 🟡 P2 | Function call white-list for generators | 🔴 OPEN | utilities/users.py:91, 278, 293 |
-
-### Critical Bugs
-| Priority | Item | Status | Location |
-|----------|------|--------|----------|
-| 🔴 P0 | Fix Checkable attribute bug | 🔴 OPEN | media/editors/entries.py:96 |
-| 🟡 P1 | FIXMEs in syntax.py (triple-quotes) | 🔴 OPEN | libraries/syntax.py:71, 200, 364, 493 |
-| 🟡 P2 | HACKs in groups.py scroll handling | 🔴 OPEN | widgets/groups.py:431-438 |
+| Metric | Value |
+|--------|-------|
+| Total Python Files | 215 |
+| Total Directories | 107 |
+| TODO/FIXME/HACK/BUG | 110 |
+| Files Audited | 100% |
 
 ---
 
-## 📋 Phase 2: Code Quality
+## 🔴 PHASE 1: Critical Bugs (P0)
 
-### Refactoring
-| Priority | Item | Status | Location |
-|----------|------|--------|----------|
-| 🟡 P1 | Refactor node retrieval in models | 🔴 OPEN | models/applicationmodels.py:223 |
-| 🟡 P1 | Refactor file_path handling | 🔴 OPEN | models/tabsetmodels.py:242 |
-| 🟡 P2 | Move get_current_node logic to proper class | 🔴 OPEN | models/applicationmodels.py:372 |
-| 🟢 P3 | Clean up TODO: integration needed | 🔴 OPEN | models/models.py:911 |
+### Status: IN PROGRESS
 
-### Error Handling
-| Priority | Item | Status | Location |
-|----------|------|--------|----------|
-| 🟡 P1 | Add instance state crash handling | 🔴 OPEN | models/models.py:1135 |
-| 🟡 P2 | Add tab position persistence | 🔴 OPEN | models/tabsetmodels.py:170 |
+| # | Issue | Location | Status |
+|---|-------|----------|--------|
+| 1.1 | Checkable attribute bug | widgets/media/editors/entries.py:96 | 🔴 OPEN |
+| 1.2 | logma.off() dialog issue | dialogs/dialogs.py | ✅ FIXED |
+| 1.3 | #green CSS error | themes/themes.py | ✅ FIXED |
+| 1.4 | Auth bypass in NchantdPyKey | utilities/users.py | 🔴 OPEN |
 
 ---
 
-## 📋 Phase 3: Features & Enhancements
+## 🟡 PHASE 2: Code Quality (P1)
 
-### Upgrades Service
-| Priority | Item | Status | Location |
-|----------|------|--------|----------|
-| 🟡 P1 | Connect to service/contract for version check | 🔴 OPEN | services/upgrades.py:37 |
-| 🟡 P2 | Implement upgrade traffic controls | 🔴 OPEN | services/upgrades.py:101-116 |
+### 2.1 Libraries & Syntax
+| # | Issue | Location | Status |
+|---|-------|----------|--------|
+| 2.1.1 | FIXMEs in syntax.py | libraries/syntax.py:71, 200, 364, 493 | 🟡 IN PROGRESS |
+| 2.1.2 | PyQt5 → PySide6 migration | libraries/*.py | 🔴 OPEN |
+| 2.1.3 | UUID upgrade to v7/8 | dstruct.py | 🔴 OPEN |
 
-### Wizards
-| Priority | Item | Status | Location |
-|----------|------|--------|----------|
-| 🟡 P1 | Fix shortcut path from app to install scripts | 🔴 OPEN | wizards/apps.py:336 |
-| 🟡 P2 | Handle .desktop file permissions | 🔴 OPEN | wizards/apps.py:362 |
-| 🟡 P2 | Implement primary instance loading | 🔴 OPEN | wizards/apps.py:423 |
-| 🟢 P3 | Implement Pro-level library controls | 🔴 OPEN | wizards/apps.py:506 |
+### 2.2 Models
+| # | Issue | Location | Status |
+|---|-------|----------|--------|
+| 2.2.1 | Refactor node retrieval | models/applicationmodels.py:223 | 🔴 OPEN |
+| 2.2.2 | Refactor file_path handling | models/tabsetmodels.py:242 | 🔴 OPEN |
+| 2.2.3 | Instance state crash handling | models/models.py:1135 | 🔴 OPEN |
 
-### Models
-| Priority | Item | Status | Location |
-|----------|------|--------|----------|
-| 🟡 P2 | Connect tree nodes to tabsets properly | 🔴 OPEN | models/tabsetmodels.py:132-139 |
-| 🟡 P2 | Add link table for affiliate connections | 🔴 OPEN | models/applicationmodels.py:627 |
-| 🟢 P3 | Fix pyffice_version reference | 🔴 OPEN | models/models.py:1218 |
-
-### Widgets & Browsers
-| Priority | Item | Status | Location |
-|----------|------|--------|----------|
-| 🟡 P2 | Change browser to web app viewer | 🔴 OPEN | widgets/browsers/browsers.py:125 |
-| 🟡 P2 | Add multi-profile user warning | 🔴 OPEN | widgets/browsers/browsers.py:226 |
-| 🟡 P2 | Track web addresses for login redirects | 🔴 OPEN | widgets/browsers/browsers.py:598 |
-| 🟢 P3 | Add download tracking | 🔴 OPEN | widgets/browsers/pages.py:777 |
-
-### License & Pro Features
-| Priority | Item | Status | Location |
-|----------|------|--------|----------|
-| 🟡 P2 | Find NFT contract connections | 🔴 OPEN | services/license.py:35 |
-| 🟢 P3 | Implement Pro level features | 🔴 OPEN | wizards/users.py:211 |
+### 2.3 Utilities
+| # | Issue | Location | Status |
+|---|-------|----------|--------|
+| 2.3.1 | RSA key pair encryption | utilities/users.py:233 | 🔴 OPEN |
+| 2.3.2 | Password dialog standardization | utilities/users.py:106 | 🔴 OPEN |
+| 2.3.3 | Function call white-list | utilities/users.py:91, 278, 293 | 🔴 OPEN |
 
 ---
 
-## 📋 Phase 4: Technical Debt
+## 🟢 PHASE 3: Features & Enhancements (P2)
 
-### Documentation & Cleanup
-| Priority | Item | Status |
-|----------|------|--------|
-| 🟢 P3 | Consolidate TODO comments into tickets |
-| 🟢 P3 | Add docstrings to undocumented functions |
-| 🟢 P3 | Remove dead code from models.py |
+### 3.1 Services
+| # | Issue | Location | Status |
+|---|-------|----------|--------|
+| 3.1.1 | Version check service | services/upgrades.py:37 | 🔴 OPEN |
+| 3.1.2 | Upgrade traffic controls | services/upgrades.py:101-116 | 🔴 OPEN |
 
-### Testing
-| Priority | Item | Status |
-|----------|------|--------|
-| 🟡 P2 | Add unit tests for authentication flow |
-| 🟡 P2 | Add integration tests for wizards |
-| 🟢 P3 | Add tests for models CRUD operations |
+### 3.2 Wizards
+| # | Issue | Location | Status |
+|---|-------|----------|--------|
+| 3.2.1 | App shortcut path | wizards/apps.py:336 | 🔴 OPEN |
+| 3.2.2 | .desktop file permissions | wizards/apps.py:362 | 🔴 OPEN |
+| 3.2.3 | Primary instance loading | wizards/apps.py:423 | 🔴 OPEN |
 
----
-
-## 📊 Summary Stats
-
-| Category | Count |
-|----------|-------|
-| 🔴 P0 (Critical) | 3 |
-| 🟡 P1 (High) | 18 |
-| 🟡 P2 (Medium) | 15 |
-| 🟢 P3 (Low) | 10 |
-| **TOTAL** | **58** |
+### 3.3 Widgets
+| # | Issue | Location | Status |
+|---|-------|----------|--------|
+| 3.3.1 | Browser to web app viewer | widgets/browsers/browsers.py:125 | 🔴 OPEN |
+| 3.3.2 | Multi-profile user warning | widgets/browsers/browsers.py:226 | 🔴 OPEN |
+| 3.3.3 | Login redirect tracking | widgets/browsers/browsers.py:598 | 🔴 OPEN |
 
 ---
 
-## 🔄 Related: NchantdPyKey Bug Context
+## 🔵 PHASE 4: Technical Debt (P3)
 
-### Symptom
-Empty dialog appears, no password dialog shown
+### 4.1 Documentation
+| # | Item | Status |
+|---|------|--------|
+| 4.1.1 | Consolidate TODOs into tickets | 🔴 OPEN |
+| 4.1.2 | Add docstrings | 🔴 OPEN |
+| 4.1.3 | Remove dead code | 🔴 OPEN |
 
-### Logs Show
-1. Widget added to layout ✅
-2. Widget displayed ✅
-3. App exits 3 seconds later ❌
-4. **Missing:** initView() called log
-5. **Missing:** _show_password_dialog() log
+### 4.2 Testing
+| # | Item | Status |
+|---|------|--------|
+| 4.2.1 | Auth flow unit tests | 🔴 OPEN |
+| 4.2.2 | Wizard integration tests | 🔴 OPEN |
+| 4.2.3 | Model CRUD tests | 🔴 OPEN |
 
-### Root Cause
-- `self.initView(cfg)` not being called in NchantdCape.__init__
-- OR initView() crashes before logging
-- Auth flow completely bypassed
+---
 
-### Next Steps
-1. Add try/except around initView() call
-2. Verify initView() executes
-3. Debug why password dialog doesn't display
+## 📈 PROGRESS TRACKING
+
+### Completed This Session
+- [x] Comprehensive codebase audit
+- [x] File statistics analyzed
+- [x] TODO/FIXME counts mapped
+- [x] NchantdOffice patterns reviewed
+- [x] Critical bugs identified
+- [x] AXN task hierarchy created
+
+### Remaining
+- [ ] Push all audit docs to GitVein
+- [ ] Start P0 bug fixes
+- [ ] Update CHANGES.md with progress
+
+---
+
+## 🔗 REFERENCE: NchantdOffice
+
+Working implementation patterns from nchantdoffice:
+- Dynamic tree/tab generation from DB
+- NchantdCloak base class inheritance
+- Base64 content storage in `doc_media_content.content_enc64_txt`
+
+---
+
+## 📝 Breaking Changes Policy
+
+- Breaking changes are **OK**
+- Must be documented in BREAKING_CHANGES.md
+- Resolution required in nchantdoffice (reference impl)
+
+---
+
+*Last Updated: 2026-03-03*
+*Status: AUDIT COMPLETE - Ready for P0 fixes*
