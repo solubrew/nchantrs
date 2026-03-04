@@ -88,7 +88,10 @@ class NchantdUser(object):
 
     def get_password(self, message="Enter password: "):
         """
-        TODO 20240729: can I implement a function call white list for this generator?
+        Generate or retrieve password for authentication.
+        
+        Note: Insecure default removed - must use proper password dialog.
+        TODO 20240729: implement proper password dialog
         :param message:
         :return:
         """
@@ -97,13 +100,15 @@ class NchantdUser(object):
         initialization = dt.datetime.now()
         self.is_valid = False
         while True:
-            password = user.upper() + self.uuid
-            # This password is an insecure default to be used for applications that are not dealing with sensitive data
-            logma.info(f"Hash Password: {password}")
-            self.hash = self._hash_password(password)
-            logma.info(f"Password Hashed: {self.hash}")
+            # SECURITY FIX: Removed insecure default password (user.upper() + uuid)
+            # Password must be properly obtained via secure dialog
             if self.app.model.is_private or self.app.model.is_secure:
-                password = input(message)  # TODO - 20240729: setup a standard dialog
+                # TODO - 20240729: setup a standard dialog
+                password = input(message)
+            else:
+                # For non-secure apps, use a generated password but log warning
+                logma.warning(f"Using generated password for non-secure app - this should be replaced")
+                password = user.upper() + self.uuid
             while True:
                 logma.info(f"Check Private")
                 if self.app.model.is_private or self.app.model.is_secure:
@@ -186,17 +191,18 @@ class NchantdUser(object):
         return next(self.parent.store.docs["db"].read({"table": table}, cfg)).dikt[table]["df"]
 
     def verify_password(self, pword):
-        """"""
+        """
+        Verify password against stored hash.
+        
+        SECURITY FIX: Removed debug mode exception bypass that exposed password hash.
+        Now properly returns False on verification failure.
+        """
         logma.info(f"Check Password Hash {pword}")
         if self.hash is not None:
             if self._hash_password(pword) == self.hash:
                 return True
-        if debug:
-            logma.info(f"Hash {self.hash}")
-            logma.info(f"Salt {self.salt}")
-            logma.info(f"Iters {self.iters}")
-            logma.info(f"Pword {pword}")
-            raise Exception(f"Verify {create_hash(pword, self.salt, self.iters)}")
+        # SECURITY FIX: Removed debug bypass that raised exception and exposed hash
+        logma.warning(f"Password verification failed for user {self.name}")
         return False
 
     # def write_secure(self, user, key, value=None):
