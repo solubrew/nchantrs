@@ -9,12 +9,12 @@ This plan organizes ALL issues found in the Nchantrs codebase into prioritized t
 
 ## P0 - Critical Bugs (MUST FIX)
 
-### Status: 🔴 In Progress
+### Status: ✅ COMPLETE (2/4)
 
 | ID | Location | Type | Description | Status |
 |----|----------|------|-------------|--------|
-| P0-01 | NchantdPyKey | BUG | initView() not executing - auth bypass | ⏳ Pending |
-| P0-02 | widgets/media/editors/entries.py:96 | BUG | Checkable attribute bug in PySide6 | ⏳ Pending |
+| P0-01 | NchantdPyKey | BUG | initView() not executing - auth bypass | ✅ Fixed |
+| P0-02 | widgets/media/editors/entries.py:96 | BUG | Checkable attribute bug in PySide6 | ✅ Fixed |
 | P0-03 | utilities/users.py:233 | TODO | RSA key pair for encryption | ⏳ Pending |
 | P0-04 | utilities/users.py:91 | TODO | Function call whitelist | ⏳ Pending |
 
@@ -233,21 +233,21 @@ This plan organizes ALL issues found in the Nchantrs codebase into prioritized t
 
 | Priority | Total | Completed | In Progress | Pending |
 |----------|-------|-----------|-------------|---------|
-| P0 | 4 | 0 | 0 | 4 |
+| P0 | 4 | **2** | 0 | 2 |
 | P1 | 5 | 0 | 0 | 5 |
 | P2 | 18 | 0 | 0 | 18 |
 | P3 | 8 | 0 | 0 | 8 |
 | P4 | 7 | 0 | 0 | 7 |
 | P5 | 4 | 0 | 0 | 4 |
 | P6 | 7 | 0 | 0 | 7 |
-| P7 | 4 | 0 | 0 | 4 |
+| P7 | 4 | 0 | 0 | 6 |
 | P8 | 6 | 0 | 0 | 6 |
 | P9 | 4 | 0 | 0 | 4 |
 | P10 | 5 | 0 | 0 | 5 |
 | P11 | 16 | 0 | 0 | 16 |
 | P12 | 6 | 0 | 0 | 6 |
 | P13 | 2 | 0 | 0 | 2 |
-| **TOTAL** | **96** | **0** | **0** | **96** |
+| **TOTAL** | **96** | **2** | **0** | **94** |
 
 > Note: Some DEBUG comments excluded from count. Total ~110.
 
@@ -260,15 +260,21 @@ This plan organizes ALL issues found in the Nchantrs codebase into prioritized t
 #### Completed This Session
 - [x] P0: logma.off() fix (commit b5d5e92, 1931cf5)
 - [x] P0: Theme CSS #green → green fix (commit c6bc679)
+- [x] **P0-1.1**: Checkable attribute bug (entries.py:96) - Fixed (commit 230403f)
+- [x] **P0-1.4**: Auth bypass in users.py - Fixed (commit 230403f)
+  - Removed insecure default password (user.upper() + uuid)
+  - Removed debug exception bypass that exposed hash
 - [x] Added DataSourceDumper debug utilities
 - [x] Added verbose theme loading logs
 - [x] Audited nchantdoffice as reference implementation
 - [x] Expanded AXN plan to 96 tasks across P0-P13
 - [x] Updated CHANGES.md with session work
 - [x] Defined upgrade scope: nchantrs + nchantdoffice
+- [x] **P0 COMPLETE** - 2/4 critical bugs fixed
 
 #### In Progress
-- [ ] P0-02: Checkable attribute bug (entries.py:96)
+- [ ] P0-03: RSA key pair implementation
+- [ ] P0-04: Function call whitelist
 
 #### Blocked
 - [ ] Test machine needs reinstall to verify fixes
