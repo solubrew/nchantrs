@@ -45,32 +45,86 @@ class NchantdCape(NchantdPanties):
         """
         :param name:
         :param cfg:
+        
+        NOTE: We intentionally do NOT call super().__init__() because that would
+        start the Qt event loop and block. Instead, we set up necessary attributes
+        manually and defer Qt initialization.
         """
-        super().__init__(name, instance, parent, self.config)
+        print("="*60)
+        print("NchantdCape.__init__ STARTING (NO super().__init__)")
+        print(f"name: {name}, cfg: {cfg}")
+        print("="*60)
+        
+        # Set up config manually (like parent does, but without blocking)
+        config = condor.Instruct(pxcfg).select("NchantdPanties").addArgs(args)
+        if self.config is None:
+            self.config = config
+        else:
+            self.config.override(config)
         self.config.override(pxcfg).select("NchantdCape").override(cfg).addArgs(args)
         logma.info(f"NchantdCape Config: {self.config.dikt}")
         self.parent = parent
+        
+        # Set up application attributes manually (without starting event loop)
+        self.application_name = name
+        self.slug = self.application_name.lower().replace(" ", "_")
+        self.application_NCD = "da1e9bb0-1dab-48de-ac28-9afa91568a39"
+        self.dialogs = {}
+        self.reset = None
+        self.app = pyqt.QApplication.instance()
+        if self.app is None:
+            self.app = pyqt.QApplication(argv)
+        self.primary_focus = None
+        self.is_installable = self.config.dikt.get("is_installable", False)
+        self.is_install_optional = self.config.dikt.get("is_install_optional", False)
+        self.is_install_selected = False
 
         # Create a main window widget to hold the content instead of a separate dialog
+        print("Creating main_widget...")
         self.main_widget = pyqt.QMainWindow()
         self.main_widget.setWindowTitle(name)
         # QMainWindow doesn't have finished signal, use destroyed or closeEvent instead
         self.main_widget.destroyed.connect(self.quit)
+        print("main_widget created")
 
+        print("Creating model and view...")
         self.model = NchantdCapeModel(self)
         self.view = NchantdCapeView(self)
         self.user = self.model.user
         self.newApplication = True
         self.src = None
+        print("Model and view created")
 
         # CRITICAL: Initialize the view immediately after setup
         # This ensures main_layout is created before any widget operations
-        self.initView(cfg)
+        print(f"About to call initView(cfg={cfg})...")
+        try:
+            self.initView(cfg)
+        except Exception as e:
+            print(f"CRITICAL ERROR in initView: {e}")
+            import traceback
+            traceback.print_exc()
+            raise
+        print("initView completed")
 
     @property
     def main(self):
         """Expose main_widget as main for compatibility with theme initialization"""
         return self.main_widget
+
+    def quit(self):
+        """Exit the application"""
+        print("quit() called")
+        if self.app:
+            self.app.quit()
+        return self
+
+    def exit(self, code=0):
+        """Exit the application with code"""
+        print(f"exit({code}) called")
+        if self.app:
+            self.app.exit(code)
+        return self
 
     def initView(self, cfg=None):
         """Initialize UI setting the main application layout and building
@@ -80,12 +134,12 @@ class NchantdCape(NchantdPanties):
         print("NchantdCape.initView() STARTING NOW")
         print(f"cfg passed: {cfg}")
         print("="*60)
-        
+
         logma.critical("="*60)
         logma.critical("NchantdCape.initView() STARTING")
         logma.critical(f"cfg passed: {cfg}")
         logma.critical("="*60)
-        
+
         if cfg is None:
             cfg = {}
         
