@@ -22,11 +22,17 @@ Nchantrs is a Python module for rapidly creating PyQt5/PySide6 applications usin
 ### Latest Commits
 | Commit | Description |
 |--------|-------------|
+| `c6bc679` | Add debug utilities module for data source dumps |
 | `62f84c4` | Fix: call initView() in NchantdCape.__init__ |
 | `adae9c8` | Add critical logging to trace initView and _show_password_dialog |
 | `534570f` | Force authentication - always show password dialog |
 | `e3b5a09` | Add detailed auth logging to NchantdCape.initView |
 | `298c147` | Add password dialog to NchantdCape before loading widget |
+
+### Latest Features
+| Feature | Status | Description |
+|---------|--------|-------------|
+| **Debug Utilities** | ✅ NEW | `nchantrs/utilities/debug.py` - DataSourceDumper for inspecting store/model state |
 
 ### Known Issues
 | Issue | Status | Description |
