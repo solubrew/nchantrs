@@ -148,7 +148,7 @@ class NchantdCape(NchantdPanties):
         # CRITICAL: Now call super().__init__() to properly initialize Qt inheritance
         # This is required for exec_() to work in initApp()
         logma.critical("Calling super().__init__() to initialize Qt base class...")
-        super().__init__()
+        super().__init__(name)
         logma.critical("super().__init__() completed")
         
         self.main_widget = self  # Use self (the QMainWindow) as the main widget
