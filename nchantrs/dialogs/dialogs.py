@@ -74,6 +74,24 @@ class NchantdCape(NchantdPanties):
             self.config = config
         else:
             self.config.override(config)
+        
+        # Try to load app-specific YAML config (e.g., nchantdaxn.yaml for NchantdAXN)
+        # This allows apps to define their own settings like requires_auth
+        app_yaml_name = name.lower().replace(" ", "") + ".yaml"  # e.g., nchantdaxn.yaml
+        import importlib.util
+        # Find the app module to locate its _data_ directory
+        app_module_name = name.lower().replace(" ", "")  # e.g., nchantdaxn
+        try:
+            app_spec = importlib.util.find_spec(app_module_name)
+            if app_spec and app_spec.submodule_search_locations:
+                app_path = app_spec.submodule_search_locations[0]
+                app_yaml_path = join(app_path, "_data_", app_yaml_name)
+                if exists(app_yaml_path):
+                    logma.info(f"Loading app-specific config: {app_yaml_path}")
+                    self.config.override(app_yaml_path).select(name)
+        except Exception as e:
+            logma.info(f"Could not load app YAML: {e}")
+        
         self.config.override(pxcfg).select("NchantdCape").override(cfg).addArgs(args)
         logma.info(f"NchantdCape Config: {self.config.dikt}")
         self.parent = parent
