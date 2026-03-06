@@ -33,6 +33,8 @@ from ogma.logma import Logma
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+# Enable file logging to track issues without requiring console
+logma.activate_file_handler(filename="nchantrs_dialogs.log")
 
 # ===============================================================================||
 pxcfg = join(abspath(here), "_data_", "dialogs.yaml")  # ||

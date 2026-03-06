@@ -31,6 +31,8 @@ from ogma.logma import Logma
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
 logma.off()
+# Enable file logging to track issues without requiring console
+logma.activate_file_handler(filename="nchantrs_applicationviews.log")
 
 # ====================================================================================================================||
 pxcfg = join(abspath(here), "_data_", "applicationviews.yaml")
