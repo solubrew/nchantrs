@@ -13,7 +13,7 @@
 """
 # -*- coding: utf-8 -*-
 # ================================Core Modules===================================||
-from os.path import abspath, dirname, join
+from os.path import abspath, dirname, exists, join
 from sys import argv
 
 # ===============================================================================||
