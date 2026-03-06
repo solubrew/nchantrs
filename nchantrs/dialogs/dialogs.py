@@ -71,9 +71,7 @@ class NchantdCape(NchantdPanties):
         self.application_NCD = "da1e9bb0-1dab-48de-ac28-9afa91568a39"
         self.dialogs = {}
         self.reset = None
-        self.app = pyqt.QApplication.instance()
-        if self.app is None:
-            self.app = pyqt.QApplication(argv)
+        self.app = self  # Set app to self (like parent NchantdPanties does)
         self.primary_focus = None
         self.is_installable = self.config.dikt.get("is_installable", False)
         self.is_install_optional = self.config.dikt.get("is_install_optional", False)
