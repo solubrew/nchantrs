@@ -88,6 +88,15 @@ class NchantdCape(NchantdPanties):
         print("Creating main_widget...")
         logma.critical("About to create QMainWindow...")
         logma.critical(f"QApplication.instance() before QMainWindow: {pyqt.QApplication.instance()}")
+        
+        # CRITICAL: Create QApplication BEFORE creating QMainWindow
+        logma.critical("Creating QApplication...")
+        if pyqt.QApplication.instance() is None:
+            self._qapp = pyqt.QApplication(['nchantdaxn'])
+            logma.critical(f"QApplication created: {pyqt.QApplication.instance()}")
+        else:
+            logma.critical(f"QApplication already exists: {pyqt.QApplication.instance()}")
+        
         self.main_widget = pyqt.QMainWindow()
         logma.critical(f"QApplication.instance() after QMainWindow: {pyqt.QApplication.instance()}")
         self.main_widget.setWindowTitle(name)
