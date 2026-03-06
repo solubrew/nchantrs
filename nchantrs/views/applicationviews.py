@@ -52,7 +52,9 @@ class NchantdPantiesView(object):
         self.layout = None
         self.pre_view_init_ran = False
         self.post_view_init_ran = False
-        self.app = pyqt.QApplication.instance()
+        # NOTE: Do NOT overwrite self.app here - it's already set correctly by the parent (NchantdCape)
+        # self.app should be NchantdCape (or NchantdPanties) which has .main attribute
+        # Previously this line overwrote self.app with raw QApplication.instance() which broke theme initialization
 
     def init_pre_view(self):
         """ """
