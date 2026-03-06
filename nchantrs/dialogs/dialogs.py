@@ -100,8 +100,10 @@ class NchantdCape(NchantdPanties):
         self.main_widget = pyqt.QMainWindow()
         logma.critical(f"QApplication.instance() after QMainWindow: {pyqt.QApplication.instance()}")
         self.main_widget.setWindowTitle(name)
+        # CRITICAL: Prevent recursive quit by using a flag
+        self._quitting = False
         # QMainWindow doesn't have finished signal, use destroyed or closeEvent instead
-        self.main_widget.destroyed.connect(self.quit)
+        self.main_widget.destroyed.connect(self._on_main_widget_destroyed)
         print("main_widget created")
 
         print("Creating model and view...")
@@ -132,8 +134,22 @@ class NchantdCape(NchantdPanties):
     def quit(self):
         """Exit the application"""
         print("quit() called")
+        # Prevent recursive quit
+        if getattr(self, '_quitting', False):
+            print("Already quitting - ignoring")
+            return self
+        self._quitting = True
         if self.app:
             self.app.quit()
+        return self
+
+    def _on_main_widget_destroyed(self):
+        """Handle main_widget destruction without recursive quit"""
+        print("_on_main_widget_destroyed() called")
+        if not getattr(self, '_quitting', False):
+            self._quitting = True
+            if self.app:
+                self.app.quit()
         return self
 
     def exit(self, code=0):
