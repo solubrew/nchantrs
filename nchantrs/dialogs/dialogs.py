@@ -16,6 +16,9 @@
 from os.path import abspath, dirname, exists, join
 from sys import argv
 
+# Fix: Import 'exists' properly
+from os.path import exists
+
 # ===============================================================================||
 from condor import condor
 from nchantrs.libraries import pyqt
@@ -121,14 +124,21 @@ class NchantdCape(NchantdPanties):
         else:
             logma.critical(f"QApplication already exists: {pyqt.QApplication.instance()}")
         
-        self.main_widget = pyqt.QMainWindow()
+        # CRITICAL: Now call super().__init__() to properly initialize Qt inheritance
+        # This is required for exec_() to work in initApp()
+        logma.critical("Calling super().__init__() to initialize Qt base class...")
+        super().__init__()
+        logma.critical("super().__init__() completed")
+        
+        self.main_widget = self  # Use self (the QMainWindow) as the main widget
         logma.critical(f"QApplication.instance() after QMainWindow: {pyqt.QApplication.instance()}")
-        self.main_widget.setWindowTitle(name)
+        self.setWindowTitle(name)
         # CRITICAL: Prevent recursive quit by using a flag
         self._quitting = False
+        # Since we now extend QMainWindow via super(), use self for the window
         # QMainWindow doesn't have finished signal, use destroyed or closeEvent instead
-        self.main_widget.destroyed.connect(self._on_main_widget_destroyed)
-        print("main_widget created")
+        self.destroyed.connect(self._on_main_widget_destroyed)
+        print("main_widget (self) created")
 
         print("Creating model and view...")
         self.model = NchantdCapeModel(self)
@@ -186,6 +196,12 @@ class NchantdCape(NchantdPanties):
     def initView(self, cfg=None):
         """Initialize UI setting the main application layout and building
         landing widgets"""
+        # GUARD: Prevent double initialization
+        if getattr(self, '_view_initialized', False):
+            logma.info("NchantdCape.initView - already initialized, skipping")
+            return self
+        self._view_initialized = True
+        
         # FORCE PRINT - to ensure we see this in all cases
         print("="*60)
         print("NchantdCape.initView() STARTING NOW")
@@ -232,7 +248,7 @@ class NchantdCape(NchantdPanties):
         central_widget = pyqt.QWidget()
         self.main_layout = pyqt.QVBoxLayout()
         central_widget.setLayout(self.main_layout)
-        self.main_widget.setCentralWidget(central_widget)
+        self.setCentralWidget(central_widget)
         print(f"main_layout created: {self.main_layout}")
 
         # Check if this application requires authentication from config
@@ -263,7 +279,7 @@ class NchantdCape(NchantdPanties):
         self.main_widget.MaxRecentFiles = 10
         self.main_widget.windowList = []
         self.main_widget.recentFileActs = []
-        self.main_widget.show()
+        self.show()
 
         return self
 
@@ -278,7 +294,7 @@ class NchantdCape(NchantdPanties):
         logma.critical("_show_password_dialog() CALLED")
         logma.critical("="*50)
         
-        dialog = pyqt.QDialog(self.main_widget)
+        dialog = pyqt.QDialog(self)
         dialog.setWindowTitle("Nchantrs Authentication")
         dialog.setMinimumWidth(350)
         dialog.setWindowFlags(dialog.windowFlags() | pyqt.Qt.Dialog)
@@ -342,8 +358,7 @@ class NchantdCape(NchantdPanties):
             logma.info(f"Widget added to layout")
 
             widget_instance.show()
-            self.main_widget.update()
-            logma.info(f"Widget displayed")
+            self.update()
         except Exception as e:
             logma.error(f"Error adding widget: {e}")
             import traceback
@@ -352,22 +367,10 @@ class NchantdCape(NchantdPanties):
         return self
 
     def initApp(self, cfg=None):
-        """"""
-        print("="*60)
-        print("NchantdCape.initApp() CALLED")
-        print("Call stack:")
-        import traceback
-        traceback.print_stack()
-        print("="*60)
-        
-        logma.critical("NchantdCape.initApp() CALLED - about to call initModel() then initView()")
-        
+        """Initialize the application"""
+        # NOTE: initView() was already called in __init__ to avoid blocking
+        # Just initialize the model here (not the view again)
         self.initModel()
-        
-        logma.critical("NchantdCape.initApp() - about to call initView() SECOND TIME")
-        print("About to call initView() from initApp() - THIS IS THE SECOND CALL!")
-        self.initView(cfg)
-
         result = self.exec_()
         logma.info(f"Application exiting with result: {result}")
         return result
