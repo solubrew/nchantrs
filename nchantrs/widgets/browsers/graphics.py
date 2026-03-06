@@ -63,13 +63,14 @@ def configure_qt_for_webengine():
     os.environ["QTWEBENGINE_CHROMIUM_FLAGS"] = " ".join(qt_flags)
     # Force software rendering for better compatibility
     os.environ["QT_QUICK_BACKEND"] = "software"
-    # Set graphics platform
-    if sys.platform.startswith("linux"):
-        os.environ["QT_QPA_PLATFORM"] = "xcb"
-    elif sys.platform == "darwin":
-        os.environ["QT_QPA_PLATFORM"] = "cocoa"
-    elif sys.platform.startswith("win"):
-        os.environ["QT_QPA_PLATFORM"] = "windows"
+    # Set graphics platform (only if not already set, e.g., by environment)
+    if "QT_QPA_PLATFORM" not in os.environ:
+        if sys.platform.startswith("linux"):
+            os.environ["QT_QPA_PLATFORM"] = "xcb"
+        elif sys.platform == "darwin":
+            os.environ["QT_QPA_PLATFORM"] = "cocoa"
+        elif sys.platform.startswith("win"):
+            os.environ["QT_QPA_PLATFORM"] = "windows"
     # OpenGL configuration
     os.environ["QT_OPENGL"] = "software"  # Use software OpenGL for stability
     # Alternative: os.environ["QT_OPENGL"] = "es2"  # Use OpenGL ES 2.0
