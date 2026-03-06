@@ -34,7 +34,11 @@ here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
 # Enable file logging to track issues without requiring console
-logma.activate_file_handler(filename="nchantrs_dialogs.log")
+# Use standard logging FileHandler
+import logging
+file_handler = logging.FileHandler("nchantrs_dialogs.log")
+file_handler.setLevel(logging.DEBUG)
+logma.addHandler(file_handler)
 
 # ===============================================================================||
 pxcfg = join(abspath(here), "_data_", "dialogs.yaml")  # ||
@@ -195,10 +199,8 @@ class NchantdCape(NchantdPanties):
         self.main_widget.setCentralWidget(central_widget)
         print(f"main_layout created: {self.main_layout}")
 
-        # ==== ADD AUTHENTICATION CHECK HERE ====
-        # Check if this application requires authentication
-        # Always require auth for now - ensure password dialog always shows
-        requires_auth = True  # Force authentication for security
+        # Check if this application requires authentication from config
+        requires_auth = self.config.dikt.get("requires_auth", False)
         
         # Force print
         print(f"requires_auth: {requires_auth}")
