@@ -99,12 +99,18 @@ class NchantdPantiesModel(object):
 
     def initialize_application(self):
         """"""
+        Check requires_auth before creating user to avoid unnecessary password dialogs.
+        """
         self.is_private = False  # Private will enforce a basic_js login when opening the application or instance and some sensitive data is encrypted when stored
         self.is_secure = False  # Secure will enforce the same as private but also encrypt all information stored and held in cache...this will not be available unless a true security audit is compeleted
         self.device = Device()
         self.policy = NchantdDataPolicy(self)
         cfg = {}
-        self.user = NchantdUser(self, cfg)
+        # Only create NchantdUser if authentication is required
+        # This prevents unnecessary password dialogs for apps like NchantdAXN
+        requires_auth = self.config.dikt.get("requires_auth", False)
+        if requires_auth:
+            self.user = NchantdUser(self, cfg)
 
     def init_model_pre(self):
         """"""

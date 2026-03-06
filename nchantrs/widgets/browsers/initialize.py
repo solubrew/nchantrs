@@ -51,9 +51,10 @@ def _configure_qt_environment():
     os.environ["QT_QUICK_BACKEND"] = "software"
     os.environ["QT_OPENGL"] = "software"
 
-    # Platform specific settings
-    if sys.platform.startswith("linux"):
-        os.environ["QT_QPA_PLATFORM"] = "xcb"
+    # Platform specific settings (only if not already set)
+    if "QT_QPA_PLATFORM" not in os.environ:
+        if sys.platform.startswith("linux"):
+            os.environ["QT_QPA_PLATFORM"] = "xcb"
 
 
 # ====================================================================================================================||
