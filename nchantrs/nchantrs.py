@@ -49,13 +49,13 @@ def aberration(name, args=None, widget=None, cfg=None):
     aber.initApp()
 
 
-def distortion(name, args, widget, instance=None, cfg=None):
+def distortion(name, args, widget, instance=None, cfg=None, log_file=None):
     """A Distortion executes a complex single widget dialog useful for direct interaction widgets"""
     if cfg is None:
         cfg = {}
     cfg["widget"] = widget
     _configure_qt_environment()
-    cape = NchantdCape(name, instance, None, cfg, args)
+    cape = NchantdCape(name, instance, None, cfg, args, log_file=log_file)
     # quick_start = NchantdQuickStartWizard(cape, {})
     # quick_start.initWizard(args)
     result = cape.initApp(cfg)

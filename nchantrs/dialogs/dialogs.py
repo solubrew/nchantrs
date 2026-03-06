@@ -39,9 +39,27 @@ logma = Logma(__name__)
 # Enable file logging to track issues without requiring console
 # Use standard logging FileHandler
 import logging
-file_handler = logging.FileHandler("nchantrs_dialogs.log")
-file_handler.setLevel(logging.DEBUG)
-logma.addHandler(file_handler)
+# Default file handler (always active)
+default_handler = logging.FileHandler("nchantrs_dialogs.log")
+default_handler.setLevel(logging.DEBUG)
+logma.addHandler(default_handler)
+
+# Store the log_file for later use
+_log_file = None
+
+def set_log_file(log_file):
+    """Set a custom log file path for application logging"""
+    global _log_file
+    if log_file:
+        _log_file = log_file
+        # Remove default handler and add custom one
+        logma.removeHandler(default_handler)
+        import os
+        os.makedirs(os.path.dirname(log_file) or '.', exist_ok=True)
+        custom_handler = logging.FileHandler(log_file)
+        custom_handler.setLevel(logging.DEBUG)
+        logma.addHandler(custom_handler)
+        logma.info(f"Logging to custom file: {log_file}")
 
 # ===============================================================================||
 pxcfg = join(abspath(here), "_data_", "dialogs.yaml")  # ||
@@ -50,7 +68,7 @@ pxcfg = join(abspath(here), "_data_", "dialogs.yaml")  # ||
 class NchantdCape(NchantdPanties):
     """Cape is the base class leveraging dialogs to create single pane applications"""
 
-    def __init__(self, name, instance=None, parent=None, cfg=None, args=None):
+    def __init__(self, name, instance=None, parent=None, cfg=None, args=None, log_file=None):
         """
         :param name:
         :param cfg:
@@ -59,6 +77,9 @@ class NchantdCape(NchantdPanties):
         start the Qt event loop and block. Instead, we set up necessary attributes
         manually and defer Qt initialization.
         """
+        # Configure logging if log_file specified
+        if log_file:
+            set_log_file(log_file)
         print("="*60)
         print("NchantdCape.__init__ STARTING (NO super().__init__)")
         print(f"name: {name}, cfg: {cfg}")
