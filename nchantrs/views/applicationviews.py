@@ -52,7 +52,7 @@ class NchantdPantiesView(object):
         self.layout = None
         self.pre_view_init_ran = False
         self.post_view_init_ran = False
-        self.app = pyqt.QApplication.instance()
+        self.app = self.parent  # Use parent (NchantdCape) which has .main attribute
 
     def init_pre_view(self):
         """ """
