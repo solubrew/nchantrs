@@ -190,18 +190,36 @@ class NchantdCape(NchantdPanties):
         print("="*60)
         print("NchantdCape.initView() STARTING NOW")
         print(f"cfg passed: {cfg}")
+        print(f"Call stack:")
+        import traceback
+        traceback.print_stack()
         print("="*60)
 
         logma.critical("="*60)
         logma.critical("NchantdCape.initView() STARTING")
         logma.critical(f"cfg passed: {cfg}")
+        logma.critical("Call stack:")
+        for line in traceback.format_stack():
+            logma.critical(line.strip())
         logma.critical("="*60)
 
         if cfg is None:
             cfg = {}
-        
+
         # Force print
         print(f"cfg after None check: {cfg}")
+
+        # GUARD: Check if we've already initialized the view
+        if getattr(self, '_view_initialized', False):
+            print("="*60)
+            print("WARNING: initView() called TWICE - SECOND CALL WILL BE BLOCKED")
+            print("="*60)
+            logma.critical("BLOCKING SECOND initView() call - view already initialized")
+            return self
+
+        # Mark as initialized BEFORE doing anything
+        self._view_initialized = True
+        print(f"[GUARD] Set _view_initialized = True")
         
         # DEBUG: Log the cfg at start of initView
         logma.critical(f"NchantdCape.initView - cfg at start: {cfg}")
@@ -335,7 +353,19 @@ class NchantdCape(NchantdPanties):
 
     def initApp(self, cfg=None):
         """"""
+        print("="*60)
+        print("NchantdCape.initApp() CALLED")
+        print("Call stack:")
+        import traceback
+        traceback.print_stack()
+        print("="*60)
+        
+        logma.critical("NchantdCape.initApp() CALLED - about to call initModel() then initView()")
+        
         self.initModel()
+        
+        logma.critical("NchantdCape.initApp() - about to call initView() SECOND TIME")
+        print("About to call initView() from initApp() - THIS IS THE SECOND CALL!")
         self.initView(cfg)
 
         result = self.exec_()
