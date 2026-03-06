@@ -13,11 +13,8 @@
 """
 # -*- coding: utf-8 -*-
 # ================================Core Modules===================================||
-from os.path import abspath, dirname, exists, join
+from os.path import abspath, dirname, join
 from sys import argv
-
-# Fix: Import 'exists' properly
-from os.path import exists
 
 # ===============================================================================||
 from condor import condor
@@ -39,27 +36,9 @@ logma = Logma(__name__)
 # Enable file logging to track issues without requiring console
 # Use standard logging FileHandler
 import logging
-# Default file handler (always active)
-default_handler = logging.FileHandler("nchantrs_dialogs.log")
-default_handler.setLevel(logging.DEBUG)
-logma.addHandler(default_handler)
-
-# Store the log_file for later use
-_log_file = None
-
-def set_log_file(log_file):
-    """Set a custom log file path for application logging"""
-    global _log_file
-    if log_file:
-        _log_file = log_file
-        # Remove default handler and add custom one
-        logma.removeHandler(default_handler)
-        import os
-        os.makedirs(os.path.dirname(log_file) or '.', exist_ok=True)
-        custom_handler = logging.FileHandler(log_file)
-        custom_handler.setLevel(logging.DEBUG)
-        logma.addHandler(custom_handler)
-        logma.info(f"Logging to custom file: {log_file}")
+file_handler = logging.FileHandler("nchantrs_dialogs.log")
+file_handler.setLevel(logging.DEBUG)
+logma.addHandler(file_handler)
 
 # ===============================================================================||
 pxcfg = join(abspath(here), "_data_", "dialogs.yaml")  # ||
@@ -68,7 +47,7 @@ pxcfg = join(abspath(here), "_data_", "dialogs.yaml")  # ||
 class NchantdCape(NchantdPanties):
     """Cape is the base class leveraging dialogs to create single pane applications"""
 
-    def __init__(self, name, instance=None, parent=None, cfg=None, args=None, log_file=None):
+    def __init__(self, name, instance=None, parent=None, cfg=None, args=None):
         """
         :param name:
         :param cfg:
@@ -77,9 +56,6 @@ class NchantdCape(NchantdPanties):
         start the Qt event loop and block. Instead, we set up necessary attributes
         manually and defer Qt initialization.
         """
-        # Configure logging if log_file specified
-        if log_file:
-            set_log_file(log_file)
         print("="*60)
         print("NchantdCape.__init__ STARTING (NO super().__init__)")
         print(f"name: {name}, cfg: {cfg}")
@@ -145,21 +121,14 @@ class NchantdCape(NchantdPanties):
         else:
             logma.critical(f"QApplication already exists: {pyqt.QApplication.instance()}")
         
-        # CRITICAL: Now call super().__init__() to properly initialize Qt inheritance
-        # This is required for exec_() to work in initApp()
-        logma.critical("Calling super().__init__() to initialize Qt base class...")
-        super().__init__(name)
-        logma.critical("super().__init__() completed")
-        
-        self.main_widget = self  # Use self (the QMainWindow) as the main widget
+        self.main_widget = pyqt.QMainWindow()
         logma.critical(f"QApplication.instance() after QMainWindow: {pyqt.QApplication.instance()}")
-        self.setWindowTitle(name)
+        self.main_widget.setWindowTitle(name)
         # CRITICAL: Prevent recursive quit by using a flag
         self._quitting = False
-        # Since we now extend QMainWindow via super(), use self for the window
         # QMainWindow doesn't have finished signal, use destroyed or closeEvent instead
-        self.destroyed.connect(self._on_main_widget_destroyed)
-        print("main_widget (self) created")
+        self.main_widget.destroyed.connect(self._on_main_widget_destroyed)
+        print("main_widget created")
 
         print("Creating model and view...")
         self.model = NchantdCapeModel(self)
@@ -217,46 +186,22 @@ class NchantdCape(NchantdPanties):
     def initView(self, cfg=None):
         """Initialize UI setting the main application layout and building
         landing widgets"""
-        # GUARD: Prevent double initialization
-        if getattr(self, '_view_initialized', False):
-            logma.info("NchantdCape.initView - already initialized, skipping")
-            return self
-        self._view_initialized = True
-        
         # FORCE PRINT - to ensure we see this in all cases
         print("="*60)
         print("NchantdCape.initView() STARTING NOW")
         print(f"cfg passed: {cfg}")
-        print(f"Call stack:")
-        import traceback
-        traceback.print_stack()
         print("="*60)
 
         logma.critical("="*60)
         logma.critical("NchantdCape.initView() STARTING")
         logma.critical(f"cfg passed: {cfg}")
-        logma.critical("Call stack:")
-        for line in traceback.format_stack():
-            logma.critical(line.strip())
         logma.critical("="*60)
 
         if cfg is None:
             cfg = {}
-
+        
         # Force print
         print(f"cfg after None check: {cfg}")
-
-        # GUARD: Check if we've already initialized the view
-        if getattr(self, '_view_initialized', False):
-            print("="*60)
-            print("WARNING: initView() called TWICE - SECOND CALL WILL BE BLOCKED")
-            print("="*60)
-            logma.critical("BLOCKING SECOND initView() call - view already initialized")
-            return self
-
-        # Mark as initialized BEFORE doing anything
-        self._view_initialized = True
-        print(f"[GUARD] Set _view_initialized = True")
         
         # DEBUG: Log the cfg at start of initView
         logma.critical(f"NchantdCape.initView - cfg at start: {cfg}")
@@ -269,7 +214,7 @@ class NchantdCape(NchantdPanties):
         central_widget = pyqt.QWidget()
         self.main_layout = pyqt.QVBoxLayout()
         central_widget.setLayout(self.main_layout)
-        self.setCentralWidget(central_widget)
+        self.main_widget.setCentralWidget(central_widget)
         print(f"main_layout created: {self.main_layout}")
 
         # Check if this application requires authentication from config
@@ -300,7 +245,7 @@ class NchantdCape(NchantdPanties):
         self.main_widget.MaxRecentFiles = 10
         self.main_widget.windowList = []
         self.main_widget.recentFileActs = []
-        self.show()
+        self.main_widget.show()
 
         return self
 
@@ -315,7 +260,7 @@ class NchantdCape(NchantdPanties):
         logma.critical("_show_password_dialog() CALLED")
         logma.critical("="*50)
         
-        dialog = pyqt.QDialog(self)
+        dialog = pyqt.QDialog(self.main_widget)
         dialog.setWindowTitle("Nchantrs Authentication")
         dialog.setMinimumWidth(350)
         dialog.setWindowFlags(dialog.windowFlags() | pyqt.Qt.Dialog)
@@ -379,7 +324,8 @@ class NchantdCape(NchantdPanties):
             logma.info(f"Widget added to layout")
 
             widget_instance.show()
-            self.update()
+            self.main_widget.update()
+            logma.info(f"Widget displayed")
         except Exception as e:
             logma.error(f"Error adding widget: {e}")
             import traceback
@@ -388,10 +334,10 @@ class NchantdCape(NchantdPanties):
         return self
 
     def initApp(self, cfg=None):
-        """Initialize the application"""
-        # NOTE: initView() was already called in __init__ to avoid blocking
-        # Just initialize the model here (not the view again)
+        """"""
         self.initModel()
+        self.initView(cfg)
+
         result = self.exec_()
         logma.info(f"Application exiting with result: {result}")
         return result
