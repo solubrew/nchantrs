@@ -21,9 +21,6 @@ import platform
 import base64
 from math import isnan
 import json as j
-
-# ===============================================================================||
-import json as j
 from shutil import copyfile
 from pandas import DataFrame
 
@@ -206,7 +203,6 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.store.store_app_tab(row)
 
     def add_instance(self, instance):
-        """
         if instance.instance_id not in self.instances:
             self.instances[instance.instance_id] = instance
             if not instance.is_install_active:
@@ -215,7 +211,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         return self
 
     def add_node(self, name, ntype, pid, pos, parameters=None, tabset=None, return_node=False):
-        """ """
+        """Add a node to the document tree."""
         logma.info(f"Add Node")
         nid, row = self.store.store_doc_tree_node(name, ntype, pid, pos, parameters)
         if return_node is False:
@@ -313,12 +309,12 @@ class NchantdCloakModel(NchantdPantiesModel):
         return self
 
     def connect_nchantd_office(self):
-        """
+        """Connect to the Nchantd Office API"""
         # need to make a connection to the Nchantd Office API
         return self
 
     def convert_database(self, version_from, version_to):
-        """
+        """Convert database between versions"""
         # handle data updates
         return self
 
@@ -780,7 +776,6 @@ class NchantdSigilModel(NchantdPantiesModel):
 
 
 class NchantdModel(object):
-    """
 
     def __init__(self, parent=None, cfg=None):
         """ """
