@@ -76,7 +76,7 @@ class NchantdPanties(pyqt.QApplication):
 
     config = None
 
-    def __init__(self, name, instance=None, parent=None, cfg=None, args=None):
+    def __init__(self, name, instance=None, parent=None, cfg=None, args=None, log_file=None):
         """
         Initializes an instance of the NchantdPanties class.
 

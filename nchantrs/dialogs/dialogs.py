@@ -47,7 +47,7 @@ pxcfg = join(abspath(here), "_data_", "dialogs.yaml")  # ||
 class NchantdCape(NchantdPanties):
     """Cape is the base class leveraging dialogs to create single pane applications"""
 
-    def __init__(self, name, instance=None, parent=None, cfg=None, args=None):
+    def __init__(self, name, instance=None, parent=None, cfg=None, args=None, log_file=None):
         """
         :param name:
         :param cfg:
