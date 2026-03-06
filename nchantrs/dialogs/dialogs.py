@@ -53,7 +53,14 @@ class NchantdCape(NchantdPanties):
         print("="*60)
         print("NchantdCape.__init__ STARTING (NO super().__init__)")
         print(f"name: {name}, cfg: {cfg}")
+        print(f"QApplication.instance(): {pyqt.QApplication.instance()}")
+        print(f"args: {args}")
         print("="*60)
+        
+        logma.critical("="*60)
+        logma.critical("NchantdCape.__init__ STARTING")
+        logma.critical(f"QApplication.instance(): {pyqt.QApplication.instance()}")
+        logma.critical("="*60)
         
         # Set up config manually (like parent does, but without blocking)
         config = condor.Instruct(pxcfg).select("NchantdPanties").addArgs(args)
@@ -79,7 +86,10 @@ class NchantdCape(NchantdPanties):
 
         # Create a main window widget to hold the content instead of a separate dialog
         print("Creating main_widget...")
+        logma.critical("About to create QMainWindow...")
+        logma.critical(f"QApplication.instance() before QMainWindow: {pyqt.QApplication.instance()}")
         self.main_widget = pyqt.QMainWindow()
+        logma.critical(f"QApplication.instance() after QMainWindow: {pyqt.QApplication.instance()}")
         self.main_widget.setWindowTitle(name)
         # QMainWindow doesn't have finished signal, use destroyed or closeEvent instead
         self.main_widget.destroyed.connect(self.quit)
