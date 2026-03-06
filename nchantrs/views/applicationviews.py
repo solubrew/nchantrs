@@ -32,7 +32,11 @@ here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
 logma.off()
 # Enable file logging to track issues without requiring console
-logma.activate_file_handler(filename="nchantrs_applicationviews.log")
+# Use standard logging FileHandler
+import logging
+file_handler = logging.FileHandler("nchantrs_applicationviews.log")
+file_handler.setLevel(logging.DEBUG)
+logma.addHandler(file_handler)
 
 # ====================================================================================================================||
 pxcfg = join(abspath(here), "_data_", "applicationviews.yaml")
