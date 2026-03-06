@@ -141,14 +141,16 @@ class NchantdCape(NchantdPanties):
         # CRITICAL: Initialize the view immediately after setup
         # This ensures main_layout is created before any widget operations
         print(f"About to call initView(cfg={cfg})...")
-        try:
-            self.initView(cfg)
-        except Exception as e:
-            print(f"CRITICAL ERROR in initView: {e}")
-            import traceback
-            traceback.print_exc()
-            raise
-        print("initView completed")
+        # NOTE: We do NOT call initView here - it will be called by initApp()
+        # This prevents double initialization
+        # try:
+        #     self.initView(cfg)
+        # except Exception as e:
+        #     print(f"CRITICAL ERROR in initView: {e}")
+        #     import traceback
+        #     traceback.print_exc()
+        #     raise
+        print("initView() will be called by initApp() - skipping in __init__")
 
     @property
     def main(self):
