@@ -234,11 +234,43 @@ class NchantdCape(NchantdPanties):
             self.main_layout = pyqt.QVBoxLayout()
             central_widget.setLayout(self.main_layout)
             
-            # Add a welcome label as placeholder
-            placeholder = pyqt.QLabel(f"Welcome to {self.application_name}\n\nThis is a basic NchantdCape application.\nUse NchantdCloakView for full panes.")
-            placeholder.setAlignment(pyqt.Qt.AlignmentFlag.AlignCenter)
-            placeholder.setStyleSheet("font-size: 18px; padding: 50px; color: #4caf50;")
-            self.main_layout.addWidget(placeholder)
+            # Try to use AXN panes if this is NchantdAXN
+            if self.application_name.lower() == 'nchantdaxn':
+                try:
+                    from nchantdaxn.widgets import AXNTaskListPane
+                    print("Creating AXNTaskListPane...")
+                    logma.info("Creating AXNTaskListPane...")
+                    
+                    # Create the task list pane
+                    self.axn_task_pane = AXNTaskListPane(self)
+                    self.axn_task_pane.initWidget()
+                    self.main_layout.addWidget(self.axn_task_pane)
+                    
+                    # Also add a welcome label at top
+                    welcome = pyqt.QLabel("📋 AXN Task Manager")
+                    welcome.setAlignment(pyqt.Qt.AlignmentFlag.AlignCenter)
+                    welcome.setStyleSheet("font-size: 24px; font-weight: bold; color: #4caf50; padding: 20px;")
+                    self.main_layout.insertWidget(0, welcome)
+                    
+                    print("AXNTaskListPane added to layout")
+                    logma.info("AXNTaskListPane added successfully")
+                except Exception as e:
+                    print(f"Failed to create AXNTaskListPane: {e}")
+                    logma.error(f"Failed to create AXNTaskListPane: {e}")
+                    import traceback
+                    traceback.print_exc()
+                    
+                    # Fallback to placeholder
+                    placeholder = pyqt.QLabel(f"Welcome to {self.application_name}\n\nThis is a basic NchantdCape application.\nUse NchantdCloakView for full panes.")
+                    placeholder.setAlignment(pyqt.Qt.AlignmentFlag.AlignCenter)
+                    placeholder.setStyleSheet("font-size: 18px; padding: 50px; color: #4caf50;")
+                    self.main_layout.addWidget(placeholder)
+            else:
+                # Fallback for non-AXN apps
+                placeholder = pyqt.QLabel(f"Welcome to {self.application_name}\n\nThis is a basic NchantdCape application.\nUse NchantdCloakView for full panes.")
+                placeholder.setAlignment(pyqt.Qt.AlignmentFlag.AlignCenter)
+                placeholder.setStyleSheet("font-size: 18px; padding: 50px; color: #4caf50;")
+                self.main_layout.addWidget(placeholder)
             
             self.main_widget.setCentralWidget(central_widget)
             print(f"main_layout created with placeholder: {self.main_layout}")
