@@ -255,11 +255,8 @@ class NchantdCape(NchantdPanties):
                     self.axn_task_pane.initWidget()
                     self.main_layout.addWidget(self.axn_task_pane)
                     
-                    # Also add a welcome label at top
-                    welcome = pyqt.QLabel("📋 AXN Task Manager")
-                    welcome.setAlignment(pyqt.Qt.AlignmentFlag.AlignCenter)
-                    welcome.setStyleSheet("font-size: 24px; font-weight: bold; color: #4caf50; padding: 20px;")
-                    self.main_layout.insertWidget(0, welcome)
+                    # NOTE: Welcome label removed - AXNTaskListPane has its own controls
+                    # Welcome is redundant with the task list pane
                     
                     print("AXNTaskListPane added to layout")
                     logma.info("AXNTaskListPane added successfully")
