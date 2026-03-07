@@ -235,13 +235,24 @@ class NchantdCape(NchantdPanties):
             central_widget.setLayout(self.main_layout)
             
             # Add a welcome label as placeholder
-            placeholder = pyqt.QLabel(f"Welcome to {self.application_name}")
+            placeholder = pyqt.QLabel(f"Welcome to {self.application_name}\n\nThis is a basic NchantdCape application.\nUse NchantdCloakView for full panes.")
             placeholder.setAlignment(pyqt.Qt.AlignmentFlag.AlignCenter)
+            placeholder.setStyleSheet("font-size: 18px; padding: 50px; color: #4caf50;")
             self.main_layout.addWidget(placeholder)
             
             self.main_widget.setCentralWidget(central_widget)
             print(f"main_layout created with placeholder: {self.main_layout}")
-            logma.critical(f"main_layout: {self.main_layout}")
+            logma.critical(f"main_layout created with placeholder label: {placeholder}")
+        
+        # DEBUG: Verify what's in the central widget
+        central = self.main_widget.centralWidget()
+        print(f"DEBUG: centralWidget is: {central}")
+        print(f"DEBUG: centralWidget layout is: {central.layout() if central else None}")
+        if central and central.layout():
+            print(f"DEBUG: centralWidget layout count: {central.layout().count()}")
+            for i in range(central.layout().count()):
+                item = central.layout().itemAt(i)
+                print(f"DEBUG: layout item {i}: {item.widget()}")
         
         print(f"main_layout ready: {self.main_layout}")
         logma.critical(f"main_layout: {self.main_layout}, centralWidget: {self.main_widget.centralWidget()}")
