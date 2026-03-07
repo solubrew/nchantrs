@@ -47,7 +47,7 @@ from PySide6.QtWidgets import QGraphicsSimpleTextItem, QColorDialog, QToolBox, Q
 from PySide6.QtWidgets import QSpacerItem, QSizePolicy, QStyleFactory, QStyle, QStyleOptionButton
 from PySide6.QtWidgets import QStyleOptionComboBox, QStyleOptionViewItem, QColorDialog, QFontDialog
 from PySide6.QtWidgets import QStyleOptionViewItem, QStyleOptionComboBox, QStackedLayout, QStackedWidget
-from PySide6.QtWidgets import QMessageBox, QInputDialog, QDialogButtonBox
+from PySide6.QtWidgets import QMessageBox, QInputDialog, QDialogButtonBox, QDoubleSpinBox, QFileDialog
 
 # ===============================================================================||
 from PySide6.QtPdfWidgets import QPdfView
