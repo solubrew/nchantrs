@@ -379,10 +379,16 @@ class NchantdClip(pyqt.QDialog):
         logma.info(f"Type {type(widget)}")
         layout.addWidget(widget().initWidget())
 
-    def initApp(self):
+    def initApp(self, cfg=None):
         """"""
-        self.exec()
-        self.app.exec()
+        # Initialize the view
+        self.initView()
+        
+        # Show the main widget
+        self.main_widget.show()
+        
+        # Run the Qt event loop
+        pyqt.QApplication.instance().exec()
 
 
 class NchantdSigilMixin(NchantdWidgetMixin):
