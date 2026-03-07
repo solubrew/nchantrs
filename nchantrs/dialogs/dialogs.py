@@ -152,6 +152,13 @@ class NchantdCape(NchantdPanties):
         #     raise
         print("initView() will be called by initApp() - skipping in __init__")
 
+    @classmethod
+    def init(cls, name, cfg=None, args=None, log_file=None):
+        """Class method to initialize and run the application"""
+        # Create instance and call initApp to run the Qt event loop
+        instance = cls(name=name, cfg=cfg, args=args, log_file=log_file)
+        return instance.initApp(cfg)
+
     @property
     def main(self):
         """Expose main_widget as main for compatibility with theme initialization"""
