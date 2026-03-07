@@ -340,7 +340,11 @@ class NchantdCape(NchantdPanties):
         self.initModel()
         self.initView(cfg)
 
-        result = self.exec_()
+        # CRITICAL: Show the main_widget and run the Qt event loop properly
+        # self.main_widget is the actual QMainWindow, not self
+        self.main_widget.show()
+        logma.info("Main widget shown - starting Qt event loop")
+        result = pyqt.QApplication.instance().exec()
         logma.info(f"Application exiting with result: {result}")
         return result
 
