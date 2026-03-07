@@ -211,13 +211,72 @@ class NchantdCape(NchantdPanties):
         super().initView()
         self.view.initView()
 
-        # Create central widget for the main window
-        print("Creating central widget and main_layout...")
-        central_widget = pyqt.QWidget()
-        self.main_layout = pyqt.QVBoxLayout()
-        central_widget.setLayout(self.main_layout)
-        self.main_widget.setCentralWidget(central_widget)
-        print(f"main_layout created: {self.main_layout}")
+        # CRITICAL FIX: Set up the central widget properly
+        # The view (like NchantdCloakView) may have created panes with a splitter
+        # We need to use that as our central widget, or create a default one
+        
+        # Check if view has a splitter with panes (like NchantdCloakView does)
+        if hasattr(self.view, 'splitter') and self.view.splitter is not None:
+            print(f"View has splitter with panes - using as central widget")
+            logma.critical("View has splitter - using as central widget")
+            # Use the view's splitter as the central widget (like NchantdCloakView does)
+            self.main_widget.setCentralWidget(self.view.splitter)
+            # Still create a main_layout for add_widget() calls
+            central_widget = pyqt.QWidget()
+            self.main_layout = pyqt.QVBoxLayout()
+            central_widget.setLayout(self.main_layout)
+        else:
+            # View doesn't have panes - create a simple central widget
+            print("View has no splitter - creating default central widget")
+            logma.critical("View has no splitter - creating default")
+            
+            central_widget = pyqt.QWidget()
+            self.main_layout = pyqt.QVBoxLayout()
+            central_widget.setLayout(self.main_layout)
+            
+            # Add a welcome label as placeholder
+            placeholder = pyqt.QLabel(f"Welcome to {self.application_name}")
+            placeholder.setAlignment(pyqt.Qt.AlignmentFlag.AlignCenter)
+            self.main_layout.addWidget(placeholder)
+            
+            self.main_widget.setCentralWidget(central_widget)
+            print(f"main_layout created with placeholder: {self.main_layout}")
+            logma.critical(f"main_layout: {self.main_layout}")
+        
+        print(f"main_layout ready: {self.main_layout}")
+        logma.critical(f"main_layout: {self.main_layout}, centralWidget: {self.main_widget.centralWidget()}")
+
+        # Check if this application requires authentication from config
+        requires_auth = self.config.dikt.get("requires_auth", False)
+        
+        # Force print
+        print(f"requires_auth: {requires_auth}")
+        logma.critical(f"NchantdCape.initView - requires_auth: {requires_auth}")
+        
+        if requires_auth:
+            print("Authentication required - showing password dialog NOW")
+            logma.critical("Authentication required - showing password dialog NOW")
+            if not self._show_password_dialog():
+                print("Authentication cancelled - exiting")
+                logma.critical("Authentication cancelled - exiting")
+                self.quit()
+                return self
+            logma.critical("Authentication successful")
+        else:
+            logma.info("Authentication NOT required - skipping password dialog")
+        # =======================================
+
+        # Now add the widget since layout is initialized
+        if cfg.get("widget", None):
+            logma.info(f"Add Widget {cfg['widget']}")
+            self.add_widget(cfg["widget"])
+
+        self.main_widget.MaxRecentFiles = 10
+        self.main_widget.windowList = []
+        self.main_widget.recentFileActs = []
+        self.main_widget.show()
+
+        return self
 
         # Check if this application requires authentication from config
         requires_auth = self.config.dikt.get("requires_auth", False)
