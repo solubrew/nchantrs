@@ -223,6 +223,7 @@ class NchantdCape(NchantdPanties):
         # We need to use that as our central widget, or create a default one
         
         # Check if view has a splitter with panes (like NchantdCloakView does)
+        placeholder = None  # Initialize placeholder - may be None if using splitter
         if hasattr(self.view, 'splitter') and self.view.splitter is not None:
             print(f"View has splitter with panes - using as central widget")
             logma.critical("View has splitter - using as central widget")
@@ -232,6 +233,7 @@ class NchantdCape(NchantdPanties):
             central_widget = pyqt.QWidget()
             self.main_layout = pyqt.QVBoxLayout()
             central_widget.setLayout(self.main_layout)
+            logma.critical(f"main_layout created (with splitter): {self.main_layout}")
         else:
             # View doesn't have panes - create a simple central widget
             print("View has no splitter - creating default central widget")
@@ -280,7 +282,7 @@ class NchantdCape(NchantdPanties):
                 self.main_layout.addWidget(placeholder)
             
             self.main_widget.setCentralWidget(central_widget)
-            print(f"main_layout created with placeholder: {self.main_layout}")
+            print(f"main_layout created with placeholder: {placeholder}")
             logma.critical(f"main_layout created with placeholder label: {placeholder}")
         
         # DEBUG: Verify what's in the central widget
