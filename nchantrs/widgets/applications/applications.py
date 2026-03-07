@@ -77,7 +77,7 @@ class NchantdPanties(pyqt.QApplication):
 
     config = None
 
-    def __init__(self, name, instance=None, parent=None, cfg=None, args=None):
+    def __init__(self, name, instance=None, parent=None, cfg=None, args=None, log_file=None):
         """
         Initializes an instance of the NchantdPanties class.
 
@@ -87,6 +87,8 @@ class NchantdPanties(pyqt.QApplication):
         :type parent: NchantdPanties or None
         :param cfg: The configuration for the instance.
         :type cfg: dict or None
+        :param log_file: Optional log file path for logging output.
+        :type log_file: str or None
         """
 
         config = condor.Instruct(pxcfg).select("NchantdPanties").addArgs(args)

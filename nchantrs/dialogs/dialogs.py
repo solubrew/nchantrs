@@ -41,17 +41,25 @@ pxcfg = join(abspath(here), "_data_", "dialogs.yaml")  # ||
 class NchantdCape(NchantdPanties):
     """Cape is the base class leveraging dialogs to create single pane applications"""
 
-    def __init__(self, name, instance=None, parent=None, cfg=None, args=None):
+    def __init__(self, name, instance=None, parent=None, cfg=None, args=None, log_file=None):
         """
         :param name:
         :param cfg:
         """
-        super().__init__(name, instance, parent, self.config)
-        self.config.override(pxcfg).select("NchantdCape").override(cfg).addArgs(args)
+        # NOTE: We do NOT call super().__init__() here because NchantdPanties
+        # extends QApplication and we don't want to reinitialize it.
+        # The QApplication is already created by the time we get here.
+        self.config = condor.Instruct(pxcfg).select("NchantdCape")
+        if parent:
+            self.config.override(parent.config)
+        self.config.override(cfg).addArgs(args)
         logma.info(f"NchantdCape Config: {self.config.dikt}")
+        
+        self.application_name = name
+        self.name = name
         self.parent = parent
 
-        # Create a main window widget to hold the content instead of a separate dialog
+        # Create a main window widget to hold the content instead of being the window
         self.main_widget = pyqt.QMainWindow()
         self.main_widget.setWindowTitle(name)
         # QMainWindow doesn't have finished signal, use destroyed or closeEvent instead
@@ -62,6 +70,9 @@ class NchantdCape(NchantdPanties):
         self.user = self.model.user
         self.newApplication = True
         self.src = None
+        
+        # Track initialization state
+        self._init_view_called = False
 
     @property
     def main(self):
@@ -71,11 +82,21 @@ class NchantdCape(NchantdPanties):
     def initView(self, cfg=None):
         """Initialize UI setting the main application layout and building
         landing widgets"""
+        # Guard against double initialization
+        if hasattr(self, '_init_view_called') and self._init_view_called:
+            import traceback
+            logma.critical(f"NchantdCape.initView() called TWICE! Second call blocked.")
+            logma.critical(f"Call stack for second call:")
+            for line in traceback.format_stack():
+                logma.critical(f"  {line.strip()}")
+            return self
+        self._init_view_called = True
+        
         if cfg is None:
             cfg = {}
-        super().initView()
-        self.view.initView()
-
+        logma.critical(f"NchantdCape.initView() STARTING NOW")
+        logma.critical(f"cfg passed: {cfg}")
+        
         # Create central widget for the main window
         central_widget = pyqt.QWidget()
         self.main_layout = pyqt.QVBoxLayout()
@@ -86,6 +107,16 @@ class NchantdCape(NchantdPanties):
         if cfg.get("widget", None):
             logma.info(f"Add Widget {cfg['widget']}")
             self.add_widget(cfg["widget"])
+        else:
+            # Add a welcome label as placeholder
+            logma.info("No widget provided - adding welcome placeholder")
+            welcome_label = pyqt.QLabel("Welcome to NchantdAXN")
+            welcome_label.setAlignment(pyqt.Qt.AlignCenter)
+            font = pyqt.QFont()
+            font.setPointSize(16)
+            font.setBold(True)
+            welcome_label.setFont(font)
+            self.main_layout.addWidget(welcome_label)
 
         self.main_widget.MaxRecentFiles = 10
         self.main_widget.windowList = []
@@ -118,13 +149,18 @@ class NchantdCape(NchantdPanties):
         return self
 
     def initApp(self, cfg=None):
-        """"""
+        """Initialize and run the application"""
+        # Initialize model
         self.initModel()
+        # Initialize view
         self.initView(cfg)
-
-        result = self.exec_()
-        logma.info(f"Application exiting with result: {result}")
-        return result
+        
+        # Run Qt event loop - use the QApplication instance's exec() method
+        logma.critical("Main widget shown - starting Qt event loop")
+        pyqt.QApplication.instance().exec()
+        
+        logma.info(f"Application exiting")
+        return 0
 
     def closeEvent(self, event):
         """Handle application close event"""
