@@ -246,23 +246,34 @@ class NchantdCape(NchantdPanties):
             # Try to use AXN panes if this is NchantdAXN
             if self.application_name.lower() == 'nchantdaxn':
                 try:
-                    from nchantdaxn.widgets import AXNTaskListPane
+                    from nchantdaxn.widgets import AXNTaskListPane, AXNProjectListPane
                     print("Creating AXNTaskListPane...")
                     logma.info("Creating AXNTaskListPane...")
+                    
+                    # Create a tab widget for Tasks and Projects
+                    self.axn_tab_widget = pyqt.QTabWidget()
+                    self.axn_tab_widget.setTabPosition(pyqt.QTabWidget.North)
                     
                     # Create the task list pane
                     self.axn_task_pane = AXNTaskListPane(self)
                     self.axn_task_pane.initWidget()
-                    self.main_layout.addWidget(self.axn_task_pane)
+                    self.axn_tab_widget.addTab(self.axn_task_pane, "📋 Tasks")
                     
-                    # NOTE: Welcome label removed - AXNTaskListPane has its own controls
-                    # Welcome is redundant with the task list pane
+                    # Create the project list pane
+                    self.axn_project_pane = AXNProjectListPane(self)
+                    self.axn_project_pane.initWidget()
+                    self.axn_tab_widget.addTab(self.axn_project_pane, "📁 Projects")
                     
-                    print("AXNTaskListPane added to layout")
-                    logma.info("AXNTaskListPane added successfully")
+                    self.main_layout.addWidget(self.axn_tab_widget)
+                    
+                    # Store reference for tab switching
+                    self.axn_task_pane.switch_to_projects = lambda: self.axn_tab_widget.setCurrentIndex(1)
+                    
+                    print("AXN Task/Project tabs added to layout")
+                    logma.info("AXN Task/Project tabs added successfully")
                 except Exception as e:
-                    print(f"Failed to create AXNTaskListPane: {e}")
-                    logma.error(f"Failed to create AXNTaskListPane: {e}")
+                    print(f"Failed to create AXN panes: {e}")
+                    logma.error(f"Failed to create AXN panes: {e}")
                     import traceback
                     traceback.print_exc()
                     
