@@ -76,7 +76,7 @@ class NchantdNewNodePane(NchantdPane):
 
     def initModel(self):
         """"""
-        logma.info(f"Init Model{self.config.dikt.get("action")}")
+        logma.info(f"Init Model{self.config.dikt.get('action')}")
         self.config.dikt.pop("action")
         super().initModel()
         if self.catalog is None:
