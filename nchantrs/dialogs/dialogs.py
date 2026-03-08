@@ -266,7 +266,8 @@ class NchantdCape(NchantdPanties):
                     
                     self.main_layout.addWidget(self.axn_tab_widget)
                     
-                    # Store reference for tab switching
+                    # Store reference for tab switching on main widget for accessibility
+                    self.main_widget.switch_to_projects = lambda: self.axn_tab_widget.setCurrentIndex(1)
                     self.axn_task_pane.switch_to_projects = lambda: self.axn_tab_widget.setCurrentIndex(1)
                     
                     print("AXN Task/Project tabs added to layout")
