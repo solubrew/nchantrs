@@ -60,7 +60,7 @@
 |---------|---------------|----------|
 | Base | NchantdCloak | NchantdCloak/NchantdCape |
 | Files | 11 | 429 |
-| Auth | Not implemented | NchantdPyKey |
+| Auth | Not implemented | Nchantrs framework |
 | Theme | Uses nchantrs | Built-in |
 
 ---

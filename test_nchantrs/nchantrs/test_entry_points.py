@@ -56,8 +56,8 @@ class TestNchantrsEntryPoints(TestCase):
 	
 	def test_import_browser(self):
 		"""Test that browser widgets can be imported"""
-		from nchantrs.widgets.browsers.browsers import NchantdBrowser
-		self.assertIsNotNone(NchantdBrowser)
+		from nchantrs.widgets.browsers.browsers import NchantdWebBrowser
+		self.assertIsNotNone(NchantdWebBrowser)
 	
 	def test_import_calendar(self):
 		"""Test that calendar widgets can be imported"""
@@ -65,8 +65,8 @@ class TestNchantrsEntryPoints(TestCase):
 		self.assertIsNotNone(NchantdCalendar)
 	
 	def test_import_table(self):
-		""" can be imported"""
-		from nchantrs.widgets.tablesTest that table widgets.tables import NchantdTable
+		"""Test that table widgets can be imported"""
+		from nchantrs.widgets.tables.tables import NchantdTable
 		self.assertIsNotNone(NchantdTable)
 
 

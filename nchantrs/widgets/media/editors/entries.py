@@ -97,8 +97,8 @@ class NchantdActivateEntry(NchantdWidget):
         super().initView()
         cfg = self.config.override({"checkable": True}).dikt
         self.enable_button = NchantdButton(self, cfg).initWidget()
-        # Note: setCheckable(True) is handled by NchantdButton.initView() via config
-        # Calling setCheckable again after initWidget() causes PySide6 bug
+        # Note: setCheckable(True) is now handled by NchantdButton.initView() via config
+        # Do NOT call setCheckable again here - it causes PySide6 bug
         self.layout.addWidget(self.enable_button)
         cfg = self.config.override({}).dikt
         self.editor = NchantdEntryBox(self, cfg).initWidget()

@@ -37,10 +37,12 @@ Nchantrs is a Python module for rapidly creating PyQt5/PySide6 applications usin
 ### Known Issues
 | Issue | Status | Description |
 |-------|--------|-------------|
-| **NchantdPyKey Auth Bug** | 🔴 Open | Empty dialog appears, password dialog not showing. Investigation ongoing in NchantdCape.initView() flow |
+| **Auth Bug** | ✅ FIXED | Duplicate auth code removed, single auth flow in initView() |
 | **logma.off() causing dialogs not to show** | ✅ FIXED | Commits b5d5e92 + 1931cf5 - Requires reinstall on test machine |
-| **Checkable attribute bug** | 🟡 Pending | `media/editors/entries.py:96` - needs investigation |
+| **Checkable attribute bug** | ✅ FIXED | `toolbars.py:switch_to_toggle()` - added safety checks to prevent double-call |
 | **syntax.py remaining FIXMEs** | 🟡 Pending | Some FIXMEs remain after commit 1931cf5 |
+| **Deprecated dependencies** | ✅ FIXED | Cleaned pyproject.toml - removed 30+ obsolete packages |
+| **Python version** | ✅ FIXED | Bumped from >=3.6 to >=3.10 |
 
 ---
 
@@ -173,7 +175,6 @@ nchantrs/
 | Feature | Status | Priority |
 |---------|--------|----------|
 | Authentication flow | 🔄 In Progress | High |
-| NchantdPyKey integration | 🔄 In Progress | High |
 | Unit tests | ⏳ Pending | Medium |
 | Documentation | ⏳ Pending | Medium |
 
@@ -199,7 +200,6 @@ nchantrs/
 ### Parent/Child Relationships
 | Project | Relationship | Status |
 |---------|--------------|--------|
-| **NchantdPyKey** | Child app | 🔴 Auth bug open |
 | **NchantdCape** | Core component | ✅ Stable |
 | **NchantdCloak** | Core component | ✅ Stable |
 | **NchantdOffice** | Reference implementation | ⏳ Pending |
