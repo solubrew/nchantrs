@@ -439,7 +439,7 @@ class NchantdCape(NchantdPanties):
 
             # DEBUG: Check main_layout
             logma.info(f"main_layout is None: {self.main_layout is None}")
-            logma.info(f"widget_instance parent: {widget_instance.parent()}")
+            logma.info(f"widget_instance parent: {widget_instance.parent() if widget_instance.parent else None}")
             logma.info(f"widget_instance layout: {widget_instance.layout()}")
 
             self.main_layout.addWidget(widget_instance)
