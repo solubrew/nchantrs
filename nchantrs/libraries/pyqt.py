@@ -12,7 +12,7 @@ from PySide6.QtGui import QResizeEvent, QTextOption, QPainterPath, QPolygonF, QP
 from PySide6.QtGui import QSyntaxHighlighter, QTransform, QColorTransform, QPainterPathStroker, QPainterPathStroker
 from PySide6.QtGui import QTextCharFormat, QTextLength, QTextOption, QTextTableFormat, QTextFrameFormat, QTextFrame
 from PySide6.QtGui import QShortcut, QKeySequence, QDrag, QDragEnterEvent, QDropEvent, QDragMoveEvent, QKeySequence
-from PySide6.QtGui import QHoverEvent, QMouseEvent, QMoveEvent, QResizeEvent, QWheelEvent, QMouseEvent. QCursor
+from PySide6.QtGui import QHoverEvent, QMouseEvent, QMoveEvent, QResizeEvent, QWheelEvent, QMouseEvent, QCursor
 
 # ===============================================================================||
 from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel
