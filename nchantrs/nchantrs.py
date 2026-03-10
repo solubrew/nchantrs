@@ -95,7 +95,10 @@ def nchantment(name, args, main_app=None, cfg=None, startup_app=None, profile_ov
 
 def flection(name, args, main_app=None, cfg=None, startup_app=None, profile_override=None):
     """An Flection executes a complex Nchantrs application supervisor with defined storage and installation paths"""
-    logma.info("Begin Nchantment")
+    # NOTE: Pyularity integration - requires pyularity package to be installed
+    # Uncomment when package is available:
+    # from pyularity.pyularity import Pyularity
+    logma.info("Begin Flection")
     if debug:
         tracemalloc.start()
     if main_app is None:
@@ -103,17 +106,33 @@ def flection(name, args, main_app=None, cfg=None, startup_app=None, profile_over
     if startup_app is None:
         startup_app = NchantdApplicationStartupWizard
     logma.info("Flection Initialized")
-    supervisor = Pyularity({"name": name, "args": args, "cfg": cfg, "profile": profile_override})
-    supervisor.set_main_app(main_app).set_startup_app(startup_app)
-    instance = "latest"
-    logma.info(f"Flection Launch App {instance}")
-    supervisor.launch_app(instance=instance)
+    
+    # Lazy import - only load Pyularity if needed
+    try:
+        from pyularity.pyularity import Pyularity
+        supervisor = Pyularity({"name": name, "args": args, "cfg": cfg, "profile": profile_override})
+        supervisor.set_main_app(main_app).set_startup_app(startup_app)
+        instance = "latest"
+        logma.info(f"Flection Launch App {instance}")
+        supervisor.launch_app(instance=instance)
+    except ImportError:
+        logma.warning("Pyularity not installed - falling back to standard nchantment")
+        # Fall back to nchantment behavior
+        instance = None
+        if "instance" in args:
+            instance = args["instance"]
+        _configure_qt_environment()
+        app = main_app(name, instance, None, cfg, args)
+        startup = startup_app(app, {"profile": profile_override})
+        startup.initWizard(args)
+        app.initApp({"startup": startup})
+    
     logma.info("Complete")
     if debug:
         analyze_strings()
         memory_analysis()
         memory_summary()
-    return supervisor
+    return app if 'app' in locals() else supervisor
 
 
 def analyze_strings():
