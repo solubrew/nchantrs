@@ -359,7 +359,7 @@ class NchantdTreeNode(NchantdTreeItem):
         self.is_parent = self.node["isparent_bit"]
         self.is_loaded = False
         self.tab_focus = self.node["tabfocus_int"]
-        logma.info(f"Name {self.node["name_txt"]}")
+        logma.info('Name ' + self.node['name_txt'])
         self.setText(0, self.node["name_txt"], False)
         self._set_font()
         self._set_icon()
@@ -631,11 +631,11 @@ class NchantdTreeNode(NchantdTreeItem):
         if self.node_type not in node_types:
             raise Exception(f"Unknown node type {self.node_type}")
         node_type = node_types[self.node_type]
-        logma.info(f"Set Font Color: {self.app.view.theme.colors[node_type["color"]]}")
-        self.setForeground(0, pyqt.QBrush(pyqt.QColor(self.app.view.theme.colors[node_type["color"]])))
+        logma.info(f"Set Font Color: {self.app.view.theme.colors[node_type['color']]}")
+        self.setForeground(0, pyqt.QBrush(pyqt.QColor(self.app.view.theme.colors[node_type['color']])))
         if self.node["ntype_txt"] == "displaynode":
             logma.info(f"NType {self.node['ntype_txt']}")
-            logma.info(f"Node {self.node["name_txt"]}")
+            logma.info(f"Node {self.node['name_txt']}")
             # item.setFlags(pyqt.Qt.ItemFlag.NoItemFlags)
             # item.setBackground(0, pyqt.QColor("#5F5FDF"))
             if self.node["name_txt"] == "Action":

@@ -491,7 +491,7 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
             font = pyqt.QFont(cfg["font"], cfg["font"]["size"], pyqt.QFont.Bold)
             self.setFont(font)
         logma.info(f"Size {self.config.dikt.get('size', None)}")
-        logma.info(f"Width {self.config.dikt.get('width', "BLANK")}")
+        logma.info(f"Width {self.config.dikt.get('width', 'BLANK')}")
         value = self.config.dikt.get("value", self.config.dikt.get("default_text", ""))
         self.set_value(value)
         self.set_size()
