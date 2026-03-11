@@ -2,6 +2,7 @@
 
 **Date:** 2026-03-03
 **Auditor:** senbot
+**Last Updated:** 2026-03-10
 
 ---
 
@@ -11,14 +12,58 @@
 |--------|---------|
 | **Project** | nchantdoffice (Todo application) |
 | **Base Class** | NchantdCloak (multi-pane application) |
+| **Entry Point** | nchantment (SQLite + YAML, multi-pane) |
 | **Files** | 11 Python files |
 | **Status** | Functional but has TODOs |
 
 ---
 
+## Entry Point Analysis
+
+### Why nchantment?
+
+| Entry Point | Backend | Use Case |
+|-------------|---------|----------|
+| aberration | None | Simple dialogs |
+| distortion | YAML + SQLite | Single-pane tools |
+| **nchantment** | **SQLite + YAML** | **Multi-pane office apps** ✅ |
+| flection | SQLite + YAML + P2P | Networked apps |
+
+nchantdoffice uses **nchantment** because:
+1. It's a complex multi-pane application (tabs, panels, trees)
+2. Data is stored in SQLite (primary storage)
+3. YAML used for external configs (themes, settings)
+4. No P2P networking required
+
+### Architecture Pattern
+
+```
+NchantdNchantment (Entry Point - nchantment)
+  └── NchantdCloak (Multi-pane window)
+        └── NchantdCloakModel (SQLite-backed model)
+              └── NTDAppModel (Application-specific extension)
+```
+
+### Architecture Pattern
+
+```
+NchantdNchantment (Entry Point - nchantment)
+  └── NchantdCloak (Multi-pane window)
+        └── NchantdCloakModel (SQLite-backed model)
+              └── NTDAppModel (Application-specific extension)
+```
+
+---
+
 ## Key Patterns Observed
 
-### 1. Model Layer
+### 1. Entry Point: nchantment
+- Uses NchantdCloak for multi-pane UI
+- SQLite primary storage (via FxSQuiRL)
+- YAML for external configuration (themes, settings)
+- No P2P needed (not flection)
+
+### 2. Model Layer
 - `NTDAppModel` extends `NchantdCloakModel`
 - `NTDTreeModel` extends `NchantdTreeModel`
 - `NTDTabSetModel` extends `NchantdTabSetModel`
