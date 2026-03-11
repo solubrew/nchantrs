@@ -59,10 +59,18 @@ Nchantrs is a Python module for rapidly creating PyQt5/PySide6 applications usin
 ### Model Hierarchy
 ```
 NchantdPantiesModel (Base)
-  ├── NchantdCapeModel (Simple dialog applications)
-  ├── NchantdCloakModel (Multi-pane applications)
-  └── NchantdSigilModel (Dialog windows within applications)
+  ├── NchantdCapeModel (Simple dialog applications) → distortion
+  ├── NchantdCloakModel (Multi-pane applications) → nchantment/flection
+  └── NchantdSigilModel (Dialog windows within applications) → aberration
 ```
+
+### Entry Points
+| Entry Point | Use Case | Backend | Example Apps |
+|-------------|----------|---------|---------------|
+| **aberration** | Standalone dialogs | None | Popups, simple forms |
+| **distortion** | Single-pane tools | YAML + SQLite | nchantdaxn, settings editor |
+| **nchantment** | Multi-pane office apps | SQLite + YAML | Office suites, IDEs |
+| **flection** | Networked/P2P apps | SQLite + YAML + P2P | Chat, collaborative tools |
 
 ### Key Classes
 | Class | Purpose |
