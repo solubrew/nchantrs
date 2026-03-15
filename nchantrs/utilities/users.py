@@ -104,11 +104,11 @@ class NchantdUser(object):
             # Password must be properly obtained via secure dialog
             if self.app.model.is_private or self.app.model.is_secure:
                 # TODO - 20240729: setup a standard dialog
-                password = input(message)
+                pword = input(message)
             else:
                 # For non-secure apps, use a generated password but log warning
                 logma.warning(f"Using generated password for non-secure app - this should be replaced")
-                password = user.upper() + self.uuid
+                pword = user.upper() + self.uuid
             while True:
                 logma.info(f"Check Private")
                 if self.app.model.is_private or self.app.model.is_secure:
@@ -179,7 +179,7 @@ class NchantdUser(object):
         self.salt = base64.b64decode(user["saltUUID"]).decode()
         self.iters = base64.b64decode(user["iterations_txt"]).decode()
         if self.app.model.is_private or self.app.model.is_secure:
-            self._verify_user(next(self.password))
+            self._verify_user(next(self.pword))
         return self
 
     def read_secure(self, key, label=None):
@@ -190,7 +190,7 @@ class NchantdUser(object):
         cfg = {"WHERE": {"EQUAL": {"key_txt": key, "UUID": self.uuid}}}
         return next(self.parent.store.docs["db"].read({"table": table}, cfg)).dikt[table]["df"]
 
-    def verify_password(self, pword):
+    def verify_pword(self, pword):
         """
         Verify password against stored hash.
         
@@ -249,7 +249,7 @@ class NchantdUser(object):
         # if self.parent.parent.is_private or self.parent.parent.is_secure:
         self._create_user_password()
         user_FK, user = self.app.model.store.store_app_user(self)
-        store_private_key = encrypt_password(private_key, next(self.password), self.address.encode())
+        store_private_key = encrypt_password(private_key, next(self.pword), self.address.encode())
         store_address_private_key = encrypt_rsa(address_private_key.encode(), self.rsa_key)
         store_aes_key = encrypt_rsa(aes_key, self.rsa_key)
         data = [
@@ -268,11 +268,11 @@ class NchantdUser(object):
         """"""
         message = ""
         while True:
-            status, message = self._check_password_rules(next(self.password))
+            status, message = self._check_password_rules(next(self.pword))
             if status is False:
                 logma.info(f"Verify Password:")
-                verify_password = next(self.get_password("Verify password: "))
-                if next(self.password) == verify_password:
+                verify_password = next(self.get_password("Verify pword: "))
+                if next(self.pword) == verify_pword:
                     return True
                 else:
                     message = "Passwords provided do not match. Please retry"
@@ -291,7 +291,7 @@ class NchantdUser(object):
         cfg = {"WHERE": {table: {"key": "private_key", "UUUID": self.uuid}}}
         df = next(self.parent.store.docs["db"].read({"table": table}, cfg)).dikt[table]["df"]
         rsa_key_stored = df["value"].values.tolist()[0]
-        rsa_key = decrypt_pword(rsa_key_stored, next(self.password), self.address.encode())
+        rsa_key = decrypt_pword(rsa_key_stored, next(self.pword), self.address.encode())
         return rsa_key
 
     def _get_aes_key(self):
