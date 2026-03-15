@@ -13,6 +13,7 @@ All notable changes to the Nchantrs project will be documented in this file.
 - nchantrs.yaml configuration file
 - CONTRIBUTING.md for contribution guidelines
 - .github/workflows/ci.yml for CI/CD configuration
+- CLI.md documentation with commands, arguments, and examples
 
 ### Changed
 - Updated __init__.py with logging and version info
@@ -20,6 +21,13 @@ All notable changes to the Nchantrs project will be documented in this file.
 ### Fixed
 - Added missing QCursor import (a725161)
 - Fixed parent() call on widget with no parent set (c100a97)
+- Check for QApplication.model and set None instead of error (fb52407)
+- Remove redundant welcome label blocking AXNTask (8a7ebcc)
+- Add Projects tab to NchantdAXN - Tasks, Projects tab (c7b18fa)
+
+### Security
+- Phase 1-5 Upgrade: Security, Performance, Maintainability (17f9508)
+- Authentication and authorization improvements
 
 ### Merged
 - Merged local/nchantrs-ws branch into gamma (10327bb, 9e34fc6)

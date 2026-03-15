@@ -1,9 +1,10 @@
 agent: morg
 analysis:
   counts:
-    directories: 135
+    directories: 136
     file_sizes:
-      nchantrs/__init__.py: 305
+      nchantrs/__init__.py: 533
+      nchantrs/__main__.py: 111
       nchantrs/actions/__init__.py: 0
       nchantrs/actions/actions.py: 8703
       nchantrs/actions/charts.py: 1210
@@ -12,6 +13,7 @@ analysis:
       nchantrs/actions/tables.py: 37387
       nchantrs/actions/text.py: 5249
       nchantrs/actions/tree.py: 5687
+      nchantrs/cli.py: 1472
       nchantrs/dialogs/__init__.py: 0
       nchantrs/dialogs/about.py: 4503
       nchantrs/dialogs/authentication.py: 2834
@@ -461,16 +463,16 @@ analysis:
       test_nchantrs/nchantrs/wizards/wizardsTEST.py: 3665
       test_shroud_runner.py: 6325
     files_by_type:
-      (no extension): 61
+      (no extension): 66
       .TAG: 1
       .iml: 1
       .ini: 1
       .jpg: 2
       .kra: 2
       .log: 2
-      .md: 6
+      .md: 8
       .png: 30
-      .py: 457
+      .py: 459
       .qss: 9
       .rst: 2
       .svg: 990
@@ -478,14 +480,21 @@ analysis:
       .txt: 1
       .webp: 2
       .xml: 5
-      .yaml: 63
+      .yaml: 64
+      .yml: 1
     per_file:
       nchantrs/__init__.py:
         class_count: 0
-        file_size: 305
+        file_size: 533
+        function_count: 2
+        import_count: 2
+        word_count: 56
+      nchantrs/__main__.py:
+        class_count: 0
+        file_size: 111
         function_count: 0
-        import_count: 0
-        word_count: 39
+        import_count: 1
+        word_count: 14
       nchantrs/actions/__init__.py:
         class_count: 0
         file_size: 0
@@ -534,6 +543,12 @@ analysis:
         function_count: 0
         import_count: 5
         word_count: 518
+      nchantrs/cli.py:
+        class_count: 0
+        file_size: 1472
+        function_count: 8
+        import_count: 2
+        word_count: 151
       nchantrs/dialogs/__init__.py:
         class_count: 0
         file_size: 0
@@ -3226,8 +3241,6 @@ audit_date: '1773541342.849188'
 dimensions:
   agent_awareness:
     details:
-      issues:
-      - No CLI file found
       score: 0
       status: fail
     score: 0
@@ -3236,40 +3249,36 @@ dimensions:
     details:
       issues:
       - fix: Add entries to CHANGES.md for recent changes
-        rule: 'Low changelog coverage: 28%'
+        rule: 'Low changelog coverage: 44%'
         severity: high
         unmatched_commits:
-        - 10327bb Merge remote-tracking branch 'local/nchantrs-ws' int
-        - 9e34fc6 Merge remote-tracking branch 'local/nchantrs-ws' int
+        - '51763b5 fix: add CLI, config, CHANGES entries, CONTRIBUTING,'
         - '17f9508 Phase 1-5 Upgrade: Security, Performance, Maintainab'
-        - 'c100a97 Fix: parent() call on widget with no parent set caus'
-        - a725161 add missing QCursor import
-      score: 20
+        - 'fb52407 Fix: Check for QApplication.model and set None inste'
+        - c7b18fa Add Projects tab to NchantdAXN - Tasks, Projects tab
+        - '8a7ebcc Fix: Remove redundant welcome label blocking AXNTask'
+      score: 40
       status: partial
-    score: 20
+    score: 40
     status: partial
   ci_cd_config:
     details:
-      ci_cd_found: []
-      issues:
-      - fix: Add CI/CD configuration (GitHub Actions, GitLab CI, etc.)
-        rule: No CI/CD configuration found
-        severity: high
-      score: 0
-      status: fail
-    score: 0
-    status: fail
+      ci_cd_found:
+      - GitHub Actions
+      issues: []
+      score: 100
+      status: pass
+    score: 100
+    status: pass
   ci_cd_documentation:
     details:
-      ci_cd_docs_found: []
-      issues:
-      - fix: Create CONTRIBUTING.md or docs/ci-cd.md with CI/CD pipeline documentation
-        rule: No CI/CD documentation found
-        severity: high
-      score: 0
-      status: fail
-    score: 0
-    status: fail
+      ci_cd_docs_found:
+      - CONTRIBUTING.md
+      issues: []
+      score: 100
+      status: pass
+    score: 100
+    status: pass
   cli_documentation:
     details:
       exists: false
@@ -3293,7 +3302,7 @@ dimensions:
     status: fail
   dependency_strategy:
     details:
-      external_imports: 2099
+      external_imports: 2101
       info: 'Hint: 60 GitVein projects available but not used: PyQt5Pandas, apig,
         asolutionfor, axn, basicbot...'
       internal_import_details:
@@ -3327,30 +3336,30 @@ dimensions:
       - file: test_nchantrs/nchantrs/services/integrityTEST.py
         module: condor
         project: condor
-      internal_imports: 1255
+      internal_imports: 1256
       internal_projects_used:
-      - condor
-      - subtrix
-      - pyside6pandas
       - ogma
+      - condor
+      - pyside6pandas
+      - subtrix
       - nchantrs
-      leverage_score: 37.42
+      leverage_score: 37.41
       score: 100
       status: pass
-      total_imports: 3354
+      total_imports: 3357
     score: 100
     status: pass
   documentation:
     details:
-      missing:
-      - CONTRIBUTING.md
+      missing: []
       present:
       - README.md
       - CHANGES.md
       - STATE.md
-      score: 75
+      - CONTRIBUTING.md
+      score: 100
       status: pass
-    score: 75
+    score: 100
     status: pass
   duplicate_files:
     details:
@@ -3391,16 +3400,13 @@ dimensions:
     status: pass
   import_organization:
     details:
-      has_isort_config: false
-      issues:
-      - fix: Add isort configuration to pyproject.toml or .isort.cfg
-        rule: No isort configuration found
-        severity: low
+      has_isort_config: true
+      issues: []
       potential_misordered: 3
-      score: 75
-      status: partial
-    score: 75
-    status: partial
+      score: 100
+      status: pass
+    score: 100
+    status: pass
   kiss_dry:
     details:
       duplicate_warnings: 0
@@ -3475,9 +3481,9 @@ dimensions:
   logging:
     details:
       print_files:
-      - test_app_calculator.py
       - test_shroud_runner.py
-      print_statements: 203
+      - test_app_calculator.py
+      print_statements: 220
       score: 75
       status: partial
       uses_logging: true
@@ -3486,34 +3492,39 @@ dimensions:
     status: partial
   mkdocs_mkdocstrings:
     details:
-      docs_directory: false
-      has_index_md: false
-      has_mkdocstrings: false
-      issues:
-      - fix: 'Set up MkDocs with mkdocstrings: create mkdocs.yml and docs/index.md'
-        rule: No MkDocs documentation setup found
-        severity: high
-      mkdocs_config: null
-      score: 0
-      status: fail
-    score: 0
-    status: fail
+      docs_directory: true
+      has_index_md: true
+      has_mkdocstrings: true
+      issues: []
+      mkdocs_config: mkdocs.yml
+      score: 100
+      status: pass
+    score: 100
+    status: pass
   module_cli_coverage:
     details:
-      cli_commands: []
+      cli_commands:
+      - config
+      - help
+      - install
+      - run
+      - test
+      - uninstall
+      - version
       context:
-        actual: 0/9 modules have CLI commands (0%)
+        actual: 0/10 modules have CLI commands (0%)
         description: Ensures every module has a corresponding CLI command for accessibility
         dimension: module_cli_coverage
         expected: All modules should have CLI commands (100% coverage at 80% threshold)
-        fix_guidance: 'Add CLI commands for: actions, dialogs, events, models, nchantrs,
-          services, utilities, widgets, wizards. Map each module to a CLI command
-          in cli.py using subparsers.add_parser(''models'').'
+        fix_guidance: 'Add CLI commands for: actions, cli, dialogs, events, models,
+          nchantrs, services, utilities, widgets, wizards. Map each module to a CLI
+          command in cli.py using subparsers.add_parser(''services'').'
         what_it_tests: Whether each Python module in the package has a matching CLI
           command entry point
-        why_partial_or_fail: 'Modules missing CLI commands: actions, dialogs, events,
-          models, nchantrs, services, utilities, widgets, wizards. Available CLI commands
-          found: none. Each module should have either: (1) a matching @cli.command()/@app.command()
+        why_partial_or_fail: 'Modules missing CLI commands: actions, cli, dialogs,
+          events, models, nchantrs, services, utilities, widgets, wizards. Available
+          CLI commands found: config, help, install, run, test, uninstall, version.
+          Each module should have either: (1) a matching @cli.command()/@app.command()
           decorator, (2) a subparsers.add_parser() call matching the module name,
           or (3) a cmd_XXX function in cli.py that maps to the module.'
       covered_modules: 0
@@ -3522,17 +3533,19 @@ dimensions:
         rule: No CLI commands found for modules
         severity: critical
         uncovered_modules:
-        - models
-        - events
-        - dialogs
-        - utilities
         - services
-        - wizards
-        - nchantrs
-        - actions
+        - utilities
+        - cli
+        - events
         - widgets
+        - actions
+        - wizards
+        - models
+        - nchantrs
+        - dialogs
       module_list:
       - actions
+      - cli
       - dialogs
       - events
       - models
@@ -3543,8 +3556,8 @@ dimensions:
       - wizards
       score: 0
       status: fail
-      total_modules: 9
-      uncovered_modules: 9
+      total_modules: 10
+      uncovered_modules: 10
     score: 0
     status: fail
   pii_secrets:
@@ -3587,7 +3600,7 @@ dimensions:
   security_bandit:
     details:
       details:
-        files_scanned: 216
+        files_scanned: 218
         high: 4
         low: 80
         medium: 16
@@ -3608,10 +3621,10 @@ dimensions:
     details:
       missing_dirs:
       - tests
-      - docs
       missing_files:
       - CLI.md
       present_dirs:
+      - docs
       - nchantrs
       - test_nchantrs
       present_files:
@@ -3626,15 +3639,18 @@ dimensions:
       - modules_action.txt
       - test_app_distortion.py
       - test_app_nchantment.py
+      - CONTRIBUTING.md
       - test_app_aberration.py
       - pytest.ini
       - IMPLEMENTATION.md
+      - nchantrs.yaml
       - LICENSE.rst
       - README.md
       - test_entry_points.py
       - test_distortion.py
       - BREAKING_CHANGES.md
       - nchantrs_applicationviews.log
+      - mkdocs.yml
       - CHANGES.md
       - LICENSE
       - nchantrs_dialogs.log
@@ -3642,9 +3658,9 @@ dimensions:
       - test_aberration.py
       - test_app_flection.py
       - PROJECT_TRACKER.yaml
-      score: 55
+      score: 70
       status: partial
-    score: 55
+    score: 70
     status: partial
   testing:
     details:
@@ -3729,22 +3745,22 @@ dimensions:
     status: fail
   type_annotations:
     details:
-      annotated_functions: 88
-      annotation_percentage: 0.9
+      annotated_functions: 98
+      annotation_percentage: 1.1
       issues:
       - fix: Add type hints to function signatures and return types
-        rule: 'Type annotation coverage: 0.9%'
+        rule: 'Type annotation coverage: 1.1%'
         severity: medium
-      score: 1
+      score: 2
       status: partial
-      total_functions: 9271
-    score: 1
+      total_functions: 9280
+    score: 2
     status: partial
   type_check_pyright:
     details:
       issues:
       - fix: Fix type errors
-        rule: 'Pyright errors: 5795'
+        rule: 'Pyright errors: 5799'
         severity: critical
       score: 0
       status: fail
@@ -3755,19 +3771,19 @@ dimensions:
       issues: []
       score: 100
       status: pass
-      total_functions: 8949
+      total_functions: 8959
       wrapper_count: 0
     score: 100
     status: pass
-overall_score: 41.03
+overall_score: 45.5
 project: nchantrs
 summary:
-  failing: 11
+  failing: 8
   gitvein_projects_available: 65
-  passing: 13
+  passing: 17
   total_dimensions: 32
 versions:
-  project: 10327bb
-  project_status: dirty
-  project_uncommitted_changes: 1
+  project: 51763b5
+  project_status: clean
+  project_uncommitted_changes: 0
   sasquatch: unknown

@@ -1,6 +1,7 @@
-"""Nchantrs - Main entry point."""
+"""Nchantrs package entry point."""
 
-from nchantrs.cli import main
+import sys
+from nchantrs import main
 
 if __name__ == "__main__":
-    exit(main())
+    sys.exit(main())

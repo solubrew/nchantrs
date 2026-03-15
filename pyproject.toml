@@ -151,3 +151,7 @@ addopts = [
     "--doctest-modules",
     "--doctest-glob=*.md",
     "--tb=short"]
+
+[tool.setuptools.package.metadata]
+license = { file = "LICENSE" }
+
