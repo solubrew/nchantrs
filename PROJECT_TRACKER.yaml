@@ -1,0 +1,3773 @@
+agent: morg
+analysis:
+  counts:
+    directories: 135
+    file_sizes:
+      nchantrs/__init__.py: 305
+      nchantrs/actions/__init__.py: 0
+      nchantrs/actions/actions.py: 8703
+      nchantrs/actions/charts.py: 1210
+      nchantrs/actions/files.py: 6691
+      nchantrs/actions/format.py: 692
+      nchantrs/actions/tables.py: 37387
+      nchantrs/actions/text.py: 5249
+      nchantrs/actions/tree.py: 5687
+      nchantrs/dialogs/__init__.py: 0
+      nchantrs/dialogs/about.py: 4503
+      nchantrs/dialogs/authentication.py: 2834
+      nchantrs/dialogs/colors.py: 2542
+      nchantrs/dialogs/dialogs.py: 34510
+      nchantrs/dialogs/editors.py: 2868
+      nchantrs/dialogs/errors.py: 2234
+      nchantrs/dialogs/extensions.py: 2108
+      nchantrs/dialogs/files.py: 5447
+      nchantrs/dialogs/icons.py: 2176
+      nchantrs/dialogs/new.py: 6041
+      nchantrs/dialogs/notifications.py: 2083
+      nchantrs/dialogs/passwords.py: 2132
+      nchantrs/dialogs/save.py: 1362
+      nchantrs/dialogs/search.py: 2074
+      nchantrs/dialogs/settings.py: 2261
+      nchantrs/events/__init__.py: 0
+      nchantrs/events/alerts.py: 1629
+      nchantrs/events/events.py: 7140
+      nchantrs/events/keyboard_events.py: 16451
+      nchantrs/events/mouse_events.py: 5386
+      nchantrs/events/tabsets.py: 14058
+      nchantrs/events/trees.py: 11303
+      nchantrs/extensions/apis.py: 7800
+      nchantrs/extensions/extensions.py: 3557
+      nchantrs/extensions/install.py: 4178
+      nchantrs/extensions/integrations.py: 1362
+      nchantrs/extensions/packages/nchantdlibrary/__init__.py: 0
+      nchantrs/extensions/packages/nchantdlibrary/bibliography_reference.py: 1362
+      nchantrs/extensions/packages/nchantdlibrary/dictionary.py: 1362
+      nchantrs/extensions/packages/nchantdlibrary/engineering/__init__.py: 0
+      nchantrs/extensions/packages/nchantdlibrary/games/gameoflife.py: 3637
+      nchantrs/extensions/packages/nchantdlibrary/nchantdlibrary.py: 1575
+      nchantrs/extensions/packages/nchantdlibrary/physician/__init__.py: 0
+      nchantrs/extensions/packages/nchantdlibrary/physician/physicians_reference.py: 1362
+      nchantrs/extensions/packages/nchantdlibrary/style_guide.py: 1362
+      nchantrs/extensions/packages/nchantdlibrary/thesaurus.py: 1362
+      nchantrs/extensions/plugins.py: 2754
+      nchantrs/extensions/sources.py: 1362
+      nchantrs/libraries/orange.py: 1513
+      nchantrs/libraries/pyqt.py: 5294
+      nchantrs/libraries/qpandas.py: 1704
+      nchantrs/libraries/syntax.py: 6605
+      nchantrs/library/library.py: 1561
+      nchantrs/models/__init__.py: 0
+      nchantrs/models/applicationmodels.py: 31534
+      nchantrs/models/models.py: 69617
+      nchantrs/models/tabsetmodels.py: 12348
+      nchantrs/models/treemodels.py: 16583
+      nchantrs/nchantrs.py: 6096
+      nchantrs/services/__init__.py: 0
+      nchantrs/services/bonds.py: 2129
+      nchantrs/services/connections.py: 2119
+      nchantrs/services/directories.py: 1745
+      nchantrs/services/integrity.py: 3021
+      nchantrs/services/license.py: 2063
+      nchantrs/services/links.py: 2107
+      nchantrs/services/nchantrs.py: 2516
+      nchantrs/services/services.py: 3262
+      nchantrs/services/tags.py: 2199
+      nchantrs/services/telemetry.py: 1706
+      nchantrs/services/upgrades.py: 8855
+      nchantrs/themes/images.py: 1534
+      nchantrs/themes/themes.py: 6640
+      nchantrs/updates/db.py: 16819
+      nchantrs/utilities/__init__.py: 132
+      nchantrs/utilities/analytics.py: 2209
+      nchantrs/utilities/books.py: 2432
+      nchantrs/utilities/comms.py: 4094
+      nchantrs/utilities/debug.py: 7825
+      nchantrs/utilities/files.py: 1988
+      nchantrs/utilities/formatting.py: 2642
+      nchantrs/utilities/formulas.py: 1883
+      nchantrs/utilities/graphics/__init__.py: 0
+      nchantrs/utilities/graphics/animations/__init__.py: 0
+      nchantrs/utilities/graphics/animations/turtle.py: 2674
+      nchantrs/utilities/graphics/logos.py: 2412
+      nchantrs/utilities/graphics/pixelart.py: 3072
+      nchantrs/utilities/identification.py: 1626
+      nchantrs/utilities/models.py: 2019
+      nchantrs/utilities/policies.py: 5042
+      nchantrs/utilities/templates.py: 1972
+      nchantrs/utilities/tools/search.py: 2337
+      nchantrs/utilities/tools/tools.py: 1362
+      nchantrs/utilities/users.py: 14171
+      nchantrs/utilities/utils.py: 5894
+      nchantrs/views/applicationviews.py: 10002
+      nchantrs/views/treeviews.py: 10835
+      nchantrs/views/views.py: 1328
+      nchantrs/widgets/__init__.py: 0
+      nchantrs/widgets/agents/__init__.py: 0
+      nchantrs/widgets/agents/agents.py: 4352
+      nchantrs/widgets/annotations.py: 11202
+      nchantrs/widgets/applications/__init__.py: 0
+      nchantrs/widgets/applications/applications.py: 30354
+      nchantrs/widgets/applications/managers.py: 2592
+      nchantrs/widgets/browsers/__init__.py: 0
+      nchantrs/widgets/browsers/browsers.py: 23542
+      nchantrs/widgets/browsers/codecs/h264.py: 18017
+      nchantrs/widgets/browsers/downloads.py: 28970
+      nchantrs/widgets/browsers/engines.py: 19920
+      nchantrs/widgets/browsers/graphics.py: 4358
+      nchantrs/widgets/browsers/history.py: 1731
+      nchantrs/widgets/browsers/initialize.py: 2186
+      nchantrs/widgets/browsers/javascript/scripts.py: 10495
+      nchantrs/widgets/browsers/network.py: 1362
+      nchantrs/widgets/browsers/pages.py: 38484
+      nchantrs/widgets/browsers/profiles.py: 30971
+      nchantrs/widgets/browsers/requests.py: 19851
+      nchantrs/widgets/browsers/security/authentication.py: 14362
+      nchantrs/widgets/browsers/security/environment.py: 27767
+      nchantrs/widgets/browsers/security/google.py: 3365
+      nchantrs/widgets/browsers/services.py: 6586
+      nchantrs/widgets/browsers/utilities.py: 7419
+      nchantrs/widgets/calculators/calculators.py: 16905
+      nchantrs/widgets/calendars/__init__.py: 0
+      nchantrs/widgets/calendars/calendars.py: 8933
+      nchantrs/widgets/calendars/centuries.py: 2065
+      nchantrs/widgets/calendars/days.py: 8863
+      nchantrs/widgets/calendars/decades.py: 2067
+      nchantrs/widgets/calendars/months.py: 10377
+      nchantrs/widgets/calendars/timelines.py: 17246
+      nchantrs/widgets/calendars/weeks.py: 3659
+      nchantrs/widgets/calendars/years.py: 5346
+      nchantrs/widgets/canvases/__init__.py: 0
+      nchantrs/widgets/canvases/canvases.py: 8940
+      nchantrs/widgets/canvases/multipages.py: 3420
+      nchantrs/widgets/canvases/scenes.py: 7436
+      nchantrs/widgets/catalogs.py: 8437
+      nchantrs/widgets/config/__init__.py: 0
+      nchantrs/widgets/config/accounts.py: 3835
+      nchantrs/widgets/config/config.py: 10106
+      nchantrs/widgets/config/extensions.py: 3390
+      nchantrs/widgets/config/help.py: 5203
+      nchantrs/widgets/config/integrations.py: 2863
+      nchantrs/widgets/config/packages.py: 6212
+      nchantrs/widgets/config/profiles.py: 2457
+      nchantrs/widgets/config/security.py: 11008
+      nchantrs/widgets/config/services.py: 2070
+      nchantrs/widgets/config/settings.py: 9231
+      nchantrs/widgets/config/storage.py: 11594
+      nchantrs/widgets/config/uninstall.py: 10062
+      nchantrs/widgets/controls/__init__.py: 0
+      nchantrs/widgets/controls/advanced_buttons.py: 14788
+      nchantrs/widgets/controls/button_groups.py: 26550
+      nchantrs/widgets/controls/buttons.py: 11232
+      nchantrs/widgets/controls/checkboxes.py: 6869
+      nchantrs/widgets/controls/connectors.py: 5143
+      nchantrs/widgets/controls/controls.py: 4899
+      nchantrs/widgets/controls/menus.py: 5417
+      nchantrs/widgets/controls/navigation.py: 2926
+      nchantrs/widgets/controls/radios.py: 3590
+      nchantrs/widgets/controls/search.py: 2078
+      nchantrs/widgets/controls/toolbars.py: 14924
+      nchantrs/widgets/controls/toolboxes.py: 10025
+      nchantrs/widgets/controls/tooltips.py: 2069
+      nchantrs/widgets/embeds.py: 3974
+      nchantrs/widgets/forms/__init__.py: 0
+      nchantrs/widgets/forms/forms.py: 9290
+      nchantrs/widgets/groups.py: 18487
+      nchantrs/widgets/items/__init__.py: 0
+      nchantrs/widgets/items/catalogs.py: 8733
+      nchantrs/widgets/items/cells.py: 8357
+      nchantrs/widgets/items/items.py: 5031
+      nchantrs/widgets/items/nodes.py: 33079
+      nchantrs/widgets/items/subtrees.py: 3434
+      nchantrs/widgets/launch.py: 2544
+      nchantrs/widgets/managers.py: 6065
+      nchantrs/widgets/managers/managers.py: 9648
+      nchantrs/widgets/media/__init__.py: 0
+      nchantrs/widgets/media/charts/__init__.py: 0
+      nchantrs/widgets/media/charts/charts.py: 42199
+      nchantrs/widgets/media/editors/__init__.py: 0
+      nchantrs/widgets/media/editors/code.py: 9389
+      nchantrs/widgets/media/editors/editors.py: 29667
+      nchantrs/widgets/media/editors/entries.py: 5284
+      nchantrs/widgets/media/editors/selectors.py: 14195
+      nchantrs/widgets/media/games/boards.py: 12013
+      nchantrs/widgets/media/games/games.py: 2077
+      nchantrs/widgets/media/images.py: 12696
+      nchantrs/widgets/media/maps.py: 2887
+      nchantrs/widgets/media/marquees.py: 3441
+      nchantrs/widgets/media/media.py: 9715
+      nchantrs/widgets/media/notes.py: 4680
+      nchantrs/widgets/media/palettes.py: 3812
+      nchantrs/widgets/media/shapes.py: 7087
+      nchantrs/widgets/media/utilities.py: 2894
+      nchantrs/widgets/media/video.py: 4459
+      nchantrs/widgets/panes/calendars.py: 2517
+      nchantrs/widgets/panes/catalogs.py: 11489
+      nchantrs/widgets/panes/files.py: 2082
+      nchantrs/widgets/panes/numbers.py: 3395
+      nchantrs/widgets/panes/panes.py: 2976
+      nchantrs/widgets/tables/__init__.py: 0
+      nchantrs/widgets/tables/lists.py: 9393
+      nchantrs/widgets/tables/tables.py: 24634
+      nchantrs/widgets/tabsets.py: 27549
+      nchantrs/widgets/trees.py: 16453
+      nchantrs/widgets/widgets.py: 35396
+      nchantrs/wizards/__init__.py: 0
+      nchantrs/wizards/accounts.py: 3265
+      nchantrs/wizards/apps.py: 26504
+      nchantrs/wizards/instances.py: 4670
+      nchantrs/wizards/pages.py: 4125
+      nchantrs/wizards/users.py: 11193
+      nchantrs/wizards/wizards.py: 2599
+      run_entry_point.py: 3908
+      test_aberration.py: 1543
+      test_app_aberration.py: 1047
+      test_app_base.py: 2220
+      test_app_calculator.py: 2373
+      test_app_distortion.py: 1222
+      test_app_flection.py: 1418
+      test_app_nchantment.py: 999
+      test_app_todos.py: 2103
+      test_distortion.py: 2426
+      test_entry_points.py: 4426
+      test_nchantment.py: 1095
+      test_nchantrs/nchantrs/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/actions/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/actions/actionsTEST.py: 11497
+      test_nchantrs/nchantrs/actions/chartsTEST.py: 4201
+      test_nchantrs/nchantrs/actions/filesTEST.py: 5087
+      test_nchantrs/nchantrs/actions/formatTEST.py: 4189
+      test_nchantrs/nchantrs/actions/tablesTEST.py: 9631
+      test_nchantrs/nchantrs/actions/textTEST.py: 10287
+      test_nchantrs/nchantrs/actions/treeTEST.py: 2427
+      test_nchantrs/nchantrs/agents/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/agents/agentsTEST.py: 5279
+      test_nchantrs/nchantrs/dialogs/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/dialogs/aboutTEST.py: 3457
+      test_nchantrs/nchantrs/dialogs/authenticationTEST.py: 3489
+      test_nchantrs/nchantrs/dialogs/colorsTEST.py: 3985
+      test_nchantrs/nchantrs/dialogs/dialogsTEST.py: 10520
+      test_nchantrs/nchantrs/dialogs/editorsTEST.py: 3814
+      test_nchantrs/nchantrs/dialogs/errorsTEST.py: 3357
+      test_nchantrs/nchantrs/dialogs/extensionsTEST.py: 3485
+      test_nchantrs/nchantrs/dialogs/filesTEST.py: 7130
+      test_nchantrs/nchantrs/dialogs/iconsTEST.py: 3465
+      test_nchantrs/nchantrs/dialogs/newTEST.py: 6660
+      test_nchantrs/nchantrs/dialogs/notificationsTEST.py: 3481
+      test_nchantrs/nchantrs/dialogs/p12TEST.py: 913
+      test_nchantrs/nchantrs/dialogs/passwordsTEST.py: 4086
+      test_nchantrs/nchantrs/dialogs/saveTEST.py: 2427
+      test_nchantrs/nchantrs/dialogs/searchTEST.py: 3451
+      test_nchantrs/nchantrs/dialogs/settingsTEST.py: 3568
+      test_nchantrs/nchantrs/events/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/events/alertsTEST.py: 2429
+      test_nchantrs/nchantrs/events/eventsTEST.py: 5838
+      test_nchantrs/nchantrs/events/keyboard_eventsTEST.py: 23034
+      test_nchantrs/nchantrs/events/mouse_eventsTEST.py: 2435
+      test_nchantrs/nchantrs/events/tabsetsTEST.py: 2998
+      test_nchantrs/nchantrs/events/treesTEST.py: 2812
+      test_nchantrs/nchantrs/extensions/apisTEST.py: 10041
+      test_nchantrs/nchantrs/extensions/extensionsTEST.py: 3491
+      test_nchantrs/nchantrs/extensions/installTEST.py: 3947
+      test_nchantrs/nchantrs/extensions/integrationsTEST.py: 2435
+      test_nchantrs/nchantrs/extensions/packages/nchantdlibrary/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/extensions/packages/nchantdlibrary/bibliography_referenceTEST.py: 2445
+      test_nchantrs/nchantrs/extensions/packages/nchantdlibrary/dictionaryTEST.py: 2433
+      test_nchantrs/nchantrs/extensions/packages/nchantdlibrary/engineering/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/extensions/packages/nchantdlibrary/games/gameoflifeTEST.py: 3600
+      test_nchantrs/nchantrs/extensions/packages/nchantdlibrary/nchantdlibraryTEST.py: 3183
+      test_nchantrs/nchantrs/extensions/packages/nchantdlibrary/physician/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/extensions/packages/nchantdlibrary/physician/physicians_referenceTEST.py: 2443
+      test_nchantrs/nchantrs/extensions/packages/nchantdlibrary/style_guideTEST.py: 2434
+      test_nchantrs/nchantrs/extensions/packages/nchantdlibrary/thesaurusTEST.py: 2432
+      test_nchantrs/nchantrs/extensions/pluginsTEST.py: 4522
+      test_nchantrs/nchantrs/extensions/sourcesTEST.py: 2430
+      test_nchantrs/nchantrs/libraries/orangeTEST.py: 2429
+      test_nchantrs/nchantrs/libraries/pyqtTEST.py: 2427
+      test_nchantrs/nchantrs/libraries/qpandasTEST.py: 2430
+      test_nchantrs/nchantrs/libraries/syntaxTEST.py: 3519
+      test_nchantrs/nchantrs/library/libraryTEST.py: 3142
+      test_nchantrs/nchantrs/models/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/models/applicationmodelsTEST.py: 14366
+      test_nchantrs/nchantrs/models/modelsTEST.py: 17801
+      test_nchantrs/nchantrs/models/p10TEST.py: 733
+      test_nchantrs/nchantrs/models/tabsetmodelsTEST.py: 4778
+      test_nchantrs/nchantrs/models/treemodelsTEST.py: 9032
+      test_nchantrs/nchantrs/nchantrsTEST.py: 3659
+      test_nchantrs/nchantrs/services/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/services/bondsTEST.py: 3928
+      test_nchantrs/nchantrs/services/connectionsTEST.py: 3609
+      test_nchantrs/nchantrs/services/directoriesTEST.py: 4840
+      test_nchantrs/nchantrs/services/integrityTEST.py: 3751
+      test_nchantrs/nchantrs/services/licenseTEST.py: 3796
+      test_nchantrs/nchantrs/services/linksTEST.py: 3334
+      test_nchantrs/nchantrs/services/nchantrsTEST.py: 4314
+      test_nchantrs/nchantrs/services/p3TEST.py: 1102
+      test_nchantrs/nchantrs/services/servicesTEST.py: 5226
+      test_nchantrs/nchantrs/services/tagsTEST.py: 3994
+      test_nchantrs/nchantrs/services/telemetryTEST.py: 3352
+      test_nchantrs/nchantrs/services/upgradesTEST.py: 13244
+      test_nchantrs/nchantrs/test_entry_points.py: 2992
+      test_nchantrs/nchantrs/themes/imagesTEST.py: 3129
+      test_nchantrs/nchantrs/themes/themesTEST.py: 4081
+      test_nchantrs/nchantrs/updates/dbTEST.py: 5156
+      test_nchantrs/nchantrs/utilities/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/utilities/analyticsTEST.py: 3459
+      test_nchantrs/nchantrs/utilities/booksTEST.py: 3306
+      test_nchantrs/nchantrs/utilities/commsTEST.py: 3947
+      test_nchantrs/nchantrs/utilities/filesTEST.py: 2623
+      test_nchantrs/nchantrs/utilities/formattingTEST.py: 3432
+      test_nchantrs/nchantrs/utilities/formulasTEST.py: 3447
+      test_nchantrs/nchantrs/utilities/graphics/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/utilities/graphics/animations/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/utilities/graphics/animations/turtleTEST.py: 3027
+      test_nchantrs/nchantrs/utilities/graphics/logosTEST.py: 3462
+      test_nchantrs/nchantrs/utilities/graphics/pixelartTEST.py: 3737
+      test_nchantrs/nchantrs/utilities/identificationTEST.py: 2655
+      test_nchantrs/nchantrs/utilities/modelsTEST.py: 2619
+      test_nchantrs/nchantrs/utilities/p0TEST.py: 1191
+      test_nchantrs/nchantrs/utilities/p13TEST.py: 352
+      test_nchantrs/nchantrs/utilities/p1TEST.py: 1397
+      test_nchantrs/nchantrs/utilities/p2TEST.py: 1924
+      test_nchantrs/nchantrs/utilities/policiesTEST.py: 4475
+      test_nchantrs/nchantrs/utilities/templatesTEST.py: 2432
+      test_nchantrs/nchantrs/utilities/tools/searchTEST.py: 5960
+      test_nchantrs/nchantrs/utilities/tools/toolsTEST.py: 2428
+      test_nchantrs/nchantrs/utilities/usersTEST.py: 5399
+      test_nchantrs/nchantrs/utilities/utilsTEST.py: 3317
+      test_nchantrs/nchantrs/views/applicationviewsTEST.py: 7041
+      test_nchantrs/nchantrs/views/p5TEST.py: 640
+      test_nchantrs/nchantrs/views/treeviewsTEST.py: 5591
+      test_nchantrs/nchantrs/views/viewsTEST.py: 2428
+      test_nchantrs/nchantrs/widgets/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/widgets/annotationsTEST.py: 8941
+      test_nchantrs/nchantrs/widgets/applications/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/widgets/applications/applicationsTEST.py: 10191
+      test_nchantrs/nchantrs/widgets/applications/managersTEST.py: 3594
+      test_nchantrs/nchantrs/widgets/browsers/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/widgets/browsers/browsersTEST.py: 10077
+      test_nchantrs/nchantrs/widgets/browsers/codecs/h264TEST.py: 7229
+      test_nchantrs/nchantrs/widgets/browsers/downloadsTEST.py: 14250
+      test_nchantrs/nchantrs/widgets/browsers/enginesTEST.py: 7843
+      test_nchantrs/nchantrs/widgets/browsers/graphicsTEST.py: 3096
+      test_nchantrs/nchantrs/widgets/browsers/historyTEST.py: 3456
+      test_nchantrs/nchantrs/widgets/browsers/initializeTEST.py: 2654
+      test_nchantrs/nchantrs/widgets/browsers/javascript/scriptsTEST.py: 6719
+      test_nchantrs/nchantrs/widgets/browsers/networkTEST.py: 2430
+      test_nchantrs/nchantrs/widgets/browsers/pagesTEST.py: 7516
+      test_nchantrs/nchantrs/widgets/browsers/profilesTEST.py: 9716
+      test_nchantrs/nchantrs/widgets/browsers/requestsTEST.py: 8309
+      test_nchantrs/nchantrs/widgets/browsers/security/authenticationTEST.py: 6411
+      test_nchantrs/nchantrs/widgets/browsers/security/environmentTEST.py: 12508
+      test_nchantrs/nchantrs/widgets/browsers/security/googleTEST.py: 3397
+      test_nchantrs/nchantrs/widgets/browsers/servicesTEST.py: 5559
+      test_nchantrs/nchantrs/widgets/browsers/utilitiesTEST.py: 6134
+      test_nchantrs/nchantrs/widgets/calculators/calculatorsTEST.py: 9087
+      test_nchantrs/nchantrs/widgets/calendars/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/widgets/calendars/calendarsTEST.py: 9069
+      test_nchantrs/nchantrs/widgets/calendars/centuriesTEST.py: 3479
+      test_nchantrs/nchantrs/widgets/calendars/daysTEST.py: 8627
+      test_nchantrs/nchantrs/widgets/calendars/decadesTEST.py: 3473
+      test_nchantrs/nchantrs/widgets/calendars/monthsTEST.py: 6107
+      test_nchantrs/nchantrs/widgets/calendars/timelinesTEST.py: 9585
+      test_nchantrs/nchantrs/widgets/calendars/weeksTEST.py: 3465
+      test_nchantrs/nchantrs/widgets/calendars/yearsTEST.py: 5545
+      test_nchantrs/nchantrs/widgets/canvases/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/widgets/canvases/canvasesTEST.py: 10647
+      test_nchantrs/nchantrs/widgets/canvases/multipagesTEST.py: 3692
+      test_nchantrs/nchantrs/widgets/canvases/scenesTEST.py: 5497
+      test_nchantrs/nchantrs/widgets/catalogsTEST.py: 4923
+      test_nchantrs/nchantrs/widgets/config/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/widgets/config/accountsTEST.py: 4517
+      test_nchantrs/nchantrs/widgets/config/configTEST.py: 5708
+      test_nchantrs/nchantrs/widgets/config/extensionsTEST.py: 4533
+      test_nchantrs/nchantrs/widgets/config/helpTEST.py: 5500
+      test_nchantrs/nchantrs/widgets/config/integrationsTEST.py: 4543
+      test_nchantrs/nchantrs/widgets/config/packagesTEST.py: 3686
+      test_nchantrs/nchantrs/widgets/config/profilesTEST.py: 3458
+      test_nchantrs/nchantrs/widgets/config/securityTEST.py: 5161
+      test_nchantrs/nchantrs/widgets/config/servicesTEST.py: 3464
+      test_nchantrs/nchantrs/widgets/config/settingsTEST.py: 7218
+      test_nchantrs/nchantrs/widgets/config/storageTEST.py: 3684
+      test_nchantrs/nchantrs/widgets/config/uninstallTEST.py: 4713
+      test_nchantrs/nchantrs/widgets/controls/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/widgets/controls/advanced_buttonsTEST.py: 12678
+      test_nchantrs/nchantrs/widgets/controls/button_groupsTEST.py: 15821
+      test_nchantrs/nchantrs/widgets/controls/buttonsTEST.py: 8749
+      test_nchantrs/nchantrs/widgets/controls/checkboxesTEST.py: 5658
+      test_nchantrs/nchantrs/widgets/controls/connectorsTEST.py: 8715
+      test_nchantrs/nchantrs/widgets/controls/controlsTEST.py: 5345
+      test_nchantrs/nchantrs/widgets/controls/menusTEST.py: 4803
+      test_nchantrs/nchantrs/widgets/controls/navigationTEST.py: 3271
+      test_nchantrs/nchantrs/widgets/controls/radiosTEST.py: 4509
+      test_nchantrs/nchantrs/widgets/controls/searchTEST.py: 3460
+      test_nchantrs/nchantrs/widgets/controls/toolbarsTEST.py: 9231
+      test_nchantrs/nchantrs/widgets/controls/toolboxesTEST.py: 5594
+      test_nchantrs/nchantrs/widgets/controls/tooltipsTEST.py: 3460
+      test_nchantrs/nchantrs/widgets/embedsTEST.py: 6539
+      test_nchantrs/nchantrs/widgets/forms/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/widgets/forms/formsTEST.py: 6077
+      test_nchantrs/nchantrs/widgets/groupsTEST.py: 11301
+      test_nchantrs/nchantrs/widgets/items/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/widgets/items/catalogsTEST.py: 6824
+      test_nchantrs/nchantrs/widgets/items/cellsTEST.py: 6708
+      test_nchantrs/nchantrs/widgets/items/itemsTEST.py: 5675
+      test_nchantrs/nchantrs/widgets/items/nodesTEST.py: 21542
+      test_nchantrs/nchantrs/widgets/items/subtreesTEST.py: 5543
+      test_nchantrs/nchantrs/widgets/launchTEST.py: 2429
+      test_nchantrs/nchantrs/widgets/managers/managersTEST.py: 8896
+      test_nchantrs/nchantrs/widgets/managersTEST.py: 7806
+      test_nchantrs/nchantrs/widgets/media/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/widgets/media/charts/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/widgets/media/charts/chartsTEST.py: 9362
+      test_nchantrs/nchantrs/widgets/media/editors/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/widgets/media/editors/codeTEST.py: 2427
+      test_nchantrs/nchantrs/widgets/media/editors/editorsTEST.py: 19746
+      test_nchantrs/nchantrs/widgets/media/editors/entriesTEST.py: 5695
+      test_nchantrs/nchantrs/widgets/media/editors/selectorsTEST.py: 10707
+      test_nchantrs/nchantrs/widgets/media/games/boardsTEST.py: 5870
+      test_nchantrs/nchantrs/widgets/media/games/gamesTEST.py: 3463
+      test_nchantrs/nchantrs/widgets/media/imagesTEST.py: 6037
+      test_nchantrs/nchantrs/widgets/media/mapsTEST.py: 4463
+      test_nchantrs/nchantrs/widgets/media/marqueesTEST.py: 4826
+      test_nchantrs/nchantrs/widgets/media/mediaTEST.py: 7001
+      test_nchantrs/nchantrs/widgets/media/notesTEST.py: 5542
+      test_nchantrs/nchantrs/widgets/media/palettesTEST.py: 4493
+      test_nchantrs/nchantrs/widgets/media/shapesTEST.py: 8295
+      test_nchantrs/nchantrs/widgets/media/utilitiesTEST.py: 3680
+      test_nchantrs/nchantrs/widgets/media/videoTEST.py: 6660
+      test_nchantrs/nchantrs/widgets/p11TEST.py: 1353
+      test_nchantrs/nchantrs/widgets/p6TEST.py: 1031
+      test_nchantrs/nchantrs/widgets/p7TEST.py: 629
+      test_nchantrs/nchantrs/widgets/p8TEST.py: 908
+      test_nchantrs/nchantrs/widgets/p9TEST.py: 645
+      test_nchantrs/nchantrs/widgets/panes/calendarsTEST.py: 3481
+      test_nchantrs/nchantrs/widgets/panes/catalogsTEST.py: 4354
+      test_nchantrs/nchantrs/widgets/panes/filesTEST.py: 3467
+      test_nchantrs/nchantrs/widgets/panes/numbersTEST.py: 3473
+      test_nchantrs/nchantrs/widgets/panes/panesTEST.py: 3658
+      test_nchantrs/nchantrs/widgets/tables/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/widgets/tables/listsTEST.py: 8014
+      test_nchantrs/nchantrs/widgets/tables/tablesTEST.py: 11004
+      test_nchantrs/nchantrs/widgets/tabsetsTEST.py: 10808
+      test_nchantrs/nchantrs/widgets/treesTEST.py: 9320
+      test_nchantrs/nchantrs/widgets/widgetsTEST.py: 15135
+      test_nchantrs/nchantrs/wizards/__init__TEST.py: 2431
+      test_nchantrs/nchantrs/wizards/accountsTEST.py: 4499
+      test_nchantrs/nchantrs/wizards/appsTEST.py: 11044
+      test_nchantrs/nchantrs/wizards/instancesTEST.py: 3816
+      test_nchantrs/nchantrs/wizards/p4TEST.py: 1200
+      test_nchantrs/nchantrs/wizards/pagesTEST.py: 4490
+      test_nchantrs/nchantrs/wizards/usersTEST.py: 7717
+      test_nchantrs/nchantrs/wizards/wizardsTEST.py: 3665
+      test_shroud_runner.py: 6325
+    files_by_type:
+      (no extension): 61
+      .TAG: 1
+      .iml: 1
+      .ini: 1
+      .jpg: 2
+      .kra: 2
+      .log: 2
+      .md: 6
+      .png: 30
+      .py: 457
+      .qss: 9
+      .rst: 2
+      .svg: 990
+      .toml: 1
+      .txt: 1
+      .webp: 2
+      .xml: 5
+      .yaml: 63
+    per_file:
+      nchantrs/__init__.py:
+        class_count: 0
+        file_size: 305
+        function_count: 0
+        import_count: 0
+        word_count: 39
+      nchantrs/actions/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/actions/actions.py:
+        class_count: 1
+        file_size: 8703
+        function_count: 46
+        import_count: 4
+        word_count: 808
+      nchantrs/actions/charts.py:
+        class_count: 0
+        file_size: 1210
+        function_count: 10
+        import_count: 0
+        word_count: 157
+      nchantrs/actions/files.py:
+        class_count: 0
+        file_size: 6691
+        function_count: 15
+        import_count: 4
+        word_count: 555
+      nchantrs/actions/format.py:
+        class_count: 0
+        file_size: 692
+        function_count: 10
+        import_count: 0
+        word_count: 70
+      nchantrs/actions/tables.py:
+        class_count: 4
+        file_size: 37387
+        function_count: 39
+        import_count: 3
+        word_count: 2416
+      nchantrs/actions/text.py:
+        class_count: 0
+        file_size: 5249
+        function_count: 44
+        import_count: 4
+        word_count: 516
+      nchantrs/actions/tree.py:
+        class_count: 0
+        file_size: 5687
+        function_count: 0
+        import_count: 5
+        word_count: 518
+      nchantrs/dialogs/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/dialogs/about.py:
+        class_count: 1
+        file_size: 4503
+        function_count: 0
+        import_count: 9
+        word_count: 334
+      nchantrs/dialogs/authentication.py:
+        class_count: 1
+        file_size: 2834
+        function_count: 0
+        import_count: 4
+        word_count: 207
+      nchantrs/dialogs/colors.py:
+        class_count: 1
+        file_size: 2542
+        function_count: 0
+        import_count: 5
+        word_count: 162
+      nchantrs/dialogs/dialogs.py:
+        class_count: 6
+        file_size: 34510
+        function_count: 0
+        import_count: 14
+        word_count: 2685
+      nchantrs/dialogs/editors.py:
+        class_count: 1
+        file_size: 2868
+        function_count: 0
+        import_count: 6
+        word_count: 183
+      nchantrs/dialogs/errors.py:
+        class_count: 1
+        file_size: 2234
+        function_count: 0
+        import_count: 6
+        word_count: 130
+      nchantrs/dialogs/extensions.py:
+        class_count: 1
+        file_size: 2108
+        function_count: 0
+        import_count: 5
+        word_count: 124
+      nchantrs/dialogs/files.py:
+        class_count: 4
+        file_size: 5447
+        function_count: 0
+        import_count: 5
+        word_count: 402
+      nchantrs/dialogs/icons.py:
+        class_count: 1
+        file_size: 2176
+        function_count: 0
+        import_count: 5
+        word_count: 131
+      nchantrs/dialogs/new.py:
+        class_count: 4
+        file_size: 6041
+        function_count: 0
+        import_count: 7
+        word_count: 399
+      nchantrs/dialogs/notifications.py:
+        class_count: 1
+        file_size: 2083
+        function_count: 0
+        import_count: 5
+        word_count: 124
+      nchantrs/dialogs/passwords.py:
+        class_count: 2
+        file_size: 2132
+        function_count: 0
+        import_count: 4
+        word_count: 127
+      nchantrs/dialogs/save.py:
+        class_count: 0
+        file_size: 1362
+        function_count: 0
+        import_count: 4
+        word_count: 80
+      nchantrs/dialogs/search.py:
+        class_count: 1
+        file_size: 2074
+        function_count: 0
+        import_count: 5
+        word_count: 124
+      nchantrs/dialogs/settings.py:
+        class_count: 1
+        file_size: 2261
+        function_count: 0
+        import_count: 6
+        word_count: 137
+      nchantrs/events/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/events/alerts.py:
+        class_count: 0
+        file_size: 1629
+        function_count: 0
+        import_count: 6
+        word_count: 111
+      nchantrs/events/events.py:
+        class_count: 2
+        file_size: 7140
+        function_count: 0
+        import_count: 4
+        word_count: 489
+      nchantrs/events/keyboard_events.py:
+        class_count: 0
+        file_size: 16451
+        function_count: 101
+        import_count: 4
+        word_count: 2476
+      nchantrs/events/mouse_events.py:
+        class_count: 0
+        file_size: 5386
+        function_count: 0
+        import_count: 4
+        word_count: 596
+      nchantrs/events/tabsets.py:
+        class_count: 0
+        file_size: 14058
+        function_count: 3
+        import_count: 0
+        word_count: 1251
+      nchantrs/events/trees.py:
+        class_count: 0
+        file_size: 11303
+        function_count: 2
+        import_count: 5
+        word_count: 662
+      nchantrs/extensions/apis.py:
+        class_count: 8
+        file_size: 7800
+        function_count: 0
+        import_count: 6
+        word_count: 587
+      nchantrs/extensions/extensions.py:
+        class_count: 1
+        file_size: 3557
+        function_count: 0
+        import_count: 8
+        word_count: 237
+      nchantrs/extensions/install.py:
+        class_count: 1
+        file_size: 4178
+        function_count: 0
+        import_count: 8
+        word_count: 309
+      nchantrs/extensions/integrations.py:
+        class_count: 0
+        file_size: 1362
+        function_count: 0
+        import_count: 4
+        word_count: 80
+      nchantrs/extensions/packages/nchantdlibrary/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/extensions/packages/nchantdlibrary/bibliography_reference.py:
+        class_count: 0
+        file_size: 1362
+        function_count: 0
+        import_count: 4
+        word_count: 80
+      nchantrs/extensions/packages/nchantdlibrary/dictionary.py:
+        class_count: 0
+        file_size: 1362
+        function_count: 0
+        import_count: 4
+        word_count: 80
+      nchantrs/extensions/packages/nchantdlibrary/engineering/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/extensions/packages/nchantdlibrary/games/gameoflife.py:
+        class_count: 1
+        file_size: 3637
+        function_count: 0
+        import_count: 5
+        word_count: 328
+      nchantrs/extensions/packages/nchantdlibrary/nchantdlibrary.py:
+        class_count: 1
+        file_size: 1575
+        function_count: 0
+        import_count: 4
+        word_count: 91
+      nchantrs/extensions/packages/nchantdlibrary/physician/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/extensions/packages/nchantdlibrary/physician/physicians_reference.py:
+        class_count: 0
+        file_size: 1362
+        function_count: 0
+        import_count: 4
+        word_count: 80
+      nchantrs/extensions/packages/nchantdlibrary/style_guide.py:
+        class_count: 0
+        file_size: 1362
+        function_count: 0
+        import_count: 4
+        word_count: 80
+      nchantrs/extensions/packages/nchantdlibrary/thesaurus.py:
+        class_count: 0
+        file_size: 1362
+        function_count: 0
+        import_count: 4
+        word_count: 80
+      nchantrs/extensions/plugins.py:
+        class_count: 2
+        file_size: 2754
+        function_count: 0
+        import_count: 5
+        word_count: 164
+      nchantrs/extensions/sources.py:
+        class_count: 0
+        file_size: 1362
+        function_count: 0
+        import_count: 4
+        word_count: 80
+      nchantrs/libraries/orange.py:
+        class_count: 0
+        file_size: 1513
+        function_count: 0
+        import_count: 4
+        word_count: 95
+      nchantrs/libraries/pyqt.py:
+        class_count: 0
+        file_size: 5294
+        function_count: 0
+        import_count: 43
+        word_count: 407
+      nchantrs/libraries/qpandas.py:
+        class_count: 0
+        file_size: 1704
+        function_count: 0
+        import_count: 9
+        word_count: 150
+      nchantrs/libraries/syntax.py:
+        class_count: 1
+        file_size: 6605
+        function_count: 1
+        import_count: 3
+        word_count: 660
+      nchantrs/library/library.py:
+        class_count: 1
+        file_size: 1561
+        function_count: 0
+        import_count: 4
+        word_count: 91
+      nchantrs/models/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/models/applicationmodels.py:
+        class_count: 6
+        file_size: 31534
+        function_count: 0
+        import_count: 19
+        word_count: 2563
+      nchantrs/models/models.py:
+        class_count: 5
+        file_size: 69617
+        function_count: 1
+        import_count: 17
+        word_count: 6299
+      nchantrs/models/tabsetmodels.py:
+        class_count: 1
+        file_size: 12348
+        function_count: 0
+        import_count: 10
+        word_count: 1146
+      nchantrs/models/treemodels.py:
+        class_count: 4
+        file_size: 16583
+        function_count: 0
+        import_count: 12
+        word_count: 1402
+      nchantrs/nchantrs.py:
+        class_count: 0
+        file_size: 6096
+        function_count: 7
+        import_count: 10
+        word_count: 521
+      nchantrs/services/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/services/bonds.py:
+        class_count: 2
+        file_size: 2129
+        function_count: 0
+        import_count: 4
+        word_count: 152
+      nchantrs/services/connections.py:
+        class_count: 1
+        file_size: 2119
+        function_count: 0
+        import_count: 3
+        word_count: 157
+      nchantrs/services/directories.py:
+        class_count: 4
+        file_size: 1745
+        function_count: 0
+        import_count: 3
+        word_count: 118
+      nchantrs/services/integrity.py:
+        class_count: 1
+        file_size: 3021
+        function_count: 1
+        import_count: 6
+        word_count: 252
+      nchantrs/services/license.py:
+        class_count: 2
+        file_size: 2063
+        function_count: 0
+        import_count: 3
+        word_count: 178
+      nchantrs/services/links.py:
+        class_count: 1
+        file_size: 2107
+        function_count: 0
+        import_count: 5
+        word_count: 175
+      nchantrs/services/nchantrs.py:
+        class_count: 1
+        file_size: 2516
+        function_count: 0
+        import_count: 5
+        word_count: 163
+      nchantrs/services/services.py:
+        class_count: 3
+        file_size: 3262
+        function_count: 0
+        import_count: 4
+        word_count: 220
+      nchantrs/services/tags.py:
+        class_count: 2
+        file_size: 2199
+        function_count: 0
+        import_count: 5
+        word_count: 174
+      nchantrs/services/telemetry.py:
+        class_count: 1
+        file_size: 1706
+        function_count: 0
+        import_count: 3
+        word_count: 104
+      nchantrs/services/upgrades.py:
+        class_count: 9
+        file_size: 8855
+        function_count: 1
+        import_count: 4
+        word_count: 721
+      nchantrs/themes/images.py:
+        class_count: 1
+        file_size: 1534
+        function_count: 0
+        import_count: 3
+        word_count: 86
+      nchantrs/themes/themes.py:
+        class_count: 1
+        file_size: 6640
+        function_count: 1
+        import_count: 5
+        word_count: 483
+      nchantrs/updates/db.py:
+        class_count: 1
+        file_size: 16819
+        function_count: 0
+        import_count: 5
+        word_count: 1351
+      nchantrs/utilities/__init__.py:
+        class_count: 0
+        file_size: 132
+        function_count: 0
+        import_count: 1
+        word_count: 11
+      nchantrs/utilities/analytics.py:
+        class_count: 1
+        file_size: 2209
+        function_count: 0
+        import_count: 4
+        word_count: 143
+      nchantrs/utilities/books.py:
+        class_count: 0
+        file_size: 2432
+        function_count: 4
+        import_count: 8
+        word_count: 160
+      nchantrs/utilities/comms.py:
+        class_count: 1
+        file_size: 4094
+        function_count: 0
+        import_count: 7
+        word_count: 322
+      nchantrs/utilities/debug.py:
+        class_count: 1
+        file_size: 7825
+        function_count: 3
+        import_count: 2
+        word_count: 664
+      nchantrs/utilities/files.py:
+        class_count: 0
+        file_size: 1988
+        function_count: 1
+        import_count: 6
+        word_count: 145
+      nchantrs/utilities/formatting.py:
+        class_count: 1
+        file_size: 2642
+        function_count: 1
+        import_count: 4
+        word_count: 167
+      nchantrs/utilities/formulas.py:
+        class_count: 1
+        file_size: 1883
+        function_count: 0
+        import_count: 4
+        word_count: 136
+      nchantrs/utilities/graphics/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/utilities/graphics/animations/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/utilities/graphics/animations/turtle.py:
+        class_count: 0
+        file_size: 2674
+        function_count: 3
+        import_count: 3
+        word_count: 258
+      nchantrs/utilities/graphics/logos.py:
+        class_count: 1
+        file_size: 2412
+        function_count: 0
+        import_count: 6
+        word_count: 148
+      nchantrs/utilities/graphics/pixelart.py:
+        class_count: 1
+        file_size: 3072
+        function_count: 0
+        import_count: 7
+        word_count: 219
+      nchantrs/utilities/identification.py:
+        class_count: 0
+        file_size: 1626
+        function_count: 1
+        import_count: 4
+        word_count: 116
+      nchantrs/utilities/models.py:
+        class_count: 0
+        file_size: 2019
+        function_count: 1
+        import_count: 4
+        word_count: 137
+      nchantrs/utilities/policies.py:
+        class_count: 1
+        file_size: 5042
+        function_count: 0
+        import_count: 6
+        word_count: 316
+      nchantrs/utilities/templates.py:
+        class_count: 0
+        file_size: 1972
+        function_count: 0
+        import_count: 4
+        word_count: 145
+      nchantrs/utilities/tools/search.py:
+        class_count: 5
+        file_size: 2337
+        function_count: 0
+        import_count: 4
+        word_count: 139
+      nchantrs/utilities/tools/tools.py:
+        class_count: 0
+        file_size: 1362
+        function_count: 0
+        import_count: 4
+        word_count: 80
+      nchantrs/utilities/users.py:
+        class_count: 1
+        file_size: 14171
+        function_count: 2
+        import_count: 12
+        word_count: 1102
+      nchantrs/utilities/utils.py:
+        class_count: 0
+        file_size: 5894
+        function_count: 5
+        import_count: 4
+        word_count: 440
+      nchantrs/views/applicationviews.py:
+        class_count: 3
+        file_size: 10002
+        function_count: 0
+        import_count: 11
+        word_count: 676
+      nchantrs/views/treeviews.py:
+        class_count: 1
+        file_size: 10835
+        function_count: 0
+        import_count: 7
+        word_count: 798
+      nchantrs/views/views.py:
+        class_count: 0
+        file_size: 1328
+        function_count: 0
+        import_count: 3
+        word_count: 73
+      nchantrs/widgets/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/widgets/agents/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/widgets/agents/agents.py:
+        class_count: 3
+        file_size: 4352
+        function_count: 0
+        import_count: 5
+        word_count: 292
+      nchantrs/widgets/annotations.py:
+        class_count: 6
+        file_size: 11202
+        function_count: 0
+        import_count: 9
+        word_count: 761
+      nchantrs/widgets/applications/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/widgets/applications/applications.py:
+        class_count: 3
+        file_size: 30354
+        function_count: 2
+        import_count: 17
+        word_count: 2321
+      nchantrs/widgets/applications/managers.py:
+        class_count: 1
+        file_size: 2592
+        function_count: 0
+        import_count: 7
+        word_count: 169
+      nchantrs/widgets/browsers/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/widgets/browsers/browsers.py:
+        class_count: 3
+        file_size: 23542
+        function_count: 0
+        import_count: 24
+        word_count: 1817
+      nchantrs/widgets/browsers/codecs/h264.py:
+        class_count: 3
+        file_size: 18017
+        function_count: 3
+        import_count: 21
+        word_count: 1460
+      nchantrs/widgets/browsers/downloads.py:
+        class_count: 9
+        file_size: 28970
+        function_count: 0
+        import_count: 18
+        word_count: 1821
+      nchantrs/widgets/browsers/engines.py:
+        class_count: 2
+        file_size: 19920
+        function_count: 1
+        import_count: 11
+        word_count: 1456
+      nchantrs/widgets/browsers/graphics.py:
+        class_count: 0
+        file_size: 4358
+        function_count: 3
+        import_count: 7
+        word_count: 312
+      nchantrs/widgets/browsers/history.py:
+        class_count: 1
+        file_size: 1731
+        function_count: 0
+        import_count: 4
+        word_count: 105
+      nchantrs/widgets/browsers/initialize.py:
+        class_count: 0
+        file_size: 2186
+        function_count: 1
+        import_count: 6
+        word_count: 157
+      nchantrs/widgets/browsers/javascript/scripts.py:
+        class_count: 0
+        file_size: 10495
+        function_count: 21
+        import_count: 4
+        word_count: 1006
+      nchantrs/widgets/browsers/network.py:
+        class_count: 0
+        file_size: 1362
+        function_count: 0
+        import_count: 4
+        word_count: 80
+      nchantrs/widgets/browsers/pages.py:
+        class_count: 4
+        file_size: 38484
+        function_count: 0
+        import_count: 14
+        word_count: 3042
+      nchantrs/widgets/browsers/profiles.py:
+        class_count: 4
+        file_size: 30971
+        function_count: 0
+        import_count: 13
+        word_count: 1883
+      nchantrs/widgets/browsers/requests.py:
+        class_count: 6
+        file_size: 19851
+        function_count: 0
+        import_count: 10
+        word_count: 1644
+      nchantrs/widgets/browsers/security/authentication.py:
+        class_count: 3
+        file_size: 14362
+        function_count: 0
+        import_count: 11
+        word_count: 1014
+      nchantrs/widgets/browsers/security/environment.py:
+        class_count: 10
+        file_size: 27767
+        function_count: 0
+        import_count: 16
+        word_count: 1940
+      nchantrs/widgets/browsers/security/google.py:
+        class_count: 1
+        file_size: 3365
+        function_count: 0
+        import_count: 7
+        word_count: 217
+      nchantrs/widgets/browsers/services.py:
+        class_count: 3
+        file_size: 6586
+        function_count: 0
+        import_count: 14
+        word_count: 532
+      nchantrs/widgets/browsers/utilities.py:
+        class_count: 4
+        file_size: 7419
+        function_count: 2
+        import_count: 6
+        word_count: 588
+      nchantrs/widgets/calculators/calculators.py:
+        class_count: 4
+        file_size: 16905
+        function_count: 0
+        import_count: 10
+        word_count: 1135
+      nchantrs/widgets/calendars/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/widgets/calendars/calendars.py:
+        class_count: 7
+        file_size: 8933
+        function_count: 0
+        import_count: 11
+        word_count: 566
+      nchantrs/widgets/calendars/centuries.py:
+        class_count: 1
+        file_size: 2065
+        function_count: 0
+        import_count: 5
+        word_count: 126
+      nchantrs/widgets/calendars/days.py:
+        class_count: 6
+        file_size: 8863
+        function_count: 0
+        import_count: 12
+        word_count: 602
+      nchantrs/widgets/calendars/decades.py:
+        class_count: 1
+        file_size: 2067
+        function_count: 0
+        import_count: 5
+        word_count: 126
+      nchantrs/widgets/calendars/months.py:
+        class_count: 3
+        file_size: 10377
+        function_count: 0
+        import_count: 12
+        word_count: 612
+      nchantrs/widgets/calendars/timelines.py:
+        class_count: 6
+        file_size: 17246
+        function_count: 0
+        import_count: 15
+        word_count: 1266
+      nchantrs/widgets/calendars/weeks.py:
+        class_count: 1
+        file_size: 3659
+        function_count: 0
+        import_count: 7
+        word_count: 275
+      nchantrs/widgets/calendars/years.py:
+        class_count: 3
+        file_size: 5346
+        function_count: 0
+        import_count: 11
+        word_count: 387
+      nchantrs/widgets/canvases/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/widgets/canvases/canvases.py:
+        class_count: 7
+        file_size: 8940
+        function_count: 0
+        import_count: 7
+        word_count: 652
+      nchantrs/widgets/canvases/multipages.py:
+        class_count: 1
+        file_size: 3420
+        function_count: 0
+        import_count: 5
+        word_count: 246
+      nchantrs/widgets/canvases/scenes.py:
+        class_count: 2
+        file_size: 7436
+        function_count: 0
+        import_count: 6
+        word_count: 545
+      nchantrs/widgets/catalogs.py:
+        class_count: 2
+        file_size: 8437
+        function_count: 0
+        import_count: 16
+        word_count: 569
+      nchantrs/widgets/config/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/widgets/config/accounts.py:
+        class_count: 2
+        file_size: 3835
+        function_count: 0
+        import_count: 12
+        word_count: 264
+      nchantrs/widgets/config/config.py:
+        class_count: 1
+        file_size: 10106
+        function_count: 0
+        import_count: 6
+        word_count: 717
+      nchantrs/widgets/config/extensions.py:
+        class_count: 2
+        file_size: 3390
+        function_count: 0
+        import_count: 7
+        word_count: 193
+      nchantrs/widgets/config/help.py:
+        class_count: 3
+        file_size: 5203
+        function_count: 0
+        import_count: 10
+        word_count: 316
+      nchantrs/widgets/config/integrations.py:
+        class_count: 2
+        file_size: 2863
+        function_count: 0
+        import_count: 6
+        word_count: 171
+      nchantrs/widgets/config/packages.py:
+        class_count: 1
+        file_size: 6212
+        function_count: 0
+        import_count: 12
+        word_count: 365
+      nchantrs/widgets/config/profiles.py:
+        class_count: 1
+        file_size: 2457
+        function_count: 0
+        import_count: 6
+        word_count: 180
+      nchantrs/widgets/config/security.py:
+        class_count: 1
+        file_size: 11008
+        function_count: 0
+        import_count: 14
+        word_count: 739
+      nchantrs/widgets/config/services.py:
+        class_count: 1
+        file_size: 2070
+        function_count: 0
+        import_count: 5
+        word_count: 126
+      nchantrs/widgets/config/settings.py:
+        class_count: 3
+        file_size: 9231
+        function_count: 0
+        import_count: 18
+        word_count: 571
+      nchantrs/widgets/config/storage.py:
+        class_count: 1
+        file_size: 11594
+        function_count: 0
+        import_count: 10
+        word_count: 887
+      nchantrs/widgets/config/uninstall.py:
+        class_count: 1
+        file_size: 10062
+        function_count: 0
+        import_count: 5
+        word_count: 669
+      nchantrs/widgets/controls/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/widgets/controls/advanced_buttons.py:
+        class_count: 9
+        file_size: 14788
+        function_count: 0
+        import_count: 10
+        word_count: 1031
+      nchantrs/widgets/controls/button_groups.py:
+        class_count: 10
+        file_size: 26550
+        function_count: 0
+        import_count: 12
+        word_count: 1672
+      nchantrs/widgets/controls/buttons.py:
+        class_count: 6
+        file_size: 11232
+        function_count: 0
+        import_count: 8
+        word_count: 743
+      nchantrs/widgets/controls/checkboxes.py:
+        class_count: 3
+        file_size: 6869
+        function_count: 0
+        import_count: 7
+        word_count: 452
+      nchantrs/widgets/controls/connectors.py:
+        class_count: 6
+        file_size: 5143
+        function_count: 0
+        import_count: 5
+        word_count: 338
+      nchantrs/widgets/controls/controls.py:
+        class_count: 3
+        file_size: 4899
+        function_count: 0
+        import_count: 8
+        word_count: 360
+      nchantrs/widgets/controls/menus.py:
+        class_count: 2
+        file_size: 5417
+        function_count: 0
+        import_count: 6
+        word_count: 371
+      nchantrs/widgets/controls/navigation.py:
+        class_count: 1
+        file_size: 2926
+        function_count: 0
+        import_count: 5
+        word_count: 160
+      nchantrs/widgets/controls/radios.py:
+        class_count: 2
+        file_size: 3590
+        function_count: 0
+        import_count: 7
+        word_count: 223
+      nchantrs/widgets/controls/search.py:
+        class_count: 1
+        file_size: 2078
+        function_count: 0
+        import_count: 5
+        word_count: 126
+      nchantrs/widgets/controls/toolbars.py:
+        class_count: 6
+        file_size: 14924
+        function_count: 0
+        import_count: 9
+        word_count: 935
+      nchantrs/widgets/controls/toolboxes.py:
+        class_count: 2
+        file_size: 10025
+        function_count: 0
+        import_count: 8
+        word_count: 756
+      nchantrs/widgets/controls/tooltips.py:
+        class_count: 1
+        file_size: 2069
+        function_count: 0
+        import_count: 5
+        word_count: 133
+      nchantrs/widgets/embeds.py:
+        class_count: 4
+        file_size: 3974
+        function_count: 0
+        import_count: 4
+        word_count: 307
+      nchantrs/widgets/forms/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/widgets/forms/forms.py:
+        class_count: 3
+        file_size: 9290
+        function_count: 0
+        import_count: 6
+        word_count: 723
+      nchantrs/widgets/groups.py:
+        class_count: 7
+        file_size: 18487
+        function_count: 0
+        import_count: 7
+        word_count: 1081
+      nchantrs/widgets/items/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/widgets/items/catalogs.py:
+        class_count: 4
+        file_size: 8733
+        function_count: 0
+        import_count: 10
+        word_count: 599
+      nchantrs/widgets/items/cells.py:
+        class_count: 2
+        file_size: 8357
+        function_count: 0
+        import_count: 8
+        word_count: 659
+      nchantrs/widgets/items/items.py:
+        class_count: 2
+        file_size: 5031
+        function_count: 0
+        import_count: 5
+        word_count: 409
+      nchantrs/widgets/items/nodes.py:
+        class_count: 14
+        file_size: 33079
+        function_count: 0
+        import_count: 10
+        word_count: 2623
+      nchantrs/widgets/items/subtrees.py:
+        class_count: 3
+        file_size: 3434
+        function_count: 0
+        import_count: 4
+        word_count: 206
+      nchantrs/widgets/launch.py:
+        class_count: 0
+        file_size: 2544
+        function_count: 0
+        import_count: 5
+        word_count: 177
+      nchantrs/widgets/managers.py:
+        class_count: 5
+        file_size: 6065
+        function_count: 0
+        import_count: 5
+        word_count: 388
+      nchantrs/widgets/managers/managers.py:
+        class_count: 6
+        file_size: 9648
+        function_count: 0
+        import_count: 5
+        word_count: 719
+      nchantrs/widgets/media/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/widgets/media/charts/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/widgets/media/charts/charts.py:
+        class_count: 3
+        file_size: 42199
+        function_count: 0
+        import_count: 17
+        word_count: 3789
+      nchantrs/widgets/media/editors/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/widgets/media/editors/code.py:
+        class_count: 0
+        file_size: 9389
+        function_count: 0
+        import_count: 0
+        word_count: 914
+      nchantrs/widgets/media/editors/editors.py:
+        class_count: 9
+        file_size: 29667
+        function_count: 0
+        import_count: 14
+        word_count: 2189
+      nchantrs/widgets/media/editors/entries.py:
+        class_count: 3
+        file_size: 5284
+        function_count: 0
+        import_count: 9
+        word_count: 328
+      nchantrs/widgets/media/editors/selectors.py:
+        class_count: 6
+        file_size: 14195
+        function_count: 0
+        import_count: 10
+        word_count: 1044
+      nchantrs/widgets/media/games/boards.py:
+        class_count: 1
+        file_size: 12013
+        function_count: 0
+        import_count: 5
+        word_count: 910
+      nchantrs/widgets/media/games/games.py:
+        class_count: 1
+        file_size: 2077
+        function_count: 0
+        import_count: 5
+        word_count: 127
+      nchantrs/widgets/media/images.py:
+        class_count: 2
+        file_size: 12696
+        function_count: 0
+        import_count: 7
+        word_count: 898
+      nchantrs/widgets/media/maps.py:
+        class_count: 2
+        file_size: 2887
+        function_count: 0
+        import_count: 3
+        word_count: 229
+      nchantrs/widgets/media/marquees.py:
+        class_count: 2
+        file_size: 3441
+        function_count: 0
+        import_count: 6
+        word_count: 220
+      nchantrs/widgets/media/media.py:
+        class_count: 4
+        file_size: 9715
+        function_count: 0
+        import_count: 13
+        word_count: 681
+      nchantrs/widgets/media/notes.py:
+        class_count: 3
+        file_size: 4680
+        function_count: 0
+        import_count: 7
+        word_count: 294
+      nchantrs/widgets/media/palettes.py:
+        class_count: 2
+        file_size: 3812
+        function_count: 0
+        import_count: 6
+        word_count: 247
+      nchantrs/widgets/media/shapes.py:
+        class_count: 4
+        file_size: 7087
+        function_count: 0
+        import_count: 5
+        word_count: 514
+      nchantrs/widgets/media/utilities.py:
+        class_count: 1
+        file_size: 2894
+        function_count: 1
+        import_count: 5
+        word_count: 221
+      nchantrs/widgets/media/video.py:
+        class_count: 4
+        file_size: 4459
+        function_count: 0
+        import_count: 5
+        word_count: 301
+      nchantrs/widgets/panes/calendars.py:
+        class_count: 1
+        file_size: 2517
+        function_count: 0
+        import_count: 6
+        word_count: 153
+      nchantrs/widgets/panes/catalogs.py:
+        class_count: 1
+        file_size: 11489
+        function_count: 0
+        import_count: 15
+        word_count: 788
+      nchantrs/widgets/panes/files.py:
+        class_count: 1
+        file_size: 2082
+        function_count: 0
+        import_count: 5
+        word_count: 126
+      nchantrs/widgets/panes/numbers.py:
+        class_count: 1
+        file_size: 3395
+        function_count: 0
+        import_count: 6
+        word_count: 264
+      nchantrs/widgets/panes/panes.py:
+        class_count: 1
+        file_size: 2976
+        function_count: 0
+        import_count: 6
+        word_count: 188
+      nchantrs/widgets/tables/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/widgets/tables/lists.py:
+        class_count: 5
+        file_size: 9393
+        function_count: 0
+        import_count: 11
+        word_count: 669
+      nchantrs/widgets/tables/tables.py:
+        class_count: 3
+        file_size: 24634
+        function_count: 0
+        import_count: 14
+        word_count: 1662
+      nchantrs/widgets/tabsets.py:
+        class_count: 3
+        file_size: 27549
+        function_count: 0
+        import_count: 9
+        word_count: 2271
+      nchantrs/widgets/trees.py:
+        class_count: 4
+        file_size: 16453
+        function_count: 0
+        import_count: 8
+        word_count: 1339
+      nchantrs/widgets/widgets.py:
+        class_count: 4
+        file_size: 35396
+        function_count: 6
+        import_count: 10
+        word_count: 2855
+      nchantrs/wizards/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      nchantrs/wizards/accounts.py:
+        class_count: 2
+        file_size: 3265
+        function_count: 0
+        import_count: 9
+        word_count: 238
+      nchantrs/wizards/apps.py:
+        class_count: 5
+        file_size: 26504
+        function_count: 0
+        import_count: 17
+        word_count: 1855
+      nchantrs/wizards/instances.py:
+        class_count: 1
+        file_size: 4670
+        function_count: 0
+        import_count: 7
+        word_count: 276
+      nchantrs/wizards/pages.py:
+        class_count: 2
+        file_size: 4125
+        function_count: 0
+        import_count: 6
+        word_count: 276
+      nchantrs/wizards/users.py:
+        class_count: 5
+        file_size: 11193
+        function_count: 0
+        import_count: 12
+        word_count: 734
+      nchantrs/wizards/wizards.py:
+        class_count: 1
+        file_size: 2599
+        function_count: 0
+        import_count: 6
+        word_count: 165
+      run_entry_point.py:
+        class_count: 1
+        file_size: 3908
+        function_count: 4
+        import_count: 4
+        word_count: 364
+      test_aberration.py:
+        class_count: 1
+        file_size: 1543
+        function_count: 0
+        import_count: 5
+        word_count: 148
+      test_app_aberration.py:
+        class_count: 0
+        file_size: 1047
+        function_count: 0
+        import_count: 0
+        word_count: 101
+      test_app_base.py:
+        class_count: 1
+        file_size: 2220
+        function_count: 1
+        import_count: 4
+        word_count: 240
+      test_app_calculator.py:
+        class_count: 1
+        file_size: 2373
+        function_count: 1
+        import_count: 4
+        word_count: 234
+      test_app_distortion.py:
+        class_count: 0
+        file_size: 1222
+        function_count: 0
+        import_count: 0
+        word_count: 121
+      test_app_flection.py:
+        class_count: 0
+        file_size: 1418
+        function_count: 0
+        import_count: 0
+        word_count: 131
+      test_app_nchantment.py:
+        class_count: 0
+        file_size: 999
+        function_count: 0
+        import_count: 0
+        word_count: 103
+      test_app_todos.py:
+        class_count: 1
+        file_size: 2103
+        function_count: 1
+        import_count: 3
+        word_count: 228
+      test_distortion.py:
+        class_count: 1
+        file_size: 2426
+        function_count: 0
+        import_count: 3
+        word_count: 210
+      test_entry_points.py:
+        class_count: 0
+        file_size: 4426
+        function_count: 5
+        import_count: 2
+        word_count: 427
+      test_nchantment.py:
+        class_count: 0
+        file_size: 1095
+        function_count: 0
+        import_count: 3
+        word_count: 113
+      test_nchantrs/nchantrs/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/actions/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/actions/actionsTEST.py:
+        class_count: 2
+        file_size: 11497
+        function_count: 0
+        import_count: 53
+        word_count: 1003
+      test_nchantrs/nchantrs/actions/chartsTEST.py:
+        class_count: 1
+        file_size: 4201
+        function_count: 0
+        import_count: 17
+        word_count: 342
+      test_nchantrs/nchantrs/actions/filesTEST.py:
+        class_count: 1
+        file_size: 5087
+        function_count: 0
+        import_count: 22
+        word_count: 422
+      test_nchantrs/nchantrs/actions/formatTEST.py:
+        class_count: 1
+        file_size: 4189
+        function_count: 0
+        import_count: 17
+        word_count: 342
+      test_nchantrs/nchantrs/actions/tablesTEST.py:
+        class_count: 1
+        file_size: 9631
+        function_count: 0
+        import_count: 46
+        word_count: 806
+      test_nchantrs/nchantrs/actions/textTEST.py:
+        class_count: 1
+        file_size: 10287
+        function_count: 0
+        import_count: 51
+        word_count: 886
+      test_nchantrs/nchantrs/actions/treeTEST.py:
+        class_count: 1
+        file_size: 2427
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/agents/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/agents/agentsTEST.py:
+        class_count: 4
+        file_size: 5279
+        function_count: 0
+        import_count: 10
+        word_count: 440
+      test_nchantrs/nchantrs/dialogs/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/dialogs/aboutTEST.py:
+        class_count: 2
+        file_size: 3457
+        function_count: 0
+        import_count: 8
+        word_count: 274
+      test_nchantrs/nchantrs/dialogs/authenticationTEST.py:
+        class_count: 2
+        file_size: 3489
+        function_count: 0
+        import_count: 8
+        word_count: 274
+      test_nchantrs/nchantrs/dialogs/colorsTEST.py:
+        class_count: 2
+        file_size: 3985
+        function_count: 0
+        import_count: 8
+        word_count: 319
+      test_nchantrs/nchantrs/dialogs/dialogsTEST.py:
+        class_count: 7
+        file_size: 10520
+        function_count: 0
+        import_count: 13
+        word_count: 896
+      test_nchantrs/nchantrs/dialogs/editorsTEST.py:
+        class_count: 2
+        file_size: 3814
+        function_count: 0
+        import_count: 8
+        word_count: 301
+      test_nchantrs/nchantrs/dialogs/errorsTEST.py:
+        class_count: 2
+        file_size: 3357
+        function_count: 0
+        import_count: 8
+        word_count: 265
+      test_nchantrs/nchantrs/dialogs/extensionsTEST.py:
+        class_count: 2
+        file_size: 3485
+        function_count: 0
+        import_count: 8
+        word_count: 274
+      test_nchantrs/nchantrs/dialogs/filesTEST.py:
+        class_count: 5
+        file_size: 7130
+        function_count: 0
+        import_count: 11
+        word_count: 604
+      test_nchantrs/nchantrs/dialogs/iconsTEST.py:
+        class_count: 2
+        file_size: 3465
+        function_count: 0
+        import_count: 8
+        word_count: 274
+      test_nchantrs/nchantrs/dialogs/newTEST.py:
+        class_count: 5
+        file_size: 6660
+        function_count: 0
+        import_count: 11
+        word_count: 559
+      test_nchantrs/nchantrs/dialogs/notificationsTEST.py:
+        class_count: 2
+        file_size: 3481
+        function_count: 0
+        import_count: 8
+        word_count: 274
+      test_nchantrs/nchantrs/dialogs/p12TEST.py:
+        class_count: 6
+        file_size: 913
+        function_count: 0
+        import_count: 1
+        word_count: 77
+      test_nchantrs/nchantrs/dialogs/passwordsTEST.py:
+        class_count: 3
+        file_size: 4086
+        function_count: 0
+        import_count: 9
+        word_count: 330
+      test_nchantrs/nchantrs/dialogs/saveTEST.py:
+        class_count: 1
+        file_size: 2427
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/dialogs/searchTEST.py:
+        class_count: 2
+        file_size: 3451
+        function_count: 0
+        import_count: 8
+        word_count: 274
+      test_nchantrs/nchantrs/dialogs/settingsTEST.py:
+        class_count: 2
+        file_size: 3568
+        function_count: 0
+        import_count: 8
+        word_count: 283
+      test_nchantrs/nchantrs/events/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/events/alertsTEST.py:
+        class_count: 1
+        file_size: 2429
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/events/eventsTEST.py:
+        class_count: 3
+        file_size: 5838
+        function_count: 0
+        import_count: 9
+        word_count: 474
+      test_nchantrs/nchantrs/events/keyboard_eventsTEST.py:
+        class_count: 1
+        file_size: 23034
+        function_count: 0
+        import_count: 108
+        word_count: 1798
+      test_nchantrs/nchantrs/events/mouse_eventsTEST.py:
+        class_count: 1
+        file_size: 2435
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/events/tabsetsTEST.py:
+        class_count: 1
+        file_size: 2998
+        function_count: 0
+        import_count: 10
+        word_count: 230
+      test_nchantrs/nchantrs/events/treesTEST.py:
+        class_count: 1
+        file_size: 2812
+        function_count: 0
+        import_count: 9
+        word_count: 214
+      test_nchantrs/nchantrs/extensions/apisTEST.py:
+        class_count: 9
+        file_size: 10041
+        function_count: 0
+        import_count: 15
+        word_count: 864
+      test_nchantrs/nchantrs/extensions/extensionsTEST.py:
+        class_count: 2
+        file_size: 3491
+        function_count: 0
+        import_count: 8
+        word_count: 274
+      test_nchantrs/nchantrs/extensions/installTEST.py:
+        class_count: 2
+        file_size: 3947
+        function_count: 0
+        import_count: 8
+        word_count: 310
+      test_nchantrs/nchantrs/extensions/integrationsTEST.py:
+        class_count: 1
+        file_size: 2435
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/extensions/packages/nchantdlibrary/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/extensions/packages/nchantdlibrary/bibliography_referenceTEST.py:
+        class_count: 1
+        file_size: 2445
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/extensions/packages/nchantdlibrary/dictionaryTEST.py:
+        class_count: 1
+        file_size: 2433
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/extensions/packages/nchantdlibrary/engineering/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/extensions/packages/nchantdlibrary/games/gameoflifeTEST.py:
+        class_count: 2
+        file_size: 3600
+        function_count: 0
+        import_count: 8
+        word_count: 283
+      test_nchantrs/nchantrs/extensions/packages/nchantdlibrary/nchantdlibraryTEST.py:
+        class_count: 2
+        file_size: 3183
+        function_count: 0
+        import_count: 8
+        word_count: 247
+      test_nchantrs/nchantrs/extensions/packages/nchantdlibrary/physician/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/extensions/packages/nchantdlibrary/physician/physicians_referenceTEST.py:
+        class_count: 1
+        file_size: 2443
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/extensions/packages/nchantdlibrary/style_guideTEST.py:
+        class_count: 1
+        file_size: 2434
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/extensions/packages/nchantdlibrary/thesaurusTEST.py:
+        class_count: 1
+        file_size: 2432
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/extensions/pluginsTEST.py:
+        class_count: 3
+        file_size: 4522
+        function_count: 0
+        import_count: 9
+        word_count: 366
+      test_nchantrs/nchantrs/extensions/sourcesTEST.py:
+        class_count: 1
+        file_size: 2430
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/libraries/orangeTEST.py:
+        class_count: 1
+        file_size: 2429
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/libraries/pyqtTEST.py:
+        class_count: 1
+        file_size: 2427
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/libraries/qpandasTEST.py:
+        class_count: 1
+        file_size: 2430
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/libraries/syntaxTEST.py:
+        class_count: 2
+        file_size: 3519
+        function_count: 0
+        import_count: 9
+        word_count: 281
+      test_nchantrs/nchantrs/library/libraryTEST.py:
+        class_count: 2
+        file_size: 3142
+        function_count: 0
+        import_count: 8
+        word_count: 247
+      test_nchantrs/nchantrs/models/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/models/applicationmodelsTEST.py:
+        class_count: 7
+        file_size: 14366
+        function_count: 0
+        import_count: 13
+        word_count: 1184
+      test_nchantrs/nchantrs/models/modelsTEST.py:
+        class_count: 3
+        file_size: 17801
+        function_count: 0
+        import_count: 10
+        word_count: 1426
+      test_nchantrs/nchantrs/models/p10TEST.py:
+        class_count: 5
+        file_size: 733
+        function_count: 0
+        import_count: 1
+        word_count: 64
+      test_nchantrs/nchantrs/models/tabsetmodelsTEST.py:
+        class_count: 2
+        file_size: 4778
+        function_count: 0
+        import_count: 8
+        word_count: 382
+      test_nchantrs/nchantrs/models/treemodelsTEST.py:
+        class_count: 5
+        file_size: 9032
+        function_count: 0
+        import_count: 11
+        word_count: 748
+      test_nchantrs/nchantrs/nchantrsTEST.py:
+        class_count: 1
+        file_size: 3659
+        function_count: 0
+        import_count: 14
+        word_count: 294
+      test_nchantrs/nchantrs/services/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/services/bondsTEST.py:
+        class_count: 3
+        file_size: 3928
+        function_count: 0
+        import_count: 9
+        word_count: 321
+      test_nchantrs/nchantrs/services/connectionsTEST.py:
+        class_count: 2
+        file_size: 3609
+        function_count: 0
+        import_count: 8
+        word_count: 283
+      test_nchantrs/nchantrs/services/directoriesTEST.py:
+        class_count: 5
+        file_size: 4840
+        function_count: 0
+        import_count: 11
+        word_count: 406
+      test_nchantrs/nchantrs/services/integrityTEST.py:
+        class_count: 2
+        file_size: 3751
+        function_count: 0
+        import_count: 9
+        word_count: 299
+      test_nchantrs/nchantrs/services/licenseTEST.py:
+        class_count: 3
+        file_size: 3796
+        function_count: 0
+        import_count: 9
+        word_count: 312
+      test_nchantrs/nchantrs/services/linksTEST.py:
+        class_count: 2
+        file_size: 3334
+        function_count: 0
+        import_count: 8
+        word_count: 265
+      test_nchantrs/nchantrs/services/nchantrsTEST.py:
+        class_count: 2
+        file_size: 4314
+        function_count: 0
+        import_count: 8
+        word_count: 337
+      test_nchantrs/nchantrs/services/p3TEST.py:
+        class_count: 7
+        file_size: 1102
+        function_count: 0
+        import_count: 2
+        word_count: 87
+      test_nchantrs/nchantrs/services/servicesTEST.py:
+        class_count: 4
+        file_size: 5226
+        function_count: 0
+        import_count: 10
+        word_count: 431
+      test_nchantrs/nchantrs/services/tagsTEST.py:
+        class_count: 3
+        file_size: 3994
+        function_count: 0
+        import_count: 9
+        word_count: 330
+      test_nchantrs/nchantrs/services/telemetryTEST.py:
+        class_count: 2
+        file_size: 3352
+        function_count: 0
+        import_count: 8
+        word_count: 265
+      test_nchantrs/nchantrs/services/upgradesTEST.py:
+        class_count: 10
+        file_size: 13244
+        function_count: 0
+        import_count: 17
+        word_count: 1125
+      test_nchantrs/nchantrs/test_entry_points.py:
+        class_count: 2
+        file_size: 2992
+        function_count: 0
+        import_count: 4
+        word_count: 236
+      test_nchantrs/nchantrs/themes/imagesTEST.py:
+        class_count: 2
+        file_size: 3129
+        function_count: 0
+        import_count: 8
+        word_count: 247
+      test_nchantrs/nchantrs/themes/themesTEST.py:
+        class_count: 2
+        file_size: 4081
+        function_count: 0
+        import_count: 9
+        word_count: 326
+      test_nchantrs/nchantrs/updates/dbTEST.py:
+        class_count: 2
+        file_size: 5156
+        function_count: 0
+        import_count: 8
+        word_count: 409
+      test_nchantrs/nchantrs/utilities/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/utilities/analyticsTEST.py:
+        class_count: 2
+        file_size: 3459
+        function_count: 0
+        import_count: 8
+        word_count: 274
+      test_nchantrs/nchantrs/utilities/booksTEST.py:
+        class_count: 1
+        file_size: 3306
+        function_count: 0
+        import_count: 11
+        word_count: 246
+      test_nchantrs/nchantrs/utilities/commsTEST.py:
+        class_count: 2
+        file_size: 3947
+        function_count: 0
+        import_count: 8
+        word_count: 310
+      test_nchantrs/nchantrs/utilities/filesTEST.py:
+        class_count: 1
+        file_size: 2623
+        function_count: 0
+        import_count: 8
+        word_count: 198
+      test_nchantrs/nchantrs/utilities/formattingTEST.py:
+        class_count: 2
+        file_size: 3432
+        function_count: 0
+        import_count: 9
+        word_count: 272
+      test_nchantrs/nchantrs/utilities/formulasTEST.py:
+        class_count: 2
+        file_size: 3447
+        function_count: 0
+        import_count: 8
+        word_count: 274
+      test_nchantrs/nchantrs/utilities/graphics/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/utilities/graphics/animations/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/utilities/graphics/animations/turtleTEST.py:
+        class_count: 1
+        file_size: 3027
+        function_count: 0
+        import_count: 10
+        word_count: 230
+      test_nchantrs/nchantrs/utilities/graphics/logosTEST.py:
+        class_count: 2
+        file_size: 3462
+        function_count: 0
+        import_count: 8
+        word_count: 274
+      test_nchantrs/nchantrs/utilities/graphics/pixelartTEST.py:
+        class_count: 2
+        file_size: 3737
+        function_count: 0
+        import_count: 8
+        word_count: 292
+      test_nchantrs/nchantrs/utilities/identificationTEST.py:
+        class_count: 1
+        file_size: 2655
+        function_count: 0
+        import_count: 8
+        word_count: 198
+      test_nchantrs/nchantrs/utilities/modelsTEST.py:
+        class_count: 1
+        file_size: 2619
+        function_count: 0
+        import_count: 8
+        word_count: 198
+      test_nchantrs/nchantrs/utilities/p0TEST.py:
+        class_count: 4
+        file_size: 1191
+        function_count: 0
+        import_count: 2
+        word_count: 106
+      test_nchantrs/nchantrs/utilities/p13TEST.py:
+        class_count: 2
+        file_size: 352
+        function_count: 0
+        import_count: 1
+        word_count: 31
+      test_nchantrs/nchantrs/utilities/p1TEST.py:
+        class_count: 5
+        file_size: 1397
+        function_count: 0
+        import_count: 2
+        word_count: 116
+      test_nchantrs/nchantrs/utilities/p2TEST.py:
+        class_count: 7
+        file_size: 1924
+        function_count: 0
+        import_count: 2
+        word_count: 154
+      test_nchantrs/nchantrs/utilities/policiesTEST.py:
+        class_count: 2
+        file_size: 4475
+        function_count: 0
+        import_count: 8
+        word_count: 346
+      test_nchantrs/nchantrs/utilities/templatesTEST.py:
+        class_count: 1
+        file_size: 2432
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/utilities/tools/searchTEST.py:
+        class_count: 6
+        file_size: 5960
+        function_count: 0
+        import_count: 12
+        word_count: 507
+      test_nchantrs/nchantrs/utilities/tools/toolsTEST.py:
+        class_count: 1
+        file_size: 2428
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/utilities/usersTEST.py:
+        class_count: 2
+        file_size: 5399
+        function_count: 0
+        import_count: 10
+        word_count: 432
+      test_nchantrs/nchantrs/utilities/utilsTEST.py:
+        class_count: 1
+        file_size: 3317
+        function_count: 0
+        import_count: 12
+        word_count: 262
+      test_nchantrs/nchantrs/views/applicationviewsTEST.py:
+        class_count: 4
+        file_size: 7041
+        function_count: 0
+        import_count: 10
+        word_count: 575
+      test_nchantrs/nchantrs/views/p5TEST.py:
+        class_count: 4
+        file_size: 640
+        function_count: 0
+        import_count: 1
+        word_count: 54
+      test_nchantrs/nchantrs/views/treeviewsTEST.py:
+        class_count: 2
+        file_size: 5591
+        function_count: 0
+        import_count: 8
+        word_count: 445
+      test_nchantrs/nchantrs/views/viewsTEST.py:
+        class_count: 1
+        file_size: 2428
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/widgets/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/widgets/annotationsTEST.py:
+        class_count: 7
+        file_size: 8941
+        function_count: 0
+        import_count: 13
+        word_count: 761
+      test_nchantrs/nchantrs/widgets/applications/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/widgets/applications/applicationsTEST.py:
+        class_count: 4
+        file_size: 10191
+        function_count: 0
+        import_count: 12
+        word_count: 823
+      test_nchantrs/nchantrs/widgets/applications/managersTEST.py:
+        class_count: 2
+        file_size: 3594
+        function_count: 0
+        import_count: 8
+        word_count: 283
+      test_nchantrs/nchantrs/widgets/browsers/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/widgets/browsers/browsersTEST.py:
+        class_count: 4
+        file_size: 10077
+        function_count: 0
+        import_count: 10
+        word_count: 818
+      test_nchantrs/nchantrs/widgets/browsers/codecs/h264TEST.py:
+        class_count: 4
+        file_size: 7229
+        function_count: 0
+        import_count: 13
+        word_count: 587
+      test_nchantrs/nchantrs/widgets/browsers/downloadsTEST.py:
+        class_count: 10
+        file_size: 14250
+        function_count: 0
+        import_count: 16
+        word_count: 1190
+      test_nchantrs/nchantrs/widgets/browsers/enginesTEST.py:
+        class_count: 3
+        file_size: 7843
+        function_count: 0
+        import_count: 10
+        word_count: 625
+      test_nchantrs/nchantrs/widgets/browsers/graphicsTEST.py:
+        class_count: 1
+        file_size: 3096
+        function_count: 0
+        import_count: 10
+        word_count: 230
+      test_nchantrs/nchantrs/widgets/browsers/historyTEST.py:
+        class_count: 2
+        file_size: 3456
+        function_count: 0
+        import_count: 8
+        word_count: 274
+      test_nchantrs/nchantrs/widgets/browsers/initializeTEST.py:
+        class_count: 1
+        file_size: 2654
+        function_count: 0
+        import_count: 8
+        word_count: 198
+      test_nchantrs/nchantrs/widgets/browsers/javascript/scriptsTEST.py:
+        class_count: 1
+        file_size: 6719
+        function_count: 0
+        import_count: 28
+        word_count: 518
+      test_nchantrs/nchantrs/widgets/browsers/networkTEST.py:
+        class_count: 1
+        file_size: 2430
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/widgets/browsers/pagesTEST.py:
+        class_count: 5
+        file_size: 7516
+        function_count: 0
+        import_count: 11
+        word_count: 613
+      test_nchantrs/nchantrs/widgets/browsers/profilesTEST.py:
+        class_count: 5
+        file_size: 9716
+        function_count: 0
+        import_count: 11
+        word_count: 784
+      test_nchantrs/nchantrs/widgets/browsers/requestsTEST.py:
+        class_count: 7
+        file_size: 8309
+        function_count: 0
+        import_count: 13
+        word_count: 689
+      test_nchantrs/nchantrs/widgets/browsers/security/authenticationTEST.py:
+        class_count: 4
+        file_size: 6411
+        function_count: 0
+        import_count: 10
+        word_count: 512
+      test_nchantrs/nchantrs/widgets/browsers/security/environmentTEST.py:
+        class_count: 11
+        file_size: 12508
+        function_count: 0
+        import_count: 17
+        word_count: 1030
+      test_nchantrs/nchantrs/widgets/browsers/security/googleTEST.py:
+        class_count: 2
+        file_size: 3397
+        function_count: 0
+        import_count: 8
+        word_count: 265
+      test_nchantrs/nchantrs/widgets/browsers/servicesTEST.py:
+        class_count: 4
+        file_size: 5559
+        function_count: 0
+        import_count: 10
+        word_count: 458
+      test_nchantrs/nchantrs/widgets/browsers/utilitiesTEST.py:
+        class_count: 5
+        file_size: 6134
+        function_count: 0
+        import_count: 13
+        word_count: 510
+      test_nchantrs/nchantrs/widgets/calculators/calculatorsTEST.py:
+        class_count: 5
+        file_size: 9087
+        function_count: 0
+        import_count: 11
+        word_count: 748
+      test_nchantrs/nchantrs/widgets/calendars/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/widgets/calendars/calendarsTEST.py:
+        class_count: 8
+        file_size: 9069
+        function_count: 0
+        import_count: 14
+        word_count: 772
+      test_nchantrs/nchantrs/widgets/calendars/centuriesTEST.py:
+        class_count: 2
+        file_size: 3479
+        function_count: 0
+        import_count: 8
+        word_count: 274
+      test_nchantrs/nchantrs/widgets/calendars/daysTEST.py:
+        class_count: 7
+        file_size: 8627
+        function_count: 0
+        import_count: 13
+        word_count: 734
+      test_nchantrs/nchantrs/widgets/calendars/decadesTEST.py:
+        class_count: 2
+        file_size: 3473
+        function_count: 0
+        import_count: 8
+        word_count: 274
+      test_nchantrs/nchantrs/widgets/calendars/monthsTEST.py:
+        class_count: 4
+        file_size: 6107
+        function_count: 0
+        import_count: 10
+        word_count: 503
+      test_nchantrs/nchantrs/widgets/calendars/timelinesTEST.py:
+        class_count: 7
+        file_size: 9585
+        function_count: 0
+        import_count: 13
+        word_count: 806
+      test_nchantrs/nchantrs/widgets/calendars/weeksTEST.py:
+        class_count: 2
+        file_size: 3465
+        function_count: 0
+        import_count: 8
+        word_count: 274
+      test_nchantrs/nchantrs/widgets/calendars/yearsTEST.py:
+        class_count: 4
+        file_size: 5545
+        function_count: 0
+        import_count: 10
+        word_count: 458
+      test_nchantrs/nchantrs/widgets/canvases/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/widgets/canvases/canvasesTEST.py:
+        class_count: 8
+        file_size: 10647
+        function_count: 0
+        import_count: 14
+        word_count: 907
+      test_nchantrs/nchantrs/widgets/canvases/multipagesTEST.py:
+        class_count: 2
+        file_size: 3692
+        function_count: 0
+        import_count: 8
+        word_count: 292
+      test_nchantrs/nchantrs/widgets/canvases/scenesTEST.py:
+        class_count: 3
+        file_size: 5497
+        function_count: 0
+        import_count: 9
+        word_count: 447
+      test_nchantrs/nchantrs/widgets/catalogsTEST.py:
+        class_count: 3
+        file_size: 4923
+        function_count: 0
+        import_count: 9
+        word_count: 402
+      test_nchantrs/nchantrs/widgets/config/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/widgets/config/accountsTEST.py:
+        class_count: 3
+        file_size: 4517
+        function_count: 0
+        import_count: 9
+        word_count: 366
+      test_nchantrs/nchantrs/widgets/config/configTEST.py:
+        class_count: 2
+        file_size: 5708
+        function_count: 0
+        import_count: 8
+        word_count: 454
+      test_nchantrs/nchantrs/widgets/config/extensionsTEST.py:
+        class_count: 3
+        file_size: 4533
+        function_count: 0
+        import_count: 9
+        word_count: 366
+      test_nchantrs/nchantrs/widgets/config/helpTEST.py:
+        class_count: 4
+        file_size: 5500
+        function_count: 0
+        import_count: 10
+        word_count: 458
+      test_nchantrs/nchantrs/widgets/config/integrationsTEST.py:
+        class_count: 3
+        file_size: 4543
+        function_count: 0
+        import_count: 9
+        word_count: 366
+      test_nchantrs/nchantrs/widgets/config/packagesTEST.py:
+        class_count: 2
+        file_size: 3686
+        function_count: 0
+        import_count: 8
+        word_count: 292
+      test_nchantrs/nchantrs/widgets/config/profilesTEST.py:
+        class_count: 2
+        file_size: 3458
+        function_count: 0
+        import_count: 8
+        word_count: 274
+      test_nchantrs/nchantrs/widgets/config/securityTEST.py:
+        class_count: 2
+        file_size: 5161
+        function_count: 0
+        import_count: 8
+        word_count: 400
+      test_nchantrs/nchantrs/widgets/config/servicesTEST.py:
+        class_count: 2
+        file_size: 3464
+        function_count: 0
+        import_count: 8
+        word_count: 274
+      test_nchantrs/nchantrs/widgets/config/settingsTEST.py:
+        class_count: 4
+        file_size: 7218
+        function_count: 0
+        import_count: 10
+        word_count: 593
+      test_nchantrs/nchantrs/widgets/config/storageTEST.py:
+        class_count: 2
+        file_size: 3684
+        function_count: 0
+        import_count: 8
+        word_count: 292
+      test_nchantrs/nchantrs/widgets/config/uninstallTEST.py:
+        class_count: 2
+        file_size: 4713
+        function_count: 0
+        import_count: 8
+        word_count: 364
+      test_nchantrs/nchantrs/widgets/controls/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/widgets/controls/advanced_buttonsTEST.py:
+        class_count: 10
+        file_size: 12678
+        function_count: 0
+        import_count: 16
+        word_count: 1073
+      test_nchantrs/nchantrs/widgets/controls/button_groupsTEST.py:
+        class_count: 11
+        file_size: 15821
+        function_count: 0
+        import_count: 17
+        word_count: 1318
+      test_nchantrs/nchantrs/widgets/controls/buttonsTEST.py:
+        class_count: 7
+        file_size: 8749
+        function_count: 0
+        import_count: 13
+        word_count: 743
+      test_nchantrs/nchantrs/widgets/controls/checkboxesTEST.py:
+        class_count: 4
+        file_size: 5658
+        function_count: 0
+        import_count: 10
+        word_count: 467
+      test_nchantrs/nchantrs/widgets/controls/connectorsTEST.py:
+        class_count: 7
+        file_size: 8715
+        function_count: 0
+        import_count: 13
+        word_count: 734
+      test_nchantrs/nchantrs/widgets/controls/controlsTEST.py:
+        class_count: 4
+        file_size: 5345
+        function_count: 0
+        import_count: 10
+        word_count: 440
+      test_nchantrs/nchantrs/widgets/controls/menusTEST.py:
+        class_count: 3
+        file_size: 4803
+        function_count: 0
+        import_count: 9
+        word_count: 393
+      test_nchantrs/nchantrs/widgets/controls/navigationTEST.py:
+        class_count: 2
+        file_size: 3271
+        function_count: 0
+        import_count: 8
+        word_count: 256
+      test_nchantrs/nchantrs/widgets/controls/radiosTEST.py:
+        class_count: 3
+        file_size: 4509
+        function_count: 0
+        import_count: 9
+        word_count: 366
+      test_nchantrs/nchantrs/widgets/controls/searchTEST.py:
+        class_count: 2
+        file_size: 3460
+        function_count: 0
+        import_count: 8
+        word_count: 274
+      test_nchantrs/nchantrs/widgets/controls/toolbarsTEST.py:
+        class_count: 7
+        file_size: 9231
+        function_count: 0
+        import_count: 13
+        word_count: 779
+      test_nchantrs/nchantrs/widgets/controls/toolboxesTEST.py:
+        class_count: 3
+        file_size: 5594
+        function_count: 0
+        import_count: 9
+        word_count: 456
+      test_nchantrs/nchantrs/widgets/controls/tooltipsTEST.py:
+        class_count: 2
+        file_size: 3460
+        function_count: 0
+        import_count: 8
+        word_count: 274
+      test_nchantrs/nchantrs/widgets/embedsTEST.py:
+        class_count: 5
+        file_size: 6539
+        function_count: 0
+        import_count: 11
+        word_count: 550
+      test_nchantrs/nchantrs/widgets/forms/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/widgets/forms/formsTEST.py:
+        class_count: 4
+        file_size: 6077
+        function_count: 0
+        import_count: 10
+        word_count: 503
+      test_nchantrs/nchantrs/widgets/groupsTEST.py:
+        class_count: 8
+        file_size: 11301
+        function_count: 0
+        import_count: 14
+        word_count: 961
+      test_nchantrs/nchantrs/widgets/items/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/widgets/items/catalogsTEST.py:
+        class_count: 5
+        file_size: 6824
+        function_count: 0
+        import_count: 11
+        word_count: 568
+      test_nchantrs/nchantrs/widgets/items/cellsTEST.py:
+        class_count: 3
+        file_size: 6708
+        function_count: 0
+        import_count: 9
+        word_count: 546
+      test_nchantrs/nchantrs/widgets/items/itemsTEST.py:
+        class_count: 3
+        file_size: 5675
+        function_count: 0
+        import_count: 9
+        word_count: 465
+      test_nchantrs/nchantrs/widgets/items/nodesTEST.py:
+        class_count: 15
+        file_size: 21542
+        function_count: 0
+        import_count: 21
+        word_count: 1848
+      test_nchantrs/nchantrs/widgets/items/subtreesTEST.py:
+        class_count: 4
+        file_size: 5543
+        function_count: 0
+        import_count: 10
+        word_count: 458
+      test_nchantrs/nchantrs/widgets/launchTEST.py:
+        class_count: 1
+        file_size: 2429
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/widgets/managers/managersTEST.py:
+        class_count: 7
+        file_size: 8896
+        function_count: 0
+        import_count: 13
+        word_count: 752
+      test_nchantrs/nchantrs/widgets/managersTEST.py:
+        class_count: 6
+        file_size: 7806
+        function_count: 0
+        import_count: 12
+        word_count: 660
+      test_nchantrs/nchantrs/widgets/media/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/widgets/media/charts/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/widgets/media/charts/chartsTEST.py:
+        class_count: 4
+        file_size: 9362
+        function_count: 0
+        import_count: 10
+        word_count: 755
+      test_nchantrs/nchantrs/widgets/media/editors/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/widgets/media/editors/codeTEST.py:
+        class_count: 1
+        file_size: 2427
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/widgets/media/editors/editorsTEST.py:
+        class_count: 10
+        file_size: 19746
+        function_count: 0
+        import_count: 16
+        word_count: 1640
+      test_nchantrs/nchantrs/widgets/media/editors/entriesTEST.py:
+        class_count: 4
+        file_size: 5695
+        function_count: 0
+        import_count: 10
+        word_count: 467
+      test_nchantrs/nchantrs/widgets/media/editors/selectorsTEST.py:
+        class_count: 7
+        file_size: 10707
+        function_count: 0
+        import_count: 13
+        word_count: 896
+      test_nchantrs/nchantrs/widgets/media/games/boardsTEST.py:
+        class_count: 2
+        file_size: 5870
+        function_count: 0
+        import_count: 8
+        word_count: 472
+      test_nchantrs/nchantrs/widgets/media/games/gamesTEST.py:
+        class_count: 2
+        file_size: 3463
+        function_count: 0
+        import_count: 8
+        word_count: 274
+      test_nchantrs/nchantrs/widgets/media/imagesTEST.py:
+        class_count: 3
+        file_size: 6037
+        function_count: 0
+        import_count: 9
+        word_count: 492
+      test_nchantrs/nchantrs/widgets/media/mapsTEST.py:
+        class_count: 3
+        file_size: 4463
+        function_count: 0
+        import_count: 9
+        word_count: 366
+      test_nchantrs/nchantrs/widgets/media/marqueesTEST.py:
+        class_count: 3
+        file_size: 4826
+        function_count: 0
+        import_count: 9
+        word_count: 393
+      test_nchantrs/nchantrs/widgets/media/mediaTEST.py:
+        class_count: 5
+        file_size: 7001
+        function_count: 0
+        import_count: 11
+        word_count: 586
+      test_nchantrs/nchantrs/widgets/media/notesTEST.py:
+        class_count: 4
+        file_size: 5542
+        function_count: 0
+        import_count: 10
+        word_count: 458
+      test_nchantrs/nchantrs/widgets/media/palettesTEST.py:
+        class_count: 3
+        file_size: 4493
+        function_count: 0
+        import_count: 9
+        word_count: 366
+      test_nchantrs/nchantrs/widgets/media/shapesTEST.py:
+        class_count: 5
+        file_size: 8295
+        function_count: 0
+        import_count: 11
+        word_count: 694
+      test_nchantrs/nchantrs/widgets/media/utilitiesTEST.py:
+        class_count: 2
+        file_size: 3680
+        function_count: 0
+        import_count: 9
+        word_count: 290
+      test_nchantrs/nchantrs/widgets/media/videoTEST.py:
+        class_count: 5
+        file_size: 6660
+        function_count: 0
+        import_count: 11
+        word_count: 559
+      test_nchantrs/nchantrs/widgets/p11TEST.py:
+        class_count: 16
+        file_size: 1353
+        function_count: 0
+        import_count: 1
+        word_count: 137
+      test_nchantrs/nchantrs/widgets/p6TEST.py:
+        class_count: 7
+        file_size: 1031
+        function_count: 0
+        import_count: 1
+        word_count: 85
+      test_nchantrs/nchantrs/widgets/p7TEST.py:
+        class_count: 4
+        file_size: 629
+        function_count: 0
+        import_count: 1
+        word_count: 53
+      test_nchantrs/nchantrs/widgets/p8TEST.py:
+        class_count: 6
+        file_size: 908
+        function_count: 0
+        import_count: 1
+        word_count: 73
+      test_nchantrs/nchantrs/widgets/p9TEST.py:
+        class_count: 4
+        file_size: 645
+        function_count: 0
+        import_count: 1
+        word_count: 53
+      test_nchantrs/nchantrs/widgets/panes/calendarsTEST.py:
+        class_count: 2
+        file_size: 3481
+        function_count: 0
+        import_count: 8
+        word_count: 274
+      test_nchantrs/nchantrs/widgets/panes/catalogsTEST.py:
+        class_count: 2
+        file_size: 4354
+        function_count: 0
+        import_count: 8
+        word_count: 346
+      test_nchantrs/nchantrs/widgets/panes/filesTEST.py:
+        class_count: 2
+        file_size: 3467
+        function_count: 0
+        import_count: 8
+        word_count: 274
+      test_nchantrs/nchantrs/widgets/panes/numbersTEST.py:
+        class_count: 2
+        file_size: 3473
+        function_count: 0
+        import_count: 8
+        word_count: 274
+      test_nchantrs/nchantrs/widgets/panes/panesTEST.py:
+        class_count: 2
+        file_size: 3658
+        function_count: 0
+        import_count: 8
+        word_count: 292
+      test_nchantrs/nchantrs/widgets/tables/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/widgets/tables/listsTEST.py:
+        class_count: 6
+        file_size: 8014
+        function_count: 0
+        import_count: 12
+        word_count: 678
+      test_nchantrs/nchantrs/widgets/tables/tablesTEST.py:
+        class_count: 4
+        file_size: 11004
+        function_count: 0
+        import_count: 10
+        word_count: 890
+      test_nchantrs/nchantrs/widgets/tabsetsTEST.py:
+        class_count: 4
+        file_size: 10808
+        function_count: 0
+        import_count: 10
+        word_count: 890
+      test_nchantrs/nchantrs/widgets/treesTEST.py:
+        class_count: 5
+        file_size: 9320
+        function_count: 0
+        import_count: 11
+        word_count: 775
+      test_nchantrs/nchantrs/widgets/widgetsTEST.py:
+        class_count: 5
+        file_size: 15135
+        function_count: 0
+        import_count: 17
+        word_count: 1249
+      test_nchantrs/nchantrs/wizards/__init__TEST.py:
+        class_count: 1
+        file_size: 2431
+        function_count: 0
+        import_count: 7
+        word_count: 182
+      test_nchantrs/nchantrs/wizards/accountsTEST.py:
+        class_count: 3
+        file_size: 4499
+        function_count: 0
+        import_count: 9
+        word_count: 366
+      test_nchantrs/nchantrs/wizards/appsTEST.py:
+        class_count: 6
+        file_size: 11044
+        function_count: 0
+        import_count: 12
+        word_count: 903
+      test_nchantrs/nchantrs/wizards/instancesTEST.py:
+        class_count: 2
+        file_size: 3816
+        function_count: 0
+        import_count: 8
+        word_count: 301
+      test_nchantrs/nchantrs/wizards/p4TEST.py:
+        class_count: 7
+        file_size: 1200
+        function_count: 0
+        import_count: 1
+        word_count: 98
+      test_nchantrs/nchantrs/wizards/pagesTEST.py:
+        class_count: 3
+        file_size: 4490
+        function_count: 0
+        import_count: 9
+        word_count: 366
+      test_nchantrs/nchantrs/wizards/usersTEST.py:
+        class_count: 6
+        file_size: 7717
+        function_count: 0
+        import_count: 12
+        word_count: 651
+      test_nchantrs/nchantrs/wizards/wizardsTEST.py:
+        class_count: 2
+        file_size: 3665
+        function_count: 0
+        import_count: 8
+        word_count: 292
+      test_shroud_runner.py:
+        class_count: 0
+        file_size: 6325
+        function_count: 4
+        import_count: 5
+        word_count: 555
+audit_date: '1773541342.849188'
+dimensions:
+  agent_awareness:
+    details:
+      issues:
+      - No CLI file found
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  changelog_tracking:
+    details:
+      issues:
+      - fix: Add entries to CHANGES.md for recent changes
+        rule: 'Low changelog coverage: 28%'
+        severity: high
+        unmatched_commits:
+        - 10327bb Merge remote-tracking branch 'local/nchantrs-ws' int
+        - 9e34fc6 Merge remote-tracking branch 'local/nchantrs-ws' int
+        - '17f9508 Phase 1-5 Upgrade: Security, Performance, Maintainab'
+        - 'c100a97 Fix: parent() call on widget with no parent set caus'
+        - a725161 add missing QCursor import
+      score: 20
+      status: partial
+    score: 20
+    status: partial
+  ci_cd_config:
+    details:
+      ci_cd_found: []
+      issues:
+      - fix: Add CI/CD configuration (GitHub Actions, GitLab CI, etc.)
+        rule: No CI/CD configuration found
+        severity: high
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  ci_cd_documentation:
+    details:
+      ci_cd_docs_found: []
+      issues:
+      - fix: Create CONTRIBUTING.md or docs/ci-cd.md with CI/CD pipeline documentation
+        rule: No CI/CD documentation found
+        severity: high
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  cli_documentation:
+    details:
+      exists: false
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  code_quality_pylint:
+    details:
+      issues: []
+      score: 100
+      status: pass
+    score: 100
+    status: pass
+  configuration:
+    details:
+      config_exists: false
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  dependency_strategy:
+    details:
+      external_imports: 2099
+      info: 'Hint: 60 GitVein projects available but not used: PyQt5Pandas, apig,
+        asolutionfor, axn, basicbot...'
+      internal_import_details:
+      - file: test_nchantrs/nchantrs/nchantrsTEST.py
+        module: condor
+        project: condor
+      - file: test_nchantrs/nchantrs/__init__TEST.py
+        module: condor
+        project: condor
+      - file: test_nchantrs/nchantrs/libraries/orangeTEST.py
+        module: condor
+        project: condor
+      - file: test_nchantrs/nchantrs/libraries/pyqtTEST.py
+        module: condor
+        project: condor
+      - file: test_nchantrs/nchantrs/libraries/qpandasTEST.py
+        module: condor
+        project: condor
+      - file: test_nchantrs/nchantrs/libraries/syntaxTEST.py
+        module: condor
+        project: condor
+      - file: test_nchantrs/nchantrs/services/linksTEST.py
+        module: condor
+        project: condor
+      - file: test_nchantrs/nchantrs/services/tagsTEST.py
+        module: condor
+        project: condor
+      - file: test_nchantrs/nchantrs/services/servicesTEST.py
+        module: condor
+        project: condor
+      - file: test_nchantrs/nchantrs/services/integrityTEST.py
+        module: condor
+        project: condor
+      internal_imports: 1255
+      internal_projects_used:
+      - condor
+      - subtrix
+      - pyside6pandas
+      - ogma
+      - nchantrs
+      leverage_score: 37.42
+      score: 100
+      status: pass
+      total_imports: 3354
+    score: 100
+    status: pass
+  documentation:
+    details:
+      missing:
+      - CONTRIBUTING.md
+      present:
+      - README.md
+      - CHANGES.md
+      - STATE.md
+      score: 75
+      status: pass
+    score: 75
+    status: pass
+  duplicate_files:
+    details:
+      duplicate_count: 0
+      score: 100
+      status: pass
+    score: 100
+    status: pass
+  error_handling:
+    details:
+      bare_excepts: 16
+      generic_excepts: 4
+      issues:
+      - fix: Replace bare except with specific exception types
+        rule: 'Bare excepts found: 16'
+        severity: high
+      proper_try_except: 63
+      score: 50
+      status: partial
+    score: 50
+    status: partial
+  file_sizes:
+    details:
+      large_file_count: 1
+      score: 50
+      small_file_count: 6
+      status: partial
+    score: 50
+    status: partial
+  git_workflow:
+    details:
+      branch: gamma
+      has_commits: true
+      is_git_repo: true
+      score: 100
+      status: pass
+    score: 100
+    status: pass
+  import_organization:
+    details:
+      has_isort_config: false
+      issues:
+      - fix: Add isort configuration to pyproject.toml or .isort.cfg
+        rule: No isort configuration found
+        severity: low
+      potential_misordered: 3
+      score: 75
+      status: partial
+    score: 75
+    status: partial
+  kiss_dry:
+    details:
+      duplicate_warnings: 0
+      magic_numbers_found: 0
+      score: 100
+      status: pass
+    score: 100
+    status: pass
+  lambda_antipattern:
+    details:
+      antipattern_count: 5
+      issues:
+      - antipatterns:
+        - file: nchantrs/widgets/trees.py
+          line: 351
+        - file: nchantrs/widgets/trees.py
+          line: 403
+        - file: nchantrs/widgets/browsers/downloads.py
+          line: 181
+        - file: nchantrs/widgets/browsers/downloads.py
+          line: 183
+        - file: nchantrs/widgets/browsers/downloads.py
+          line: 184
+        fix: Consider refactoring lambda anti-patterns
+        rule: 'Some lambda anti-patterns found: 5/34'
+        severity: medium
+      score: 80
+      status: pass
+      total_lambdas: 34
+    score: 80
+    status: pass
+  license_dependencies:
+    details:
+      issues:
+      - fix: Replace with MIT-licensed alternatives
+        packages:
+        - Babel (BSD License)
+        - Flask (BSD-3-Clause)
+        - GitPython (BSD-3-Clause)
+        - ImageIO (BSD-2-Clause)
+        - Jinja2 (BSD License)
+        rule: 'Non-MIT licenses: 318/603'
+        severity: high
+      - fix: Verify license manually or remove dependency
+        packages:
+        - PyAudio
+        - apturl
+        - command-not-found
+        - cupshelpers
+        - distro-info
+        rule: 'Unknown licenses: 16/603'
+        severity: high
+      mit_percentage: 44.6
+      score: 80
+      status: pass
+      tools_available:
+      - pip-licenses
+      tools_checked:
+      - fossa
+      - safety
+      - pip-licenses
+      - dependency-check
+    score: 80
+    status: pass
+  licenses:
+    details:
+      issues: []
+      score: 100
+      status: pass
+    score: 100
+    status: pass
+  logging:
+    details:
+      print_files:
+      - test_app_calculator.py
+      - test_shroud_runner.py
+      print_statements: 203
+      score: 75
+      status: partial
+      uses_logging: true
+      uses_logma: false
+    score: 75
+    status: partial
+  mkdocs_mkdocstrings:
+    details:
+      docs_directory: false
+      has_index_md: false
+      has_mkdocstrings: false
+      issues:
+      - fix: 'Set up MkDocs with mkdocstrings: create mkdocs.yml and docs/index.md'
+        rule: No MkDocs documentation setup found
+        severity: high
+      mkdocs_config: null
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  module_cli_coverage:
+    details:
+      cli_commands: []
+      context:
+        actual: 0/9 modules have CLI commands (0%)
+        description: Ensures every module has a corresponding CLI command for accessibility
+        dimension: module_cli_coverage
+        expected: All modules should have CLI commands (100% coverage at 80% threshold)
+        fix_guidance: 'Add CLI commands for: actions, dialogs, events, models, nchantrs,
+          services, utilities, widgets, wizards. Map each module to a CLI command
+          in cli.py using subparsers.add_parser(''models'').'
+        what_it_tests: Whether each Python module in the package has a matching CLI
+          command entry point
+        why_partial_or_fail: 'Modules missing CLI commands: actions, dialogs, events,
+          models, nchantrs, services, utilities, widgets, wizards. Available CLI commands
+          found: none. Each module should have either: (1) a matching @cli.command()/@app.command()
+          decorator, (2) a subparsers.add_parser() call matching the module name,
+          or (3) a cmd_XXX function in cli.py that maps to the module.'
+      covered_modules: 0
+      issues:
+      - fix: Add CLI commands for each module
+        rule: No CLI commands found for modules
+        severity: critical
+        uncovered_modules:
+        - models
+        - events
+        - dialogs
+        - utilities
+        - services
+        - wizards
+        - nchantrs
+        - actions
+        - widgets
+      module_list:
+      - actions
+      - dialogs
+      - events
+      - models
+      - nchantrs
+      - services
+      - utilities
+      - widgets
+      - wizards
+      score: 0
+      status: fail
+      total_modules: 9
+      uncovered_modules: 9
+    score: 0
+    status: fail
+  pii_secrets:
+    details:
+      files_with_secrets: 1
+      findings:
+      - file: nchantrs/utilities/users.py
+        line: 89
+        matched: "password: \"):\n        \""
+        type: password
+      - file: nchantrs/utilities/users.py
+        line: 273
+        matched: "Password:\")\n                verify_password = next..."
+        type: password
+      - file: nchantrs/utilities/users.py
+        line: 274
+        matched: "password: \"))\n                if next(self.passwor..."
+        type: password
+      score: 0
+      secrets_found: 3
+      status: fail
+    score: 0
+    status: fail
+  readme_quality:
+    details:
+      issues: []
+      score: 100
+      sections_found:
+      - installation
+      - usage
+      - features
+      sections_required:
+      - installation
+      - usage
+      - features
+      status: pass
+      word_count: 670
+    score: 100
+    status: pass
+  security_bandit:
+    details:
+      details:
+        files_scanned: 216
+        high: 4
+        low: 80
+        medium: 16
+        total: 100
+      issues: []
+      score: 80
+      status: pass
+    score: 80
+    status: pass
+  security_ruff:
+    details:
+      issues: []
+      score: 80
+      status: pass
+    score: 80
+    status: pass
+  structure:
+    details:
+      missing_dirs:
+      - tests
+      - docs
+      missing_files:
+      - CLI.md
+      present_dirs:
+      - nchantrs
+      - test_nchantrs
+      present_files:
+      - test_app_calculator.py
+      - test_shroud_runner.py
+      - pyproject.toml
+      - STATE.md
+      - CHANGELOG.rst
+      - test_nchantment.py
+      - test_app_todos.py
+      - run_entry_point.py
+      - modules_action.txt
+      - test_app_distortion.py
+      - test_app_nchantment.py
+      - test_app_aberration.py
+      - pytest.ini
+      - IMPLEMENTATION.md
+      - LICENSE.rst
+      - README.md
+      - test_entry_points.py
+      - test_distortion.py
+      - BREAKING_CHANGES.md
+      - nchantrs_applicationviews.log
+      - CHANGES.md
+      - LICENSE
+      - nchantrs_dialogs.log
+      - test_app_base.py
+      - test_aberration.py
+      - test_app_flection.py
+      - PROJECT_TRACKER.yaml
+      score: 55
+      status: partial
+    score: 55
+    status: partial
+  testing:
+    details:
+      score: 0
+      status: fail
+      test_dir_exists: false
+    score: 0
+    status: fail
+  todo_tracking:
+    details:
+      issues:
+      - fix: Resolve all TODO comments or create tracking issue
+        rule: 'TODO/FIXME comments found: 47'
+        severity: critical
+        todos:
+        - content: '# TODO: add connections to the collected wizard data to launch
+            the correct application'
+          file: nchantrs/nchantrs.py
+          line: 86
+        - content: '# NOTE: Pyularity integration - requires pyularity package to
+            be installed'
+          file: nchantrs/nchantrs.py
+          line: 98
+        - content: '#  TODO: connect to a service/contract and check for the most
+            recent version'
+          file: nchantrs/services/upgrades.py
+          line: 37
+        - content: '# TODO: stop all functions related to web traffic even with nchantrs
+            servers'
+          file: nchantrs/services/upgrades.py
+          line: 101
+        - content: '# TODO: stop all functions except connections to nchantrs servers'
+          file: nchantrs/services/upgrades.py
+          line: 104
+        - content: '# TODO: stop all background processes and implement regardless
+            of user impact'
+          file: nchantrs/services/upgrades.py
+          line: 107
+        - content: '# TODO: stop all background processes but respect user functions'
+          file: nchantrs/services/upgrades.py
+          line: 110
+        - content: '# TODO: wait for a low usage period below 50% of standard'
+          file: nchantrs/services/upgrades.py
+          line: 113
+        - content: '# TODO: wait for a limited usage period below 25% of standard'
+          file: nchantrs/services/upgrades.py
+          line: 116
+        - content: '# # TODO: need to check to see if server is running'
+          file: nchantrs/utilities/comms.py
+          line: 109
+      score: 3
+      status: partial
+      todo_count: 47
+    score: 3
+    status: partial
+  try_except_imports:
+    details:
+      issues:
+      - fix: Move required imports to top of file
+        rule: 'Required imports in try/except: 5'
+        severity: high
+        violations:
+        - file: test_shroud_runner.py
+          import: import traceback
+          line: 82
+        - file: test_shroud_runner.py
+          import: import traceback
+          line: 130
+        - file: test_shroud_runner.py
+          import: import traceback
+          line: 183
+        - file: nchantrs/dialogs/dialogs.py
+          import: import traceback
+          line: 451
+        - file: nchantrs/dialogs/dialogs.py
+          import: import traceback
+          line: 275
+      score: 0
+      status: fail
+      violation_count: 5
+    score: 0
+    status: fail
+  type_annotations:
+    details:
+      annotated_functions: 88
+      annotation_percentage: 0.9
+      issues:
+      - fix: Add type hints to function signatures and return types
+        rule: 'Type annotation coverage: 0.9%'
+        severity: medium
+      score: 1
+      status: partial
+      total_functions: 9271
+    score: 1
+    status: partial
+  type_check_pyright:
+    details:
+      issues:
+      - fix: Fix type errors
+        rule: 'Pyright errors: 5795'
+        severity: critical
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  wrapper_antipattern:
+    details:
+      issues: []
+      score: 100
+      status: pass
+      total_functions: 8949
+      wrapper_count: 0
+    score: 100
+    status: pass
+overall_score: 41.03
+project: nchantrs
+summary:
+  failing: 11
+  gitvein_projects_available: 65
+  passing: 13
+  total_dimensions: 32
+versions:
+  project: 10327bb
+  project_status: dirty
+  project_uncommitted_changes: 1
+  sasquatch: unknown

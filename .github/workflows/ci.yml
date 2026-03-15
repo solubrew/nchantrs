@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main, gamma]
+  pull_request:
+    branches: [main, gamma]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          pip install flake8 pylint black isort
+      - name: Lint
+        run: |
+          flake8 nchantrs --count --select=E9,F63,F7,F82 --show-source --statistics
+          pylint nchantrs
+          black --check nchantrs
+          isort --check-only nchantrs
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: |
+          pip install -e .
+          pip install pytest pytest-cov
+      - name: Test
+        run: |
+          pytest --cov=nchantrs --cov-report=xml
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Build
+        run: |
+          pip install build
+          python -m build

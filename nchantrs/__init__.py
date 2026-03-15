@@ -1,9 +1,24 @@
-# def get_public_version():
-#     # Read from your internal version source
-#     internal_version = "0.0.0.0.1.1"  # From db.yaml or config
-#     # Convert to public format
-#     parts = internal_version.split(".")
-#     return f"{parts[3]}.{parts[4]}.{parts[5]}"
-#
-#
-# __version__ = get_public_version()
+"""Nchantrs package initialization."""
+
+import logging
+from typing import Any
+
+__version__: str = "1.0.0"
+__author__: str = "Nchantrs Team"
+
+# Configure logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+)
+logger: logging.Logger = logging.getLogger(__name__)
+
+
+def get_version() -> str:
+    """Get the package version."""
+    return __version__
+
+
+def initialize() -> None:
+    """Initialize the nchantrs package."""
+    logger.info("Initializing nchantrs package")

@@ -4,6 +4,28 @@ All notable changes to the Nchantrs project will be documented in this file.
 
 ---
 
+## [Unreleased] - v0.3.1
+
+### Added
+- CLI module (nchantrs/cli.py) for command-line interface
+- `__main__.py` entry point for python -m execution
+- Logging configuration in nchantrs/__init__.py
+- nchantrs.yaml configuration file
+- CONTRIBUTING.md for contribution guidelines
+- .github/workflows/ci.yml for CI/CD configuration
+
+### Changed
+- Updated __init__.py with logging and version info
+
+### Fixed
+- Added missing QCursor import (a725161)
+- Fixed parent() call on widget with no parent set (c100a97)
+
+### Merged
+- Merged local/nchantrs-ws branch into gamma (10327bb, 9e34fc6)
+
+---
+
 ## [Unreleased] - v0.3.0
 
 ### Added

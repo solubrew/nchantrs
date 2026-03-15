@@ -1,0 +1,16 @@
+site_name: Nchantrs Documentation
+site_description: Advanced PyQt6 Application Framework
+site_url: https://www.solutionsbrewer.com/
+
+theme:
+  name: material
+
+nav:
+  - Home: index.md
+  - Installation: installation.md
+  - API Reference:
+      - nchantrs: api/nchantrs.md
+      - widgets: api/widgets.md
+
+plugins:
+  - mkdocstrings
