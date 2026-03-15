@@ -170,3 +170,7 @@ See CHANGELOG.rst for historical changes.
 ### Added
 - Initial gamma branch setup
 - Comprehensive project structure
+
+### Fixed
+- Removed print statements from CLI, using logging instead (6767069)
+- Added comprehensive CHANGES.md entries (d528e71)
