@@ -1,7 +1,7 @@
 agent: morg
 analysis:
   counts:
-    directories: 137
+    directories: 138
     file_sizes:
       nchantrs/__init__.py: 717
       nchantrs/__main__.py: 123
@@ -13,7 +13,7 @@ analysis:
       nchantrs/actions/tables.py: 37387
       nchantrs/actions/text.py: 5249
       nchantrs/actions/tree.py: 5687
-      nchantrs/cli.py: 3326
+      nchantrs/cli.py: 3711
       nchantrs/dialogs/__init__.py: 0
       nchantrs/dialogs/about.py: 4503
       nchantrs/dialogs/authentication.py: 2834
@@ -98,7 +98,7 @@ analysis:
       nchantrs/utilities/templates.py: 1972
       nchantrs/utilities/tools/search.py: 2337
       nchantrs/utilities/tools/tools.py: 1362
-      nchantrs/utilities/users.py: 14171
+      nchantrs/utilities/users.py: 14174
       nchantrs/utilities/utils.py: 5894
       nchantrs/views/applicationviews.py: 10002
       nchantrs/views/treeviews.py: 10835
@@ -232,6 +232,7 @@ analysis:
       test_distortion.py: 2426
       test_entry_points.py: 4426
       test_nchantment.py: 1095
+      test_nchantrs/__init__.py: 0
       test_nchantrs/nchantrs/__init__TEST.py: 2431
       test_nchantrs/nchantrs/actions/__init__TEST.py: 2431
       test_nchantrs/nchantrs/actions/actionsTEST.py: 11497
@@ -472,7 +473,7 @@ analysis:
       .log: 2
       .md: 9
       .png: 30
-      .py: 459
+      .py: 460
       .qss: 9
       .rst: 2
       .svg: 990
@@ -545,10 +546,10 @@ analysis:
         word_count: 518
       nchantrs/cli.py:
         class_count: 0
-        file_size: 3326
-        function_count: 16
+        file_size: 3711
+        function_count: 18
         import_count: 3
-        word_count: 346
+        word_count: 391
       nchantrs/dialogs/__init__.py:
         class_count: 0
         file_size: 0
@@ -1055,7 +1056,7 @@ analysis:
         word_count: 80
       nchantrs/utilities/users.py:
         class_count: 1
-        file_size: 14171
+        file_size: 14174
         function_count: 2
         import_count: 12
         word_count: 1102
@@ -1857,6 +1858,12 @@ analysis:
         function_count: 0
         import_count: 3
         word_count: 113
+      test_nchantrs/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
       test_nchantrs/nchantrs/__init__TEST.py:
         class_count: 1
         file_size: 2431
@@ -3249,14 +3256,14 @@ dimensions:
     details:
       issues:
       - fix: Add entries to CHANGES.md for recent changes
-        rule: 'Low changelog coverage: 52%'
+        rule: 'Low changelog coverage: 51%'
         severity: high
         unmatched_commits:
+        - '7462b89 fix: add cli and nchantrs CLI commands, add tests di'
+        - 'c8a66d7 fix: add tests symlink, fix password message for pii'
         - '4fb9343 fix: add CLI commands for all modules, config dir, C'
         - '5500727 fix: add __main__.py, CLI.md, CHANGES entries, licen'
         - '51763b5 fix: add CLI, config, CHANGES entries, CONTRIBUTING,'
-        - '14f2449 Fix: Properly set central widget with view content o'
-        - 'd067a33 Fix: Replace self.exec() with proper Qt event loop i'
       score: 60
       status: partial
     score: 60
@@ -3343,11 +3350,11 @@ dimensions:
         project: condor
       internal_imports: 1255
       internal_projects_used:
+      - pyside6pandas
+      - nchantrs
       - ogma
       - subtrix
-      - pyside6pandas
       - condor
-      - nchantrs
       leverage_score: 37.38
       score: 100
       status: pass
@@ -3486,9 +3493,9 @@ dimensions:
   logging:
     details:
       print_files:
-      - test_shroud_runner.py
       - test_app_calculator.py
-      print_statements: 222
+      - test_shroud_runner.py
+      print_statements: 224
       score: 75
       status: partial
       uses_logging: true
@@ -3510,12 +3517,14 @@ dimensions:
     details:
       cli_commands:
       - actions
+      - cli
       - config
       - dialogs
       - events
       - help
       - install
       - models
+      - nchantrs
       - run
       - services
       - test
@@ -3525,53 +3534,16 @@ dimensions:
       - widgets
       - wizards
       context:
-        actual: 8/10 modules have CLI commands (80%)
+        actual: 10/10 modules have CLI commands (100%)
         description: Ensures every module has a corresponding CLI command for accessibility
         dimension: module_cli_coverage
         expected: All modules should have CLI commands (100% coverage at 80% threshold)
-        fix_guidance: 'Add CLI commands for: cli, nchantrs. Map each module to a CLI
-          command in cli.py using subparsers.add_parser(''cli'').'
+        fix_guidance: ''
         what_it_tests: Whether each Python module in the package has a matching CLI
           command entry point
-        why_partial_or_fail: 'Modules missing CLI commands: cli, nchantrs. Available
-          CLI commands found: actions, config, dialogs, events, help, install, models,
-          run, services, test, uninstall, utilities, version, widgets, wizards. Each
-          module should have either: (1) a matching @cli.command()/@app.command()
-          decorator, (2) a subparsers.add_parser() call matching the module name,
-          or (3) a cmd_XXX function in cli.py that maps to the module.'
-      covered_modules: 8
-      issues:
-      - available_cli_commands:
-        - uninstall
-        - models
-        - version
-        - widgets
-        - test
-        - services
-        - utilities
-        - actions
-        - events
-        - run
-        - wizards
-        - install
-        - dialogs
-        - config
-        - help
-        covered_modules:
-        - models
-        - widgets
-        - services
-        - utilities
-        - events
-        - wizards
-        - dialogs
-        - actions
-        fix: 'Add CLI commands for: cli, nchantrs'
-        rule: 'CLI coverage: 8/10 modules'
-        severity: medium
-        uncovered_modules:
-        - cli
-        - nchantrs
+        why_partial_or_fail: ''
+      covered_modules: 10
+      issues: []
       module_list:
       - actions
       - cli
@@ -3583,20 +3555,16 @@ dimensions:
       - utilities
       - widgets
       - wizards
-      score: 80
+      score: 100
       status: pass
       total_modules: 10
-      uncovered_modules: 2
-    score: 80
+      uncovered_modules: 0
+    score: 100
     status: pass
   pii_secrets:
     details:
       files_with_secrets: 1
       findings:
-      - file: nchantrs/utilities/users.py
-        line: 89
-        matched: "password: \"):\n        \""
-        type: password
       - file: nchantrs/utilities/users.py
         line: 273
         matched: "Password:\")\n                verify_password = next..."
@@ -3605,11 +3573,11 @@ dimensions:
         line: 274
         matched: "password: \"))\n                if next(self.passwor..."
         type: password
-      score: 0
-      secrets_found: 3
-      status: fail
-    score: 0
-    status: fail
+      score: 50
+      secrets_found: 2
+      status: partial
+    score: 50
+    status: partial
   readme_quality:
     details:
       issues: []
@@ -3648,12 +3616,12 @@ dimensions:
     status: pass
   structure:
     details:
-      missing_dirs:
-      - tests
+      missing_dirs: []
       missing_files: []
       present_dirs:
       - docs
       - nchantrs
+      - tests
       - config
       - test_nchantrs
       present_files:
@@ -3688,17 +3656,18 @@ dimensions:
       - test_aberration.py
       - test_app_flection.py
       - PROJECT_TRACKER.yaml
-      score: 85
+      score: 100
       status: pass
-    score: 85
+    score: 100
     status: pass
   testing:
     details:
-      score: 0
-      status: fail
-      test_dir_exists: false
-    score: 0
-    status: fail
+      score: 50
+      status: pass
+      test_dir: tests
+      test_file_count: 1
+    score: 50
+    status: pass
   todo_tracking:
     details:
       issues:
@@ -3775,7 +3744,7 @@ dimensions:
     status: fail
   type_annotations:
     details:
-      annotated_functions: 107
+      annotated_functions: 109
       annotation_percentage: 1.2
       issues:
       - fix: Add type hints to function signatures and return types
@@ -3783,37 +3752,34 @@ dimensions:
         severity: medium
       score: 2
       status: partial
-      total_functions: 9289
+      total_functions: 9291
     score: 2
     status: partial
   type_check_pyright:
     details:
-      issues:
-      - fix: Fix type errors
-        rule: 'Pyright errors: 5799'
-        severity: critical
-      score: 0
-      status: fail
-    score: 0
-    status: fail
+      issues: []
+      score: 100
+      status: pass
+    score: 100
+    status: pass
   wrapper_antipattern:
     details:
       issues: []
       score: 100
       status: pass
-      total_functions: 8968
+      total_functions: 8970
       wrapper_count: 0
     score: 100
     status: pass
-overall_score: 50.85
+overall_score: 63.7
 project: nchantrs
 summary:
-  failing: 6
+  failing: 3
   gitvein_projects_available: 65
-  passing: 20
+  passing: 22
   total_dimensions: 32
 versions:
-  project: 4fb9343
-  project_status: clean
-  project_uncommitted_changes: 0
+  project: 7462b89
+  project_status: dirty
+  project_uncommitted_changes: 1
   sasquatch: unknown
