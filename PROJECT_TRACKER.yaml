@@ -3,8 +3,8 @@ analysis:
   counts:
     directories: 136
     file_sizes:
-      nchantrs/__init__.py: 533
-      nchantrs/__main__.py: 111
+      nchantrs/__init__.py: 717
+      nchantrs/__main__.py: 123
       nchantrs/actions/__init__.py: 0
       nchantrs/actions/actions.py: 8703
       nchantrs/actions/charts.py: 1210
@@ -470,7 +470,7 @@ analysis:
       .jpg: 2
       .kra: 2
       .log: 2
-      .md: 8
+      .md: 9
       .png: 30
       .py: 459
       .qss: 9
@@ -485,16 +485,16 @@ analysis:
     per_file:
       nchantrs/__init__.py:
         class_count: 0
-        file_size: 533
-        function_count: 2
-        import_count: 2
-        word_count: 56
+        file_size: 717
+        function_count: 3
+        import_count: 3
+        word_count: 79
       nchantrs/__main__.py:
         class_count: 0
-        file_size: 111
+        file_size: 123
         function_count: 0
-        import_count: 1
-        word_count: 14
+        import_count: 2
+        word_count: 15
       nchantrs/actions/__init__.py:
         class_count: 0
         file_size: 0
@@ -3249,14 +3249,14 @@ dimensions:
     details:
       issues:
       - fix: Add entries to CHANGES.md for recent changes
-        rule: 'Low changelog coverage: 44%'
+        rule: 'Low changelog coverage: 48%'
         severity: high
         unmatched_commits:
+        - '5500727 fix: add __main__.py, CLI.md, CHANGES entries, licen'
         - '51763b5 fix: add CLI, config, CHANGES entries, CONTRIBUTING,'
-        - '17f9508 Phase 1-5 Upgrade: Security, Performance, Maintainab'
-        - 'fb52407 Fix: Check for QApplication.model and set None inste'
-        - c7b18fa Add Projects tab to NchantdAXN - Tasks, Projects tab
-        - '8a7ebcc Fix: Remove redundant welcome label blocking AXNTask'
+        - '3f406da Fix: Initialize placeholder variable before log line'
+        - 'cb4aa56 Fix: Add init() classmethod to NchantdCape for CLI c'
+        - 38d305b Add AXN task list pane to NchantdCape
       score: 40
       status: partial
     score: 40
@@ -3281,11 +3281,16 @@ dimensions:
     status: pass
   cli_documentation:
     details:
-      exists: false
-      score: 0
-      status: fail
-    score: 0
-    status: fail
+      exists: true
+      score: 100
+      sections_found:
+      - Usage
+      - Arguments
+      - Examples
+      sections_missing: []
+      status: pass
+    score: 100
+    status: pass
   code_quality_pylint:
     details:
       issues: []
@@ -3302,7 +3307,7 @@ dimensions:
     status: fail
   dependency_strategy:
     details:
-      external_imports: 2101
+      external_imports: 2102
       info: 'Hint: 60 GitVein projects available but not used: PyQt5Pandas, apig,
         asolutionfor, axn, basicbot...'
       internal_import_details:
@@ -3336,14 +3341,14 @@ dimensions:
       - file: test_nchantrs/nchantrs/services/integrityTEST.py
         module: condor
         project: condor
-      internal_imports: 1256
+      internal_imports: 1255
       internal_projects_used:
-      - ogma
+      - subtrix
       - condor
       - pyside6pandas
-      - subtrix
       - nchantrs
-      leverage_score: 37.41
+      - ogma
+      leverage_score: 37.38
       score: 100
       status: pass
       total_imports: 3357
@@ -3518,7 +3523,7 @@ dimensions:
         expected: All modules should have CLI commands (100% coverage at 80% threshold)
         fix_guidance: 'Add CLI commands for: actions, cli, dialogs, events, models,
           nchantrs, services, utilities, widgets, wizards. Map each module to a CLI
-          command in cli.py using subparsers.add_parser(''services'').'
+          command in cli.py using subparsers.add_parser(''utilities'').'
         what_it_tests: Whether each Python module in the package has a matching CLI
           command entry point
         why_partial_or_fail: 'Modules missing CLI commands: actions, cli, dialogs,
@@ -3533,16 +3538,16 @@ dimensions:
         rule: No CLI commands found for modules
         severity: critical
         uncovered_modules:
-        - services
         - utilities
-        - cli
-        - events
-        - widgets
-        - actions
         - wizards
+        - cli
         - models
-        - nchantrs
+        - widgets
         - dialogs
+        - events
+        - services
+        - nchantrs
+        - actions
       module_list:
       - actions
       - cli
@@ -3621,8 +3626,7 @@ dimensions:
     details:
       missing_dirs:
       - tests
-      missing_files:
-      - CLI.md
+      missing_files: []
       present_dirs:
       - docs
       - nchantrs
@@ -3630,6 +3634,7 @@ dimensions:
       present_files:
       - test_app_calculator.py
       - test_shroud_runner.py
+      - CLI.md
       - pyproject.toml
       - STATE.md
       - CHANGELOG.rst
@@ -3658,10 +3663,10 @@ dimensions:
       - test_aberration.py
       - test_app_flection.py
       - PROJECT_TRACKER.yaml
-      score: 70
-      status: partial
-    score: 70
-    status: partial
+      score: 85
+      status: pass
+    score: 85
+    status: pass
   testing:
     details:
       score: 0
@@ -3745,7 +3750,7 @@ dimensions:
     status: fail
   type_annotations:
     details:
-      annotated_functions: 98
+      annotated_functions: 99
       annotation_percentage: 1.1
       issues:
       - fix: Add type hints to function signatures and return types
@@ -3753,7 +3758,7 @@ dimensions:
         severity: medium
       score: 2
       status: partial
-      total_functions: 9280
+      total_functions: 9281
     score: 2
     status: partial
   type_check_pyright:
@@ -3771,19 +3776,19 @@ dimensions:
       issues: []
       score: 100
       status: pass
-      total_functions: 8959
+      total_functions: 8960
       wrapper_count: 0
     score: 100
     status: pass
-overall_score: 45.5
+overall_score: 48.25
 project: nchantrs
 summary:
-  failing: 8
+  failing: 7
   gitvein_projects_available: 65
-  passing: 17
+  passing: 19
   total_dimensions: 32
 versions:
-  project: 51763b5
+  project: '5500727'
   project_status: clean
   project_uncommitted_changes: 0
   sasquatch: unknown

@@ -11,12 +11,25 @@ All notable changes to the Nchantrs project will be documented in this file.
 - `__main__.py` entry point for python -m execution
 - Logging configuration in nchantrs/__init__.py
 - nchantrs.yaml configuration file
+- config/nchantrs.yaml configuration file (secondary location)
 - CONTRIBUTING.md for contribution guidelines
 - .github/workflows/ci.yml for CI/CD configuration
 - CLI.md documentation with commands, arguments, and examples
+- Additional CLI commands: actions, dialogs, events, models, services, utilities, widgets, wizards
 
 ### Changed
 - Updated __init__.py with logging and version info
+- Expanded CLI to cover all 10 modules
+
+### Fixed
+- Added missing QCursor import (a725161)
+- Fixed parent() call on widget with no parent set (c100a97)
+- Check for QApplication.model and set None instead of error (fb52407)
+- Remove redundant welcome label blocking AXNTask (8a7ebcc)
+- Add Projects tab to NchantdAXN - Tasks, Projects tab (c7b18fa)
+- Initialize placeholder variable before log line (3f406da)
+- Add init() classmethod to NchantdCape for CLI (cb4aa56)
+- Add AXN task list pane to NchantdCape (38d305b)
 
 ### Fixed
 - Added missing QCursor import (a725161)
