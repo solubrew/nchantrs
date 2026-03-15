@@ -3256,7 +3256,7 @@ dimensions:
     details:
       issues:
       - fix: Add entries to CHANGES.md for recent changes
-        rule: 'Low changelog coverage: 53%'
+        rule: 'Low changelog coverage: 54%'
         severity: high
         unmatched_commits:
         - '7462b89 fix: add cli and nchantrs CLI commands, add tests di'
@@ -3350,10 +3350,10 @@ dimensions:
         project: condor
       internal_imports: 1255
       internal_projects_used:
-      - condor
       - nchantrs
-      - subtrix
       - ogma
+      - condor
+      - subtrix
       - pyside6pandas
       leverage_score: 37.38
       score: 100
@@ -3493,8 +3493,8 @@ dimensions:
   logging:
     details:
       print_files:
-      - test_shroud_runner.py
       - test_app_calculator.py
+      - test_shroud_runner.py
       print_statements: 203
       score: 75
       status: partial
@@ -3779,7 +3779,7 @@ summary:
   passing: 22
   total_dimensions: 32
 versions:
-  project: ca92762
+  project: c7d888d
   project_status: clean
   project_uncommitted_changes: 0
   sasquatch: unknown
