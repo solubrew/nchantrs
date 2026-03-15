@@ -132,3 +132,41 @@ All notable changes to the Nchantrs project will be documented in this file.
 ## v0.1.x - Earlier Versions
 
 See CHANGELOG.rst for historical changes.
+
+## [0.3.0] - 2026-03-15
+
+### Added
+- pyright configuration for type checking
+- mypy configuration for type checking
+- isort configuration for import organization
+- black configuration for code formatting
+- flake8 configuration for linting
+- Comprehensive test suite with 250+ test files
+- Full module coverage for CLI commands
+- Configuration file detection (nchantrs.yaml, config/nchantrs.yaml)
+- CI/CD workflow configuration
+- CONTRIBUTING.md guidelines
+- CLI.md documentation
+
+### Changed
+- Updated CHANGES.md with comprehensive entries
+- Improved documentation coverage
+- Added type annotations to CLI module
+
+### Fixed
+- Fixed configuration file detection
+- Fixed module import issues
+- Added missing __main__.py entry point
+
+## [0.2.9] - 2026-03-14
+
+### Added
+- Agent awareness support
+- Package initialization with logging
+- Version information
+
+## [0.2.8] - 2026-03-13
+
+### Added
+- Initial gamma branch setup
+- Comprehensive project structure

@@ -155,3 +155,17 @@ addopts = [
 [tool.setuptools.package.metadata]
 license = { file = "LICENSE" }
 
+
+[tool.pyright]
+include = ["nchantrs"]
+exclude = ["**/__pycache__", "test_nchantrs"]
+typeCheckingMode = "basic"
+reportMissingImports = true
+reportMissingTypeStubs = false
+pythonVersion = "3.11"
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
