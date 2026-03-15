@@ -16,27 +16,7 @@ def main() -> int:
     """Main entry point for the nchantrs CLI."""
     logger.info("Nchantrs CLI started")
     logger.info("Usage: nchantrs <command> [options]")
-    print("Nchantrs CLI")
-    print("Usage: nchantrs <command> [options]")
-    print("")
-    print("Commands:")
-    print("  run         Run the nchantrs application")
-    print("  test        Run tests")
-    print("  install     Install nchantrs")
-    print("  uninstall   Uninstall nchantrs")
-    print("  config      Manage configuration")
-    print("  version     Show version")
-    print("  help        Show this help message")
-    print("  actions     Work with actions module")
-    print("  dialogs     Work with dialogs module")
-    print("  events      Work with events module")
-    print("  models      Work with models module")
-    print("  services    Work with services module")
-    print("  utilities   Work with utilities module")
-    print("  widgets     Work with widgets module")
-    print("  wizards     Work with wizards module")
-    print("  cli         Work with CLI module")
-    print("  nchantrs    Work with main nchantrs module")
+    logger.info("Nchantrs CLI - Available commands: run, test, install, uninstall, config, version, help, actions, dialogs, events, models, services, utilities, widgets, wizards, cli, nchantrs")
     return 0
 
 
