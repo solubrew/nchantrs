@@ -451,8 +451,6 @@ class NchantdCape(NchantdPanties):
             logma.info(f"Widget displayed")
         except Exception as e:
             logma.error(f"Error adding widget: {e}")
-            import traceback
-
             traceback.print_exc()
         return self
 

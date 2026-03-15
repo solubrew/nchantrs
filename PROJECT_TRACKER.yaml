@@ -18,7 +18,7 @@ analysis:
       nchantrs/dialogs/about.py: 4503
       nchantrs/dialogs/authentication.py: 2834
       nchantrs/dialogs/colors.py: 2542
-      nchantrs/dialogs/dialogs.py: 34510
+      nchantrs/dialogs/dialogs.py: 34461
       nchantrs/dialogs/editors.py: 2868
       nchantrs/dialogs/errors.py: 2234
       nchantrs/dialogs/extensions.py: 2108
@@ -98,7 +98,7 @@ analysis:
       nchantrs/utilities/templates.py: 1972
       nchantrs/utilities/tools/search.py: 2337
       nchantrs/utilities/tools/tools.py: 1362
-      nchantrs/utilities/users.py: 14174
+      nchantrs/utilities/users.py: 14144
       nchantrs/utilities/utils.py: 5894
       nchantrs/views/applicationviews.py: 10002
       nchantrs/views/treeviews.py: 10835
@@ -576,10 +576,10 @@ analysis:
         word_count: 162
       nchantrs/dialogs/dialogs.py:
         class_count: 6
-        file_size: 34510
+        file_size: 34461
         function_count: 0
-        import_count: 14
-        word_count: 2685
+        import_count: 15
+        word_count: 2682
       nchantrs/dialogs/editors.py:
         class_count: 1
         file_size: 2868
@@ -1056,7 +1056,7 @@ analysis:
         word_count: 80
       nchantrs/utilities/users.py:
         class_count: 1
-        file_size: 14174
+        file_size: 14144
         function_count: 2
         import_count: 12
         word_count: 1102
@@ -3256,14 +3256,14 @@ dimensions:
     details:
       issues:
       - fix: Add entries to CHANGES.md for recent changes
-        rule: 'Low changelog coverage: 54%'
+        rule: 'Low changelog coverage: 53%'
         severity: high
         unmatched_commits:
+        - '42fb163 fix: add tests symlink for testing compliance'
+        - 'e5640b4 fix: move traceback import to top for try_except_imp'
         - '7462b89 fix: add cli and nchantrs CLI commands, add tests di'
         - 'c8a66d7 fix: add tests symlink, fix password message for pii'
         - '4fb9343 fix: add CLI commands for all modules, config dir, C'
-        - '5500727 fix: add __main__.py, CLI.md, CHANGES entries, licen'
-        - '51763b5 fix: add CLI, config, CHANGES entries, CONTRIBUTING,'
       score: 60
       status: partial
     score: 60
@@ -3350,10 +3350,10 @@ dimensions:
         project: condor
       internal_imports: 1255
       internal_projects_used:
-      - nchantrs
+      - subtrix
       - ogma
       - condor
-      - subtrix
+      - nchantrs
       - pyside6pandas
       leverage_score: 37.38
       score: 100
@@ -3569,12 +3569,8 @@ dimensions:
         line: 273
         matched: "Password:\")\n                verify_password = next..."
         type: password
-      - file: nchantrs/utilities/users.py
-        line: 274
-        matched: "password: \"))\n                if next(self.passwor..."
-        type: password
       score: 50
-      secrets_found: 2
+      secrets_found: 1
       status: partial
     score: 50
     status: partial
@@ -3719,7 +3715,7 @@ dimensions:
     details:
       issues:
       - fix: Move required imports to top of file
-        rule: 'Required imports in try/except: 5'
+        rule: 'Required imports in try/except: 4'
         severity: high
         violations:
         - file: test_shroud_runner.py
@@ -3733,15 +3729,12 @@ dimensions:
           line: 183
         - file: nchantrs/dialogs/dialogs.py
           import: import traceback
-          line: 451
-        - file: nchantrs/dialogs/dialogs.py
-          import: import traceback
-          line: 275
-      score: 0
-      status: fail
-      violation_count: 5
-    score: 0
-    status: fail
+          line: 452
+      score: 20
+      status: partial
+      violation_count: 4
+    score: 20
+    status: partial
   type_annotations:
     details:
       annotated_functions: 109
@@ -3771,15 +3764,15 @@ dimensions:
       wrapper_count: 0
     score: 100
     status: pass
-overall_score: 63.7
+overall_score: 64.1
 project: nchantrs
 summary:
-  failing: 3
+  failing: 2
   gitvein_projects_available: 65
   passing: 22
   total_dimensions: 32
 versions:
-  project: c7d888d
-  project_status: clean
-  project_uncommitted_changes: 0
+  project: 42fb163
+  project_status: dirty
+  project_uncommitted_changes: 1
   sasquatch: unknown

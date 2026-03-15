@@ -16,6 +16,7 @@
 # -*- coding: utf-8 -*-
 
 import sys
+import traceback
 import time
 from pathlib import Path
 from PySide6.QtWidgets import QApplication
@@ -81,7 +82,6 @@ def test_aberration():
         
     except Exception as e:
         print(f"  ✗ Aberration failed: {e}")
-        import traceback
         traceback.print_exc()
         return False
 
@@ -129,7 +129,6 @@ def test_distortion():
         
     except Exception as e:
         print(f"  ✗ Distortion failed: {e}")
-        import traceback
         traceback.print_exc()
         return False
 
@@ -182,7 +181,6 @@ def test_nchantment():
         
     except Exception as e:
         print(f"  ✗ Nchantment failed: {e}")
-        import traceback
         traceback.print_exc()
         return False
 
