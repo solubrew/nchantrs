@@ -1,7 +1,7 @@
 agent: morg
 analysis:
   counts:
-    directories: 136
+    directories: 137
     file_sizes:
       nchantrs/__init__.py: 717
       nchantrs/__main__.py: 123
@@ -13,7 +13,7 @@ analysis:
       nchantrs/actions/tables.py: 37387
       nchantrs/actions/text.py: 5249
       nchantrs/actions/tree.py: 5687
-      nchantrs/cli.py: 1472
+      nchantrs/cli.py: 3326
       nchantrs/dialogs/__init__.py: 0
       nchantrs/dialogs/about.py: 4503
       nchantrs/dialogs/authentication.py: 2834
@@ -480,7 +480,7 @@ analysis:
       .txt: 1
       .webp: 2
       .xml: 5
-      .yaml: 64
+      .yaml: 65
       .yml: 1
     per_file:
       nchantrs/__init__.py:
@@ -545,10 +545,10 @@ analysis:
         word_count: 518
       nchantrs/cli.py:
         class_count: 0
-        file_size: 1472
-        function_count: 8
-        import_count: 2
-        word_count: 151
+        file_size: 3326
+        function_count: 16
+        import_count: 3
+        word_count: 346
       nchantrs/dialogs/__init__.py:
         class_count: 0
         file_size: 0
@@ -3249,17 +3249,17 @@ dimensions:
     details:
       issues:
       - fix: Add entries to CHANGES.md for recent changes
-        rule: 'Low changelog coverage: 48%'
+        rule: 'Low changelog coverage: 52%'
         severity: high
         unmatched_commits:
+        - '4fb9343 fix: add CLI commands for all modules, config dir, C'
         - '5500727 fix: add __main__.py, CLI.md, CHANGES entries, licen'
         - '51763b5 fix: add CLI, config, CHANGES entries, CONTRIBUTING,'
-        - '3f406da Fix: Initialize placeholder variable before log line'
-        - 'cb4aa56 Fix: Add init() classmethod to NchantdCape for CLI c'
-        - 38d305b Add AXN task list pane to NchantdCape
-      score: 40
+        - '14f2449 Fix: Properly set central widget with view content o'
+        - 'd067a33 Fix: Replace self.exec() with proper Qt event loop i'
+      score: 60
       status: partial
-    score: 40
+    score: 60
     status: partial
   ci_cd_config:
     details:
@@ -3343,11 +3343,11 @@ dimensions:
         project: condor
       internal_imports: 1255
       internal_projects_used:
-      - subtrix
-      - condor
-      - pyside6pandas
-      - nchantrs
       - ogma
+      - subtrix
+      - pyside6pandas
+      - condor
+      - nchantrs
       leverage_score: 37.38
       score: 100
       status: pass
@@ -3488,7 +3488,7 @@ dimensions:
       print_files:
       - test_shroud_runner.py
       - test_app_calculator.py
-      print_statements: 220
+      print_statements: 222
       score: 75
       status: partial
       uses_logging: true
@@ -3509,45 +3509,69 @@ dimensions:
   module_cli_coverage:
     details:
       cli_commands:
+      - actions
       - config
+      - dialogs
+      - events
       - help
       - install
+      - models
       - run
+      - services
       - test
       - uninstall
+      - utilities
       - version
+      - widgets
+      - wizards
       context:
-        actual: 0/10 modules have CLI commands (0%)
+        actual: 8/10 modules have CLI commands (80%)
         description: Ensures every module has a corresponding CLI command for accessibility
         dimension: module_cli_coverage
         expected: All modules should have CLI commands (100% coverage at 80% threshold)
-        fix_guidance: 'Add CLI commands for: actions, cli, dialogs, events, models,
-          nchantrs, services, utilities, widgets, wizards. Map each module to a CLI
-          command in cli.py using subparsers.add_parser(''utilities'').'
+        fix_guidance: 'Add CLI commands for: cli, nchantrs. Map each module to a CLI
+          command in cli.py using subparsers.add_parser(''cli'').'
         what_it_tests: Whether each Python module in the package has a matching CLI
           command entry point
-        why_partial_or_fail: 'Modules missing CLI commands: actions, cli, dialogs,
-          events, models, nchantrs, services, utilities, widgets, wizards. Available
-          CLI commands found: config, help, install, run, test, uninstall, version.
-          Each module should have either: (1) a matching @cli.command()/@app.command()
+        why_partial_or_fail: 'Modules missing CLI commands: cli, nchantrs. Available
+          CLI commands found: actions, config, dialogs, events, help, install, models,
+          run, services, test, uninstall, utilities, version, widgets, wizards. Each
+          module should have either: (1) a matching @cli.command()/@app.command()
           decorator, (2) a subparsers.add_parser() call matching the module name,
           or (3) a cmd_XXX function in cli.py that maps to the module.'
-      covered_modules: 0
+      covered_modules: 8
       issues:
-      - fix: Add CLI commands for each module
-        rule: No CLI commands found for modules
-        severity: critical
-        uncovered_modules:
+      - available_cli_commands:
+        - uninstall
+        - models
+        - version
+        - widgets
+        - test
+        - services
         - utilities
+        - actions
+        - events
+        - run
         - wizards
-        - cli
+        - install
+        - dialogs
+        - config
+        - help
+        covered_modules:
         - models
         - widgets
-        - dialogs
-        - events
         - services
-        - nchantrs
+        - utilities
+        - events
+        - wizards
+        - dialogs
         - actions
+        fix: 'Add CLI commands for: cli, nchantrs'
+        rule: 'CLI coverage: 8/10 modules'
+        severity: medium
+        uncovered_modules:
+        - cli
+        - nchantrs
       module_list:
       - actions
       - cli
@@ -3559,12 +3583,12 @@ dimensions:
       - utilities
       - widgets
       - wizards
-      score: 0
-      status: fail
+      score: 80
+      status: pass
       total_modules: 10
-      uncovered_modules: 10
-    score: 0
-    status: fail
+      uncovered_modules: 2
+    score: 80
+    status: pass
   pii_secrets:
     details:
       files_with_secrets: 1
@@ -3630,6 +3654,7 @@ dimensions:
       present_dirs:
       - docs
       - nchantrs
+      - config
       - test_nchantrs
       present_files:
       - test_app_calculator.py
@@ -3750,15 +3775,15 @@ dimensions:
     status: fail
   type_annotations:
     details:
-      annotated_functions: 99
-      annotation_percentage: 1.1
+      annotated_functions: 107
+      annotation_percentage: 1.2
       issues:
       - fix: Add type hints to function signatures and return types
-        rule: 'Type annotation coverage: 1.1%'
+        rule: 'Type annotation coverage: 1.2%'
         severity: medium
       score: 2
       status: partial
-      total_functions: 9281
+      total_functions: 9289
     score: 2
     status: partial
   type_check_pyright:
@@ -3776,19 +3801,19 @@ dimensions:
       issues: []
       score: 100
       status: pass
-      total_functions: 8960
+      total_functions: 8968
       wrapper_count: 0
     score: 100
     status: pass
-overall_score: 48.25
+overall_score: 50.85
 project: nchantrs
 summary:
-  failing: 7
+  failing: 6
   gitvein_projects_available: 65
-  passing: 19
+  passing: 20
   total_dimensions: 32
 versions:
-  project: '5500727'
+  project: 4fb9343
   project_status: clean
   project_uncommitted_changes: 0
   sasquatch: unknown

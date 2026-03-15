@@ -86,7 +86,7 @@ class NchantdUser(object):
         self._create_user()
         return self
 
-    def get_password(self, message="Enter password: "):
+    def get_password(self, message="Enter credentials: "):
         """
         Generate or retrieve password for authentication.
         
