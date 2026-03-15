@@ -13,7 +13,7 @@ analysis:
       nchantrs/actions/tables.py: 37387
       nchantrs/actions/text.py: 5249
       nchantrs/actions/tree.py: 5687
-      nchantrs/cli.py: 3711
+      nchantrs/cli.py: 2950
       nchantrs/dialogs/__init__.py: 0
       nchantrs/dialogs/about.py: 4503
       nchantrs/dialogs/authentication.py: 2834
@@ -546,10 +546,10 @@ analysis:
         word_count: 518
       nchantrs/cli.py:
         class_count: 0
-        file_size: 3711
+        file_size: 2950
         function_count: 18
         import_count: 3
-        word_count: 391
+        word_count: 312
       nchantrs/dialogs/__init__.py:
         class_count: 0
         file_size: 0
@@ -3256,7 +3256,7 @@ dimensions:
     details:
       issues:
       - fix: Add entries to CHANGES.md for recent changes
-        rule: 'Low changelog coverage: 51%'
+        rule: 'Low changelog coverage: 53%'
         severity: high
         unmatched_commits:
         - '7462b89 fix: add cli and nchantrs CLI commands, add tests di'
@@ -3350,11 +3350,11 @@ dimensions:
         project: condor
       internal_imports: 1255
       internal_projects_used:
-      - pyside6pandas
-      - nchantrs
-      - ogma
-      - subtrix
       - condor
+      - nchantrs
+      - subtrix
+      - ogma
+      - pyside6pandas
       leverage_score: 37.38
       score: 100
       status: pass
@@ -3493,9 +3493,9 @@ dimensions:
   logging:
     details:
       print_files:
-      - test_app_calculator.py
       - test_shroud_runner.py
-      print_statements: 224
+      - test_app_calculator.py
+      print_statements: 203
       score: 75
       status: partial
       uses_logging: true
@@ -3779,7 +3779,7 @@ summary:
   passing: 22
   total_dimensions: 32
 versions:
-  project: 7462b89
-  project_status: dirty
-  project_uncommitted_changes: 1
+  project: ca92762
+  project_status: clean
+  project_uncommitted_changes: 0
   sasquatch: unknown
