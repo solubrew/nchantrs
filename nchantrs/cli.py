@@ -35,6 +35,8 @@ def main() -> int:
     print("  utilities   Work with utilities module")
     print("  widgets     Work with widgets module")
     print("  wizards     Work with wizards module")
+    print("  cli         Work with CLI module")
+    print("  nchantrs    Work with main nchantrs module")
     return 0
 
 
@@ -124,6 +126,18 @@ def cmd_widgets(args: list[str]) -> int:
 def cmd_wizards(args: list[str]) -> int:
     """Work with wizards module."""
     logger.info("Working with wizards module")
+    return 0
+
+
+def cmd_cli(args: list[str]) -> int:
+    """Work with CLI module."""
+    logger.info("Working with CLI module")
+    return 0
+
+
+def cmd_nchantrs(args: list[str]) -> int:
+    """Work with nchantrs main module."""
+    logger.info("Working with nchantrs main module")
     return 0
 
 
