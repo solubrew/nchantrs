@@ -13,6 +13,7 @@
 """
 # -*- coding: utf-8 -*-
 # ================================Core Modules===================================||
+import traceback
 from os.path import abspath, dirname, exists, join
 from sys import argv
 
@@ -147,7 +148,7 @@ class NchantdCape(NchantdPanties):
         #     self.initView(cfg)
         # except Exception as e:
         #     print(f"CRITICAL ERROR in initView: {e}")
-        #     import traceback
+
         #     traceback.print_exc()
         #     raise
         print("initView() will be called by initApp() - skipping in __init__")
@@ -275,7 +276,7 @@ class NchantdCape(NchantdPanties):
                 except Exception as e:
                     print(f"Failed to create AXN panes: {e}")
                     logma.error(f"Failed to create AXN panes: {e}")
-                    import traceback
+
                     traceback.print_exc()
                     
                     # Fallback to placeholder
