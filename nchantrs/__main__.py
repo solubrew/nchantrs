@@ -3,7 +3,6 @@
 import logging
 import sys
 from nchantrs import main
-from typing import Optional, Dict, List, Any, Tuple
 
 logger: logging.Logger = logging.getLogger(__name__)
 
