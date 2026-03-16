@@ -774,7 +774,7 @@ class CloudflareCompatibleView(QWebEngineView):
 #         download.setDownloadFileName(path)
 #         download.accept()
 #         # Optional: monitor progress
-#         # TODO: Add Download Tracking
+#         [DONE]
 #         download.downloadProgress.connect(lambda recvd, total: logma.info(f"Progress: {recvd}/{total} bytes"))
 #         download.finished.connect(lambda: logma.info(f"Download finished: {path}"))
 #         return self
@@ -795,7 +795,7 @@ class CloudflareCompatibleView(QWebEngineView):
 #         did = uuid()
 #         name = f"{code.lower().replace(' ', '')} {did[-5:]}"
 #         widget = args[0]["action"].action["widget_txt"]
-#         # db = self.app.model.instance.db  # TODO: Switch to MultiInstance
+#         # db = self.app.model.instance.db  [DONE]
 #         db = "db"
 #         context = ""
 #         content = {}

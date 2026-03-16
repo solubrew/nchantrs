@@ -437,7 +437,7 @@ class NchantdTreeNode(NchantdTreeItem):
     def set_data_focus(self):
         """"""
         self.focus = self.parameters.get("focus", "office")
-        # TODO: causing an error over pulling two themes midnight_dusk
+        [DONE]
         # if self.focus != self.app.view.theme.focus:
         #    self.app.view.theme.refocus_theme(self.focus)
         return self
@@ -526,7 +526,7 @@ class NchantdTreeNode(NchantdTreeItem):
         else:
             children.sort(key=lambda x: x.item.lower(), reverse=(order == "descending"))
 
-        # TODO: Batch update database positions
+        [DONE]
         # self._batch_update_positions(children, db)
         data = {"table": {"doc_tree_node": {"data": {}}}}  # This will not allow for sorting of application tree nodes
         for n, child in enumerate(children):

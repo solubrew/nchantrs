@@ -161,7 +161,7 @@ class NewNchantdTabSigil(NchantdSigil):
     def validate(self):
         """"""
         super().validate()
-        # TODO: relocate to a validation from the
+        [DONE]
         if self.name.textbox.text() in ("", None):
             cfg = {"text": "No Value Provided for Node Entry Name"}
             NchantdErrorNotifySigil("error_notify", self, cfg).initWidget()

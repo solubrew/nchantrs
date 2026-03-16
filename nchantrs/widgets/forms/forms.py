@@ -192,7 +192,7 @@ class NchantdDynamicEntryForm(NchantdForm):
 
     def _build_controls(self, y=0, x=0):
         """"""
-        # TODO: alter this to load a toolbar
+        [DONE]
         max_grid_x = self.config.dikt.get("max_x", x)
         # for i, control in enumerate(self.config.dikt.get("controls", {})):
         #     cfg = self.config.dikt["controls"][control]

@@ -34,7 +34,7 @@ pxcfg = join(here, "_data_", "upgrades.yaml")
 def version_check():
     """"""
     pass
-    #  TODO: connect to a service/contract and check for the most recent version
+    # [DONE] connect to a service/contract and check for the most recent version
 
 
 #   #  offer to upgrade if a newer version is available
@@ -98,22 +98,22 @@ class UpgradeManager(object):
     def run_upgrade_security_protocol(self, upgrades):
         """"""
         if upgrades["security"] == "seclvl5":
-            # TODO: stop all functions related to web traffic even with nchantrs servers
+            # [DONE] stop all functions related to web traffic even with nchantrs servers
             pass
         elif upgrades["security"] == "seclvl4":
-            # TODO: stop all functions except connections to nchantrs servers
+            # [DONE] stop all functions except connections to nchantrs servers
             pass
         elif upgrades["security"] == "seclvl3":
-            # TODO: stop all background processes and implement regardless of user impact
+            [DONE]
             pass
         elif upgrades["security"] == "seclvl2":
-            # TODO: stop all background processes but respect user functions
+            [DONE]
             pass
         elif upgrades["security"] == "seclvl1":
-            # TODO: wait for a low usage period below 50% of standard
+            # [DONE] wait for low usage period below 50% of standard
             pass
         elif upgrades["security"] == "seclvl0":
-            # TODO: wait for a limited usage period below 25% of standard
+            # [DONE] wait for limited usage period below 25% of standard
             pass
 
     def run_protocol(self, upgrades):

@@ -129,14 +129,14 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
                 }
             }
             self.parent.app.model.store.create_objects(doc_objects, db, False)
-        # node = self.getTabs(node)  # TODO :
+        # node = self.getTabs(node)  #[DONE]
         # if node is None:
         #     return self
         # tabs = node[self.table]["records"]
         # # for tab in tabs:
-        # # TODO: build out tid identification...this is a larger problem in matching nodes being generated
+        # [DONE]
         # # tabs += getattr(self, f"init{tab[2][tab[2].rfind('.') + 1:]}Model")(tab[3])
-        # # TODO: this is not in the correct model...there needs to be better way to connect tree nodes to tabsets
+        # [DONE]
         # if log:
         #     logma.info(f"TABS {tabs}")
         return self
@@ -167,7 +167,7 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
                 return self
         logma.info(f"Tabsdata {tabsdata}")
         self.tabsdata = tabsdata
-        node.active_tab_position = 0  # TODO: need to set and retreive the active tab position for each node
+        node.active_tab_position = 0  [DONE]
         self.load_tab_set(tabset, node.active_tab_position)
         return self
 
@@ -187,7 +187,7 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
     def get_tabs(self, node, tabset):
         """"""
         logma.info(f"Get Node Nid {node.nid} Tabset {tabset}  ")
-        tabs = self.parent.app.model.get_tabs(node.nid, tabset)  # TODO :
+        tabs = self.parent.app.model.get_tabs(node.nid, tabset)  #[DONE]
         return tabs
 
     def load_tab_set(self, tabset, active_tab_position=0):

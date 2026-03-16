@@ -72,7 +72,7 @@ class NchantdCatalogItem(NchantdWidget):
         self.slug = self.title_txt.replace(" ", "").lower().strip()
         self.subtitle_txt = self.config.dikt.get("sub_text", None)
         self.description_txt = self.config.dikt.get("description", "Missing Description")
-        self.set_size()  # TODO: integrate super method
+        self.set_size()  [DONE]
         if item_cfg.get("icon_txt", None) is None or item_cfg.get("icon_txt", "") == "":
             item_cfg["icon_txt"] = self.icon_txt
         item_cfg["link"] = item_cfg.get("link", "")

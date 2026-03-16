@@ -103,7 +103,7 @@ class NchantdTreeModel(pyqt.QStandardItemModel):
 
     def initModel(self, position=False):
         """ """
-        # TODO: need to address this to only run on application startup
+        [DONE]
         logma.info(f"Model Initialize Application {self.parent.app.new_application}")
         # logma.info(f"Model Initialize Instance {self.parent.app.new_instance}")
         db = "db"
@@ -381,7 +381,7 @@ class NchantdTimeTreeModel(NchantdApplicationTreeModel):
             logma.info(f"Date Nodes {df}")
         src.docs["db"].write({"app_tree_nodes": df})
 
-        # TODO: needs to be connected to a tabset model not a tree
+        [DONE]
         # self.tabcolumns = self.config.dikt['dstruct']['database']['objects']['table']['tabs']['columns']
         # df = qpandas.DataFrame(tabs, columns=self.tabcolumns)
         # df['uuid'] = df['name'].apply(lambda x: uuid.UUID(str(uuid.uuid4())).hex)

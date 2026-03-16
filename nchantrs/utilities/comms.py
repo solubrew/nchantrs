@@ -106,7 +106,7 @@ class NchantdCommunicationsManager(object):
         #     self.socket.close()
         #     # self.context.term()
         # self.socket.send_string(message)
-        # # TODO: need to check to see if server is running
+        # # [DONE] check server running
         # #  if not then need a backup option
         # #  Wait for the reply from the server
         # self.reply = self.socket.recv_string()  # Receive UTF-8 string

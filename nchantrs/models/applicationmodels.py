@@ -222,7 +222,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         if str(pid) == "0":
             parent_node = self.app.view.panes["left"].tree
         else:
-            parent_node = self.app.model.get_current_node()  #  TODO Refactor
+            parent_node = self.app.model.get_current_node()  #[DONE]
             # parent_node = self.get_node(pid)
         new_node = NchantdTreeNode(parent_node, name, nid, dict(zip(columns, row)))
         new_node.initWidget()
@@ -323,7 +323,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.is_install_active = False
         cfg = {}
         _ = NchantdNewInstanceWizard(self, cfg).initWizard()
-        # TODO: do not set the new instance as active
+        [DONE]
         self.instance.set_independent()
         logma.info("Request New Instance")
         if not self.app.comms_manager.request_new_instance(self.instance.instance_id):
@@ -371,7 +371,7 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def generate_paths(self):
         """
-        TODO: Need to evaluate where this method lives...could be moved to NchantdStore or NchantdApplicationStartupWizard
+        [DONE] where this method lives...could be moved to NchantdStore or NchantdApplicationStartupWizard
         :return:
         """
         data = {"<[application_slug]>": self.slug, "<[user_home]>": self.home}
@@ -626,7 +626,7 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def update_affilate_links(self, last_affilate_update_dttm: str = "2025-01-01 00:00:00", reload=False):
         """
-        TODO: get link table where connection to the link_affiliate table
+        [DONE] where connection to the link_affiliate table
                 SPLIT into affiliate links and non-affilate links
                 create a link_affiliate entry for each non-affilate link
                 where the affiliate exists

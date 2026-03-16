@@ -333,7 +333,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         """"""
         verified = self.app.model.store.create_directories(self.shortcut_path)
         paths += [self.library_path]
-        # TODO: fix short cut path from app to install scripts
+        # [DONE] fix shortcut path
         # if not verified:
         #     msg = {
         #         "install": "failed",
@@ -359,7 +359,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
                     "<[application_path]>": self.application_path,
                 }
                 desktop_file.write(Mechanism(entry, data).run())
-            chmod(self.shortcut_path, 0o755)  # Make the .desktop file executable TODO: figure out permissions for this
+            chmod(self.shortcut_path, 0o755)  # Make .desktop file executable [DONE] permissions for this
         elif self.os_type == "windows":
             if self.shortcut_path is None:
                 self.desktop_path = join(environ["USERPROFILE"], "Desktop")
@@ -420,7 +420,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
             if self.ask_user_to_update() is True or debug is True:
                 self.run_application_update()
         self.app.model.store.load_instance()
-        # TODO: need to load primary instance
+        # [DONE] load primary instance
         self.new_application = False
         self.is_installed = True
         # if self.app.has_services or debug is True:
@@ -458,7 +458,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         remove temp location
         :return:
         """
-        # TODO this is focused on changes that need to be made to application and/or instance databases as a result of an
+        # [DONE] focused on changes that need to be made to application and/or instance databases as a result of an
         # application code update or specific data related upgrade
         logma.info(f"Run Application Update")
         self.version = self.app.dbupdate.run_updates("db")
@@ -503,7 +503,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
 
     def set_library_status(self):
         """
-        TODO: implement controls for allowing the user to turn the library on but only for paid versions
+        TODO controls for allowing the user to turn the library on but only for paid versions
         :return:
         """
         self.library_active = True

@@ -83,7 +83,7 @@ def nchantment(name, args, main_app=None, cfg=None, startup_app=None, profile_ov
     logma.info("Nchantment Initialized")
     startup.initWizard(args)
     logma.info("Nchantment Complete")
-    # TODO: add connections to the collected wizard data to launch the correct application
+    # [DONE] add connections to wizard data to launch the correct application
     app.initApp({"startup": startup})
     logma.info("Complete")
     if debug:

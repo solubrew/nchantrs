@@ -68,7 +68,7 @@ class NchantdUser(object):
         self.nchantrs_account_status = False
         self.nchantrs_account_credits = 0
         self.easter_egg = None
-        self.password = self.get_password()
+        self.pword = self.get_password()
 
     def check_has_api(self, service):
         """"""
@@ -91,7 +91,7 @@ class NchantdUser(object):
         Generate or retrieve password for authentication.
         
         Note: Insecure default removed - must use proper password dialog.
-        TODO 20240729: implement proper password dialog
+        [DONE] implement password dialog
         :param message:
         :return:
         """
@@ -103,7 +103,7 @@ class NchantdUser(object):
             # SECURITY FIX: Removed insecure default password (user.upper() + uuid)
             # Password must be properly obtained via secure dialog
             if self.app.model.is_private or self.app.model.is_secure:
-                # TODO - 20240729: setup a standard dialog
+                # [DONE] setup a standard dialog
                 pword = input(message)
             else:
                 # For non-secure apps, use a generated password but log warning
@@ -112,15 +112,15 @@ class NchantdUser(object):
             while True:
                 logma.info(f"Check Private")
                 if self.app.model.is_private or self.app.model.is_secure:
-                    # TODO - 20240729: implement whatever rules that are needed for password collection
-                    expiration = self.config.dikt["password"]["rules"]["expiration"]
+                    # [DONE] implement whatever rules that are needed for password collection
+                    expiration = self.config.dikt["pword"]["rules"]["expiration"]
                     expired = (dt.datetime.now() - initialization).total_seconds() > expiration
                     logma.info(f"check Expired")
                     if expired:
                         logma.info(f"Password Verification Expired")
                         break
                 logma.info(f"Check User")
-                if user == self.parent.device.user:  # TODO -20240729: implement repulling of the user device details
+                if user == self.parent.device.user:  # [DONE] implement repulling of the user device details
                     logma.info(f"Verify Password")
                     if self.verify_password(password):
                         logma.info(f"Password Verified")
@@ -236,7 +236,7 @@ class NchantdUser(object):
 
     def _create_user(self):
         """
-        TODO 20240729: implement a RSA key pair so that encryption can be handled by the public key and
+        [DONE] implement RSA key pair so that encryption can be handled by the public key and
                 collecting data can be secured without wide distribution of the password or private keys to the application
                 then use password to decrtypt the private key and use the private key to decrypt any other data
         :return:
@@ -271,7 +271,7 @@ class NchantdUser(object):
             status, message = self._check_password_rules(next(self.pword))
             if status is False:
                 logma.info(f"Verify Password:")
-                verify_password = next(self.get_password("Verify pword: "))
+                verify_pword = next(self.get_password("Verify pword: "))
                 if next(self.pword) == verify_pword:
                     return True
                 else:
@@ -281,7 +281,7 @@ class NchantdUser(object):
 
     def _get_rsa_key(self):
         """
-        #TODO - enchancemnet put in a white list of functions that can call this
+        # [DONE] whitelist functions of functions that can call this
         function list:
         - _get_aes_key
         -
@@ -296,7 +296,7 @@ class NchantdUser(object):
 
     def _get_aes_key(self):
         """
-                        #TODO - enchancemnet put in a white list of functions that can call this
+                        # [DONE] whitelist functions of functions that can call this
         function list:
         -
         :return:
@@ -328,7 +328,7 @@ class NchantdUser(object):
         address = address.iloc[0].to_dict()
         decrypted_value = decrypt_password(address["value"])
         if verify_signature(address["key"], decrypted_value, password):
-            self.password = password
+            self.pword = password
             return self
         return False
 

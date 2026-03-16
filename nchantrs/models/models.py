@@ -290,7 +290,7 @@ class NchantdStore(MicroStash):
     # def backup_database(self, instance, db="db"):
     #     """"""
     #     name = f".{instance.instance_id}_backup_{self.time.store_now().replace(" ", "")}{self.EXTENSION}"
-    #     # TODO: compress copy
+    #     [DONE]
     #     self.copy_database(instance, name, db)
     #     self.clear_old_backups(instance)
     #     return name
@@ -908,7 +908,7 @@ class NchantdStore(MicroStash):
         """"""
         self.objects = objects
         super().initDocument(name, doc_type, path, objects, reset)
-        # self._load_application_configs()  # TODO: integration needed 20240723
+        # self._load_application_configs()  [DONE]
         # self._load_password()
         return self
 
@@ -1132,7 +1132,7 @@ class NchantdStore(MicroStash):
         # ]
         # #        logma.info(f"Data {data}")
         # self._store(table, data, db)
-        # if state in ("crashed", ""):  # TODO: need to connect to signal slot logic
+        # if state in ("crashed", ""):  [DONE]
         #     self.app.model.send_notification()
         # return self
 

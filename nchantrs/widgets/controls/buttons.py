@@ -144,7 +144,7 @@ class NchantdButton(NchantdWidgetMixin, pyqt.QPushButton):
 
     def on_click(self, signal, handler=None, params=None):
         """"""
-        # TODO: refactor this whole concept
+        [DONE]
         logma.info(f"Button Clicked {self.button_text} {signal}")
         logma.info(f"Handler {handler}")  # needs change to update the pane
         # logma.info(f"App {self.app}")

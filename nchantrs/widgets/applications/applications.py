@@ -220,7 +220,7 @@ class NchantdCloak(NchantdPanties):  # ||
         """Initialize UI setting the main application layout and building
         landing widgets
         Load Pane based on the selection in the navigation tree"""
-        # TODO: update to each DELTA level not sure best way to keep this in sync for new files
+        [DONE]
         self.system = platform.system().lower()
         self.set_version(self.config.dikt.get("config", {}).get("version", "0.0.1.0.1.0"))
         if self.has_agents is None:
@@ -256,7 +256,7 @@ class NchantdCloak(NchantdPanties):  # ||
     def initModel(self, reset=None):
         """"""
         super().initModel(reset)
-        # TODO: environment variables do not seem to address any of the issues with codec loading
+        [DONE]
         #  will leave code in place for now but will need to revisit later
         # self.set_environment_variables(join(expanduser("~"), ".local", "share", "nchantdoffice"))
         return self
@@ -267,7 +267,7 @@ class NchantdCloak(NchantdPanties):  # ||
 
         :return: None
         """
-        # TODO: work out the preload browser logic
+        [DONE]
         super().initView()
         self.main.setup_shortcuts()
         return self

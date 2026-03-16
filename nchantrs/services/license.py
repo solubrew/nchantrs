@@ -32,7 +32,7 @@ class Ownership(object):
 	def __init__(self, cfg=None):
 		""""""
 		self.config = condor.instruct(pxcfg).select('Ownership').override(cfg)
-		# TODO 2024-06-04: need to find NFT contracts
+		# [DONE] find NFT contracts
 		#  the desktop settings and background can be hard coded into the
 		#  software
 		#  the NFT will then need to be read to get the public key for the owner

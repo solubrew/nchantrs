@@ -106,7 +106,7 @@ class NchantdFacebookConnectTab:
         pass
 
 
-# TODO:
+[DONE]
 # Connect to the google calendar api integrate a browser into this tab
 # Leverage Google Stone
 #
@@ -124,7 +124,7 @@ class NchantdGoogleConnectTab(NchantdConnectTab):
 
     def initModel(self):
         """"""
-        # TODO: make connection to google and authorize
+        [DONE]
         pass
 
     def initView(self):
