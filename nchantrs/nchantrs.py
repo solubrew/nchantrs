@@ -28,7 +28,6 @@ from nchantrs.widgets.browsers.initialize import _configure_qt_environment
 from nchantrs.wizards.apps import NchantdApplicationStartupWizard  # , NchantdQuickStartWizard
 from ogma.logma import Logma
 from squirl.objnql import txtonql
-#from pyularity.pyularity import Pyularity
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -50,16 +49,16 @@ def aberration(name, args=None, widget=None, cfg=None):
 
 
 def distortion(name, args, widget, instance=None, cfg=None, log_file=None):
-    """A Distortion executes a complex single widget dialog useful for direct interaction widgets"""
+    """
+    A Distortion executes a complex single widget dialog useful for direct interaction widgets. If it
+    requires a startup wizard it should move up a level to an nchantment entry point
+    """
     if cfg is None:
         cfg = {}
     cfg["widget"] = widget
     _configure_qt_environment()
     cape = NchantdCape(name, instance, None, cfg, args, log_file=log_file)
-    # quick_start = NchantdQuickStartWizard(cape, {})
-    # quick_start.initWizard(args)
     result = cape.initApp(cfg)
-    # Ensure the application exits properly
     return result
 
 

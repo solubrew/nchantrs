@@ -5,6 +5,9 @@ application:
   version: "1.0.0"
   description: Advanced PyQt6 Application Framework
 
+project: nchantrs
+type: library
+
 features:
   widgets: true
   dialogs: true
