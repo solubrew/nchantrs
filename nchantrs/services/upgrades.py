@@ -33,6 +33,14 @@ except ImportError:
 # Constants for upgrade status
 DONE = "done"
 
+# Security level constants
+SEC_LEVEL_5 = "seclvl5"
+SEC_LEVEL_4 = "seclvl4"
+SEC_LEVEL_3 = "seclvl3"
+SEC_LEVEL_2 = "seclvl2"
+SEC_LEVEL_1 = "seclvl1"
+SEC_LEVEL_0 = "seclvl0"
+
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
@@ -60,7 +68,7 @@ class UpgradeManager(object):
         self.current_version = None
         self.app = pyqt.QApplication.instance()
 
-    def check_for_upgrades(self):
+    def check_for_updates(self) -> None:
         """"""
         upgrades = self.send_request()
         if "security" in upgrades:
@@ -70,7 +78,7 @@ class UpgradeManager(object):
         elif "paid" in upgrades:
             self.run_upgrade_paid_protocl(upgrades["paid"])
 
-    def pull_updates(self):
+    def pull_updates(self) -> None:
         """"""
         if RestAPI is None:
             logma.warning("RestAPI not available for pull_updates")
@@ -88,7 +96,7 @@ class UpgradeManager(object):
             if data is None:
                 self.app.store.update_data(data)
 
-    def run_upgrade_protocol(self, upgrades):
+    def run_upgrade_protocol(self, upgrades: dict) -> None:
         """"""
         self._begin_upgrade()
         # download upgrades
@@ -102,34 +110,34 @@ class UpgradeManager(object):
         # remove temp directory
         self._finalize_upgrade()
 
-    def run_upgrade_unpaid_protocol(self, upgrades):
+    def run_upgrade_unpaid_protocol(self, upgrades: dict) -> None:
         """"""
 
-    def run_upgrade_paid_protocol(self, upgrades):
+    def run_upgrade_paid_protocol(self, upgrades: dict) -> None:
         """"""
 
-    def run_upgrade_security_protocol(self, upgrades):
+    def run_upgrade_security_protocol(self, upgrades: dict) -> None:
         """"""
-        if upgrades["security"] == "seclvl5":
+        if upgrades["security"] == SEC_LEVEL_5:
             # [DONE] stop all functions related to web traffic even with nchantrs servers
             pass
-        elif upgrades["security"] == "seclvl4":
+        elif upgrades["security"] == SEC_LEVEL_4:
             # [DONE] stop all functions except connections to nchantrs servers
             pass
-        elif upgrades["security"] == "seclvl3":
+        elif upgrades["security"] == SEC_LEVEL_3:
             # [DONE]
             pass
-        elif upgrades["security"] == "seclvl2":
+        elif upgrades["security"] == SEC_LEVEL_2:
             # [DONE]
             pass
-        elif upgrades["security"] == "seclvl1":
+        elif upgrades["security"] == SEC_LEVEL_1:
             # [DONE] wait for low usage period below 50% of standard
             pass
-        elif upgrades["security"] == "seclvl0":
+        elif upgrades["security"] == SEC_LEVEL_0:
             # [DONE] wait for limited usage period below 25% of standard
             pass
 
-    def run_protocol(self, upgrades):
+    def run_protocol(self, upgrades: dict) -> bool:
         """"""
         lock = False
         if upgrades["code"]:
@@ -161,17 +169,17 @@ class UpgradeManager(object):
                 if UpgradeDatabaseData().run(upgrades["data"]):
                     lock = True
 
-    def send_request(self):
+    def send_request(self) -> dict:
         """"""
         upgrades = {}
         {"upgrades": self.current_version}
         return upgrades
 
-    def _begin_upgrade(self):
+    def _begin_upgrade(self) -> None:
         """"""
         self.app.model.store_history()
 
-    def _finalize_upgrade(self):
+    def _finalize_upgrade(self) -> None:
         """"""
         # Finalize the upgrade process
         pass

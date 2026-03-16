@@ -30,6 +30,12 @@ logma = Logma(__name__)
 # ====================================================================================================================||
 pxcfg = join(here, '_data_', 'integrity.yaml')
 
+# Return code constants
+HASH_VERIFY_SUCCESS = True
+HASH_VERIFY_FAIL = False
+
+# ====================================================================================================================||
+
 def exectuableHash():
 	""""""
 	start_dir = dirname(realpath(sys.executable))
@@ -65,7 +71,7 @@ class Integrity(object):
 				module_hashes[module][name]['hash'] = calculate_hash(path)
 		self.module_hashes = module_hashes
 
-	def verifyHashes(self):
+	def verifyHashes(self) -> bool:
 		""""""
 		for module, files in self.module_hashes.items():
 			for name, file_info in files.items():
@@ -74,8 +80,8 @@ class Integrity(object):
 				if expected_hash:
 						actual_hash = calculate_hash(path)
 						if actual_hash != expected_hash:
-							return False
-		return True
+							return HASH_VERIFY_FAIL
+		return HASH_VERIFY_SUCCESS
 
 # ====================================================================================================================||
 

@@ -42,6 +42,8 @@ STYLES = {
 }
 
 
+NOT_FOUND = -1
+
 class Highlighter(QSyntaxHighlighter):
     '''Syntax highlighter for the Python language.
     '''
@@ -137,7 +139,7 @@ class Highlighter(QSyntaxHighlighter):
             while index >= 0:
                 # We actually want the index of the nth match
                 index = expression.pos(nth)
-                if index == -1:
+                if index == NOT_FOUND:
                     break
                 length = len(expression.cap(nth))
                 self.setFormat(index, length, format)

@@ -31,24 +31,24 @@ pxcfg = join(here, '_data_', '.yaml')
 
 class NchantdConnections(object):
 	""""""
-	def __init__(self):
+	def __init__(self) -> None:
 		""""""
 		self.connections = {}
-	def connect_to_database(self, name: None = None):
+	def connect_to_database(self, name: str = None) -> "NchantdConnections":
 		"""Allow for adhoc connecting to multiple databases"""
 		if 'db' not in self.connections:
 			self.connections['db'] = {}
 		return self
 
-	def connect_to_google(self):
+	def connect_to_google(self) -> "NchantdConnections":
 		"""leverate google stone"""
 
 
 
-	def connect_to_wikipedia(self):
+	def connect_to_wikipedia(self) -> "NchantdConnections":
 		"""leverage wikipedia stone"""
 
-	def connect_to_wrlok(self):
+	def connect_to_wrlok(self) -> "NchantdConnections":
 		"""Nchantrs native data source for a consolidated data experience"""
 		if 'wrlok' not in self.connections:
 			self.connections['wrlok'] = {}

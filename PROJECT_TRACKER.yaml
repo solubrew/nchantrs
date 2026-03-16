@@ -83,7 +83,7 @@ analysis:
       nchantrs/utilities/__init__.py: 409
       nchantrs/utilities/analytics.py: 2293
       nchantrs/utilities/books.py: 2516
-      nchantrs/utilities/comms.py: 4190
+      nchantrs/utilities/comms.py: 4421
       nchantrs/utilities/debug.py: 7841
       nchantrs/utilities/files.py: 2211
       nchantrs/utilities/formatting.py: 3343
@@ -228,7 +228,7 @@ analysis:
       test_app_calculator.py: 2373
       test_app_distortion.py: 1222
       test_app_flection.py: 1418
-      test_app_nchantment.py: 999
+      test_app_nchantment.py: 1015
       test_app_todos.py: 2103
       test_distortion.py: 2426
       test_entry_points.py: 4426
@@ -1654,10 +1654,10 @@ analysis:
         word_count: 176
       nchantrs/utilities/comms.py:
         class_count: 1
-        file_size: 4190
+        file_size: 4421
         function_count: 0
         import_count: 8
-        word_count: 340
+        word_count: 356
       nchantrs/utilities/debug.py:
         class_count: 1
         file_size: 7841
@@ -2524,7 +2524,7 @@ analysis:
         word_count: 131
       test_app_nchantment.py:
         class_count: 0
-        file_size: 999
+        file_size: 1015
         function_count: 0
         import_count: 0
         word_count: 103
@@ -8054,7 +8054,7 @@ analysis:
         function_count: 4
         import_count: 6
         word_count: 551
-audit_date: '1773674799.2066946'
+audit_date: '1773676854.388269'
 dimensions:
   agent_awareness:
     details:
@@ -8348,11 +8348,11 @@ dimensions:
         rule: 'Low changelog coverage: 69%'
         severity: high
         unmatched_commits:
+        - '7c2e9ea Compliance fixes: magic numbers, dependencies, error'
         - '14f2449 Fix: Properly set central widget with view content o'
         - 'd067a33 Fix: Replace self.exec() with proper Qt event loop i'
         - e666c78 Fix initApp() - call exec() on main_widget instead o
         - 346fcd5 Add log_file parameter to NchantdCape and NchantdPan
-        - '23fede4 Revert to working version: separate main_widget QMai'
       score: 60
       status: partial
     score: 60
@@ -8602,9 +8602,9 @@ dimensions:
       internal_projects_used:
       - condor
       - subtrix
-      - ogma
-      - nchantrs
       - pyside6pandas
+      - nchantrs
+      - ogma
       leverage_score: 40.82
       score: 100
       status: pass
@@ -11953,53 +11953,28 @@ dimensions:
     status: pass
   external_dependencies_declared:
     details:
-      declared_count: 39
-      declared_internal: []
+      declared_internal:
+      - condor
+      - pycurity
+      - squirl
+      - ogma
+      - subtrix
+      - micromole
       issues:
-      - fix: Add these packages to [project.dependencies] in pyproject.toml
+      - fix: Remove internal projects from pyproject.toml - they are registered via
+          path in the environment, not pip
         packages:
-        - _work
-        - calendar
-        - config
-        - cons
-        - dirname
-        - fxsquirl
-        - gtk
-        - join
-        - logma
-        - nchantdoffice
-        - pil
-        - pkg_resources
-        - pyqt5
-        - queue
-        - tracemalloc
-        - turtle
-        - uuid_extensions
-        - wordcloud
-        rule: 'External dependencies not declared in pyproject.toml: 18 packages'
+        - condor
+        - pycurity
+        - squirl
+        - ogma
+        - subtrix
+        - micromole
+        rule: Internal projects in pyproject.toml dependencies (FORBIDDEN)
         severity: critical
       score: 0
       status: fail
-      undeclared_external:
-      - _work
-      - calendar
-      - config
-      - cons
-      - dirname
-      - fxsquirl
-      - gtk
-      - join
-      - logma
-      - nchantdoffice
-      - pil
-      - pkg_resources
-      - pyqt5
-      - queue
-      - tracemalloc
-      - turtle
-      - uuid_extensions
-      - wordcloud
-      used_external_count: 33
+      undeclared_external: []
     score: 0
     status: fail
   feature_envy:
@@ -12156,8 +12131,8 @@ dimensions:
   logging:
     details:
       print_files:
-      - test_shroud_runner.py
       - test_app_calculator.py
+      - test_shroud_runner.py
       print_statements: 203
       score: 75
       status: partial
@@ -12187,10 +12162,6 @@ dimensions:
       issues:
       - fix: Replace magic numbers with named constants
         items:
-        - file: test_app_nchantment.py
-          line: 34
-          type: int
-          value: 1200
         - file: nchantrs/events/events.py
           line: 29
           type: float
@@ -12203,12 +12174,8 @@ dimensions:
           line: 34
           type: int
           value: 100000
-        - file: nchantrs/utilities/users.py
-          line: 67
-          type: int
-          value: 100000
         - file: nchantrs/utilities/comms.py
-          line: 92
+          line: 31
           type: int
           value: 5000
         - file: nchantrs/actions/text.py
@@ -12227,9 +12194,17 @@ dimensions:
           line: 107
           type: int
           value: 3000
-        rule: 'Magic numbers detected: 66'
+        - file: nchantrs/actions/text.py
+          line: 72
+          type: int
+          value: 3000
+        - file: nchantrs/actions/files.py
+          line: 56
+          type: int
+          value: 3000
+        rule: 'Magic numbers detected: 64'
         severity: medium
-      magic_number_count: 66
+      magic_number_count: 64
       score: 0
       status: fail
     score: 0
@@ -12291,34 +12266,34 @@ dimensions:
       covered_modules: 10
       issues:
       - available_cli_commands:
-        - dialogs
-        - install
-        - events
-        - utilities
-        - services
-        - wizards
         - test
         - help
-        - models
-        - config
+        - install
+        - services
         - actions
-        - cli
-        - widgets
+        - events
+        - config
+        - uninstall
         - run
+        - models
+        - utilities
+        - widgets
+        - dialogs
+        - wizards
         - nchantrs
         - version
-        - uninstall
+        - cli
         covered_modules:
-        - dialogs
-        - utilities
-        - events
         - services
+        - actions
+        - events
+        - utilities
+        - widgets
+        - dialogs
         - wizards
         - models
-        - actions
-        - cli
-        - widgets
         - nchantrs
+        - cli
         fix: 'Add CLI commands for: agent_awareness'
         rule: 'CLI coverage: 10/11 modules'
         severity: medium
@@ -12455,46 +12430,46 @@ dimensions:
       issues:
       - fix: Consider using a dictionary or strategy pattern instead of repeated conditionals
         patterns:
-        - checks: 26
-          file: nchantrs/widgets/media/charts/charts.py
-          function: match statement
-          variable: chart_type
         - checks: 7
           file: nchantrs/widgets/browsers/codecs/h264.py
-          function: if/elif chain
-          variable: system
-        - checks: 8
-          file: nchantrs/events/mouse_events.py
-          function: if/elif chain
-          variable: shift
-        - checks: 7
-          file: nchantrs/widgets/browsers/pages.py
-          function: if/elif chain
-          variable: feature
-        - checks: 82
-          file: nchantrs/models/models.py
-          function: if/elif chain
-          variable: how
-        - checks: 12
-          file: nchantrs/events/events.py
-          function: if/elif chain
-          variable: index
-        - checks: 4
-          file: nchantrs/widgets/calendars/timelines.py
-          function: if/elif chain
-          variable: threshold
-        - checks: 13
-          file: nchantrs/widgets/widgets.py
-          function: if/elif chain
-          variable: justify
-        - checks: 4
-          file: nchantrs/widgets/browsers/security/environment.py
           function: if/elif chain
           variable: system
         - checks: 4
           file: nchantrs/widgets/controls/toolbars.py
           function: if/elif chain
           variable: button_cfg
+        - checks: 4
+          file: nchantrs/widgets/config/storage.py
+          function: if/elif chain
+          variable: previous_value
+        - checks: 4
+          file: nchantrs/widgets/calculators/calculators.py
+          function: if/elif chain
+          variable: pendingOperator
+        - checks: 5
+          file: nchantrs/widgets/groups.py
+          function: if/elif chain
+          variable: position
+        - checks: 6
+          file: nchantrs/utilities/graphics/animations/turtle.py
+          function: if/elif chain
+          variable: cnt
+        - checks: 4
+          file: nchantrs/widgets/calendars/timelines.py
+          function: if/elif chain
+          variable: threshold
+        - checks: 100
+          file: nchantrs/events/keyboard_events.py
+          function: if/elif chain
+          variable: alt
+        - checks: 100
+          file: nchantrs/events/keyboard_events.py
+          function: if/elif chain
+          variable: shift
+        - checks: 4
+          file: nchantrs/widgets/browsers/security/environment.py
+          function: if/elif chain
+          variable: system
         rule: 'Switch abuse detected: 22 patterns'
         severity: medium
       score: 0
@@ -12585,7 +12560,7 @@ summary:
   passing: 33
   total_dimensions: 46
 versions:
-  project: a9ad334
-  project_status: dirty
-  project_uncommitted_changes: 105
+  project: 7c2e9ea
+  project_status: clean
+  project_uncommitted_changes: 0
   sasquatch: unknown
