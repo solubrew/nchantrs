@@ -27,6 +27,38 @@ from condor.thing import thingify, getName
 logger = logging.getLogger(__name__)
 from fxsquirl.fxsquirl import Chunker
 
+# Constants for switch_abuse replacement (if/elif chains)
+ECHO_MODES = {
+    0: QLineEdit.Normal,
+    1: QLineEdit.Password,
+    2: QLineEdit.PasswordEchoOnEdit,
+    3: QLineEdit.NoEcho,
+}
+
+VALIDATOR_TYPES = {
+    0: None,
+    1: lambda: QIntValidator(self.validatorLineEdit),
+    2: lambda: QDoubleValidator(MIN_VALIDATOR_VALUE, MAX_VALIDATOR_VALUE, VALIDATOR_DECIMAL_PLACES, self.validatorLineEdit),
+}
+
+ALIGNMENT_MODES = {
+    0: Qt.AlignLeft,
+    1: Qt.AlignCenter,
+    2: Qt.AlignRight,
+}
+
+INPUT_MASKS = {
+    0: "",
+    1: "+99 99 99 99 99;_",
+    2: "0000-00-00",
+    3: ">AAAAA-AAAAA-AAAAA-AAAAA-AAAAA;#",
+}
+
+ACCESS_MODES = {
+    0: False,  # read-write
+    1: True,   # read-only
+}
+
 # ====================================================================================================================||
 # Constants for magic number replacement
 MIN_VALIDATOR_VALUE = -999.0
@@ -133,51 +165,36 @@ class NchantdEvent:
             self.actionAlignJustify.setChecked(True)
 
     def echoChanged(self, index) -> None:
-        if index == 0:
-            self.echoLineEdit.setEchoMode(QLineEdit.Normal)
-        elif index == 1:
-            self.echoLineEdit.setEchoMode(QLineEdit.Password)
-        elif index == 2:
-            self.echoLineEdit.setEchoMode(QLineEdit.PasswordEchoOnEdit)
-        elif index == 3:
-            self.echoLineEdit.setEchoMode(QLineEdit.NoEcho)
+        """Change echo mode based on index using dictionary lookup"""
+        mode = ECHO_MODES.get(index, QLineEdit.Normal)
+        self.echoLineEdit.setEchoMode(mode)
 
     def validatorChanged(self, index) -> None:
-        if index == 0:
+        """Change validator based on index using dictionary lookup"""
+        validator_func = VALIDATOR_TYPES.get(index)
+        if validator_func:
+            self.validatorLineEdit.setValidator(validator_func())
+        else:
             self.validatorLineEdit.setValidator(0)
-        elif index == 1:
-            self.validatorLineEdit.setValidator(QIntValidator(self.validatorLineEdit))
-        elif index == 2:
-            self.validatorLineEdit.setValidator(QDoubleValidator(
-                MIN_VALIDATOR_VALUE, MAX_VALIDATOR_VALUE, 
-                VALIDATOR_DECIMAL_PLACES, self.validatorLineEdit))
         self.validatorLineEdit.clear()
 
     def alignmentChanged(self, index) -> None:
-        if index == 0:
-            self.alignmentLineEdit.setAlignment(Qt.AlignLeft)
-        elif index == 1:
-            self.alignmentLineEdit.setAlignment(Qt.AlignCenter)
-        elif index == 2:
-            self.alignmentLineEdit.setAlignment(Qt.AlignRight)
+        """Change alignment based on index using dictionary lookup"""
+        alignment = ALIGNMENT_MODES.get(index, Qt.AlignLeft)
+        self.alignmentLineEdit.setAlignment(alignment)
 
     def inputMaskChanged(self, index) -> None:
-        if index == 0:
-            self.inputMaskLineEdit.setInputMask("")
-        elif index == 1:
-            self.inputMaskLineEdit.setInputMask("+99 99 99 99 99;_")
-        elif index == 2:
-            self.inputMaskLineEdit.setInputMask("0000-00-00")
+        """Change input mask based on index using dictionary lookup"""
+        mask = INPUT_MASKS.get(index, "")
+        self.inputMaskLineEdit.setInputMask(mask)
+        if index == 2:
             self.inputMaskLineEdit.setText("00000000")
             self.inputMaskLineEdit.setCursorPosition(0)
-        elif index == 3:
-            self.inputMaskLineEdit.setInputMask(">AAAAA-AAAAA-AAAAA-AAAAA-AAAAA;#")
 
     def accessChanged(self, index) -> None:
-        if index == 0:
-            self.accessLineEdit.setReadOnly(False)
-        elif index == 1:
-            self.accessLineEdit.setReadOnly(True)
+        """Change access mode based on index using dictionary lookup"""
+        read_only = ACCESS_MODES.get(index, False)
+        self.accessLineEdit.setReadOnly(read_only)
 
     def update_format(self) -> None:
         """
