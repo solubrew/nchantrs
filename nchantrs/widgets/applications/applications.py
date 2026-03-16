@@ -48,6 +48,19 @@ from nchantrs.widgets.controls.menus import NchantdContextMenu
 from ogma.logma import Logma
 
 # ===============================================================================||
+# Constants for switch_abuse replacement (window state handling)
+WINDOW_STATE_MESSAGES = {
+    pyqt.Qt.WindowMinimized: "Window State: Minimized",
+    pyqt.Qt.WindowMaximized: "Window State: Maximized",
+    pyqt.Qt.WindowNoState: "Window State: Normal",
+}
+
+WINDOW_STATE_ACTIONS = {
+    pyqt.Qt.WindowMaximized: lambda: print("The window was maximized."),
+    pyqt.Qt.WindowNoState: lambda: print("The window was restored to normal."),
+}
+
+# ===============================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
 logma.off()
@@ -615,14 +628,12 @@ class NchantdMainWindow(pyqt.QMainWindow):
                 pass
         elif event.type() == event.WindowStateChange:
             state = self.windowState()
-            if state == pyqt.Qt.WindowMinimized:  # The window was minimized.
-                self.message_label.setText("Window State: Minimized")
-            elif state == pyqt.Qt.WindowMaximized:
-                self.message_label.setText("Window State: Maximized")
-                print("The window was maximized.")
-            elif state == pyqt.Qt.WindowNoState:
-                self.message_label.setText("Window State: Normal")
-                print("The window was restored to normal.")
+            # Use dictionary lookup instead of if/elif chain
+            message = WINDOW_STATE_MESSAGES.get(state, "")
+            self.message_label.setText(message)
+            action = WINDOW_STATE_ACTIONS.get(state)
+            if action:
+                action()
         return super().eventFilter(watched, event)
 
     def hideEvent(self, event):
