@@ -70,6 +70,23 @@ dependencies = [
     "dill",
     "zmq",
     "uuid7",
+    
+    # Graphics & Visualization
+    "matplotlib",
+    "mplfinance",
+    "numpy",
+    "plotly",
+    "seaborn",
+    
+    # Data Processing
+    "pyside6pandas",
+    "feedparser",
+    
+    # Platform Utilities
+    "plyer",
+    
+    # Testing
+    "pytest",
 ]
 
 [project.urls]
