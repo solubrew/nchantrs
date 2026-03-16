@@ -36,9 +36,9 @@ HASH_VERIFY_FAIL = False
 
 # ====================================================================================================================||
 
-def exectuableHash():
-	""""""
-	start_dir = dirname(realpath(sys.executable))
+def exectuableHash() -> None:
+    """Calculate hash of the current executable."""
+    start_dir = dirname(realpath(sys.executable))
 	start_file_name = realpath(sys.executable)
 	start_file_name_hash = calculate_hash(start_file_name)
 
@@ -54,15 +54,17 @@ class Integrity(object):
 		self.interpreter_hash = None
 		self.module_hashes = {}
 
-	def addModules(self):
+	def addModules(self) -> None:
 		"""Add Modules and their paths to the list of modules/files needing to be hashed use for both development and
 		to leveraged in an addon system to allow the addons to verify their own code"""
+		pass
 
-	def hashInterpreter(self):
-		""""""
+	def hashInterpreter(self) -> None:
+		"""Hash the Python interpreter"""
+		pass
 
 
-	def hashFiles(self):
+	def hashFiles(self) -> None:
 		module_hashes = {}
 		for module, file_ in self.module_hashes.items():
 			module_hashes[module] = {}
@@ -72,7 +74,8 @@ class Integrity(object):
 		self.module_hashes = module_hashes
 
 	def verifyHashes(self) -> bool:
-		""""""
+		"""Verify stored hashes against current file hashes"""
+		for module, files in self.module_hashes.items():"
 		for module, files in self.module_hashes.items():
 			for name, file_info in files.items():
 				path = file_info['path']

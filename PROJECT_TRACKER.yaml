@@ -34,7 +34,7 @@ analysis:
       nchantrs/events/__init__.py: 294
       nchantrs/events/alerts.py: 1629
       nchantrs/events/events.py: 7669
-      nchantrs/events/keyboard_events.py: 16642
+      nchantrs/events/keyboard_events.py: 15850
       nchantrs/events/mouse_events.py: 5538
       nchantrs/events/tabsets.py: 14082
       nchantrs/events/trees.py: 11319
@@ -57,7 +57,7 @@ analysis:
       nchantrs/libraries/orange.py: 1565
       nchantrs/libraries/pyqt.py: 5346
       nchantrs/libraries/qpandas.py: 1756
-      nchantrs/libraries/syntax.py: 6689
+      nchantrs/libraries/syntax.py: 6712
       nchantrs/library/library.py: 1621
       nchantrs/models/__init__.py: 284
       nchantrs/models/applicationmodels.py: 32103
@@ -67,16 +67,16 @@ analysis:
       nchantrs/nchantrs.py: 6714
       nchantrs/services/__init__.py: 333
       nchantrs/services/bonds.py: 2483
-      nchantrs/services/connections.py: 2127
+      nchantrs/services/connections.py: 2230
       nchantrs/services/directories.py: 1797
-      nchantrs/services/integrity.py: 3029
+      nchantrs/services/integrity.py: 3262
       nchantrs/services/license.py: 2097
-      nchantrs/services/links.py: 2118
+      nchantrs/services/links.py: 2152
       nchantrs/services/nchantrs.py: 2568
-      nchantrs/services/services.py: 3314
-      nchantrs/services/tags.py: 2230
+      nchantrs/services/services.py: 3479
+      nchantrs/services/tags.py: 2289
       nchantrs/services/telemetry.py: 1720
-      nchantrs/services/upgrades.py: 9380
+      nchantrs/services/upgrades.py: 9673
       nchantrs/themes/images.py: 1594
       nchantrs/themes/themes.py: 6764
       nchantrs/updates/db.py: 17135
@@ -1360,10 +1360,10 @@ analysis:
         word_count: 552
       nchantrs/events/keyboard_events.py:
         class_count: 0
-        file_size: 16642
+        file_size: 15850
         function_count: 101
         import_count: 4
-        word_count: 2512
+        word_count: 2314
       nchantrs/events/mouse_events.py:
         class_count: 0
         file_size: 5538
@@ -1498,10 +1498,10 @@ analysis:
         word_count: 158
       nchantrs/libraries/syntax.py:
         class_count: 1
-        file_size: 6689
+        file_size: 6712
         function_count: 1
         import_count: 4
-        word_count: 676
+        word_count: 679
       nchantrs/library/library.py:
         class_count: 1
         file_size: 1621
@@ -1558,10 +1558,10 @@ analysis:
         word_count: 186
       nchantrs/services/connections.py:
         class_count: 1
-        file_size: 2127
+        file_size: 2230
         function_count: 0
         import_count: 3
-        word_count: 160
+        word_count: 170
       nchantrs/services/directories.py:
         class_count: 4
         file_size: 1797
@@ -1570,10 +1570,10 @@ analysis:
         word_count: 126
       nchantrs/services/integrity.py:
         class_count: 1
-        file_size: 3029
+        file_size: 3262
         function_count: 1
         import_count: 6
-        word_count: 255
+        word_count: 269
       nchantrs/services/license.py:
         class_count: 2
         file_size: 2097
@@ -1582,10 +1582,10 @@ analysis:
         word_count: 183
       nchantrs/services/links.py:
         class_count: 1
-        file_size: 2118
+        file_size: 2152
         function_count: 0
         import_count: 5
-        word_count: 178
+        word_count: 186
       nchantrs/services/nchantrs.py:
         class_count: 1
         file_size: 2568
@@ -1594,16 +1594,16 @@ analysis:
         word_count: 171
       nchantrs/services/services.py:
         class_count: 3
-        file_size: 3314
+        file_size: 3479
         function_count: 0
         import_count: 5
-        word_count: 228
+        word_count: 253
       nchantrs/services/tags.py:
         class_count: 2
-        file_size: 2230
+        file_size: 2289
         function_count: 0
         import_count: 5
-        word_count: 183
+        word_count: 197
       nchantrs/services/telemetry.py:
         class_count: 1
         file_size: 1720
@@ -1612,10 +1612,10 @@ analysis:
         word_count: 108
       nchantrs/services/upgrades.py:
         class_count: 9
-        file_size: 9380
+        file_size: 9673
         function_count: 1
         import_count: 5
-        word_count: 776
+        word_count: 823
       nchantrs/themes/images.py:
         class_count: 1
         file_size: 1594
@@ -8054,7 +8054,7 @@ analysis:
         function_count: 4
         import_count: 6
         word_count: 551
-audit_date: '1773676854.388269'
+audit_date: '1773678593.130152'
 dimensions:
   agent_awareness:
     details:
@@ -8600,11 +8600,11 @@ dimensions:
         project: condor
       internal_imports: 4259
       internal_projects_used:
-      - condor
-      - subtrix
       - pyside6pandas
       - nchantrs
       - ogma
+      - condor
+      - subtrix
       leverage_score: 40.82
       score: 100
       status: pass
@@ -11954,22 +11954,22 @@ dimensions:
   external_dependencies_declared:
     details:
       declared_internal:
+      - micromole
+      - ogma
       - condor
+      - subtrix
       - pycurity
       - squirl
-      - ogma
-      - subtrix
-      - micromole
       issues:
       - fix: Remove internal projects from pyproject.toml - they are registered via
           path in the environment, not pip
         packages:
+        - micromole
+        - ogma
         - condor
+        - subtrix
         - pycurity
         - squirl
-        - ogma
-        - subtrix
-        - micromole
         rule: Internal projects in pyproject.toml dependencies (FORBIDDEN)
         severity: critical
       score: 0
@@ -12266,34 +12266,34 @@ dimensions:
       covered_modules: 10
       issues:
       - available_cli_commands:
-        - test
-        - help
-        - install
-        - services
         - actions
-        - events
-        - config
-        - uninstall
-        - run
-        - models
-        - utilities
-        - widgets
-        - dialogs
         - wizards
-        - nchantrs
+        - models
         - version
+        - nchantrs
+        - install
+        - run
+        - help
         - cli
-        covered_modules:
         - services
-        - actions
-        - events
+        - test
+        - config
         - utilities
+        - uninstall
+        - events
         - widgets
         - dialogs
+        covered_modules:
+        - actions
         - wizards
-        - models
         - nchantrs
+        - models
+        - services
+        - utilities
         - cli
+        - events
+        - widgets
+        - dialogs
         fix: 'Add CLI commands for: agent_awareness'
         rule: 'CLI coverage: 10/11 modules'
         severity: medium
@@ -12430,46 +12430,46 @@ dimensions:
       issues:
       - fix: Consider using a dictionary or strategy pattern instead of repeated conditionals
         patterns:
-        - checks: 7
-          file: nchantrs/widgets/browsers/codecs/h264.py
+        - checks: 12
+          file: nchantrs/events/events.py
           function: if/elif chain
-          variable: system
+          variable: index
         - checks: 4
-          file: nchantrs/widgets/controls/toolbars.py
+          file: nchantrs/widgets/browsers/profiles.py
           function: if/elif chain
-          variable: button_cfg
-        - checks: 4
-          file: nchantrs/widgets/config/storage.py
+          variable: policy_code
+        - checks: 82
+          file: nchantrs/models/models.py
           function: if/elif chain
-          variable: previous_value
-        - checks: 4
-          file: nchantrs/widgets/calculators/calculators.py
-          function: if/elif chain
-          variable: pendingOperator
-        - checks: 5
-          file: nchantrs/widgets/groups.py
-          function: if/elif chain
-          variable: position
-        - checks: 6
-          file: nchantrs/utilities/graphics/animations/turtle.py
-          function: if/elif chain
-          variable: cnt
-        - checks: 4
-          file: nchantrs/widgets/calendars/timelines.py
-          function: if/elif chain
-          variable: threshold
+          variable: how
         - checks: 100
           file: nchantrs/events/keyboard_events.py
           function: if/elif chain
           variable: alt
-        - checks: 100
-          file: nchantrs/events/keyboard_events.py
+        - checks: 7
+          file: nchantrs/widgets/browsers/pages.py
           function: if/elif chain
-          variable: shift
+          variable: feature
         - checks: 4
-          file: nchantrs/widgets/browsers/security/environment.py
+          file: nchantrs/widgets/controls/toolbars.py
+          function: if/elif chain
+          variable: button_cfg
+        - checks: 7
+          file: nchantrs/widgets/browsers/codecs/h264.py
           function: if/elif chain
           variable: system
+        - checks: 8
+          file: nchantrs/events/mouse_events.py
+          function: if/elif chain
+          variable: alt
+        - checks: 6
+          file: nchantrs/utilities/graphics/animations/turtle.py
+          function: if/elif chain
+          variable: cnt
+        - checks: 6
+          file: nchantrs/utilities/formatting.py
+          function: if/elif chain
+          variable: justify
         rule: 'Switch abuse detected: 22 patterns'
         severity: medium
       score: 0
@@ -12525,11 +12525,11 @@ dimensions:
     status: pass
   type_annotations:
     details:
-      annotated_functions: 847
-      annotation_percentage: 3.2
+      annotated_functions: 870
+      annotation_percentage: 3.3
       issues:
       - fix: Add type hints to function signatures and return types
-        rule: 'Type annotation coverage: 3.2%'
+        rule: 'Type annotation coverage: 3.3%'
         severity: medium
       score: 6
       status: partial
@@ -12560,7 +12560,7 @@ summary:
   passing: 33
   total_dimensions: 46
 versions:
-  project: 7c2e9ea
-  project_status: clean
-  project_uncommitted_changes: 0
+  project: 80fcbb0
+  project_status: dirty
+  project_uncommitted_changes: 1
   sasquatch: unknown
