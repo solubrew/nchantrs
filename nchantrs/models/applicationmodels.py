@@ -171,7 +171,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.instance = None
 
     def initModel(self, reset=None):
-        """
+        """"""
         super().initModel(reset)
         self.set_paths()
         self.connect_nchantd_office()
@@ -181,14 +181,14 @@ class NchantdCloakModel(NchantdPantiesModel):
         return self
 
     def add_attachment(self, name, widgdata, pid, did, document_type, tabset_type):
-        """
+        """"""
         readonly = False
         editable = True
         visible = True
         moveable = True
         row = [
             name,
-            "widgets.media.documents.notes.NchantdOfficeStickyNote",
+            "widgets.media.documents.notes.NchantdOfficeStickyNote", #TODO fix this shouldn't reference NchantdOffice
             widgdata,
             pid,
             did,
