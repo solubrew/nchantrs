@@ -4,6 +4,9 @@ import logging
 import sys
 from typing import Any
 
+# Import agent awareness
+from nchantrs.agent_awareness import get_agent_workspace, get_current_agent, is_agent_available
+
 __version__: str = "1.0.0"
 __author__: str = "Nchantrs Team"
 
