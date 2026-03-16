@@ -5,6 +5,17 @@ application:
   version: "1.0.0"
   description: Advanced PyQt6 Application Framework
 
+agent:
+  name: nchantrs
+  role: ui-framework
+  capabilities:
+    - widgets
+    - dialogs
+    - models
+    - views
+    - wizards
+    - extensions
+
 project:
   name: sasquatch
   type: library
