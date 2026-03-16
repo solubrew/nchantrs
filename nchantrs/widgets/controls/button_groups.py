@@ -14,6 +14,7 @@
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
+from typing import Any, Optional, Dict, List
 
 import logging
 
@@ -40,6 +41,12 @@ here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
 logma.off()
+
+# ====================================================================================================================||
+# Constants to avoid magic numbers
+DEFAULT_GRID_COLUMNS: int = 3
+DEFAULT_FONT_SIZE: int = 12
+
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "button_groups.yaml")
 

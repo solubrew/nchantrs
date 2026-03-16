@@ -19,6 +19,7 @@ import json as j
 import base64
 
 import logging
+from typing import Any, Optional
 
 
 logger = logging.getLogger(__name__)
@@ -50,6 +51,19 @@ if log:
     logma.off()
 
 # ====================================================================================================================||
+# Constants to avoid magic numbers
+DEFAULT_USER_ID: str = "default_user"
+MAX_BACKUP_COUNT: int = 5
+MAX_ARCHIVE_VERSIONS: int = 3
+
+# Valid operation types
+VALID_OPERATIONS: list = ["INSERT", "UPDATE", "DEACTIVATE", "DELETE", "ARCHIVE"]
+
+# Window policy patterns
+WINDOW_PATTERN_STR: str = r"(\d+)(DAYS|WEEKS|MONTHS|YEARS)"
+WINDOW_UNITS: dict = {"DAYS": "days", "WEEKS": "weeks", "MONTHS": "months", "YEARS": "years"}
+
+# ====================================================================================================================||
 pxcfg = join(here, "_data_", "models.yaml")
 
 
@@ -57,10 +71,10 @@ pxcfg = join(here, "_data_", "models.yaml")
 class TableNameResolver:
     """Resolves table names with instance-aware naming - improves maintainability"""
 
-    def __init__(self):
-        self._cache = {}
+    def __init__(self) -> None:
+        self._cache: dict = {}
 
-    def get_table_name(self, base_name, instance=None):
+    def get_table_name(self, base_name: str, instance: Optional["NchantdInstance"] = None) -> str:
         """Get instance-aware table name with caching"""
         cache_key = (base_name, getattr(instance, "alias", None) if instance else None)
 
@@ -75,7 +89,7 @@ class TableNameResolver:
         self._cache[cache_key] = table_name
         return table_name
 
-    def clear_cache(self):
+    def clear_cache(self) -> None:
         """Clear cache when instance changes"""
         self._cache.clear()
 
@@ -85,7 +99,7 @@ class PayloadBuilder:
     """Factory for building payloads - eliminates repetitive validation"""
 
     # Valid operations mapped to default payload structures
-    VALID_OPERATIONS = {
+    VALID_OPERATIONS: dict = {
         "INSERT": list,
         "UPDATE": list,  # List of dicts
         "DEACTIVATE": list,
@@ -94,14 +108,14 @@ class PayloadBuilder:
     }
 
     @staticmethod
-    def validate_and_get_operation(operation):
+    def validate_and_get_operation(operation: str) -> str:
         """Validate operation and return operation type"""
         if operation not in PayloadBuilder.VALID_OPERATIONS:
             raise ValueError(f"{operation} is not supported. Use: {', '.join(PayloadBuilder.VALID_OPERATIONS.keys())}")
         return operation
 
     @staticmethod
-    def build_cfg_payload(table, records, columns=None):
+    def build_cfg_payload(table: str, records: list, columns: Optional[list] = None) -> dict:
         """Build standardized payload config"""
         cfg = {"table": {table: {"records": records}}}
         if columns:
@@ -115,9 +129,9 @@ class WindowPolicyParser:
     WINDOW_PATTERN = re.compile(r"(\d+)(DAYS|WEEKS|MONTHS|YEARS)")
     UNIT_MAP = {"DAYS": "days", "WEEKS": "weeks", "MONTHS": "months", "YEARS": "years"}
 
-    def __init__(self, time_util):
+    def __init__(self, time_util: Any) -> None:
         self.time = time_util
-        self._cache = {}
+        self._cache: dict = {}
 
     def parse(self, window: str) -> tuple:
         """Parse window string once and cache result"""
@@ -143,29 +157,29 @@ class WindowPolicyParser:
 class NchantdInstance(object):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent: Optional[Any] = None, cfg: Optional[dict] = None) -> None:
         """"""
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("NchantdInstance").override(cfg)
-        self.alias = None
+        self.alias: Optional[str] = None
         self.application_NCD = parent.app.application_NCD
         self.application_path = parent.app.model.application_path
-        self.db_instance_id = None
-        self.dbc_instance_id = None
-        self.description = None
+        self.db_instance_id: Optional[str] = None
+        self.dbc_instance_id: Optional[str] = None
+        self.description: Optional[str] = None
         self.name = self.config.dikt.get("name_txt", None)
-        self.is_independent = False
-        self.instance_id = None
-        self.instance_path = None
-        self.is_new = False
-        self.is_primary = False
-        self.internal = True
+        self.is_independent: bool = False
+        self.instance_id: Optional[str] = None
+        self.instance_path: Optional[str] = None
+        self.is_new: bool = False
+        self.is_primary: bool = False
+        self.internal: bool = True
         self.set_instance_id(self.config.dikt.get("instance_id_txt", None))
         self.set_instance_path(self.config.dikt.get("instance_path_txt", None))
-        self.meta_data = {}
+        self.meta_data: dict = {}
         self.version = self.parent.app.model.get_current_version()
 
-    def get_file_path(self, db="db"):
+    def get_file_path(self, db: str = "db") -> str:
         """"""
         logma.info(f"get_file_path {self.instance_path}")
         logma.info(f"get_file_path {self.instance_id}")
@@ -173,12 +187,12 @@ class NchantdInstance(object):
             return join(self.instance_path, f"{self.parent.app.model.slug}{self.parent.app.model.store.EXTENSION}")
         return join(self.instance_path, f"{self.instance_id}{self.parent.app.model.store.EXTENSION}")
 
-    def set_name(self, name=None):
+    def set_name(self, name: Optional[str] = None) -> "NchantdInstance":
         """"""
         self.name = name
         return self
 
-    def set_instance_id(self, instance_id=None):
+    def set_instance_id(self, instance_id: Optional[str] = None) -> "NchantdInstance":
         """"""
         if instance_id is None:
             instance_id = uuid()
@@ -189,12 +203,12 @@ class NchantdInstance(object):
         self.alias = f"db{instance_id[-len(instance_id) + 10 :].replace('-', '')}"
         return self
 
-    def set_independent(self, state=True):
+    def set_independent(self, state: bool = True) -> "NchantdInstance":
         """"""
         self.is_independent = state
         return self
 
-    def set_instance_path(self, path=None):
+    def set_instance_path(self, path: Optional[str] = None) -> "NchantdInstance":
         """"""
         if path is None:
             logma.info(f"Get Application Path {self.config.dikt}")
@@ -203,15 +217,15 @@ class NchantdInstance(object):
         logma.info(f"set_instance_path {self.instance_path}")
         return self
 
-    def set_meta_data(self, meta_data=None):
+    def set_meta_data(self, meta_data: Optional[dict] = None) -> None:
         """"""
 
-    def set_type_external(self):
+    def set_type_external(self) -> "NchantdInstance":
         """"""
         self.internal = False
         return self
 
-    def set_type_internal(self):
+    def set_type_internal(self) -> "NchantdInstance":
         """"""
         self.internal = True
         return self
