@@ -65,20 +65,16 @@ def getAlignment(justify: str) -> int:
     Returns:
         Qt alignment flag
     """
-    justify = justify.lower()
-    if justify == "left":
-        return pyqt.Qt.AlignmentFlag.AlignLeft
-    elif justify == "center":
-        return pyqt.Qt.AlignmentFlag.AlignCenter
-    elif justify == "right":
-        return pyqt.Qt.AlignmentFlag.AlignRight
-    elif justify == "top":
-        return pyqt.Qt.AlignmentFlag.AlignTop
-    elif justify == "bottom":
-        return pyqt.Qt.AlignmentFlag.AlignBottom
-    elif justify == "top_left":
-        return pyqt.Qt.AlignmentFlag.AlignTop | pyqt.Qt.AlignmentFlag.AlignLeft
-    return pyqt.Qt.AlignmentFlag.AlignLeft
+    # Dictionary for switch_abuse replacement
+    ALIGNMENT_MAP = {
+        "left": pyqt.Qt.AlignmentFlag.AlignLeft,
+        "center": pyqt.Qt.AlignmentFlag.AlignCenter,
+        "right": pyqt.Qt.AlignmentFlag.AlignRight,
+        "top": pyqt.Qt.AlignmentFlag.AlignTop,
+        "bottom": pyqt.Qt.AlignmentFlag.AlignBottom,
+        "top_left": pyqt.Qt.AlignmentFlag.AlignTop | pyqt.Qt.AlignmentFlag.AlignLeft,
+    }
+    return ALIGNMENT_MAP.get(justify.lower(), pyqt.Qt.AlignmentFlag.AlignLeft)
 
 
 # ====================================================================================================================||

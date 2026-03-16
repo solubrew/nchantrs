@@ -122,24 +122,44 @@ class UpgradeManager(object):
 
     def run_upgrade_security_protocol(self, upgrades: dict) -> None:
         """"""
-        if upgrades["security"] == SEC_LEVEL_5:
-            # [DONE] stop all functions related to web traffic even with nchantrs servers
-            pass
-        elif upgrades["security"] == SEC_LEVEL_4:
-            # [DONE] stop all functions except connections to nchantrs servers
-            pass
-        elif upgrades["security"] == SEC_LEVEL_3:
-            # [DONE]
-            pass
-        elif upgrades["security"] == SEC_LEVEL_2:
-            # [DONE]
-            pass
-        elif upgrades["security"] == SEC_LEVEL_1:
-            # [DONE] wait for low usage period below 50% of standard
-            pass
-        elif upgrades["security"] == SEC_LEVEL_0:
-            # [DONE] wait for limited usage period below 25% of standard
-            pass
+        # Map security levels to their handler methods
+        security_handlers = {
+            SEC_LEVEL_5: self._handle_security_level_5,
+            SEC_LEVEL_4: self._handle_security_level_4,
+            SEC_LEVEL_3: self._handle_security_level_3,
+            SEC_LEVEL_2: self._handle_security_level_2,
+            SEC_LEVEL_1: self._handle_security_level_1,
+            SEC_LEVEL_0: self._handle_security_level_0,
+        }
+        
+        security_level = upgrades.get("security", SEC_LEVEL_0)
+        handler = security_handlers.get(security_level)
+        if handler:
+            handler()
+
+    def _handle_security_level_5(self) -> None:
+        """[DONE] stop all functions related to web traffic even with nchantrs servers"""
+        pass
+
+    def _handle_security_level_4(self) -> None:
+        """[DONE] stop all functions except connections to nchantrs servers"""
+        pass
+
+    def _handle_security_level_3(self) -> None:
+        """[DONE]"""
+        pass
+
+    def _handle_security_level_2(self) -> None:
+        """[DONE]"""
+        pass
+
+    def _handle_security_level_1(self) -> None:
+        """[DONE] wait for low usage period below 50% of standard"""
+        pass
+
+    def _handle_security_level_0(self) -> None:
+        """[DONE] wait for limited usage period below 25% of standard"""
+        pass
 
     def run_protocol(self, upgrades: dict) -> bool:
         """"""

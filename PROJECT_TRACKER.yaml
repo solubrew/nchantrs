@@ -7,11 +7,11 @@ analysis:
       nchantrs/__main__.py: 243
       nchantrs/actions/__init__.py: 285
       nchantrs/actions/actions.py: 9217
-      nchantrs/actions/charts.py: 1290
+      nchantrs/actions/charts.py: 1691
       nchantrs/actions/files.py: 6917
-      nchantrs/actions/format.py: 772
+      nchantrs/actions/format.py: 1187
       nchantrs/actions/tables.py: 37415
-      nchantrs/actions/text.py: 5707
+      nchantrs/actions/text.py: 5977
       nchantrs/actions/tree.py: 5889
       nchantrs/agent_awareness.py: 3269
       nchantrs/cli.py: 2938
@@ -36,7 +36,7 @@ analysis:
       nchantrs/events/events.py: 7878
       nchantrs/events/keyboard_events.py: 15904
       nchantrs/events/mouse_events.py: 5592
-      nchantrs/events/tabsets.py: 14082
+      nchantrs/events/tabsets.py: 14244
       nchantrs/events/trees.py: 11373
       nchantrs/extensions/apis.py: 8114
       nchantrs/extensions/extensions.py: 3703
@@ -76,7 +76,7 @@ analysis:
       nchantrs/services/services.py: 3490
       nchantrs/services/tags.py: 2343
       nchantrs/services/telemetry.py: 1774
-      nchantrs/services/upgrades.py: 9706
+      nchantrs/services/upgrades.py: 10279
       nchantrs/themes/images.py: 1648
       nchantrs/themes/themes.py: 6818
       nchantrs/updates/db.py: 17189
@@ -86,7 +86,7 @@ analysis:
       nchantrs/utilities/comms.py: 4475
       nchantrs/utilities/debug.py: 7841
       nchantrs/utilities/files.py: 2211
-      nchantrs/utilities/formatting.py: 3343
+      nchantrs/utilities/formatting.py: 3269
       nchantrs/utilities/formulas.py: 2117
       nchantrs/utilities/graphics/__init__.py: 0
       nchantrs/utilities/graphics/animations/__init__.py: 0
@@ -129,7 +129,7 @@ analysis:
       nchantrs/widgets/browsers/security/google.py: 3495
       nchantrs/widgets/browsers/services.py: 6696
       nchantrs/widgets/browsers/utilities.py: 7653
-      nchantrs/widgets/calculators/calculators.py: 16959
+      nchantrs/widgets/calculators/calculators.py: 17640
       nchantrs/widgets/calendars/__init__.py: 0
       nchantrs/widgets/calendars/calendars.py: 8987
       nchantrs/widgets/calendars/centuries.py: 2119
@@ -158,15 +158,15 @@ analysis:
       nchantrs/widgets/config/storage.py: 11648
       nchantrs/widgets/config/uninstall.py: 10080
       nchantrs/widgets/controls/__init__.py: 0
-      nchantrs/widgets/controls/advanced_buttons.py: 15142
+      nchantrs/widgets/controls/advanced_buttons.py: 15647
       nchantrs/widgets/controls/button_groups.py: 26865
       nchantrs/widgets/controls/buttons.py: 12260
-      nchantrs/widgets/controls/checkboxes.py: 6923
+      nchantrs/widgets/controls/checkboxes.py: 6790
       nchantrs/widgets/controls/connectors.py: 5155
       nchantrs/widgets/controls/controls.py: 4953
       nchantrs/widgets/controls/menus.py: 5471
       nchantrs/widgets/controls/navigation.py: 2980
-      nchantrs/widgets/controls/radios.py: 3644
+      nchantrs/widgets/controls/radios.py: 3847
       nchantrs/widgets/controls/search.py: 2132
       nchantrs/widgets/controls/toolbars.py: 14978
       nchantrs/widgets/controls/toolboxes.py: 10079
@@ -1198,10 +1198,10 @@ analysis:
         word_count: 923
       nchantrs/actions/charts.py:
         class_count: 0
-        file_size: 1290
+        file_size: 1691
         function_count: 10
-        import_count: 0
-        word_count: 177
+        import_count: 1
+        word_count: 202
       nchantrs/actions/files.py:
         class_count: 0
         file_size: 6917
@@ -1210,10 +1210,10 @@ analysis:
         word_count: 598
       nchantrs/actions/format.py:
         class_count: 0
-        file_size: 772
+        file_size: 1187
         function_count: 10
-        import_count: 0
-        word_count: 90
+        import_count: 1
+        word_count: 115
       nchantrs/actions/tables.py:
         class_count: 4
         file_size: 37415
@@ -1222,10 +1222,10 @@ analysis:
         word_count: 2421
       nchantrs/actions/text.py:
         class_count: 0
-        file_size: 5707
+        file_size: 5977
         function_count: 44
         import_count: 6
-        word_count: 617
+        word_count: 633
       nchantrs/actions/tree.py:
         class_count: 0
         file_size: 5889
@@ -1372,10 +1372,10 @@ analysis:
         word_count: 639
       nchantrs/events/tabsets.py:
         class_count: 0
-        file_size: 14082
+        file_size: 14244
         function_count: 3
-        import_count: 0
-        word_count: 1257
+        import_count: 1
+        word_count: 1268
       nchantrs/events/trees.py:
         class_count: 0
         file_size: 11373
@@ -1612,10 +1612,10 @@ analysis:
         word_count: 113
       nchantrs/services/upgrades.py:
         class_count: 9
-        file_size: 9706
+        file_size: 10279
         function_count: 1
         import_count: 6
-        word_count: 825
+        word_count: 853
       nchantrs/themes/images.py:
         class_count: 1
         file_size: 1648
@@ -1672,10 +1672,10 @@ analysis:
         word_count: 170
       nchantrs/utilities/formatting.py:
         class_count: 1
-        file_size: 3343
+        file_size: 3269
         function_count: 1
         import_count: 7
-        word_count: 246
+        word_count: 229
       nchantrs/utilities/formulas.py:
         class_count: 1
         file_size: 2117
@@ -1930,10 +1930,10 @@ analysis:
         word_count: 633
       nchantrs/widgets/calculators/calculators.py:
         class_count: 4
-        file_size: 16959
+        file_size: 17640
         function_count: 0
         import_count: 11
-        word_count: 1140
+        word_count: 1200
       nchantrs/widgets/calendars/__init__.py:
         class_count: 0
         file_size: 0
@@ -2104,10 +2104,10 @@ analysis:
         word_count: 0
       nchantrs/widgets/controls/advanced_buttons.py:
         class_count: 9
-        file_size: 15142
+        file_size: 15647
         function_count: 0
         import_count: 11
-        word_count: 1077
+        word_count: 1118
       nchantrs/widgets/controls/button_groups.py:
         class_count: 10
         file_size: 26865
@@ -2122,10 +2122,10 @@ analysis:
         word_count: 850
       nchantrs/widgets/controls/checkboxes.py:
         class_count: 3
-        file_size: 6923
+        file_size: 6790
         function_count: 0
         import_count: 8
-        word_count: 457
+        word_count: 487
       nchantrs/widgets/controls/connectors.py:
         class_count: 6
         file_size: 5155
@@ -2152,10 +2152,10 @@ analysis:
         word_count: 165
       nchantrs/widgets/controls/radios.py:
         class_count: 2
-        file_size: 3644
+        file_size: 3847
         function_count: 0
-        import_count: 8
-        word_count: 228
+        import_count: 9
+        word_count: 259
       nchantrs/widgets/controls/search.py:
         class_count: 1
         file_size: 2132
@@ -8344,7 +8344,7 @@ dimensions:
     details:
       issues:
       - fix: Add entries to CHANGES.md for recent changes
-        rule: 'Low changelog coverage: 66%'
+        rule: 'Low changelog coverage: 67%'
         severity: high
         unmatched_commits:
         - '160e452 Compliance fixes: type annotations and constants'
@@ -8517,7 +8517,7 @@ dimensions:
         - file: nchantrs/cli.py
           name: cmd_events
           type: function
-        rule: 'Unused functions: 336'
+        rule: 'Unused functions: 326'
         severity: medium
       - fix: Remove or export unused classes
         items:
@@ -8555,15 +8555,15 @@ dimensions:
         severity: medium
       score: 40
       status: partial
-      total_unused: 10159
+      total_unused: 10149
       unused_class_count: 3164
-      unused_function_count: 336
+      unused_function_count: 326
       unused_import_count: 6659
     score: 40
     status: partial
   dependency_strategy:
     details:
-      external_imports: 6145
+      external_imports: 6150
       info: 'Hint: 60 GitVein projects available but not used: PyQt5Pandas, apig,
         asolutionfor, axn, basicbot...'
       internal_import_details:
@@ -8600,14 +8600,14 @@ dimensions:
       internal_imports: 4280
       internal_projects_used:
       - nchantrs
-      - pyside6pandas
-      - ogma
-      - condor
       - subtrix
-      leverage_score: 41.06
+      - ogma
+      - pyside6pandas
+      - condor
+      leverage_score: 41.04
       score: 100
       status: pass
-      total_imports: 10425
+      total_imports: 10430
     score: 100
     status: pass
   documentation:
@@ -12011,7 +12011,7 @@ dimensions:
     details:
       large_file_count: 1
       score: 50
-      small_file_count: 21
+      small_file_count: 20
       status: partial
     score: 50
     status: partial
@@ -12153,8 +12153,8 @@ dimensions:
   logging:
     details:
       print_files:
-      - test_shroud_runner.py
       - test_app_calculator.py
+      - test_shroud_runner.py
       print_statements: 201
       score: 75
       status: partial
@@ -12201,32 +12201,32 @@ dimensions:
           type: int
           value: 5000
         - file: nchantrs/actions/text.py
-          line: 99
-          type: int
-          value: 3000
-        - file: nchantrs/actions/text.py
-          line: 101
-          type: int
-          value: 3000
-        - file: nchantrs/actions/text.py
-          line: 109
-          type: int
-          value: 3000
-        - file: nchantrs/actions/text.py
-          line: 111
-          type: int
-          value: 3000
-        - file: nchantrs/actions/text.py
-          line: 76
+          line: 34
           type: int
           value: 3000
         - file: nchantrs/actions/files.py
           line: 60
           type: int
           value: 3000
-        rule: 'Magic numbers detected: 64'
+        - file: nchantrs/actions/files.py
+          line: 128
+          type: int
+          value: 3000
+        - file: nchantrs/actions/files.py
+          line: 104
+          type: int
+          value: 3000
+        - file: nchantrs/actions/files.py
+          line: 140
+          type: int
+          value: 3000
+        - file: nchantrs/wizards/apps.py
+          line: 413
+          type: int
+          value: 3213
+        rule: 'Magic numbers detected: 60'
         severity: medium
-      magic_number_count: 64
+      magic_number_count: 60
       score: 0
       status: fail
     score: 0
@@ -12288,34 +12288,34 @@ dimensions:
       covered_modules: 10
       issues:
       - available_cli_commands:
-        - services
-        - uninstall
         - widgets
-        - utilities
-        - events
-        - wizards
+        - help
+        - uninstall
+        - dialogs
+        - cli
+        - test
+        - services
         - nchantrs
+        - events
+        - config
+        - install
+        - wizards
+        - utilities
         - models
         - run
-        - cli
-        - actions
         - version
-        - help
-        - dialogs
-        - install
-        - test
-        - config
-        covered_modules:
-        - wizards
-        - nchantrs
-        - events
-        - widgets
-        - models
-        - cli
         - actions
-        - utilities
+        covered_modules:
+        - widgets
+        - nchantrs
         - dialogs
         - services
+        - events
+        - utilities
+        - wizards
+        - cli
+        - models
+        - actions
         fix: 'Add CLI commands for: agent_awareness'
         rule: 'CLI coverage: 10/11 modules'
         severity: medium
@@ -12452,51 +12452,51 @@ dimensions:
       issues:
       - fix: Consider using a dictionary or strategy pattern instead of repeated conditionals
         patterns:
-        - checks: 4
-          file: nchantrs/widgets/calendars/timelines.py
-          function: if/elif chain
-          variable: threshold
         - checks: 100
           file: nchantrs/events/keyboard_events.py
           function: if/elif chain
           variable: alt
+        - checks: 82
+          file: nchantrs/models/models.py
+          function: if/elif chain
+          variable: how
+        - checks: 13
+          file: nchantrs/widgets/widgets.py
+          function: if/elif chain
+          variable: justify
+        - checks: 26
+          file: nchantrs/widgets/media/charts/charts.py
+          function: match statement
+          variable: chart_type
         - checks: 4
           file: nchantrs/widgets/controls/toolbars.py
           function: if/elif chain
           variable: button_cfg
-        - checks: 6
-          file: nchantrs/widgets/media/games/boards.py
-          function: if/elif chain
-          variable: key
         - checks: 8
           file: nchantrs/events/mouse_events.py
           function: if/elif chain
           variable: shift
-        - checks: 4
-          file: nchantrs/actions/tables.py
+        - checks: 100
+          file: nchantrs/events/keyboard_events.py
           function: if/elif chain
-          variable: keyname
+          variable: shift
+        - checks: 4
+          file: nchantrs/widgets/browsers/security/environment.py
+          function: if/elif chain
+          variable: system
         - checks: 6
-          file: nchantrs/utilities/formatting.py
+          file: nchantrs/dialogs/files.py
+          function: match statement
+          variable: gfilter
+        - checks: 8
+          file: nchantrs/events/mouse_events.py
           function: if/elif chain
-          variable: justify
-        - checks: 4
-          file: nchantrs/widgets/config/storage.py
-          function: if/elif chain
-          variable: previous_value
-        - checks: 4
-          file: nchantrs/widgets/calculators/calculators.py
-          function: if/elif chain
-          variable: pendingOperator
-        - checks: 4
-          file: nchantrs/widgets/browsers/profiles.py
-          function: if/elif chain
-          variable: policy_code
-        rule: 'Switch abuse detected: 20 patterns'
+          variable: alt
+        rule: 'Switch abuse detected: 18 patterns'
         severity: medium
       score: 0
       status: fail
-      switch_abuse_count: 20
+      switch_abuse_count: 18
     score: 0
     status: fail
   testing:
@@ -12547,15 +12547,15 @@ dimensions:
     status: pass
   type_annotations:
     details:
-      annotated_functions: 885
-      annotation_percentage: 3.3
+      annotated_functions: 907
+      annotation_percentage: 3.4
       issues:
       - fix: Add type hints to function signatures and return types
-        rule: 'Type annotation coverage: 3.3%'
+        rule: 'Type annotation coverage: 3.4%'
         severity: medium
       score: 6
       status: partial
-      total_functions: 26677
+      total_functions: 26687
     score: 6
     status: partial
   type_check_pyright:
@@ -12582,7 +12582,7 @@ summary:
   passing: 33
   total_dimensions: 46
 versions:
-  project: 160e452
+  project: 3031fb8
   project_status: dirty
-  project_uncommitted_changes: 1
+  project_uncommitted_changes: 7
   sasquatch: unknown

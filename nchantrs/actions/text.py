@@ -30,6 +30,10 @@ here = join(dirname(__file__), '')  # ||
 log = True
 logma = Logma(__name__)
 
+# Constants for magic number replacement
+DEFAULT_STATUS_MESSAGE_TIMEOUT = 3000  # milliseconds
+DEFAULT_FIND_TIMEOUT = 2000  # milliseconds
+
 # ====================================================================================================================||
 pxcfg = join(here, '_data_', '.yaml')
 
@@ -73,7 +77,7 @@ def findText(self, word) -> None:
 		if self.myeditor.find(word):
 			return
 		else:
-			 self.statusBar().showMessage("nichts gefunden", 3000)
+			 self.statusBar().showMessage("nichts gefunden", DEFAULT_STATUS_MESSAGE_TIMEOUT)
 
 def findreplaceinapplication() -> None:
 	"""Search through all connected workbooks for selected text and replace with
@@ -96,9 +100,9 @@ def replaceAll(self) -> None:
 		h = self.myeditor.toHtml().replace(oldtext, newtext)
 		self.myeditor.setText(h)
 		self.setModified(True)
-		self.statusBar().showMessage("alles ersetzt", 3000)
+		self.statusBar().showMessage("alles ersetzt", DEFAULT_STATUS_MESSAGE_TIMEOUT)
 	else:
-		self.statusBar().showMessage("nichts zu ersetzen", 3000)
+		self.statusBar().showMessage("nichts zu ersetzen", DEFAULT_STATUS_MESSAGE_TIMEOUT)
 def replaceOne(self) -> None:
 	oldtext = self.findfield.text()
 	newtext = self.replacefield.text()
@@ -106,9 +110,9 @@ def replaceOne(self) -> None:
 		h = self.myeditor.toHtml().replace(oldtext, newtext, 1)
 		self.myeditor.setText(h)
 		self.setModified(True)
-		self.statusBar().showMessage("1 ersetzt", 3000)
+		self.statusBar().showMessage("1 ersetzt", DEFAULT_STATUS_MESSAGE_TIMEOUT)
 	else:
-		self.statusBar().showMessage("nichts zu ersetzen", 3000)
+		self.statusBar().showMessage("nichts zu ersetzen", DEFAULT_STATUS_MESSAGE_TIMEOUT)
 
 def format() -> None:
 	""" """

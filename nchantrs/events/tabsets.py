@@ -1,4 +1,11 @@
 
+# -*- coding: utf-8 -*-
+#===============================================================================||
+import logging
+
+logger = logging.getLogger(__name__)
+
+
 def TabSetClass(tabset) -> None:
 	''' '''
 	print('TABSET', tabset.__dir__())
