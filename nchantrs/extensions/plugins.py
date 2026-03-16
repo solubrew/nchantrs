@@ -13,6 +13,7 @@
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
+from typing import Optional, Dict, List, Any, Tuple
 import datetime as dt
 
 # ======================================3rd Party Library Modules=====================================================||
@@ -34,7 +35,7 @@ pxcfg = join(here, "_data_", "plugins.yaml")
 class NchantdBrowserPluginBase(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("NchantdPluginBase")
@@ -43,17 +44,17 @@ class NchantdBrowserPluginBase(NchantdWidget):
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         self.initModel()
         self.initView()
@@ -63,7 +64,7 @@ class NchantdBrowserPluginBase(NchantdWidget):
 class NchantdApplicationPluginBase(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("Nchantd")
@@ -72,17 +73,17 @@ class NchantdApplicationPluginBase(NchantdWidget):
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         self.initModel()
         self.initView()

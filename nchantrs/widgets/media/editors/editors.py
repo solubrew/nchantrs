@@ -631,11 +631,11 @@ class NchantdLabeledEntry(NchantdWidget):
         self.name, value = None, None
         try:
             self.name = self.item(row, 0).text()
-        except:
+        except Exception:
             pass
         try:
             self.value = self.item(row, 1).text()
-        except:
+        except Exception:
             pass
         return self.name, self.value
 

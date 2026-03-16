@@ -476,7 +476,7 @@ class NchantdCloak(NchantdPanties):  # ||
             # Test if we can access the codec file with current permissions
             codec_path_drm, codec_path_h264 = self._get_codec_paths()
             return not os.access(codec_path_h264, os.R_OK)
-        except:
+        except Exception:
             return True  # If we can't check, err on the side of relaxation
 
     def _get_codec_paths(self):

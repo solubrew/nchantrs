@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 class DataSourceDumper:
     """Dump utility for Nchantrs data sources."""
     
-    def __init__(self, store=None, model=None):
+    def __init__(self, store=None, model=None) -> None:
         """
         Args:
             store: NchantdStore instance (from model.store)
@@ -206,7 +206,7 @@ def log_data_sources(store=None, model=None, level: int = logging.DEBUG) -> None
 # Convenience functions for direct CLI/REPL debugging
 # ===============================================================================||
 
-def quick_dump(dialog=None):
+def quick_dump(dialog=None) -> None:
     """
     Quick dump from a dialog instance.
     

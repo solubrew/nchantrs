@@ -20,6 +20,7 @@ import datetime as dt
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
 from ogma.logma import Logma
+from typing import Optional, Dict, List, Any, Tuple
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||

@@ -23,6 +23,7 @@ from nchantrs.libraries import pyqt
 from nchantrs.utilities.utils import lookup
 from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.items.items import NchantdItem
+from typing import Optional, Dict, List, Any, Tuple
 from ogma.logma import Logma
 from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.media.images import NchantdImage
@@ -42,7 +43,7 @@ class NchantdCatalogItem(NchantdWidget):
 
     clicked = pyqt.Signal()
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
         super().__init__(parent, cfg)
         self.config.override(condor.Instruct(pxcfg).select("NchantdCatalogItem"))
@@ -61,7 +62,7 @@ class NchantdCatalogItem(NchantdWidget):
         self.has_options = False
         self.clicked.connect(self.onLeftClick)
 
-    def initModel(self, item_data=None):
+    def initModel(self, item_data=None) -> None:
         """ """
         self.icon_txt = self.config.dikt.get("icon_txt", "dot-circle")
         super().initModel()
@@ -83,7 +84,7 @@ class NchantdCatalogItem(NchantdWidget):
         self.item_cfg = item_cfg
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> None:
         """ """
         if cfg is None:
             cfg = {}
@@ -137,13 +138,13 @@ class NchantdCatalogItem(NchantdWidget):
         self.setSizePolicy(pyqt.QSizePolicy.Policy.MinimumExpanding, pyqt.QSizePolicy.Policy.MinimumExpanding)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """ """
         self.initModel()
         self.initView()
         return self
 
-    def onLeftClick(self, signal=None):
+    def onLeftClick(self, signal=None) -> None:
         """"""
         logma.info(f"Catalog Left Click {signal}")
         super().onLeftClick(signal)
@@ -152,7 +153,7 @@ class NchantdCatalogItem(NchantdWidget):
         logma.info(f"Selected Item")
         return self
 
-    def set_size(self):
+    def set_size(self) -> None:
         """"""
         self.width = self.config.dikt.get("width", None)
         self.height = self.config.dikt.get("height", None)
@@ -166,7 +167,7 @@ class NchantdCatalogItem(NchantdWidget):
 class NchantdAccountCatalogItem(NchantdCatalogItem):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
         self.config = condor.Instruct(pxcfg).select("NchantdAccountCatalogItem")
         self.parent = parent
@@ -175,17 +176,17 @@ class NchantdAccountCatalogItem(NchantdCatalogItem):
         super().__init__(self)
         self.config.override(cfg)
 
-    def initModel(self):
+    def initModel(self) -> None:
         """ """
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         """ """
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """ """
         self.initModel()
         self.initView()
@@ -195,7 +196,7 @@ class NchantdAccountCatalogItem(NchantdCatalogItem):
 class NchantdExtensionCatalogItem(NchantdCatalogItem):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
         self.config = condor.Instruct(pxcfg).select("NchantdExtensionCatalogItem")
         self.parent = parent
@@ -204,15 +205,15 @@ class NchantdExtensionCatalogItem(NchantdCatalogItem):
         self.config.override(cfg)
         super(NchantdExtensionCatalogItem, self).__init__()
 
-    def initModel(self):
+    def initModel(self) -> None:
         """ """
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         """ """
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """ """
         self.initModel()
         self.initView()
@@ -222,7 +223,7 @@ class NchantdExtensionCatalogItem(NchantdCatalogItem):
 class NchantdThemeCatalogItem(NchantdCatalogItem):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
         self.config = condor.Instruct(pxcfg).select("NchantdThemeCatalogItem")
         self.parent = parent
@@ -231,15 +232,15 @@ class NchantdThemeCatalogItem(NchantdCatalogItem):
         self.config.override(cfg)
         super(NchantdThemeCatalogItem, self).__init__()
 
-    def initModel(self):
+    def initModel(self) -> None:
         """ """
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         """ """
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """ """
         self.initModel()
         self.initView()

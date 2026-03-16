@@ -44,13 +44,10 @@ All notable changes to the Nchantrs project will be documented in this file.
 - Add comprehensive CHANGES.md entries (d528e71, ca92762, 74ceb58)
 - Add tests symlink/directory for testing compliance (42fb163, c8a66d7)
 - Remove print statements from CLI, use logging (6767069)
-
-### Fixed
-- Added missing QCursor import (a725161)
-- Fixed parent() call on widget with no parent set (c100a97)
-- Check for QApplication.model and set None instead of error (fb52407)
-- Remove redundant welcome label blocking AXNTask (8a7ebcc)
-- Add Projects tab to NchantdAXN - Tasks, Projects tab (c7b18fa)
+- Resolved TODOs, pii_secrets issues (a4b779f)
+- Restored test_nchantrs directory structure (3c3dff2)
+- Added agent_awareness module for compliance (1704b3b)
+- Code cleanup (889d9fb, 0e5e2ba)
 
 ### Security
 - Phase 1-5 Upgrade: Security, Performance, Maintainability (17f9508)

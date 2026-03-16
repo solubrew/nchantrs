@@ -14,6 +14,7 @@
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
+from typing import Optional, Dict, List, Any, Tuple
 
 # ======================================3rd Party Library Modules=====================================================||
 
@@ -36,7 +37,7 @@ pxcfg = join(here, "_data_", ".yaml")
 class NchantdSettingsSigil(NchantdSigil):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("NchantdSettingsSigil")
@@ -45,25 +46,25 @@ class NchantdSettingsSigil(NchantdSigil):
         super().__init__(self)
         self.config.override(cfg)
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
         super().initView()
         cfg = {}
         self.main_settings = NchantdCheckboxGroup(self, cfg).initWidget()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def on_save(self):
+    def on_save(self) -> None:
         """"""
 
 

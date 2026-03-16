@@ -77,6 +77,7 @@ dependencies = [
     "numpy",
     "plotly",
     "seaborn",
+    "wordcloud",
     
     # Data Processing
     "pyside6pandas",
@@ -87,6 +88,20 @@ dependencies = [
     
     # Testing
     "pytest",
+    
+    # Internal/Related Projects (from GitVein)
+    "condor>=1.0.0",
+    "ogma>=1.0.0",
+    "subtrix>=1.0.0",
+    "micromole>=1.0.0",
+    "pycurity>=1.0.0",
+    "squirl>=1.0.0",
+    "fxsquirl>=1.0.0",
+    
+    # Additional dependencies for compatibility
+    "pyqt5",  # Alternative to pyside6
+    "Pillow",  # Image processing
+    "setuptools",  # For pkg_resources
 ]
 
 [project.urls]

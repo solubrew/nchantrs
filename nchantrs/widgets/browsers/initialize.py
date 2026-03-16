@@ -23,6 +23,7 @@ import sys
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
+from typing import Optional, Dict, List, Any, Tuple
 from ogma.logma import Logma
 
 # ====================================================================================================================||
@@ -35,7 +36,7 @@ pxcfg = join(here, "_data_", ".yaml")
 
 
 # Configure Qt environment before importing Qt modules
-def _configure_qt_environment():
+def _configure_qt_environment() -> None:
     """Configure Qt environment for better compatibility"""
 
     # WebEngine Chromium flags for stability

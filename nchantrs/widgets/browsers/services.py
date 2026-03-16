@@ -80,7 +80,7 @@ class ServiceDiscovery(pyqt.QObject):
     serviceFound = pyqt.Signal(LocalService)
     serviceStatusChanged = pyqt.Signal(str, ServiceStatus)  # service_name, status
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.services: Dict[str, LocalService] = {}
         self.scan_timer = pyqt.QTimer()
@@ -99,23 +99,23 @@ class ServiceDiscovery(pyqt.QObject):
             "Streamlit": [8501],
         }
 
-    def start_discovery(self, interval_ms: int = 5000):
+    def start_discovery(self, interval_ms: int = 5000) -> None:
         """Start automatic service discovery"""
         print("Starting service discovery...")
         self.scan_services()  # Initial scan
         self.scan_timer.start(interval_ms)
 
-    def stop_discovery(self):
+    def stop_discovery(self) -> None:
         """Stop automatic service discovery"""
         self.scan_timer.stop()
         print("Service discovery stopped")
 
-    def scan_services(self):
+    def scan_services(self) -> None:
         """Scan for running local web services"""
         for port in self.common_ports:
             threading.Thread(target=self._check_port, args=(port,), daemon=True).start()
 
-    def _check_port(self, port: int):
+    def _check_port(self, port: int) -> None:
         """Check if a port is open and serving HTTP"""
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
@@ -150,13 +150,13 @@ class ServiceDiscovery(pyqt.QObject):
                 return f"{framework} (:{port})"
         return f"Local Service (:{port})"
 
-    def add_custom_service(self, service: LocalService):
+    def add_custom_service(self, service: LocalService) -> None:
         """Manually add a custom service"""
         self.services[service.name] = service
         self.serviceFound.emit(service)
         print(f"Added custom service: {service.name}")
 
-    def remove_service(self, service_name: str):
+    def remove_service(self, service_name: str) -> None:
         """Remove a service from tracking"""
         if service_name in self.services:
             del self.services[service_name]

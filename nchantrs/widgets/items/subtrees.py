@@ -20,6 +20,7 @@ from os.path import dirname, join
 from condor import condor
 from _work.subtreemodels import NchantdProjectSubTreeModel
 from ogma.logma import Logma
+from typing import Optional, Dict, List, Any, Tuple
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -34,7 +35,7 @@ pxcfg = {}
 class NchantdSubTree:
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("NchantdSubTree")
@@ -43,15 +44,15 @@ class NchantdSubTree:
         self.config.override(cfg)
         super(NchantdSubTree, self).__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         self.initModel()
         self.initView()
@@ -61,7 +62,7 @@ class NchantdSubTree:
 class NchantdProjectSubTree(NchantdSubTree):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("NchantdProjectSubTree")
@@ -71,17 +72,17 @@ class NchantdProjectSubTree(NchantdSubTree):
         super(NchantdProjectSubTree, self).__init__(self.parent, self.config)
         self.model = NchantdProjectSubTreeModel(self, self.config)
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
         self.model.initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
         # self.view.initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         self.initModel()
         self.initView()
@@ -91,7 +92,7 @@ class NchantdProjectSubTree(NchantdSubTree):
 class NchantdFileSystemSubTree(NchantdSubTree):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("NchantdFileSystemSubTree")
@@ -100,15 +101,15 @@ class NchantdFileSystemSubTree(NchantdSubTree):
         self.config.override(cfg)
         super(NchantdFileSystemSubTree, self).__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         self.initModel()
         self.initView()

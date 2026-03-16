@@ -34,7 +34,7 @@ class NchantdConnections(object):
 	def __init__(self):
 		""""""
 		self.connections = {}
-	def connect_to_database(self, name=None):
+	def connect_to_database(self, name: None = None):
 		"""Allow for adhoc connecting to multiple databases"""
 		if 'db' not in self.connections:
 			self.connections['db'] = {}

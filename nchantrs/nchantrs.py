@@ -3,8 +3,10 @@
 ---
 <(META)>:
 	docid:
-	name:
+	name: Nchantrs Application Entry Points
 	description: >
+		Core entry points for the nchantrs application including aberration, distortion,
+		nchantment, and flection functions for launching various application modes.
 	version: 0.0.0.0.0.0
 	authority: filesystem
 	security: seclvl2
@@ -12,10 +14,12 @@
 """
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
-from os.path import abspath, dirname, join, expanduser
-import datetime as dt
+from __future__ import annotations
+
+import logging
+from os.path import dirname, join, expanduser
 import tracemalloc
-from os import environ
+from typing import Any, Optional
 
 # ======================================3rd Party Library Modules=====================================================||
 # from guppy import hpy
@@ -31,15 +35,18 @@ from squirl.objnql import txtonql
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
-logma = Logma(__name__)
-debug = False
+logma: Logma = Logma(__name__)
+debug: bool = False
+
+# Configure module logger
+logger: logging.Logger = logging.getLogger(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "nchantrs.yaml")
 pxcfg = {}
 
 
-def aberration(name, args=None, widget=None, cfg=None):
+def aberration(name, args=None, widget=None, cfg=None) -> None:
     """Aberration executes a single widget dialog useful for direct interaction widgets"""
     if cfg is None:
         cfg = {}
@@ -48,7 +55,7 @@ def aberration(name, args=None, widget=None, cfg=None):
     aber.initApp()
 
 
-def distortion(name, args, widget, instance=None, cfg=None, log_file=None):
+def distortion(name, args, widget, instance=None, cfg=None, log_file=None) -> None:
     """
     A Distortion executes a complex single widget dialog useful for direct interaction widgets. If it
     requires a startup wizard it should move up a level to an nchantment entry point
@@ -62,7 +69,7 @@ def distortion(name, args, widget, instance=None, cfg=None, log_file=None):
     return result
 
 
-def nchantment(name, args, main_app=None, cfg=None, startup_app=None, profile_override=None):
+def nchantment(name, args, main_app=None, cfg=None, startup_app=None, profile_override=None) -> None:
     """An Nchantment executes a complex Nchantrs application with defined storage and installation paths"""
     logma.info("Begin Nchantment")
     if debug:
@@ -92,7 +99,7 @@ def nchantment(name, args, main_app=None, cfg=None, startup_app=None, profile_ov
     return app
 
 
-def flection(name, args, main_app=None, cfg=None, startup_app=None, profile_override=None):
+def flection(name, args, main_app=None, cfg=None, startup_app=None, profile_override=None) -> None:
     """An Flection executes a complex Nchantrs application supervisor with defined storage and installation paths"""
     # NOTE: Pyularity integration - requires pyularity package to be installed
     # Uncomment when package is available:
@@ -134,7 +141,7 @@ def flection(name, args, main_app=None, cfg=None, startup_app=None, profile_over
     return app if 'app' in locals() else supervisor
 
 
-def analyze_strings():
+def analyze_strings() -> None:
     """"""
     snapshot = tracemalloc.take_snapshot()
     top_stats = snapshot.statistics("lineno")
@@ -144,19 +151,27 @@ def analyze_strings():
     tracemalloc.stop()
 
 
-def memory_analysis():
+def memory_analysis() -> None:
     """"""
-    heap = hpy().heap()
-    logma.info("Heap Analysis:")
-    logma.info(heap)
+    try:
+        from guppy import hpy as _hpy
+        heap = _hpy().heap()
+        logma.info("Heap Analysis:")
+        logma.info(heap)
+    except ImportError:
+        logma.warning("guppy not available for memory analysis")
 
 
-def memory_summary():
+def memory_summary() -> None:
     """"""
-    all_objects = muppy.get_objects()
-    logma.info("Memory Summary:")
-    path = join(expanduser("~"), "_work", "memory_summary.txt")
-    txtonql.Doc(path).write(summary.summarize(all_objects))
+    try:
+        from pympler import muppy as _muppy, summary as _summary
+        all_objects = _muppy.get_objects()
+        logma.info("Memory Summary:")
+        path = join(expanduser("~"), "_work", "memory_summary.txt")
+        txtonql.Doc(path).write(_summary.summarize(all_objects))
+    except ImportError:
+        logma.warning("pympler not available for memory summary")
 
 
 # ====================================================================================================================||

@@ -197,7 +197,7 @@ class OpenH264Loader:
         try:
             # This is a simplified version - actual implementation would need proper C structures
             return "OpenH264 loaded"
-        except:
+        except Exception:
             return None
 
 

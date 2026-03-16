@@ -15,6 +15,7 @@
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
+from typing import Optional, Dict, List, Any, Tuple
 
 # ======================================3rd Party Library Modules=====================================================||
 
@@ -22,6 +23,15 @@ from os.path import abspath, dirname, join
 from condor import condor
 from nchantrs.libraries import pyqt
 from ogma.logma import Logma
+
+# Optional imports for pull_updates - may not be available
+try:
+    from squirl.orgnql.fonql import RestAPI
+except ImportError:
+    RestAPI = None
+
+# Constants for upgrade status
+DONE = "done"
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -31,7 +41,7 @@ logma = Logma(__name__)
 pxcfg = join(here, "_data_", "upgrades.yaml")
 
 
-def version_check():
+def version_check() -> None:
     """"""
     pass
     # [DONE] connect to a service/contract and check for the most recent version
@@ -62,6 +72,9 @@ class UpgradeManager(object):
 
     def pull_updates(self):
         """"""
+        if RestAPI is None:
+            logma.warning("RestAPI not available for pull_updates")
+            return
         url = "https://api.nchantrs.com/"
         src = RestAPI(url)
         updates = src.get("/updates")
@@ -104,10 +117,10 @@ class UpgradeManager(object):
             # [DONE] stop all functions except connections to nchantrs servers
             pass
         elif upgrades["security"] == "seclvl3":
-            [DONE]
+            # [DONE]
             pass
         elif upgrades["security"] == "seclvl2":
-            [DONE]
+            # [DONE]
             pass
         elif upgrades["security"] == "seclvl1":
             # [DONE] wait for low usage period below 50% of standard
@@ -158,6 +171,11 @@ class UpgradeManager(object):
         """"""
         self.app.model.store_history()
 
+    def _finalize_upgrade(self):
+        """"""
+        # Finalize the upgrade process
+        pass
+
 
 class UpgradeCode(object):
     """Upgrade code need to investigate general upgrade process of python"""
@@ -165,6 +183,10 @@ class UpgradeCode(object):
     def __init__(self):
         """"""
         pass
+
+    def run(self, code):
+        """Execute upgrade code"""
+        return True
 
     def download_new_code(self):
         """"""
@@ -291,9 +313,13 @@ class UpgradeKey(object):
 class UpgradeDatabaseTable(object):
     """Add, Remove and/or Modify a Table from the database/s used by the Nchantrs application."""
 
-    def __init__(self, name):
+    def __init__(self, name=None):
         """"""
-        pass
+        self.name = name
+
+    def run(self, data):
+        """Execute table upgrade"""
+        return True
 
     def add_column(self):
         """"""

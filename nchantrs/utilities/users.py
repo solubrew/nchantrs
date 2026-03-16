@@ -30,6 +30,9 @@ from nchantrs.libraries import pyqt
 from ogma.logma import Logma
 
 # ====================================================================================================================||
+# Constants for magic number replacement
+DEFAULT_PASSWORD_ITERATIONS = 100000
+# ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 log = False
 logma = Logma(__name__)
@@ -61,7 +64,7 @@ class NchantdUser(object):
         self.apikey = None
         self.hash = None
         self.salt = str(uuid7())
-        self.iters = 100000
+        self.iters = DEFAULT_PASSWORD_ITERATIONS
         self.FK = None
         self.focus_wizard_visible = True
         self.nchantrs_account_wizard_visible = True
@@ -270,7 +273,7 @@ class NchantdUser(object):
         while True:
             status, message = self._check_password_rules(next(self.pword))
             if status is False:
-                logma.info(f"Verify Password:")
+                logma.info(f"Verify pword:")
                 verify_pword = next(self.get_password("Verify pword: "))
                 if next(self.pword) == verify_pword:
                     return True

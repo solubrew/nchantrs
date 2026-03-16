@@ -13,6 +13,7 @@
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
+from typing import Optional, Dict, List, Any, Tuple
 import datetime as dt
 
 # ======================================3rd Party Library Modules=====================================================||
@@ -37,7 +38,7 @@ pxcfg = join(here, "_data_", "extensions.yaml")
 # class NchantdExtensionsManager(object):
 #     """"""
 #
-#     def __init__(self, parent, cfg=None):
+#     def __init__(self, parent, cfg=None) -> None:
 #         """"""
 #         self.app = parent
 #         self.config = condor.Instruct(pxcfg).select("NchantdExtensionsManager").override(cfg)
@@ -46,19 +47,19 @@ pxcfg = join(here, "_data_", "extensions.yaml")
 class NchantdExtensionsManager(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
         super().__init__(parent)
         self.config.override(condor.Instruct(pxcfg).select("NchantdExtensionManagerTab").override(cfg))
         self.primary_settings_group = None
         self.extension_loader = NchantdExtensionLoader()
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         """
         Show each extension that is currently installed and its status
         have a button to launch a temp tab that loads any specific information or settings for the selected extension
@@ -85,7 +86,7 @@ class NchantdExtensionsManager(NchantdWidget):
         # self.load_button.clicked.connect(self.load_selected_extension)
         return self
 
-    def load_selected_extension(self):
+    def load_selected_extension(self) -> None:
         """"""
         ext_name = self.extension_list.currentItem().text()
         self.extension_loader.load_extension(ext_name)

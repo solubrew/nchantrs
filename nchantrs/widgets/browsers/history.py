@@ -20,6 +20,7 @@ import datetime as dt
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
 from ogma.logma import Logma
+from typing import Optional, Dict, List, Any, Tuple
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -33,19 +34,19 @@ pxcfg = join(here, "_data_", "history.yaml")
 class NchantdWebHistory(object):
     """"""
 
-    def __init__(self, cfg=None):
+    def __init__(self, cfg=None) -> None:
         """"""
         self.config = condor.Instruct(pxcfg).select("").override(cfg)
 
-    def add_page(self):
+    def add_page(self) -> None:
         """"""
         return self
 
-    def back(self):
+    def back(self) -> None:
         """"""
         return self
 
-    def forward(self):
+    def forward(self) -> None:
         """"""
         return self
 

@@ -13,6 +13,7 @@
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
+from typing import Optional, Dict, List, Any, Tuple
 import datetime as dt
 
 # ======================================3rd Party Library Modules=====================================================||
@@ -35,7 +36,7 @@ pxcfg = join(here, "_data_", "db.yaml")
 class DBUpdate(object):
     """"""
 
-    def __init__(self, parent, cfg=None):
+    def __init__(self, parent, cfg=None) -> None:
         """"""
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("DBUpdate").override(cfg)
@@ -45,7 +46,7 @@ class DBUpdate(object):
         self.hold_data = {}
         self.app = parent
 
-    def backup_db(self, db="db"):
+    def backup_db(self, db="db") -> None:
         """"""
         data = self.parent.app.model.get_instance(db)
         logma.info(f"Instance: {data}")
@@ -59,7 +60,7 @@ class DBUpdate(object):
         name = self.parent.model.store.backup_database(self.parent.app.model.instance, db)
         return name
 
-    def check_version(self, current_v):
+    def check_version(self, current_v) -> None:
         """"""
         logma.info(f"Checking Version {current_v}")
         latest_v = self.get_latest_version()
@@ -76,11 +77,11 @@ class DBUpdate(object):
 
         return False
 
-    def get_data(self, table, db="db"):
+    def get_data(self, table, db="db") -> None:
         """"""
         return self.parent.app.model.store.get_table(table, None, db)
 
-    def get_latest_version(self):
+    def get_latest_version(self) -> None:
         """"""
         self.current_version = self.parent.model.get_current_version()
         max_version = 0
@@ -98,30 +99,30 @@ class DBUpdate(object):
 
         return ".".join([x for x in str(max_version)])[:-1]
 
-    def insert_data(self, table, data, db="db", column_map=None):
+    def insert_data(self, table, data, db="db", column_map=None) -> None:
         """"""
         if column_map:
             data = self.map_columns(data, column_map)
         self.parent.app.model.store_records(table, data, db)
         return True
 
-    def map_columns(self, data, column_map):
+    def map_columns(self, data, column_map) -> None:
         """"""
         for column in column_map.keys():
             data[column_map[column]] = data[column]
             del data[column]
         return data
 
-    def reload_table(self, table, keep, map_, filters, db="db"):
+    def reload_table(self, table, keep, map_, filters, db="db") -> None:
         """"""
         return self.parent.app.model.reload_table(table, keep, map_, filters, db)
 
-    def restore_backup(self, db):
+    def restore_backup(self, db) -> None:
         """"""
         self.parent.app.model.store.restore_backup(db)
         return True
 
-    def run_updates(self, db):
+    def run_updates(self, db) -> None:
         """"""
         current_v = self.parent.model.get_current_version()
         version = current_v
@@ -142,7 +143,7 @@ class DBUpdate(object):
 
         return version
 
-    def run_update_indexes(self, indexes, db="db"):
+    def run_update_indexes(self, indexes, db="db") -> None:
         """"""
         if indexes is None:
             return True
@@ -150,7 +151,7 @@ class DBUpdate(object):
         #     self.parent.model.store.create_index(index, cmd, db)
         return True
 
-    def run_update_tables(self, tables, db="db"):
+    def run_update_tables(self, tables, db="db") -> None:
         """"""
         if tables is None:
             return True
@@ -163,7 +164,7 @@ class DBUpdate(object):
 
         return True
 
-    def run_update_views(self, views, db="db"):
+    def run_update_views(self, views, db="db") -> None:
         """"""
         if views is None:
             return True
@@ -171,12 +172,12 @@ class DBUpdate(object):
             self.parent.store.update_view(view, cmd, db)
         return True
 
-    def update_data(self, update, column, value, db="db"):
+    def update_data(self, update, column, value, db="db") -> None:
         """"""
         self.parent.app.model.store.update_record(update, column, value, db)
         return True
 
-    def _execute_update_step(self, step_name, step_function, step_data, db):
+    def _execute_update_step(self, step_name, step_function, step_data, db) -> None:
         """Execute a single update step with error handling and rollback."""
         logma.info(f"Update {step_name}")
         if not step_function(step_data, db):
@@ -187,12 +188,12 @@ class DBUpdate(object):
             return False
         return True
 
-    def _parse_version_parts(self, version_string):
+    def _parse_version_parts(self, version_string) -> None:
         """Parse version string into comparable integer parts."""
         logma.info(f"Parsing Version: {version_string}")
         return [part for part in version_string.split(".")]
 
-    def _process_single_version_update(self, version, update_data, db):
+    def _process_single_version_update(self, version, update_data, db) -> None:
         """Process updates for a single version."""
         logma.info(f"Processing Version {version}")
         if update_data is None:
@@ -213,7 +214,7 @@ class DBUpdate(object):
 
         return True
 
-    def _process_table_operations(self, table, params, db):
+    def _process_table_operations(self, table, params, db) -> None:
         """Process all operations for a single table."""
         # Handle reload operation
         if params.get("reload", False):
@@ -240,7 +241,7 @@ class DBUpdate(object):
 
         return True
 
-    def _process_table_updates(self, table, updates, db):
+    def _process_table_updates(self, table, updates, db) -> None:
         """Process update operations for a table."""
         for update in updates:
             logma.info(f"Updating: {update}")
@@ -258,7 +259,7 @@ class DBUpdate(object):
 # class DBUpdate(object):
 #     """"""
 #
-#     def __init__(self, parent, cfg=None):
+#     def __init__(self, parent, cfg=None) -> None:
 #         """"""
 #         self.parent = parent
 #         self.config = condor.Instruct(pxcfg).select("DBUpdate").override(cfg)
@@ -268,7 +269,7 @@ class DBUpdate(object):
 #         self.hold_data = {}
 #         self.app = parent
 #
-#     def backup_db(self, db="db"):
+#     def backup_db(self, db="db") -> None:
 #         """"""
 #         data = self.parent.app.model.get_instance(db)
 #         logma.info(f"Instance: {data}")
@@ -282,7 +283,7 @@ class DBUpdate(object):
 #         name = self.parent.model.store.backup_database(self.parent.app.model.instance, db)
 #         return name
 #
-#     def check_version(self, current_v):
+#     def check_version(self, current_v) -> None:
 #         """"""
 #         logma.info(f"Checking Version {current_v}")
 #         latest_v = self.get_latest_version().split(".")
@@ -296,11 +297,11 @@ class DBUpdate(object):
 #             elif int(level) > int(latest_v[i]):
 #                 return False
 #
-#     def get_data(self, table, db="db"):
+#     def get_data(self, table, db="db") -> None:
 #         """"""
 #         return self.parent.app.model.store.get_table(table, None, db)
 #
-#     def get_latest_version(self):
+#     def get_latest_version(self) -> None:
 #         """"""
 #         self.current_version = self.parent.model.get_current_version()
 #         # if self.current_version is None:
@@ -318,33 +319,33 @@ class DBUpdate(object):
 #             return self.current_version
 #         return ".".join([f"{x}." for x in str(max)])[:-1]
 #
-#     def insert_data(self, table, data, db="db", column_map=None):
+#     def insert_data(self, table, data, db="db", column_map=None) -> None:
 #         """"""
 #         if column_map:
 #             data = self.map_columns(data, column_map)
 #         self.parent.app.model.store_records(table, data, db)
 #         return self
 #
-#     def map_columns(self, data, column_map):
+#     def map_columns(self, data, column_map) -> None:
 #         """"""
 #         for column in column_map.keys():
 #             data[column_map[column]] = data[column]
 #             del data[column]
 #         return data
 #
-#     def reload_table(self, table, keep, map_, filters, db="db"):
+#     def reload_table(self, table, keep, map_, filters, db="db") -> None:
 #         """"""
 #         # # only reload app tables - this makes no sense often doc tables will have to be reloaded but with data keeping
 #         # if "app_" != table[:4]:
 #         #     return False
 #         return self.parent.app.model.reload_table(table, keep, map_, filters, db)
 #
-#     def restore_backup(self, db):
+#     def restore_backup(self, db) -> None:
 #         """"""
 #         self.parent.app.model.store.restore_backup(db)
 #         return self
 #
-#     def run_updates(self, db):
+#     def run_updates(self, db) -> None:
 #         """"""
 #         current_v = self.parent.model.get_current_version()
 #         version = current_v
@@ -379,7 +380,7 @@ class DBUpdate(object):
 #         #self.parent.model.set_current_version(version)
 #         return version
 #
-#     def run_update_indexes(self, indexes, db="db"):
+#     def run_update_indexes(self, indexes, db="db") -> None:
 #         """"""
 #         if indexes is None:
 #             return self
@@ -387,7 +388,7 @@ class DBUpdate(object):
 #         #     self.parent.model.store.create_index(index, cmd, db)
 #         return self
 #
-#     def run_update_tables(self, tables, db="db"):
+#     def run_update_tables(self, tables, db="db") -> None:
 #         """"""
 #         outcome = True
 #         if tables is None:
@@ -424,7 +425,7 @@ class DBUpdate(object):
 #                     break
 #         return outcome
 #
-#     def run_update_views(self, views, db="db"):
+#     def run_update_views(self, views, db="db") -> None:
 #         """"""
 #         if views is None:
 #             return self
@@ -432,7 +433,7 @@ class DBUpdate(object):
 #             self.parent.store.update_view(view, cmd, db)
 #         return self
 #
-#     def update_data(self, update, column, value, db="db"):
+#     def update_data(self, update, column, value, db="db") -> None:
 #         """"""
 #         self.parent.app.model.store.update_record(update, column, value, db)
 #         return self

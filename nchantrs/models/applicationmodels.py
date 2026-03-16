@@ -54,7 +54,7 @@ class NchantdPantiesModel(object):
     :param cfg: The configuration object.
     """
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """
         :param parent:
         :param cfg:
@@ -94,7 +94,7 @@ class NchantdPantiesModel(object):
         self.instance_cfg = None
         self.reset = None
 
-    def initialize_application(self):
+    def initialize_application(self) -> None:
         """
         Check requires_auth before creating user to avoid unnecessary password dialogs.
         """
@@ -109,11 +109,11 @@ class NchantdPantiesModel(object):
         if requires_auth:
             self.user = NchantdUser(self, cfg)
 
-    def init_model_pre(self):
+    def init_model_pre(self) -> None:
         """Initialize model pre-creation"""
         return self
 
-    def initModel(self, reset=None, pre=True, post=True):
+    def initModel(self, reset=None, pre=True, post=True) -> None:
         """Initialize the model"""
         if pre:
             self.init_model_pre()
@@ -121,11 +121,11 @@ class NchantdPantiesModel(object):
             self.init_model_post()
         return self
 
-    def init_model_post(self):
+    def init_model_post(self) -> None:
         """Initialize model post-creation"""
         self.store.store_app_event("initialized", "application_model_initialized")
 
-    def _initialize_account(self):
+    def _initialize_account(self) -> None:
         """Initialize account"""
         if self.new_account is True:
             self.new_account = False  # this account is referring to the Nchantrs online service account
@@ -138,7 +138,7 @@ class NchantdPantiesModel(object):
 class NchantdCapeModel(NchantdPantiesModel):
     """Nchantd Cape is a model that allows for simple independant dialog applications"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("NchantdSigilModel")
@@ -153,7 +153,7 @@ class NchantdCloakModel(NchantdPantiesModel):
     """The Nchantd Cloak Model sets up the connection to the data for a generic
     Nchantd Cloak application. A Cloak Application is a multipane application"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -170,7 +170,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.are_services_active = False  # will be used to connect to 3rd party services
         self.instance = None
 
-    def initModel(self, reset=None):
+    def initModel(self, reset=None) -> None:
         """"""
         super().initModel(reset)
         self.set_paths()
@@ -180,7 +180,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.extension_config()
         return self
 
-    def add_attachment(self, name, widgdata, pid, did, document_type, tabset_type):
+    def add_attachment(self, name, widgdata, pid, did, document_type, tabset_type) -> None:
         """"""
         readonly = False
         editable = True
@@ -202,7 +202,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         ]
         self.store.store_app_tab(row)
 
-    def add_instance(self, instance):
+    def add_instance(self, instance) -> None:
         if instance.instance_id not in self.instances:
             self.instances[instance.instance_id] = instance
             if not instance.is_install_active:
@@ -210,7 +210,7 @@ class NchantdCloakModel(NchantdPantiesModel):
                 self.store.init_database_instance(instance)
         return self
 
-    def add_node(self, name, ntype, pid, pos, parameters=None, tabset=None, return_node=False):
+    def add_node(self, name, ntype, pid, pos, parameters=None, tabset=None, return_node=False) -> None:
         """Add a node to the document tree."""
         logma.info(f"Add Node")
         nid, row = self.store.store_doc_tree_node(name, ntype, pid, pos, parameters)
@@ -238,7 +238,7 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def add_tab(
         self, name, pid, pos, widget, widgdata=None, did=None, doc_type=None, tabset=None, in_doc=True, db="db"
-    ):
+    ) -> None:
         """
         :param name: Name of the tab to be added.
         :param pid: Process ID associated with the tab.
@@ -272,7 +272,7 @@ class NchantdCloakModel(NchantdPantiesModel):
             self.store.store_app_tab(row)
         return tid
 
-    def check_policy(self, policy, table, condition, value, db="db"):
+    def check_policy(self, policy, table, condition, value, db="db") -> None:
         """
         if policy == "Data Retention Policy":
             return self.check_data_retention_policy(table, condition, value, db)
@@ -280,7 +280,7 @@ class NchantdCloakModel(NchantdPantiesModel):
             return self.check_data_security_policy(table, condition, value, db)
         raise Exception(f"Policy {policy} not found")
 
-    def check_data_retention_policy(self, table, condition, value, db="db"):
+    def check_data_retention_policy(self, table, condition, value, db="db") -> None:
         """
         policy = "Data Retention Policy"
         cfg = {"WHERE": {"EQUAL": {"type_txt": policy, "target_txt": table}}}
@@ -291,7 +291,7 @@ class NchantdCloakModel(NchantdPantiesModel):
                 return True
         return False
 
-    def check_data_security_policy(self, table, condition, value, db="db"):
+    def check_data_security_policy(self, table, condition, value, db="db") -> None:
         """
         policy = "Data Security Policy"
         data = self.store.get_app_policy(table, policy, db)
@@ -301,24 +301,24 @@ class NchantdCloakModel(NchantdPantiesModel):
                 return True
         return False
 
-    def clear_doc_tables(self):
+    def clear_doc_tables(self) -> None:
         """
         tables = ["doc_media", "doc_media_content", "doc_tab", "doc_tree_node", "doc_user"]
         for table in tables:
             self.store.clear_doc_table(table)
         return self
 
-    def connect_nchantd_office(self):
+    def connect_nchantd_office(self) -> None:
         """Connect to the Nchantd Office API"""
         # need to make a connection to the Nchantd Office API
         return self
 
-    def convert_database(self, version_from, version_to):
+    def convert_database(self, version_from, version_to) -> None:
         """Convert database between versions"""
         # handle data updates
         return self
 
-    def create_new_instance(self):
+    def create_new_instance(self) -> None:
         """
         self.is_install_active = False
         cfg = {}
@@ -332,11 +332,11 @@ class NchantdCloakModel(NchantdPantiesModel):
                 raise Exception("No Supervisor Communication Bridge to Request New Instance")
         return self
 
-    def deactivate(self, table, uuid=None, primary_key=None, db="db"):
+    def deactivate(self, table, uuid=None, primary_key=None, db="db") -> None:
         """
         return self
 
-    def delete_node(self, node):
+    def delete_node(self, node) -> None:
         """
         logma.info(f"Node {node.nid} will be deleted")
         for tab in node.tabs:
@@ -344,7 +344,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.store.delete_record("doc_tree_node", uuid=node.nid, column="nid_txt")
         return self
 
-    def delete_tab(self, uuid=None, tab_pk=None, db="db"):
+    def delete_tab(self, uuid=None, tab_pk=None, db="db") -> None:
         """
         # self.parent.current_tabset.remove_tab(self.app.model.current_tab.tabn)
         # if uuid is not None and tab_pk is None:
@@ -357,19 +357,19 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.has_changed = True
         return self
 
-    def export_instance(self):
+    def export_instance(self) -> None:
         """
         self.instance.set_instance_external()
         self.init_database_instance(self.instance.instance)
 
-    def extension_config(self):
+    def extension_config(self) -> None:
         """
         if self.config.dikt["dstruct"]["extensions"] is not None:
             for extension, details in self.config.dikt["dstruct"]["extensions"].items():
                 if details["active"]:
                     self._activate_extension(extension, details)
 
-    def generate_paths(self):
+    def generate_paths(self) -> None:
         """
         [DONE] where this method lives...could be moved to NchantdStore or NchantdApplicationStartupWizard
         :return:
@@ -392,17 +392,17 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.icon_path = Mechanism(path, data).run()
         return [self.application_path, self.config_path, self.library_path, self.shortcut_path, self.icon_path]
 
-    def get_current_node(self):
+    def get_current_node(self) -> None:
         """
         node = self.app.view.panes["left"].tree.model.current_node
         return node
 
-    def get_current_tab(self):
+    def get_current_tab(self) -> None:
         """
         tab = self.app.view.panes["center"].model.current_tab
         return tab
 
-    def get_current_version(self):
+    def get_current_version(self) -> None:
         """
         df = self.store.get_app_version()
         logma.info(f"Current Version {df}")
@@ -415,11 +415,11 @@ class NchantdCloakModel(NchantdPantiesModel):
                 logma.warning(f"Cannot Get Current Version {e}")
                 return "0.0.1.0.1.3"
 
-    def get_instance(self, instance_id=None):
+    def get_instance(self, instance_id=None) -> None:
         """
         return self.store.get_app_instance(instance_id)
 
-    def get_instance_recent(self):
+    def get_instance_recent(self) -> None:
         """
         instance = self.get_instance_recents(1)
         if len(instance) == 0:
@@ -429,7 +429,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.create_instance(instance)
         return self
 
-    def get_instance_recents(self, last=10):
+    def get_instance_recents(self, last=10) -> None:
         """
         instances = self.store.get_app_instance(most_recent=last)
         if instances.empty:
@@ -437,13 +437,13 @@ class NchantdCloakModel(NchantdPantiesModel):
         instances = instances.to_list(orient="records")
         return instances
 
-    def get_menu(self, name):
+    def get_menu(self, name) -> None:
         """
         if name is None:
             return DataFrame()
         return self.store.get_app_menu(name)
 
-    def get_node(self, nid=None, tree=None):
+    def get_node(self, nid=None, tree=None) -> None:
         """
         # logma.info(f"Get Node {nid}")
         table = "vw_tree_node"
@@ -466,7 +466,7 @@ class NchantdCloakModel(NchantdPantiesModel):
             raise Exception("No Current Node")
         return NchantdTreeNode(pnode, node["name_txt"], node["nid_txt"], node).initWidget()
 
-    def get_nodes(self, treeid=0):
+    def get_nodes(self, treeid=0) -> None:
         """
         table = "vw_tree_node"
         cfg = {
@@ -477,13 +477,13 @@ class NchantdCloakModel(NchantdPantiesModel):
         }
         return self.store.get_table(table, cfg)
 
-    def get_policy(self, data_table, policy, db="db"):
+    def get_policy(self, data_table, policy, db="db") -> None:
         """
         cfg = {"WHERE": {"EQUAL": {"type_txt": policy, "target_txt": data_table}}}
         df = self.store.get_app_policy(cfg, db)
         return df
 
-    def get_tabs(self, node, tabset="center"):
+    def get_tabs(self, node, tabset="center") -> None:
         """
         if node is None:
             return None
@@ -493,14 +493,14 @@ class NchantdCloakModel(NchantdPantiesModel):
         filters["ORDER"] = [5]
         return self.store.get_view_tab(filters)
 
-    def integration_config(self):
+    def integration_config(self) -> None:
         """
         # if self.config.dikt['dstruct']['integrations'] is not None:
         # 	for integration, details in self.config.dikt['dstruct']['integrations'].items():
         # 		if details['active']:
         # 			self._activate_integration(integration, details)
 
-    def maintain_application(self, db="db"):
+    def maintain_application(self, db="db") -> None:
         """
         # self.maintain_doc_media_content()
         logma.info("Maintain Application")
@@ -509,7 +509,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.store.backup_database(self.instance, db)
         return self
 
-    def maintain_doc_media_content(self):
+    def maintain_doc_media_content(self) -> None:
         """
         df = self.store.get_view_maintain_doc_media_content()
         values = df["doc_media_content_PK"].values.tolist()
@@ -517,7 +517,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.store.delete_record("doc_media_content", primary_key=values)
         return self
 
-    def open_instance(self, instance=None):
+    def open_instance(self, instance=None) -> None:
         """
         if instance is None:
             instance = self.get_instance_recent()
@@ -525,12 +525,12 @@ class NchantdCloakModel(NchantdPantiesModel):
         #
         return self
 
-    def register_action(self, action):
+    def register_action(self, action) -> None:
         """
         self.registered_actions.append(action)
         return self
 
-    def reload_table(self, table, keep, map_, filters={}, db="db"):
+    def reload_table(self, table, keep, map_, filters={}, db="db") -> None:
         """
         if keep:
             logma.info(f"Copy Table {table} to temp_table")
@@ -559,12 +559,12 @@ class NchantdCloakModel(NchantdPantiesModel):
                 return False
         return True
 
-    def remove_affiliate_links(self):
+    def remove_affiliate_links(self) -> None:
         """
         self.store.delete_record("links", column="type_txt", value=["base", "webapp", "affiliate"])
         return self
 
-    def remove_data_by_date(self, table, date, direction="before", db="db"):
+    def remove_data_by_date(self, table, date, direction="before", db="db") -> None:
         """
         remove data before a certain date should there be a min qty of records?
 
@@ -581,50 +581,50 @@ class NchantdCloakModel(NchantdPantiesModel):
             cfg = {table: {"GREATER": {"MODON_DTTM": self.time.store_now()}}}
         self.docs[db].mark_delete(cfg)
 
-    def remove_telemetry(self, db="db"):
+    def remove_telemetry(self, db="db") -> None:
         """
         cfg = {"telemetry": {"WHERE": {"LESS": {"CREON_DTTM": self.time.store_now()}}}}
         self.docs[db].mark_delete(cfg)
 
-    def set_is_saved(self, saved=False):
+    def set_is_saved(self, saved=False) -> None:
         """
         self.is_saved = saved
         return self
 
-    def set_instance_active(self, instance):
+    def set_instance_active(self, instance) -> None:
         """
         instance_id = instance.instance_id
         self.instances[instance_id] = instance
         self.instance = self.instances[instance_id]
         return self
 
-    def set_paths(self):
+    def set_paths(self) -> None:
         """
         self.app_path = join(expanduser("~"), ".local", "share", self.APP_NAME.lower())
         self.venv_path = join(self.app_path, ".venv")
         return self
 
-    def store_cache(self, df, table):
+    def store_cache(self, df, table) -> None:
         """
         self._store_cache(table, df, "dbc")
 
-    def store_instance(self, instance):
+    def store_instance(self, instance) -> None:
         """
         self.store.store_app_instance(instance)
         return self
 
-    def store_records(self, table, data, db="db"):
+    def store_records(self, table, data, db="db") -> None:
         """
         self.store.store_records(table, data, db)
         return self
 
-    def update_actions(self):
+    def update_actions(self) -> None:
         """
         for action in self.registered_actions:
             action()
         return self
 
-    def update_affilate_links(self, last_affilate_update_dttm: str = "2025-01-01 00:00:00", reload=False):
+    def update_affilate_links(self, last_affilate_update_dttm: str = "2025-01-01 00:00:00", reload=False) -> None:
         """
         [DONE] where connection to the link_affiliate table
                 SPLIT into affiliate links and non-affilate links
@@ -642,7 +642,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         # self.update_affilate_links(client.get_end_point(params=params))
         return
 
-    def update_node(self, node, data, db="db"):
+    def update_node(self, node, data, db="db") -> None:
         """
         logma.info(f"Node {node.node_type} {node.nid} updated")
         if node.node_type in ("displaynode", "sysorgnode", "yearnode", "monthnode", "daynode"):
@@ -656,7 +656,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.store.update_record(data, column, value, db)
         return self
 
-    def update_tab(self, tab, data, db="db"):
+    def update_tab(self, tab, data, db="db") -> None:
         """
         logma.info(f"Tab {tab.app_data_type} {tab.tid} updated")
         if tab.app_data_type == "app":
@@ -671,37 +671,37 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.store.update_record(data, column, value, db)
         return self
 
-    def update_version(self, name, version, is_primary=False, db="db"):
+    def update_version(self, name, version, is_primary=False, db="db") -> None:
         """
         data = {"table": {"app_instance": {"data": {"version_txt": version, "is_primary_bit": is_primary}}}}
         self.store.update_record(data, "name_txt", name, db)
         return self
 
-    def user_config(self):
+    def user_config(self) -> None:
         """
         if self._user_select() is None:
             self.user.create_user()
             self._user_select()
         return self
 
-    def _activate_extension(self, extension, details):
+    def _activate_extension(self, extension, details) -> None:
         """
 
-    def _activate_integration(self, integration, details):
+    def _activate_integration(self, integration, details) -> None:
         """
 
-    def _archive_record(self, table, primary_key, uuid=None, column=None, db="db", flip=False):
+    def _archive_record(self, table, primary_key, uuid=None, column=None, db="db", flip=False) -> None:
         """
         self.store.archive_record(table, primary_key, uuid, column, db, flip)
         return self
 
-    def _check_password_set(self):
+    def _check_password_set(self) -> None:
         """
         if self.internal_password == self.password:
             return False
         return True
 
-    def _delete_record(self, table, primary_key=None, uuid=None, column=None, db="db", flip=False):
+    def _delete_record(self, table, primary_key=None, uuid=None, column=None, db="db", flip=False) -> None:
         """Records are not deleted in a straight forward manner.  They are marked for deletion based on a policy
         and will then be removed during a compaction step when the policy is met."""
         policy = "Data Retention Policy"
@@ -723,13 +723,13 @@ class NchantdCloakModel(NchantdPantiesModel):
             return self
         return self
 
-    def _load_application_configs(self):
+    def _load_application_configs(self) -> None:
         """
         filter = {"filter": {"instance_FK": self.instance.db_instance_id}}
         data = next(self.docs["db"].read({"table": {"appoptions"}}, filter)).dikt["appoptions"]["records"]
         logma.info(f"Data {data.dikt}")
 
-    def _load_password(self):
+    def _load_password(self) -> None:
         """
         filter = {"filter": {"username": self.parent.user}}
         user_data = next(self.docs["db"].read({"table": {"appusers"}}, filter))
@@ -739,7 +739,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         if data["internal_password"] is None:
             self._set_internal_password()
 
-    def _set_internal_password(self):
+    def _set_internal_password(self) -> None:
         """
         self.internal_password = uuid()
         self.password = self.internal_password
@@ -748,7 +748,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.docs[name].write(payload)
         return self
 
-    def _user_select(self):
+    def _user_select(self) -> None:
         """
         table = "app_user"
         data = next(self.store.docs["db"].read({"table": table})).dikt[table]["df"]
@@ -762,7 +762,7 @@ class NchantdCloakModel(NchantdPantiesModel):
 class NchantdSigilModel(NchantdPantiesModel):
     """Model used for dialog windows within larger applications"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super(NchantdSigilModel, self).__init__(parent, cfg)
         self.parent = parent
@@ -777,7 +777,7 @@ class NchantdSigilModel(NchantdPantiesModel):
 
 class NchantdModel(object):
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -786,7 +786,7 @@ class NchantdModel(object):
             self.config.override(parent.config)
         self.config.override(cfg)
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> None:
         """Initialize the model"""
         super().initModel(cfg)
         return self
@@ -795,21 +795,21 @@ class NchantdModel(object):
 class DataFilter(object):
     """Data filter for pandas DataFrames"""
     
-    def __init__(self):
+    def __init__(self) -> None:
         self.includes = []
         self.excludes = []
 
-    def add_exclude(self, column, values):
+    def add_exclude(self, column, values) -> None:
         """Add column/value pairs to exclude filter"""
         self.excludes.append((column, values))
         return self
 
-    def add_include(self, column, values):
+    def add_include(self, column, values) -> None:
         """Add column/value pairs to include filter"""
         self.includes.append((column, values))
         return self
 
-    def process(self, data):
+    def process(self, data) -> None:
         """Apply filters to DataFrame"""
         for column, values in self.excludes:
             data = data[~data[column].isin(values)]

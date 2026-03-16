@@ -33,7 +33,7 @@ pxcfg = join(here, '_data_', 'tags.yaml')
 
 class TagGroup():
 	""""""
-	def __init__(self, name, description='', uuid=None):
+	def __init__(self, name: str, description='', uuid: None = None):
 		""""""
 		self.name = name
 		self.description = description
@@ -44,7 +44,7 @@ class TagGroup():
 
 class Tag():
 	""""""
-	def __init__(self, name, description='', uuid=None):
+	def __init__(self, name: str, description='', uuid: None = None):
 		""""""
 		self.name = name
 		self.description = description
@@ -52,7 +52,7 @@ class Tag():
 		if self.uuid is None:
 			self.uuid = thing.What().uuid().ruuid
 
-	def rename(self, name):
+	def rename(self, name: str):
 		""""""
 
 	def storage(self):

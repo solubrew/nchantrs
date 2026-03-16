@@ -18,6 +18,7 @@ from os.path import dirname, join
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
+from typing import Optional, Dict, List, Any, Tuple
 
 from nchantrs.dialogs.dialogs import NchantdSigil, NchantdErrorNotifySigil
 from nchantrs.libraries import pyqt
@@ -37,7 +38,7 @@ pxcfg = join(here, "_data_", "new.yaml")
 class NewNchantdAPIKeyManualEntrySigil(NchantdSigil):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("NchantdNewAPIKeyManualEntry")
@@ -46,11 +47,11 @@ class NewNchantdAPIKeyManualEntrySigil(NchantdSigil):
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         """
 
         show link to sigup for service
@@ -66,7 +67,7 @@ class NewNchantdAPIKeyManualEntrySigil(NchantdSigil):
         self.api_key_entry = NchantdLabeledEntry(self, cfg).initWidget()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         self.initModel()
         self.initView()
@@ -76,7 +77,7 @@ class NewNchantdAPIKeyManualEntrySigil(NchantdSigil):
 class NewNchantdNodeSigil(NchantdSigil):
     """"""
 
-    def __init__(self, parent=None, nid="0", cfg=None):
+    def __init__(self, parent=None, nid="0", cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("NewNchantdNodeSigil")
@@ -89,12 +90,12 @@ class NewNchantdNodeSigil(NchantdSigil):
         self.icon = None
         self.buttons = None
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
         super().initView()
         self.hide_title()
@@ -111,7 +112,7 @@ class NewNchantdNodeSigil(NchantdSigil):
 class NewNchantdTabSigil(NchantdSigil):
     """"""
 
-    def __init__(self, name="tab", parent=None, cfg=None):
+    def __init__(self, name="tab", parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("NewNchantdTabSigil")
@@ -123,17 +124,17 @@ class NewNchantdTabSigil(NchantdSigil):
         self.icon = None
         self.buttons = None
 
-    def finalizeView(self, cfg=None):
+    def finalizeView(self, cfg=None) -> None:
         """"""
         self.add_accept_buttons(cfg)
         return self
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
         super().initView()
         self.hide_title()
@@ -150,7 +151,7 @@ class NewNchantdTabSigil(NchantdSigil):
         self.layout.addLayout(layout)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         self.initModel()
         self.initView()
@@ -158,7 +159,7 @@ class NewNchantdTabSigil(NchantdSigil):
         self.run()
         return self
 
-    def validate(self):
+    def validate(self) -> None:
         """"""
         super().validate()
         [DONE]
@@ -172,7 +173,7 @@ class NewNchantdTabSigil(NchantdSigil):
 class EditNchantdNodeSigil(NewNchantdNodeSigil):
     """"""
 
-    def __init__(self, parent=None, nid="0", cfg=None):
+    def __init__(self, parent=None, nid="0", cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("EditNchantdNodeSigil")
@@ -181,17 +182,17 @@ class EditNchantdNodeSigil(NewNchantdNodeSigil):
         self.config.override(cfg)
         super().__init__("node", self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         self.initModel()
         self.initView()

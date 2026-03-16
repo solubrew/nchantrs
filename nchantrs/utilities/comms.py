@@ -23,8 +23,12 @@ import zmq
 from condor import condor
 from ogma.logma import Logma
 from nchantrs.widgets.managers import NchantdManager
+from typing import Optional, Dict, List, Any, Tuple
 #from pyularity.pyularity import Pyularity
 
+# ====================================================================================================================||
+# Constants for magic number replacement
+DEFAULT_TIMEOUT_MS = 5000  # 5 seconds in milliseconds
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 log = True
@@ -37,7 +41,7 @@ pxcfg = join(here, "_data_", ".yaml")
 class NchantdCommunicationsManager(object):
     """"""
 
-    def __init__(self, parent, cfg=None):
+    def __init__(self, parent, cfg=None) -> None:
         """"""
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("NchantdCommunicationsManager").override(cfg)
@@ -45,38 +49,38 @@ class NchantdCommunicationsManager(object):
         self.reply = None
         #self.supervisor = Pyularity()
 
-    def initManager(self):
+    def initManager(self) -> None:
         """"""
         self.connect()
         return self
 
-    def connect(self, server="tcp://127.0.0.1", port="5555"):
+    def connect(self, server="tcp://127.0.0.1", port="5555") -> None:
         """"""
         self.context = zmq.Context()  # Create a ZeroMQ context
         self.socket = self.context.socket(zmq.REQ)  # Create a REQ (Request) socket
         self.socket.connect(f"{server}:{port}")  # Connect to the server's socket
         return self
 
-    def notice_app_failed(self, e):
+    def notice_app_failed(self, e) -> None:
         """"""
         logma.info(f"App Failed: {e}")
         message = f"APPFAILED:{self.parent.instance.instance_id}"
         return self.send_request(message)
 
-    def start_supervisor(self):
+    def start_supervisor(self) -> None:
         """"""
         self.supervisor.launch_independent()
         return self
 
-    def request_new_instance(self):
+    def request_new_instance(self) -> None:
         """"""
         message = f"NEWINSTANCE:{self.parent.instance.instance_id}"
         return self.send_request(message)
 
-    def request_restart_instance(self, instance):
+    def request_restart_instance(self, instance) -> None:
         """"""
 
-    def send_request(self, message):
+    def send_request(self, message) -> None:
         """"""
         logma.info(f"Send Message: {message}")
         # try:
@@ -88,7 +92,7 @@ class NchantdCommunicationsManager(object):
         poller.register(self.socket, zmq.POLLIN)
 
         # Wait for response with timeout (in milliseconds)
-        timeout = 5000  # 5 seconds
+        timeout = DEFAULT_TIMEOUT_MS  # 5 seconds
         socks = dict(poller.poll(timeout))
 
         if self.socket in socks and socks[self.socket] == zmq.POLLIN:

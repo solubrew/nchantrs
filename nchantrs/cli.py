@@ -2,14 +2,14 @@
 
 import sys
 import logging
-from typing import Optional
+from typing import Optional, Dict, List, Any, Tuple
 
 # Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
-logger = logging.getLogger(__name__)
+logger: logging.Logger = logging.getLogger(__name__)
 
 
 def main() -> int:

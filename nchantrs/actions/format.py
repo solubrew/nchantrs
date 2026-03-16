@@ -15,33 +15,33 @@
 '''
 # -*- coding: utf-8 -*-
 #===============================================================================||
-def screenfull():
+def screenfull() -> None:
 	''
 	return
-def screenhalfupper():
+def screenhalfupper() -> None:
 	''
 	return
-def screenhalflower():
+def screenhalflower() -> None:
 	''
 	return
-def sidebar():
+def sidebar() -> None:
 	''
 	return
-def toolbars():
+def toolbars() -> None:
 	''
 	return
-def statusbar():
+def statusbar() -> None:
 	''
 	return
-def view():
+def view() -> None:
 	''
 	return
-def window():
+def window() -> None:
 	''
 	return
-def windowsplit():
+def windowsplit() -> None:
 	''
 	return
-def zooom():
+def zooom() -> None:
 	''
 	return

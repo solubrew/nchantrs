@@ -39,7 +39,7 @@ def exectuableHash():
 class Integrity(object):
 	"""A class to check the integrity of files within the license chain to verify that the specific application is
 	controlled by a known apikey for control of data and potentially verification of NFTs"""
-	def __init__(self, cfg=None):
+	def __init__(self, cfg: None = None):
 		""""""
 		self.config = condor.instruct(pxcfg).select('Integrity').override(cfg)
 		self.interpreter_type = None

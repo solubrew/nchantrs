@@ -14,6 +14,7 @@
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
+from typing import Optional, Dict, List, Any, Tuple
 
 # ======================================3rd Party Library Modules=====================================================||
 
@@ -33,7 +34,7 @@ pxcfg = join(here, "_data_", ".yaml")
 class NchantdAuthenticationWindow(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -42,17 +43,17 @@ class NchantdAuthenticationWindow(NchantdWidget):
             self.config.override(parent.config)
         self.config.override(cfg)
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> None:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> None:
         """"""
         super().initView(cfg)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         self.initModel()
         self.initView()
@@ -78,7 +79,7 @@ class NchantdAuthenticationWindow(NchantdWidget):
 # popup_page.urlChanged.connect(lambda url: self.check_auth_completion(url, popup_dialog))
 #
 #
-# def handle_new_window(self, request):
+# def handle_new_window(self, request) -> None:
 #     """Handle new window requests (like OAuth popups)."""
 #     # Create new page for popup
 #     popup_page = QWebEnginePage(self.session_manager.profile, self)

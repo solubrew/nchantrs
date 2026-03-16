@@ -126,7 +126,7 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         logma.info(f"Current Item {item}")
         # need to rewrite the logic here so that the dropped item becomes the child
         # need to alter the dropped item parent and children
-        if item and new_parent_item:  [DONE]
+        if item and new_parent_item:
             if new_parent_item.parent:
                 item.parent.removeChild(item)
                 new_parent_item.addChild(item)

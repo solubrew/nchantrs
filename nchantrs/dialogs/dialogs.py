@@ -333,7 +333,7 @@ class NchantdCape(NchantdPanties):
             logma.info(f"Add Widget {cfg['widget']}")
             self.add_widget(cfg["widget"])
 
-        self.main_widget.MaxRecentFiles = 10
+        self.main_widget.MaxRecentFiles = MAX_RECENT_FILES
         self.main_widget.windowList = []
         self.main_widget.recentFileActs = []
         self.main_widget.show()
@@ -365,7 +365,7 @@ class NchantdCape(NchantdPanties):
             logma.info(f"Add Widget {cfg['widget']}")
             self.add_widget(cfg["widget"])
 
-        self.main_widget.MaxRecentFiles = 10
+        self.main_widget.MaxRecentFiles = MAX_RECENT_FILES
         self.main_widget.windowList = []
         self.main_widget.recentFileActs = []
         self.main_widget.show()

@@ -15,37 +15,37 @@
 '''
 # -*- coding: utf-8 -*-
 #===============================================================================||
-def addchart():
+def addchart() -> None:
 	'''Open a dialog to create a new sheet and place a chart widget.  The dialog
 	allows for data selection and chart type with the ability to point to a
 	config file or select a style for the chart that will get used into the
 	pyffice document.  Selecting of a config file will give the option to create
 	a style from it at that point'''
 	return
-def editchart():
+def editchart() -> None:
 	'''Open dialog to edit selected chart'''
 	return
-def plotarea():
+def plotarea() -> None:
 	'''Plot Area Chart '''
 	return
-def plotbar():
+def plotbar() -> None:
 	'Plot Bar Chart'
 	return
-def plotbubble():
+def plotbubble() -> None:
 	'Plot Bubble Chart'
 	return
-def plotfittedline():
+def plotfittedline() -> None:
 	'Plot Fitted Line Chart'
 	return
-def plotline():
+def plotline() -> None:
 	'Plot Line Chart'
 	return
-def plotpie():
+def plotpie() -> None:
 	'Plot Pie Chart'
 	return
-def plotscatter():
+def plotscatter() -> None:
 	'Plot Scatter Chart'
 	return
-def plottimeseries():
+def plottimeseries() -> None:
 	'Plot Time Series Chart'
 	return

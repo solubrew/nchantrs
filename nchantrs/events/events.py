@@ -23,6 +23,12 @@ from condor import condor
 from condor.thing import thingify, getName
 from fxsquirl.fxsquirl import Chunker
 
+# ====================================================================================================================||
+# Constants for magic number replacement
+MIN_VALIDATOR_VALUE = -999.0
+MAX_VALIDATOR_VALUE = 999.0
+VALIDATOR_DECIMAL_PLACES = 2
+DEFAULT_INPUT_MASK_INDEX = 0
 # ===============================================================================||
 here = join(dirname(__file__), "")  # 												||
 there = abspath(join("../../.."))  # 												||set path at pheonix level
@@ -36,7 +42,7 @@ class NchantdEventSet:
     """The EventSet is historical log of actions relative to an Nchantd
     Documnet"""
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         """ """
         self.parent = parent
         if parent:
@@ -47,19 +53,19 @@ class NchantdEventSet:
             self.restoreEventSet()
         self.lastEvent = self.getLastEvent()
 
-    def store(self, event):
+    def store(self, event) -> None:
         """ """
         return self
 
-    def restoreEventSet(self):
+    def restoreEventSet(self) -> None:
         """ """
         return self
 
-    def restoreEvent(self):
+    def restoreEvent(self) -> None:
         """ """
         return self
 
-    def getLastEvent(self):
+    def getLastEvent(self) -> None:
         """ """
         return event
 
@@ -67,24 +73,24 @@ class NchantdEventSet:
 class NchantdEvent:
     """An Event provides data to listeners and storage of the event"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """ """
 
-    def store(self, event):
+    def store(self, event) -> None:
         """ """
         return self
 
-    def currentCharFormatChanged(self, format):
+    def currentCharFormatChanged(self, format) -> None:
         self.fontChanged(format.font())
         self.colorChanged(format.foreground().color())
 
-    def cursorPositionChanged(self):
+    def cursorPositionChanged(self) -> None:
         self.alignmentChanged(self.textEdit.alignment())
 
-    def clipboardDataChanged(self):
+    def clipboardDataChanged(self) -> None:
         self.actionPaste.setEnabled(len(QApplication.clipboard().text()) != 0)
 
-    def about(self):
+    def about(self) -> None:
         QMessageBox.about(
             self,
             "About",
@@ -93,26 +99,26 @@ class NchantdEvent:
             "experiment with.",
         )
 
-    def mergeFormatOnWordOrSelection(self, format):
+    def mergeFormatOnWordOrSelection(self, format) -> None:
         cursor = self.textEdit.textCursor()
         if not cursor.hasSelection():
             cursor.select(QTextCursor.WordUnderCursor)
         cursor.mergeCharFormat(format)
         self.textEdit.mergeCurrentCharFormat(format)
 
-    def fontChanged(self, font):
+    def fontChanged(self, font) -> None:
         self.comboFont.setCurrentIndex(self.comboFont.findText(QFontInfo(font).family()))
         self.comboSize.setCurrentIndex(self.comboSize.findText("%s" % font.pointSize()))
         self.actionTextBold.setChecked(font.bold())
         self.actionTextItalic.setChecked(font.italic())
         self.actionTextUnderline.setChecked(font.underline())
 
-    def colorChanged(self, color):
+    def colorChanged(self, color) -> None:
         pix = QPixmap(16, 16)
         pix.fill(color)
         self.actionTextColor.setIcon(QIcon(pix))
 
-    def alignmentChanged(self, alignment):
+    def alignmentChanged(self, alignment) -> None:
         if alignment & Qt.AlignLeft:
             self.actionAlignLeft.setChecked(True)
         elif alignment & Qt.AlignHCenter:
@@ -122,7 +128,7 @@ class NchantdEvent:
         elif alignment & Qt.AlignJustify:
             self.actionAlignJustify.setChecked(True)
 
-    def echoChanged(self, index):
+    def echoChanged(self, index) -> None:
         if index == 0:
             self.echoLineEdit.setEchoMode(QLineEdit.Normal)
         elif index == 1:
@@ -132,16 +138,18 @@ class NchantdEvent:
         elif index == 3:
             self.echoLineEdit.setEchoMode(QLineEdit.NoEcho)
 
-    def validatorChanged(self, index):
+    def validatorChanged(self, index) -> None:
         if index == 0:
             self.validatorLineEdit.setValidator(0)
         elif index == 1:
             self.validatorLineEdit.setValidator(QIntValidator(self.validatorLineEdit))
         elif index == 2:
-            self.validatorLineEdit.setValidator(QDoubleValidator(-999.0, 999.0, 2, self.validatorLineEdit))
+            self.validatorLineEdit.setValidator(QDoubleValidator(
+                MIN_VALIDATOR_VALUE, MAX_VALIDATOR_VALUE, 
+                VALIDATOR_DECIMAL_PLACES, self.validatorLineEdit))
         self.validatorLineEdit.clear()
 
-    def alignmentChanged(self, index):
+    def alignmentChanged(self, index) -> None:
         if index == 0:
             self.alignmentLineEdit.setAlignment(Qt.AlignLeft)
         elif index == 1:
@@ -149,7 +157,7 @@ class NchantdEvent:
         elif index == 2:
             self.alignmentLineEdit.setAlignment(Qt.AlignRight)
 
-    def inputMaskChanged(self, index):
+    def inputMaskChanged(self, index) -> None:
         if index == 0:
             self.inputMaskLineEdit.setInputMask("")
         elif index == 1:
@@ -161,13 +169,13 @@ class NchantdEvent:
         elif index == 3:
             self.inputMaskLineEdit.setInputMask(">AAAAA-AAAAA-AAAAA-AAAAA-AAAAA;#")
 
-    def accessChanged(self, index):
+    def accessChanged(self, index) -> None:
         if index == 0:
             self.accessLineEdit.setReadOnly(False)
         elif index == 1:
             self.accessLineEdit.setReadOnly(True)
 
-    def update_format(self):
+    def update_format(self) -> None:
         """
         Update the font format toolbar/actions when a new text selection is made. This is neccessary to keep
         toolbars/etc. in sync with the current edit state.

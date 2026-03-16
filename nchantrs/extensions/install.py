@@ -13,6 +13,7 @@
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join, exists
+from typing import Optional, Dict, List, Any, Tuple
 from os import listdir
 import datetime as dt
 import json as j
@@ -35,7 +36,7 @@ pxcfg = join(here, "_data_", "install.yaml")
 
 
 class NchantdExtensionLoader(pyqt.QObject):
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         self.config = condor.Instruct(pxcfg).select("NchantdExtensionLoader").override(cfg)
         super().__init__()
         self.loaded_extensions = []
@@ -44,7 +45,7 @@ class NchantdExtensionLoader(pyqt.QObject):
             self.extensions_path = ""
         self.manifest = None
 
-    def load_extension(self, name):
+    def load_extension(self, name) -> None:
         """
         Load an extension given its name.
         """
@@ -53,32 +54,32 @@ class NchantdExtensionLoader(pyqt.QObject):
         self.load_manifest(manifest_path)
         return self
 
-    def load_manifest(self, manifest_path):
+    def load_manifest(self, manifest_path) -> None:
         """"""
         manifest = yonql.Doc(manifest_path)
         next(self.manifest.read())
         self.manifest = manifest.dikt
         return self
 
-    def inject_script(self, js_code):
+    def inject_script(self, js_code) -> None:
         """
         Inject JavaScript into the WebView.
         """
         self.browser.page().runJavaScript(js_code)
 
-    def execute_background_script(self, js_code):
+    def execute_background_script(self, js_code) -> None:
         """
         Execute a background script in the context of Python (as an event-driven task).
         """
         exec(js_code, globals())
 
-    def list_extensions(self):
+    def list_extensions(self) -> None:
         """
         Return a list of available extensions.
         """
         return listdir(self.extensions_path)
 
-    def validate_extension(self, name):
+    def validate_extension(self, name) -> None:
         """check to ensure file structure is valid and all required files are present"""
         if not exists(manifest_path):
             raise FileNotFoundError(f"Manifest not found for extension: {name}")
@@ -104,7 +105,7 @@ class NchantdExtensionLoader(pyqt.QObject):
 
         print(f"Extension {name} loaded successfully!")
 
-    def verify_extension(self, name):
+    def verify_extension(self, name) -> None:
         """
         verify that extension is registered with twoFDNS or Granite system
         :param name:

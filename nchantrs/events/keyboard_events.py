@@ -30,6 +30,13 @@ logma = Logma(__name__)
 # ====================================================================================================================||
 pxcfg = join(here, '_data_', '.yaml')
 
+# Default keyboard modifier states (to be set by event handlers)
+ctrl: bool = False
+shift: bool = False
+alt: bool = False
+# Default action object (to be set by event handlers)
+action = None
+
 def on_backspace_press():
 	"""Action to take upon event of Backspace key press"""
 	if ctrl == True:

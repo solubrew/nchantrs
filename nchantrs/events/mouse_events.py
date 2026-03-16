@@ -31,8 +31,8 @@ pxcfg = join(here, "_data_", ".yaml")
 
 
 # class mouseCTRLR():
-# 	def __init__():
-# 	def mousePressEvent(self, event):
+# 	def __init__() -> None:
+# 	def mousePressEvent(self, event) -> None:
 # 		if self.user_interaction_handler and self.user_interaction_handler.mousePressEvent(event):
 # 			return
 # 		# Right (context) click on the node item. If the widget is not
@@ -45,41 +45,41 @@ pxcfg = join(here, "_data_", ".yaml")
 # 				self.clearSelection()
 # 				shape_item.setSelected(True)
 # 		return QGraphicsScene.mousePressEvent(self, event)
-# 	def mouseMoveEvent(self, event):
+# 	def mouseMoveEvent(self, event) -> None:
 # 		if self.user_interaction_handler and self.user_interaction_handler.mouseMoveEvent(event):
 # 			return
 # 		return QGraphicsScene.mouseMoveEvent(self, event)
-# 	def mouseReleaseEvent(self, event):
+# 	def mouseReleaseEvent(self, event) -> None:
 # 		if self.user_interaction_handler and self.user_interaction_handler.mouseReleaseEvent(event):
 # 			return
 # 		return QGraphicsScene.mouseReleaseEvent(self, event)
-# 	def mouseDoubleClickEvent(self, event):
+# 	def mouseDoubleClickEvent(self, event) -> None:
 # 		if self.user_interaction_handler and self.user_interaction_handler.mouseDoubleClickEvent(event):
 # 			return
 # 		return QGraphicsScene.mouseDoubleClickEvent(self, event)
-# 	def keyPressEvent(self, event):
+# 	def keyPressEvent(self, event) -> None:
 # 		if self.user_interaction_handler and self.user_interaction_handler.keyPressEvent(event):
 # 			return
 # 		return QGraphicsScene.keyPressEvent(self, event)
-# 	def keyReleaseEvent(self, event):
+# 	def keyReleaseEvent(self, event) -> None:
 # 		if self.user_interaction_handler and self.user_interaction_handler.keyReleaseEvent(event):
 # 			return
 # 		return QGraphicsScene.keyReleaseEvent(self, event)
-# 	def contextMenuEvent(self, event):
+# 	def contextMenuEvent(self, event) -> None:
 # 		if self.user_interaction_handler and self.user_interaction_handler.contextMenuEvent(event):
 # 			return
 # 		super().contextMenuEvent(event)
-# 	def set_user_interaction_handler(self, handler):
+# 	def set_user_interaction_handler(self, handler) -> None:
 # 		if self.user_interaction_handler and not self.user_interaction_handler.isFinished():
 # 			self.user_interaction_handler.cancel()
 # #		log.info("Setting interaction '%s' to '%s'" % (handler, self))
 # 		self.user_interaction_handler = handler
 # 		if handler:
 # 			handler.start()
-# 	def __str__(self):
+# 	def __str__(self) -> None:
 # 		return "%s(objectName=%r, ...)" % \
 # 				(type(self).__name__, str(self.objectName()))
-# def on_clickleft_press(widget, event):
+# def on_clickleft_press(widget, event) -> None:
 # 	"""Action to take upon event of mouse left click press"""
 # 	if ctrl == True:
 # 		pass
@@ -91,7 +91,7 @@ pxcfg = join(here, "_data_", ".yaml")
 # 		super().mousePressEvent(event)
 # 		widget.setFocus()
 # 	return
-# def on_clickleft_release():
+# def on_clickleft_release() -> None:
 # 	"""Action to take upon event of mouse left click release"""
 # 	if ctrl == True:
 # 		pass
@@ -102,7 +102,7 @@ pxcfg = join(here, "_data_", ".yaml")
 # 	else:
 # 	  pass
 # 	return
-# def on_clickleftdouble():
+# def on_clickleftdouble() -> None:
 # 	"""Action to take upon event of mouse double left click"""
 # 	if ctrl == True:
 # 		pass
@@ -113,7 +113,7 @@ pxcfg = join(here, "_data_", ".yaml")
 # 	else:
 # 	  pass
 # 	return
-# def on_clickmiddle_press():
+# def on_clickmiddle_press() -> None:
 # 	"""Action to take upon event of mouse middle click"""
 # 	if ctrl == True:
 # 		pass
@@ -124,7 +124,7 @@ pxcfg = join(here, "_data_", ".yaml")
 # 	else:
 # 	  pass
 # 	return
-# def on_clickmiddle_release():
+# def on_clickmiddle_release() -> None:
 # 	"""Action to take upon event of mouse middle click"""
 # 	if ctrl == True:
 # 		pass
@@ -135,7 +135,7 @@ pxcfg = join(here, "_data_", ".yaml")
 # 	else:
 # 	  pass
 # 	return
-# def on_clickright_press():
+# def on_clickright_press() -> None:
 # 	"""Action to take upon event of mouse right click press"""
 # 	if ctrl == True:
 # 		pass
@@ -146,7 +146,7 @@ pxcfg = join(here, "_data_", ".yaml")
 # 	else:
 # 	  action.context_menu()
 # 	return
-# def on_clickright_release():
+# def on_clickright_release() -> None:
 # 	"""Action to take upon event of mouse right click release"""
 # 	if ctrl == True:
 # 		pass
@@ -157,9 +157,9 @@ pxcfg = join(here, "_data_", ".yaml")
 # 	else:
 # 	  action.context_menu()
 # 	return
-# def on_wheel_forward():
+# def on_wheel_forward() -> None:
 # 	""" """
-# def on_wheel_backward():
+# def on_wheel_backward() -> None:
 # 	""" """
 
 

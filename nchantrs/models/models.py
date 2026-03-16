@@ -252,7 +252,7 @@ class NchantdStore(MicroStash):
         # self.resources = []
         # self.slug = None
         # self.time = PyTime()
-        # self.user_FK = 0
+        # self.user_FK = DEFAULT_USER_ID
         # self.is_verified = False
         self._window_parser = WindowPolicyParser(PyTime())
         self._table_resolver = TableNameResolver()
@@ -995,7 +995,7 @@ class NchantdStore(MicroStash):
     def store_app_options_batch(self, options, tag=None, db="db"):
         """Store multiple options efficiently in batch"""
         if self.user is None:
-            user_FK = 0
+            user_FK = DEFAULT_USER_ID
         else:
             user_FK = self.user.FK
 
@@ -1264,7 +1264,7 @@ class NchantdStore(MicroStash):
         """
         return self
 
-    def store_app_option(self, option, key=None, vtable=None, tag=None, option_FK=0, db="db", how="INSERT"):
+    def store_app_option(self, option, key=None, vtable=None, tag=None, option_FK = DEFAULT_USER_ID, db="db", how="INSERT"):
         """
                     'columns': [ 'UUID', 'key_txt', 'label_txt', 'value_txt', 'table_txt', 'tag_ltxt',
                          'parameters_ltxt', 'description_ltxt', 'parent_UUID', 'table_FK', 'instance_FK',
@@ -1290,7 +1290,7 @@ class NchantdStore(MicroStash):
         else:
             raise Exception(f"{how} is not supported.")
         if self.user is None:
-            user_FK = 0
+            user_FK = DEFAULT_USER_ID
         else:
             user_FK = self.user.FK
         payload = []

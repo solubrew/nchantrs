@@ -34,13 +34,13 @@ class LinkService:
 		This will be used to move link data this is specific to affiliates, operations and advertisements from the
 		Nchantrs service to the Nchantd Applications
 	"""
-	def __init__(self, parent, cfg=None):
+	def __init__(self, parent, cfg: None = None):
 		""""""
 		self.parent = parent
 		self.config = condor.instruct(pxcfg).select('').override(cfg)
 		self.app = pyqt.QApplication.instance()
 
-	def get_links(self, ):
+	def get_links(self):
 		"""
 		need to send a request to a service and then parse the response
 
@@ -50,7 +50,7 @@ class LinkService:
 
 
 
-	def store_link(self, name, path, tags):
+	def store_link(self, name: str, path, tags):
 		""""""
 		location = 'remote'
 		encoding = 'html'

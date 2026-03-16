@@ -2,9 +2,10 @@
 import sys
 from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QColor, QTextCharFormat, QFont, QSyntaxHighlighter
+from typing import Optional, Dict, List, Any, Tuple
 
 
-def format(color, style=''):
+def format(color, style='') -> None:
     '''Return a QTextCharFormat with the given attributes.
     '''
     _color = QColor()
@@ -73,7 +74,7 @@ class Highlighter(QSyntaxHighlighter):
         '\{', '\}', '\(', '\)', '\[', '\]',
     ]
 
-    def __init__(self, document):
+    def __init__(self, document) -> None:
         QSyntaxHighlighter.__init__(self, document)
 
         # Multi-line strings - use raw strings to properly handle triple quotes
@@ -127,7 +128,7 @@ class Highlighter(QSyntaxHighlighter):
         self.rules = [(QRegExp(pat), index, fmt)
             for (pat, index, fmt) in rules]
 
-    def highlightBlock(self, text):
+    def highlightBlock(self, text) -> None:
         '''Apply syntax highlighting to the given block of text.
         '''
         # Do other syntax formatting
@@ -149,7 +150,7 @@ class Highlighter(QSyntaxHighlighter):
         if not in_multiline:
             in_multiline = self.match_multiline(text, *self.tri_double)
 
-    def match_multiline(self, text, delimiter, in_state, style):
+    def match_multiline(self, text, delimiter, in_state, style) -> None:
         '''Do highlighting of multi-line strings. ``delimiter`` should be a
         ``QRegExp`` for triple-single-quotes or triple-double-quotes, and
         ``in_state`` should be a unique integer to represent the corresponding

@@ -351,7 +351,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
                 if isinstance(tab_data, dict) and "source_widget" in tab_data:
                     event.acceptProposedAction()
                     return
-            except:
+            except Exception:
                 pass
         event.ignore()
 

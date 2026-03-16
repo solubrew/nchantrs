@@ -22,6 +22,7 @@ from condor import condor
 from ogma.logma import Logma
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidgetMixin
+from typing import Optional, Dict, List, Any, Tuple
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -32,7 +33,7 @@ logma.off()
 pxcfg = join(here, "_data_", "utilities.yaml")
 pxcfg = {}
 
-# def diagnose_media_support(self):
+# def diagnose_media_support(self) -> None:
 #     """Diagnose and log media codec support status."""
 #     logma.info("=== Media Support Diagnostic ===")
 #     # Check environment variables
@@ -64,7 +65,7 @@ pxcfg = {}
 #         "download_url": codec_manager._get_binary_info()[0],
 #         "environment_ready": self.codec_ready,
 #     }
-def nchantd_message_handler(mode, context, message):
+def nchantd_message_handler(mode, context, message) -> None:
     """Custom logging function for PySide6."""
     mode_name = {
         pyqt.Qt.InfoMsg: "Info",
@@ -75,7 +76,7 @@ def nchantd_message_handler(mode, context, message):
     print(f"{mode_name[mode]}: {message} (File: {context.file}, Line: {context.line})")
 
 
-def set_default_browser():
+def set_default_browser() -> None:
     """"""
     if platform == "macos":
         try:
@@ -114,18 +115,18 @@ def set_default_browser():
 # Backend class to expose methods to JavaScript
 class NchantdBackend(pyqt.QObject):
     @pyqt.Slot(result=str)
-    def safeFunction(self):
+    def safeFunction(self) -> None:
         return "Safe JavaScript Call Allowed!"
 
 
 class NchantdJSSafeFunction(pyqt.QWebEngineScript):
     """"""
 
-    def __init__(self, cfg=None):
+    def __init__(self, cfg=None) -> None:
         """"""
         self.config = condor.Instruct(pxcfg).select("").override(cfg)
 
-    def add_script(self, cmd):
+    def add_script(self, cmd) -> None:
         """"""
         self.sourceCode = cmd
         self.setInjectionPoint(pyqt.QWebEngineScript.DocumentReady)
@@ -135,7 +136,7 @@ class NchantdJSSafeFunction(pyqt.QWebEngineScript):
 class NchantdURL(NchantdWidgetMixin, pyqt.QUrl):
     """"""
 
-    def __init__(self, url=None, parent=None, cfg=None):
+    def __init__(self, url=None, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         super().__init__(url)
@@ -148,39 +149,39 @@ class NchantdURL(NchantdWidgetMixin, pyqt.QUrl):
         self.url = None
         self.set_url(url)
 
-    # def initModel(self):
+    # def initModel(self) -> None:
     #     """"""
     #     super().initModel()
     #
     #     return self
     #
-    def is_equal(self, url):
+    def is_equal(self, url) -> None:
         """"""
         if self.url == url:
             return True
         return False
 
-    def is_locked(self):
+    def is_locked(self) -> None:
         """"""
         return self.lock
     #
-    # def is_valid(self):
+    # def is_valid(self) -> None:
     #     """"""
     #     if self.document.is_valid():
     #         return True
     #     return False
     #
-    # def set_lock(self):
+    # def set_lock(self) -> None:
     #     """"""
     #     self.lock = True
     #     return self
     #
-    # def set_unlock(self):
+    # def set_unlock(self) -> None:
     #     """"""
     #     self.lock = False
     #     return self
 
-    def set_url(self, url):
+    def set_url(self, url) -> None:
         """"""
         if isinstance(url, pyqt.QUrl):
             url = url.toString()
@@ -189,7 +190,7 @@ class NchantdURL(NchantdWidgetMixin, pyqt.QUrl):
             return True
         return False
 
-    # def store_url(self):
+    # def store_url(self) -> None:
     #     """"""
     #     data = [
     #         [
@@ -203,7 +204,7 @@ class NchantdURL(NchantdWidgetMixin, pyqt.QUrl):
 class NchantdWebChannel(pyqt.QWebChannel):
     """Nchantd Web Channel controls scripting"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
         self.config = condor.Instruct(pxcfg).select("NchantdWebChannel").override(cfg)
         self.parent = parent

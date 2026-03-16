@@ -38,7 +38,7 @@ pxcfg = join(abspath(here), "_data_", "treeviews.yaml")
 class NchantdTreeView(NchantdWidget):
     """ """
 
-    def __init__(self, parent, cfg=None):
+    def __init__(self, parent, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -49,7 +49,7 @@ class NchantdTreeView(NchantdWidget):
         self.node_widget = None
         # self.current_node = None
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
         super().initView()
         self.parent.setColumnCount(1)
@@ -63,7 +63,7 @@ class NchantdTreeView(NchantdWidget):
         # self.layout.addWidget(self)
         return self
 
-    def init_tree(self):
+    def init_tree(self) -> None:
         """"""
         self.treedf = self.parent.model.get_nodes()
         self.parent.clear()
@@ -80,13 +80,13 @@ class NchantdTreeView(NchantdWidget):
             self.parent.addTopLevelItem(item)
         return self
 
-    def initContextMenu(self):
+    def initContextMenu(self) -> None:
         """ """
         self.setContextMenuPolicy(pyqt.Qt.CustomContextMenu)
         self.customContextMenuRequested.connect(self.onRightClick)
         return self
 
-    def initTriggers(self):
+    def initTriggers(self) -> None:
         """ """
         # self.doubleClicked.connect(self.onLeftDoubleClick)
         # self.expanded.connect(self.onExpand)
@@ -101,7 +101,7 @@ class NchantdTreeView(NchantdWidget):
         # self.parent.itemSelectionChanged.connect(self.on_selection_changed)
         return self
 
-    def initUI(self):
+    def initUI(self) -> None:
         """ """
         cfgview = self.config.dikt
         # self.setFixedWidth(cfgview["FixedWidth"])
@@ -109,7 +109,7 @@ class NchantdTreeView(NchantdWidget):
         self.setIndentation(cfgview["IndentSize"])
         return self
 
-    def collapse_children(self, item):
+    def collapse_children(self, item) -> None:
         """Recursively collapses all child nodes"""
         for i in range(item.childCount()):
             child = item.child(i)
@@ -119,7 +119,7 @@ class NchantdTreeView(NchantdWidget):
             self.collapse_children(child)
         return self
 
-    def handle_selection_change(self):
+    def handle_selection_change(self) -> None:
         """"""
         logma.info("Selection Changed")
         # h_scroll = self.parent.horizontalScrollBar().value()
@@ -137,7 +137,7 @@ class NchantdTreeView(NchantdWidget):
         # self.parent.horizontalScrollBar().setValue(h_scroll)
         return self
 
-    def go_to_previous_node(self):
+    def go_to_previous_node(self) -> None:
         """"""
         if self.previous_index:
             # Retrieve and select the previous item using its QModelIndex
@@ -147,7 +147,7 @@ class NchantdTreeView(NchantdWidget):
                 logma.info(f"Returned to previous item: {previous_item.text(0)}")
         return self
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event) -> None:
         """ """
         # tree.mousePressEventLog(event, 1)
         if event.button() == pyqt.Qt.RightButton:
@@ -158,7 +158,7 @@ class NchantdTreeView(NchantdWidget):
         super().mousePressEvent(event)
         return self
 
-    def on_item_collapsed(self, item):
+    def on_item_collapsed(self, item) -> None:
         """"""
         # self.collapse_children(item)
         # if item.expanded is True or item.expanded is None:
@@ -166,7 +166,7 @@ class NchantdTreeView(NchantdWidget):
         self.parent.model.save_state(item)
         return self
 
-    def on_item_expanded(self, item):
+    def on_item_expanded(self, item) -> None:
         """ """
         if item.expanded is True:
             return self
@@ -177,7 +177,7 @@ class NchantdTreeView(NchantdWidget):
         self.parent.model.save_state(item)
         return self
 
-    def onLeftClick(self, signal=None):
+    def onLeftClick(self, signal=None) -> None:
         """Need to send signal to load center widget with correct tabset and
         populate those tabs with data based on the node selected
 
@@ -198,7 +198,7 @@ class NchantdTreeView(NchantdWidget):
         self.app.view.splitter.setSizes(self.cached_splitter_size)
         return self
 
-    def onLeftDoubleClick(self, signal):
+    def onLeftDoubleClick(self, signal) -> None:
         """launch a dialog that allows for modification of parameters
         of the tree node if node is marked as editable:
         - font/style/color of text
@@ -213,12 +213,12 @@ class NchantdTreeView(NchantdWidget):
             launchDialog(dialog, node)
         return self
 
-    def onMiddleClick(self):
+    def onMiddleClick(self) -> None:
         """ """
         self.parent.app.model.update_actions()
         return self
 
-    def onRightClick(self, position=0):
+    def onRightClick(self, position=0) -> None:
         """ """
         self.parent.app.model.update_actions()
         # need to replace with build menu
@@ -240,29 +240,29 @@ class NchantdTreeView(NchantdWidget):
         menu.exec_(self.treeView.viewport().mapToGlobal(position))
         return self
 
-    def onNodeSelection(self, fx, mod=None):
+    def onNodeSelection(self, fx, mod=None) -> None:
         """On selection of tree node load data for tabs in center widget"""
         event.on_clickleft_press(fx)
         return self
 
-    def onNodeDeselection(self, fx, mod=None):
+    def onNodeDeselection(self, fx, mod=None) -> None:
         """On deslection of tree node save any changes to node options"""
         event.on_clickleft_release(fx)
         return self
 
-    def onEnter(self, fx, mod=None):
+    def onEnter(self, fx, mod=None) -> None:
         """Need to build if a node was selected an enter create a new sibling
         node. shift-enter creates a new child node, ctrl-enter creates
         a new tab in the node"""
         event.on_enter_kp(fx, mod)
         return self
 
-    def onDelete(self, fx, mod=None):
+    def onDelete(self, fx, mod=None) -> None:
         """Launch Dialog to confirm deletion of node, which marks as deleted in database
         and is not removed until a database cleanup is run"""
         return self
 
-    def set_current_node(self, node):
+    def set_current_node(self, node) -> None:
         """"""
         # node.set_expanded(True)
         self.parent.model.current_node = node
@@ -274,12 +274,12 @@ class NchantdTreeView(NchantdWidget):
             node.updateTabs("center")
         return self
 
-    def set_node_widget(self, widget):
+    def set_node_widget(self, widget) -> None:
         """"""
         self.node_widget = widget
         return self
 
-    def _set_background(self):
+    def _set_background(self) -> None:
         """"""
         url = f"{here}../themes/_data_/images/Smile_a001.png"
         self.setStyleSheet("QTreeWidget {background-image: url(" + url + ");}")
