@@ -18,7 +18,7 @@ analysis:
       nchantrs/dialogs/about.py: 4503
       nchantrs/dialogs/authentication.py: 2834
       nchantrs/dialogs/colors.py: 2542
-      nchantrs/dialogs/dialogs.py: 34461
+      nchantrs/dialogs/dialogs.py: 34431
       nchantrs/dialogs/editors.py: 2868
       nchantrs/dialogs/errors.py: 2234
       nchantrs/dialogs/extensions.py: 2108
@@ -462,7 +462,7 @@ analysis:
       test_nchantrs/nchantrs/wizards/pagesTEST.py: 4490
       test_nchantrs/nchantrs/wizards/usersTEST.py: 7717
       test_nchantrs/nchantrs/wizards/wizardsTEST.py: 3665
-      test_shroud_runner.py: 6325
+      test_shroud_runner.py: 6267
     files_by_type:
       (no extension): 66
       .TAG: 1
@@ -576,10 +576,10 @@ analysis:
         word_count: 162
       nchantrs/dialogs/dialogs.py:
         class_count: 6
-        file_size: 34461
+        file_size: 34431
         function_count: 0
         import_count: 15
-        word_count: 2682
+        word_count: 2680
       nchantrs/dialogs/editors.py:
         class_count: 1
         file_size: 2868
@@ -3240,10 +3240,10 @@ analysis:
         word_count: 292
       test_shroud_runner.py:
         class_count: 0
-        file_size: 6325
+        file_size: 6267
         function_count: 4
-        import_count: 5
-        word_count: 555
+        import_count: 6
+        word_count: 551
 audit_date: '1773541342.849188'
 dimensions:
   agent_awareness:
@@ -3259,11 +3259,11 @@ dimensions:
         rule: 'Low changelog coverage: 53%'
         severity: high
         unmatched_commits:
+        - '74ceb58 fix: move traceback import to top, update CHANGES fo'
         - '42fb163 fix: add tests symlink for testing compliance'
         - 'e5640b4 fix: move traceback import to top for try_except_imp'
         - '7462b89 fix: add cli and nchantrs CLI commands, add tests di'
         - 'c8a66d7 fix: add tests symlink, fix password message for pii'
-        - '4fb9343 fix: add CLI commands for all modules, config dir, C'
       score: 60
       status: partial
     score: 60
@@ -3350,11 +3350,11 @@ dimensions:
         project: condor
       internal_imports: 1255
       internal_projects_used:
-      - subtrix
       - ogma
-      - condor
+      - subtrix
       - nchantrs
       - pyside6pandas
+      - condor
       leverage_score: 37.38
       score: 100
       status: pass
@@ -3713,28 +3713,12 @@ dimensions:
     status: partial
   try_except_imports:
     details:
-      issues:
-      - fix: Move required imports to top of file
-        rule: 'Required imports in try/except: 4'
-        severity: high
-        violations:
-        - file: test_shroud_runner.py
-          import: import traceback
-          line: 82
-        - file: test_shroud_runner.py
-          import: import traceback
-          line: 130
-        - file: test_shroud_runner.py
-          import: import traceback
-          line: 183
-        - file: nchantrs/dialogs/dialogs.py
-          import: import traceback
-          line: 452
-      score: 20
-      status: partial
-      violation_count: 4
-    score: 20
-    status: partial
+      issues: []
+      score: 100
+      status: pass
+      violation_count: 0
+    score: 100
+    status: pass
   type_annotations:
     details:
       annotated_functions: 109
@@ -3764,15 +3748,15 @@ dimensions:
       wrapper_count: 0
     score: 100
     status: pass
-overall_score: 64.1
+overall_score: 65.7
 project: nchantrs
 summary:
   failing: 2
   gitvein_projects_available: 65
-  passing: 22
+  passing: 23
   total_dimensions: 32
 versions:
-  project: 42fb163
+  project: 74ceb58
   project_status: dirty
   project_uncommitted_changes: 1
   sasquatch: unknown
