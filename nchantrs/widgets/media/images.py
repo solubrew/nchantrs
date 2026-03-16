@@ -12,6 +12,10 @@
 """
 import base64
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join, exists

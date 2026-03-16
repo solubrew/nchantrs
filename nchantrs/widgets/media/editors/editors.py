@@ -21,6 +21,10 @@ import datetime as dt
 from types import MethodType
 import re
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ===============================================================================||
 from condor import condor
 from nchantrs.dialogs.files import NchantdFileOpenSigil

@@ -20,7 +20,11 @@ from os.path import abspath, dirname, exists, join, expanduser
 
 # ===============================================================================||
 from condor import condor
+
+import logging
 from condor.thing import thingify, getName
+
+logger = logging.getLogger(__name__)
 from fxsquirl.fxsquirl import Chunker
 
 # ====================================================================================================================||

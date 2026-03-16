@@ -1,6 +1,10 @@
 # syntax.py
 import sys
+
+import logging
 from PyQt5.QtCore import QRegExp
+
+logger = logging.getLogger(__name__)
 from PyQt5.QtGui import QColor, QTextCharFormat, QFont, QSyntaxHighlighter
 from typing import Optional, Dict, List, Any, Tuple
 

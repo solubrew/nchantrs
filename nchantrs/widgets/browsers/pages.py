@@ -17,6 +17,10 @@ import datetime as dt
 from functools import partial
 import json as j
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||

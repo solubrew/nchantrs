@@ -18,7 +18,11 @@ from os.path import dirname, join
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
+
+import logging
 from _work.subtreemodels import NchantdProjectSubTreeModel
+
+logger = logging.getLogger(__name__)
 from ogma.logma import Logma
 from typing import Optional, Dict, List, Any, Tuple
 

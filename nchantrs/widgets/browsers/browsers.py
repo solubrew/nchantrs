@@ -20,7 +20,11 @@ from os import environ
 from collections import deque
 import datetime as dt
 import queue
+
+import logging
 from os.path import dirname, join
+
+logger = logging.getLogger(__name__)
 from os import environ
 from collections import deque
 import datetime as dt

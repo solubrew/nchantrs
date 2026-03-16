@@ -16,6 +16,10 @@ from os.path import abspath, dirname, join
 from os import listdir
 import json as j
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 from pandas import DataFrame
 

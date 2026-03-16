@@ -18,6 +18,10 @@
 from os.path import abspath, dirname, join
 import datetime as dt
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ===============================================================================||
 import numpy as np
 import mplfinance as mpf

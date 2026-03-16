@@ -17,6 +17,10 @@
 from os.path import abspath, dirname, join
 from typing import Optional, Dict, List, Any, Tuple
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||

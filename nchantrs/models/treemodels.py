@@ -19,6 +19,10 @@ import datetime as dt
 from math import isnan
 from typing import Optional, Dict, List, Any, Tuple
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ===============================================================================||
 from pandas import DataFrame
 from subtrix.utilities import uuid

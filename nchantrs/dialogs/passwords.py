@@ -19,7 +19,11 @@ from os.path import dirname, join
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
 from typing import Optional, Dict, List, Any, Tuple
+
+import logging
 from nchantrs.dialogs.dialogs import NchantdCape
+
+logger = logging.getLogger(__name__)
 from ogma.logma import Logma
 
 # ====================================================================================================================||

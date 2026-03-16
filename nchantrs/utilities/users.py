@@ -16,6 +16,10 @@ from os.path import abspath, dirname, join
 import datetime as dt
 import base64
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 from uuid_extensions import uuid7
 

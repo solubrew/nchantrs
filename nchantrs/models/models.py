@@ -18,6 +18,10 @@ import inspect
 import json as j
 import base64
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 from pandas import DataFrame
 from uuid_extensions import uuid7

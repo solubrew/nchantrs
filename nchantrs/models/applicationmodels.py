@@ -24,6 +24,10 @@ import json as j
 from shutil import copyfile
 from pandas import DataFrame
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ===============================================================================||
 from condor import condor
 from subtrix.subtrix import Mechanism

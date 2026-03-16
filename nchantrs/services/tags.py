@@ -20,7 +20,11 @@ from os.path import abspath, dirname, join
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
+
+import logging
 from nchantrs.libraries import qpandas
+
+logger = logging.getLogger(__name__)
 from ogma.logma import Logma
 from subtrix import thing
 

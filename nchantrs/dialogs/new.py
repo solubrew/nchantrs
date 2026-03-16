@@ -20,6 +20,10 @@ from os.path import dirname, join
 from condor import condor
 from typing import Optional, Dict, List, Any, Tuple
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 from nchantrs.dialogs.dialogs import NchantdSigil, NchantdErrorNotifySigil
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.media.editors.editors import NchantdLabeledEntry

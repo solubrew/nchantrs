@@ -17,6 +17,10 @@ import datetime as dt
 import json as j
 import threading
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 from pandas import DataFrame
 

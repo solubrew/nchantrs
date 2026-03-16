@@ -17,7 +17,11 @@ import datetime as dt
 import enum
 import dataclasses
 from typing import Optional
+
+import logging
 from collections.abc import Callable
+
+logger = logging.getLogger(__name__)
 
 # ======================================3rd Party Library Modules=====================================================||
 

@@ -17,6 +17,10 @@ from typing import Optional, Dict, List, Any, Tuple
 import datetime as dt
 import json as j
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||

@@ -15,7 +15,11 @@
 from os.path import abspath, dirname, join
 import datetime as dt
 from typing import Any, Dict, Optional, Any
+
+import logging
 # ======================================3rd Party Library Modules=====================================================||
+
+logger = logging.getLogger(__name__)
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor

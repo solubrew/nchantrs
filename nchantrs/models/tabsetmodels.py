@@ -20,6 +20,10 @@ from os.path import abspath, dirname, join
 import json as j
 from typing import Optional, Dict, List, Any, Tuple
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ===============================================================================||
 from condor import condor
 from nchantrs.libraries import pyqt

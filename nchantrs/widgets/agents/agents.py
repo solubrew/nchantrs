@@ -18,7 +18,11 @@ from os.path import abspath, dirname, join
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
+
+import logging
 from nchantrs.services.telemetry import TelemetryService
+
+logger = logging.getLogger(__name__)
 from ogma.logma import Logma
 from sentinel.sentinel import Sentinel, Automaton
 

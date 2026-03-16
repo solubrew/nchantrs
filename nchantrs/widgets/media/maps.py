@@ -20,7 +20,11 @@ from os.path import abspath, dirname, join
 
 # ===============================================================================||
 from condor import condor
+
+import logging
 from ogma.logma import Logma
+
+logger = logging.getLogger(__name__)
 
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||

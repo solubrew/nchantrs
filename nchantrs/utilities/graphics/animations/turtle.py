@@ -14,7 +14,11 @@
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join
 from random import randint
+
+import logging
 # ======================================3rd Party Library Modules=====================================================||
+
+logger = logging.getLogger(__name__)
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from ogma.logma import Logma

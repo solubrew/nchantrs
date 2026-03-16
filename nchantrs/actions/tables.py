@@ -164,7 +164,11 @@ def tabledelete():
 import gtk, pango
 import os, csv, codecs, cStringIO, copy
 import cons, support
+
+import logging
 class TablesHandler:
+
+logger = logging.getLogger(__name__)
     """Handler of the Tables"""
     def __init__(self, dad):
         """Lists Handler boot"""

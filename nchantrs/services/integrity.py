@@ -15,7 +15,11 @@
 from os.path import abspath, dirname, join, realpath
 import sys
 import hashlib
+
+import logging
 # ======================================3rd Party Library Modules=====================================================||
+
+logger = logging.getLogger(__name__)
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor

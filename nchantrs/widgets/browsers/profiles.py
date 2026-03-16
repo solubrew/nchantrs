@@ -20,6 +20,10 @@ from enum import Enum
 from typing import Dict, Optional
 import uuid
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||

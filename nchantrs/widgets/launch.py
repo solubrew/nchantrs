@@ -19,6 +19,10 @@ from os.path import dirname, join
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 from nchantrs.wizards.accounts import NchantdNewApplicationWizard
 from nchantrs.widgets.widgets import NchantdWidget
 from ogma.logma import Logma

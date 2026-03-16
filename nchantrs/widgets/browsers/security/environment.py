@@ -27,6 +27,10 @@ from typing import Dict, List, Optional, Tuple
 import psutil
 import ssl
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||

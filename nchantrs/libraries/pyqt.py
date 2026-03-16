@@ -19,6 +19,8 @@ from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel
 from PySide6.QtSql import QSqlTableModel, QSqlRelationalTableModel
 from typing import Optional, Dict, List, Any, Tuple
 
+import logging
+
 # ===============================================================================||
 from PySide6.QtNetwork import QSslSocket
 

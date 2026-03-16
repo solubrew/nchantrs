@@ -14,7 +14,11 @@
 # -*- coding: utf-8 -*-#														||
 # =================================Core Modules==================================||
 import sys
+
+import logging
 from os.path import abspath, dirname, join
+
+logger = logging.getLogger(__name__)
 import datetime as dt
 
 # ===============================================================================||

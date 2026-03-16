@@ -18,7 +18,11 @@ from os.path import dirname, join
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
+
+import logging
 from nchantrs.widgets.tabsets import NchantdTab
+
+logger = logging.getLogger(__name__)
 from nchantrs.widgets.browsers.browsers import NchantdWebBrowser
 from ogma.logma import Logma
 

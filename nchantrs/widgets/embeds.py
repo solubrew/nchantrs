@@ -20,7 +20,11 @@ from os.path import abspath, dirname, exists, join
 
 # ===============================================================================||
 from condor import condor
+
+import logging
 from nchantrs.libraries import pyqt
+
+logger = logging.getLogger(__name__)
 from nchantrs.views.paneviews import NchantdImageView
 
 # ===============================================================================||

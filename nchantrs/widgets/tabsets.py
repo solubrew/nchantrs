@@ -20,7 +20,11 @@ from os.path import abspath, dirname, join
 
 # ===============================================================================||
 from condor import condor
+
+import logging
 from subtrix.utilities import uuid
+
+logger = logging.getLogger(__name__)
 from nchantrs.libraries import pyqt
 from nchantrs.models import tabsetmodels
 from nchantrs.widgets.media.notes import NchantdStickyNoteEditor

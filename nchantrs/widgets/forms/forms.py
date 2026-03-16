@@ -17,7 +17,11 @@ from os.path import abspath, dirname, join
 
 # ===============================================================================||
 from condor import condor
+
+import logging
 from nchantrs.libraries import pyqt
+
+logger = logging.getLogger(__name__)
 from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.widgets import loadWidget
 from ogma.logma import Logma

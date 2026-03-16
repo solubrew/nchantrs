@@ -20,6 +20,10 @@
 from os.path import abspath, dirname, join, expanduser
 from pathlib import Path
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ===============================================================================||
 from condor import condor
 from nchantrs.libraries import pyqt
