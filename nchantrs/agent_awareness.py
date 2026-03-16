@@ -34,8 +34,11 @@ Each agent has:
 - Experience: Continuous learning from past tasks
 """
 
+import logging
 import os
 from typing import Optional
+
+logger: logging.Logger = logging.getLogger(__name__)
 
 
 # Agent configuration constants
@@ -54,6 +57,7 @@ def get_current_agent() -> str:
         'morg'
     """
     agent = os.getenv("AGENT_NAME", os.getenv("USER", DEFAULT_AGENT))
+    logger.debug(f"Current agent determined: {agent}")
     return agent
 
 

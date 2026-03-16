@@ -32,7 +32,7 @@ analysis:
       nchantrs/dialogs/search.py: 2158
       nchantrs/dialogs/settings.py: 2353
       nchantrs/events/__init__.py: 294
-      nchantrs/events/alerts.py: 1629
+      nchantrs/events/alerts.py: 1756
       nchantrs/events/events.py: 7669
       nchantrs/events/keyboard_events.py: 15850
       nchantrs/events/mouse_events.py: 5538
@@ -69,7 +69,7 @@ analysis:
       nchantrs/services/bonds.py: 2483
       nchantrs/services/connections.py: 2230
       nchantrs/services/directories.py: 1797
-      nchantrs/services/integrity.py: 3262
+      nchantrs/services/integrity.py: 3482
       nchantrs/services/license.py: 2097
       nchantrs/services/links.py: 2152
       nchantrs/services/nchantrs.py: 2568
@@ -1348,10 +1348,10 @@ analysis:
         word_count: 35
       nchantrs/events/alerts.py:
         class_count: 0
-        file_size: 1629
+        file_size: 1756
         function_count: 0
         import_count: 6
-        word_count: 111
+        word_count: 122
       nchantrs/events/events.py:
         class_count: 2
         file_size: 7669
@@ -1570,10 +1570,10 @@ analysis:
         word_count: 126
       nchantrs/services/integrity.py:
         class_count: 1
-        file_size: 3262
+        file_size: 3482
         function_count: 1
         import_count: 6
-        word_count: 269
+        word_count: 298
       nchantrs/services/license.py:
         class_count: 2
         file_size: 2097
@@ -8068,20 +8068,6 @@ dimensions:
       issues:
       - fix: Consider creating a shared base class or mixin for common methods
         patterns:
-        - arg_count: 2
-          base: object
-          classes:
-          - Integrity
-          - UpgradeDatabaseTable
-          - Ownership
-          - NchantdEventAPI
-          - NchantdNodesAPI
-          - NchantdRuntimeAPI
-          - NchantdSourceAPI
-          - NchantdStorageAPI
-          - NchantdWebHistory
-          - NchantdConfigStoreDocument
-          method: __init__
         - arg_count: 3
           base: object
           classes:
@@ -8113,6 +8099,19 @@ dimensions:
           - UpgradeKey
           - UpgradeDatabaseView
           - DataFilter
+          method: __init__
+        - arg_count: 2
+          base: object
+          classes:
+          - UpgradeDatabaseTable
+          - Ownership
+          - NchantdEventAPI
+          - NchantdNodesAPI
+          - NchantdRuntimeAPI
+          - NchantdSourceAPI
+          - NchantdStorageAPI
+          - NchantdWebHistory
+          - NchantdConfigStoreDocument
           method: __init__
         - arg_count: 3
           base: NchantdWizardPage
@@ -8348,11 +8347,11 @@ dimensions:
         rule: 'Low changelog coverage: 69%'
         severity: high
         unmatched_commits:
+        - 'e99b71f Compliance fixes: type annotations, magic numbers'
         - '7c2e9ea Compliance fixes: magic numbers, dependencies, error'
         - '14f2449 Fix: Properly set central widget with view content o'
         - 'd067a33 Fix: Replace self.exec() with proper Qt event loop i'
         - e666c78 Fix initApp() - call exec() on main_widget instead o
-        - 346fcd5 Add log_file parameter to NchantdCape and NchantdPan
       score: 60
       status: partial
     score: 60
@@ -8484,7 +8483,7 @@ dimensions:
         - file: nchantrs/__main__.py
           name: from typing import Dict
           type: import_from
-        rule: 'Unused imports: 6690'
+        rule: 'Unused imports: 6688'
         severity: medium
       - fix: Remove or export unused functions
         items:
@@ -8518,13 +8517,10 @@ dimensions:
         - file: nchantrs/cli.py
           name: cmd_events
           type: function
-        rule: 'Unused functions: 337'
+        rule: 'Unused functions: 336'
         severity: medium
       - fix: Remove or export unused classes
         items:
-        - file: nchantrs/services/integrity.py
-          name: Integrity
-          type: class
         - file: nchantrs/services/services.py
           name: NchantdServiceManager
           type: class
@@ -8552,14 +8548,17 @@ dimensions:
         - file: nchantrs/services/upgrades.py
           name: UpgradeKey
           type: class
-        rule: 'Unused classes: 3165'
+        - file: nchantrs/services/license.py
+          name: Ownership
+          type: class
+        rule: 'Unused classes: 3164'
         severity: medium
       score: 40
       status: partial
-      total_unused: 10192
-      unused_class_count: 3165
-      unused_function_count: 337
-      unused_import_count: 6690
+      total_unused: 10188
+      unused_class_count: 3164
+      unused_function_count: 336
+      unused_import_count: 6688
     score: 40
     status: partial
   dependency_strategy:
@@ -8600,11 +8599,11 @@ dimensions:
         project: condor
       internal_imports: 4259
       internal_projects_used:
+      - subtrix
       - pyside6pandas
+      - condor
       - nchantrs
       - ogma
-      - condor
-      - subtrix
       leverage_score: 40.82
       score: 100
       status: pass
@@ -11954,21 +11953,21 @@ dimensions:
   external_dependencies_declared:
     details:
       declared_internal:
-      - micromole
-      - ogma
-      - condor
       - subtrix
+      - micromole
       - pycurity
+      - condor
+      - ogma
       - squirl
       issues:
       - fix: Remove internal projects from pyproject.toml - they are registered via
           path in the environment, not pip
         packages:
-        - micromole
-        - ogma
-        - condor
         - subtrix
+        - micromole
         - pycurity
+        - condor
+        - ogma
         - squirl
         rule: Internal projects in pyproject.toml dependencies (FORBIDDEN)
         severity: critical
@@ -12131,8 +12130,8 @@ dimensions:
   logging:
     details:
       print_files:
-      - test_app_calculator.py
       - test_shroud_runner.py
+      - test_app_calculator.py
       print_statements: 203
       score: 75
       status: partial
@@ -12266,34 +12265,34 @@ dimensions:
       covered_modules: 10
       issues:
       - available_cli_commands:
-        - actions
-        - wizards
-        - models
-        - version
-        - nchantrs
-        - install
-        - run
-        - help
-        - cli
-        - services
-        - test
-        - config
-        - utilities
         - uninstall
+        - help
         - events
-        - widgets
-        - dialogs
-        covered_modules:
-        - actions
         - wizards
-        - nchantrs
         - models
+        - run
+        - widgets
+        - cli
+        - version
+        - test
+        - actions
+        - nchantrs
         - services
         - utilities
-        - cli
-        - events
-        - widgets
+        - install
         - dialogs
+        - config
+        covered_modules:
+        - events
+        - wizards
+        - dialogs
+        - widgets
+        - cli
+        - nchantrs
+        - actions
+        - services
+        - utilities
+        - models
         fix: 'Add CLI commands for: agent_awareness'
         rule: 'CLI coverage: 10/11 modules'
         severity: medium
@@ -12430,46 +12429,46 @@ dimensions:
       issues:
       - fix: Consider using a dictionary or strategy pattern instead of repeated conditionals
         patterns:
-        - checks: 12
-          file: nchantrs/events/events.py
+        - checks: 5
+          file: nchantrs/widgets/groups.py
           function: if/elif chain
-          variable: index
+          variable: position
+        - checks: 6
+          file: nchantrs/widgets/media/games/boards.py
+          function: if/elif chain
+          variable: key
         - checks: 4
           file: nchantrs/widgets/browsers/profiles.py
           function: if/elif chain
           variable: policy_code
-        - checks: 82
-          file: nchantrs/models/models.py
-          function: if/elif chain
-          variable: how
         - checks: 100
           file: nchantrs/events/keyboard_events.py
           function: if/elif chain
-          variable: alt
-        - checks: 7
-          file: nchantrs/widgets/browsers/pages.py
+          variable: shift
+        - checks: 4
+          file: nchantrs/widgets/calculators/calculators.py
           function: if/elif chain
-          variable: feature
+          variable: pendingOperator
+        - checks: 8
+          file: nchantrs/events/mouse_events.py
+          function: if/elif chain
+          variable: shift
         - checks: 4
           file: nchantrs/widgets/controls/toolbars.py
           function: if/elif chain
           variable: button_cfg
-        - checks: 7
-          file: nchantrs/widgets/browsers/codecs/h264.py
+        - checks: 26
+          file: nchantrs/widgets/media/charts/charts.py
+          function: match statement
+          variable: chart_type
+        - checks: 12
+          file: nchantrs/events/events.py
           function: if/elif chain
-          variable: system
+          variable: index
         - checks: 8
           file: nchantrs/events/mouse_events.py
           function: if/elif chain
           variable: alt
-        - checks: 6
-          file: nchantrs/utilities/graphics/animations/turtle.py
-          function: if/elif chain
-          variable: cnt
-        - checks: 6
-          file: nchantrs/utilities/formatting.py
-          function: if/elif chain
-          variable: justify
         rule: 'Switch abuse detected: 22 patterns'
         severity: medium
       score: 0
@@ -12525,7 +12524,7 @@ dimensions:
     status: pass
   type_annotations:
     details:
-      annotated_functions: 870
+      annotated_functions: 874
       annotation_percentage: 3.3
       issues:
       - fix: Add type hints to function signatures and return types
@@ -12548,7 +12547,7 @@ dimensions:
       issues: []
       score: 100
       status: pass
-      total_functions: 26357
+      total_functions: 26351
       wrapper_count: 0
     score: 100
     status: pass
@@ -12560,7 +12559,7 @@ summary:
   passing: 33
   total_dimensions: 46
 versions:
-  project: 80fcbb0
-  project_status: dirty
-  project_uncommitted_changes: 1
+  project: e99b71f
+  project_status: clean
+  project_uncommitted_changes: 0
   sasquatch: unknown
