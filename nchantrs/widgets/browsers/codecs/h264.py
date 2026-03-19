@@ -240,7 +240,7 @@ class OpenH264Manager:
                     downloaded += len(chunk)
                     if total_size > 0:
                         percent = (downloaded / total_size) * 100
-                        print(f"\rDownloading: {percent:.1f}%", end="")
+                        logger.debug("Download progress: %.1f%%", percent)
 
                 tmp_path = tmp_file.name
 

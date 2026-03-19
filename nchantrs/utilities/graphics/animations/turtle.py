@@ -97,7 +97,7 @@ def animation_panel(background, accent):
                 t[cnt].forward(move)
             else:
                 t[cnt].backward(move)
-            print(pos)
+            logger.debug("Turtle position: %s", pos)
         t[cnt].hideturtle()
         cnt += 1
 
