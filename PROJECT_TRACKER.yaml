@@ -63,10 +63,10 @@ dimensions:
       internal_imports: 382
       internal_projects_used:
       - subtrix
-      - ogma
-      - nchantrs
       - pyside6pandas
+      - nchantrs
       - condor
+      - ogma
       leverage_score: 28.61
       score: 100
       status: pass
@@ -135,9 +135,11 @@ dimensions:
   logging:
     details:
       print_files:
-      - nchantrs/utilities/debug.py
+      - nchantrs/wizards/wizards.py
+      - nchantrs/utilities/graphics/animations/turtle.py
+      - nchantrs/extensions/apis.py
       - nchantrs/events/tabsets.py
-      print_statements: 201
+      print_statements: 109
       score: 0
       status: fail
       uses_logging: true

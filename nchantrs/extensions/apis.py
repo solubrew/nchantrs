@@ -143,7 +143,7 @@ class NchantdRuntimeAPI(object):
         """
         Handle a message sent from JavaScript.
         """
-        print(f"Received message from JavaScript: {message}")
+        logma.debug(f"Received message from JavaScript: {message}")
         response = {"response": f"Python received: {message}"}
         return json.dumps(response)
 
