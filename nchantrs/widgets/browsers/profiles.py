@@ -545,7 +545,7 @@ class ProfileManager(pyqt.QObject):
             del self.configurations[name]
 
             self.profileRemoved.emit(name)
-            print(f"Removed profile '{name}'")
+            logger.info(f"Removed profile '{name}'")
 
     def get_profile_names(self) -> list:
         """Get list of all profile names"""

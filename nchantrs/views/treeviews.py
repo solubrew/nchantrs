@@ -210,7 +210,7 @@ class NchantdTreeView(NchantdWidget):
         - position
         - readonly
         """
-        print("Tested Double Click")
+        logger.debug(f"Tested Double Click")
         node = self.model.getNodeData(signal.data())
         if node["editable"]:
             dialog = self.config.dikt["nodeeditordialog"]["widget"]

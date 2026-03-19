@@ -536,7 +536,7 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
 
     def on_return_pressed(self, text):
         """enter pressed"""
-        print("Enter Pressed")
+        logger.debug(f"Enter Pressed")
         self.user_editted = dt.datetime.now()
         self.can_save = True
         self.value = text

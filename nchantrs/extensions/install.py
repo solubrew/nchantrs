@@ -107,7 +107,7 @@ class NchantdExtensionLoader(pyqt.QObject):
                 js_code = script_file.read()
                 self.execute_background_script(js_code)
 
-        print(f"Extension {name} loaded successfully!")
+        logger.info(f"Extension {name} loaded successfully!")
 
     def verify_extension(self, name) -> None:
         """

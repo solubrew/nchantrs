@@ -218,7 +218,7 @@ class NchantdSubmissionButtons(pyqt.QWidget):
         pyqt.QWidget.__init__(self)
         self.layout = pyqt.QHBoxLayout()
         if log:
-            print("Nchantd Submission Buttons", self.config.dikt)
+            logger.debug(f"Nchantd Submission Buttons", self.config.dikt)
         self.config.dikt["buttons"]["new"]["text"] = "New"
         self.newbutton = NchantdButton(self, self.config.dikt["buttons"]["new"])
         self.newbutton.initWidget()

@@ -407,7 +407,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
             self.setCurrentIndex(new_index)
             event.acceptProposedAction()
         except Exception as e:
-            print(f"Drop error: {e}")
+            logger.error(f"Drop error: {e}")
             event.ignore()
 
     def find_widget_by_id(self, widget_id):
