@@ -40,6 +40,9 @@ logma = Logma(__name__)
 if not log:
     logma.off()
 
+# Constants to avoid magic numbers
+MAX_WIDTH_SCALE = 1.5  # Scale factor for max width calculation
+
 # ====================================================================================================================||
 pxcfg = join(abspath(here), "_data_", "widgets.yaml")
 pxcfg = {}
@@ -579,7 +582,7 @@ class NchantdWidgetMixin(object):
         if max_width is None:
             max_width = set_width
         if max_width is None:
-            max_width = min_width * 1.5
+            max_width = min_width * MAX_WIDTH_SCALE
         self.min_width = min_width
         self.max_width = max_width
         # logma.info(f"Set Width {self.min_width} {self.max_width}")
@@ -629,7 +632,7 @@ class NchantdWidgetMixin(object):
     #     if max_height is None:
     #         max_height = set_height
     #     if max_height is None:
-    #         max_height = min_height * 1.5
+    #         max_height = min_height * MAX_WIDTH_SCALE
     #     self.max_height = max_height
     #     # logma.info(f"Set Height {self.min_height} {self.max_height}")
     #     if isinstance(self.min_height, str):
@@ -679,7 +682,7 @@ class NchantdWidgetMixin(object):
         if max_height is None:
             max_height = set_height
         if max_height is None:
-            max_height = min_height * 1.5
+            max_height = min_height * MAX_WIDTH_SCALE
         self.max_height = max_height
         # logma.info(f"Set Height {self.min_height} {self.max_height}")
         if isinstance(self.min_height, str):
@@ -756,7 +759,7 @@ class NchantdWidgetMixin(object):
     #     if max_height is None:
     #         max_height = set_height
     #     if max_height is None:
-    #         max_height = min_height * 1.5
+    #         max_height = min_height * MAX_WIDTH_SCALE
     #     self.max_height = max_height
     #     # logma.info(f"Set Height {self.min_height} {self.max_height}")
     #     if isinstance(self.min_height, str):

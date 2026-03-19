@@ -43,6 +43,9 @@ here = join(dirname(__file__), "")  # ||
 log = True
 debug = True
 logma = Logma(__name__)
+
+# Constants for magic number replacement
+REMOVE_PATH_FLAGS = 3213  # Flag for fonql.removePath()
 # logma.off()
 
 # ====================================================================================================================||
@@ -410,7 +413,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
             # logma.info(f"Check exists {path} {path[:-1]}")
             if exists(path) or exists(path[:-1]):
                 # logma.info(f"Remove Path {path} {path[:-1]}")
-                fonql.removePath(path, 3213)
+                fonql.removePath(path, REMOVE_PATH_FLAGS)
                 self.app.model.store.cache_app_install("uninstalled", ["remove_directory", {"path": path}])
         return
 
