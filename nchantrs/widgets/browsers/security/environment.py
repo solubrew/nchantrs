@@ -43,6 +43,9 @@ log = True
 logma = Logma(__name__)
 
 # ====================================================================================================================||
+# Constants for magic number replacement
+PROCESS_CHECK_TIMEOUT = 5
+
 pxcfg = join(here, "_data_", ".yaml")
 
 
@@ -267,7 +270,7 @@ class CrossPlatformSecurityManager:
                 # If file doesn't exist, try creating a user namespace
                 try:
                     result = subprocess.run(
-                        ["unshare", "--user", "--pid", "--map-root-user", "true"], capture_output=True, timeout=5
+                        ["unshare", "--user", "--pid", "--map-root-user", "true"], capture_output=True, timeout=PROCESS_CHECK_TIMEOUT
                     )
                     return result.returncode == 0
                 except Exception:

@@ -56,8 +56,8 @@ WINDOW_STATE_MESSAGES = {
 }
 
 WINDOW_STATE_ACTIONS = {
-    pyqt.Qt.WindowMaximized: lambda: print("The window was maximized."),
-    pyqt.Qt.WindowNoState: lambda: print("The window was restored to normal."),
+    pyqt.Qt.WindowMaximized: lambda: logma.info("The window was maximized."),
+    pyqt.Qt.WindowNoState: lambda: logma.info("The window was restored to normal."),
 }
 
 # ===============================================================================||

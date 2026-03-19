@@ -49,6 +49,10 @@ log = True
 logma = Logma(__name__)
 
 # ====================================================================================================================||
+# Constants for magic number replacement
+DOWNLOAD_TIMEOUT_SECONDS = 30
+DOWNLOAD_CHUNK_SIZE = 8192
+
 pxcfg = join(here, "_data_", ".yaml")
 
 
@@ -122,10 +126,10 @@ class OpenH264Downloader:
         logma.info(f"Downloading OpenH264 from: {url}")
         try:
             # Download compressed binary
-            response = requests.get(url, stream=True, timeout=30)
+            response = requests.get(url, stream=True, timeout=DOWNLOAD_TIMEOUT_SECONDS)
             response.raise_for_status()
             with open(compressed_path, "wb") as f:
-                for chunk in response.iter_content(chunk_size=8192):
+                for chunk in response.iter_content(chunk_size=DOWNLOAD_CHUNK_SIZE):
                     f.write(chunk)
             logma.info(f"Downloaded to: {compressed_path}")
             # Extract bz2 file
@@ -229,13 +233,13 @@ class OpenH264Manager:
 
             # Download to temporary file first
             with tempfile.NamedTemporaryFile(delete=False, suffix=".bz2") as tmp_file:
-                response = requests.get(url, stream=True, timeout=30)
+                response = requests.get(url, stream=True, timeout=DOWNLOAD_TIMEOUT_SECONDS)
                 response.raise_for_status()
 
                 total_size = int(response.headers.get("content-length", 0))
                 downloaded = 0
 
-                for chunk in response.iter_content(chunk_size=8192):
+                for chunk in response.iter_content(chunk_size=DOWNLOAD_CHUNK_SIZE):
                     tmp_file.write(chunk)
                     downloaded += len(chunk)
                     if total_size > 0:
