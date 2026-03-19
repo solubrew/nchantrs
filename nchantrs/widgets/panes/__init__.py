@@ -1,0 +1,1 @@
+"""Nchantrs widgets panes package."""

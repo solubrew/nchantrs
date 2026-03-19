@@ -1,16 +1,35 @@
 site_name: Nchantrs Documentation
 site_description: Advanced PyQt6 Application Framework
 site_url: https://www.solutionsbrewer.com/
+site_author: Solutions Brewer
 
 theme:
   name: material
+  palette:
+    primary: indigo
+    accent: blue
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - search.suggest
 
 nav:
   - Home: index.md
   - Installation: installation.md
+  - Configuration: configuration.md
   - API Reference:
       - nchantrs: api/nchantrs.md
       - widgets: api/widgets.md
+  - CI/CD: cicd.md
 
 plugins:
   - mkdocstrings
+  - search
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - admonition
+  - codehilite:
+      guess_lang: false
