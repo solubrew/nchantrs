@@ -1,4 +1,4 @@
-agent: arthr
+agent: gamma
 analysis:
   counts:
     directories: 86
@@ -14,7 +14,7 @@ analysis:
       actions/text.py: 5977
       actions/tree.py: 5889
       agent_awareness.py: 3269
-      cli.py: 6111
+      cli.py: 9984
       dialogs/__init__.py: 371
       dialogs/about.py: 4619
       dialogs/authentication.py: 2980
@@ -315,10 +315,10 @@ analysis:
         word_count: 327
       cli.py:
         class_count: 0
-        file_size: 6111
-        function_count: 18
-        import_count: 3
-        word_count: 695
+        file_size: 9984
+        function_count: 26
+        import_count: 4
+        word_count: 1074
       dialogs/__init__.py:
         class_count: 0
         file_size: 371
@@ -1651,17 +1651,17 @@ analysis:
         function_count: 0
         import_count: 7
         word_count: 170
-audit_date: '1773779623.7986288'
+audit_date: '1773876762.4161088'
 coverage_penalty:
   applied: true
   message: -10% penalty (file-level coverage 0.0% < 60%)
 dimensions:
   agent_awareness:
     details:
-      score: 0
-      status: fail
-    score: 0
-    status: fail
+      score: 100
+      status: pass
+    score: 100
+    status: pass
   base_class_duplication:
     details:
       base_class_duplication_count: 40
@@ -1990,14 +1990,11 @@ dimensions:
     status: fail
   code_quality_pylint:
     details:
-      issues:
-      - fix: Fix pylint errors
-        rule: 'Pylint errors: 1366'
-        severity: critical
-      score: 0
-      status: fail
-    score: 0
-    status: fail
+      issues: []
+      score: 50
+      status: partial
+    score: 50
+    status: partial
   configuration:
     details:
       config_exists: false
@@ -2196,8 +2193,8 @@ dimensions:
       internal_imports: 376
       internal_projects_used:
       - pyside6pandas
-      - subtrix
       - ogma
+      - subtrix
       - nchantrs
       - condor
       leverage_score: 28.72
@@ -2725,8 +2722,8 @@ dimensions:
   logging:
     details:
       print_files:
-      - events/tabsets.py
       - utilities/debug.py
+      - events/tabsets.py
       print_statements: 123
       score: 75
       status: partial
@@ -2846,8 +2843,8 @@ dimensions:
         patterns:
         - class: NchantdLibraryManager
           directories:
-          - library
           - extensions
+          - library
           locations:
           - library/library.py
           - extensions/packages/nchantdlibrary/nchantdlibrary.py
@@ -2949,46 +2946,46 @@ dimensions:
       issues:
       - fix: Consider using a dictionary or strategy pattern instead of repeated conditionals
         patterns:
-        - checks: 6
-          file: dialogs/files.py
-          function: match statement
-          variable: gfilter
         - checks: 26
           file: widgets/media/charts/charts.py
           function: match statement
           variable: chart_type
         - checks: 7
-          file: widgets/browsers/codecs/h264.py
+          file: widgets/browsers/pages.py
           function: if/elif chain
-          variable: system
+          variable: feature
         - checks: 4
-          file: widgets/browsers/security/environment.py
+          file: widgets/controls/toolbars.py
           function: if/elif chain
-          variable: system
-        - checks: 4
-          file: widgets/calendars/timelines.py
-          function: if/elif chain
-          variable: threshold
+          variable: button_cfg
+        - checks: 6
+          file: dialogs/files.py
+          function: match statement
+          variable: gfilter
         - checks: 8
           file: events/mouse_events.py
           function: if/elif chain
           variable: alt
-        - checks: 7
-          file: widgets/browsers/pages.py
-          function: if/elif chain
-          variable: feature
         - checks: 8
           file: events/mouse_events.py
           function: if/elif chain
           variable: shift
-        - checks: 13
-          file: widgets/widgets.py
-          function: if/elif chain
-          variable: justify
         - checks: 4
-          file: widgets/config/storage.py
+          file: actions/tables.py
           function: if/elif chain
-          variable: previous_value
+          variable: keyname
+        - checks: 7
+          file: widgets/browsers/codecs/h264.py
+          function: if/elif chain
+          variable: system
+        - checks: 4
+          file: widgets/browsers/profiles.py
+          function: if/elif chain
+          variable: policy_code
+        - checks: 4
+          file: widgets/calendars/timelines.py
+          function: if/elif chain
+          variable: threshold
         rule: 'Switch abuse detected: 16 patterns'
         severity: medium
       score: 0
@@ -3044,15 +3041,15 @@ dimensions:
     status: pass
   type_annotations:
     details:
-      annotated_functions: 904
-      annotation_percentage: 26.0
+      annotated_functions: 912
+      annotation_percentage: 26.2
       issues:
       - fix: Add type hints to function signatures and return types
-        rule: 'Type annotation coverage: 26.0%'
+        rule: 'Type annotation coverage: 26.2%'
         severity: medium
       score: 60
       status: partial
-      total_functions: 3476
+      total_functions: 3484
     score: 60
     status: partial
   type_check_pyright:
@@ -3067,19 +3064,19 @@ dimensions:
       issues: []
       score: 100
       status: pass
-      total_functions: 3142
+      total_functions: 3150
       wrapper_count: 0
     score: 100
     status: pass
-overall_score: 43.85
+overall_score: 46.98
 project: nchantrs
 summary:
-  failing: 22
+  failing: 20
   gitvein_projects_available: 65
-  passing: 20
+  passing: 21
   total_dimensions: 46
 versions:
   project: unknown
   project_status: clean
   project_uncommitted_changes: 0
-  sasquatch: 1b9fc44
+  sasquatch: unknown

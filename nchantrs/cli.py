@@ -1,6 +1,7 @@
 """Nchantrs CLI - Command Line Interface for Nchantrs Application."""
 
 import sys
+import argparse
 import logging
 from typing import Optional
 
@@ -16,7 +17,60 @@ DEFAULT_AGENT: str = "arthr"
 DEFAULT_AGENT_NAME: str = "arthr"
 
 
-def main(agent: Optional[str] = None) -> int:
+def create_parser() -> argparse.ArgumentParser:
+    """Create the argument parser for nchantrs CLI.
+    
+    Returns:
+        argparse.ArgumentParser: Configured argument parser
+    """
+    parser = argparse.ArgumentParser(
+        prog="nchantrs",
+        description="Nchantrs Application - AI-powered productivity suite"
+    )
+    parser.add_argument(
+        "--agent", "-a",
+        type=str,
+        default=DEFAULT_AGENT,
+        help="Agent identifier (default: arthr)"
+    )
+    parser.add_argument(
+        "--version", "-v",
+        action="version",
+        version="nchantrs 0.0.1.0.1.1"
+    )
+    
+    # Add subcommands
+    subparsers = parser.add_subparsers(dest="command", help="Available commands")
+    
+    # Run command
+    subparsers.add_parser("run", help="Run the nchantrs application")
+    
+    # Test command
+    subparsers.add_parser("test", help="Run tests")
+    
+    # Install command  
+    subparsers.add_parser("install", help="Install nchantrs")
+    
+    # Uninstall command
+    subparsers.add_parser("uninstall", help="Uninstall nchantrs")
+    
+    # Config command
+    subparsers.add_parser("config", help="Manage configuration")
+    
+    # Version command
+    subparsers.add_parser("version", help="Show version")
+    
+    # Module commands
+    for module in ["actions", "dialogs", "events", "models", "services", 
+                   "utilities", "widgets", "wizards", "cli", "nchantrs",
+                   "extensions", "libraries", "library", "logging", 
+                   "themes", "updates", "views"]:
+        subparsers.add_parser(module, help=f"Work with {module} module")
+    
+    return parser
+
+
+def main(agent: Optional[str] = None, args: Optional[list] = None) -> int:
     """Main entry point for the nchantrs CLI.
     
     Args:
@@ -228,6 +282,90 @@ def cmd_nchantrs(args: list[str], agent: Optional[str] = None) -> int:
     """
     agent = agent or DEFAULT_AGENT
     logger.info(f"Working with nchantrs main module with agent: {agent}")
+    return 0
+
+
+def cmd_extensions(args: list[str], agent: Optional[str] = None) -> int:
+    """Work with extensions module.
+    
+    Args:
+        args: Command arguments
+        agent: The agent identifier
+    """
+    agent = agent or DEFAULT_AGENT
+    logger.info(f"Working with extensions module with agent: {agent}")
+    return 0
+
+
+def cmd_libraries(args: list[str], agent: Optional[str] = None) -> int:
+    """Work with libraries module.
+    
+    Args:
+        args: Command arguments
+        agent: The agent identifier
+    """
+    agent = agent or DEFAULT_AGENT
+    logger.info(f"Working with libraries module with agent: {agent}")
+    return 0
+
+
+def cmd_library(args: list[str], agent: Optional[str] = None) -> int:
+    """Work with library module.
+    
+    Args:
+        args: Command arguments
+        agent: The agent identifier
+    """
+    agent = agent or DEFAULT_AGENT
+    logger.info(f"Working with library module with agent: {agent}")
+    return 0
+
+
+def cmd_logging(args: list[str], agent: Optional[str] = None) -> int:
+    """Work with logging module.
+    
+    Args:
+        args: Command arguments
+        agent: The agent identifier
+    """
+    agent = agent or DEFAULT_AGENT
+    logger.info(f"Working with logging module with agent: {agent}")
+    return 0
+
+
+def cmd_themes(args: list[str], agent: Optional[str] = None) -> int:
+    """Work with themes module.
+    
+    Args:
+        args: Command arguments
+        agent: The agent identifier
+    """
+    agent = agent or DEFAULT_AGENT
+    logger.info(f"Working with themes module with agent: {agent}")
+    return 0
+
+
+def cmd_updates(args: list[str], agent: Optional[str] = None) -> int:
+    """Work with updates module.
+    
+    Args:
+        args: Command arguments
+        agent: The agent identifier
+    """
+    agent = agent or DEFAULT_AGENT
+    logger.info(f"Working with updates module with agent: {agent}")
+    return 0
+
+
+def cmd_views(args: list[str], agent: Optional[str] = None) -> int:
+    """Work with views module.
+    
+    Args:
+        args: Command arguments
+        agent: The agent identifier
+    """
+    agent = agent or DEFAULT_AGENT
+    logger.info(f"Working with views module with agent: {agent}")
     return 0
 
 

@@ -118,6 +118,36 @@ dependencies = [
     
     # Testing
     "pytest",
+    
+    # Optional/conditional imports (may not always be available)
+    "pyqt5",  # Optional: for PyQt5 compatibility
+    "config",  # Optional: for config parsing
+    
+    # External packages used in codebase
+    "uuid_extensions",  # UUID extensions
+    "nchantdoffice",  # Office integration  
+    "cons",  # Console utilities
+    "fxsquirl",  # FxSquirl integration
+    "pillow",  # PIL fork
+]
+
+[project.optional-dependencies]
+# Conditional/optional dependencies
+optional = [
+    "pyqt5",  # Optional: PyQt5 fallback
+    "config",  # Optional: config module
+    "uuid_extensions",  # Optional: UUID extensions
+    "nchantdoffice",  # Optional: Office integration
+    "cons",  # Optional: console utilities
+    "fxsquirl",  # Optional: FxSquirl integration
+]
+# Legacy/compatibility
+legacy = [
+    "pkg_resources",  # Part of setuptools
+]
+# All extras
+all = [
+    "nchantrs[dev,test,docs,lint,optional,legacy]",
 ]
 
 [project.urls]

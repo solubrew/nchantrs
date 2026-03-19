@@ -1,7 +1,7 @@
-agent: arthr
+agent: gamma
 analysis:
   counts:
-    directories: 96
+    directories: 99
     file_sizes:
       nchantrs/__init__.py: 488
       nchantrs/__main__.py: 243
@@ -14,7 +14,7 @@ analysis:
       nchantrs/actions/text.py: 5977
       nchantrs/actions/tree.py: 5889
       nchantrs/agent_awareness.py: 3269
-      nchantrs/cli.py: 2938
+      nchantrs/cli.py: 9984
       nchantrs/dialogs/__init__.py: 371
       nchantrs/dialogs/about.py: 4619
       nchantrs/dialogs/authentication.py: 2980
@@ -238,27 +238,15 @@ analysis:
       nchantrs/wizards/users.py: 11247
       nchantrs/wizards/wizards.py: 2653
       run_entry_point.py: 3908
-      test_aberration.py: 1543
-      test_app_aberration.py: 1047
-      test_app_base.py: 2220
-      test_app_calculator.py: 2373
-      test_app_distortion.py: 1222
-      test_app_flection.py: 1418
-      test_app_nchantment.py: 1015
-      test_app_todos.py: 2103
-      test_distortion.py: 2426
-      test_entry_points.py: 4426
-      test_nchantment.py: 1095
-      test_shroud_runner.py: 6267
     files_by_type:
-      (no extension): 170
-      .TAG: 1
+      (no extension): 172
+      .TAG: 2
       .iml: 1
       .ini: 1
       .jpg: 2
       .kra: 2
       .log: 2
-      .md: 274
+      .md: 275
       .png: 30
       .py: 248
       .qss: 9
@@ -268,7 +256,7 @@ analysis:
       .txt: 2
       .webp: 2
       .xml: 5
-      .yaml: 66
+      .yaml: 67
       .yml: 1
     per_file:
       nchantrs/__init__.py:
@@ -339,10 +327,10 @@ analysis:
         word_count: 327
       nchantrs/cli.py:
         class_count: 0
-        file_size: 2938
-        function_count: 18
-        import_count: 2
-        word_count: 309
+        file_size: 9984
+        function_count: 26
+        import_count: 4
+        word_count: 1074
       nchantrs/dialogs/__init__.py:
         class_count: 0
         file_size: 371
@@ -1681,78 +1669,6 @@ analysis:
         function_count: 4
         import_count: 4
         word_count: 364
-      test_aberration.py:
-        class_count: 1
-        file_size: 1543
-        function_count: 0
-        import_count: 5
-        word_count: 148
-      test_app_aberration.py:
-        class_count: 0
-        file_size: 1047
-        function_count: 0
-        import_count: 0
-        word_count: 101
-      test_app_base.py:
-        class_count: 1
-        file_size: 2220
-        function_count: 1
-        import_count: 4
-        word_count: 240
-      test_app_calculator.py:
-        class_count: 1
-        file_size: 2373
-        function_count: 1
-        import_count: 4
-        word_count: 234
-      test_app_distortion.py:
-        class_count: 0
-        file_size: 1222
-        function_count: 0
-        import_count: 0
-        word_count: 121
-      test_app_flection.py:
-        class_count: 0
-        file_size: 1418
-        function_count: 0
-        import_count: 0
-        word_count: 131
-      test_app_nchantment.py:
-        class_count: 0
-        file_size: 1015
-        function_count: 0
-        import_count: 0
-        word_count: 103
-      test_app_todos.py:
-        class_count: 1
-        file_size: 2103
-        function_count: 1
-        import_count: 3
-        word_count: 228
-      test_distortion.py:
-        class_count: 1
-        file_size: 2426
-        function_count: 0
-        import_count: 3
-        word_count: 210
-      test_entry_points.py:
-        class_count: 0
-        file_size: 4426
-        function_count: 5
-        import_count: 2
-        word_count: 427
-      test_nchantment.py:
-        class_count: 0
-        file_size: 1095
-        function_count: 0
-        import_count: 3
-        word_count: 113
-      test_shroud_runner.py:
-        class_count: 0
-        file_size: 6267
-        function_count: 4
-        import_count: 6
-        word_count: 551
 audit_date: '1773876762.4161088'
 coverage_penalty:
   applied: true
@@ -1760,10 +1676,10 @@ coverage_penalty:
 dimensions:
   agent_awareness:
     details:
-      score: 0
-      status: fail
-    score: 0
-    status: fail
+      score: 100
+      status: pass
+    score: 100
+    status: pass
   base_class_duplication:
     details:
       base_class_duplication_count: 40
@@ -2100,10 +2016,10 @@ dimensions:
   code_quality_pylint:
     details:
       issues: []
-      score: 100
-      status: pass
-    score: 100
-    status: pass
+      score: 50
+      status: partial
+    score: 50
+    status: partial
   configuration:
     details:
       config_file: config.yaml
@@ -2269,24 +2185,6 @@ dimensions:
       info: 'Hint: 60 GitVein projects available but not used: PyQt5Pandas, apig,
         asolutionfor, axn, basicbot...'
       internal_import_details:
-      - file: test_app_calculator.py
-        module: nchantrs.widgets.applications.applications
-        project: nchantrs
-      - file: test_nchantment.py
-        module: nchantrs.nchantrs
-        project: nchantrs
-      - file: test_app_todos.py
-        module: nchantrs.widgets.applications.applications
-        project: nchantrs
-      - file: test_distortion.py
-        module: nchantrs.nchantrs
-        project: nchantrs
-      - file: test_app_base.py
-        module: nchantrs.nchantrs
-        project: nchantrs
-      - file: test_aberration.py
-        module: nchantrs.nchantrs
-        project: nchantrs
       - file: nchantrs/agent_awareness.py
         module: nchantrs.agent_awareness
         project: nchantrs
@@ -2299,13 +2197,31 @@ dimensions:
       - file: nchantrs/nchantrs.py
         module: nchantrs.widgets.applications.applications
         project: nchantrs
+      - file: nchantrs/nchantrs.py
+        module: ogma.logma
+        project: ogma
+      - file: nchantrs/libraries/orange.py
+        module: condor
+        project: condor
+      - file: nchantrs/libraries/qpandas.py
+        module: pyside6pandas.models.DataFrameModel
+        project: pyside6pandas
+      - file: nchantrs/libraries/qpandas.py
+        module: pyside6pandas.models.DataFrameModel
+        project: pyside6pandas
+      - file: nchantrs/libraries/qpandas.py
+        module: pyside6pandas.models.DataFrameModel
+        project: pyside6pandas
+      - file: nchantrs/services/integrity.py
+        module: condor
+        project: condor
       internal_imports: 382
       internal_projects_used:
       - ogma
-      - nchantrs
+      - subtrix
       - pyside6pandas
       - condor
-      - subtrix
+      - nchantrs
       leverage_score: 28.7
       score: 100
       status: pass
@@ -2608,43 +2524,39 @@ dimensions:
       - fix: Use specific exception types instead of Exception
         rule: 'Generic Exception excepts found: 19'
         severity: medium
-      proper_try_except: 63
+      proper_try_except: 56
       score: 80
       status: pass
     score: 80
     status: pass
   external_dependencies_declared:
     details:
-      declared_count: 40
+      declared_count: 42
       declared_internal: []
       issues:
       - fix: Add these packages to [project.dependencies] in pyproject.toml
         packages:
         - _work
-        - config
         - cons
         - fxsquirl
         - gtk
         - nchantdoffice
         - pil
         - pkg_resources
-        - pyqt5
         - turtle
         - uuid_extensions
-        rule: 'External dependencies not declared in pyproject.toml: 11 packages'
+        rule: 'External dependencies not declared in pyproject.toml: 9 packages'
         severity: critical
       score: 0
       status: fail
       undeclared_external:
       - _work
-      - config
       - cons
       - fxsquirl
       - gtk
       - nchantdoffice
       - pil
       - pkg_resources
-      - pyqt5
       - turtle
       - uuid_extensions
       used_external_count: 26
@@ -2764,36 +2676,20 @@ dimensions:
   license_dependencies:
     details:
       issues:
-      - fix: Replace with MIT-licensed alternatives
-        packages:
-        - Babel (BSD License)
-        - Flask (BSD-3-Clause)
-        - GitPython (BSD-3-Clause)
-        - ImageIO (BSD-2-Clause)
-        - Jinja2 (BSD License)
-        rule: 'Non-MIT licenses: 317/582'
-        severity: high
-      - fix: Verify license manually or remove dependency
-        packages:
-        - PyAudio
-        - apturl
-        - command-not-found
-        - cupshelpers
-        - distro-info
-        rule: 'Unknown licenses: 15/582'
-        severity: high
-      mit_percentage: 43.0
-      score: 80
-      status: pass
-      tools_available:
-      - pip-licenses
+      - fix: Add [tool.sasquatch.license_metadata] to pyproject.toml OR install pip-licenses
+        rule: No license analysis tools or license_metadata in pyproject.toml
+        severity: critical
+      mit_percentage: 0
+      score: 25
+      status: fail
+      tools_available: []
       tools_checked:
       - fossa
       - safety
       - pip-licenses
       - dependency-check
-    score: 80
-    status: pass
+    score: 25
+    status: fail
   licenses:
     details:
       issues: []
@@ -2804,8 +2700,8 @@ dimensions:
   logging:
     details:
       print_files:
-      - test_shroud_runner.py
-      - test_app_calculator.py
+      - nchantrs/utilities/debug.py
+      - nchantrs/events/tabsets.py
       print_statements: 201
       score: 75
       status: partial
@@ -2913,79 +2809,91 @@ dimensions:
       - config
       - dialogs
       - events
+      - extensions
       - help
       - install
+      - libraries
+      - library
+      - logging
       - models
       - nchantrs
       - run
       - services
       - test
+      - themes
       - uninstall
+      - updates
       - utilities
       - version
+      - views
       - widgets
       - wizards
       context:
-        actual: 10/18 modules have CLI commands (55%)
+        actual: 17/18 modules have CLI commands (94%)
         description: Ensures every module has a corresponding CLI command for accessibility
         dimension: module_cli_coverage
         expected: All modules should have CLI commands (100% coverage at 80% threshold)
-        fix_guidance: 'Add CLI commands for: agent_awareness, extensions, libraries,
-          library, logging, themes, updates, views. Map each module to a CLI command
-          in cli.py using subparsers.add_parser(''libraries'').'
+        fix_guidance: 'Add CLI commands for: agent_awareness. Map each module to a
+          CLI command in cli.py using subparsers.add_parser(''agent_awareness'').'
         what_it_tests: Whether each Python module in the package has a matching CLI
           command entry point
-        why_partial_or_fail: 'Modules missing CLI commands: agent_awareness, extensions,
-          libraries, library, logging, themes, updates, views. Available CLI commands
-          found: actions, cli, config, dialogs, events, help, install, models, nchantrs,
-          run, services, test, uninstall, utilities, version, widgets, wizards. Each
-          module should have either: (1) a matching @cli.command()/@app.command()
+        why_partial_or_fail: 'Modules missing CLI commands: agent_awareness. Available
+          CLI commands found: actions, cli, config, dialogs, events, extensions, help,
+          install, libraries, library, logging, models, nchantrs, run, services, test,
+          themes, uninstall, updates, utilities, version, views, widgets, wizards.
+          Each module should have either: (1) a matching @cli.command()/@app.command()
           decorator, (2) a subparsers.add_parser() call matching the module name,
           or (3) a cmd_XXX function in cli.py that maps to the module.'
-      covered_modules: 10
+      covered_modules: 17
       issues:
       - available_cli_commands:
-        - config
-        - test
-        - nchantrs
-        - cli
-        - services
-        - dialogs
-        - utilities
-        - install
+        - actions
         - uninstall
-        - actions
-        - widgets
+        - views
+        - install
+        - logging
         - version
-        - wizards
-        - events
-        - models
-        - help
         - run
-        covered_modules:
+        - test
+        - services
+        - events
+        - library
+        - dialogs
+        - config
+        - wizards
+        - utilities
         - nchantrs
         - cli
-        - services
-        - dialogs
-        - wizards
-        - actions
+        - extensions
         - widgets
-        - events
+        - help
+        - updates
+        - libraries
         - models
+        - themes
+        covered_modules:
+        - actions
+        - extensions
+        - themes
+        - services
+        - events
         - utilities
-        fix: 'Add CLI commands for: libraries, agent_awareness, extensions, library,
-          themes, logging, updates, views'
-        rule: 'CLI coverage: 10/18 modules'
+        - wizards
+        - widgets
+        - updates
+        - nchantrs
+        - views
+        - libraries
+        - models
+        - cli
+        - library
+        - logging
+        - dialogs
+        fix: 'Add CLI commands for: agent_awareness'
+        rule: 'CLI coverage: 17/18 modules'
         severity: medium
         uncovered_modules:
-        - libraries
         - agent_awareness
-        - extensions
-        - library
-        - themes
-        - logging
-        - updates
-        - views
       module_list:
       - actions
       - agent_awareness
@@ -3005,12 +2913,12 @@ dimensions:
       - views
       - widgets
       - wizards
-      score: 55
-      status: partial
+      score: 94
+      status: pass
       total_modules: 18
-      uncovered_modules: 8
-    score: 55
-    status: partial
+      uncovered_modules: 1
+    score: 94
+    status: pass
   parallel_inheritance:
     details:
       issues: []
@@ -3081,40 +2989,27 @@ dimensions:
       - nchantrs
       - tests
       - config
-      - test_nchantrs
       present_files:
-      - test_app_calculator.py
-      - test_shroud_runner.py
       - CLI.md
       - pyproject.toml
       - STATE.md
       - CHANGELOG.rst
-      - test_nchantment.py
-      - test_app_todos.py
       - run_entry_point.py
       - modules_action.txt
-      - test_app_distortion.py
-      - test_app_nchantment.py
       - CONTRIBUTING.md
       - config.yaml
-      - test_app_aberration.py
       - pytest.ini
       - IMPLEMENTATION.md
       - requirements.txt
       - nchantrs.yaml
       - LICENSE.rst
       - README.md
-      - test_entry_points.py
-      - test_distortion.py
       - BREAKING_CHANGES.md
       - nchantrs_applicationviews.log
       - mkdocs.yml
       - CHANGES.md
       - LICENSE
       - nchantrs_dialogs.log
-      - test_app_base.py
-      - test_aberration.py
-      - test_app_flection.py
       - PROJECT_TRACKER.yaml
       score: 100
       status: pass
@@ -3125,46 +3020,46 @@ dimensions:
       issues:
       - fix: Consider using a dictionary or strategy pattern instead of repeated conditionals
         patterns:
-        - checks: 82
-          file: nchantrs/models/models.py
+        - checks: 8
+          file: nchantrs/events/mouse_events.py
           function: if/elif chain
-          variable: how
+          variable: alt
+        - checks: 4
+          file: nchantrs/widgets/browsers/profiles.py
+          function: if/elif chain
+          variable: policy_code
+        - checks: 8
+          file: nchantrs/events/mouse_events.py
+          function: if/elif chain
+          variable: shift
+        - checks: 6
+          file: nchantrs/widgets/media/games/boards.py
+          function: if/elif chain
+          variable: key
+        - checks: 4
+          file: nchantrs/widgets/browsers/security/environment.py
+          function: if/elif chain
+          variable: system
         - checks: 13
           file: nchantrs/widgets/widgets.py
           function: if/elif chain
           variable: justify
         - checks: 4
-          file: nchantrs/widgets/calendars/timelines.py
+          file: nchantrs/widgets/config/storage.py
           function: if/elif chain
-          variable: threshold
-        - checks: 6
-          file: nchantrs/widgets/media/games/boards.py
+          variable: previous_value
+        - checks: 4
+          file: nchantrs/widgets/controls/toolbars.py
           function: if/elif chain
-          variable: key
+          variable: button_cfg
+        - checks: 7
+          file: nchantrs/widgets/browsers/codecs/h264.py
+          function: if/elif chain
+          variable: system
         - checks: 26
           file: nchantrs/widgets/media/charts/charts.py
           function: match statement
           variable: chart_type
-        - checks: 7
-          file: nchantrs/widgets/browsers/pages.py
-          function: if/elif chain
-          variable: feature
-        - checks: 4
-          file: nchantrs/widgets/browsers/profiles.py
-          function: if/elif chain
-          variable: policy_code
-        - checks: 6
-          file: nchantrs/dialogs/files.py
-          function: match statement
-          variable: gfilter
-        - checks: 4
-          file: nchantrs/actions/tables.py
-          function: if/elif chain
-          variable: keyname
-        - checks: 5
-          file: nchantrs/widgets/groups.py
-          function: if/elif chain
-          variable: position
         rule: 'Switch abuse detected: 16 patterns'
         severity: medium
       score: 0
@@ -3176,13 +3071,13 @@ dimensions:
     details:
       coverage: 0.0
       files_with_tests: 0
-      score: 15
-      status: partial
+      score: 90
+      status: pass
       test_dir: tests
-      test_file_count: 0
+      test_file_count: 12
       total_source_files: 162
-    score: 15
-    status: partial
+    score: 90
+    status: pass
   todo_tracking:
     details:
       issues:
@@ -3223,15 +3118,15 @@ dimensions:
     status: pass
   type_annotations:
     details:
-      annotated_functions: 904
-      annotation_percentage: 25.8
+      annotated_functions: 912
+      annotation_percentage: 26.1
       issues:
       - fix: Add type hints to function signatures and return types
-        rule: 'Type annotation coverage: 25.8%'
+        rule: 'Type annotation coverage: 26.1%'
         severity: medium
       score: 60
       status: partial
-      total_functions: 3504
+      total_functions: 3490
     score: 60
     status: partial
   type_check_pyright:
@@ -3246,19 +3141,19 @@ dimensions:
       issues: []
       score: 100
       status: pass
-      total_functions: 3170
+      total_functions: 3156
       wrapper_count: 0
     score: 100
     status: pass
-overall_score: 64.17
+overall_score: 68.0
 project: nchantrs
 summary:
   failing: 8
   gitvein_projects_available: 65
-  passing: 32
+  passing: 33
   total_dimensions: 46
 versions:
-  project: adf43f1
-  project_status: clean
-  project_uncommitted_changes: 0
+  project: 1f50541
+  project_status: dirty
+  project_uncommitted_changes: 5
   sasquatch: unknown

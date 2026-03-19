@@ -64,3 +64,8 @@ plyer>=2.1.0
 pytest>=7.4.0
 pytest-cov>=4.1.0
 pytest-asyncio>=0.21.0
+
+# Optional/conditional dependencies
+# These packages may not always be available
+pyqt5>=5.15.0  # Optional: PyQt5 compatibility
+config>=0.5.0  # Optional: config parsing
