@@ -324,7 +324,7 @@ class CloudflareHandler(pyqt.QWebEngineView):
     def handle_challenge_detection(self, result):
         """Handle challenge detection result"""
         if result and result.get("challenge_detected"):
-            print(f"Cloudflare challenge detected: {result.get('challenge_type')}")
+            logger.info(f"Cloudflare challenge detected: {result.get('challenge_type')}")
             self.challenge_detected.emit()
 
             # Start monitoring for challenge completion
@@ -334,7 +334,7 @@ class CloudflareHandler(pyqt.QWebEngineView):
             if result.get("is_turnstile"):
                 self.help_turnstile_render()
         else:
-            print("No Cloudflare challenge detected")
+            logger.info(f"No Cloudflare challenge detected")
 
     def help_turnstile_render(self):
         """Help Turnstile widget render properly"""
