@@ -2,6 +2,62 @@
 requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
 build-backend = "setuptools.build_meta"
 
+[project]
+name = "nchantrs"
+version = "0.0.1.0.1.1"
+description = "Your project description"
+readme = { file = "README.rst", content-type = "text/x-rst" }
+license = { file = "LICENSE" }
+authors = [{ name = "Maintainers", email = "solubrew@solutionsbrewer.com" }]
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "pyside6",
+    "pyyaml",
+    "pandas",
+    "pyyaml-include>=1.3",
+    "dnspython",
+    "websockets",
+    "certifi",
+    "sqlalchemy",
+    "alembic",
+    "diskcache",
+    "requests",
+    "aiohttp",
+    "httpx",
+    "cryptography",
+    "pycryptodome",
+    "bcrypt",
+    "PyQtWebEngine",
+    "qscintilla",
+    "arrow",
+    "psutil",
+    "jsonschema",
+    "ruamel-yaml",
+    "networkx",
+    "pillow",
+    "bs4",
+    "send2trash",
+    "dill",
+    "zmq",
+    "uuid7",
+    "matplotlib",
+    "mplfinance",
+    "numpy",
+    "plotly",
+    "seaborn",
+    "wordcloud",
+    "pyside6pandas",
+    "feedparser",
+    "plyer",
+    "pytest",
+]
+
 [project.optional-dependencies]
 dev = [
     "black",
@@ -28,124 +84,17 @@ lint = [
     "bandit",
     "safety",
 ]
-all = [
-    "nchantrs[dev,test,docs,lint]",
-]
-
-[project]
-name = "nchantrs"
-version = "0.0.1.0.1.1"
-#dynamic = ["version"]
-description = "Your project description"
-readme = { file = "README.rst", content-type = "text/x-rst" }
-license = { file = "LICENSE" }
-authors = [{ name = "Maintainers", email = "solubrew@solutionsbrewer.com" }]
-requires-python = ">=3.10"
-classifiers = [
-    "Development Status :: 4 - Beta",
-    "Intended Audience :: Developers",
-    "Intended Audience :: System Administrators",
-    "License :: OSI Approved :: MIT License",
-    "Operating System :: POSIX :: Linux",
-    "Operating System :: MacOS :: MacOS X",
-    "Operating System :: Microsoft :: Windows",
-    "Programming Language :: Python",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.6",
-    "Programming Language :: Python :: Implementation :: CPython",
-    "Programming Language :: Python :: Implementation :: PyPy",
-    "Topic :: Utilities"]
-# Modern dependencies - removed obsolete Python 2/3 compatibility packages
-dependencies = [
-    # Core
-    "pyside6",
-    "pyyaml",
-    "pandas",
-    "pyyaml-include>=1.3",
-    "dnspython",
-    "websockets",
-    "certifi",
-    
-    # Database
-    "sqlalchemy",
-    "alembic",
-    "diskcache",
-    
-    # Web/API
-    "requests",
-    "aiohttp",
-    "httpx",
-    
-    # Security
-    "cryptography",
-    "pycryptodome",
-    "bcrypt",
-    
-    # GUI
-    "PyQtWebEngine",
-    "qscintilla",
-    
-    # Utilities
-    "arrow",
-    "psutil",
-    "jsonschema",
-    "ruamel-yaml",
-    "networkx",
-    "black",
-    "pillow",
-    
-    # Optional/misc
-    "bs4",
-    "send2trash",
-    "dill",
-    "zmq",
-    "uuid7",
-    
-    # Graphics & Visualization
-    "matplotlib",
-    "mplfinance",
-    "numpy",
-    "plotly",
-    "seaborn",
-    "wordcloud",
-    
-    # Data Processing
-    "pyside6pandas",
-    "feedparser",
-    
-    # Platform Utilities
-    "plyer",
-    
-    # Testing
-    "pytest",
-    
-    # Optional/conditional imports (may not always be available)
-    "pyqt5",  # Optional: for PyQt5 compatibility
-    "config",  # Optional: for config parsing
-    
-    # External packages used in codebase
-    "uuid_extensions",  # UUID extensions
-    "nchantdoffice",  # Office integration  
-    "cons",  # Console utilities
-    "fxsquirl",  # FxSquirl integration
-    "pillow",  # PIL fork
-]
-
-[project.optional-dependencies]
-# Conditional/optional dependencies
 optional = [
-    "pyqt5",  # Optional: PyQt5 fallback
-    "config",  # Optional: config module
-    "uuid_extensions",  # Optional: UUID extensions
-    "nchantdoffice",  # Optional: Office integration
-    "cons",  # Optional: console utilities
-    "fxsquirl",  # Optional: FxSquirl integration
+    "pyqt5",
+    "config",
+    "uuid_extensions",
+    "nchantdoffice",
+    "cons",
+    "fxsquirl",
 ]
-# Legacy/compatibility
 legacy = [
-    "pkg_resources",  # Part of setuptools
+    "pkg_resources",
 ]
-# All extras
 all = [
     "nchantrs[dev,test,docs,lint,optional,legacy]",
 ]
@@ -160,13 +109,6 @@ include-package-data = true
 [tool.setuptools.dynamic]
 dependencies = { file = ["requirements"] }
 
-#[tool.nchantrs.versioning]
-#internal-version = "0.0.1.0.1.1"
-#public-version = "0.0.1.0.1.1"
-#version-mapping = "parts[0].parts[1].parts[2]"
-#version = "0.0.1.0.1.1"
-# Flat layout: project root contains "nchantrs" and a sibling "test_nchantrs".
-# Limit discovery to only the actual package.
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["nchantrs", "nchantrs.*"]
@@ -178,11 +120,12 @@ exclude = [
     "scripts*",
     "tools*",
 ]
+
 [tool.setuptools.package-data]
-# keys are package names; globs are relative to the package dirs
 nchantrs = [
   "**/*.yaml", "**/*.qss", "**/*.svg", "**/*.png"
 ]
+
 [tool.isort]
 profile = "black"
 line_length = 120
@@ -192,7 +135,6 @@ known_first_party = ["nchantrs"]
 line-length = 120
 skip-string-normalization = false
 
-# Flake8 configuration
 [tool.flake8]
 exclude = [
     ".tox",
@@ -203,12 +145,11 @@ exclude = [
     "build",
     "dist",
     "htmlcov",
-    "*/static/salt/formulas/*"]
+]
 ignore = ["FI15", "FI16", "FI17", "FI5", "D107"]
 
-# Pytest configuration
 [tool.pytest.ini_options]
-testpaths = ["test"]
+testpaths = ["tests"]
 mock_use_standalone_module = true
 norecursedirs = [
     ".git",
@@ -217,22 +158,24 @@ norecursedirs = [
     "__pycache__",
     "dist",
     "build",
-    "htmlcov"]
+    "htmlcov",
+]
 collect_ignore = ["hook-*.py"]
 python_files = [
     "test_*.py",
     "*_test.py",
-    "tests.py"]
+    "tests.py",
+]
 addopts = [
     "-rxEfsw",
     "--strict",
     "--doctest-modules",
     "--doctest-glob=*.md",
-    "--tb=short"]
+    "--tb=short",
+]
 
 [tool.setuptools.package.metadata]
 license = { file = "LICENSE" }
-
 
 [tool.pyright]
 include = ["nchantrs"]
