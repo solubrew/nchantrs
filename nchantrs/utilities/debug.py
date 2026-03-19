@@ -215,7 +215,7 @@ def quick_dump(dialog=None) -> None:
         >>> quick_dump(your_dialog_instance)
     """
     if not dialog:
-        print("No dialog provided")
+        logger.warning("No dialog provided for quick_dump")
         return
     
     store = getattr(dialog, 'model', None)
@@ -226,16 +226,16 @@ def quick_dump(dialog=None) -> None:
     
     dump = dump_data_sources(store=store, model=model)
     
-    print("=" * 60)
-    print("DATA SOURCES DUMP")
-    print("=" * 60)
+    logger.debug("=" * 60)
+    logger.debug("DATA SOURCES DUMP")
+    logger.debug("=" * 60)
     
     for key, value in dump.items():
-        print(f"\n--- {key.upper()} ---")
+        logger.debug(f"\n--- {key.upper()} ---")
         if isinstance(value, dict):
             for k, v in value.items():
-                print(f"  {k}: {v}")
+                logger.debug(f"  {k}: {v}")
         else:
-            print(f"  {value}")
+            logger.debug(f"  {value}")
     
     return dump

@@ -446,7 +446,7 @@ class ProfileManager(pyqt.QObject):
         """Create a new web engine profile"""
 
         if name in self.profiles:
-            print(f"Profile '{name}' already exists")
+            logma.warning(f"Profile '{name}' already exists")
             return self.profiles[name]
 
         # Create configuration if not provided
@@ -477,7 +477,7 @@ class ProfileManager(pyqt.QObject):
         # Emit signal
         self.profileCreated.emit(name, profile)
 
-        print(f"Created profile '{name}' of type {profile_type.value}")
+        logma.info(f"Created profile '{name}' of type {profile_type.value}")
         return profile
 
     def _configure_profile(self, profile: pyqt.QWebEngineProfile, config: ProfileConfiguration):
@@ -528,12 +528,12 @@ class ProfileManager(pyqt.QObject):
             self.configurations[name].is_default = True
 
             self.defaultProfileChanged.emit(name)
-            print(f"Default profile changed to '{name}'")
+            logma.warning(f"Default profile changed to '{name}'")
 
     def remove_profile(self, name: str):
         """Remove a profile"""
         if name == self.default_profile_name:
-            print(f"Cannot remove default profile '{name}'")
+            logma.warning(f"Cannot remove default profile '{name}'")
             return
 
         if name in self.profiles:

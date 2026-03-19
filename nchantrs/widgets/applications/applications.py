@@ -557,19 +557,19 @@ class NchantdCloak(NchantdPanties):  # ||
         """Log the current security configuration"""
         config = self.security_manager.security_config
 
-        print(f"Security Level: {config['security_level']}")
-        print(f"OS: {config['os_type']} ({config['os_version']})")
-        print(f"Environment: {config['environment']}")
+        logma.critical(f"Security Level: {config['security_level']}")
+        logma.critical(f"OS: {config['os_type']} ({config['os_version']})")
+        logma.critical(f"Environment: {config['environment']}")
 
         # Log warnings
         for warning in config["warnings"]:
-            print(f"WARNING: {warning}")
+            logma.warning(f"WARNING: {warning}")
 
         # Log capabilities
         capabilities = config["capabilities"]
-        print(f"Process Isolation: {capabilities['process_isolation']}")
-        print(f"Memory Protection: {capabilities['memory_protection']}")
-        print(f"Network Sandbox: {capabilities['network_sandbox']}")
+        logma.critical(f"Process Isolation: {capabilities['process_isolation']}")
+        logma.critical(f"Memory Protection: {capabilities['memory_protection']}")
+        logma.critical(f"Network Sandbox: {capabilities['network_sandbox']}")
 
 
 class NchantdMainWindow(pyqt.QMainWindow):
@@ -762,7 +762,7 @@ def detect_linux_display_system():
 
 def diagnose_display_system():
     """Diagnose the current display system."""
-    print("=== Display System Diagnostic ===")
+    logma.critical("=== Display System Diagnostic ===")
 
     # Environment variables
     env_vars = [
@@ -776,7 +776,7 @@ def diagnose_display_system():
 
     for var in env_vars:
         value = os.environ.get(var, "Not set")
-        print(f"{var}: {value}")
+        logma.critical(f"{var}: {value}")
 
     # Running processes
     import subprocess
@@ -793,11 +793,11 @@ def diagnose_display_system():
         try:
             result = subprocess.run(["pgrep", "-f", process], capture_output=True, text=True)
             if result.returncode == 0:
-                print(f"✓ {description} running (PID: {result.stdout.strip()})")
+                logma.critical(f"{description} running (PID: {result.stdout.strip()}")
             else:
-                print(f"✗ {description} not running")
+                logma.critical(f"{description} not running")
         except FileNotFoundError:
-            print(f"? Could not check {description} (pgrep not found)")
+            logma.warning(f"Could not check {description} (pgrep not found)")
 
 
 # ===========================Code Source Examples================================||

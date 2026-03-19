@@ -225,7 +225,7 @@ class OpenH264Manager:
         try:
             url, compressed_filename, filename = self._get_binary_info()
 
-            print(f"Downloading OpenH264 from: {url}")
+            logma.info(f"Downloading OpenH264 from: {url}")
 
             # Download to temporary file first
             with tempfile.NamedTemporaryFile(delete=False, suffix=".bz2") as tmp_file:
@@ -244,7 +244,7 @@ class OpenH264Manager:
 
                 tmp_path = tmp_file.name
 
-            print("\nExtracting...")
+            logma.info("Extracting...")
 
             # Extract to final location
             final_path = self.codec_dir / filename
@@ -261,15 +261,15 @@ class OpenH264Manager:
 
             # Verify the library can be loaded
             if self._verify_library_linux(final_path):
-                print(f"OpenH264 extracted and verified: {final_path}")
+                logma.info(f"OpenH264 extracted and verified: {final_path}")
                 self._setup_linux_integration(final_path)
                 return str(final_path)
             else:
-                print("OpenH264 library verification failed")
+                logma.warning("OpenH264 library verification failed")
                 return None
 
         except Exception as e:
-            print(f"Failed to download/setup OpenH264: {e}")
+            logma.error(f"Failed to download/setup OpenH264: {e}")
             return None
 
     def get_library_path(self) -> Optional[str]:
@@ -356,7 +356,7 @@ class OpenH264Manager:
                         symlink_path = plugin_dir / "libopenh264.so"
                         if not symlink_path.exists():
                             os.symlink(library_path, symlink_path)
-                            print(f"Created GStreamer plugin symlink: {symlink_path}")
+                            logma.info(f"Created GStreamer plugin symlink: {symlink_path}")
                             break
                     except (OSError, PermissionError):
                         continue
@@ -367,10 +367,10 @@ class OpenH264Manager:
             if codec_dir_str not in current_ld_path:
                 new_ld_path = f"{codec_dir_str}:{current_ld_path}" if current_ld_path else codec_dir_str
                 os.environ["LD_LIBRARY_PATH"] = new_ld_path
-                print(f"Updated LD_LIBRARY_PATH: {new_ld_path}")
+                logma.info(f"Updated LD_LIBRARY_PATH: {new_ld_path}")
 
         except Exception as e:
-            print(f"Linux integration setup failed (non-fatal): {e}")
+            logma.warning(f"Linux integration setup failed (non-fatal): {e}")
 
     def _verify_library_linux(self, library_path: str) -> bool:
         """Verify OpenH264 library on Linux."""
@@ -381,13 +381,13 @@ class OpenH264Manager:
             result = subprocess.run(["ldd", library_path], capture_output=True, text=True)
 
             if result.returncode != 0:
-                print(f"ldd check failed: {result.stderr}")
+                logma.error(f"ldd check failed: {result.stderr}")
                 return False
 
             # Check for unresolved dependencies
             if "not found" in result.stdout:
-                print("Warning: Some dependencies not found:")
-                print(result.stdout)
+                logma.warning("Warning: Some dependencies not found:")
+                logma.warning(result.stdout)
                 # Continue anyway, might still work
 
             # Try to load with ctypes
@@ -397,14 +397,14 @@ class OpenH264Manager:
             required_functions = ["WelsCreateDecoder", "WelsCreateEncoder"]
             for func_name in required_functions:
                 if not hasattr(lib, func_name):
-                    print(f"Missing function {func_name}")
+                    logma.error(f"Missing function {func_name}")
                     return False
 
-            print("Library verification successful")
+            logma.info("Library verification successful")
             return True
 
         except Exception as e:
-            print(f"Library verification failed: {e}")
+            logma.error(f"Library verification failed: {e}")
             return False
 
 
@@ -417,10 +417,10 @@ def setup_advanced_codec(downloader: OpenH264Downloader):
         library_path = downloader.get_library_path()
     loader = OpenH264Loader(library_path)
     if loader.load_library():
-        print("Advanced OpenH264 setup complete")
+        logma.info("Advanced OpenH264 setup complete")
         return True
     else:
-        print("Advanced OpenH264 setup failed")
+        logma.warning("Advanced OpenH264 setup failed")
         return False
 
 
