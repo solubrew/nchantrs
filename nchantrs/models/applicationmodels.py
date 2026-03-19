@@ -773,9 +773,9 @@ class NchantdSigilModel(NchantdPantiesModel):
         self.config = condor.Instruct(pxcfg)
         self.config.select("NchantdSigilModel").override(cfg)
         if parent:
-            print("Parent", parent.config.dikt["args"])
+            logger.debug(f"Parent", parent.config.dikt["args"])
             self.config.override(parent.config)
-            print("Self", self.config.dikt["args"])
+            logger.debug(f"Self", self.config.dikt["args"])
         self.listeners = {}
 
 
