@@ -4,6 +4,15 @@ application:
   name: nchantrs
   version: "1.0.0"
   description: Advanced PyQt6 Application Framework
+  author: Solutions Brewer
+  license: MIT
+
+paths:
+  config_dir: ~/.nchantrs
+  data_dir: ~/.nchantrs/data
+  log_dir: ~/.nchantrs/logs
+  cache_dir: ~/.nchantrs/cache
+  theme_dir: nchantrs/themes
 
 features:
   widgets: true
@@ -12,12 +21,48 @@ features:
   views: true
   wizards: true
   extensions: true
+  telemetry: false
+  auto_update: false
 
 ui:
   theme: default
   style: fusion
   icon_theme: default
+  window_geometry:
+    width: 1200
+    height: 800
+  fonts:
+    family: Sans Serif
+    size: 10
 
 logging:
   level: INFO
   format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file_enabled: true
+  console_enabled: true
+  max_file_size: 10485760  # 10MB
+  backup_count: 5
+
+database:
+  default_connection: primary
+  auto_migrate: false
+  backup_enabled: true
+
+security:
+  encryption_enabled: false
+  password_policy: default
+  session_timeout: 3600
+
+# Agent Awareness Configuration
+agents:
+  default: morg
+  supported:
+    - morg
+    - arthr
+    - gwen
+  workspace_template: "/home/solubrew/.{agent}/workspace"
+  enabled_modules:
+    - glain
+    - axn
+    - mindot
+    - experience

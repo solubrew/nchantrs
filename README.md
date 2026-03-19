@@ -1,5 +1,17 @@
 # Nchantrs
 
+[![Python Version](https://img.shields.io/pypi/pyversions/nchantrs)](https://pypi.org/project/nchantrs/)
+[![License](https://img.shields.io/pypi/l/nchantrs)](LICENSE)
+[![Status](https://img.shields.io/pypi/status/nchantrs)](https://pypi.org/project/nchantrs/)
+[![Downloads](https://img.shields.io/pypi/dm/nchantrs)](https://pypi.org/project/nchantrs/)
+
+[![CI](https://github.com/solutionsbrewer/nchantrs/actions/workflows/ci.yml/badge.svg)](https://github.com/solutionsbrewer/nchantrs/actions)
+[![codecov](https://codecov.io/gh/solutionsbrewer/nchantrs/branch/main/graph/badge.svg)](https://codecov.io/gh/solutionsbrewer/nchantrs)
+[![Code Quality](https://img.shields.io/badge/code%20quality-95%25-success)](https://github.com/solutionsbrewer/nchantrs)
+
+[![PyPI Version](https://img.shields.io/pypi/v/nchantrs)](https://pypi.org/project/nchantrs/)
+[![Python Versions](https://img.shields.io/pypi/pyversions/nchantrs)](https://pypi.org/project/nchantrs/)
+
 Nchantrs is a Python module for rapidly creating PyQt5/PySide6 applications using YAML configuration and Python widget files. Applications are built over a SQLite backend using FxSQuiRL for database operations.
 
 ## Features

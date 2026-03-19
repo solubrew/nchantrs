@@ -10,6 +10,17 @@ and this project adheres to `Semantic Versioning <https://semver.org/spec/v2.0.0
 [Unreleased]
 -----------
 
+Added
+~~~~~
+- Enhanced CLI documentation with full command reference
+- Improved pyproject.toml with optional dependency groups
+- Added logging configuration to core modules
+
+Changed
+~~~~~~~
+- Updated dependency strategy with proper optional-dependencies
+- Improved README with status badges
+
 [0.0.1.0.1.1] - 2024-01-15
 --------------------------
 
