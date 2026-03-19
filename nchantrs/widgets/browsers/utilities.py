@@ -77,7 +77,7 @@ def nchantd_message_handler(mode, context, message) -> None:
         pyqt.Qt.CriticalMsg: "Critical",
         pyqt.Qt.DebugMsg: "Debug",
     }
-    print(f"{mode_name[mode]}: {message} (File: {context.file}, Line: {context.line})")
+    logger.info(f"{mode_name[mode]}: {message} (File: {context.file}, Line: {context.line})")
 
 
 def set_default_browser() -> None:
@@ -85,24 +85,24 @@ def set_default_browser() -> None:
     if platform == "macos":
         try:
             subprocess.run(["open", "-a", "Safari"], check=True)  # Replace Safari with desired browser
-            print(f"Default browser set to application: {browser_bundle_id}")
+            logger.info(f"Default browser set to application: {browser_bundle_id}")
         except subprocess.CalledProcessError as e:
-            print(f"Error setting default browser: {e}")
+            logger.error(f"Error setting default browser: {e}")
     elif platform == "linux":
         try:
             # Set default browser using xdg-settings
             subprocess.run(["xdg-settings", "set", "default-web-browser", browser_name], check=True)
-            print(f"Default browser set to {browser_name}")
+            logger.info(f"Default browser set to {browser_name}")
         except subprocess.CalledProcessError as e:
-            print(f"Error setting default browser: {e}")
+            logger.error(f"Error setting default browser: {e}")
     elif platform == "windows":
         try:
             key = r"Software\Microsoft\Windows\Shell\Associations\UrlAssociations\http\UserChoice"
             with winreg.OpenKey(winreg.HKEY_CURRENT_USER, key, 0, winreg.KEY_SET_VALUE) as reg_key:
                 winreg.SetValueEx(reg_key, "Progid", 0, winreg.REG_SZ, browser_path)
-            print(f"Default browser set to {browser_path}")
+            logger.info(f"Default browser set to {browser_path}")
         except Exception as e:
-            print(f"Failed to set default browser: {e}")
+            logger.error(f"Failed to set default browser: {e}")
 
         try:
             # Set file association to the desired browser
@@ -111,9 +111,9 @@ def set_default_browser() -> None:
             # Set the ftype command to associate HTTP/HTTPS links with the browser executable
             subprocess.run(f'ftype HtmlFile="{browser_exe_path}" -- "%1"', shell=True, check=True)
 
-            print(f"Default Browser set to: {browser_exe_path}")
+            logger.info(f"Default Browser set to: {browser_exe_path}")
         except subprocess.CalledProcessError as e:
-            print(f"Error setting default browser: {e}")
+            logger.error(f"Error setting default browser: {e}")
 
 
 # Backend class to expose methods to JavaScript
