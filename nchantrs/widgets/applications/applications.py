@@ -63,7 +63,7 @@ WINDOW_STATE_ACTIONS = {
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
-logma.off()
+#logma.off()
 debug = True
 # ===============================================================================||
 pxcfg = join(abspath(here), "_data_", "applications.yaml")  # ||
@@ -168,7 +168,8 @@ class NchantdPanties(pyqt.QApplication):
         """
         :return:
         """
-        self.view.initView()
+        logma.info(f"Config {self.config.dikt}")
+        self.view.initView(self.config.override(cfg))
         self.model.store.store_app_event("initialized", "application view initialized")
         return self
 

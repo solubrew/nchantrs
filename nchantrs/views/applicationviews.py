@@ -32,7 +32,7 @@ from ogma.logma import Logma
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
-logma.off()
+# logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(abspath(here), "_data_", "applicationviews.yaml")
@@ -58,10 +58,16 @@ class NchantdPantiesView(object):
         # Don't use QApplication.instance() directly as it lacks .main
         self.app = self.parent
 
-    def init_pre_view(self) -> None:
+    def init_pre_view(self, cfg=None) -> None:
         """ """
         self.theme = NchantdTheme(self.app.main)
         self.themes = self.theme.themes
+
+        logma.info(f"Config {cfg.dikt}")
+
+        self.config.override(cfg)
+
+        logma.info(f"Config {self.config.dikt}")
         theme = self.config.dikt["gui"]["desktop"]["theme"]
         self.set_theme(theme)
         self.pre_view_init_ran = True
@@ -70,10 +76,10 @@ class NchantdPantiesView(object):
         """"""
         self.post_view_init_ran = True
 
-    def initView(self) -> None:
+    def initView(self, cfg=None) -> None:
         """"""
         if not self.pre_view_init_ran:
-            self.init_pre_view()
+            self.init_pre_view(cfg)
         self.layout = pyqt.QHBoxLayout()
         if not self.post_view_init_ran:
             self.init_post_view()
@@ -132,10 +138,10 @@ class NchantdCloakView(NchantdPantiesView):
         self.status_message = f"{self.parent.app.application_name} - version: {version} || {_time}  "
         self.new_account_wizard = None
 
-    def initView(self):  # ||
+    def initView(self, cfg=None):  # ||
         """Initialize UI setting the main application layout and building
         landing widgets"""
-        super().initView()
+        super().initView(cfg)
         self.set_theme()
         self._set_configurations()
         self.set_toolbar()
