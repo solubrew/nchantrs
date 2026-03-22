@@ -13,7 +13,12 @@
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join, exists
+from typing import Optional, Dict, List, Any, Tuple
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -35,7 +40,7 @@ pxcfg = join(here, "_data_", "themes.yaml")
 class NchantdTheme:
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("NchantdTheme")
@@ -62,7 +67,7 @@ class NchantdTheme:
         self.iconset = None
         self.focus = None
 
-    def create_theme(self, palette, name, blob):
+    def create_theme(self, palette, name, blob) -> None:
         """"""
         blob = blob.replace("<[primary_foreground]>", palette["primary"]["foreground"])
         blob = blob.replace("<[primary_background]>", palette["primary"]["background"])
@@ -72,7 +77,7 @@ class NchantdTheme:
             txtonql.Doc(join(path, f"{name}.qss")).write(blob)
         return blob
 
-    def import_theme(self, named_style="midnight_frost", palette=None, name=None):
+    def import_theme(self, named_style="midnight_frost", palette=None, name=None) -> None:
         """ """
         logma.info(f"[THEME] Loading theme: {named_style}")
         if name is None:
@@ -106,7 +111,7 @@ class NchantdTheme:
                 raise e
         self.app.setAutoFillBackground(True)
 
-    def get_icon_path(self, name, icon_type="accent"):
+    def get_icon_path(self, name, icon_type="accent") -> None:
         """"""
         path = join(here, "_data_", "icons", self.iconset[icon_type], f"{name}.svg")
         if exists(path):
@@ -117,7 +122,7 @@ class NchantdTheme:
         else:
             raise Exception(f"Icon doesnt exist {name}")
 
-    def refocus_theme(self, focus):
+    def refocus_theme(self, focus) -> None:
         """"""
         # logma.info(f"FOCI {focus} {self.focus} {self.config.dikt.get('foci', 'blank')}")
         if focus not in self.config.dikt.get("foci", {}):
@@ -128,7 +133,7 @@ class NchantdTheme:
         self.focus = focus
         return self
 
-    def set_fonts(self):
+    def set_fonts(self) -> None:
         """"""
         self.small_font = pyqt.QFont("Arial", 8)
         self.medium_font = pyqt.QFont("Arial", 10)
@@ -136,14 +141,14 @@ class NchantdTheme:
         self.xlarge_font = pyqt.QFont("Arial", 14)
         return self
 
-    def set_iconset(self, theme, palette):
+    def set_iconset(self, theme, palette) -> None:
         """"""
         self.iconset = self.config.dikt[theme]["iconset"][palette]
         if log:
             logma.info(f"Iconset {self.iconset}")
         return self
 
-    def set_theme(self, theme, palette="primary"):
+    def set_theme(self, theme, palette="primary") -> None:
         """"""
         self.theme = self.config.dikt[theme]
         self.palette = self.theme["palette"][palette]
@@ -167,7 +172,7 @@ class NchantdTheme:
         return self
 
 
-def generate_theme_name(palette):
+def generate_theme_name(palette) -> None:
     """"""
 
 

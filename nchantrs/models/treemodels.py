@@ -17,7 +17,12 @@ from os.path import abspath, dirname, join
 import json as j
 import datetime as dt
 from math import isnan
+from typing import Optional, Dict, List, Any, Tuple
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ===============================================================================||
 from pandas import DataFrame
 from subtrix.utilities import uuid
@@ -43,7 +48,7 @@ pxcfg = join(abspath(here), "_data_", "treemodels.yaml")
 class NchantdFileSystemModel(pyqt.QFileSystemModel):
     """ """
 
-    def __init__(self, parent=None, root=None, cfg={}):
+    def __init__(self, parent=None, root=None, cfg={}) -> None:
         """ """
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("NchantdTreeModel")
@@ -52,12 +57,12 @@ class NchantdFileSystemModel(pyqt.QFileSystemModel):
             self.config.override(parent.config)
         super().__init__()
 
-    def initModel(self, new_instance=False):
+    def initModel(self, new_instance=False) -> None:
         """ """
         self.setRootPath("")
         return self
 
-    def buildNodes(self):
+    def buildNodes(self) -> None:
         """the app_tree_nodes table doesn't make sense with the file system as the
         data source but I need to figure out how to turn of the expectation"""
         return self
@@ -66,7 +71,7 @@ class NchantdFileSystemModel(pyqt.QFileSystemModel):
 class NchantdTreeModel(pyqt.QStandardItemModel):
     """Model for standard Nchantd Tree used largely as the primary navigation structure for all Nchantd Apps"""
 
-    def __init__(self, parent=None, root=None, cfg=None):
+    def __init__(self, parent=None, root=None, cfg=None) -> None:
         """
         Provide the parent which will usually be the application model and a root if this this is an instance of a
         subtree
@@ -101,7 +106,7 @@ class NchantdTreeModel(pyqt.QStandardItemModel):
         self.previous_node = None
         self.home_node = None
 
-    def initModel(self, position=False):
+    def initModel(self, position=False) -> None:
         """ """
         [DONE]
         logma.info(f"Model Initialize Application {self.parent.app.new_application}")
@@ -118,7 +123,7 @@ class NchantdTreeModel(pyqt.QStandardItemModel):
         self.nodes = self.get_nodes()
         return self
 
-    def create_objects(self, objects):
+    def create_objects(self, objects) -> None:
         """"""
         records = objects["table"]["app_tree_node"]["records"]
         objects["table"]["app_tree_node"]["records"] = [x + self.nodebase for x in records if x is not None]
@@ -134,7 +139,7 @@ class NchantdTreeModel(pyqt.QStandardItemModel):
         self.parent.app.model.store.create_objects(app_objects, "db", False)
         return self
 
-    def create_objects_instance(self, objects, db="db"):
+    def create_objects_instance(self, objects, db="db") -> None:
         """"""
         records = objects["table"]["doc_tree_node"]["records"]
         objects["table"]["doc_tree_node"]["records"] = [x + self.nodebase for x in records if x is not None]
@@ -149,28 +154,28 @@ class NchantdTreeModel(pyqt.QStandardItemModel):
         self.parent.app.model.store.create_objects(doc_objects, db, False)
         return self
 
-    def add_child(self, pid):
+    def add_child(self, pid) -> None:
         """"""
         self.add_node(pid)
         return self
 
-    def add_sibling(self, name, ntype, pid):
+    def add_sibling(self, name, ntype, pid) -> None:
         """"""
         self.add_node(name, ntype, pid)
         return self
 
-    def add_node_set(self):
+    def add_node_set(self) -> None:
         """"""
         return self
 
-    def deleteNode(self, node):
+    def deleteNode(self, node) -> None:
         """ """
         self.deleteChildren(node.nid)
         data = [node.nid, node.name, node.type, node.pid, node.position, node.tabset]
         self.nodes.pop(self.nodes.index(data))
         return node.nid
 
-    def canFetchMore(self, index):
+    def canFetchMore(self, index) -> None:
         """
         called if canFetchMore returns True, then dynamically inserts nodes required for directory contents
         :param index:
@@ -181,21 +186,21 @@ class NchantdTreeModel(pyqt.QStandardItemModel):
         # 	return True
         return True
 
-    def deleteChildren(self, pid):
+    def deleteChildren(self, pid) -> None:
         """"""
 
         return self
 
-    def get_children(self, parent):
+    def get_children(self, parent) -> None:
         """"""
         children = self.parent.app.model.get_nodes(by_parent=parent)
         return children
 
-    def get_nodes(self):
+    def get_nodes(self) -> None:
         """"""
         return self.parent.app.model.get_nodes()
 
-    def get_previous_node(self):
+    def get_previous_node(self) -> None:
         """"""
         node = self.previous_node
         if node is None:
@@ -217,7 +222,7 @@ class NchantdTreeModel(pyqt.QStandardItemModel):
         self.endInsertRows()  # ||
         return success
 
-    def save_state(self, node, db="db"):
+    def save_state(self, node, db="db") -> None:
         """"""
         if node.app_data_type == "doc":
             table = "doc_tree_node"
@@ -242,7 +247,7 @@ class NchantdTreeModel(pyqt.QStandardItemModel):
         self.parent.app.model.store.update_record(data, "nid_txt", node.nid, db)
         return self
 
-    # def sort_children(self, node, parent, db="db"):
+    # def sort_children(self, node, parent, db="db") -> None:
     #     """"""
     #     data = {"table": {"doc_tree_node": {"data": {}}}}
     #     children = self.get_children(node)
@@ -251,14 +256,14 @@ class NchantdTreeModel(pyqt.QStandardItemModel):
     #         data["table"]["doc_tree_node"]["data"]["position"] = n
     #         self.parent.app.model.store.update_record(data, "nid_txt", child.nid, db)
 
-    def swap_parent(self, node, parent, db="db"):
+    def swap_parent(self, node, parent, db="db") -> None:
         """"""
         data = {"table": {"doc_tree_node": {"data": {}}}}
         data["table"]["doc_tree_node"]["data"]["pid_txt"] = parent.nid
         self.parent.app.model.store.update_record(data, "nid_txt", node.nid, db)
         return self
 
-    def updateStatus(self, status):
+    def updateStatus(self, status) -> None:
         """Modifiy Application widgetStatus for driving global events in other \
 			widget stacks"""
         # rerun the 2ndpane build sequence based on the tabaset of the node
@@ -269,7 +274,7 @@ class NchantdTreeModel(pyqt.QStandardItemModel):
 class NchantdApplicationTreeModel(NchantdTreeModel):
     """"""
 
-    def __init__(self, parent=None, root=None, cfg=None):
+    def __init__(self, parent=None, root=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("NchantdApplicationTreeModel")
@@ -278,7 +283,7 @@ class NchantdApplicationTreeModel(NchantdTreeModel):
         super().__init__(self.parent, root, self.config)
         self.config.override(cfg)
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
         super().initModel()
         # self.parent.app.model.register_action(self.set_today)
@@ -290,7 +295,7 @@ class NchantdTimeTreeModel(NchantdApplicationTreeModel):
     hiearchies with a few variations for how the nodes and tabs are created
     for each of the levels"""
 
-    def __init__(self, parent=None, root=None, name=None, cfg={}):
+    def __init__(self, parent=None, root=None, name=None, cfg={}) -> None:
         """ """
         if log:
             logma.info(f"NchantdTimeTreeModelParent {parent.config.dikt.keys()}")
@@ -308,35 +313,35 @@ class NchantdTimeTreeModel(NchantdApplicationTreeModel):
         self.known_nodes = known_nodes
         self.year = dt.datetime.now().strftime("%Y")
 
-    def addCenturyNode(self):
+    def addCenturyNode(self) -> None:
         """ """
         return self
 
-    def addDayNode(self):
+    def addDayNode(self) -> None:
         """"""
         return self
 
-    def addDecadeNode(self):
+    def addDecadeNode(self) -> None:
         """ """
         return self
 
-    def addHourNode(self):
+    def addHourNode(self) -> None:
         """"""
         return self
 
-    def addMinuteNode(self):
+    def addMinuteNode(self) -> None:
         """"""
         return self
 
-    def addMonthNode(self):
+    def addMonthNode(self) -> None:
         """"""
         return self
 
-    def addWeekNode(self):
+    def addWeekNode(self) -> None:
         """ """
         return self
 
-    def addYearNode(self, nid, name, pid, pos, base, year):
+    def addYearNode(self, nid, name, pid, pos, base, year) -> None:
         """ """
         rnid = self.addNode(nid, name, "node", pid, pos, base, "NchantdYearTabSet")
         pid = nid
@@ -347,12 +352,12 @@ class NchantdTimeTreeModel(NchantdApplicationTreeModel):
             pos += 1
         return rnid
 
-    def define_structure(self, structure):
+    def define_structure(self, structure) -> None:
         """select structure of Time Tree"""
 
         return self
 
-    def genYearMonthTreeData(self, src, pos=0, pid=0):
+    def genYearMonthTreeData(self, src, pos=0, pid=0) -> None:
         """Generate a table of date nodes for initilization of a timeline based
         tree widget
         need to get first data from data? or hand it the date?"""
@@ -389,7 +394,7 @@ class NchantdTimeTreeModel(NchantdApplicationTreeModel):
 
         return nid
 
-    def genYearNode(self, tabs, nodes, nid, name, pid, pos, year):
+    def genYearNode(self, tabs, nodes, nid, name, pid, pos, year) -> None:
         """ """
 
         tbase = [0, 1, 1, 1, 0]
@@ -411,7 +416,7 @@ class NchantdTimeTreeModel(NchantdApplicationTreeModel):
             pos += 1
         return nid, nodes, tabs
 
-    def genMonthOfDays(self, month, year, pid, base):
+    def genMonthOfDays(self, month, year, pid, base) -> None:
         """ """
         widget = "editors.NchantdJournalEditor"
         lastday = int(calcts.getLastDayofMonth(month, year))
@@ -425,7 +430,7 @@ class NchantdTimeTreeModel(NchantdApplicationTreeModel):
             pos += 1
         return tabs
 
-    def initData(self, pos=0, pid=0, nid=None):
+    def initData(self, pos=0, pid=0, nid=None) -> None:
         """Generate a table of date nodes for initilization of a timeline based
         tree widget
         need to get first data from data? or hand it the date?"""
@@ -444,7 +449,7 @@ class NchantdTimeTreeModel(NchantdApplicationTreeModel):
         df = DataFrame(self.nodes, columns=self.nodecolumns)
         self.store.docs["db"].write({"app_tree_nodes": df})
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
         super().initModel()
 

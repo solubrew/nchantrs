@@ -13,7 +13,12 @@
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
+from typing import Optional, Dict, List, Any, Tuple
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -31,7 +36,7 @@ pxcfg = join(here, "_data_", ".yaml")
 class BackgroundImages:
     """"""
 
-    def __init__(self, cfg=None):
+    def __init__(self, cfg=None) -> None:
         """"""
         self.config = condor.Instruct(pxcfg).select("BackgroundImages").override(cfg)
         self.application = None

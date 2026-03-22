@@ -20,7 +20,11 @@ from os.path import abspath, dirname, join
 
 # ===============================================================================||
 from condor import condor
+
+import logging
 from subtrix.utilities import uuid
+
+logger = logging.getLogger(__name__)
 from nchantrs.libraries import pyqt
 from nchantrs.models import tabsetmodels
 from nchantrs.widgets.media.notes import NchantdStickyNoteEditor
@@ -351,7 +355,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
                 if isinstance(tab_data, dict) and "source_widget" in tab_data:
                     event.acceptProposedAction()
                     return
-            except:
+            except Exception:
                 pass
         event.ignore()
 
@@ -403,7 +407,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
             self.setCurrentIndex(new_index)
             event.acceptProposedAction()
         except Exception as e:
-            print(f"Drop error: {e}")
+            logger.error(f"Drop error: {e}")
             event.ignore()
 
     def find_widget_by_id(self, widget_id):

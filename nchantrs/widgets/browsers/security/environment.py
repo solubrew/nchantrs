@@ -27,6 +27,10 @@ from typing import Dict, List, Optional, Tuple
 import psutil
 import ssl
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -39,6 +43,9 @@ log = True
 logma = Logma(__name__)
 
 # ====================================================================================================================||
+# Constants for magic number replacement
+PROCESS_CHECK_TIMEOUT = 5
+
 pxcfg = join(here, "_data_", ".yaml")
 
 
@@ -247,7 +254,7 @@ class CrossPlatformSecurityManager:
                 # Check Windows version for App Container support
                 version = sys.getwindowsversion()
                 return version.major >= 6 and version.minor >= 2  # Windows 8+
-            except:
+            except Exception:
                 return False
 
         elif self.os_type == OSType.MACOS:
@@ -263,10 +270,10 @@ class CrossPlatformSecurityManager:
                 # If file doesn't exist, try creating a user namespace
                 try:
                     result = subprocess.run(
-                        ["unshare", "--user", "--pid", "--map-root-user", "true"], capture_output=True, timeout=5
+                        ["unshare", "--user", "--pid", "--map-root-user", "true"], capture_output=True, timeout=PROCESS_CHECK_TIMEOUT
                     )
                     return result.returncode == 0
-                except:
+                except Exception:
                     return False
 
         return False
@@ -287,7 +294,7 @@ class CrossPlatformSecurityManager:
                     kernel32.GetCurrentProcess(), ctypes.byref(dep_flags), ctypes.byref(dep_permanent)
                 ):
                     return True
-            except:
+            except Exception:
                 pass
             return False
 
@@ -300,7 +307,7 @@ class CrossPlatformSecurityManager:
             try:
                 with open("/proc/sys/kernel/randomize_va_space", "r") as f:
                     return int(f.read().strip()) >= 2
-            except:
+            except Exception:
                 return False
 
         return False
@@ -355,7 +362,7 @@ class CrossPlatformSecurityManager:
                     with open("/proc/cpuinfo", "r") as f:
                         cpuinfo_content = f.read()
                         return "aes" in cpuinfo_content or "sha" in cpuinfo_content
-                except:
+                except Exception:
                     pass
             return False
 
@@ -369,7 +376,7 @@ class CrossPlatformSecurityManager:
                 key = winreg.OpenKey(winreg.HKEY_LOCAL_MACHINE, r"SYSTEM\CurrentControlSet\Control\SecureBoot\State")
                 value, _ = winreg.QueryValueEx(key, "UEFISecureBootEnabled")
                 return value == 1
-            except:
+            except Exception:
                 return False
 
         elif self.os_type == OSType.LINUX:
@@ -401,7 +408,7 @@ class CrossPlatformSecurityManager:
                     timeout=10,
                 )
                 return result.returncode == 0 and "Win32_Tpm" in result.stdout
-            except:
+            except Exception:
                 return False
 
         elif self.os_type == OSType.LINUX:

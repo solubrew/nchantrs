@@ -1,16 +1,54 @@
 site_name: Nchantrs Documentation
 site_description: Advanced PyQt6 Application Framework
 site_url: https://www.solutionsbrewer.com/
+site_author: Solutions Brewer
+repo_url: https://github.com/solutionsbrewer/nchantrs
+repo_name: solutionsbrewer/nchantrs
 
 theme:
   name: material
+  palette:
+    primary: indigo
+    accent: blue
+  features:
+    - navigation.instant
+    - navigation.tracking
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - search.suggest
+    - search.highlight
 
 nav:
   - Home: index.md
   - Installation: installation.md
+  - Configuration: configuration.md
   - API Reference:
       - nchantrs: api/nchantrs.md
       - widgets: api/widgets.md
+  - CI/CD: cicd.md
 
 plugins:
-  - mkdocstrings
+  - mkdocstrings:
+      default_options:
+        show_root_heading: true
+        show_source: true
+        members_order: source
+  - search:
+      lang: en
+  - roamlinks
+  - git-revision-date-localized:
+      type: timeago
+
+markdown_extensions:
+  - toc:
+      permalink: true
+  - admonition
+  - pymdownx.details
+  - pymdownx.magiclink
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+copyright: Copyright &copy; 2024 Solutions Brewer

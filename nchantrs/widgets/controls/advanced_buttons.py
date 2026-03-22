@@ -15,9 +15,12 @@
 from os.path import abspath, dirname, join
 import datetime as dt
 
-# ======================================3rd Party Library Modules=====================================================||
+import logging
+from typing import Any, Dict, Optional
 
-# ======================================Solutions Brewer Library Modules==============================================||
+
+logger = logging.getLogger(__name__)
+# ======================================3rd Party Library Modules=====================================================||
 from condor import condor
 from ogma.logma import Logma
 from nchantrs.libraries import pyqt
@@ -27,10 +30,26 @@ from nchantrs.widgets.media.editors.editors import NchantdEntryBox
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 from nchantrs.widgets.controls.buttons import NchantdButton
 
+
 # ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), "")
 log = True
 logma = Logma(__name__)
+
+
+# ====================================================================================================================||
+# Constants to avoid magic numbers
+DEFAULT_INITIAL_VALUE: int = 16
+DEFAULT_MINIMUM: int = 0
+DEFAULT_MAXIMUM: int = 100
+DEFAULT_STEP: int = 1
+BUTTON_SIZE_SMALL: int = 30
+BUTTON_SIZE_MEDIUM: int = 40
+DISPLAY_SIZE: int = 30
+SPACING_DEFAULT: int = 5
+SPINBOX_LAYOUT_SPACING: int = 3
+FONT_SIZE_SMALL: int = 8
+
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "advanced_buttons.yaml")
@@ -41,7 +60,7 @@ class NchantdNumberWheelButton(NchantdWidget):
     # Signal to emit the current value whenever it changes
     valueChanged = pyqt.Signal(int)
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent: Optional[Any] = None, cfg: Optional[Dict] = None) -> None:
         """ """
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("NchantdNumberWheelButton")
@@ -49,30 +68,31 @@ class NchantdNumberWheelButton(NchantdWidget):
             self.config.override(parent.config)
         super().__init__(self)
         self.config.override(cfg)
-        self.value = None
-        self.minimum = None
-        self.maximum = None
-        self.step = None
-        self.up_button = None
-        self.down_button = None
-        self.number_display = None
+        self.value: int = DEFAULT_INITIAL_VALUE
+        self.minimum: int = DEFAULT_MINIMUM
+        self.maximum: int = DEFAULT_MAXIMUM
+        self.step: int = DEFAULT_STEP
+        self.up_button: Optional[Any] = None
+        self.down_button: Optional[Any] = None
+        self.number_display: Optional[Any] = None
+        self.label: Optional[Any] = None
 
-    def initModel(self):
+    def initModel(self) -> "NchantdNumberWheelButton":
         """"""
         super().initModel()
-        self.value = self.config.dikt.get("initial_value", 16)
-        self.minimum = self.config.dikt.get("minimum", 0)
-        self.maximum = self.config.dikt.get("maximum", 100)
-        self.step = self.config.dikt.get("step", 1)
+        self.value = self.config.dikt.get("initial_value", DEFAULT_INITIAL_VALUE)
+        self.minimum = self.config.dikt.get("minimum", DEFAULT_MINIMUM)
+        self.maximum = self.config.dikt.get("maximum", DEFAULT_MAXIMUM)
+        self.step = self.config.dikt.get("step", DEFAULT_STEP)
         self.valueChanged.emit(self.value)
         return self
 
-    def initView(self):
+    def initView(self) -> "NchantdNumberWheelButton":
         """"""
         super().initView()
         # Vertical layout for Up Button, Display, Down Button
         self.layout.setContentsMargins(0, 0, 0, 0)
-        self.layout.setSpacing(5)
+        self.layout.setSpacing(SPACING_DEFAULT)
 
         cfg = {"label": self.config.dikt.get("label", "")}
         self.label = NchantdLabel(self, cfg).initWidget()
@@ -81,7 +101,7 @@ class NchantdNumberWheelButton(NchantdWidget):
         layout = pyqt.QHBoxLayout()
         # Up button
         self.up_button = pyqt.QPushButton("▲")
-        self.up_button.setFixedSize(30, 30)
+        self.up_button.setFixedSize(BUTTON_SIZE_SMALL, BUTTON_SIZE_SMALL)
         self.up_button.clicked.connect(self.increment_value)
         layout.addWidget(self.up_button, alignment=pyqt.Qt.AlignCenter)
 
@@ -89,42 +109,42 @@ class NchantdNumberWheelButton(NchantdWidget):
         cfg = {"label": str(self.value)}
         self.number_display = NchantdEntryBox(self, cfg).initWidget()
         self.number_display.setAlignment(pyqt.Qt.AlignCenter)
-        self.number_display.setFixedSize(30, 30)
+        self.number_display.setFixedSize(DISPLAY_SIZE, DISPLAY_SIZE)
         layout.addWidget(self.number_display, alignment=pyqt.Qt.AlignCenter)
 
         # Down button
         self.down_button = pyqt.QPushButton("▼")
-        self.down_button.setFixedSize(40, 30)
+        self.down_button.setFixedSize(BUTTON_SIZE_MEDIUM, BUTTON_SIZE_SMALL)
         self.down_button.clicked.connect(self.decrement_value)
         layout.addWidget(self.down_button, alignment=pyqt.Qt.AlignCenter)
         self.layout.addLayout(layout)
         self.update_display()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> "NchantdNumberWheelButton":
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def increment_value(self):
+    def increment_value(self) -> None:
         # Increment the value while respecting the maximum
         if self.value + self.step <= self.maximum:
             self.value += self.step
             self.update_display()
 
-    def decrement_value(self):
+    def decrement_value(self) -> None:
         # Decrement the value while respecting the minimum
         if self.value - self.step >= self.minimum:
             self.value -= self.step
             self.update_display()
 
-    def update_display(self):
+    def update_display(self) -> None:
         # Update the label to display the current value
         self.number_display.setText(str(self.value))
         self.valueChanged.emit(self.value)
 
-    def set_value(self, value):
+    def set_value(self, value: int) -> None:
         """
         Set the current value explicitly (e.g., from external code).
         """
@@ -132,14 +152,14 @@ class NchantdNumberWheelButton(NchantdWidget):
             self.value = value
             self.update_label()
 
-    def set_range(self, minimum, maximum):
+    def set_range(self, minimum: int, maximum: int) -> None:
         """
         Set the range of the number wheel (minimum and maximum values).
         """
         self.minimum = minimum
         self.maximum = maximum
 
-    def set_step(self, step):
+    def set_step(self, step: int) -> None:
         """
         Set the step size for the number wheel.
         """

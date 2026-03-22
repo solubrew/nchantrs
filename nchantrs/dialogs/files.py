@@ -14,7 +14,12 @@
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
+from typing import Optional, Dict, List, Any, Tuple
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -34,7 +39,7 @@ pxcfg = join(here, "_data_", "files.yaml")
 class NchantdFileOpenSigil(pyqt.QFileDialog):
     """"""
 
-    def __init__(self, name, parent=None, cfg=None):
+    def __init__(self, name, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent.app.main)
         name = "open"
@@ -46,7 +51,7 @@ class NchantdFileOpenSigil(pyqt.QFileDialog):
         self.init_variables(name)
         self.file_selected = None
 
-    def init_variables(self, name="generic"):
+    def init_variables(self, name="generic") -> None:
         """"""
         self.layout = None
         self.pane = None
@@ -64,14 +69,14 @@ class NchantdFileOpenSigil(pyqt.QFileDialog):
         self.add_field_button = None
         return self
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
         # super().initModel()
         # Set the dialog to open file mode
         self.setFileMode(pyqt.QFileDialog.ExistingFile)
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
         # super().initView()
         self.setGeometry(150, 250, 1000, 600)
@@ -79,14 +84,14 @@ class NchantdFileOpenSigil(pyqt.QFileDialog):
         self.setNameFilter("All Files (*)")
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         self.initModel()
         self.initView()
         self.run()
         return self
 
-    def accept(self):
+    def accept(self) -> None:
         """"""
         super().accept()
         self.set_ok()
@@ -96,15 +101,15 @@ class NchantdFileOpenSigil(pyqt.QFileDialog):
             logma.info(f"{self.file_selected}")
         return self.file_selected
 
-    def reject(self):
+    def reject(self) -> None:
         """"""
         super().reject()
 
-    def run(self):
+    def run(self) -> None:
         """"""
         self.exec()
 
-    def set_filters_files(self, gfilters=None):
+    def set_filters_files(self, gfilters=None) -> None:
         """"""
         filters = []
         if gfilters is None:
@@ -127,7 +132,7 @@ class NchantdFileOpenSigil(pyqt.QFileDialog):
         self.setNameFilters(filters)
         return self
 
-    def set_ok(self):
+    def set_ok(self) -> None:
         """"""
         self.ok = True
         return self
@@ -136,32 +141,32 @@ class NchantdFileOpenSigil(pyqt.QFileDialog):
 class AskSaveDialog:
     """Ask to save when a user navigates away from a changed data point"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """"""
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
 
 
 class SaveAsDialog:
     """standard save as dialog to allow for the file to be create as a duplicate of the current file"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """"""
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
 
 
@@ -169,7 +174,7 @@ class SaveCopy:
     """Allow a copy of the current file to be created but the current file stays open this is useful for
     archiving/versioning on the fly"""
 
-    def __init__(self, parent, cfg=None):
+    def __init__(self, parent, cfg=None) -> None:
         """"""
         self.config = condor.Instruct(pxcfg)
         if parent is not None:
@@ -178,13 +183,13 @@ class SaveCopy:
         self.config.override(cfg)
         super().__init__(parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
 
 

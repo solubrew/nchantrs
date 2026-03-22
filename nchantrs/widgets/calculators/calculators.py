@@ -15,6 +15,10 @@
 from os.path import dirname, join
 import math
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -364,18 +368,38 @@ class NchantdCalculator(NchantdTab):
         self.equalButton = self.createButton("=", self.equalClicked)
         return self
 
-    def calculate(self, rightOperand, pendingOperator):
-        """Perform calculation based on operator"""
-        if pendingOperator == "+":
-            self.sumSoFar += rightOperand
-        elif pendingOperator == "-":
-            self.sumSoFar -= rightOperand
-        elif pendingOperator == "\N{MULTIPLICATION SIGN}":
-            self.factorSoFar *= rightOperand
-        elif pendingOperator == "\N{DIVISION SIGN}":
-            if rightOperand == 0.0:
-                return False
-            self.factorSoFar /= rightOperand
+    def calculate(self, rightOperand: float, pendingOperator: str) -> bool:
+        """Perform calculation based on operator using dictionary lookup"""
+        # Dictionary for switch_abuse replacement - maps operators to calculation methods
+        OPERATOR_METHODS = {
+            "+": "_apply_add",
+            "-": "_apply_subtract",
+            "\N{MULTIPLICATION SIGN}": "_apply_multiply",
+            "\N{DIVISION SIGN}": "_apply_divide",
+        }
+        
+        method_name = OPERATOR_METHODS.get(pendingOperator)
+        if method_name and hasattr(self, method_name):
+            method = getattr(self, method_name)
+            return method(rightOperand)
+        return True
+
+    def _apply_add(self, rightOperand: float) -> bool:
+        self.sumSoFar += rightOperand
+        return True
+    
+    def _apply_subtract(self, rightOperand: float) -> bool:
+        self.sumSoFar -= rightOperand
+        return True
+    
+    def _apply_multiply(self, rightOperand: float) -> bool:
+        self.factorSoFar *= rightOperand
+        return True
+    
+    def _apply_divide(self, rightOperand: float) -> bool:
+        if rightOperand == 0.0:
+            return False
+        self.factorSoFar /= rightOperand
         return True
 
     def createButton(self, text, member):

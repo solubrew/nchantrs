@@ -16,6 +16,10 @@ from os.path import abspath, dirname, join
 from os import listdir
 import json as j
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 from pandas import DataFrame
 
@@ -23,6 +27,7 @@ from pandas import DataFrame
 from condor import condor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.annotations import NchantdLabel
+from typing import Optional, Dict, List, Any, Tuple
 from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.media.editors.editors import NchantdEntryEditor
 from nchantrs.widgets.media.images import NchantdImage
@@ -46,7 +51,7 @@ pxcfg = {}
 class NchantdCatalog(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -63,19 +68,19 @@ class NchantdCatalog(NchantdWidget):
         self.item_pane_layout = None
         self.item_pane_group = None
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> None:
         """"""
         super().initModel(cfg)
         self.all_items = DataFrame()
         self.display_items = self.all_items
         return self
 
-    def init_pre_view(self):
+    def init_pre_view(self) -> None:
         """"""
         if self.layout is None:
             super().initView()
 
-    def initView(self, item_obj=None, pane_obj=None):
+    def initView(self, item_obj=None, pane_obj=None) -> None:
         """Create a scrollable self building grid"""
         self.init_pre_view()
         if self.display is None:
@@ -133,19 +138,19 @@ class NchantdCatalog(NchantdWidget):
             self.layout.addWidget(self.item_pane_group)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def item_selected(self, child):
+    def item_selected(self, child) -> None:
         """"""
         self.selected_item = child
         self.update_item_pane()
         return self
 
-    def update_item_pane(self):
+    def update_item_pane(self) -> None:
         """"""
         logma.info(f"Selected Item {self.selected_item.action} {self.item_pane}")
         if self.selected_item is None or self.item_pane is None:
@@ -157,7 +162,7 @@ class NchantdCatalog(NchantdWidget):
 class NchantdImageCatalog(NchantdCatalog):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("Nchantd")
@@ -166,12 +171,12 @@ class NchantdImageCatalog(NchantdCatalog):
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
         super().initView()
         # directory load widget
@@ -181,7 +186,7 @@ class NchantdImageCatalog(NchantdCatalog):
         self.loadPath()
         return self
 
-    def loadPath(self):
+    def loadPath(self) -> None:
         """"""
         # path = '/home/solubrew/_work/collectImages'
         # grid_w = pyqt.QWidget()
@@ -213,7 +218,7 @@ class NchantdImageCatalog(NchantdCatalog):
             grid.addWidget(img, row, col)
         self.layout.addWidget(grid.layout)
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         self.initModel()
         self.initView()

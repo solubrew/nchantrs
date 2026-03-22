@@ -31,5 +31,5 @@ if __name__ == "__main__":
     nchantment(
         name="test_nchantment",
         args={"title": "Test Nchantment Application"},
-        cfg={"modal": False, "width": 1200, "height": 800}
+        cfg={"modal": False, "width": DEFAULT_WINDOW_WIDTH, "height": 800}
     )

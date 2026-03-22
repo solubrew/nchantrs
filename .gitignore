@@ -19,7 +19,6 @@ __pycache__/
 poetry.lock
 .pytest_cache/
 botpy.log
-tests/
 
 # Syncthing conflict and temporary files
 *.sync-conflict-*
@@ -28,3 +27,7 @@ tests/
 /cmds/
 /dev/
 /zz-*/
+
+# Duplicate test artifacts
+test_nchantrs/
+tests/test_nchantrs/

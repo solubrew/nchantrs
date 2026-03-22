@@ -18,6 +18,10 @@
 from os.path import abspath, dirname, join
 import datetime as dt
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ===============================================================================||
 import numpy as np
 import mplfinance as mpf
@@ -1130,7 +1134,7 @@ class FunnelChartCanvas(FigureCanvas):
         funnel_chart.write_html("funnel_chart.html")
 
         # Display the funnel chart in a web browser
-        print("Saved 'funnel_chart.html'. Open it in a web browser!")
+        logger.info(f"Saved 'funnel_chart.html'. Open it in a web browser!")
 
     def clear_canvas(self):
         """Clear the chart canvas (this is only relevant if you adapt this for live PySide6)."""

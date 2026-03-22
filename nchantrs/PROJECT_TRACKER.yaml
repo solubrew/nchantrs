@@ -1,0 +1,3082 @@
+agent: gamma
+analysis:
+  counts:
+    directories: 86
+    file_sizes:
+      __init__.py: 488
+      __main__.py: 243
+      actions/__init__.py: 285
+      actions/actions.py: 9217
+      actions/charts.py: 1691
+      actions/files.py: 6917
+      actions/format.py: 1187
+      actions/tables.py: 37415
+      actions/text.py: 5977
+      actions/tree.py: 5889
+      agent_awareness.py: 3269
+      cli.py: 9984
+      dialogs/__init__.py: 371
+      dialogs/about.py: 4619
+      dialogs/authentication.py: 2980
+      dialogs/colors.py: 2720
+      dialogs/dialogs.py: 34459
+      dialogs/editors.py: 3030
+      dialogs/errors.py: 2364
+      dialogs/extensions.py: 2246
+      dialogs/files.py: 5729
+      dialogs/icons.py: 2314
+      dialogs/new.py: 6248
+      dialogs/notifications.py: 2221
+      dialogs/passwords.py: 2270
+      dialogs/save.py: 1430
+      dialogs/search.py: 2212
+      dialogs/settings.py: 2407
+      events/__init__.py: 294
+      events/alerts.py: 1772
+      events/events.py: 7878
+      events/keyboard_events.py: 14320
+      events/mouse_events.py: 5592
+      events/tabsets.py: 14244
+      events/trees.py: 11373
+      extensions/__init__.py: 35
+      extensions/apis.py: 8114
+      extensions/extensions.py: 3703
+      extensions/install.py: 4348
+      extensions/integrations.py: 1430
+      extensions/packages/__init__.py: 44
+      extensions/packages/nchantdlibrary/__init__.py: 0
+      extensions/packages/nchantdlibrary/bibliography_reference.py: 1378
+      extensions/packages/nchantdlibrary/dictionary.py: 1378
+      extensions/packages/nchantdlibrary/engineering/__init__.py: 0
+      extensions/packages/nchantdlibrary/games/__init__.py: 65
+      extensions/packages/nchantdlibrary/games/gameoflife.py: 3691
+      extensions/packages/nchantdlibrary/nchantdlibrary.py: 1629
+      extensions/packages/nchantdlibrary/physician/__init__.py: 0
+      extensions/packages/nchantdlibrary/physician/physicians_reference.py: 1378
+      extensions/packages/nchantdlibrary/style_guide.py: 1378
+      extensions/packages/nchantdlibrary/thesaurus.py: 1378
+      extensions/plugins.py: 2924
+      extensions/sources.py: 1430
+      libraries/__init__.py: 34
+      libraries/orange.py: 1498
+      libraries/pyqt.py: 5362
+      libraries/qpandas.py: 1751
+      libraries/syntax.py: 6730
+      library/__init__.py: 32
+      library/library.py: 1632
+      logging/__init__.py: 1962
+      models/__init__.py: 284
+      models/applicationmodels.py: 32157
+      models/models.py: 70744
+      models/tabsetmodels.py: 12327
+      models/treemodels.py: 16876
+      nchantrs.py: 6681
+      services/__init__.py: 333
+      services/bonds.py: 2537
+      services/connections.py: 2284
+      services/directories.py: 1830
+      services/integrity.py: 3536
+      services/license.py: 2130
+      services/links.py: 2206
+      services/nchantrs.py: 2579
+      services/services.py: 3490
+      services/tags.py: 2343
+      services/telemetry.py: 1774
+      services/upgrades.py: 10279
+      themes/__init__.py: 31
+      themes/images.py: 1648
+      themes/themes.py: 6818
+      updates/__init__.py: 32
+      updates/db.py: 17189
+      utilities/__init__.py: 409
+      utilities/analytics.py: 2347
+      utilities/books.py: 2570
+      utilities/comms.py: 4475
+      utilities/debug.py: 7841
+      utilities/files.py: 2211
+      utilities/formatting.py: 3269
+      utilities/formulas.py: 2117
+      utilities/graphics/__init__.py: 0
+      utilities/graphics/animations/__init__.py: 0
+      utilities/graphics/animations/turtle.py: 3327
+      utilities/graphics/logos.py: 2466
+      utilities/graphics/pixelart.py: 3126
+      utilities/identification.py: 2033
+      utilities/models.py: 2521
+      utilities/policies.py: 5244
+      utilities/tools/__init__.py: 40
+      utilities/tools/search.py: 2391
+      utilities/tools/tools.py: 1378
+      utilities/users.py: 14325
+      utilities/utils.py: 6848
+      views/__init__.py: 30
+      views/applicationviews.py: 10254
+      views/treeviews.py: 11073
+      views/views.py: 1396
+      widgets/__init__.py: 436
+      widgets/agents/__init__.py: 39
+      widgets/agents/agents.py: 4406
+      widgets/annotations.py: 11256
+      widgets/applications/__init__.py: 0
+      widgets/applications/applications.py: 30513
+      widgets/applications/managers.py: 2738
+      widgets/browsers/__init__.py: 0
+      widgets/browsers/browsers.py: 23596
+      widgets/browsers/codecs/__init__.py: 48
+      widgets/browsers/codecs/h264.py: 18081
+      widgets/browsers/downloads.py: 29024
+      widgets/browsers/engines.py: 19974
+      widgets/browsers/graphics.py: 4488
+      widgets/browsers/history.py: 1869
+      widgets/browsers/initialize.py: 2300
+      widgets/browsers/javascript/__init__.py: 52
+      widgets/browsers/javascript/scripts.py: 10549
+      widgets/browsers/network.py: 1430
+      widgets/browsers/pages.py: 38490
+      widgets/browsers/profiles.py: 31025
+      widgets/browsers/requests.py: 19905
+      widgets/browsers/security/__init__.py: 50
+      widgets/browsers/security/authentication.py: 14416
+      widgets/browsers/security/environment.py: 27891
+      widgets/browsers/security/google.py: 3495
+      widgets/browsers/services.py: 6696
+      widgets/browsers/utilities.py: 7653
+      widgets/calculators/__init__.py: 44
+      widgets/calculators/calculators.py: 17640
+      widgets/calendars/__init__.py: 0
+      widgets/calendars/calendars.py: 8987
+      widgets/calendars/centuries.py: 2119
+      widgets/calendars/days.py: 8917
+      widgets/calendars/decades.py: 2121
+      widgets/calendars/months.py: 10431
+      widgets/calendars/timelines.py: 17243
+      widgets/calendars/weeks.py: 3713
+      widgets/calendars/years.py: 5400
+      widgets/canvases/__init__.py: 0
+      widgets/canvases/canvases.py: 8994
+      widgets/canvases/multipages.py: 3474
+      widgets/canvases/scenes.py: 7490
+      widgets/catalogs.py: 8615
+      widgets/config/__init__.py: 39
+      widgets/config/accounts.py: 3889
+      widgets/config/config.py: 10160
+      widgets/config/extensions.py: 3444
+      widgets/config/help.py: 5257
+      widgets/config/integrations.py: 2917
+      widgets/config/packages.py: 6266
+      widgets/config/profiles.py: 2511
+      widgets/config/security.py: 11026
+      widgets/config/services.py: 2124
+      widgets/config/settings.py: 9285
+      widgets/config/storage.py: 11648
+      widgets/config/uninstall.py: 10080
+      widgets/controls/__init__.py: 41
+      widgets/controls/advanced_buttons.py: 15647
+      widgets/controls/button_groups.py: 26865
+      widgets/controls/buttons.py: 12260
+      widgets/controls/checkboxes.py: 6790
+      widgets/controls/connectors.py: 5155
+      widgets/controls/controls.py: 4953
+      widgets/controls/menus.py: 5471
+      widgets/controls/navigation.py: 2980
+      widgets/controls/radios.py: 3847
+      widgets/controls/search.py: 2132
+      widgets/controls/toolbars.py: 14978
+      widgets/controls/toolboxes.py: 10079
+      widgets/controls/tooltips.py: 2123
+      widgets/embeds.py: 4028
+      widgets/forms/__init__.py: 38
+      widgets/forms/forms.py: 9314
+      widgets/groups.py: 18541
+      widgets/items/__init__.py: 0
+      widgets/items/catalogs.py: 8959
+      widgets/items/cells.py: 8687
+      widgets/items/items.py: 5289
+      widgets/items/nodes.py: 33044
+      widgets/items/subtrees.py: 3636
+      widgets/launch.py: 2598
+      widgets/managers.py: 6119
+      widgets/managers/__init__.py: 41
+      widgets/managers/managers.py: 9702
+      widgets/media/__init__.py: 38
+      widgets/media/charts/__init__.py: 45
+      widgets/media/charts/charts.py: 42253
+      widgets/media/editors/__init__.py: 46
+      widgets/media/editors/code.py: 9389
+      widgets/media/editors/editors.py: 29741
+      widgets/media/editors/entries.py: 5338
+      widgets/media/editors/selectors.py: 14249
+      widgets/media/games/__init__.py: 44
+      widgets/media/games/boards.py: 12067
+      widgets/media/games/games.py: 2131
+      widgets/media/images.py: 12750
+      widgets/media/maps.py: 2941
+      widgets/media/marquees.py: 3495
+      widgets/media/media.py: 9769
+      widgets/media/notes.py: 4734
+      widgets/media/palettes.py: 3866
+      widgets/media/shapes.py: 7141
+      widgets/media/utilities.py: 2948
+      widgets/media/video.py: 4513
+      widgets/panes/__init__.py: 38
+      widgets/panes/calendars.py: 2571
+      widgets/panes/catalogs.py: 11467
+      widgets/panes/files.py: 2136
+      widgets/panes/numbers.py: 3449
+      widgets/panes/panes.py: 3030
+      widgets/tables/__init__.py: 0
+      widgets/tables/lists.py: 9447
+      widgets/tables/tables.py: 24688
+      widgets/tabsets.py: 27533
+      widgets/trees.py: 16492
+      widgets/widgets.py: 35450
+      wizards/__init__.py: 0
+      wizards/accounts.py: 3319
+      wizards/apps.py: 26492
+      wizards/instances.py: 4724
+      wizards/pages.py: 4179
+      wizards/users.py: 11247
+      wizards/wizards.py: 2653
+    files_by_type:
+      .jpg: 2
+      .kra: 2
+      .png: 30
+      .py: 235
+      .qss: 9
+      .svg: 990
+      .webp: 2
+      .yaml: 63
+    per_file:
+      __init__.py:
+        class_count: 0
+        file_size: 488
+        function_count: 0
+        import_count: 2
+        word_count: 46
+      __main__.py:
+        class_count: 0
+        file_size: 243
+        function_count: 0
+        import_count: 3
+        word_count: 25
+      actions/__init__.py:
+        class_count: 0
+        file_size: 285
+        function_count: 0
+        import_count: 2
+        word_count: 36
+      actions/actions.py:
+        class_count: 1
+        file_size: 9217
+        function_count: 46
+        import_count: 6
+        word_count: 923
+      actions/charts.py:
+        class_count: 0
+        file_size: 1691
+        function_count: 10
+        import_count: 1
+        word_count: 202
+      actions/files.py:
+        class_count: 0
+        file_size: 6917
+        function_count: 15
+        import_count: 6
+        word_count: 598
+      actions/format.py:
+        class_count: 0
+        file_size: 1187
+        function_count: 10
+        import_count: 1
+        word_count: 115
+      actions/tables.py:
+        class_count: 4
+        file_size: 37415
+        function_count: 39
+        import_count: 4
+        word_count: 2421
+      actions/text.py:
+        class_count: 0
+        file_size: 5977
+        function_count: 44
+        import_count: 6
+        word_count: 633
+      actions/tree.py:
+        class_count: 0
+        file_size: 5889
+        function_count: 0
+        import_count: 7
+        word_count: 555
+      agent_awareness.py:
+        class_count: 0
+        file_size: 3269
+        function_count: 5
+        import_count: 4
+        word_count: 327
+      cli.py:
+        class_count: 0
+        file_size: 9984
+        function_count: 26
+        import_count: 4
+        word_count: 1074
+      dialogs/__init__.py:
+        class_count: 0
+        file_size: 371
+        function_count: 0
+        import_count: 2
+        word_count: 44
+      dialogs/about.py:
+        class_count: 1
+        file_size: 4619
+        function_count: 0
+        import_count: 11
+        word_count: 352
+      dialogs/authentication.py:
+        class_count: 1
+        file_size: 2980
+        function_count: 0
+        import_count: 6
+        word_count: 230
+      dialogs/colors.py:
+        class_count: 1
+        file_size: 2720
+        function_count: 0
+        import_count: 7
+        word_count: 193
+      dialogs/dialogs.py:
+        class_count: 6
+        file_size: 34459
+        function_count: 0
+        import_count: 15
+        word_count: 2680
+      dialogs/editors.py:
+        class_count: 1
+        file_size: 3030
+        function_count: 0
+        import_count: 8
+        word_count: 210
+      dialogs/errors.py:
+        class_count: 1
+        file_size: 2364
+        function_count: 0
+        import_count: 8
+        word_count: 149
+      dialogs/extensions.py:
+        class_count: 1
+        file_size: 2246
+        function_count: 0
+        import_count: 7
+        word_count: 145
+      dialogs/files.py:
+        class_count: 4
+        file_size: 5729
+        function_count: 0
+        import_count: 7
+        word_count: 459
+      dialogs/icons.py:
+        class_count: 1
+        file_size: 2314
+        function_count: 0
+        import_count: 7
+        word_count: 152
+      dialogs/new.py:
+        class_count: 4
+        file_size: 6248
+        function_count: 0
+        import_count: 9
+        word_count: 439
+      dialogs/notifications.py:
+        class_count: 1
+        file_size: 2221
+        function_count: 0
+        import_count: 7
+        word_count: 145
+      dialogs/passwords.py:
+        class_count: 2
+        file_size: 2270
+        function_count: 0
+        import_count: 6
+        word_count: 148
+      dialogs/save.py:
+        class_count: 0
+        file_size: 1430
+        function_count: 0
+        import_count: 6
+        word_count: 90
+      dialogs/search.py:
+        class_count: 1
+        file_size: 2212
+        function_count: 0
+        import_count: 7
+        word_count: 145
+      dialogs/settings.py:
+        class_count: 1
+        file_size: 2407
+        function_count: 0
+        import_count: 8
+        word_count: 160
+      events/__init__.py:
+        class_count: 0
+        file_size: 294
+        function_count: 0
+        import_count: 2
+        word_count: 35
+      events/alerts.py:
+        class_count: 0
+        file_size: 1772
+        function_count: 0
+        import_count: 7
+        word_count: 124
+      events/events.py:
+        class_count: 2
+        file_size: 7878
+        function_count: 0
+        import_count: 5
+        word_count: 616
+      events/keyboard_events.py:
+        class_count: 0
+        file_size: 14320
+        function_count: 101
+        import_count: 5
+        word_count: 1923
+      events/mouse_events.py:
+        class_count: 0
+        file_size: 5592
+        function_count: 0
+        import_count: 5
+        word_count: 639
+      events/tabsets.py:
+        class_count: 0
+        file_size: 14244
+        function_count: 3
+        import_count: 1
+        word_count: 1268
+      events/trees.py:
+        class_count: 0
+        file_size: 11373
+        function_count: 2
+        import_count: 6
+        word_count: 671
+      extensions/__init__.py:
+        class_count: 0
+        file_size: 35
+        function_count: 0
+        import_count: 0
+        word_count: 3
+      extensions/apis.py:
+        class_count: 8
+        file_size: 8114
+        function_count: 0
+        import_count: 8
+        word_count: 652
+      extensions/extensions.py:
+        class_count: 1
+        file_size: 3703
+        function_count: 0
+        import_count: 10
+        word_count: 260
+      extensions/install.py:
+        class_count: 1
+        file_size: 4348
+        function_count: 0
+        import_count: 10
+        word_count: 338
+      extensions/integrations.py:
+        class_count: 0
+        file_size: 1430
+        function_count: 0
+        import_count: 6
+        word_count: 90
+      extensions/packages/__init__.py:
+        class_count: 0
+        file_size: 44
+        function_count: 0
+        import_count: 0
+        word_count: 4
+      extensions/packages/nchantdlibrary/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      extensions/packages/nchantdlibrary/bibliography_reference.py:
+        class_count: 0
+        file_size: 1378
+        function_count: 0
+        import_count: 5
+        word_count: 82
+      extensions/packages/nchantdlibrary/dictionary.py:
+        class_count: 0
+        file_size: 1378
+        function_count: 0
+        import_count: 5
+        word_count: 82
+      extensions/packages/nchantdlibrary/engineering/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      extensions/packages/nchantdlibrary/games/__init__.py:
+        class_count: 0
+        file_size: 65
+        function_count: 0
+        import_count: 0
+        word_count: 6
+      extensions/packages/nchantdlibrary/games/gameoflife.py:
+        class_count: 1
+        file_size: 3691
+        function_count: 0
+        import_count: 6
+        word_count: 333
+      extensions/packages/nchantdlibrary/nchantdlibrary.py:
+        class_count: 1
+        file_size: 1629
+        function_count: 0
+        import_count: 5
+        word_count: 96
+      extensions/packages/nchantdlibrary/physician/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      extensions/packages/nchantdlibrary/physician/physicians_reference.py:
+        class_count: 0
+        file_size: 1378
+        function_count: 0
+        import_count: 5
+        word_count: 82
+      extensions/packages/nchantdlibrary/style_guide.py:
+        class_count: 0
+        file_size: 1378
+        function_count: 0
+        import_count: 5
+        word_count: 82
+      extensions/packages/nchantdlibrary/thesaurus.py:
+        class_count: 0
+        file_size: 1378
+        function_count: 0
+        import_count: 5
+        word_count: 82
+      extensions/plugins.py:
+        class_count: 2
+        file_size: 2924
+        function_count: 0
+        import_count: 7
+        word_count: 193
+      extensions/sources.py:
+        class_count: 0
+        file_size: 1430
+        function_count: 0
+        import_count: 6
+        word_count: 90
+      libraries/__init__.py:
+        class_count: 0
+        file_size: 34
+        function_count: 0
+        import_count: 0
+        word_count: 3
+      libraries/orange.py:
+        class_count: 0
+        file_size: 1498
+        function_count: 0
+        import_count: 4
+        word_count: 92
+      libraries/pyqt.py:
+        class_count: 0
+        file_size: 5362
+        function_count: 0
+        import_count: 45
+        word_count: 417
+      libraries/qpandas.py:
+        class_count: 0
+        file_size: 1751
+        function_count: 0
+        import_count: 11
+        word_count: 157
+      libraries/syntax.py:
+        class_count: 1
+        file_size: 6730
+        function_count: 1
+        import_count: 4
+        word_count: 678
+      library/__init__.py:
+        class_count: 0
+        file_size: 32
+        function_count: 0
+        import_count: 0
+        word_count: 3
+      library/library.py:
+        class_count: 1
+        file_size: 1632
+        function_count: 0
+        import_count: 5
+        word_count: 99
+      logging/__init__.py:
+        class_count: 0
+        file_size: 1962
+        function_count: 2
+        import_count: 4
+        word_count: 189
+      models/__init__.py:
+        class_count: 0
+        file_size: 284
+        function_count: 0
+        import_count: 2
+        word_count: 33
+      models/applicationmodels.py:
+        class_count: 6
+        file_size: 32157
+        function_count: 0
+        import_count: 20
+        word_count: 2705
+      models/models.py:
+        class_count: 5
+        file_size: 70744
+        function_count: 1
+        import_count: 19
+        word_count: 6426
+      models/tabsetmodels.py:
+        class_count: 1
+        file_size: 12327
+        function_count: 0
+        import_count: 12
+        word_count: 1141
+      models/treemodels.py:
+        class_count: 4
+        file_size: 16876
+        function_count: 0
+        import_count: 14
+        word_count: 1466
+      nchantrs.py:
+        class_count: 0
+        file_size: 6681
+        function_count: 7
+        import_count: 10
+        word_count: 598
+      services/__init__.py:
+        class_count: 0
+        file_size: 333
+        function_count: 0
+        import_count: 2
+        word_count: 39
+      services/bonds.py:
+        class_count: 2
+        file_size: 2537
+        function_count: 0
+        import_count: 6
+        word_count: 191
+      services/connections.py:
+        class_count: 1
+        file_size: 2284
+        function_count: 0
+        import_count: 4
+        word_count: 175
+      services/directories.py:
+        class_count: 4
+        file_size: 1830
+        function_count: 0
+        import_count: 5
+        word_count: 128
+      services/integrity.py:
+        class_count: 1
+        file_size: 3536
+        function_count: 1
+        import_count: 7
+        word_count: 303
+      services/license.py:
+        class_count: 2
+        file_size: 2130
+        function_count: 0
+        import_count: 5
+        word_count: 185
+      services/links.py:
+        class_count: 1
+        file_size: 2206
+        function_count: 0
+        import_count: 6
+        word_count: 191
+      services/nchantrs.py:
+        class_count: 1
+        file_size: 2579
+        function_count: 0
+        import_count: 6
+        word_count: 169
+      services/services.py:
+        class_count: 3
+        file_size: 3490
+        function_count: 0
+        import_count: 5
+        word_count: 251
+      services/tags.py:
+        class_count: 2
+        file_size: 2343
+        function_count: 0
+        import_count: 6
+        word_count: 202
+      services/telemetry.py:
+        class_count: 1
+        file_size: 1774
+        function_count: 0
+        import_count: 4
+        word_count: 113
+      services/upgrades.py:
+        class_count: 9
+        file_size: 10279
+        function_count: 1
+        import_count: 6
+        word_count: 853
+      themes/__init__.py:
+        class_count: 0
+        file_size: 31
+        function_count: 0
+        import_count: 0
+        word_count: 3
+      themes/images.py:
+        class_count: 1
+        file_size: 1648
+        function_count: 0
+        import_count: 5
+        word_count: 101
+      themes/themes.py:
+        class_count: 1
+        file_size: 6818
+        function_count: 1
+        import_count: 7
+        word_count: 514
+      updates/__init__.py:
+        class_count: 0
+        file_size: 32
+        function_count: 0
+        import_count: 0
+        word_count: 3
+      updates/db.py:
+        class_count: 1
+        file_size: 17189
+        function_count: 0
+        import_count: 7
+        word_count: 1430
+      utilities/__init__.py:
+        class_count: 0
+        file_size: 409
+        function_count: 0
+        import_count: 3
+        word_count: 38
+      utilities/analytics.py:
+        class_count: 1
+        file_size: 2347
+        function_count: 0
+        import_count: 6
+        word_count: 164
+      utilities/books.py:
+        class_count: 0
+        file_size: 2570
+        function_count: 4
+        import_count: 10
+        word_count: 181
+      utilities/comms.py:
+        class_count: 1
+        file_size: 4475
+        function_count: 0
+        import_count: 9
+        word_count: 361
+      utilities/debug.py:
+        class_count: 1
+        file_size: 7841
+        function_count: 3
+        import_count: 2
+        word_count: 668
+      utilities/files.py:
+        class_count: 0
+        file_size: 2211
+        function_count: 1
+        import_count: 9
+        word_count: 170
+      utilities/formatting.py:
+        class_count: 1
+        file_size: 3269
+        function_count: 1
+        import_count: 7
+        word_count: 229
+      utilities/formulas.py:
+        class_count: 1
+        file_size: 2117
+        function_count: 0
+        import_count: 6
+        word_count: 169
+      utilities/graphics/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      utilities/graphics/animations/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      utilities/graphics/animations/turtle.py:
+        class_count: 0
+        file_size: 3327
+        function_count: 3
+        import_count: 4
+        word_count: 270
+      utilities/graphics/logos.py:
+        class_count: 1
+        file_size: 2466
+        function_count: 0
+        import_count: 7
+        word_count: 153
+      utilities/graphics/pixelart.py:
+        class_count: 1
+        file_size: 3126
+        function_count: 0
+        import_count: 8
+        word_count: 224
+      utilities/identification.py:
+        class_count: 0
+        file_size: 2033
+        function_count: 1
+        import_count: 7
+        word_count: 163
+      utilities/models.py:
+        class_count: 0
+        file_size: 2521
+        function_count: 1
+        import_count: 7
+        word_count: 211
+      utilities/policies.py:
+        class_count: 1
+        file_size: 5244
+        function_count: 0
+        import_count: 8
+        word_count: 353
+      utilities/tools/__init__.py:
+        class_count: 0
+        file_size: 40
+        function_count: 0
+        import_count: 0
+        word_count: 4
+      utilities/tools/search.py:
+        class_count: 5
+        file_size: 2391
+        function_count: 0
+        import_count: 5
+        word_count: 144
+      utilities/tools/tools.py:
+        class_count: 0
+        file_size: 1378
+        function_count: 0
+        import_count: 5
+        word_count: 82
+      utilities/users.py:
+        class_count: 1
+        file_size: 14325
+        function_count: 2
+        import_count: 13
+        word_count: 1101
+      utilities/utils.py:
+        class_count: 0
+        file_size: 6848
+        function_count: 5
+        import_count: 7
+        word_count: 602
+      views/__init__.py:
+        class_count: 0
+        file_size: 30
+        function_count: 0
+        import_count: 0
+        word_count: 3
+      views/applicationviews.py:
+        class_count: 3
+        file_size: 10254
+        function_count: 0
+        import_count: 12
+        word_count: 734
+      views/treeviews.py:
+        class_count: 1
+        file_size: 11073
+        function_count: 0
+        import_count: 8
+        word_count: 849
+      views/views.py:
+        class_count: 0
+        file_size: 1396
+        function_count: 0
+        import_count: 5
+        word_count: 83
+      widgets/__init__.py:
+        class_count: 0
+        file_size: 436
+        function_count: 0
+        import_count: 2
+        word_count: 51
+      widgets/agents/__init__.py:
+        class_count: 0
+        file_size: 39
+        function_count: 0
+        import_count: 0
+        word_count: 4
+      widgets/agents/agents.py:
+        class_count: 3
+        file_size: 4406
+        function_count: 0
+        import_count: 6
+        word_count: 297
+      widgets/annotations.py:
+        class_count: 6
+        file_size: 11256
+        function_count: 0
+        import_count: 10
+        word_count: 766
+      widgets/applications/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      widgets/applications/applications.py:
+        class_count: 3
+        file_size: 30513
+        function_count: 2
+        import_count: 18
+        word_count: 2314
+      widgets/applications/managers.py:
+        class_count: 1
+        file_size: 2738
+        function_count: 0
+        import_count: 9
+        word_count: 192
+      widgets/browsers/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      widgets/browsers/browsers.py:
+        class_count: 3
+        file_size: 23596
+        function_count: 0
+        import_count: 25
+        word_count: 1822
+      widgets/browsers/codecs/__init__.py:
+        class_count: 0
+        file_size: 48
+        function_count: 0
+        import_count: 0
+        word_count: 5
+      widgets/browsers/codecs/h264.py:
+        class_count: 3
+        file_size: 18081
+        function_count: 3
+        import_count: 22
+        word_count: 1466
+      widgets/browsers/downloads.py:
+        class_count: 9
+        file_size: 29024
+        function_count: 0
+        import_count: 19
+        word_count: 1826
+      widgets/browsers/engines.py:
+        class_count: 2
+        file_size: 19974
+        function_count: 1
+        import_count: 12
+        word_count: 1461
+      widgets/browsers/graphics.py:
+        class_count: 0
+        file_size: 4488
+        function_count: 3
+        import_count: 9
+        word_count: 331
+      widgets/browsers/history.py:
+        class_count: 1
+        file_size: 1869
+        function_count: 0
+        import_count: 6
+        word_count: 126
+      widgets/browsers/initialize.py:
+        class_count: 0
+        file_size: 2300
+        function_count: 1
+        import_count: 8
+        word_count: 172
+      widgets/browsers/javascript/__init__.py:
+        class_count: 0
+        file_size: 52
+        function_count: 0
+        import_count: 0
+        word_count: 5
+      widgets/browsers/javascript/scripts.py:
+        class_count: 0
+        file_size: 10549
+        function_count: 21
+        import_count: 5
+        word_count: 1011
+      widgets/browsers/network.py:
+        class_count: 0
+        file_size: 1430
+        function_count: 0
+        import_count: 6
+        word_count: 90
+      widgets/browsers/pages.py:
+        class_count: 4
+        file_size: 38490
+        function_count: 0
+        import_count: 15
+        word_count: 3039
+      widgets/browsers/profiles.py:
+        class_count: 4
+        file_size: 31025
+        function_count: 0
+        import_count: 14
+        word_count: 1888
+      widgets/browsers/requests.py:
+        class_count: 6
+        file_size: 19905
+        function_count: 0
+        import_count: 11
+        word_count: 1649
+      widgets/browsers/security/__init__.py:
+        class_count: 0
+        file_size: 50
+        function_count: 0
+        import_count: 0
+        word_count: 5
+      widgets/browsers/security/authentication.py:
+        class_count: 3
+        file_size: 14416
+        function_count: 0
+        import_count: 12
+        word_count: 1019
+      widgets/browsers/security/environment.py:
+        class_count: 10
+        file_size: 27891
+        function_count: 0
+        import_count: 17
+        word_count: 1952
+      widgets/browsers/security/google.py:
+        class_count: 1
+        file_size: 3495
+        function_count: 0
+        import_count: 9
+        word_count: 236
+      widgets/browsers/services.py:
+        class_count: 3
+        file_size: 6696
+        function_count: 0
+        import_count: 15
+        word_count: 551
+      widgets/browsers/utilities.py:
+        class_count: 4
+        file_size: 7653
+        function_count: 2
+        import_count: 8
+        word_count: 633
+      widgets/calculators/__init__.py:
+        class_count: 0
+        file_size: 44
+        function_count: 0
+        import_count: 0
+        word_count: 4
+      widgets/calculators/calculators.py:
+        class_count: 4
+        file_size: 17640
+        function_count: 0
+        import_count: 11
+        word_count: 1200
+      widgets/calendars/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      widgets/calendars/calendars.py:
+        class_count: 7
+        file_size: 8987
+        function_count: 0
+        import_count: 12
+        word_count: 571
+      widgets/calendars/centuries.py:
+        class_count: 1
+        file_size: 2119
+        function_count: 0
+        import_count: 6
+        word_count: 131
+      widgets/calendars/days.py:
+        class_count: 6
+        file_size: 8917
+        function_count: 0
+        import_count: 13
+        word_count: 607
+      widgets/calendars/decades.py:
+        class_count: 1
+        file_size: 2121
+        function_count: 0
+        import_count: 6
+        word_count: 131
+      widgets/calendars/months.py:
+        class_count: 3
+        file_size: 10431
+        function_count: 0
+        import_count: 13
+        word_count: 617
+      widgets/calendars/timelines.py:
+        class_count: 6
+        file_size: 17243
+        function_count: 0
+        import_count: 16
+        word_count: 1260
+      widgets/calendars/weeks.py:
+        class_count: 1
+        file_size: 3713
+        function_count: 0
+        import_count: 8
+        word_count: 280
+      widgets/calendars/years.py:
+        class_count: 3
+        file_size: 5400
+        function_count: 0
+        import_count: 12
+        word_count: 392
+      widgets/canvases/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      widgets/canvases/canvases.py:
+        class_count: 7
+        file_size: 8994
+        function_count: 0
+        import_count: 8
+        word_count: 657
+      widgets/canvases/multipages.py:
+        class_count: 1
+        file_size: 3474
+        function_count: 0
+        import_count: 6
+        word_count: 251
+      widgets/canvases/scenes.py:
+        class_count: 2
+        file_size: 7490
+        function_count: 0
+        import_count: 7
+        word_count: 550
+      widgets/catalogs.py:
+        class_count: 2
+        file_size: 8615
+        function_count: 0
+        import_count: 18
+        word_count: 601
+      widgets/config/__init__.py:
+        class_count: 0
+        file_size: 39
+        function_count: 0
+        import_count: 0
+        word_count: 4
+      widgets/config/accounts.py:
+        class_count: 2
+        file_size: 3889
+        function_count: 0
+        import_count: 13
+        word_count: 269
+      widgets/config/config.py:
+        class_count: 1
+        file_size: 10160
+        function_count: 0
+        import_count: 7
+        word_count: 722
+      widgets/config/extensions.py:
+        class_count: 2
+        file_size: 3444
+        function_count: 0
+        import_count: 8
+        word_count: 198
+      widgets/config/help.py:
+        class_count: 3
+        file_size: 5257
+        function_count: 0
+        import_count: 11
+        word_count: 321
+      widgets/config/integrations.py:
+        class_count: 2
+        file_size: 2917
+        function_count: 0
+        import_count: 7
+        word_count: 176
+      widgets/config/packages.py:
+        class_count: 1
+        file_size: 6266
+        function_count: 0
+        import_count: 13
+        word_count: 370
+      widgets/config/profiles.py:
+        class_count: 1
+        file_size: 2511
+        function_count: 0
+        import_count: 7
+        word_count: 185
+      widgets/config/security.py:
+        class_count: 1
+        file_size: 11026
+        function_count: 0
+        import_count: 15
+        word_count: 736
+      widgets/config/services.py:
+        class_count: 1
+        file_size: 2124
+        function_count: 0
+        import_count: 6
+        word_count: 131
+      widgets/config/settings.py:
+        class_count: 3
+        file_size: 9285
+        function_count: 0
+        import_count: 19
+        word_count: 576
+      widgets/config/storage.py:
+        class_count: 1
+        file_size: 11648
+        function_count: 0
+        import_count: 11
+        word_count: 892
+      widgets/config/uninstall.py:
+        class_count: 1
+        file_size: 10080
+        function_count: 0
+        import_count: 6
+        word_count: 666
+      widgets/controls/__init__.py:
+        class_count: 0
+        file_size: 41
+        function_count: 0
+        import_count: 0
+        word_count: 4
+      widgets/controls/advanced_buttons.py:
+        class_count: 9
+        file_size: 15647
+        function_count: 0
+        import_count: 11
+        word_count: 1118
+      widgets/controls/button_groups.py:
+        class_count: 10
+        file_size: 26865
+        function_count: 0
+        import_count: 14
+        word_count: 1700
+      widgets/controls/buttons.py:
+        class_count: 6
+        file_size: 12260
+        function_count: 0
+        import_count: 10
+        word_count: 850
+      widgets/controls/checkboxes.py:
+        class_count: 3
+        file_size: 6790
+        function_count: 0
+        import_count: 8
+        word_count: 487
+      widgets/controls/connectors.py:
+        class_count: 6
+        file_size: 5155
+        function_count: 0
+        import_count: 6
+        word_count: 335
+      widgets/controls/controls.py:
+        class_count: 3
+        file_size: 4953
+        function_count: 0
+        import_count: 9
+        word_count: 365
+      widgets/controls/menus.py:
+        class_count: 2
+        file_size: 5471
+        function_count: 0
+        import_count: 7
+        word_count: 376
+      widgets/controls/navigation.py:
+        class_count: 1
+        file_size: 2980
+        function_count: 0
+        import_count: 6
+        word_count: 165
+      widgets/controls/radios.py:
+        class_count: 2
+        file_size: 3847
+        function_count: 0
+        import_count: 9
+        word_count: 259
+      widgets/controls/search.py:
+        class_count: 1
+        file_size: 2132
+        function_count: 0
+        import_count: 6
+        word_count: 131
+      widgets/controls/toolbars.py:
+        class_count: 6
+        file_size: 14978
+        function_count: 0
+        import_count: 10
+        word_count: 940
+      widgets/controls/toolboxes.py:
+        class_count: 2
+        file_size: 10079
+        function_count: 0
+        import_count: 9
+        word_count: 761
+      widgets/controls/tooltips.py:
+        class_count: 1
+        file_size: 2123
+        function_count: 0
+        import_count: 6
+        word_count: 138
+      widgets/embeds.py:
+        class_count: 4
+        file_size: 4028
+        function_count: 0
+        import_count: 5
+        word_count: 312
+      widgets/forms/__init__.py:
+        class_count: 0
+        file_size: 38
+        function_count: 0
+        import_count: 0
+        word_count: 4
+      widgets/forms/forms.py:
+        class_count: 3
+        file_size: 9314
+        function_count: 0
+        import_count: 7
+        word_count: 721
+      widgets/groups.py:
+        class_count: 7
+        file_size: 18541
+        function_count: 0
+        import_count: 8
+        word_count: 1086
+      widgets/items/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      widgets/items/catalogs.py:
+        class_count: 4
+        file_size: 8959
+        function_count: 0
+        import_count: 12
+        word_count: 644
+      widgets/items/cells.py:
+        class_count: 2
+        file_size: 8687
+        function_count: 0
+        import_count: 10
+        word_count: 728
+      widgets/items/items.py:
+        class_count: 2
+        file_size: 5289
+        function_count: 0
+        import_count: 7
+        word_count: 460
+      widgets/items/nodes.py:
+        class_count: 14
+        file_size: 33044
+        function_count: 0
+        import_count: 11
+        word_count: 2614
+      widgets/items/subtrees.py:
+        class_count: 3
+        file_size: 3636
+        function_count: 0
+        import_count: 6
+        word_count: 243
+      widgets/launch.py:
+        class_count: 0
+        file_size: 2598
+        function_count: 0
+        import_count: 6
+        word_count: 182
+      widgets/managers.py:
+        class_count: 5
+        file_size: 6119
+        function_count: 0
+        import_count: 6
+        word_count: 393
+      widgets/managers/__init__.py:
+        class_count: 0
+        file_size: 41
+        function_count: 0
+        import_count: 0
+        word_count: 4
+      widgets/managers/managers.py:
+        class_count: 6
+        file_size: 9702
+        function_count: 0
+        import_count: 6
+        word_count: 724
+      widgets/media/__init__.py:
+        class_count: 0
+        file_size: 38
+        function_count: 0
+        import_count: 0
+        word_count: 4
+      widgets/media/charts/__init__.py:
+        class_count: 0
+        file_size: 45
+        function_count: 0
+        import_count: 0
+        word_count: 5
+      widgets/media/charts/charts.py:
+        class_count: 3
+        file_size: 42253
+        function_count: 0
+        import_count: 18
+        word_count: 3794
+      widgets/media/editors/__init__.py:
+        class_count: 0
+        file_size: 46
+        function_count: 0
+        import_count: 0
+        word_count: 5
+      widgets/media/editors/code.py:
+        class_count: 0
+        file_size: 9389
+        function_count: 0
+        import_count: 0
+        word_count: 914
+      widgets/media/editors/editors.py:
+        class_count: 9
+        file_size: 29741
+        function_count: 0
+        import_count: 15
+        word_count: 2196
+      widgets/media/editors/entries.py:
+        class_count: 3
+        file_size: 5338
+        function_count: 0
+        import_count: 10
+        word_count: 333
+      widgets/media/editors/selectors.py:
+        class_count: 6
+        file_size: 14249
+        function_count: 0
+        import_count: 11
+        word_count: 1049
+      widgets/media/games/__init__.py:
+        class_count: 0
+        file_size: 44
+        function_count: 0
+        import_count: 0
+        word_count: 5
+      widgets/media/games/boards.py:
+        class_count: 1
+        file_size: 12067
+        function_count: 0
+        import_count: 6
+        word_count: 915
+      widgets/media/games/games.py:
+        class_count: 1
+        file_size: 2131
+        function_count: 0
+        import_count: 6
+        word_count: 132
+      widgets/media/images.py:
+        class_count: 2
+        file_size: 12750
+        function_count: 0
+        import_count: 8
+        word_count: 903
+      widgets/media/maps.py:
+        class_count: 2
+        file_size: 2941
+        function_count: 0
+        import_count: 4
+        word_count: 234
+      widgets/media/marquees.py:
+        class_count: 2
+        file_size: 3495
+        function_count: 0
+        import_count: 7
+        word_count: 225
+      widgets/media/media.py:
+        class_count: 4
+        file_size: 9769
+        function_count: 0
+        import_count: 14
+        word_count: 686
+      widgets/media/notes.py:
+        class_count: 3
+        file_size: 4734
+        function_count: 0
+        import_count: 8
+        word_count: 299
+      widgets/media/palettes.py:
+        class_count: 2
+        file_size: 3866
+        function_count: 0
+        import_count: 7
+        word_count: 252
+      widgets/media/shapes.py:
+        class_count: 4
+        file_size: 7141
+        function_count: 0
+        import_count: 6
+        word_count: 519
+      widgets/media/utilities.py:
+        class_count: 1
+        file_size: 2948
+        function_count: 1
+        import_count: 6
+        word_count: 226
+      widgets/media/video.py:
+        class_count: 4
+        file_size: 4513
+        function_count: 0
+        import_count: 6
+        word_count: 306
+      widgets/panes/__init__.py:
+        class_count: 0
+        file_size: 38
+        function_count: 0
+        import_count: 0
+        word_count: 4
+      widgets/panes/calendars.py:
+        class_count: 1
+        file_size: 2571
+        function_count: 0
+        import_count: 7
+        word_count: 158
+      widgets/panes/catalogs.py:
+        class_count: 1
+        file_size: 11467
+        function_count: 0
+        import_count: 16
+        word_count: 776
+      widgets/panes/files.py:
+        class_count: 1
+        file_size: 2136
+        function_count: 0
+        import_count: 6
+        word_count: 131
+      widgets/panes/numbers.py:
+        class_count: 1
+        file_size: 3449
+        function_count: 0
+        import_count: 7
+        word_count: 269
+      widgets/panes/panes.py:
+        class_count: 1
+        file_size: 3030
+        function_count: 0
+        import_count: 7
+        word_count: 193
+      widgets/tables/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      widgets/tables/lists.py:
+        class_count: 5
+        file_size: 9447
+        function_count: 0
+        import_count: 12
+        word_count: 674
+      widgets/tables/tables.py:
+        class_count: 3
+        file_size: 24688
+        function_count: 0
+        import_count: 15
+        word_count: 1667
+      widgets/tabsets.py:
+        class_count: 3
+        file_size: 27533
+        function_count: 0
+        import_count: 10
+        word_count: 2260
+      widgets/trees.py:
+        class_count: 4
+        file_size: 16492
+        function_count: 0
+        import_count: 9
+        word_count: 1341
+      widgets/widgets.py:
+        class_count: 4
+        file_size: 35450
+        function_count: 6
+        import_count: 11
+        word_count: 2860
+      wizards/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      wizards/accounts.py:
+        class_count: 2
+        file_size: 3319
+        function_count: 0
+        import_count: 10
+        word_count: 243
+      wizards/apps.py:
+        class_count: 5
+        file_size: 26492
+        function_count: 0
+        import_count: 18
+        word_count: 1846
+      wizards/instances.py:
+        class_count: 1
+        file_size: 4724
+        function_count: 0
+        import_count: 8
+        word_count: 281
+      wizards/pages.py:
+        class_count: 2
+        file_size: 4179
+        function_count: 0
+        import_count: 7
+        word_count: 281
+      wizards/users.py:
+        class_count: 5
+        file_size: 11247
+        function_count: 0
+        import_count: 13
+        word_count: 739
+      wizards/wizards.py:
+        class_count: 1
+        file_size: 2653
+        function_count: 0
+        import_count: 7
+        word_count: 170
+audit_date: '1773876762.4161088'
+coverage_penalty:
+  applied: true
+  message: -10% penalty (file-level coverage 0.0% < 60%)
+dimensions:
+  agent_awareness:
+    details:
+      score: 100
+      status: pass
+    score: 100
+    status: pass
+  base_class_duplication:
+    details:
+      base_class_duplication_count: 40
+      issues:
+      - fix: Consider creating a shared base class or mixin for common methods
+        patterns:
+        - arg_count: 3
+          base: object
+          classes:
+          - NchantdServiceManager
+          - NchantdService
+          - UpgradeManager
+          - NchantdLibraryManager
+          - NchantdFormula
+          - NchantdDataPolicy
+          - NchantdUser
+          - NchantdCommunicationsManager
+          - DBUpdate
+          - NchantdWebRequestAPI
+          - NchantdPantiesModel
+          - NchantdModel
+          - NchantdInstance
+          - NchantdPantiesView
+          - NchantdSentinelManager
+          method: __init__
+        - arg_count: 1
+          base: object
+          classes:
+          - NchantdConnections
+          - UpgradeCode
+          - UpgradeDatabaseData
+          - UpgradeDatabase
+          - UpgradeFile
+          - UpgradeIndex
+          - UpgradeKey
+          - UpgradeDatabaseView
+          - DataFilter
+          method: __init__
+        - arg_count: 2
+          base: object
+          classes:
+          - UpgradeDatabaseTable
+          - Ownership
+          - NchantdEventAPI
+          - NchantdNodesAPI
+          - NchantdRuntimeAPI
+          - NchantdSourceAPI
+          - NchantdStorageAPI
+          - NchantdWebHistory
+          - NchantdConfigStoreDocument
+          method: __init__
+        - arg_count: 3
+          base: NchantdWizardPage
+          classes:
+          - NchantdSelectInstancePage
+          - NchantdAddExtensionWizard
+          - NchantdRemoveExtensionWizard
+          - NchantdApplicationSetupDetailsPage
+          - NchantdApplicationConfigurationPage
+          - NchantdTOSSignOffPage
+          - NchantdNewUserDetailsPage
+          - NchantdUserNameSelectorPage
+          method: __init__
+        - arg_count: 1
+          base: NchantdWizardPage
+          classes:
+          - NchantdSelectInstancePage
+          - NchantdAddExtensionWizard
+          - NchantdRemoveExtensionWizard
+          - NchantdApplicationSetupDetailsPage
+          - NchantdTOSSignOffPage
+          - NchantdNewUserDetailsPage
+          - NchantdUserNameSelectorPage
+          method: initModel
+        - arg_count: 1
+          base: NchantdWizardPage
+          classes:
+          - NchantdSelectInstancePage
+          - NchantdAddExtensionWizard
+          - NchantdRemoveExtensionWizard
+          - NchantdApplicationSetupDetailsPage
+          - NchantdTOSSignOffPage
+          - NchantdNewUserDetailsPage
+          - NchantdUserNameSelectorPage
+          method: initView
+        - arg_count: 1
+          base: NchantdWizardPage
+          classes:
+          - NchantdSelectInstancePage
+          - NchantdAddExtensionWizard
+          - NchantdRemoveExtensionWizard
+          - NchantdApplicationSetupDetailsPage
+          - NchantdApplicationConfigurationPage
+          - NchantdTOSSignOffPage
+          - NchantdNewUserDetailsPage
+          - NchantdUserNameSelectorPage
+          method: initWidget
+        - arg_count: 3
+          base: NchantdWizard
+          classes:
+          - NchantdApplicationStartupWizard
+          - NchantdNewInstanceWizard
+          - NchantdAddAPIWizard
+          - NchantdNewAccountWizard
+          - NchantdNewUserWizard
+          method: __init__
+        - arg_count: 3
+          base: NchantdWidget
+          classes:
+          - NchantdBrowserPluginBase
+          - NchantdApplicationPluginBase
+          - NchantdExtensionsManager
+          - NchantdAuthenticationWindow
+          - NchantdFindSigil
+          - NchantdTab
+          - NchantdCatalog
+          - NchantdBadgeBar
+          - NchantdDisplayBox
+          - NchantdHighLowLabel
+          - NchantdSideBar
+          - NchantdCollapsableGroup
+          - NchantdVScrollGroupBox
+          - NchantdManager
+          - NchantdBasket
+          - NchantdBasketManager
+          - NchantdTreeView
+          - NchantdDownload
+          - NchantdDownloadsManagerSigil
+          - NchantdDownloadNew
+          - NchantdWebViewer
+          - NchantdProfileManager
+          - NchantdCatalogItem
+          - NchantdGrid
+          - NchantdListEditor
+          - NchantdBulletedList
+          - NchantdTextList
+          - NchantdSecurityManager
+          - NchantdDecadeCalendar
+          - NchantdCalendar
+          - NchantdDateTimeGroup
+          - NchantdEventsList
+          - NchantdHistory
+          - NchantdRecentChanges
+          - NchantdTODOCalendar
+          - NchantdYearSummaryTab
+          - NchantdPane
+          - NchantdFileDetailsPane
+          - NchantdForm
+          - NchantdProfile
+          - NchantdIntegrationSettings
+          - NchantdIntegrationCatalog
+          - NchantdExtensionsSettings
+          - NchantdExtensionsCatalog
+          - NchantdCheckboxGroup
+          - NchantdCheckboxCombo
+          - NchantdLabeledButton
+          - NchantdTextButton
+          - NchantdNumberWheelButton
+          - NchantdEnableSpinBox
+          - NchantdEnableSequencer
+          - NchantdActivateSpinBox
+          - NchantdLabeledSpinBox
+          - NchantdLabeledDoubleSpinBox
+          - NchantdColorSelectButton
+          - NchantdDrawer
+          - NchantdButtonBar
+          - NchantdMenuBar
+          - NchantdRadioButtonGroup
+          - NchantdSelectionWidget
+          - NchantdWidgetSelector
+          - NchantdButtonGrid
+          - NchantdAcceptButtons
+          - NchantdOkButtons
+          - NchantdSaveButtons
+          - NchantdTabSideButtons
+          - NchantdMathPad
+          - NchantdFontConfigBar
+          - NchantdBorderConfigBar
+          - NchantdImage
+          - NchantdScreenShot
+          - NchantdPalette
+          - NchantdNEWSLArticle
+          - NchantdFileIcon
+          - NchantdFileViewer
+          - NchantdStickyNoteManager
+          - NchantdTextMarquee
+          - NchantdVideo
+          - NchantdScreenCapture
+          - NchantdDualVideoPlayer
+          - NchantdPaletteShifter
+          - NchantdEntryEditorExplainer
+          - NchantdActivateEntry
+          - NchantdCheckboxEditor
+          - NchantdDropDown
+          - NchantdDropDownExplainer
+          - NchantdComboEditor
+          - NchantdLabeledEntry
+          - NchantdEntryListEditor
+          - NchantdScratchEditor
+          - NchantdGameBoard
+          - NchantdGameWidget
+          method: __init__
+        - arg_count: 1
+          base: NchantdWidget
+          classes:
+          - NchantdBrowserPluginBase
+          - NchantdApplicationPluginBase
+          - NchantdExtensionsManager
+          - NchantdFindSigil
+          - NchantdDisplayBox
+          - NchantdHighLowLabel
+          - NchantdSideBar
+          - NchantdBasket
+          - NchantdBasketManager
+          - NchantdDownload
+          - NchantdDownloadNew
+          - NchantdProfileManager
+          - NchantdGrid
+          - NchantdBulletedList
+          - NchantdTextList
+          - NchantdDecadeCalendar
+          - NchantdCalendar
+          - NchantdEventsList
+          - NchantdHistory
+          - NchantdRecentChanges
+          - NchantdTODOCalendar
+          - NchantdTimeTrackerForm
+          - NchantdTimeTrackerFormFast
+          - NchantdYearSummaryTab
+          - NchantdFileDetailsPane
+          - NchantdForm
+          - NchantdProfile
+          - NchantdIntegrationSettings
+          - NchantdIntegrationCatalog
+          - NchantdExtensionsSettings
+          - NchantdExtensionsCatalog
+          - NchantdCheckboxGroup
+          - NchantdCheckboxCombo
+          - NchantdLabeledButton
+          - NchantdTextButton
+          - NchantdNumberWheelButton
+          - NchantdDrawer
+          - NchantdMenuBar
+          - NchantdRadioButtonGroup
+          - NchantdSelectionWidget
+          - NchantdWidgetSelector
+          - NchantdButtonGrid
+          - NchantdAcceptButtons
+          - NchantdOkButtons
+          - NchantdSaveButtons
+          - NchantdTabSideButtons
+          - NchantdMathPad
+          - NchantdImage
+          - NchantdScreenShot
+          - NchantdPalette
+          - NchantdNEWSLArticle
+          - NchantdFileIcon
+          - NchantdFileViewer
+          - NchantdStickyNoteManager
+          - NchantdTextMarquee
+          - NchantdScreenCapture
+          - NchantdDualVideoPlayer
+          - NchantdPaletteShifter
+          - NchantdEntryEditorExplainer
+          - NchantdActivateEntry
+          - NchantdCheckboxEditor
+          - NchantdDropDownExplainer
+          - NchantdEntryListEditor
+          - NchantdScratchEditor
+          - NchantdGameBoard
+          - NchantdGameWidget
+          method: initModel
+        rule: 'Base class duplication detected: 40 patterns'
+        severity: medium
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  changelog_tracking:
+    details:
+      issues:
+      - fix: Create CHANGES.md
+        rule: CHANGES.md not found
+        severity: high
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  ci_cd_config:
+    details:
+      ci_cd_found: []
+      issues:
+      - fix: Add CI/CD configuration (GitHub Actions, GitLab CI, etc.)
+        rule: No CI/CD configuration found
+        severity: high
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  ci_cd_documentation:
+    details:
+      ci_cd_docs_found: []
+      issues:
+      - fix: Create CONTRIBUTING.md or docs/ci-cd.md with CI/CD pipeline documentation
+        rule: No CI/CD documentation found
+        severity: high
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  circular_dependencies:
+    details:
+      cycles: []
+      import_cycle_count: 0
+      issues: []
+      score: 100
+      status: pass
+    score: 100
+    status: pass
+  cli_documentation:
+    details:
+      exists: false
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  code_quality_pylint:
+    details:
+      issues: []
+      score: 50
+      status: partial
+    score: 50
+    status: partial
+  configuration:
+    details:
+      config_exists: false
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  data_clumps:
+    details:
+      data_clump_count: 7
+      issues:
+      - clumps:
+        - locations: 291
+          params:
+          - cfg
+          - parent
+          - self
+        - locations: 6
+          params:
+          - cfg
+          - name
+          - parent
+          - self
+        - locations: 20
+          params:
+          - cfg
+          - db
+          - self
+        - locations: 6
+          params:
+          - db
+          - how
+          - self
+        - locations: 6
+          params:
+          - app
+          - cfg
+          - parent
+          - self
+        fix: Consider creating a class or dataclass to group these parameters
+        rule: 'Data clumps detected: 7 parameter combinations'
+        severity: medium
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  dead_code:
+    details:
+      issues:
+      - fix: Remove unused imports
+        items:
+        - file: nchantrs.py
+          name: from __future__ import annotations
+          type: import_from
+        - file: libraries/pyqt.py
+          name: from PySide6.QtWidgets import QApplication
+          type: import_from
+        - file: libraries/pyqt.py
+          name: from PySide6.QtWidgets import QMainWindow
+          type: import_from
+        - file: libraries/pyqt.py
+          name: from PySide6.QtWidgets import QToolBar
+          type: import_from
+        - file: libraries/pyqt.py
+          name: from PySide6.QtWidgets import QToolButton
+          type: import_from
+        - file: libraries/pyqt.py
+          name: from PySide6.QtCore import Signal
+          type: import_from
+        - file: libraries/pyqt.py
+          name: from PySide6.QtCore import Slot
+          type: import_from
+        - file: libraries/pyqt.py
+          name: from PySide6.QtCore import QObject
+          type: import_from
+        - file: libraries/pyqt.py
+          name: from PySide6.QtCore import QMetaObject
+          type: import_from
+        - file: libraries/pyqt.py
+          name: from PySide6.QtCore import QEvent
+          type: import_from
+        rule: 'Unused imports: 520'
+        severity: medium
+      - fix: Remove or export unused functions
+        items:
+        - file: nchantrs.py
+          name: aberration
+          type: function
+        - file: nchantrs.py
+          name: distortion
+          type: function
+        - file: nchantrs.py
+          name: nchantment
+          type: function
+        - file: nchantrs.py
+          name: flection
+          type: function
+        - file: services/upgrades.py
+          name: version_check
+          type: function
+        - file: events/tabsets.py
+          name: TabSetClass
+          type: function
+        - file: events/tabsets.py
+          name: leftClickSignalLog
+          type: function
+        - file: events/tabsets.py
+          name: mousePressEventLog
+          type: function
+        - file: events/trees.py
+          name: leftClickSignalLog
+          type: function
+        - file: events/trees.py
+          name: mousePressEventLog
+          type: function
+        rule: 'Unused functions: 309'
+        severity: medium
+      - fix: Remove or export unused classes
+        items:
+        - file: services/services.py
+          name: NchantdServiceManager
+          type: class
+        - file: services/services.py
+          name: NchantrsService
+          type: class
+        - file: services/links.py
+          name: LinkService
+          type: class
+        - file: services/connections.py
+          name: NchantdConnections
+          type: class
+        - file: services/tags.py
+          name: TagGroup
+          type: class
+        - file: services/tags.py
+          name: Tag
+          type: class
+        - file: services/upgrades.py
+          name: UpgradeManager
+          type: class
+        - file: services/upgrades.py
+          name: UpgradeIndex
+          type: class
+        - file: services/upgrades.py
+          name: UpgradeKey
+          type: class
+        - file: services/license.py
+          name: Ownership
+          type: class
+        rule: 'Unused classes: 282'
+        severity: medium
+      score: 40
+      status: partial
+      total_unused: 1111
+      unused_class_count: 282
+      unused_function_count: 309
+      unused_import_count: 520
+    score: 40
+    status: partial
+  dependency_strategy:
+    details:
+      external_imports: 933
+      info: 'Hint: 60 GitVein projects available but not used: PyQt5Pandas, apig,
+        asolutionfor, axn, basicbot...'
+      internal_import_details:
+      - file: agent_awareness.py
+        module: nchantrs.agent_awareness
+        project: nchantrs
+      - file: agent_awareness.py
+        module: nchantrs.agent_awareness
+        project: nchantrs
+      - file: nchantrs.py
+        module: nchantrs.widgets.applications.applications
+        project: nchantrs
+      - file: nchantrs.py
+        module: nchantrs.widgets.applications.applications
+        project: nchantrs
+      - file: nchantrs.py
+        module: ogma.logma
+        project: ogma
+      - file: libraries/orange.py
+        module: condor
+        project: condor
+      - file: libraries/qpandas.py
+        module: pyside6pandas.models.DataFrameModel
+        project: pyside6pandas
+      - file: libraries/qpandas.py
+        module: pyside6pandas.models.DataFrameModel
+        project: pyside6pandas
+      - file: libraries/qpandas.py
+        module: pyside6pandas.models.DataFrameModel
+        project: pyside6pandas
+      - file: services/integrity.py
+        module: condor
+        project: condor
+      internal_imports: 376
+      internal_projects_used:
+      - pyside6pandas
+      - ogma
+      - subtrix
+      - nchantrs
+      - condor
+      leverage_score: 28.72
+      score: 100
+      status: pass
+      total_imports: 1309
+    score: 100
+    status: pass
+  documentation:
+    details:
+      missing:
+      - README.md
+      - CHANGES.md
+      - STATE.md
+      - CONTRIBUTING.md
+      present: []
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  duplicate_files:
+    details:
+      duplicate_count: 23
+      duplicates:
+        accounts.py:
+        - wizards/accounts.py
+        - widgets/config/accounts.py
+        authentication.py:
+        - dialogs/authentication.py
+        - widgets/browsers/security/authentication.py
+        calendars.py:
+        - widgets/calendars/calendars.py
+        - widgets/panes/calendars.py
+        catalogs.py:
+        - widgets/catalogs.py
+        - widgets/items/catalogs.py
+        - widgets/panes/catalogs.py
+        charts.py:
+        - actions/charts.py
+        - widgets/media/charts/charts.py
+        editors.py:
+        - dialogs/editors.py
+        - widgets/media/editors/editors.py
+        extensions.py:
+        - extensions/extensions.py
+        - dialogs/extensions.py
+        - widgets/config/extensions.py
+        files.py:
+        - utilities/files.py
+        - actions/files.py
+        - dialogs/files.py
+        - widgets/panes/files.py
+        images.py:
+        - themes/images.py
+        - widgets/media/images.py
+        integrations.py:
+        - extensions/integrations.py
+        - widgets/config/integrations.py
+        managers.py:
+        - widgets/managers.py
+        - widgets/applications/managers.py
+        - widgets/managers/managers.py
+        models.py:
+        - utilities/models.py
+        - models/models.py
+        nchantrs.py:
+        - nchantrs.py
+        - services/nchantrs.py
+        pages.py:
+        - wizards/pages.py
+        - widgets/browsers/pages.py
+        profiles.py:
+        - widgets/browsers/profiles.py
+        - widgets/config/profiles.py
+        search.py:
+        - dialogs/search.py
+        - utilities/tools/search.py
+        - widgets/controls/search.py
+        services.py:
+        - services/services.py
+        - widgets/browsers/services.py
+        - widgets/config/services.py
+        settings.py:
+        - dialogs/settings.py
+        - widgets/config/settings.py
+        tables.py:
+        - actions/tables.py
+        - widgets/tables/tables.py
+        tabsets.py:
+        - events/tabsets.py
+        - widgets/tabsets.py
+        trees.py:
+        - events/trees.py
+        - widgets/trees.py
+        users.py:
+        - utilities/users.py
+        - wizards/users.py
+        utilities.py:
+        - widgets/browsers/utilities.py
+        - widgets/media/utilities.py
+      issues:
+      - filename: accounts.py
+        fix: 'Review files for potential code duplication or rename: accounts.py'
+        location_count: 2
+        locations:
+        - wizards/accounts.py
+        - widgets/config/accounts.py
+        rule: Duplicate filename found
+        severity: high
+      - filename: authentication.py
+        fix: 'Review files for potential code duplication or rename: authentication.py'
+        location_count: 2
+        locations:
+        - dialogs/authentication.py
+        - widgets/browsers/security/authentication.py
+        rule: Duplicate filename found
+        severity: high
+      - filename: calendars.py
+        fix: 'Review files for potential code duplication or rename: calendars.py'
+        location_count: 2
+        locations:
+        - widgets/calendars/calendars.py
+        - widgets/panes/calendars.py
+        rule: Duplicate filename found
+        severity: high
+      - filename: catalogs.py
+        fix: 'Review files for potential code duplication or rename: catalogs.py'
+        location_count: 3
+        locations:
+        - widgets/catalogs.py
+        - widgets/items/catalogs.py
+        - widgets/panes/catalogs.py
+        rule: Duplicate filename found
+        severity: high
+      - filename: charts.py
+        fix: 'Review files for potential code duplication or rename: charts.py'
+        location_count: 2
+        locations:
+        - actions/charts.py
+        - widgets/media/charts/charts.py
+        rule: Duplicate filename found
+        severity: high
+      - filename: editors.py
+        fix: 'Review files for potential code duplication or rename: editors.py'
+        location_count: 2
+        locations:
+        - dialogs/editors.py
+        - widgets/media/editors/editors.py
+        rule: Duplicate filename found
+        severity: high
+      - filename: extensions.py
+        fix: 'Review files for potential code duplication or rename: extensions.py'
+        location_count: 3
+        locations:
+        - extensions/extensions.py
+        - dialogs/extensions.py
+        - widgets/config/extensions.py
+        rule: Duplicate filename found
+        severity: high
+      - filename: files.py
+        fix: 'Review files for potential code duplication or rename: files.py'
+        location_count: 4
+        locations:
+        - utilities/files.py
+        - actions/files.py
+        - dialogs/files.py
+        - widgets/panes/files.py
+        rule: Duplicate filename found
+        severity: high
+      - filename: images.py
+        fix: 'Review files for potential code duplication or rename: images.py'
+        location_count: 2
+        locations:
+        - themes/images.py
+        - widgets/media/images.py
+        rule: Duplicate filename found
+        severity: high
+      - filename: integrations.py
+        fix: 'Review files for potential code duplication or rename: integrations.py'
+        location_count: 2
+        locations:
+        - extensions/integrations.py
+        - widgets/config/integrations.py
+        rule: Duplicate filename found
+        severity: high
+      - filename: managers.py
+        fix: 'Review files for potential code duplication or rename: managers.py'
+        location_count: 3
+        locations:
+        - widgets/managers.py
+        - widgets/applications/managers.py
+        - widgets/managers/managers.py
+        rule: Duplicate filename found
+        severity: high
+      - filename: models.py
+        fix: 'Review files for potential code duplication or rename: models.py'
+        location_count: 2
+        locations:
+        - utilities/models.py
+        - models/models.py
+        rule: Duplicate filename found
+        severity: high
+      - filename: nchantrs.py
+        fix: 'Review files for potential code duplication or rename: nchantrs.py'
+        location_count: 2
+        locations:
+        - nchantrs.py
+        - services/nchantrs.py
+        rule: Duplicate filename found
+        severity: high
+      - filename: pages.py
+        fix: 'Review files for potential code duplication or rename: pages.py'
+        location_count: 2
+        locations:
+        - wizards/pages.py
+        - widgets/browsers/pages.py
+        rule: Duplicate filename found
+        severity: high
+      - filename: profiles.py
+        fix: 'Review files for potential code duplication or rename: profiles.py'
+        location_count: 2
+        locations:
+        - widgets/browsers/profiles.py
+        - widgets/config/profiles.py
+        rule: Duplicate filename found
+        severity: high
+      - filename: search.py
+        fix: 'Review files for potential code duplication or rename: search.py'
+        location_count: 3
+        locations:
+        - dialogs/search.py
+        - utilities/tools/search.py
+        - widgets/controls/search.py
+        rule: Duplicate filename found
+        severity: high
+      - filename: services.py
+        fix: 'Review files for potential code duplication or rename: services.py'
+        location_count: 3
+        locations:
+        - services/services.py
+        - widgets/browsers/services.py
+        - widgets/config/services.py
+        rule: Duplicate filename found
+        severity: high
+      - filename: settings.py
+        fix: 'Review files for potential code duplication or rename: settings.py'
+        location_count: 2
+        locations:
+        - dialogs/settings.py
+        - widgets/config/settings.py
+        rule: Duplicate filename found
+        severity: high
+      - filename: tables.py
+        fix: 'Review files for potential code duplication or rename: tables.py'
+        location_count: 2
+        locations:
+        - actions/tables.py
+        - widgets/tables/tables.py
+        rule: Duplicate filename found
+        severity: high
+      - filename: tabsets.py
+        fix: 'Review files for potential code duplication or rename: tabsets.py'
+        location_count: 2
+        locations:
+        - events/tabsets.py
+        - widgets/tabsets.py
+        rule: Duplicate filename found
+        severity: high
+      - filename: trees.py
+        fix: 'Review files for potential code duplication or rename: trees.py'
+        location_count: 2
+        locations:
+        - events/trees.py
+        - widgets/trees.py
+        rule: Duplicate filename found
+        severity: high
+      - filename: users.py
+        fix: 'Review files for potential code duplication or rename: users.py'
+        location_count: 2
+        locations:
+        - utilities/users.py
+        - wizards/users.py
+        rule: Duplicate filename found
+        severity: high
+      - filename: utilities.py
+        fix: 'Review files for potential code duplication or rename: utilities.py'
+        location_count: 2
+        locations:
+        - widgets/browsers/utilities.py
+        - widgets/media/utilities.py
+        rule: Duplicate filename found
+        severity: high
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  error_handling:
+    details:
+      bare_excepts: 0
+      generic_excepts: 19
+      issues:
+      - fix: Use specific exception types instead of Exception
+        rule: 'Generic Exception excepts found: 19'
+        severity: medium
+      proper_try_except: 56
+      score: 80
+      status: pass
+    score: 80
+    status: pass
+  external_dependencies_declared:
+    details:
+      declared_count: 0
+      declared_internal: []
+      issues:
+      - fix: Add these packages to [project.dependencies] in pyproject.toml
+        packages:
+        - _work
+        - config
+        - cons
+        - feedparser
+        - fxsquirl
+        - gtk
+        - matplotlib
+        - mplfinance
+        - nchantdoffice
+        - networkx
+        - numpy
+        - pandas
+        - pil
+        - pkg_resources
+        - plotly
+        - plyer
+        - psutil
+        - pyqt5
+        - pyside6
+        - pyside6pandas
+        rule: 'External dependencies not declared in pyproject.toml: 26 packages'
+        severity: critical
+      score: 0
+      status: fail
+      undeclared_external:
+      - _work
+      - config
+      - cons
+      - feedparser
+      - fxsquirl
+      - gtk
+      - matplotlib
+      - mplfinance
+      - nchantdoffice
+      - networkx
+      - numpy
+      - pandas
+      - pil
+      - pkg_resources
+      - plotly
+      - plyer
+      - psutil
+      - pyqt5
+      - pyside6
+      - pyside6pandas
+      - requests
+      - seaborn
+      - turtle
+      - uuid_extensions
+      - wordcloud
+      - zmq
+      used_external_count: 26
+    score: 0
+    status: fail
+  feature_envy:
+    details:
+      feature_envy_count: 3
+      issues: []
+      score: 100
+      status: pass
+    score: 100
+    status: pass
+  file_sizes:
+    details:
+      large_file_count: 0
+      score: 100
+      small_file_count: 0
+      status: pass
+    score: 100
+    status: pass
+  git_workflow:
+    details:
+      is_git_repo: false
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  god_class:
+    details:
+      god_class_count: 5
+      issues:
+      - fix: Split into smaller, focused classes using SRP
+        items:
+        - class: NchantdStore
+          file: models/models.py
+          line_count: 1497
+          method_count: 79
+          severity: critical
+        - class: NchantdTabSet
+          file: widgets/tabsets.py
+          line_count: 554
+          method_count: 41
+          severity: high
+        - class: NchantdWidgetMixin
+          file: widgets/widgets.py
+          line_count: 738
+          method_count: 63
+          severity: critical
+        - class: NchantdTable
+          file: widgets/tables/tables.py
+          line_count: 448
+          method_count: 49
+          severity: high
+        - class: NchantdDocEditor
+          file: widgets/media/editors/editors.py
+          line_count: 407
+          method_count: 52
+          severity: critical
+        rule: 'God classes detected: 5'
+        severity: high
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  import_cycle:
+    details:
+      cycles: []
+      import_cycle_count: 0
+      issues: []
+      score: 100
+      status: pass
+    score: 100
+    status: pass
+  import_organization:
+    details:
+      has_isort_config: false
+      issues:
+      - fix: Add isort configuration to pyproject.toml or .isort.cfg
+        rule: No isort configuration found
+        severity: low
+      potential_misordered: 3
+      score: 75
+      status: partial
+    score: 75
+    status: partial
+  kiss_dry:
+    details:
+      duplicate_warnings: 0
+      magic_numbers_found: 0
+      score: 100
+      status: pass
+    score: 100
+    status: pass
+  lambda_antipattern:
+    details:
+      antipattern_count: 5
+      issues:
+      - antipatterns:
+        - file: widgets/trees.py
+          line: 355
+        - file: widgets/trees.py
+          line: 407
+        - file: widgets/browsers/downloads.py
+          line: 185
+        - file: widgets/browsers/downloads.py
+          line: 187
+        - file: widgets/browsers/downloads.py
+          line: 188
+        fix: Consider refactoring lambda anti-patterns
+        rule: 'Some lambda anti-patterns found: 5/38'
+        severity: medium
+      score: 80
+      status: pass
+      total_lambdas: 38
+    score: 80
+    status: pass
+  license_dependencies:
+    details:
+      issues:
+      - fix: Replace with MIT-licensed alternatives
+        packages:
+        - Babel (BSD License)
+        - Flask (BSD-3-Clause)
+        - GitPython (BSD-3-Clause)
+        - ImageIO (BSD-2-Clause)
+        - Jinja2 (BSD License)
+        rule: 'Non-MIT licenses: 317/582'
+        severity: high
+      - fix: Verify license manually or remove dependency
+        packages:
+        - PyAudio
+        - apturl
+        - command-not-found
+        - cupshelpers
+        - distro-info
+        rule: 'Unknown licenses: 15/582'
+        severity: high
+      mit_percentage: 43.0
+      score: 80
+      status: pass
+      tools_available:
+      - pip-licenses
+      tools_checked:
+      - fossa
+      - safety
+      - pip-licenses
+      - dependency-check
+    score: 80
+    status: pass
+  licenses:
+    details:
+      issues:
+      - Missing pyproject.toml
+      - Missing LICENSE file
+      score: 25
+      status: fail
+    score: 25
+    status: fail
+  logging:
+    details:
+      print_files:
+      - utilities/debug.py
+      - events/tabsets.py
+      print_statements: 123
+      score: 75
+      status: partial
+      uses_logging: true
+      uses_logma: false
+    score: 75
+    status: partial
+  long_method:
+    details:
+      issues:
+      - fix: Extract into smaller helper functions
+        items:
+        - file: dialogs/dialogs.py
+          function: initView
+          line_count: 178
+          line_start: 196
+          severity: medium
+        rule: 'Long methods detected: 1'
+        severity: medium
+      long_method_count: 1
+      score: 90
+      status: pass
+    score: 90
+    status: pass
+  magic_numbers:
+    details:
+      issues:
+      - fix: Replace magic numbers with named constants
+        items:
+        - file: events/events.py
+          line: 65
+          type: float
+          value: 999.0
+        - file: events/events.py
+          line: 64
+          type: float
+          value: 999.0
+        - file: utilities/users.py
+          line: 38
+          type: int
+          value: 100000
+        - file: utilities/comms.py
+          line: 35
+          type: int
+          value: 5000
+        - file: actions/text.py
+          line: 34
+          type: int
+          value: 3000
+        - file: actions/files.py
+          line: 60
+          type: int
+          value: 3000
+        - file: actions/files.py
+          line: 128
+          type: int
+          value: 3000
+        - file: actions/files.py
+          line: 104
+          type: int
+          value: 3000
+        - file: actions/files.py
+          line: 140
+          type: int
+          value: 3000
+        - file: wizards/apps.py
+          line: 413
+          type: int
+          value: 3213
+        rule: 'Magic numbers detected: 60'
+        severity: medium
+      magic_number_count: 60
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  message_chains:
+    details:
+      chain_count: 0
+      issues: []
+      score: 100
+      status: pass
+    score: 100
+    status: pass
+  mkdocs_mkdocstrings:
+    details:
+      coverage_percentage: 0
+      covered_modules: 0
+      docs_directory: false
+      has_index_md: false
+      has_mkdocstrings: false
+      issues:
+      - fix: 'Set up MkDocs with mkdocstrings: create mkdocs.yml and docs/index.md'
+        rule: No MkDocs documentation setup found
+        severity: high
+      mkdocs_config: null
+      score: 0
+      status: fail
+      total_modules: 0
+      uncovered_modules: []
+    score: 0
+    status: fail
+  module_cli_coverage:
+    details:
+      issues:
+      - fix: Expected nchantrs/ directory
+        rule: No package directory found
+        severity: critical
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  parallel_inheritance:
+    details:
+      issues:
+      - fix: Consider merging hierarchies or using composition
+        patterns:
+        - class: NchantdLibraryManager
+          directories:
+          - extensions
+          - library
+          locations:
+          - library/library.py
+          - extensions/packages/nchantdlibrary/nchantdlibrary.py
+        rule: 'Parallel inheritance detected: 1 patterns'
+        severity: medium
+      parallel_inheritance_count: 1
+      score: 80
+      status: pass
+    score: 80
+    status: pass
+  pii_secrets:
+    details:
+      files_with_secrets: 0
+      findings: []
+      score: 100
+      secrets_found: 0
+      status: pass
+    score: 100
+    status: pass
+  private_leak:
+    details:
+      issues: []
+      private_leak_count: 0
+      score: 100
+      status: pass
+    score: 100
+    status: pass
+  readme_quality:
+    details:
+      issues:
+      - fix: Create README.md
+        rule: README.md not found
+        severity: critical
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  security_bandit:
+    details:
+      details:
+        files_scanned: 236
+        high: 4
+        low: 80
+        medium: 16
+        total: 100
+      issues: []
+      score: 80
+      status: pass
+    score: 80
+    status: pass
+  security_ruff:
+    details:
+      issues: []
+      score: 80
+      status: pass
+    score: 80
+    status: pass
+  structure:
+    details:
+      missing_dirs:
+      - nchantrs
+      - tests
+      - docs
+      missing_files:
+      - README.md
+      - pyproject.toml
+      - CLI.md
+      - STATE.md
+      present_dirs:
+      - libraries
+      - services
+      - library
+      - events
+      - logging
+      - utilities
+      - updates
+      - actions
+      - wizards
+      - extensions
+      - models
+      - dialogs
+      - widgets
+      - themes
+      - views
+      - __pycache__
+      present_files:
+      - cli.py
+      - agent_awareness.py
+      - nchantrs.py
+      - __main__.py
+      - __init__.py
+      - PROJECT_TRACKER.yaml
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  switch_abuse:
+    details:
+      issues:
+      - fix: Consider using a dictionary or strategy pattern instead of repeated conditionals
+        patterns:
+        - checks: 26
+          file: widgets/media/charts/charts.py
+          function: match statement
+          variable: chart_type
+        - checks: 7
+          file: widgets/browsers/pages.py
+          function: if/elif chain
+          variable: feature
+        - checks: 4
+          file: widgets/controls/toolbars.py
+          function: if/elif chain
+          variable: button_cfg
+        - checks: 6
+          file: dialogs/files.py
+          function: match statement
+          variable: gfilter
+        - checks: 8
+          file: events/mouse_events.py
+          function: if/elif chain
+          variable: alt
+        - checks: 8
+          file: events/mouse_events.py
+          function: if/elif chain
+          variable: shift
+        - checks: 4
+          file: actions/tables.py
+          function: if/elif chain
+          variable: keyname
+        - checks: 7
+          file: widgets/browsers/codecs/h264.py
+          function: if/elif chain
+          variable: system
+        - checks: 4
+          file: widgets/browsers/profiles.py
+          function: if/elif chain
+          variable: policy_code
+        - checks: 4
+          file: widgets/calendars/timelines.py
+          function: if/elif chain
+          variable: threshold
+        rule: 'Switch abuse detected: 16 patterns'
+        severity: medium
+      score: 0
+      status: fail
+      switch_abuse_count: 16
+    score: 0
+    status: fail
+  testing:
+    details:
+      coverage: 0
+      score: 0
+      status: fail
+      test_dir_exists: false
+    score: 0
+    status: fail
+  todo_tracking:
+    details:
+      issues:
+      - fix: Resolve all TODO comments or create tracking issue
+        rule: 'TODO/FIXME comments found: 5'
+        severity: critical
+        todos:
+        - content: '# NOTE: Pyularity integration - requires pyularity package to
+            be installed'
+          file: nchantrs.py
+          line: 103
+        - content: '# NOTE: We do NOT call initView here - it will be called by initApp()'
+          file: dialogs/dialogs.py
+          line: 145
+        - content: '# Note: setCheckable(True) is now handled by NchantdButton.initView()
+            via config'
+          file: widgets/media/editors/entries.py
+          line: 104
+        - content: '#         # NOTE: Add paths to language-specific linters.'
+          file: widgets/media/editors/code.py
+          line: 152
+        - content: '#TODO: should always be sorted in some positive manner either
+            by the values or a given sequence'
+          file: widgets/media/editors/selectors.py
+          line: 210
+      score: 80
+      status: pass
+      todo_count: 5
+    score: 80
+    status: pass
+  try_except_imports:
+    details:
+      issues: []
+      score: 100
+      status: pass
+      violation_count: 0
+    score: 100
+    status: pass
+  type_annotations:
+    details:
+      annotated_functions: 912
+      annotation_percentage: 26.2
+      issues:
+      - fix: Add type hints to function signatures and return types
+        rule: 'Type annotation coverage: 26.2%'
+        severity: medium
+      score: 60
+      status: partial
+      total_functions: 3484
+    score: 60
+    status: partial
+  type_check_pyright:
+    details:
+      issues: []
+      score: 100
+      status: pass
+    score: 100
+    status: pass
+  wrapper_antipattern:
+    details:
+      issues: []
+      score: 100
+      status: pass
+      total_functions: 3150
+      wrapper_count: 0
+    score: 100
+    status: pass
+overall_score: 46.98
+project: nchantrs
+summary:
+  failing: 20
+  gitvein_projects_available: 65
+  passing: 21
+  total_dimensions: 46
+versions:
+  project: unknown
+  project_status: clean
+  project_uncommitted_changes: 0
+  sasquatch: unknown

@@ -17,12 +17,17 @@ import datetime as dt
 import os
 import sys
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
 from ogma.logma import Logma
 from nchantrs.libraries import pyqt
+from typing import Optional, Dict, List, Any, Tuple
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -37,7 +42,7 @@ Qt Application setup and configuration for graphics compatibility
 """
 
 
-def configure_qt_for_webengine():
+def configure_qt_for_webengine() -> None:
     """
     Configure Qt environment variables for WebEngine compatibility
     Must be called before QApplication is created
@@ -82,7 +87,7 @@ def configure_qt_for_webengine():
     logma.info("Qt WebEngine environment configured for compatibility")
 
 
-def setup_application_attributes():
+def setup_application_attributes() -> None:
     """
     Set Qt application attributes for better graphics compatibility
     Must be called before QApplication is created
@@ -101,7 +106,7 @@ def setup_application_attributes():
         logma.warning(f"Some Qt attributes not available: {e}")
 
 
-def initialize_qt_application():
+def initialize_qt_application() -> None:
     """
     Initialize Qt application with proper configuration
     """

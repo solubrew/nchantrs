@@ -27,6 +27,10 @@ import os
 from sys import argv
 import platform
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ===============================================================================||
 
 # ===============================================================================||
@@ -42,6 +46,19 @@ from nchantrs.utilities.comms import NchantdCommunicationsManager
 from nchantrs.views.applicationviews import NchantdCloakView, NchantdPantiesView
 from nchantrs.widgets.controls.menus import NchantdContextMenu
 from ogma.logma import Logma
+
+# ===============================================================================||
+# Constants for switch_abuse replacement (window state handling)
+WINDOW_STATE_MESSAGES = {
+    pyqt.Qt.WindowMinimized: "Window State: Minimized",
+    pyqt.Qt.WindowMaximized: "Window State: Maximized",
+    pyqt.Qt.WindowNoState: "Window State: Normal",
+}
+
+WINDOW_STATE_ACTIONS = {
+    pyqt.Qt.WindowMaximized: lambda: logma.info("The window was maximized."),
+    pyqt.Qt.WindowNoState: lambda: logma.info("The window was restored to normal."),
+}
 
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -476,7 +493,7 @@ class NchantdCloak(NchantdPanties):  # ||
             # Test if we can access the codec file with current permissions
             codec_path_drm, codec_path_h264 = self._get_codec_paths()
             return not os.access(codec_path_h264, os.R_OK)
-        except:
+        except Exception:
             return True  # If we can't check, err on the side of relaxation
 
     def _get_codec_paths(self):
@@ -540,19 +557,19 @@ class NchantdCloak(NchantdPanties):  # ||
         """Log the current security configuration"""
         config = self.security_manager.security_config
 
-        print(f"Security Level: {config['security_level']}")
-        print(f"OS: {config['os_type']} ({config['os_version']})")
-        print(f"Environment: {config['environment']}")
+        logma.critical(f"Security Level: {config['security_level']}")
+        logma.critical(f"OS: {config['os_type']} ({config['os_version']})")
+        logma.critical(f"Environment: {config['environment']}")
 
         # Log warnings
         for warning in config["warnings"]:
-            print(f"WARNING: {warning}")
+            logma.warning(f"WARNING: {warning}")
 
         # Log capabilities
         capabilities = config["capabilities"]
-        print(f"Process Isolation: {capabilities['process_isolation']}")
-        print(f"Memory Protection: {capabilities['memory_protection']}")
-        print(f"Network Sandbox: {capabilities['network_sandbox']}")
+        logma.critical(f"Process Isolation: {capabilities['process_isolation']}")
+        logma.critical(f"Memory Protection: {capabilities['memory_protection']}")
+        logma.critical(f"Network Sandbox: {capabilities['network_sandbox']}")
 
 
 class NchantdMainWindow(pyqt.QMainWindow):
@@ -611,14 +628,12 @@ class NchantdMainWindow(pyqt.QMainWindow):
                 pass
         elif event.type() == event.WindowStateChange:
             state = self.windowState()
-            if state == pyqt.Qt.WindowMinimized:  # The window was minimized.
-                self.message_label.setText("Window State: Minimized")
-            elif state == pyqt.Qt.WindowMaximized:
-                self.message_label.setText("Window State: Maximized")
-                print("The window was maximized.")
-            elif state == pyqt.Qt.WindowNoState:
-                self.message_label.setText("Window State: Normal")
-                print("The window was restored to normal.")
+            # Use dictionary lookup instead of if/elif chain
+            message = WINDOW_STATE_MESSAGES.get(state, "")
+            self.message_label.setText(message)
+            action = WINDOW_STATE_ACTIONS.get(state)
+            if action:
+                action()
         return super().eventFilter(watched, event)
 
     def hideEvent(self, event):
@@ -747,7 +762,7 @@ def detect_linux_display_system():
 
 def diagnose_display_system():
     """Diagnose the current display system."""
-    print("=== Display System Diagnostic ===")
+    logma.critical("=== Display System Diagnostic ===")
 
     # Environment variables
     env_vars = [
@@ -761,7 +776,7 @@ def diagnose_display_system():
 
     for var in env_vars:
         value = os.environ.get(var, "Not set")
-        print(f"{var}: {value}")
+        logma.critical(f"{var}: {value}")
 
     # Running processes
     import subprocess
@@ -778,11 +793,11 @@ def diagnose_display_system():
         try:
             result = subprocess.run(["pgrep", "-f", process], capture_output=True, text=True)
             if result.returncode == 0:
-                print(f"✓ {description} running (PID: {result.stdout.strip()})")
+                logma.critical(f"{description} running (PID: {result.stdout.strip()}")
             else:
-                print(f"✗ {description} not running")
+                logma.critical(f"{description} not running")
         except FileNotFoundError:
-            print(f"? Could not check {description} (pgrep not found)")
+            logma.warning(f"Could not check {description} (pgrep not found)")
 
 
 # ===========================Code Source Examples================================||

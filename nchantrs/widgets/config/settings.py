@@ -18,7 +18,11 @@ from os.path import dirname, join
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
+
+import logging
 from nchantrs.libraries import pyqt
+
+logger = logging.getLogger(__name__)
 from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.controls.advanced_buttons import NchantdLabeledDoubleSpinBox, NchantdLabeledSpinBox
 from nchantrs.widgets.controls.button_groups import NchantdAcceptButtons

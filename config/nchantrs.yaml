@@ -4,7 +4,10 @@ application:
   name: nchantrs
   version: "1.0.0"
   description: Advanced PyQt6 Application Framework
+  author: Solutions Brewer
+  license: MIT
 
+# Feature Flags
 features:
   widgets: true
   dialogs: true
@@ -12,12 +15,38 @@ features:
   views: true
   wizards: true
   extensions: true
+  telemetry: false
+  auto_update: false
 
+# UI Configuration
 ui:
   theme: default
   style: fusion
   icon_theme: default
+  window:
+    width: 1200
+    height: 800
+    min_width: 800
+    min_height: 600
 
+# Logging Configuration  
 logging:
   level: INFO
   format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  file: null
+  console: true
+
+# Database Configuration
+database:
+  default_connection: primary
+  connections:
+    primary:
+      type: sqlite
+      path: data/nchantrs.db
+      echo: false
+
+# Security Configuration
+security:
+  require_auth: false
+  session_timeout: 3600
+  max_login_attempts: 3

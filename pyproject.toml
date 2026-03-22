@@ -5,7 +5,6 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "nchantrs"
 version = "0.0.1.0.1.1"
-#dynamic = ["version"]
 description = "Your project description"
 readme = { file = "README.rst", content-type = "text/x-rst" }
 license = { file = "LICENSE" }
@@ -14,20 +13,10 @@ requires-python = ">=3.10"
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
-    "Intended Audience :: System Administrators",
     "License :: OSI Approved :: MIT License",
-    "Operating System :: POSIX :: Linux",
-    "Operating System :: MacOS :: MacOS X",
-    "Operating System :: Microsoft :: Windows",
-    "Programming Language :: Python",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.6",
-    "Programming Language :: Python :: Implementation :: CPython",
-    "Programming Language :: Python :: Implementation :: PyPy",
-    "Topic :: Utilities"]
-# Modern dependencies - removed obsolete Python 2/3 compatibility packages
+]
 dependencies = [
-    # Core
     "pyside6",
     "pyyaml",
     "pandas",
@@ -35,41 +24,84 @@ dependencies = [
     "dnspython",
     "websockets",
     "certifi",
-    
-    # Database
     "sqlalchemy",
     "alembic",
     "diskcache",
-    
-    # Web/API
     "requests",
     "aiohttp",
     "httpx",
-    
-    # Security
     "cryptography",
     "pycryptodome",
     "bcrypt",
-    
-    # GUI
     "PyQtWebEngine",
     "qscintilla",
-    
-    # Utilities
     "arrow",
     "psutil",
     "jsonschema",
     "ruamel-yaml",
     "networkx",
-    "black",
     "pillow",
-    
-    # Optional/misc
     "bs4",
     "send2trash",
     "dill",
     "zmq",
     "uuid7",
+    "matplotlib",
+    "mplfinance",
+    "numpy",
+    "plotly",
+    "seaborn",
+    "wordcloud",
+    "pyside6pandas",
+    "feedparser",
+    "plyer",
+    "pytest",
+    # External dependencies not automatically detected
+    "config",
+    "pyqt5",
+    "setuptools",  # provides pkg_resources
+    "uuid_extensions",
+]
+
+[project.optional-dependencies]
+dev = [
+    "black",
+    "isort",
+    "flake8",
+    "pylint",
+    "mypy",
+    "pyright",
+]
+test = [
+    "pytest",
+    "pytest-cov",
+    "pytest-mock",
+    "coverage",
+]
+docs = [
+    "mkdocs",
+    "mkdocs-material",
+    "mkdocstrings",
+    "pymdown-extensions",
+]
+lint = [
+    "ruff",
+    "bandit",
+    "safety",
+]
+optional = [
+    "pyqt5",
+    "config",
+    "uuid_extensions",
+    "nchantdoffice",
+    "cons",
+    "fxsquirl",
+]
+legacy = [
+    "pkg_resources",
+]
+all = [
+    "nchantrs[dev,test,docs,lint,optional,legacy]",
 ]
 
 [project.urls]
@@ -82,13 +114,6 @@ include-package-data = true
 [tool.setuptools.dynamic]
 dependencies = { file = ["requirements"] }
 
-#[tool.nchantrs.versioning]
-#internal-version = "0.0.1.0.1.1"
-#public-version = "0.0.1.0.1.1"
-#version-mapping = "parts[0].parts[1].parts[2]"
-#version = "0.0.1.0.1.1"
-# Flat layout: project root contains "nchantrs" and a sibling "test_nchantrs".
-# Limit discovery to only the actual package.
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["nchantrs", "nchantrs.*"]
@@ -100,11 +125,12 @@ exclude = [
     "scripts*",
     "tools*",
 ]
+
 [tool.setuptools.package-data]
-# keys are package names; globs are relative to the package dirs
 nchantrs = [
   "**/*.yaml", "**/*.qss", "**/*.svg", "**/*.png"
 ]
+
 [tool.isort]
 profile = "black"
 line_length = 120
@@ -114,7 +140,6 @@ known_first_party = ["nchantrs"]
 line-length = 120
 skip-string-normalization = false
 
-# Flake8 configuration
 [tool.flake8]
 exclude = [
     ".tox",
@@ -125,12 +150,11 @@ exclude = [
     "build",
     "dist",
     "htmlcov",
-    "*/static/salt/formulas/*"]
+]
 ignore = ["FI15", "FI16", "FI17", "FI5", "D107"]
 
-# Pytest configuration
 [tool.pytest.ini_options]
-testpaths = ["test"]
+testpaths = ["tests"]
 mock_use_standalone_module = true
 norecursedirs = [
     ".git",
@@ -139,22 +163,24 @@ norecursedirs = [
     "__pycache__",
     "dist",
     "build",
-    "htmlcov"]
+    "htmlcov",
+]
 collect_ignore = ["hook-*.py"]
 python_files = [
     "test_*.py",
     "*_test.py",
-    "tests.py"]
+    "tests.py",
+]
 addopts = [
     "-rxEfsw",
     "--strict",
     "--doctest-modules",
     "--doctest-glob=*.md",
-    "--tb=short"]
+    "--tb=short",
+]
 
 [tool.setuptools.package.metadata]
 license = { file = "LICENSE" }
-
 
 [tool.pyright]
 include = ["nchantrs"]

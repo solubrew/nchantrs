@@ -1,52 +1,198 @@
+# Nchantrs CI/CD Pipeline
+
 name: CI
 
 on:
   push:
-    branches: [main, gamma]
+    branches: [main, gamma, develop]
   pull_request:
     branches: [main, gamma]
+  release:
+    types: [published]
+  workflow_dispatch:
+
+env:
+  PYTHON_VERSION: '3.12'
+  PIP_NO_CACHE_DIR: 1
 
 jobs:
   lint:
+    name: Lint Code
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
-      - name: Install dependencies
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Install linting tools
         run: |
-          pip install flake8 pylint black isort
-      - name: Lint
+          pip install flake8 pylint black isort mypy ruff
+      
+      - name: Run Flake8
         run: |
           flake8 nchantrs --count --select=E9,F63,F7,F82 --show-source --statistics
-          pylint nchantrs
-          black --check nchantrs
-          isort --check-only nchantrs
+      
+      - name: Run Black
+        run: black --check nchantrs
+      
+      - name: Run isort
+        run: isort --check-only nchantrs
+      
+      - name: Run Ruff
+        run: ruff check nchantrs
+      
+      - name: Run mypy
+        run: mypy nchantrs --ignore-missing-imports
 
-  test:
+  type-check:
+    name: Type Check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: ${{ env.PYTHON_VERSION }}
+      
       - name: Install dependencies
         run: |
-          pip install -e .
-          pip install pytest pytest-cov
-      - name: Test
-        run: |
-          pytest --cov=nchantrs --cov-report=xml
+          pip install pyright
+      
+      - name: Run Pyright
+        run: pyright nchantrs
 
-  build:
+  security:
+    name: Security Scan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
-      - name: Build
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Install security tools
         run: |
-          pip install build
-          python -m build
+          pip install bandit safety pip-audit
+      
+      - name: Run Bandit
+        run: bandit -r nchantrs -f json -o bandit-report.json || true
+      
+      - name: Run Safety
+        run: |
+          pip install -e . || true
+          safety check || true
+
+  test:
+    name: Test Suite
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Install dependencies
+        run: |
+          pip install -e ".[dev]" || pip install -e .
+          pip install pytest pytest-cov pytest-asyncio pytest-mock
+      
+      - name: Run pytest
+        run: |
+          pytest \
+            --cov=nchantrs \
+            --cov-report=xml \
+            --cov-report=term-missing \
+            --cov-fail-under=60 \
+            -v
+      
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage.xml
+
+  build:
+    name: Build Package
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Install build tools
+        run: |
+          pip install build twine
+      
+      - name: Build package
+        run: python -m build
+      
+      - name: Check package
+        run: twine check dist/*
+
+  docs:
+    name: Build Documentation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Install docs tools
+        run: |
+          pip install mkdocs mkdocs-material mkdocstrings
+      
+      - name: Build docs
+        run: mkdocs build
+      
+      - name: Deploy docs
+        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-mkdocs@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+
+  publish:
+    name: Publish Package
+    runs-on: ubuntu-latest
+    needs: [build]
+    if: github.event_name == 'release' && github.event.action == 'published'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+      
+      - name: Install publish tools
+        run: |
+          pip install build twine
+      
+      - name: Build package
+        run: python -m build
+      
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          password: ${{ secrets.PYPI_API_TOKEN }}

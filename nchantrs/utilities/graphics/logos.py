@@ -16,6 +16,10 @@ from os.path import abspath, dirname, join
 import datetime as dt
 from turtle import Screen, Turtle
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||

@@ -14,10 +14,15 @@
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
+
+import logging
 # ======================================3rd Party Library Modules=====================================================||
+
+logger = logging.getLogger(__name__)
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
+from typing import Optional, Dict, List, Any, Tuple
 from ogma.logma import Logma
 
 # ====================================================================================================================||
@@ -50,12 +55,12 @@ ABOUT_TEMPLATE = """\
 </center>
 """
 class AboutDialog(QDialog):
-	def __init__(self, parent=None, **kwargs):
+	def __init__(self, parent=None, **kwargs) -> None:
 		QDialog.__init__(self, parent, **kwargs)
 		if sys.platform == "darwin":
 			self.setAttribute(Qt.WA_MacSmallSize, True)
 		self.__setupUi()
-	def __setupUi(self):
+	def __setupUi(self) -> None:
 		layout = QVBoxLayout()
 		label = QLabel(self)
 		pixmap, _ = config.splash_screen()
@@ -80,7 +85,7 @@ class AboutDialog(QDialog):
 		buttons.rejected.connect(self.accept)
 		layout.setSizeConstraint(QVBoxLayout.SetFixedSize)
 		self.setLayout(layout)
-	def about(self):
+	def about(self) -> None:
 		link = "<p><a title='Axel Schneider' href='http://goodoldsongs.jimdo.com' target='_blank'>Axel Schneider</a></p>"
 		title = "über QTextEdit"
 		message =  ("<span style='text-shadow: #2e3436 2px 2px 2px; color: #6169e1; font-size: 24pt;font-weight: bold;'><strong>QTextEdit 1.2</strong></span></p><br><br>created by<h2 >" + link + "</h2> with PyQt5"
@@ -88,7 +93,7 @@ class AboutDialog(QDialog):
 					"<br>Qt and the Qt logo are trademarks of The Qt Company Ltd.")
 		msg = QMessageBox(QMessageBox.Information, title, message, QMessageBox.NoButton, self, Qt.Dialog|Qt.NoDropShadowWindowHint).show()
 	# ask for anonymous data collection permission
-	def requestDataCollectionPermission():
+	def requestDataCollectionPermission() -> None:
 		permDialogButtons = MessageOverlayWidget.AcceptRole | MessageOverlayWidget.RejectRole
 		permDialog = MessageOverlayWidget(parent=w,
 										  text="Do you wish to share anonymous usage "
@@ -97,9 +102,9 @@ class AboutDialog(QDialog):
 										  standardButtons=permDialogButtons)
 		btnOK = permDialog.button(MessageOverlayWidget.AcceptRole)
 		btnOK.setText("Allow")
-		def respondToRequest():
+		def respondToRequest() -> None:
 			settings["error-reporting/permission-requested"] = True
-		def shareData():
+		def shareData() -> None:
 			settings["error-reporting/send-statistics"] = True
 		permDialog.clicked.connect(respondToRequest)
 		permDialog.accepted.connect(shareData)

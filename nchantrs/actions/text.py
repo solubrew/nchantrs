@@ -14,10 +14,15 @@
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
+
+import logging
 # ======================================3rd Party Library Modules=====================================================||
+
+logger = logging.getLogger(__name__)
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
+from typing import Optional, Dict, List, Any, Tuple
 from ogma.logma import Logma
 
 # ====================================================================================================================||
@@ -25,42 +30,46 @@ here = join(dirname(__file__), '')  # ||
 log = True
 logma = Logma(__name__)
 
+# Constants for magic number replacement
+DEFAULT_STATUS_MESSAGE_TIMEOUT = 3000  # milliseconds
+DEFAULT_FIND_TIMEOUT = 2000  # milliseconds
+
 # ====================================================================================================================||
 pxcfg = join(here, '_data_', '.yaml')
 
-def bold():
+def bold() -> None:
 	"""Set selected text to a bold font"""
 	return
 
-def capitalize():
+def capitalize() -> None:
 	"""Change selected to a capitalized text"""
 	return
 
-def copy():
+def copy() -> None:
 	"""Add selected text to clipboard"""
 	return
 
-def cut():
+def cut() -> None:
 	"""Add selected text to clipboard and remove selected text from selected
 		area """
 	return
 
-def edit():
+def edit() -> None:
 	""""""
 	return
 
-def findinapplication():
+def findinapplication() -> None:
 	"""Search through all connected workbooks for selected text """
 
-def findinsheet():
+def findinsheet() -> None:
 	"""Search through active sheet for selected text"""
 	return
 
-def findinworkbook():
+def findinworkbook() -> None:
 	"""Search through active workbook for selected text"""
 	return
 
-def findText(self, word):
+def findText(self, word) -> None:
 	if self.myeditor.find(word):
 		self.statusBar().showMessage("'" + word + "' gefunden", 2000)
 	else:
@@ -68,97 +77,97 @@ def findText(self, word):
 		if self.myeditor.find(word):
 			return
 		else:
-			 self.statusBar().showMessage("nichts gefunden", 3000)
+			 self.statusBar().showMessage("nichts gefunden", DEFAULT_STATUS_MESSAGE_TIMEOUT)
 
-def findreplaceinapplication():
+def findreplaceinapplication() -> None:
 	"""Search through all connected workbooks for selected text and replace with
 	 	other text"""
 	return
 
-def findreplaceinsheet():
+def findreplaceinsheet() -> None:
 	"""Search through sheet for selected text and replace with other text"""
 	return
 
-def findreplaceinworkbook():
+def findreplaceinworkbook() -> None:
 	"""Search through active workbook for selected text and replace with
 	 	other text"""
 	return
 
-def replaceAll(self):
+def replaceAll(self) -> None:
 	oldtext = self.findfield.text()
 	newtext = self.replacefield.text()
 	if not oldtext == "":
 		h = self.myeditor.toHtml().replace(oldtext, newtext)
 		self.myeditor.setText(h)
 		self.setModified(True)
-		self.statusBar().showMessage("alles ersetzt", 3000)
+		self.statusBar().showMessage("alles ersetzt", DEFAULT_STATUS_MESSAGE_TIMEOUT)
 	else:
-		self.statusBar().showMessage("nichts zu ersetzen", 3000)
-def replaceOne(self):
+		self.statusBar().showMessage("nichts zu ersetzen", DEFAULT_STATUS_MESSAGE_TIMEOUT)
+def replaceOne(self) -> None:
 	oldtext = self.findfield.text()
 	newtext = self.replacefield.text()
 	if not oldtext == "":
 		h = self.myeditor.toHtml().replace(oldtext, newtext, 1)
 		self.myeditor.setText(h)
 		self.setModified(True)
-		self.statusBar().showMessage("1 ersetzt", 3000)
+		self.statusBar().showMessage("1 ersetzt", DEFAULT_STATUS_MESSAGE_TIMEOUT)
 	else:
-		self.statusBar().showMessage("nichts zu ersetzen", 3000)
+		self.statusBar().showMessage("nichts zu ersetzen", DEFAULT_STATUS_MESSAGE_TIMEOUT)
 
-def format():
+def format() -> None:
 	""" """
 	return
 
-def italic():
+def italic() -> None:
 	""" """
 	return
 
-def line_spacing_1_0():
+def line_spacing_1_0() -> None:
 	"""Set the line spacing of selected text to 1"""
 	return
 
-def line_spacing_1_5():
+def line_spacing_1_5() -> None:
 	"""Set the line spacing of selected text to 1.5"""
 	return
 
-def line_spacing_2_0():
+def line_spacing_2_0() -> None:
 	"""Set the line spacing of selected text to 2"""
 	return
 
-def line_spacing_custom():
+def line_spacing_custom() -> None:
 	"""Set the line spacing of selected text to 2"""
 	return
 
-def lowercase():
+def lowercase() -> None:
 	""" """
 	return
 
-def paste():
+def paste() -> None:
 	"""Add object from clipboard to document at cursor location"""
 	return
 
-def pasteunformattedtext():
+def pasteunformattedtext() -> None:
 	"""Add object from clipboard to document at cursor location removing all
 		formating of object"""
 	return
 
-def pastespecial():
+def pastespecial() -> None:
 	"""Open dialog to select formatting options"""
 	return
 
-def paragraphspacingincrease():
+def paragraphspacingincrease() -> None:
 	""" """
 	return
 
-def paragraphspacingdecrease():
+def paragraphspacingdecrease() -> None:
 	""" """
 	return
 
-def propercase():
+def propercase() -> None:
 	""" """
 	return
 
-def replaceThis(self):
+def replaceThis(self) -> None:
 	if not self.myeditor.textCursor().selectedText() == "":
 		rtext = self.myeditor.textCursor().selectedText()
 		dlg = QInputDialog(self, Qt.Dialog)
@@ -170,67 +179,67 @@ def replaceThis(self):
 			self.myeditor.setPlainText(newtext)
 			self.myeditor.document().setModified(True)
 
-def selectall():
+def selectall() -> None:
 	""" """
 	return
 
-def select():
+def select() -> None:
 	""" """
 	return
 
-def sentencecase():
+def sentencecase() -> None:
 	""" """
 	return
 
-def shadow():
+def shadow() -> None:
 	''
 	return
 
-def spacing():
+def spacing() -> None:
 	""" """
 	return
 
-def strikethrough():
+def strikethrough() -> None:
 	""" """
 	return
 
-def superscript():
+def superscript() -> None:
 	""" """
 	return
 
-def subscript():
+def subscript() -> None:
 	""" """
 	return
 
-def styles():
+def styles() -> None:
 	""" """
 	return
 
-def text():
+def text() -> None:
 	""" """
 	return
 
-def textwrap():
+def textwrap() -> None:
 	""" """
 	return
 
-def togglecase():
+def togglecase() -> None:
 	""" """
 	return
 
-def trackchanges():
+def trackchanges() -> None:
 	""" """
 	return
 
-def underline():
+def underline() -> None:
 	""" """
 	return
 
-def underlinedouble():
+def underlinedouble() -> None:
 	""" """
 	return
 
-def uppercase():
+def uppercase() -> None:
 	""" """
 	return
 

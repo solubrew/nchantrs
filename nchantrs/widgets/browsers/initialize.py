@@ -15,6 +15,10 @@
 from os.path import abspath, dirname, join
 import datetime as dt
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # Add at the top of the file, before any other Qt imports
 import os
 import sys
@@ -23,6 +27,7 @@ import sys
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
+from typing import Optional, Dict, List, Any, Tuple
 from ogma.logma import Logma
 
 # ====================================================================================================================||
@@ -35,7 +40,7 @@ pxcfg = join(here, "_data_", ".yaml")
 
 
 # Configure Qt environment before importing Qt modules
-def _configure_qt_environment():
+def _configure_qt_environment() -> None:
     """Configure Qt environment for better compatibility"""
 
     # WebEngine Chromium flags for stability

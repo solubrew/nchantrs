@@ -15,33 +15,48 @@
 '''
 # -*- coding: utf-8 -*-
 #===============================================================================||
-def screenfull():
-	''
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+def screenfull() -> None:
+	''''
+	logger.debug("screenfull called")
 	return
-def screenhalfupper():
-	''
+def screenhalfupper() -> None:
+	''''
+	logger.debug("screenhalfupper called")
 	return
-def screenhalflower():
-	''
+def screenhalflower() -> None:
+	''''
+	logger.debug("screenhalflower called")
 	return
-def sidebar():
-	''
+def sidebar() -> None:
+	''''
+	logger.debug("sidebar called")
 	return
-def toolbars():
-	''
+def toolbars() -> None:
+	''''
+	logger.debug("toolbars called")
 	return
-def statusbar():
-	''
+def statusbar() -> None:
+	''''
+	logger.debug("statusbar called")
 	return
-def view():
-	''
+def view() -> None:
+	''''
+	logger.debug("view called")
 	return
-def window():
-	''
+def window() -> None:
+	''''
+	logger.debug("window called")
 	return
-def windowsplit():
-	''
+def windowsplit() -> None:
+	''''
+	logger.debug("windowsplit called")
 	return
-def zooom():
-	''
+def zooom() -> None:
+	''''
+	logger.debug("zooom called")
 	return

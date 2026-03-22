@@ -15,6 +15,10 @@
 from os.path import abspath, dirname, join
 import datetime as dt
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -311,9 +315,9 @@ class NchantdGoogleDriveWidget(QWidget):
             self.login_status_changed.emit(is_logged_in)
 
             if is_logged_in:
-                print(f"User logged in: {result.get('account_element', 'Unknown')}")
+                logger.info("User logged in: %s", result.get('account_element', 'Unknown'))
             else:
-                print("User not logged in to Google")
+                logger.info("User not logged in to Google")
 
     def load_google_drive(self):
         """Load Google Drive."""
@@ -334,7 +338,7 @@ class NchantdGoogleDriveWidget(QWidget):
         cookie_store = profile.cookieStore()
         cookie_store.deleteAllCookies()
 
-        print("Session data cleared")
+        logger.info("Session data cleared")
 
     def get_cookies(self):
         """Get current cookies (for debugging)."""
@@ -342,7 +346,7 @@ class NchantdGoogleDriveWidget(QWidget):
         cookie_store = profile.cookieStore()
 
         def cookie_added(cookie):
-            print(f"Cookie: {cookie.name()} = {cookie.value()}")
+            logger.debug("Cookie: %s = %s", cookie.name(), cookie.value())
 
         cookie_store.cookieAdded.connect(cookie_added)
 

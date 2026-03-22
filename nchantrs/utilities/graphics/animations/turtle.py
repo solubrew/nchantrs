@@ -14,10 +14,25 @@
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join
 from random import randint
+
+import logging
 # ======================================3rd Party Library Modules=====================================================||
+
+logger = logging.getLogger(__name__)
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from ogma.logma import Logma
+
+# ====================================================================================================================||
+# Constants for magic number replacement
+DEFAULT_ANIMATION_FRAMES = 100
+DEFAULT_FRAME_DELAY = 0.05
+DIRECTION_HORIZONTAL = 0
+DIRECTION_VERTICAL = 1
+TURTLE_COLOR_MODES = {
+    0: "background",
+    1: "accent",
+}
 
 # ====================================================================================================================||
 here = join(dirname(__file__), '')  # ||
@@ -34,66 +49,57 @@ def get_number(max_n):
         yield n
 
 def turn(t, cnt, direction):
+    """Turn the turtle and return new direction"""
     t[cnt].right(90)
-    if direction == 0:
-        direction = 1
+    if direction == DIRECTION_HORIZONTAL:
+        direction = DIRECTION_VERTICAL
     else:
-        direction = 0
+        direction = DIRECTION_HORIZONTAL
     return direction
 
 def animation_panel(background, accent):
-	""""""
-	# Set up the screen
-	win = turtle.Screen()
-	win.bgcolor("black")
-	bounds = [100, 100]
+    """"""
+    # Set up the screen
+    win = turtle.Screen()
+    win.bgcolor("black")
+    bounds = [100, 100]
 
-	# Create a turtle object
-	t = {}
-	# This will control speed of animation
-	frame_delay = 0.05
-	x = get_number(int(bounds[0] / 3))
-	y = get_number(int(bounds[1] / 3))
-	cnt = 0
-	while True:
-		if cnt not in t.keys():
-			t[cnt] = turtle.Turtle()
-		if cnt == 0:
-			t[cnt].color(background)
-		elif cnt == 1:
-			t[cnt].color(accent)
-
-		# elif cnt == 2:
-		# 	t[cnt].color("purple")
-		# elif cnt == 3:
-		# 	t[cnt].color("blue")
-		# elif cnt == 4:
-		# 	t[cnt].color("yellow")
-		# elif cnt == 5:
-		# 	t[cnt].color("pink")
-
-		else:
-			cnt = 0
-		direction = 0
-		t[cnt].goto(0, 0)
-		t[cnt].clear()
-		pos = [0, 0]
-		for i in range(100):
-			if direction == 0:
-				move = next(x)
-			else:
-				move = next(y)
-			direction = turn(t, cnt, direction)
-			if pos[direction] + move >= bounds[direction]:
-				move = -move
-			pos[direction] += move
-			if move > 0:
-				t[cnt].forward(move)
-			else:
-				t[cnt].backward(move)
-			print(pos)
-		t[cnt].hideturtle()
-		cnt += 1
+    # Create a turtle object
+    t = {}
+    # This will control speed of animation
+    frame_delay = DEFAULT_FRAME_DELAY
+    x = get_number(int(bounds[0] / 3))
+    y = get_number(int(bounds[1] / 3))
+    cnt = 0
+    while True:
+        if cnt not in t.keys():
+            t[cnt] = turtle.Turtle()
+        if cnt == 0:
+            t[cnt].color(background)
+        elif cnt == 1:
+            t[cnt].color(accent)
+        else:
+            cnt = 0
+        direction = DIRECTION_HORIZONTAL
+        t[cnt].goto(0, 0)
+        t[cnt].clear()
+        pos = [0, 0]
+        for i in range(DEFAULT_ANIMATION_FRAMES):
+            if direction == DIRECTION_HORIZONTAL:
+                move = next(x)
+            else:
+                move = next(y)
+            direction = turn(t, cnt, direction)
+            if pos[direction] + move >= bounds[direction]:
+                move = -move
+            pos[direction] += move
+            if move > 0:
+                t[cnt].forward(move)
+            else:
+                t[cnt].backward(move)
+            logger.debug("Turtle position: %s", pos)
+        t[cnt].hideturtle()
+        cnt += 1
 
 # ====================================================================================================================||
 

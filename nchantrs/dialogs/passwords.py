@@ -18,7 +18,12 @@ from os.path import dirname, join
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
+from typing import Optional, Dict, List, Any, Tuple
+
+import logging
 from nchantrs.dialogs.dialogs import NchantdCape
+
+logger = logging.getLogger(__name__)
 from ogma.logma import Logma
 
 # ====================================================================================================================||
@@ -32,7 +37,7 @@ pxcfg = join(here, "_data_", ".yaml")
 class NewPasswordDialog(NchantdCape):
     """"""
 
-    def __init__(self, parent, cfg=None):
+    def __init__(self, parent, cfg=None) -> None:
         """"""
         self.config = condor.Instruct(pxcfg)
         if parent is not None:
@@ -45,7 +50,7 @@ class NewPasswordDialog(NchantdCape):
 class ChangePasswordDialog(NchantdCape):
     """"""
 
-    def __init__(self, parent, cfg=None):
+    def __init__(self, parent, cfg=None) -> None:
         """"""
         self.config = condor.Instruct(parent)
         if parent is not None:
@@ -53,10 +58,10 @@ class ChangePasswordDialog(NchantdCape):
         self.parent = parent
         self.config.override(cfg)
 
-    def _check_current_password(self):
+    def _check_current_password(self) -> None:
         """"""
 
-    def _set_new_password(self):
+    def _set_new_password(self) -> None:
         """"""
 
 

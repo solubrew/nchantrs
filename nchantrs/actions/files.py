@@ -14,10 +14,15 @@
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
+
+import logging
 # ======================================3rd Party Library Modules=====================================================||
+
+logger = logging.getLogger(__name__)
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
+from typing import Optional, Dict, List, Any, Tuple
 from ogma.logma import Logma
 
 # ====================================================================================================================||
@@ -28,7 +33,7 @@ logma = Logma(__name__)
 # ====================================================================================================================||
 pxcfg = join(here, '_data_', '.yaml')
 
-def file_open(self):
+def file_open(self) -> None:
 	path, _ = QFileDialog.getOpenFileName(self, "Open file", "", "HTML documents (*.html);Text documents (*.txt);All files (*.*)")
 	try:
 		with open(path, 'rU') as f:
@@ -41,7 +46,7 @@ def file_open(self):
 		self.editor.setText(text)
 		self.update_title()
 
-def loadFile(self, fileName):
+def loadFile(self, fileName) -> None:
 	file = QFile(fileName)
 	if not file.open(QFile.ReadOnly | QFile.Text):
 		QMessageBox.warning(self, "Meldung",
@@ -54,7 +59,7 @@ def loadFile(self, fileName):
 	self.setCurrentFile(fileName)
 	self.statusBar().showMessage("Datei '" +  fileName + "' geladen", 3000)
 
-def file_save(self):
+def file_save(self) -> None:
 	if self.path is None:
 		# If we do not have a path, we need to use Save As.
 		return self.file_saveas()
@@ -65,7 +70,7 @@ def file_save(self):
 	except Exception as e:
 		self.dialog_critical(str(e))
 
-def file_saveas(self):
+def file_saveas(self) -> None:
 	path, _ = QFileDialog.getSaveFileName(self, "Save file", "", "HTML documents (*.html);Text documents (*.txt);All files (*.*)")
 	if not path:
 		# If dialog is cancelled, will return ''
@@ -80,17 +85,17 @@ def file_saveas(self):
 		self.path = path
 		self.update_title()
 
-def file_print(self):
+def file_print(self) -> None:
 	dlg = QPrintDialog()
 	if dlg.exec_():
 		self.editor.print_(dlg.printer())
 
-def newFile(self):
+def newFile(self) -> None:
 	if self.maybeSave():
 		self.myeditor.clear()
 		self.setCurrentFile('')
 
-def open(self):
+def open(self) -> None:
 	if self.maybeSave():
 		fileName, _ = QFileDialog.getOpenFileName(self, "Datei öffnen", QDir.homePath() + "/Dokumente", "Text Dateien (*.txt *.csv *.sh *.py) ;; alle Dateien (*.*)")
 		if fileName:
@@ -98,7 +103,7 @@ def open(self):
 		else:
 			self.statusBar().showMessage("abgebrochen", 3000)
 
-def maybeSave(self):
+def maybeSave(self) -> None:
 	if self.myeditor.document().isModified():
 		ret = QMessageBox.warning(self, "QTextEdit Meldung",
 				"Das Dokument wurde geändert.\nSollen die Änderungen gespeichert werden?",
@@ -109,7 +114,7 @@ def maybeSave(self):
 			return False
 	return True
 
-def saveFile(self, fileName):
+def saveFile(self, fileName) -> None:
 	file = QFile(fileName)
 	if not file.open(QFile.WriteOnly | QFile.Text):
 		QMessageBox.warning(self, "Message",
@@ -123,7 +128,7 @@ def saveFile(self, fileName):
 	self.statusBar().showMessage("Datei '" +  fileName + "' gespeichert", 3000)
 	return True
 
-def save(self):
+def save(self) -> None:
 	if not self.myeditor.toPlainText() == "":
 		if self.myeditor.document().isModified():
 			if self.curFile:
@@ -136,7 +141,7 @@ def save(self):
 	else:
 		self.statusBar().showMessage("kein Text")
 
-def saveAs(self):
+def saveAs(self) -> None:
 	if not self.myeditor.toPlainText() == "":
 		if self.curFile:
 			fileName, _ = QFileDialog.getSaveFileName(self, "Speichern als...", self.curFile, "Text Dateien (*.txt)")
@@ -148,13 +153,13 @@ def saveAs(self):
 	else:
 		self.statusBar().showMessage("kein Text")
 
-def openRecentFile(self):
+def openRecentFile(self) -> None:
 	action = self.sender()
 	if action:
 		if (self.maybeSave()):
 			self.loadFile(action.data())
 
-def setCurrentFile(self, fileName):
+def setCurrentFile(self, fileName) -> None:
 	self.curFile = fileName
 	self.myeditor.document().setModified(False)
 	self.setWindowModified(False)
@@ -174,7 +179,7 @@ def setCurrentFile(self, fileName):
 			self.settings.setValue('recentFileList', files)
 			self.updateRecentFileActions()
 
-def updateRecentFileActions(self):
+def updateRecentFileActions(self) -> None:
 	mytext = ""
 	files = self.settings.value('recentFileList', [])
 	numRecentFiles = min(len(files), self.MaxRecentFiles)
@@ -189,7 +194,7 @@ def updateRecentFileActions(self):
 		self.recentFileActs[j].setVisible(False)
 	self.separatorAct.setVisible((numRecentFiles > 0))
 
-def clearRecentFiles(self, fileName):
+def clearRecentFiles(self, fileName) -> None:
 	self.settings.clear()
 	self.updateRecentFileActions()
 

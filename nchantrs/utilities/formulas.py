@@ -14,7 +14,12 @@
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
+from typing import Any, Dict, Optional, Any
+
+import logging
 # ======================================3rd Party Library Modules=====================================================||
+
+logger = logging.getLogger(__name__)
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
@@ -30,25 +35,25 @@ pxcfg = join(here, '_data_', 'formulas.yaml')
 
 class NchantdFormula(object):
 	""""""
-	def __init__(self, formula, cfg=None):
+	def __init__(self, formula: str, cfg: Optional[Dict[str, Any]] = None) -> None:
 		""""""
 		self.config = condor.instruct(pxcfg).override(cfg)
 		self.formula = formula
 		self.parsed_formula = self.parse()
-		self.value = None
+		self.value: Optional[Any] = None
 
-	def parse(self):
+	def parse(self) -> 'NchantdFormula':
 		"""
 		need to parse and search out the base formulas used
 		:return:
 		"""
 		return self
 
-	def compute(self, arguments=None):
+	def compute(self, arguments: Optional[Dict[str, Any]] = None) -> Any:
 		""""""
 		return self
 
-	def get_value(self, refresh=False):
+	def get_value(self, refresh: bool = False) -> Optional[Any]:
 		""""""
 		if self.value is None or refresh:
 			self.compute()

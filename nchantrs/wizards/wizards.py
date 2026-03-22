@@ -15,6 +15,10 @@
 from os.path import abspath, dirname, join
 import datetime as dt
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -67,7 +71,7 @@ class NchantdWizard(pyqt.QWizard):
     @pyqt.Slot()
     def cmd_on_cancel(self):
         # Code to execute when Cancel is clicked
-        print("Cancel button clicked!")
+        logma.critical("Cancel button clicked!")
         self.reject()  # To close the wizard
         return self
 
