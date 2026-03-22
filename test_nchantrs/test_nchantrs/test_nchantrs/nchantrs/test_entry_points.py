@@ -7,8 +7,7 @@ Integration Tests for Nchantrs Entry Points
 These tests verify that all entry points work correctly.
 """
 import sys
-import os
-from os.path import dirname, join
+from os.path import dirname
 from unittest import TestCase, main as unittest_main
 
 # Add project to path
@@ -75,18 +74,18 @@ class TestExampleApps(TestCase):
 	
 	def test_import_test_app_todos(self):
 		"""Test that test_app_todos can be imported"""
-		import test_app_todos
+		from tests import test_app_todos
 		self.assertIsNotNone(test_app_todos)
 	
 	def test_import_test_app_calculator(self):
 		"""Test that test_app_calculator can be imported"""
-		import test_app_calculator
+		from tests import test_app_calculator
 		self.assertIsNotNone(test_app_calculator)
 	
 	def test_import_test_app_base(self):
 		"""Test that test_app_base can be imported"""
-		import test_app_base
-		self.assertIsNotNone(test_app_base)
+        from tests import test_app_base
+        self.assertIsNotNone(test_app_base)
 
 
 if __name__ == "__main__":
