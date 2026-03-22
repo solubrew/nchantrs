@@ -1,5 +1,5 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-"""  #																			||
+"""#																			||
 ---  #																			||
 <(META)>:  #																	||
     docid:   #																	||
@@ -14,6 +14,7 @@
     security: sec|lvl2  #														||
     <(WT)>: -32  #																||
 """  # ||
+
 # -*- coding: utf-8 -*-#														||
 # ================================Core Modules===================================||
 from os.path import abspath, dirname, join
@@ -22,12 +23,13 @@ from typing import Optional, Dict, List, Any, Tuple
 
 import logging
 
-
 logger = logging.getLogger(__name__)
 # ===============================================================================||
 from condor import condor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidget
+from nchantrs.widgets.controls.toolboxes import NchantdToolBox
+from nchantrs.widgets.items.nodes import NchantdTreeNode
 from ogma.logma import Logma
 from subtrix.utilities import uuid
 from nchantrs.utilities.models import combine_records
@@ -172,7 +174,7 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
                 return self
         logma.info(f"Tabsdata {tabsdata}")
         self.tabsdata = tabsdata
-        node.active_tab_position = 0  [DONE]
+        node.active_tab_position = 0  # [DONE]
         self.load_tab_set(tabset, node.active_tab_position)
         return self
 
@@ -192,7 +194,7 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
     def get_tabs(self, node, tabset) -> None:
         """"""
         logma.info(f"Get Node Nid {node.nid} Tabset {tabset}  ")
-        tabs = self.parent.app.model.get_tabs(node.nid, tabset)  #[DONE]
+        tabs = self.parent.app.model.get_tabs(node.nid, tabset)  # [DONE]
         return tabs
 
     def load_tab_set(self, tabset, active_tab_position=0) -> None:
