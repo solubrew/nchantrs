@@ -31,7 +31,7 @@ from condor.utils import thingify
 from nchantrs.utilities.utils import lookup
 from nchantrs.widgets.controls.menus import NchantdMenu, NchantdContextMenu
 
-# from pyffice.items.colors import PyfficeColor
+from nchantrs.themes.colors import NchantdColor
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")
