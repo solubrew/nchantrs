@@ -42,8 +42,6 @@ logger: logging.Logger = logging.getLogger(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "nchantrs.yaml")
-pxcfg = {}
-
 
 def aberration(name, args=None, widget=None, cfg=None) -> None:
     """Aberration executes a single widget dialog useful for direct interaction widgets"""
@@ -81,8 +79,9 @@ def nchantment(name, args, main_app=None, cfg=None, startup_app=None, profile_ov
     if "instance" in args:
         instance = args["instance"]
     # Call configuration before Qt imports
+    logma.info(f"Configuring Qt Environment for {name}")
     _configure_qt_environment()
-    # implement an update mode for the app accessible by pyularity
+    logma.info("Qt Environment Configured")
     app = main_app(name, instance, None, cfg, args)
     startup = startup_app(app, {"profile": profile_override})
     logma.info("Nchantment Initialized")
