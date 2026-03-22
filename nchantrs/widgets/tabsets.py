@@ -684,7 +684,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
             # TODO load Toolbox for the active tab type
             logma.info(f"Load Toolbox")
             self.load_toolbox()
-            [DONE]
+            #[DONE]
         # self.update()  # This is a function inherited from pyqt.QTabWidget in order to update the UI to the new tab
         logma.info(f"Finish Tab Focus")
         return self
