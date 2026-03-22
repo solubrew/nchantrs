@@ -168,6 +168,9 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         logma.info(f"Tabsdata {tabsdata}")
         if tabsdata is None or tabsdata == []:
             tabsdata = self.get_tabs(node, tabset)
+            if tabsdata is None:
+                logma.info("No tabs in the tabset")
+                return self
             if not tabsdata.empty:
                 tabsdata = [tab for tab in tabsdata.to_dict(orient="records")]
             else:

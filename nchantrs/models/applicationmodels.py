@@ -177,11 +177,11 @@ class NchantdCloakModel(NchantdPantiesModel):
     def initModel(self, reset=None) -> None:
         """"""
         super().initModel(reset)
-        self.set_paths()
+        #self.set_paths()
         self.connect_nchantd_office()
-        self.user_config()
-        self.integration_config()
-        self.extension_config()
+        # self.user_config() #TODO need to connect user'
+        # self.integration_config()
+        # self.extension_config()
         return self
 
     def add_attachment(self, name, widgdata, pid, did, document_type, tabset_type) -> None:
@@ -471,18 +471,18 @@ class NchantdCloakModel(NchantdPantiesModel):
         return NchantdTreeNode(pnode, node["name_txt"], node["nid_txt"], node).initWidget()
 
     def get_nodes(self, treeid=0) -> None:
-        """
-            table = "vw_tree_node"
-            cfg = {
-                "WHERE": {"EQUAL": {"treeid_txt": treeid, "visible_bit": 1}},
-                "ORDER": [
-                    7,
-                ],
-            }
-            return self.store.get_table(table, cfg)
+        """"""
+        table = "vw_tree_node"
+        cfg = {
+            "WHERE": {"EQUAL": {"treeid_txt": treeid, "visible_bit": 1}},
+            "ORDER": [
+                7,
+            ],
+        }
+        return self.store.get_table(table, cfg)
 
-        def get_policy(self, data_table, policy, db="db") -> None:
-        """
+    def get_policy(self, data_table, policy, db="db") -> None:
+        """"""
         cfg = {"WHERE": {"EQUAL": {"type_txt": policy, "target_txt": data_table}}}
         df = self.store.get_app_policy(cfg, db)
         return df

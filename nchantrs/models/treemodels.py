@@ -108,7 +108,6 @@ class NchantdTreeModel(pyqt.QStandardItemModel):
 
     def initModel(self, position=False) -> None:
         """ """
-        [DONE]
         logma.info(f"Model Initialize Application {self.parent.app.new_application}")
         # logma.info(f"Model Initialize Instance {self.parent.app.new_instance}")
         db = "db"

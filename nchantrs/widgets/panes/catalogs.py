@@ -230,7 +230,7 @@ class NchantdNewNodePane(NchantdPane):
 
     def show_first_tab_options(self):
         """"""
-        [DONE]
+        #[DONE]
         # allow it to be set as a default and then automatically create the tab document with each newly created node
         #
 

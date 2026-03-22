@@ -441,7 +441,7 @@ class NchantdTreeNode(NchantdTreeItem):
     def set_data_focus(self):
         """"""
         self.focus = self.parameters.get("focus", "office")
-        [DONE]
+        #[DONE]
         # if self.focus != self.app.view.theme.focus:
         #    self.app.view.theme.refocus_theme(self.focus)
         return self
@@ -685,8 +685,9 @@ class NchantdTreeNode(NchantdTreeItem):
         except KeyError:
             raise Exception(f"Unknown node type {self.node_type}")
         logma.info(f"App Model {self.app.model}")
-        if self.app.model.user.easter_egg:
-            icon = "mist_easter_egg_a0001"
+        # TODO:3 fix user
+        # if self.app.model.user.easter_egg:
+        #    icon = "mist_easter_egg_a0001"
         self.setIcon(0, pyqt.QIcon(self.app.view.theme.get_icon_path(icon, icon_type)))
         return self
 

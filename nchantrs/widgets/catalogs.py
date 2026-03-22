@@ -86,7 +86,7 @@ class NchantdCatalog(NchantdWidget):
         if self.display is None:
             cfg = {}
             self.display = NchantdGridScrollGroupBox(self, cfg)
-            self.display.set_minimum_height(self.size().height() - 500)  [DONE]
+            self.display.set_minimum_height(self.size().height() - 500)#  [DONE]
             self.display.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignTop)
             self.display.setTitle(self.config.dikt.get("title", "New Item Catalog"))
             self.display.limit_horizontal()
