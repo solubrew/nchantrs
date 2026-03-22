@@ -10,6 +10,7 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join, isdir, expanduser, abspath, exists
@@ -17,9 +18,8 @@ from os import environ, chmod
 import sys
 import platform
 import psutil
-
+import yaml
 import logging
-
 
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
@@ -120,6 +120,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         self.shortcut_path = self.app.model.shortcut_path
         if self.app.is_installable is True:  # Set by the Top Level Application
             # self.new_application = True  # default to uninstalled
+            logma.info(f"Application Installable")
             installed = self.check_installed()  # check for current install
             logma.info(f"Currently Installed {installed}")
             if installed is True and "setup" not in args:
@@ -198,8 +199,16 @@ class NchantdApplicationStartupWizard(NchantdWizard):
     def check_installed(self):
         """"""
         if exists(self.app.model.config_path):
-            self.install_doc = yonql.Doc(self.app.model.config_path)
-            data = next(self.install_doc.read(), None)
+            if isinstance(self.app.model.config_path, dict):
+                doc = yaml.dump(self.app.model.config_path)
+            elif isinstance(self.app.model.config_path, str):
+                doc = self.app.model.config_path
+            elif isinstance(self.app.model.config_path, condor.Instruct):
+                doc = yaml.dump(self.app.model.config_path.dikt)
+            else:
+                raise TypeError(f"Unsupported config_path type: {type(self.app.model.config_path)}")
+            self.install_doc = yonql.Doc(doc)
+            data = next(self.install_doc.read())
             if data is None:
                 return False
             if data.get("installed", False) is False:

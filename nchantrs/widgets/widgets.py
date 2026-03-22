@@ -226,7 +226,9 @@ class NchantdWidgetMixin(object):
         else:
             logma.warning(f"No app model available for context menu")
             cfg = {"actions": {}}
-
+        if isinstance(cfg, int):
+            #TODO: probably need to lookup the int to find the correct menu name
+            cfg = {"actions": {}}
         # logma.info(f"Initialize Context Menu {cfg.get('actions', {})}")
         self.context_menu = NchantdContextMenu(self, cfg).initWidget()
         return self
@@ -980,28 +982,9 @@ def loadWidget(parent, cfg=None):  # , panestyle=None):
         cfg = {}
     cfg = condor.Instruct(pxcfg).override(cfg).dikt
     if cfg.get("widget", None):
-        try:
-            app = cfg.get("app", "nchantrs")
-            logma.info(f"{app}.{cfg['widget']}")
-            widget = thingify(f"{app}.{cfg['widget']}", None, None, True)(parent, cfg)
-        except Exception as e:
-            # Try fallback apps if specified
-            apps = cfg.get("apps", [])
-            if apps:
-                for app in set(apps):
-                    try:
-                        logma.info(f"{app}.{cfg['widget']}")
-                        widget = thingify(f"{app}.{cfg['widget']}", None, None, True)(parent, cfg)
-                    except Exception as e:
-                        if debug:
-                            logma.warning(f"{app}.{cfg['widget']}")
-                            logma.warning(e)
-            else:
-                # No fallback apps, re-raise the original exception
-                if debug:
-                    logma.warning(f"Failed to load widget: {cfg['widget']}")
-                    logma.warning(e)
-                raise
+        app = cfg.get("app", "nchantrs")
+        logma.info(f"{app}.{cfg['widget']}")
+        widget = thingify(f"{app}.{cfg['widget']}", None, None, True)(parent, cfg)
     else:
         registered_widget = lookupWidget(list(cfg.keys())[0])
         widget = condor.Factory.object(registered_widget, parent.app.model.parents)(parent, cfg)
