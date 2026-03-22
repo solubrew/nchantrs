@@ -17,6 +17,10 @@ from os.path import abspath, dirname, join
 import datetime as dt
 
 # ======================================3rd Party Library Modules=====================================================||
+import colorsys
+from colormath.color_objects import sRGBColor, LabColor, XYZColor
+from colormath.color_conversions import convert_color
+from matplotlib.colors import CSS4_COLORS
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
