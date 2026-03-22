@@ -52,15 +52,11 @@ dependencies = [
     "plotly",
     "seaborn",
     "wordcloud",
-    "pyside6pandas",
-    "feedparser",
     "plyer",
     "pytest",
     # External dependencies not automatically detected
-    "config",
-    "pyqt5",
     "setuptools",  # provides pkg_resources
-    "uuid_extensions",
+    "uuid7",
 ]
 
 [project.optional-dependencies]
