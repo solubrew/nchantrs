@@ -167,7 +167,6 @@ class NchantdColor(object):
         logma.info(f"Load Unit {unit}")
         if unit is None:
             unit = self.config.dikt.get("unit", {})
-        super().load_unit(unit)
         # Initialize the color based on the input style
         self.set_color(unit.get("color", "black"), unit.get("style", "name"))
         return self
@@ -406,13 +405,14 @@ class NchantdColor(object):
 
     def to_dict(self):
         """"""
-        doc = super().to_dict()
-        doc["unit"] = {
-            "color_name": self.color_name,
-            "hex": self.hex,
-            "rgb": self.rgb,
-            "rgba": self.rgba,
-            "xyz": self.xyz,
+        doc = {
+            "unit": {
+                "color_name": self.color_name,
+                "hex": self.hex,
+                "rgb": self.rgb,
+                "rgba": self.rgba,
+                "xyz": self.xyz,
+            }
         }
         return doc
 
