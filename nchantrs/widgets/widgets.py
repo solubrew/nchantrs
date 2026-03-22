@@ -10,6 +10,7 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -18,7 +19,6 @@ import json as j
 import math
 
 import logging
-
 
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
@@ -30,7 +30,8 @@ from ogma.logma import Logma
 from condor.utils import thingify
 from nchantrs.utilities.utils import lookup
 from nchantrs.widgets.controls.menus import NchantdMenu, NchantdContextMenu
-#from pyffice.items.colors import PyfficeColor
+
+# from pyffice.items.colors import PyfficeColor
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")
@@ -489,8 +490,10 @@ class NchantdWidgetMixin(object):
         #     cfg = {"unit": {"hex": hex}}
         #     color = PyfficeColor(cfg).load_unit()
 
-        logma.info(f"Set Background {color.get_hex()}")
-        self.setStyleSheet(f"background-color: {color.get_hex()}; color: {color.calculate_text_color()}")
+        # color = get_hex(color)
+
+        logma.info(f"Set Background {color}")
+        self.setStyleSheet(f"background-color: {color}; color: {color.calculate_text_color()}")
         return self
 
     def set_font(self):
