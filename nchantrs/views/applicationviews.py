@@ -10,6 +10,7 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -32,12 +33,6 @@ from ogma.logma import Logma
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
 logma.off()
-# Enable file logging to track issues without requiring console
-# Use standard logging FileHandler
-import logging
-file_handler = logging.FileHandler("nchantrs_applicationviews.log")
-file_handler.setLevel(logging.DEBUG)
-logma.addHandler(file_handler)
 
 # ====================================================================================================================||
 pxcfg = join(abspath(here), "_data_", "applicationviews.yaml")
@@ -67,7 +62,8 @@ class NchantdPantiesView(object):
         """ """
         self.theme = NchantdTheme(self.app.main)
         self.themes = self.theme.themes
-        self.set_theme(self.config.dikt["gui"]["desktop"]["theme"])
+        theme = self.config.dikt["gui"]["desktop"]["theme"]
+        self.set_theme(theme)
         self.pre_view_init_ran = True
 
     def init_post_view(self) -> None:
