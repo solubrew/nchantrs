@@ -61,8 +61,7 @@ class NchantdColor(object):
             style (str): The format of the input color. Default is "rgb".
             cfg (dict, optional): Configuration object.
         """
-        super().__init__(cfg)
-        self.config.override(condor.Instruct(pxcfg).select("PyfficeColor")).override(cfg)
+        self.config = condor.Instruct(pxcfg).select("PyfficeColor").override(cfg)
         self.rgb = None
         self.hex = None
         self.rgba = None
