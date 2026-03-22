@@ -102,12 +102,13 @@ all = [
 
 [project.urls]
 Homepage = "https://www.solutionsbrewer.com/"
-Changelog = "CHANGELOG.rst"
 
 [tool.setuptools]
+# Minimal setuptools_scm config
+[tool.setuptools_scm]
 
 [tool.setuptools.dynamic]
-dependencies = { file = ["requirements"] }
+dependencies = { file = ["requirements.txt"] }
 
 [tool.setuptools.packages.find]
 where = ["."]
@@ -174,8 +175,6 @@ addopts = [
     "--tb=short",
 ]
 
-[tool.setuptools.package.metadata]
-license = { file = "LICENSE" }
 
 [tool.pyright]
 include = ["nchantrs"]
