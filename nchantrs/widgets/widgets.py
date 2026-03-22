@@ -483,17 +483,15 @@ class NchantdWidgetMixin(object):
     def set_background(self, color=None, hex=None):
         """"""
         # logma.info(f"Set Background {color} {hex}")
-        # if color is not None:
-        #     cfg = {"unit": {"color": color}}
-        #     color = PyfficeColor(cfg).load_unit()
-        # if hex is not None:
-        #     cfg = {"unit": {"hex": hex}}
-        #     color = PyfficeColor(cfg).load_unit()
+        if color is not None:
+            cfg = {"unit": {"color": color}}
+            color = NchantdColor(cfg).load_unit()
+        if hex is not None:
+            cfg = {"unit": {"hex": hex}}
+            color = NchantdColor(cfg).load_unit()
 
-        # color = get_hex(color)
-
-        logma.info(f"Set Background {color}")
-        self.setStyleSheet(f"background-color: {color}; color: {color.calculate_text_color()}")
+        logma.info(f"Set Background {color.get_hex()}")
+        self.setStyleSheet(f"background-color: {color.get_hex()}; color: {color.calculate_text_color()}")
         return self
 
     def set_font(self):
