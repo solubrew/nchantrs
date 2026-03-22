@@ -1,17 +1,18 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Nchantrs@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-"""  #																			||
+"""#																			||
 ---  #																			||
 <(META)>:  #																	||
-	docid: 'a75f07e9-73f9-4622-b748-5c9cc4c88e8b'  #							||
-	name: Nchantrs Application Models Python Excecution Document  #				||
-	description: >  #															||
-	expirary: <[expiration]>  #													||
-	version: <[version]>  #														||
-	path: <[LEXIvrs]>  #														||
-	authority: document|this  #													||
-	security: sec|lvl2  #														||
-	<(WT)>: -32  #																||
+        docid: 'a75f07e9-73f9-4622-b748-5c9cc4c88e8b'  #							||
+        name: Nchantrs Application Models Python Excecution Document  #				||
+        description: >  #															||
+        expirary: <[expiration]>  #													||
+        version: <[version]>  #														||
+        path: <[LEXIvrs]>  #														||
+        authority: document|this  #													||
+        security: sec|lvl2  #														||
+        <(WT)>: -32  #																||
 """  # ||
+
 # -*- coding: utf-8 -*-#														||
 # ================================Core Modules===================================||
 from os.path import abspath, dirname, join, exists, getmtime, expanduser
@@ -25,7 +26,6 @@ from shutil import copyfile
 from pandas import DataFrame
 
 import logging
-
 
 logger = logging.getLogger(__name__)
 # ===============================================================================||
@@ -192,7 +192,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         moveable = True
         row = [
             name,
-            "widgets.media.documents.notes.NchantdOfficeStickyNote", #TODO fix this shouldn't reference NchantdOffice
+            "widgets.media.documents.notes.NchantdOfficeStickyNote",  # TODO fix this shouldn't reference NchantdOffice
             widgdata,
             pid,
             did,
@@ -226,7 +226,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         if str(pid) == "0":
             parent_node = self.app.view.panes["left"].tree
         else:
-            parent_node = self.app.model.get_current_node()  #[DONE]
+            parent_node = self.app.model.get_current_node()  # [DONE]
             # parent_node = self.get_node(pid)
         new_node = NchantdTreeNode(parent_node, name, nid, dict(zip(columns, row)))
         new_node.initWidget()
@@ -278,13 +278,13 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def check_policy(self, policy, table, condition, value, db="db") -> None:
         """
-        if policy == "Data Retention Policy":
-            return self.check_data_retention_policy(table, condition, value, db)
-        if policy == "Data Security Policy":
-            return self.check_data_security_policy(table, condition, value, db)
-        raise Exception(f"Policy {policy} not found")
+            if policy == "Data Retention Policy":
+                return self.check_data_retention_policy(table, condition, value, db)
+            if policy == "Data Security Policy":
+                return self.check_data_security_policy(table, condition, value, db)
+            raise Exception(f"Policy {policy} not found")
 
-    def check_data_retention_policy(self, table, condition, value, db="db") -> None:
+        def check_data_retention_policy(self, table, condition, value, db="db") -> None:
         """
         policy = "Data Retention Policy"
         cfg = {"WHERE": {"EQUAL": {"type_txt": policy, "target_txt": table}}}
@@ -297,15 +297,15 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def check_data_security_policy(self, table, condition, value, db="db") -> None:
         """
-        policy = "Data Security Policy"
-        data = self.store.get_app_policy(table, policy, db)
-        if not data.empty:
-            policy = j.loads(data["policy_dict"].values[0])
-            if policy.get(condition, None) == value:
-                return True
-        return False
+            policy = "Data Security Policy"
+            data = self.store.get_app_policy(table, policy, db)
+            if not data.empty:
+                policy = j.loads(data["policy_dict"].values[0])
+                if policy.get(condition, None) == value:
+                    return True
+            return False
 
-    def clear_doc_tables(self) -> None:
+        def clear_doc_tables(self) -> None:
         """
         tables = ["doc_media", "doc_media_content", "doc_tab", "doc_tree_node", "doc_user"]
         for table in tables:
@@ -324,31 +324,31 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def create_new_instance(self) -> None:
         """
-        self.is_install_active = False
-        cfg = {}
-        _ = NchantdNewInstanceWizard(self, cfg).initWizard()
-        [DONE]
-        self.instance.set_independent()
-        logma.info("Request New Instance")
-        if not self.app.comms_manager.request_new_instance(self.instance.instance_id):
-            self.app.comms_manager.launch_supervisor()
+            self.is_install_active = False
+            cfg = {}
+            _ = NchantdNewInstanceWizard(self, cfg).initWizard()
+            [DONE]
+            self.instance.set_independent()
+            logma.info("Request New Instance")
             if not self.app.comms_manager.request_new_instance(self.instance.instance_id):
-                raise Exception("No Supervisor Communication Bridge to Request New Instance")
-        return self
+                self.app.comms_manager.launch_supervisor()
+                if not self.app.comms_manager.request_new_instance(self.instance.instance_id):
+                    raise Exception("No Supervisor Communication Bridge to Request New Instance")
+            return self
 
-    def deactivate(self, table, uuid=None, primary_key=None, db="db") -> None:
+        def deactivate(self, table, uuid=None, primary_key=None, db="db") -> None:
         """
         return self
 
     def delete_node(self, node) -> None:
         """
-        logma.info(f"Node {node.nid} will be deleted")
-        for tab in node.tabs:
-            self.delete_tab(tab)
-        self.store.delete_record("doc_tree_node", uuid=node.nid, column="nid_txt")
-        return self
+            logma.info(f"Node {node.nid} will be deleted")
+            for tab in node.tabs:
+                self.delete_tab(tab)
+            self.store.delete_record("doc_tree_node", uuid=node.nid, column="nid_txt")
+            return self
 
-    def delete_tab(self, uuid=None, tab_pk=None, db="db") -> None:
+        def delete_tab(self, uuid=None, tab_pk=None, db="db") -> None:
         """
         # self.parent.current_tabset.remove_tab(self.app.model.current_tab.tabn)
         # if uuid is not None and tab_pk is None:
@@ -363,10 +363,10 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def export_instance(self) -> None:
         """
-        self.instance.set_instance_external()
-        self.init_database_instance(self.instance.instance)
+            self.instance.set_instance_external()
+            self.init_database_instance(self.instance.instance)
 
-    def extension_config(self) -> None:
+        def extension_config(self) -> None:
         """
         if self.config.dikt["dstruct"]["extensions"] is not None:
             for extension, details in self.config.dikt["dstruct"]["extensions"].items():
@@ -398,16 +398,16 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def get_current_node(self) -> None:
         """
-        node = self.app.view.panes["left"].tree.model.current_node
-        return node
+            node = self.app.view.panes["left"].tree.model.current_node
+            return node
 
-    def get_current_tab(self) -> None:
+        def get_current_tab(self) -> None:
         """
         tab = self.app.view.panes["center"].model.current_tab
         return tab
 
     def get_current_version(self) -> None:
-        """
+        """"""
         df = self.store.get_app_version()
         logma.info(f"Current Version {df}")
         if df.empty:
@@ -420,20 +420,20 @@ class NchantdCloakModel(NchantdPantiesModel):
                 return "0.0.1.0.1.3"
 
     def get_instance(self, instance_id=None) -> None:
-        """
+        """"""
         return self.store.get_app_instance(instance_id)
 
     def get_instance_recent(self) -> None:
         """
-        instance = self.get_instance_recents(1)
-        if len(instance) == 0:
-            instance = None
-        else:
-            instance = instance[0]
-        self.create_instance(instance)
-        return self
+            instance = self.get_instance_recents(1)
+            if len(instance) == 0:
+                instance = None
+            else:
+                instance = instance[0]
+            self.create_instance(instance)
+            return self
 
-    def get_instance_recents(self, last=10) -> None:
+        def get_instance_recents(self, last=10) -> None:
         """
         instances = self.store.get_app_instance(most_recent=last)
         if instances.empty:
@@ -443,11 +443,11 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def get_menu(self, name) -> None:
         """
-        if name is None:
-            return DataFrame()
-        return self.store.get_app_menu(name)
+            if name is None:
+                return DataFrame()
+            return self.store.get_app_menu(name)
 
-    def get_node(self, nid=None, tree=None) -> None:
+        def get_node(self, nid=None, tree=None) -> None:
         """
         # logma.info(f"Get Node {nid}")
         table = "vw_tree_node"
@@ -472,16 +472,16 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def get_nodes(self, treeid=0) -> None:
         """
-        table = "vw_tree_node"
-        cfg = {
-            "WHERE": {"EQUAL": {"treeid_txt": treeid, "visible_bit": 1}},
-            "ORDER": [
-                7,
-            ],
-        }
-        return self.store.get_table(table, cfg)
+            table = "vw_tree_node"
+            cfg = {
+                "WHERE": {"EQUAL": {"treeid_txt": treeid, "visible_bit": 1}},
+                "ORDER": [
+                    7,
+                ],
+            }
+            return self.store.get_table(table, cfg)
 
-    def get_policy(self, data_table, policy, db="db") -> None:
+        def get_policy(self, data_table, policy, db="db") -> None:
         """
         cfg = {"WHERE": {"EQUAL": {"type_txt": policy, "target_txt": data_table}}}
         df = self.store.get_app_policy(cfg, db)
@@ -489,15 +489,15 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def get_tabs(self, node, tabset="center") -> None:
         """
-        if node is None:
-            return None
-        filters = {"WHERE": {"IN": {"pid_txt": [node], "tabset_type_txt": [tabset]}}}
-        if tabset == "right":
-            filters["WHERE"]["IN"]["pid_txt"].append("0")
-        filters["ORDER"] = [5]
-        return self.store.get_view_tab(filters)
+            if node is None:
+                return None
+            filters = {"WHERE": {"IN": {"pid_txt": [node], "tabset_type_txt": [tabset]}}}
+            if tabset == "right":
+                filters["WHERE"]["IN"]["pid_txt"].append("0")
+            filters["ORDER"] = [5]
+            return self.store.get_view_tab(filters)
 
-    def integration_config(self) -> None:
+        def integration_config(self) -> None:
         """
         # if self.config.dikt['dstruct']['integrations'] is not None:
         # 	for integration, details in self.config.dikt['dstruct']['integrations'].items():
@@ -506,14 +506,14 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def maintain_application(self, db="db") -> None:
         """
-        # self.maintain_doc_media_content()
-        logma.info("Maintain Application")
-        self.store.compact_instances()
-        self.store.compact_database(db)
-        self.store.backup_database(self.instance, db)
-        return self
+            # self.maintain_doc_media_content()
+            logma.info("Maintain Application")
+            self.store.compact_instances()
+            self.store.compact_database(db)
+            self.store.backup_database(self.instance, db)
+            return self
 
-    def maintain_doc_media_content(self) -> None:
+        def maintain_doc_media_content(self) -> None:
         """
         df = self.store.get_view_maintain_doc_media_content()
         values = df["doc_media_content_PK"].values.tolist()
@@ -523,47 +523,47 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def open_instance(self, instance=None) -> None:
         """
-        if instance is None:
-            instance = self.get_instance_recent()
-        self.parent.dbupdate.update_instance(instance)
-        #
-        return self
+            if instance is None:
+                instance = self.get_instance_recent()
+            self.parent.dbupdate.update_instance(instance)
+            #
+            return self
 
-    def register_action(self, action) -> None:
+        def register_action(self, action) -> None:
         """
         self.registered_actions.append(action)
         return self
 
     def reload_table(self, table, keep, map_, filters={}, db="db") -> None:
         """
-        if keep:
-            logma.info(f"Copy Table {table} to temp_table")
-            outcome = self.store.copy_table(table, f"temp_{table}", db)
-            logma.info(f"Copy Table {table} to temp_table {outcome}")
-            if not outcome:
-                if debug:
-                    raise Exception(f"Cannot Copy Table {table} to temp_table")
-                # if not self.store.copy_table(table, f"temp_{table}", db):
+            if keep:
+                logma.info(f"Copy Table {table} to temp_table")
+                outcome = self.store.copy_table(table, f"temp_{table}", db)
+                logma.info(f"Copy Table {table} to temp_table {outcome}")
+                if not outcome:
+                    if debug:
+                        raise Exception(f"Cannot Copy Table {table} to temp_table")
+                    # if not self.store.copy_table(table, f"temp_{table}", db):
+                    return False
+            logma.info(f"Delete Table {table}")
+            if not self.store.delete_table(table, db):
                 return False
-        logma.info(f"Delete Table {table}")
-        if not self.store.delete_table(table, db):
-            return False
-        logma.info(f"Create Table {table}")
-        if not self.store.create_table(table, db):
-            return False
-        if keep:
-            logma.info(f"Merge Table {table} from temp_table")
-            filter_ = DataFilter()
-            [filter_.add_exclude(column, value) for column, value in filters.get("exclude", {}).items()]
-            [filter_.add_include(column, value) for column, value in filters.get("include", {}).items()]
-            if self.store.merge_table(f"temp_{table}", table, map_, filter_, db) is False:
+            logma.info(f"Create Table {table}")
+            if not self.store.create_table(table, db):
                 return False
-            logma.info(f"Delete Table temp_{table}")
-            if not self.store.delete_table(f"temp_{table}", db):
-                return False
-        return True
+            if keep:
+                logma.info(f"Merge Table {table} from temp_table")
+                filter_ = DataFilter()
+                [filter_.add_exclude(column, value) for column, value in filters.get("exclude", {}).items()]
+                [filter_.add_include(column, value) for column, value in filters.get("include", {}).items()]
+                if self.store.merge_table(f"temp_{table}", table, map_, filter_, db) is False:
+                    return False
+                logma.info(f"Delete Table temp_{table}")
+                if not self.store.delete_table(f"temp_{table}", db):
+                    return False
+            return True
 
-    def remove_affiliate_links(self) -> None:
+        def remove_affiliate_links(self) -> None:
         """
         self.store.delete_record("links", column="type_txt", value=["base", "webapp", "affiliate"])
         return self
@@ -587,22 +587,22 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def remove_telemetry(self, db="db") -> None:
         """
-        cfg = {"telemetry": {"WHERE": {"LESS": {"CREON_DTTM": self.time.store_now()}}}}
-        self.docs[db].mark_delete(cfg)
+            cfg = {"telemetry": {"WHERE": {"LESS": {"CREON_DTTM": self.time.store_now()}}}}
+            self.docs[db].mark_delete(cfg)
 
-    def set_is_saved(self, saved=False) -> None:
+        def set_is_saved(self, saved=False) -> None:
         """
         self.is_saved = saved
         return self
 
     def set_instance_active(self, instance) -> None:
         """
-        instance_id = instance.instance_id
-        self.instances[instance_id] = instance
-        self.instance = self.instances[instance_id]
-        return self
+            instance_id = instance.instance_id
+            self.instances[instance_id] = instance
+            self.instance = self.instances[instance_id]
+            return self
 
-    def set_paths(self) -> None:
+        def set_paths(self) -> None:
         """
         self.app_path = join(expanduser("~"), ".local", "share", self.APP_NAME.lower())
         self.venv_path = join(self.app_path, ".venv")
@@ -610,19 +610,19 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def store_cache(self, df, table) -> None:
         """
-        self._store_cache(table, df, "dbc")
+            self._store_cache(table, df, "dbc")
 
-    def store_instance(self, instance) -> None:
+        def store_instance(self, instance) -> None:
         """
         self.store.store_app_instance(instance)
         return self
 
     def store_records(self, table, data, db="db") -> None:
         """
-        self.store.store_records(table, data, db)
-        return self
+            self.store.store_records(table, data, db)
+            return self
 
-    def update_actions(self) -> None:
+        def update_actions(self) -> None:
         """
         for action in self.registered_actions:
             action()
@@ -637,7 +637,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         :return:
         """
         API_URL = "https://nchantdoffice.com/api/"
-        #client = self.mole.api.set_base_end_point(API_URL)
+        # client = self.mole.api.set_base_end_point(API_URL)
         if reload:
             last_affilate_update_dttm = "2025-01-01 00:00:00"
             self.remove_affiliate_links()
@@ -648,19 +648,19 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def update_node(self, node, data, db="db") -> None:
         """
-        logma.info(f"Node {node.node_type} {node.nid} updated")
-        if node.node_type in ("displaynode", "sysorgnode", "yearnode", "monthnode", "daynode"):
+            logma.info(f"Node {node.node_type} {node.nid} updated")
+            if node.node_type in ("displaynode", "sysorgnode", "yearnode", "monthnode", "daynode"):
+                return self
+            elif node.node_type == "usernode":
+                data = {"table": {"doc_tree_node": {"data": data}}}
+            else:
+                raise Exception(f"Node Type {node.node_type} not recognized")
+            column = "nid_txt"
+            value = node.nid
+            self.store.update_record(data, column, value, db)
             return self
-        elif node.node_type == "usernode":
-            data = {"table": {"doc_tree_node": {"data": data}}}
-        else:
-            raise Exception(f"Node Type {node.node_type} not recognized")
-        column = "nid_txt"
-        value = node.nid
-        self.store.update_record(data, column, value, db)
-        return self
 
-    def update_tab(self, tab, data, db="db") -> None:
+        def update_tab(self, tab, data, db="db") -> None:
         """
         logma.info(f"Tab {tab.app_data_type} {tab.tid} updated")
         if tab.app_data_type == "app":
@@ -677,11 +677,11 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def update_version(self, name, version, is_primary=False, db="db") -> None:
         """
-        data = {"table": {"app_instance": {"data": {"version_txt": version, "is_primary_bit": is_primary}}}}
-        self.store.update_record(data, "name_txt", name, db)
-        return self
+            data = {"table": {"app_instance": {"data": {"version_txt": version, "is_primary_bit": is_primary}}}}
+            self.store.update_record(data, "name_txt", name, db)
+            return self
 
-    def user_config(self) -> None:
+        def user_config(self) -> None:
         """
         if self._user_select() is None:
             self.user.create_user()
@@ -691,15 +691,15 @@ class NchantdCloakModel(NchantdPantiesModel):
     def _activate_extension(self, extension, details) -> None:
         """
 
-    def _activate_integration(self, integration, details) -> None:
+        def _activate_integration(self, integration, details) -> None:
         """
 
     def _archive_record(self, table, primary_key, uuid=None, column=None, db="db", flip=False) -> None:
         """
-        self.store.archive_record(table, primary_key, uuid, column, db, flip)
-        return self
+            self.store.archive_record(table, primary_key, uuid, column, db, flip)
+            return self
 
-    def _check_password_set(self) -> None:
+        def _check_password_set(self) -> None:
         """
         if self.internal_password == self.password:
             return False
@@ -729,11 +729,11 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def _load_application_configs(self) -> None:
         """
-        filter = {"filter": {"instance_FK": self.instance.db_instance_id}}
-        data = next(self.docs["db"].read({"table": {"appoptions"}}, filter)).dikt["appoptions"]["records"]
-        logma.info(f"Data {data.dikt}")
+            filter = {"filter": {"instance_FK": self.instance.db_instance_id}}
+            data = next(self.docs["db"].read({"table": {"appoptions"}}, filter)).dikt["appoptions"]["records"]
+            logma.info(f"Data {data.dikt}")
 
-    def _load_password(self) -> None:
+        def _load_password(self) -> None:
         """
         filter = {"filter": {"username": self.parent.user}}
         user_data = next(self.docs["db"].read({"table": {"appusers"}}, filter))
@@ -745,14 +745,14 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def _set_internal_password(self) -> None:
         """
-        self.internal_password = uuid()
-        self.password = self.internal_password
-        data = [["internal_password", self.internal_password], ["password", self.password]]
-        payload = {"table": {"secure_store": {"records": data, "columns": ["key", "value"]}}}
-        self.docs[name].write(payload)
-        return self
+            self.internal_password = uuid()
+            self.password = self.internal_password
+            data = [["internal_password", self.internal_password], ["password", self.password]]
+            payload = {"table": {"secure_store": {"records": data, "columns": ["key", "value"]}}}
+            self.docs[name].write(payload)
+            return self
 
-    def _user_select(self) -> None:
+        def _user_select(self) -> None:
         """
         table = "app_user"
         data = next(self.store.docs["db"].read({"table": table})).dikt[table]["df"]
@@ -798,7 +798,7 @@ class NchantdModel(object):
 
 class DataFilter(object):
     """Data filter for pandas DataFrames"""
-    
+
     def __init__(self) -> None:
         self.includes = []
         self.excludes = []
