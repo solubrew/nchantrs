@@ -105,7 +105,6 @@ Homepage = "https://www.solutionsbrewer.com/"
 Changelog = "CHANGELOG.rst"
 
 [tool.setuptools]
-include-package-data = true
 
 [tool.setuptools.dynamic]
 dependencies = { file = ["requirements"] }
