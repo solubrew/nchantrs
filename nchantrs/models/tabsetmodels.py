@@ -237,6 +237,7 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         cfg["widget"] = document.get("widget", document.get("widget_txt", None))
         cfg["tid"] = document.get("tid", document.get("tid_txt", None))
         cfg["apps"] = self.parent.app.config.dikt.get("apps", ["nchantrs", self.parent.app.application_name.lower()])
+        cfg["app"] = self.parent.app.application_name.lower()
         cfg["pos"] = tabset
         cfg["document"] = document
         tabW = loadWidget(self.parent, cfg)
