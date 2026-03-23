@@ -185,7 +185,7 @@ class NchantdWebViewer(NchantdWidget):
         self.profile_select_entry = None
         self.url_select_entry = None
         self.known_scripts = self.config.dikt["javascript"]["code"]
-        self.has_pro = self.app.model.user.has_pro
+        self.has_pro = getattr(self.app.model.user, 'has_pro', False) if self.app.model.user else False
         self.browser.urlChanged.connect(self.cmd_url_changed_handler)
 
     def initModel(self, cfg=None):
