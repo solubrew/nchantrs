@@ -63,11 +63,11 @@ class NchantdPantiesView(object):
         self.theme = NchantdTheme(self.app.main)
         self.themes = self.theme.themes
 
-        logma.info(f"Config {cfg.dikt}")
+        logma.info(f"Config {cfg.dikt.keys()}")
 
         self.config.override(cfg)
 
-        logma.info(f"Config {self.config.dikt}")
+        logma.info(f"Config {self.config.dikt.keys()}")
         theme = self.config.dikt["gui"]["desktop"]["theme"]
         self.set_theme(theme)
         self.pre_view_init_ran = True
@@ -175,9 +175,13 @@ class NchantdCloakView(NchantdPantiesView):
         dtop = self.config.dikt["gui"]["desktop"]
         style = "3Pane" if dtop["layout"]["style"] is None else dtop["layout"]["style"]
         for pos in self.config.dikt["gui"]["desktop"]["styles"][style]["positions"]:
+
             widget = self.configure_widget(dtop, pos)
+
             logma.info(f"Widget {widget} load")
             # Loads Main Panes for 1, 2, or 3 Pane Applications
+            # TODO we need to make sure the config goes to load Widget
+            logma.info(f"Parent {self.parent}")
             self.panes[pos] = loadWidget(self.parent, widget)
             if self.panes[pos] is None:
                 raise Exception(f"Widget {widget} not loaded")
@@ -190,8 +194,12 @@ class NchantdCloakView(NchantdPantiesView):
         default = {"name": "Generic", "widget": "nchantrs.widgets.tabsets.NchantdTabSet"}
         widget = dtop["layout"][pos] if dtop["layout"][pos]["widget"] is not None else default
         # Add apps which controls data systems access for configurations
-        widget["apps"] = self.config.dikt.get("apps", [])
+        widget["apps"] = []
+        widget["apps"].append(self.config.dikt.get("app", "nchantrs"))
+        widget["apps"] += self.config.dikt.get("apps", [])
         widget["apps"].append("nchantrs")
+        widget["apps"] = list(set(widget["apps"]))
+        widget["app"] = self.config.dikt.get("app", "nchantrs")
         widget["pos"] = pos
         # widget["has_toolbox"] = False
         # if pos == "center":

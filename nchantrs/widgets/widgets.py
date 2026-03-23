@@ -36,7 +36,7 @@ from nchantrs.themes.colors import NchantdColor
 # ====================================================================================================================||
 here = join(dirname(__file__), "")
 debug = True
-log = True
+log = False
 logma = Logma(__name__)
 if not log:
     logma.off()
@@ -227,7 +227,7 @@ class NchantdWidgetMixin(object):
             logma.warning(f"No app model available for context menu")
             cfg = {"actions": {}}
         if isinstance(cfg, int):
-            #TODO: probably need to lookup the int to find the correct menu name
+            # TODO: probably need to lookup the int to find the correct menu name
             cfg = {"actions": {}}
         # logma.info(f"Initialize Context Menu {cfg.get('actions', {})}")
         self.context_menu = NchantdContextMenu(self, cfg).initWidget()

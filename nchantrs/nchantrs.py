@@ -83,6 +83,7 @@ def nchantment(name, args, main_app=None, cfg=None, startup_app=None, profile_ov
     _configure_qt_environment()
     logma.info("Qt Environment Configured")
     app = main_app(name, instance, None, cfg, args)
+    logma.info(f"Nchantment Application Created {app.config.dikt}")
     startup = startup_app(app, {"profile": profile_override})
     logma.info("Nchantment Initialized")
     startup.initWizard(args)

@@ -29,5 +29,5 @@ botpy.log
 /zz-*/
 
 # Duplicate test artifacts
-test_nchantrs/
+tests/test_nchantrs/
 tests/test_nchantrs/
