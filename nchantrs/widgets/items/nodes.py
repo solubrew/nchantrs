@@ -2,14 +2,15 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -18,7 +19,6 @@ import json as j
 import threading
 
 import logging
-
 
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
@@ -30,7 +30,6 @@ from nchantrs.libraries import pyqt
 from nchantrs.widgets.items.items import NchantdItem, NchantdTreeItem
 from nchantrs.widgets.widgets import NchantdWidgetMixin
 from ogma.logma import Logma
-
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -363,7 +362,7 @@ class NchantdTreeNode(NchantdTreeItem):
         self.is_parent = self.node["isparent_bit"]
         self.is_loaded = False
         self.tab_focus = self.node["tabfocus_int"]
-        logma.info('Name ' + self.node['name_txt'])
+        logma.info("Name " + self.node["name_txt"])
         self.setText(0, self.node["name_txt"], False)
         self._set_font()
         self._set_icon()
@@ -441,7 +440,7 @@ class NchantdTreeNode(NchantdTreeItem):
     def set_data_focus(self):
         """"""
         self.focus = self.parameters.get("focus", "office")
-        #[DONE]
+        # [DONE]
         # if self.focus != self.app.view.theme.focus:
         #    self.app.view.theme.refocus_theme(self.focus)
         return self
@@ -530,7 +529,7 @@ class NchantdTreeNode(NchantdTreeItem):
         else:
             children.sort(key=lambda x: x.item.lower(), reverse=(order == "descending"))
 
-        [DONE]
+        # [DONE]
         # self._batch_update_positions(children, db)
         data = {"table": {"doc_tree_node": {"data": {}}}}  # This will not allow for sorting of application tree nodes
         for n, child in enumerate(children):
@@ -636,7 +635,7 @@ class NchantdTreeNode(NchantdTreeItem):
             raise Exception(f"Unknown node type {self.node_type}")
         node_type = node_types[self.node_type]
         logma.info(f"Set Font Color: {self.app.view.theme.colors[node_type['color']]}")
-        self.setForeground(0, pyqt.QBrush(pyqt.QColor(self.app.view.theme.colors[node_type['color']])))
+        self.setForeground(0, pyqt.QBrush(pyqt.QColor(self.app.view.theme.colors[node_type["color"]])))
         if self.node["ntype_txt"] == "displaynode":
             logma.info(f"NType {self.node['ntype_txt']}")
             logma.info(f"Node {self.node['name_txt']}")

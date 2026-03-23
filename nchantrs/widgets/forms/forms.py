@@ -1,16 +1,17 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-"""  #																			||
+"""#																			||
 ---  #																			||
 <(META)>: #								||
-	DOCid: 'b0383757-eb6b-4d01-a5af-f0b4bc6b3b44' #								||
-	name: Nchantrs Module Widgets Forms Python Excecution Document  #			||
-	description: >  #															||
-	expirary: <[expiration]>  #													||
-	version: <[version]>  #														||
-	authority: document|this  #													||
-	security: sec|lvl2  #														||
-	<(WT)>: -32  #																||
+        DOCid: 'b0383757-eb6b-4d01-a5af-f0b4bc6b3b44' #								||
+        name: Nchantrs Module Widgets Forms Python Excecution Document  #			||
+        description: >  #															||
+        expirary: <[expiration]>  #													||
+        version: <[version]>  #														||
+        authority: document|this  #													||
+        security: sec|lvl2  #														||
+        <(WT)>: -32  #																||
 """  # ||
+
 # -*- coding: utf-8 -*-#														||
 # ================================Core Modules===================================||
 from os.path import abspath, dirname, join
@@ -196,7 +197,7 @@ class NchantdDynamicEntryForm(NchantdForm):
 
     def _build_controls(self, y=0, x=0):
         """"""
-        [DONE]
+        # [DONE]
         max_grid_x = self.config.dikt.get("max_x", x)
         # for i, control in enumerate(self.config.dikt.get("controls", {})):
         #     cfg = self.config.dikt["controls"][control]

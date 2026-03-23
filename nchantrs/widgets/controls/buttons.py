@@ -2,14 +2,15 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -17,7 +18,6 @@ import json as j
 from typing import Any, Optional, Dict
 
 import logging
-
 
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
@@ -158,7 +158,7 @@ class NchantdButton(NchantdWidgetMixin, pyqt.QPushButton):
 
     def on_click(self, signal: Any, handler: Optional[Any] = None, params: Optional[Dict] = None) -> "NchantdButton":
         """"""
-        [DONE]
+        # [DONE]
         logma.info(f"Button Clicked {self.button_text} {signal}")
         logma.info(f"Handler {handler}")  # needs change to update the pane
         # logma.info(f"App {self.app}")
@@ -178,9 +178,15 @@ class NchantdButton(NchantdWidgetMixin, pyqt.QPushButton):
             self.clicked.connect(lambda checked: self.on_click(checked, handler, params))
         return self
 
-    def set_size(self, set_width: Optional[int] = None, set_height: Optional[int] = None, 
-                min_width: int = MIN_DIMENSION, min_height: int = MIN_DIMENSION, 
-                max_width: Optional[int] = None, max_height: Optional[int] = None) -> None:
+    def set_size(
+        self,
+        set_width: Optional[int] = None,
+        set_height: Optional[int] = None,
+        min_width: int = MIN_DIMENSION,
+        min_height: int = MIN_DIMENSION,
+        max_width: Optional[int] = None,
+        max_height: Optional[int] = None,
+    ) -> None:
         """"""
         min_width, min_height = self._get_text_size(self.config.dikt.get("label", self.config.dikt.get("text", "")))
         # logma.info(f"Min width {min_width} Min height {min_height}")

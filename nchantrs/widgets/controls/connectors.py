@@ -2,14 +2,15 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join
@@ -110,7 +111,7 @@ class NchantdFacebookConnectTab:
         pass
 
 
-[DONE]
+# [DONE]
 # Connect to the google calendar api integrate a browser into this tab
 # Leverage Google Stone
 #
@@ -128,7 +129,7 @@ class NchantdGoogleConnectTab(NchantdConnectTab):
 
     def initModel(self):
         """"""
-        [DONE]
+        # [DONE]
         pass
 
     def initView(self):

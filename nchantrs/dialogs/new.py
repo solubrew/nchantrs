@@ -2,14 +2,15 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join
@@ -21,7 +22,6 @@ from condor import condor
 from typing import Optional, Dict, List, Any, Tuple
 
 import logging
-
 
 logger = logging.getLogger(__name__)
 from nchantrs.dialogs.dialogs import NchantdSigil, NchantdErrorNotifySigil
@@ -166,7 +166,7 @@ class NewNchantdTabSigil(NchantdSigil):
     def validate(self) -> None:
         """"""
         super().validate()
-        [DONE]
+        # [DONE]
         if self.name.textbox.text() in ("", None):
             cfg = {"text": "No Value Provided for Node Entry Name"}
             NchantdErrorNotifySigil("error_notify", self, cfg).initWidget()
