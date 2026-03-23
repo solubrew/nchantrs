@@ -1,19 +1,20 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-"""  #																			||
+"""#																			||
 ---  #																			||
 <(META)>:  #																	||
-	docid:   #																	||
-	name:	#																	||
-	description: >  #															||
+        docid:   #																	||
+        name:	#																	||
+        description: >  #															||
 
-	expirary: <[expiration]>  #													||
-	version: <[version]>  #														||
-	path: <[LEXIvrs]>  #														||
-	outline: <[outline]>  #														||
-	authority: document|this  #													||
-	security: sec|lvl2  #														||
-	<(WT)>: -32  #																||
+        expirary: <[expiration]>  #													||
+        version: <[version]>  #														||
+        path: <[LEXIvrs]>  #														||
+        outline: <[outline]>  #														||
+        authority: document|this  #													||
+        security: sec|lvl2  #														||
+        <(WT)>: -32  #																||
 """  # ||
+
 # -*- coding: utf-8 -*-#														||
 # ================================Core Modules===================================||
 from os.path import dirname, join
@@ -47,10 +48,9 @@ class NchantdItem(NchantdWidgetMixin, pyqt.QStandardItem):
         """ """
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("NchantdItem")
-        if parent:
-            self.config.override(parent.config)
         self.catalog = parent.catalog
-        super().__init__()
+        NchantdWidgetMixin.__init__(self)
+        pyqt.QStandardItem.__init__(self, parent)
         self.config.override(cfg)
         self.tree = None
 
@@ -145,12 +145,10 @@ class NchantdTreeItem(NchantdWidgetMixin, pyqt.QTreeWidgetItem):
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
-        super().__init__(parent)
+        NchantdWidgetMixin.__init__(self)
+        pyqt.QTreeWidgetItem.__init__(self, parent)
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdTreeItem")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config = condor.Instruct(pxcfg).select("NchantdTreeItem").override(cfg)
         self.app = self.parent.app
 
     def initModel(self, cfg) -> None:

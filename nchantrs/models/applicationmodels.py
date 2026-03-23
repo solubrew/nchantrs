@@ -177,7 +177,7 @@ class NchantdCloakModel(NchantdPantiesModel):
     def initModel(self, reset=None) -> None:
         """"""
         super().initModel(reset)
-        #self.set_paths()
+        # self.set_paths()
         self.connect_nchantd_office()
         # self.user_config() #TODO need to connect user'
         # self.integration_config()
@@ -226,8 +226,9 @@ class NchantdCloakModel(NchantdPantiesModel):
         if str(pid) == "0":
             parent_node = self.app.view.panes["left"].tree
         else:
-            parent_node = self.app.model.get_current_node()  # [DONE]
+            parent_node = self.get_current_node()  # [DONE]
             # parent_node = self.get_node(pid)
+        logma.info(f"Parent Node {parent_node}")
         new_node = NchantdTreeNode(parent_node, name, nid, dict(zip(columns, row)))
         new_node.initWidget()
         new_node.setExpanded(True)
@@ -396,14 +397,14 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.icon_path = Mechanism(path, data).run()
         return [self.application_path, self.config_path, self.library_path, self.shortcut_path, self.icon_path]
 
-    def get_current_node(self) -> None:
-        """
-            node = self.app.view.panes["left"].tree.model.current_node
-            return node
+    def get_current_node(self, pane="left") -> None:
+        """"""
+        node = self.app.view.panes[pane].tree.model.current_node
+        return node
 
-        def get_current_tab(self) -> None:
-        """
-        tab = self.app.view.panes["center"].model.current_tab
+    def get_current_tab(self, pane="center") -> None:
+        """"""
+        tab = self.app.view.panes[pane].model.current_tab
         return tab
 
     def get_current_version(self) -> None:
