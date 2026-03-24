@@ -220,6 +220,9 @@ class NchantdWidgetMixin(object):
                 cfg = {"actions": {}}
                 if not menu_df.empty:
                     cfg = {"actions": menu_df.to_dict("records")}
+            except NameError as e:
+                logma.warning(f"Failed to load menu '{menu_name}': name 'nid' is not defined - likely missing from database schema")
+                cfg = {"actions": {}}
             except Exception as e:
                 logma.warning(f"Failed to load menu '{menu_name}': {e}")
                 cfg = {"actions": {}}
