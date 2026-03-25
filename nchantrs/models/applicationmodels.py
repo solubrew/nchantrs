@@ -238,7 +238,8 @@ class NchantdCloakModel(NchantdPantiesModel):
             parent_node.addChild(new_node)
         self.app.view.panes["left"].tree.model.current_node = new_node
         new_node.updateTabs("center")
-        self.app.view.panes["left"].tree.view.init_tree()
+        # Select and scroll to the new node directly without full tree refresh
+        self.app.view.panes["left"].tree.view.set_current_node(new_node)
         return self
 
     def add_tab(

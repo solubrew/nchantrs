@@ -93,6 +93,7 @@ analysis:
       nchantrs/utilities/analytics.py: 2347
       nchantrs/utilities/books.py: 2570
       nchantrs/utilities/comms.py: 4475
+      nchantrs/utilities/constants.py: 2157
       nchantrs/utilities/debug.py: 7907
       nchantrs/utilities/files.py: 2211
       nchantrs/utilities/formatting.py: 3269
@@ -246,9 +247,9 @@ analysis:
       .jpg: 2
       .json: 1
       .kra: 2
-      .md: 276
+      .md: 278
       .png: 30
-      .py: 237
+      .py: 238
       .qss: 9
       .rst: 1
       .sh: 1
@@ -800,6 +801,12 @@ analysis:
         function_count: 0
         import_count: 9
         word_count: 361
+      nchantrs/utilities/constants.py:
+        class_count: 0
+        file_size: 2157
+        function_count: 0
+        import_count: 0
+        word_count: 165
       nchantrs/utilities/debug.py:
         class_count: 1
         file_size: 7907
@@ -1970,17 +1977,17 @@ dimensions:
     details:
       issues:
       - fix: Add entries to CHANGES.md for recent changes
-        rule: 'Low changelog coverage: 66%'
+        rule: 'Low changelog coverage: 6%'
         severity: high
         unmatched_commits:
+        - dfc2221 Fix lambda antipattern in buttons.py
         - df1d46c Fix 'nid is not defined' error in initialize_context
         - '1b9c2df fix(browsers): null-safe has_pro check to prevent At'
-        - c517c7f create a copy of PyfficeColor as NchantdColor in ord
-        - 13a5858 create a copy of PyfficeColor as NchantdColor in ord
-        - 6d75810 create a copy of PyfficeColor as NchantdColor in ord
-      score: 60
+        - a820498 clean up
+        - dade3f5 clean up
+      score: 20
       status: partial
-    score: 60
+    score: 20
     status: partial
   ci_cd_config:
     details:
@@ -2225,11 +2232,11 @@ dimensions:
         project: condor
       internal_imports: 377
       internal_projects_used:
-      - pyside6pandas
-      - ogma
       - condor
-      - nchantrs
       - subtrix
+      - pyside6pandas
+      - nchantrs
+      - ogma
       leverage_score: 28.58
       score: 100
       status: pass
@@ -2891,48 +2898,48 @@ dimensions:
       covered_modules: 17
       issues:
       - available_cli_commands:
-        - library
-        - wizards
-        - libraries
         - test
+        - dialogs
+        - utilities
         - widgets
+        - library
         - help
-        - events
-        - themes
-        - logging
-        - services
-        - extensions
-        - config
         - actions
+        - services
+        - logging
+        - wizards
+        - cli
+        - config
+        - updates
+        - uninstall
+        - version
+        - libraries
+        - themes
+        - extensions
+        - events
+        - models
         - install
         - views
-        - version
-        - cli
-        - run
-        - uninstall
-        - updates
-        - dialogs
-        - models
         - nchantrs
-        - utilities
+        - run
         covered_modules:
-        - library
-        - wizards
         - libraries
-        - actions
-        - updates
-        - events
-        - themes
         - logging
-        - dialogs
-        - services
-        - extensions
         - models
+        - wizards
+        - cli
+        - dialogs
+        - themes
+        - extensions
+        - utilities
         - widgets
+        - library
+        - events
+        - updates
         - views
         - nchantrs
-        - utilities
-        - cli
+        - actions
+        - services
         fix: 'Add CLI commands for: agent_awareness'
         rule: 'CLI coverage: 17/18 modules'
         severity: medium
@@ -3007,7 +3014,7 @@ dimensions:
   security_bandit:
     details:
       details:
-        files_scanned: 237
+        files_scanned: 238
         high: 4
         low: 80
         medium: 16
@@ -3060,42 +3067,42 @@ dimensions:
       issues:
       - fix: Consider using a dictionary or strategy pattern instead of repeated conditionals
         patterns:
-        - checks: 7
-          file: nchantrs/widgets/browsers/pages.py
-          function: if/elif chain
-          variable: feature
         - checks: 4
-          file: nchantrs/widgets/browsers/profiles.py
+          file: nchantrs/widgets/config/storage.py
           function: if/elif chain
-          variable: policy_code
+          variable: previous_value
+        - checks: 4
+          file: nchantrs/widgets/browsers/security/environment.py
+          function: if/elif chain
+          variable: system
         - checks: 82
           file: nchantrs/models/models.py
           function: if/elif chain
           variable: how
-        - checks: 5
-          file: nchantrs/widgets/groups.py
-          function: if/elif chain
-          variable: position
-        - checks: 4
-          file: nchantrs/widgets/calendars/timelines.py
-          function: if/elif chain
-          variable: threshold
         - checks: 7
-          file: nchantrs/widgets/browsers/codecs/h264.py
+          file: nchantrs/widgets/browsers/pages.py
           function: if/elif chain
-          variable: system
+          variable: feature
+        - checks: 8
+          file: nchantrs/events/mouse_events.py
+          function: if/elif chain
+          variable: shift
         - checks: 4
           file: nchantrs/widgets/controls/toolbars.py
           function: if/elif chain
           variable: button_cfg
         - checks: 6
-          file: nchantrs/widgets/media/games/boards.py
-          function: if/elif chain
-          variable: key
-        - checks: 6
           file: nchantrs/dialogs/files.py
           function: match statement
           variable: gfilter
+        - checks: 13
+          file: nchantrs/widgets/widgets.py
+          function: if/elif chain
+          variable: justify
+        - checks: 5
+          file: nchantrs/widgets/groups.py
+          function: if/elif chain
+          variable: position
         - checks: 11
           file: nchantrs/themes/colors.py
           function: if/elif chain
@@ -3115,7 +3122,7 @@ dimensions:
       status: partial
       test_dir: tests
       test_file_count: 0
-      total_source_files: 162
+      total_source_files: 163
     score: 15
     status: partial
   todo_tracking:
@@ -3224,7 +3231,7 @@ dimensions:
       wrapper_count: 0
     score: 100
     status: pass
-overall_score: 65.69
+overall_score: 65.27
 project: nchantrs
 summary:
   failing: 7
@@ -3232,7 +3239,7 @@ summary:
   passing: 33
   total_dimensions: 46
 versions:
-  project: df1d46c
+  project: dfc2221
   project_status: dirty
-  project_uncommitted_changes: 1
+  project_uncommitted_changes: 4
   sasquatch: unknown
