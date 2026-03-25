@@ -177,6 +177,23 @@ class NchantdWidgetMixin(object):
         logma.info(f"Initialize Variables {type(self)}")
         return self
 
+    def init(self):
+        """
+        Initialize the widget. Propagates up the inheritance chain to QWidget.
+        
+        Note: Does NOT call super().__init__() in __init__ to avoid diamond inheritance
+        issues. Instead, we call super().init() here to ensure the QWidget initialization
+        happens through the init() method chain.
+        
+        Changes:
+        - 2026-03-25: Added init() method to properly chain QWidget initialization.
+        """
+        if getattr(self, '_widget_initialized', False):
+            return self
+        self._widget_initialized = True
+        super().init()
+        return self
+
     def initModel(self, objects=None, get_actions=True):
         """"""
         # logma.info("Mixin Model")
