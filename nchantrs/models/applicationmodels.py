@@ -448,7 +448,7 @@ class NchantdCloakModel(NchantdPantiesModel):
                 return DataFrame()
             return self.store.get_app_menu(name)
 
-        def get_node(self, nid=None, tree=None) -> None:
+    def get_node(self, nid=None, tree=None) -> None:
         """
         # logma.info(f"Get Node {nid}")
         table = "vw_tree_node"
