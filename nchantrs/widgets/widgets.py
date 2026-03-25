@@ -107,8 +107,13 @@ class NchantdAction(object):
         return lookup(self.app, action_term, {"code_group": code_group})
 
 
-class NchantdWidgetMixin(object):
+class NchantdWidgetMixin(pyqt.QObject):
     """"""
+
+    def __init__(self, *args, **kwargs):
+        """Initialize mixin - call QObject.__init__ for signal support."""
+        super(NchantdWidgetMixin, self).__init__()
+        return self
 
     def init_variables(self):
         """"""
@@ -858,7 +863,7 @@ class NchantdWidget(NchantdWidgetMixin, pyqt.QWidget):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        super().__init__()
+        super(NchantdWidget, self).__init__()
         self.config = condor.Instruct(pxcfg).select("NchantdWidget")
         logma.info(f"Init NchantdWidget Config {self.config}")
         self.parent = parent
