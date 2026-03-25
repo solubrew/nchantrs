@@ -107,13 +107,27 @@ class NchantdAction(object):
         return lookup(self.app, action_term, {"code_group": code_group})
 
 
-class NchantdWidgetMixin(pyqt.QObject):
-    """"""
+class NchantdWidgetMixin(object):
+    """
+    Mixin class for Nchantd widgets providing shared functionality.
+    
+    Note: Does NOT inherit from QObject to avoid diamond inheritance issues.
+    QWidget already inherits from QObject, so concrete classes that inherit
+    from both NchantdWidgetMixin and QWidget will properly inherit from QObject
+    through the QWidget base class.
+    
+    Changes:
+    - 2026-03-25: Removed pyqt.QObject inheritance to fix "cannot be converted to
+      PyQt5.QtCore.QObject in this context" error. The diamond inheritance pattern
+      (NchantdWidgetMixin -> QObject, NchantdWidget -> NchantdWidgetMixin + QWidget -> QObject)
+      was causing signal/slot issues. QWidget already provides QObject functionality.
+    """
 
     def __init__(self, *args, **kwargs):
-        """Initialize mixin - call QObject.__init__ for signal support."""
-        super(NchantdWidgetMixin, self).__init__()
-        return self
+        """Initialize mixin - no Qt initialization needed, QWidget handles that."""
+        # Note: Do NOT call super().__init__() here - let the concrete class (QWidget)
+        # handle QObject initialization to avoid double initialization errors
+        return
 
     def init_variables(self):
         """"""
