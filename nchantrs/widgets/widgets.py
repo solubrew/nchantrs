@@ -865,6 +865,7 @@ class NchantdWidget(NchantdWidgetMixin, pyqt.QWidget):
         self.init_variables()
         self.config.override(cfg)
         self.layout = None
+        self._widget_initialized = False
 
     def initModel(self, cfg=None):
         """"""
@@ -884,6 +885,15 @@ class NchantdWidget(NchantdWidgetMixin, pyqt.QWidget):
         """"""
         self.initModel()
         self.initView()
+        return self
+
+    def init(self, parent=None, cfg=None):
+        """Initialize the widget - guarded to prevent double initialization of QWidget."""
+        if self._widget_initialized:
+            logma.info(f"Widget already initialized, skipping duplicate init() call")
+            return self
+        self._widget_initialized = True
+        super().init()
         return self
 
     def initTriggers(self):
