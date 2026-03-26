@@ -14,7 +14,11 @@
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
+
+import logging
 # ======================================3rd Party Library Modules=====================================================||
+
+logger = logging.getLogger(__name__)
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
@@ -34,13 +38,13 @@ class LinkService:
 		This will be used to move link data this is specific to affiliates, operations and advertisements from the
 		Nchantrs service to the Nchantd Applications
 	"""
-	def __init__(self, parent, cfg=None):
+	def __init__(self, parent, cfg: dict = None) -> None:
 		""""""
 		self.parent = parent
 		self.config = condor.instruct(pxcfg).select('').override(cfg)
 		self.app = pyqt.QApplication.instance()
 
-	def get_links(self, ):
+	def get_links(self) -> None:
 		"""
 		need to send a request to a service and then parse the response
 
@@ -50,7 +54,7 @@ class LinkService:
 
 
 
-	def store_link(self, name, path, tags):
+	def store_link(self, name: str, path: str, tags: str) -> None:
 		""""""
 		location = 'remote'
 		encoding = 'html'

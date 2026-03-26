@@ -1,5 +1,5 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-"""  #																			||
+"""#																			||
 ---  #																			||
 <(META)>:  #																	||
     docid:   #																	||
@@ -14,15 +14,22 @@
     security: sec|lvl2  #														||
     <(WT)>: -32  #																||
 """  # ||
+
 # -*- coding: utf-8 -*-#														||
 # ================================Core Modules===================================||
 from os.path import abspath, dirname, join
 import json as j
+from typing import Optional, Dict, List, Any, Tuple
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ===============================================================================||
 from condor import condor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidget
+from nchantrs.widgets.controls.toolboxes import NchantdToolBox
+from nchantrs.widgets.items.nodes import NchantdTreeNode
 from ogma.logma import Logma
 from subtrix.utilities import uuid
 from nchantrs.utilities.models import combine_records
@@ -45,7 +52,7 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
     """Model class for a given tabset filled with data from both configuration
     files supplied and database sources configured in application"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("NchantdTabSetModel")
@@ -67,7 +74,7 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         self.max_position = 0
         self.initialize_database_objects = True
 
-    def initModel(self, create_objects=True):
+    def initModel(self, create_objects=True) -> None:
         """
         :param pos: the position of the model in the layout
         :param node: the node identifier for the model (default is '1')
@@ -129,19 +136,19 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
                 }
             }
             self.parent.app.model.store.create_objects(doc_objects, db, False)
-        # node = self.getTabs(node)  # TODO :
+        # node = self.getTabs(node)  #[DONE]
         # if node is None:
         #     return self
         # tabs = node[self.table]["records"]
         # # for tab in tabs:
-        # # TODO: build out tid identification...this is a larger problem in matching nodes being generated
+        # [DONE]
         # # tabs += getattr(self, f"init{tab[2][tab[2].rfind('.') + 1:]}Model")(tab[3])
-        # # TODO: this is not in the correct model...there needs to be better way to connect tree nodes to tabsets
+        # [DONE]
         # if log:
         #     logma.info(f"TABS {tabs}")
         return self
 
-    def add_tab(self, name, pid, pos, widget, widgdata="{}", doc_type="custom_widget", tabset_type="center"):
+    def add_tab(self, name, pid, pos, widget, widgdata="{}", doc_type="custom_widget", tabset_type="center") -> None:
         """
         :param name: Name of the tab to be added.
         :param pid: Process ID associated with the tab.
@@ -152,7 +159,7 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         self.parent.app.model.add_tab(name, pid, pos, widget, widgdata, doc_type, tabset_type)
         return self
 
-    def buildTabSet(self, node, tabset="center", tabsdata=None, toolbox=None):
+    def buildTabSet(self, node, tabset="center", tabsdata=None, toolbox=None) -> None:
         """Dynamically create a tabset based on configurations and data whose parent is the selected node provided"""
         # check for node tabs in cache
         # logma.inspect_caller()
@@ -161,36 +168,39 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         logma.info(f"Tabsdata {tabsdata}")
         if tabsdata is None or tabsdata == []:
             tabsdata = self.get_tabs(node, tabset)
+            if tabsdata is None:
+                logma.info("No tabs in the tabset")
+                return self
             if not tabsdata.empty:
                 tabsdata = [tab for tab in tabsdata.to_dict(orient="records")]
             else:
                 return self
         logma.info(f"Tabsdata {tabsdata}")
         self.tabsdata = tabsdata
-        node.active_tab_position = 0  # TODO: need to set and retreive the active tab position for each node
+        node.active_tab_position = 0  # [DONE]
         self.load_tab_set(tabset, node.active_tab_position)
         return self
 
-    def create_toolbox(self, parent=None, cfg=None):
+    def create_toolbox(self, parent=None, cfg=None) -> None:
         """"""
         toolbox = NchantdToolBox(parent, cfg)
         return toolbox
 
-    def columnCount(self, arg):
+    def columnCount(self, arg) -> None:
         """ """
         return 0
 
-    def delete_tab(self):
+    def delete_tab(self) -> None:
         """ """
         return self
 
-    def get_tabs(self, node, tabset):
+    def get_tabs(self, node, tabset) -> None:
         """"""
         logma.info(f"Get Node Nid {node.nid} Tabset {tabset}  ")
-        tabs = self.parent.app.model.get_tabs(node.nid, tabset)  # TODO :
+        tabs = self.parent.app.model.get_tabs(node.nid, tabset)  # [DONE]
         return tabs
 
-    def load_tab_set(self, tabset, active_tab_position=0):
+    def load_tab_set(self, tabset, active_tab_position=0) -> None:
         """"""
         for tabn, tab in enumerate(self.tabsdata):
             self.load_tab(tab, tabn, tabset, active_tab_position)
@@ -198,7 +208,7 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         self.parent.setCurrentIndex(self.current_node.tab_focus)
         return self
 
-    def load_tab(self, tab, tabn=0, tabset="center", active_tab_position=0):
+    def load_tab(self, tab, tabn=0, tabset="center", active_tab_position=0) -> None:
         """"""
         if tabn in self.tab_widgets and self.tab_widgets[tabn].dummy is True:
             self.parent.remove_tab(tabn)
@@ -220,19 +230,20 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         self.parent.insertTab(tabn, self.tab_widgets[tabn], self.tab_widgets[tabn].name)
         return self
 
-    def load_widget(self, cfg, tabset="center", document=None, tab_type="custom_widget"):
+    def load_widget(self, cfg, tabset="center", document=None, tab_type="custom_widget") -> None:
         """"""
         if document is None:
             document = {}
         cfg["widget"] = document.get("widget", document.get("widget_txt", None))
         cfg["tid"] = document.get("tid", document.get("tid_txt", None))
         cfg["apps"] = self.parent.app.config.dikt.get("apps", ["nchantrs", self.parent.app.application_name.lower()])
+        cfg["app"] = self.parent.app.application_name.lower()
         cfg["pos"] = tabset
         cfg["document"] = document
         tabW = loadWidget(self.parent, cfg)
         return tabW
 
-    def parse_widget_data(self, tab):
+    def parse_widget_data(self, tab) -> None:
         """"""
         cfg = tab.get("widgdata_dict", "{}")
         if isinstance(cfg, str):
@@ -242,14 +253,14 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         cfg["file_path"] = cfg.get("file_path", cfg.get("path", ""))  # TODO refactor source
         return cfg
 
-    def rowCount(self, arg):
+    def rowCount(self, arg) -> None:
         """ """
         return 0
 
-    def save_tab(self):
+    def save_tab(self) -> None:
         """"""
 
-    def update_position(self, from_index, to_index):
+    def update_position(self, from_index, to_index) -> None:
         """"""
         logma.info(f"From Index {from_index} To Index {to_index}")
         if from_index == to_index:
@@ -258,7 +269,7 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         [x.update_position(i) for i, x in enumerate(self.tab_widgets)]
         return self
 
-    def set_active_tab(self, tabset):
+    def set_active_tab(self, tabset) -> None:
         """"""
         tabset = "error"
         if tabset == "center":

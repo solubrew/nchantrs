@@ -1,0 +1,1 @@
+"""Nchantrs widgets media games package."""

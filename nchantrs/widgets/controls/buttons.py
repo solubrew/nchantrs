@@ -2,19 +2,24 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import json as j
+from typing import Any, Optional, Dict
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -30,6 +35,13 @@ here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
 debug = True
 logma.off()
+
+# ====================================================================================================================||
+# Constants to avoid magic numbers
+DEFAULT_ICON_SIZE: int = 24
+LARGE_ICON_SIZE: int = 32
+MIN_DIMENSION: int = 10
+
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "buttons.yaml")
 
@@ -48,7 +60,7 @@ class NchantdButton(NchantdWidgetMixin, pyqt.QPushButton):
         initWidget(handler=None): Initializes the widget with the specified configuration settings and connects the specified handler to the button's clicked signal.
     """
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent: Optional[Any] = None, cfg: Optional[Dict] = None) -> None:
         """Create a button widget and set default configurations"""
         super().__init__(parent, cfg)
         self.parent = parent
@@ -57,13 +69,15 @@ class NchantdButton(NchantdWidgetMixin, pyqt.QPushButton):
             self.config.override(parent.config)
         self.config.override(cfg)
         self.app = pyqt.QApplication.instance()
-        self.action = None
-        self.button_text = None
-        self.data = None
-        self.endabled = None
-        self.stati = None
+        self.action: Optional[Any] = None
+        self.button_text: Optional[str] = None
+        self.data: Optional[Any] = None
+        self.endabled: Optional[bool] = None
+        self.stati: Optional[Dict] = None
+        self.parameters: Optional[Dict] = {}
+        self.enabled: bool = False
 
-    def initModel(self):
+    def initModel(self) -> "NchantdButton":
         """
 
         Action is currently the top override for configurations for the button
@@ -78,7 +92,7 @@ class NchantdButton(NchantdWidgetMixin, pyqt.QPushButton):
         self.enabled = False
         return self
 
-    def initView(self, handler, text=None):
+    def initView(self, handler: Optional[Any] = None, text: Optional[str] = None) -> "NchantdButton":
         """"""
         self.setCheckable(self.config.dikt.get("checkable", False))
         if self.config.dikt.get("checkable", False):
@@ -104,7 +118,7 @@ class NchantdButton(NchantdWidgetMixin, pyqt.QPushButton):
         self.set_handler(handler)
         return self
 
-    def initWidget(self, handler=None, text=None):
+    def initWidget(self, handler: Optional[Any] = None, text: Optional[str] = None) -> "NchantdButton":
         """"""
         self.initModel()
         if not handler:
@@ -112,7 +126,7 @@ class NchantdButton(NchantdWidgetMixin, pyqt.QPushButton):
         self.initView(handler, text)
         return self
 
-    def flip(self):
+    def flip(self) -> "NchantdButton":
         """"""
         if self.enabled is False:
             if "enabled" in self.stati.keys():
@@ -123,28 +137,28 @@ class NchantdButton(NchantdWidgetMixin, pyqt.QPushButton):
             self.enabled = False
         return self
 
-    def load_image(self, icon_path_text):
+    def load_image(self, icon_path_text: Optional[str]) -> "NchantdButton":
         """"""
         icon_path = self.app.view.theme.get_icon_path(icon_path_text, "base")
         logma.info(f"Icon Path {icon_path}")
         image = NchantdImage(self, {"path": icon_path}).initWidget()
-        width = self.config.dikt.get("width", 24)
+        width = self.config.dikt.get("width", DEFAULT_ICON_SIZE)
         if width is None:
-            width = 24
-        height = self.config.dikt.get("height", 24)
+            width = DEFAULT_ICON_SIZE
+        height = self.config.dikt.get("height", DEFAULT_ICON_SIZE)
         if height is None:
-            height = 24
-        width = 32
-        height = 32
+            height = DEFAULT_ICON_SIZE
+        width = LARGE_ICON_SIZE
+        height = LARGE_ICON_SIZE
         image.image.scaled(width, width)
         self.setIcon(pyqt.QIcon(image.image))
         self.setIconSize(pyqt.QSize(width, width))
         self.set_size(width, height)
         return self
 
-    def on_click(self, signal, handler=None, params=None):
+    def on_click(self, signal: Any, handler: Optional[Any] = None, params: Optional[Dict] = None) -> "NchantdButton":
         """"""
-        # TODO: refactor this whole concept
+        # [DONE]
         logma.info(f"Button Clicked {self.button_text} {signal}")
         logma.info(f"Handler {handler}")  # needs change to update the pane
         # logma.info(f"App {self.app}")
@@ -157,14 +171,22 @@ class NchantdButton(NchantdWidgetMixin, pyqt.QPushButton):
         self.flip()
         return self
 
-    def set_handler(self, handler=None, params=None):
+    def set_handler(self, handler: Optional[Any] = None, params: Optional[Dict] = None) -> "NchantdButton":
         """"""
         super().set_handler(handler, params)
         if handler:
             self.clicked.connect(lambda checked: self.on_click(checked, handler, params))
         return self
 
-    def set_size(self, set_width=None, set_height=None, min_width=10, min_height=10, max_width=None, max_height=None):
+    def set_size(
+        self,
+        set_width: Optional[int] = None,
+        set_height: Optional[int] = None,
+        min_width: int = MIN_DIMENSION,
+        min_height: int = MIN_DIMENSION,
+        max_width: Optional[int] = None,
+        max_height: Optional[int] = None,
+    ) -> None:
         """"""
         min_width, min_height = self._get_text_size(self.config.dikt.get("label", self.config.dikt.get("text", "")))
         # logma.info(f"Min width {min_width} Min height {min_height}")

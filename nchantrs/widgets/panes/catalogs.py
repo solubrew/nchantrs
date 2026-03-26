@@ -15,6 +15,10 @@
 from os.path import abspath, dirname, join
 import datetime as dt
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -76,7 +80,7 @@ class NchantdNewNodePane(NchantdPane):
 
     def initModel(self):
         """"""
-        logma.info(f"Init Model{self.config.dikt.get("action")}")
+        logma.info(f"Init Model{self.config.dikt.get('action')}")
         self.config.dikt.pop("action")
         super().initModel()
         if self.catalog is None:
@@ -226,7 +230,7 @@ class NchantdNewNodePane(NchantdPane):
 
     def show_first_tab_options(self):
         """"""
-        # TODO: add a drop down populated with tab options for the first node of a new tab
+        #[DONE]
         # allow it to be set as a default and then automatically create the tab document with each newly created node
         #
 

@@ -14,10 +14,15 @@
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
+
+import logging
 # ======================================3rd Party Library Modules=====================================================||
+
+logger = logging.getLogger(__name__)
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
+from typing import Optional, Dict, List, Any, Tuple
 from ogma.logma import Logma
 
 # ====================================================================================================================||
@@ -30,10 +35,10 @@ pxcfg = join(here, """_data_""", """.yaml""")
 
 
 class ActionBuilder():
-	def __init__(self, cfg=None):
+	def __init__(self, cfg=None) -> None:
 		self.config = cfg
 
-	def buildAction(self, cfg):
+	def buildAction(self, cfg) -> None:
 		"""Dynamically build action to be triggered from menu item"""  # ||
 		icon = pyqt.QIcon(cfg['icon_txt'])
 		kwargs = {}
@@ -52,7 +57,7 @@ class ActionBuilder():
 
 
 
-	def load_scheme(self, filename):
+	def load_scheme(self, filename) -> None:
 		"""
 		Load a scheme from a file (`filename`) into the current
 		document, updates the recent scheme list and the loaded scheme path
@@ -67,13 +72,13 @@ class ActionBuilder():
 			if not self.freeze_action.isChecked():
 				# activate the default window group.
 				scheme_doc_widget.activateDefaultWindowGroup()
-	def load_scheme_xml(self, xml):
+	def load_scheme_xml(self, xml) -> None:
 		new_scheme = widgetsscheme.WidgetsScheme(parent=self)
 		scheme_load(new_scheme, StringIO(xml))
 		self.set_new_scheme(new_scheme)
 		return QDialog.Accepted
 
-	def create_new_window(self):
+	def create_new_window(self) -> None:
 		# type: () -> CanvasMainWindow
 		"""Create a new top level CanvasMainWindow instance.
 		The window is positioned slightly offset to the originating window
@@ -115,153 +120,153 @@ class ActionBuilder():
 
 
 
-def about(app, cfg):
+def about(app, cfg) -> None:
 	"""Launch dialog with information about application"""
 	launch = NchantdDialog(app, cfg).initWidget()
 	return
 
-def add_tab(app, cfg):
+def add_tab(app, cfg) -> None:
 	""""""
 	app.model.add_tab()
 	return
 
-def mngBookmarks(self):
+def mngBookmarks(self) -> None:
 	""""""
 	return self
 
-def admin():
+def admin() -> None:
 	"""General administration menu for dedicated applications """
 	return
 
-def close(app):
+def close(app) -> None:
 	"""Close workbook"""
 	return
 
-def exit(app, ce):
+def exit(app, ce) -> None:
 	""" """
 	app.fileQuit()
 
-def file():
+def file() -> None:
 	""""""
 	return
 
-def help():
+def help() -> None:
 	"""Launch dialog with connections to help information"""
 	return
 
-def insert():
+def insert() -> None:
 	"""Insert objects such as images into rich text documents"""
 	return
 
-def newFile(path):
+def newFile(path) -> None:
 	"""Create a new workbook"""
 	return
 
-def newRecord():
+def newRecord() -> None:
 	""" """
 
 	return
 
-def open(path):
+def open(path) -> None:
 	"""Launch dialog to select document from file system and then open selected
 		document"""
 	return
 
-def paste(app):
+def paste(app) -> None:
 	""" """
 	return
 
-def preferences(app, cfg: dict={}):
+def preferences(app, cfg: dict={}) -> None:
 	"""Launch dialog for editing application prefrences"""
 	return
 
-def redo():
+def redo() -> None:
 	"""Advance document by running foward in the log"""
 	return
 
-def save():
+def save() -> None:
 	"""Get active widget and save"""
 	return
 
-def saveall():
+def saveall() -> None:
 	"""Build a list of all widgets within application, cycle through and save as
 		needed"""
 	return
 
-def saveas(path, data):
+def saveas(path, data) -> None:
 	"""Open dialog to provide a new file name and path for saving current
 		document then write data to new location.  Check for overwrite. Then
 		make new document the current document"""
 	return
 
-def savecopy():
+def savecopy() -> None:
 	"""Open dialog to provide a new file name and path for saving current
 		document then write data to new location.  Check for overwrite. Then
 		keep the current document"""
 	return
 
-def undo():
+def undo() -> None:
 	"""Move document back in time by running the log in reverse"""
 	return
 
-def aboutApplication(self):
+def aboutApplication(self) -> None:
 	""""""
 	text = """For Help Contact: Joe Brewer at joebrewer@solutionsbrewer.com"""
 	return text
-def addBookmark(self):
+def addBookmark(self) -> None:
 	""""""
 	linenumber = self.getLineNumber()
 	linetext = self.editor.textCursor().block().text().strip()
 	self.bookmarks.addItem(linetext, linenumber)
 	return self
-def bookmarks(self):
+def bookmarks(self) -> None:
 	""""""
 	return self
-def closeEvent(self, ce):
+def closeEvent(self, ce) -> None:
 	self.fileQuit()
-def copySelection(self):
+def copySelection(self) -> None:
 	""""""
 	return self
-def createTabDocument(self):
+def createTabDocument(self) -> None:
 	""""""
 	return self
-def cutSelection(self):
+def cutSelection(self) -> None:
 	""""""
 	return self
-def exitAccess(self):
+def exitAccess(self) -> None:
 	""""""
 	return self
-def exitCherryTree(self):
+def exitCherryTree(self) -> None:
 	""""""
 	return self
-def exitCSV(self):
+def exitCSV(self) -> None:
 	""""""
 	return self
-def exitExcel(self):
+def exitExcel(self) -> None:
 	""""""
 	return self
-def exitGui(self):
+def exitGui(self) -> None:
 	""""""
 	return self
-def expCSV(self):
+def expCSV(self) -> None:
 	""""""
 	return self
-def fileQuit(self):
+def fileQuit(self) -> None:
 	self.close()
-def findData(self):
+def findData(self) -> None:
 	""""""
 	return self
-def linkData(self):
+def linkData(self) -> None:
 	""""""
 	return self
-def loadData(self):
+def loadData(self) -> None:
 	""""""
 	return self
-def loadDevMode(self):
+def loadDevMode(self) -> None:
 	""""""
 	return self
 
-def newFile(self):
+def newFile(self) -> None:
 	""""""
 	self.newAct = QAction("&New", self, shortcut=QKeySequence.New, statusTip="new file", triggered=self.newFile)
 	self.newAct.setIcon(QIcon.fromTheme(self.root + "/icons/new24"))
@@ -277,7 +282,7 @@ def newFile(self):
 		self.bookmarks.clear()
 		self.setWindowTitle("new File[*]")
 	return self
-def new_workflow_window(self):
+def new_workflow_window(self) -> None:
 	# type: () -> None
 	"""Create and show a new CanvasMainWindow instance."""
 	newwindow = self.create_new_window()
@@ -288,27 +293,27 @@ def new_workflow_window(self):
 	show = settings.value("schemeinfo/show-at-new-scheme", True, type=bool)
 	if show:
 		newwindow.show_scheme_properties()
-def newAppContainer(self, cfgs=None):
+def newAppContainer(self, cfgs=None) -> None:
 	""""""
 	self.nodes.append(appContainer, cfgs)
 	return self
-def newCanvas(self):
+def newCanvas(self) -> None:
 	""""""
 	self.nodes.append(canvasContainer, cfgs)
 	return self
-def newChart(self):
+def newChart(self) -> None:
 	""""""
 	self.nodes.append(chartContainer, cfgs)
 	return self
-def newDashboard(self):
+def newDashboard(self) -> None:
 	""""""
 	self.nodes.append(dashContainer, cfgs)
 	return self
-def newEditor(self):
+def newEditor(self) -> None:
 	""""""
 	self.nodes.append(editorContainer, cfgs)
 	return self
-def newSheet(self):
+def newSheet(self) -> None:
 	""""""
 	self.nodes.append(sheetContainer, cfgs)
 	return self

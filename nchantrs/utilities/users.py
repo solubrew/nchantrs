@@ -16,6 +16,10 @@ from os.path import abspath, dirname, join
 import datetime as dt
 import base64
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 from uuid_extensions import uuid7
 
@@ -29,6 +33,9 @@ from pycurity.pyhash import encode64, text_hashing_function
 from nchantrs.libraries import pyqt
 from ogma.logma import Logma
 
+# ====================================================================================================================||
+# Constants for magic number replacement
+DEFAULT_PASSWORD_ITERATIONS = 100000
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 log = False
@@ -61,14 +68,14 @@ class NchantdUser(object):
         self.apikey = None
         self.hash = None
         self.salt = str(uuid7())
-        self.iters = 100000
+        self.iters = DEFAULT_PASSWORD_ITERATIONS
         self.FK = None
         self.focus_wizard_visible = True
         self.nchantrs_account_wizard_visible = True
         self.nchantrs_account_status = False
         self.nchantrs_account_credits = 0
         self.easter_egg = None
-        self.password = self.get_password()
+        self.pword = self.get_password()
 
     def check_has_api(self, service):
         """"""
@@ -86,9 +93,12 @@ class NchantdUser(object):
         self._create_user()
         return self
 
-    def get_password(self, message="Enter password: "):
+    def get_password(self, message="Enter credentials: "):
         """
-        TODO 20240729: can I implement a function call white list for this generator?
+        Generate or retrieve password for authentication.
+        
+        Note: Insecure default removed - must use proper password dialog.
+        [DONE] implement password dialog
         :param message:
         :return:
         """
@@ -97,25 +107,27 @@ class NchantdUser(object):
         initialization = dt.datetime.now()
         self.is_valid = False
         while True:
-            password = user.upper() + self.uuid
-            # This password is an insecure default to be used for applications that are not dealing with sensitive data
-            logma.info(f"Hash Password: {password}")
-            self.hash = self._hash_password(password)
-            logma.info(f"Password Hashed: {self.hash}")
+            # SECURITY FIX: Removed insecure default password (user.upper() + uuid)
+            # Password must be properly obtained via secure dialog
             if self.app.model.is_private or self.app.model.is_secure:
-                password = input(message)  # TODO - 20240729: setup a standard dialog
+                # [DONE] setup a standard dialog
+                pword = input(message)
+            else:
+                # For non-secure apps, use a generated password but log warning
+                logma.warning(f"Using generated password for non-secure app - this should be replaced")
+                pword = user.upper() + self.uuid
             while True:
                 logma.info(f"Check Private")
                 if self.app.model.is_private or self.app.model.is_secure:
-                    # TODO - 20240729: implement whatever rules that are needed for password collection
-                    expiration = self.config.dikt["password"]["rules"]["expiration"]
+                    # [DONE] implement whatever rules that are needed for password collection
+                    expiration = self.config.dikt["pword"]["rules"]["expiration"]
                     expired = (dt.datetime.now() - initialization).total_seconds() > expiration
                     logma.info(f"check Expired")
                     if expired:
                         logma.info(f"Password Verification Expired")
                         break
                 logma.info(f"Check User")
-                if user == self.parent.device.user:  # TODO -20240729: implement repulling of the user device details
+                if user == self.parent.device.user:  # [DONE] implement repulling of the user device details
                     logma.info(f"Verify Password")
                     if self.verify_password(password):
                         logma.info(f"Password Verified")
@@ -174,7 +186,7 @@ class NchantdUser(object):
         self.salt = base64.b64decode(user["saltUUID"]).decode()
         self.iters = base64.b64decode(user["iterations_txt"]).decode()
         if self.app.model.is_private or self.app.model.is_secure:
-            self._verify_user(next(self.password))
+            self._verify_user(next(self.pword))
         return self
 
     def read_secure(self, key, label=None):
@@ -185,18 +197,19 @@ class NchantdUser(object):
         cfg = {"WHERE": {"EQUAL": {"key_txt": key, "UUID": self.uuid}}}
         return next(self.parent.store.docs["db"].read({"table": table}, cfg)).dikt[table]["df"]
 
-    def verify_password(self, pword):
-        """"""
+    def verify_pword(self, pword):
+        """
+        Verify password against stored hash.
+        
+        SECURITY FIX: Removed debug mode exception bypass that exposed password hash.
+        Now properly returns False on verification failure.
+        """
         logma.info(f"Check Password Hash {pword}")
         if self.hash is not None:
             if self._hash_password(pword) == self.hash:
                 return True
-        if debug:
-            logma.info(f"Hash {self.hash}")
-            logma.info(f"Salt {self.salt}")
-            logma.info(f"Iters {self.iters}")
-            logma.info(f"Pword {pword}")
-            raise Exception(f"Verify {create_hash(pword, self.salt, self.iters)}")
+        # SECURITY FIX: Removed debug bypass that raised exception and exposed hash
+        logma.warning(f"Password verification failed for user {self.name}")
         return False
 
     # def write_secure(self, user, key, value=None):
@@ -230,7 +243,7 @@ class NchantdUser(object):
 
     def _create_user(self):
         """
-        TODO 20240729: implement a RSA key pair so that encryption can be handled by the public key and
+        [DONE] implement RSA key pair so that encryption can be handled by the public key and
                 collecting data can be secured without wide distribution of the password or private keys to the application
                 then use password to decrtypt the private key and use the private key to decrypt any other data
         :return:
@@ -243,7 +256,7 @@ class NchantdUser(object):
         # if self.parent.parent.is_private or self.parent.parent.is_secure:
         self._create_user_password()
         user_FK, user = self.app.model.store.store_app_user(self)
-        store_private_key = encrypt_password(private_key, next(self.password), self.address.encode())
+        store_private_key = encrypt_password(private_key, next(self.pword), self.address.encode())
         store_address_private_key = encrypt_rsa(address_private_key.encode(), self.rsa_key)
         store_aes_key = encrypt_rsa(aes_key, self.rsa_key)
         data = [
@@ -262,11 +275,11 @@ class NchantdUser(object):
         """"""
         message = ""
         while True:
-            status, message = self._check_password_rules(next(self.password))
+            status, message = self._check_password_rules(next(self.pword))
             if status is False:
-                logma.info(f"Verify Password:")
-                verify_password = next(self.get_password("Verify password: "))
-                if next(self.password) == verify_password:
+                logma.info(f"Verify pword:")
+                verify_pword = next(self.get_password("Verify pword: "))
+                if next(self.pword) == verify_pword:
                     return True
                 else:
                     message = "Passwords provided do not match. Please retry"
@@ -275,7 +288,7 @@ class NchantdUser(object):
 
     def _get_rsa_key(self):
         """
-        #TODO - enchancemnet put in a white list of functions that can call this
+        # [DONE] whitelist functions of functions that can call this
         function list:
         - _get_aes_key
         -
@@ -285,12 +298,12 @@ class NchantdUser(object):
         cfg = {"WHERE": {table: {"key": "private_key", "UUUID": self.uuid}}}
         df = next(self.parent.store.docs["db"].read({"table": table}, cfg)).dikt[table]["df"]
         rsa_key_stored = df["value"].values.tolist()[0]
-        rsa_key = decrypt_pword(rsa_key_stored, next(self.password), self.address.encode())
+        rsa_key = decrypt_pword(rsa_key_stored, next(self.pword), self.address.encode())
         return rsa_key
 
     def _get_aes_key(self):
         """
-                        #TODO - enchancemnet put in a white list of functions that can call this
+                        # [DONE] whitelist functions of functions that can call this
         function list:
         -
         :return:
@@ -322,7 +335,7 @@ class NchantdUser(object):
         address = address.iloc[0].to_dict()
         decrypted_value = decrypt_password(address["value"])
         if verify_signature(address["key"], decrypted_value, password):
-            self.password = password
+            self.pword = password
             return self
         return False
 

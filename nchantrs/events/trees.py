@@ -14,7 +14,11 @@
 # -*- coding: utf-8 -*-#														||
 # =================================Core Modules==================================||
 import sys
+
+import logging
 from os.path import abspath, dirname, join
+
+logger = logging.getLogger(__name__)
 import datetime as dt
 
 # ===============================================================================||
@@ -27,7 +31,7 @@ here = join(dirname(__file__), '')
 log = False
 logma = Logma(__name__)
 
-def leftClickSignalLog(signal, level=0):
+def leftClickSignalLog(signal, level=0) -> None:
 	''' '''
 	# logma.info(f'On Click this is the data provided {signal}, {signal.__dir__()}')
 	# logma.info(f'Model {signal.model}')
@@ -40,7 +44,7 @@ def leftClickSignalLog(signal, level=0):
 	# logma.info(f'internalId {signal.internalId()}')
 	# logma.info(f'internalPointer {signal.internalPointer}')
 
-def mousePressEventLog(event, level=0):
+def mousePressEventLog(event, level=0) -> None:
 	''' '''
 	if level >= 0:
 		logma.info(f'Event {event.__dir__()}')

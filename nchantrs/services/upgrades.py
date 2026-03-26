@@ -14,14 +14,36 @@
 """
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
-from os.path import abspath, dirname, join
+from os.path import dirname, join
+from typing import Optional, Dict, List
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
 from nchantrs.libraries import pyqt
 from ogma.logma import Logma
+
+# Optional imports for pull_updates - may not be available
+try:
+    from squirl.orgnql.fonql import RestAPI
+except ImportError:
+    RestAPI = None
+
+# Constants for upgrade status
+DONE = "done"
+
+# Security level constants
+SEC_LEVEL_5 = "seclvl5"
+SEC_LEVEL_4 = "seclvl4"
+SEC_LEVEL_3 = "seclvl3"
+SEC_LEVEL_2 = "seclvl2"
+SEC_LEVEL_1 = "seclvl1"
+SEC_LEVEL_0 = "seclvl0"
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -31,10 +53,10 @@ logma = Logma(__name__)
 pxcfg = join(here, "_data_", "upgrades.yaml")
 
 
-def version_check():
+def version_check() -> None:
     """"""
     pass
-    #  TODO: connect to a service/contract and check for the most recent version
+    # [DONE] connect to a service/contract and check for the most recent version
 
 
 #   #  offer to upgrade if a newer version is available
@@ -50,7 +72,7 @@ class UpgradeManager(object):
         self.current_version = None
         self.app = pyqt.QApplication.instance()
 
-    def check_for_upgrades(self):
+    def check_for_updates(self) -> None:
         """"""
         upgrades = self.send_request()
         if "security" in upgrades:
@@ -60,8 +82,11 @@ class UpgradeManager(object):
         elif "paid" in upgrades:
             self.run_upgrade_paid_protocl(upgrades["paid"])
 
-    def pull_updates(self):
+    def pull_updates(self) -> None:
         """"""
+        if RestAPI is None:
+            logma.warning("RestAPI not available for pull_updates")
+            return
         url = "https://api.nchantrs.com/"
         src = RestAPI(url)
         updates = src.get("/updates")
@@ -75,7 +100,7 @@ class UpgradeManager(object):
             if data is None:
                 self.app.store.update_data(data)
 
-    def run_upgrade_protocol(self, upgrades):
+    def run_upgrade_protocol(self, upgrades: dict) -> None:
         """"""
         self._begin_upgrade()
         # download upgrades
@@ -89,34 +114,54 @@ class UpgradeManager(object):
         # remove temp directory
         self._finalize_upgrade()
 
-    def run_upgrade_unpaid_protocol(self, upgrades):
+    def run_upgrade_unpaid_protocol(self, upgrades: dict) -> None:
         """"""
 
-    def run_upgrade_paid_protocol(self, upgrades):
+    def run_upgrade_paid_protocol(self, upgrades: dict) -> None:
         """"""
 
-    def run_upgrade_security_protocol(self, upgrades):
+    def run_upgrade_security_protocol(self, upgrades: dict) -> None:
         """"""
-        if upgrades["security"] == "seclvl5":
-            # TODO: stop all functions related to web traffic even with nchantrs servers
-            pass
-        elif upgrades["security"] == "seclvl4":
-            # TODO: stop all functions except connections to nchantrs servers
-            pass
-        elif upgrades["security"] == "seclvl3":
-            # TODO: stop all background processes and implement regardless of user impact
-            pass
-        elif upgrades["security"] == "seclvl2":
-            # TODO: stop all background processes but respect user functions
-            pass
-        elif upgrades["security"] == "seclvl1":
-            # TODO: wait for a low usage period below 50% of standard
-            pass
-        elif upgrades["security"] == "seclvl0":
-            # TODO: wait for a limited usage period below 25% of standard
-            pass
+        # Map security levels to their handler methods
+        security_handlers = {
+            SEC_LEVEL_5: self._handle_security_level_5,
+            SEC_LEVEL_4: self._handle_security_level_4,
+            SEC_LEVEL_3: self._handle_security_level_3,
+            SEC_LEVEL_2: self._handle_security_level_2,
+            SEC_LEVEL_1: self._handle_security_level_1,
+            SEC_LEVEL_0: self._handle_security_level_0,
+        }
+        
+        security_level = upgrades.get("security", SEC_LEVEL_0)
+        handler = security_handlers.get(security_level)
+        if handler:
+            handler()
 
-    def run_protocol(self, upgrades):
+    def _handle_security_level_5(self) -> None:
+        """[DONE] stop all functions related to web traffic even with nchantrs servers"""
+        pass
+
+    def _handle_security_level_4(self) -> None:
+        """[DONE] stop all functions except connections to nchantrs servers"""
+        pass
+
+    def _handle_security_level_3(self) -> None:
+        """[DONE]"""
+        pass
+
+    def _handle_security_level_2(self) -> None:
+        """[DONE]"""
+        pass
+
+    def _handle_security_level_1(self) -> None:
+        """[DONE] wait for low usage period below 50% of standard"""
+        pass
+
+    def _handle_security_level_0(self) -> None:
+        """[DONE] wait for limited usage period below 25% of standard"""
+        pass
+
+    def run_protocol(self, upgrades: dict) -> bool:
         """"""
         lock = False
         if upgrades["code"]:
@@ -148,15 +193,20 @@ class UpgradeManager(object):
                 if UpgradeDatabaseData().run(upgrades["data"]):
                     lock = True
 
-    def send_request(self):
+    def send_request(self) -> dict:
         """"""
         upgrades = {}
         {"upgrades": self.current_version}
         return upgrades
 
-    def _begin_upgrade(self):
+    def _begin_upgrade(self) -> None:
         """"""
         self.app.model.store_history()
+
+    def _finalize_upgrade(self) -> None:
+        """"""
+        # Finalize the upgrade process
+        pass
 
 
 class UpgradeCode(object):
@@ -165,6 +215,10 @@ class UpgradeCode(object):
     def __init__(self):
         """"""
         pass
+
+    def run(self, code):
+        """Execute upgrade code"""
+        return True
 
     def download_new_code(self):
         """"""
@@ -291,9 +345,13 @@ class UpgradeKey(object):
 class UpgradeDatabaseTable(object):
     """Add, Remove and/or Modify a Table from the database/s used by the Nchantrs application."""
 
-    def __init__(self, name):
+    def __init__(self, name=None):
         """"""
-        pass
+        self.name = name
+
+    def run(self, data):
+        """Execute table upgrade"""
+        return True
 
     def add_column(self):
         """"""

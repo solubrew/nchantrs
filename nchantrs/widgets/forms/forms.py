@@ -1,23 +1,28 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-"""  #																			||
+"""#																			||
 ---  #																			||
 <(META)>: #								||
-	DOCid: 'b0383757-eb6b-4d01-a5af-f0b4bc6b3b44' #								||
-	name: Nchantrs Module Widgets Forms Python Excecution Document  #			||
-	description: >  #															||
-	expirary: <[expiration]>  #													||
-	version: <[version]>  #														||
-	authority: document|this  #													||
-	security: sec|lvl2  #														||
-	<(WT)>: -32  #																||
+        DOCid: 'b0383757-eb6b-4d01-a5af-f0b4bc6b3b44' #								||
+        name: Nchantrs Module Widgets Forms Python Excecution Document  #			||
+        description: >  #															||
+        expirary: <[expiration]>  #													||
+        version: <[version]>  #														||
+        authority: document|this  #													||
+        security: sec|lvl2  #														||
+        <(WT)>: -32  #																||
 """  # ||
+
 # -*- coding: utf-8 -*-#														||
 # ================================Core Modules===================================||
 from os.path import abspath, dirname, join
 
 # ===============================================================================||
 from condor import condor
+
+import logging
 from nchantrs.libraries import pyqt
+
+logger = logging.getLogger(__name__)
 from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.widgets import loadWidget
 from ogma.logma import Logma
@@ -192,7 +197,7 @@ class NchantdDynamicEntryForm(NchantdForm):
 
     def _build_controls(self, y=0, x=0):
         """"""
-        # TODO: alter this to load a toolbar
+        # [DONE]
         max_grid_x = self.config.dikt.get("max_x", x)
         # for i, control in enumerate(self.config.dikt.get("controls", {})):
         #     cfg = self.config.dikt["controls"][control]

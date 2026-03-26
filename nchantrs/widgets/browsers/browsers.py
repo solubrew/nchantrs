@@ -20,7 +20,11 @@ from os import environ
 from collections import deque
 import datetime as dt
 import queue
+
+import logging
 from os.path import dirname, join
+
+logger = logging.getLogger(__name__)
 from os import environ
 from collections import deque
 import datetime as dt
@@ -48,7 +52,7 @@ from nchantrs.widgets.media.editors.selectors import NchantdDropDown
 from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 from ogma.logma import Logma
-from pyffice.web.url import PyfficeURLLibrary
+#from pyffice.web.url import PyfficeURLLibrary
 
 # Set up Qt attributes after importing pyqt but before creating any widgets
 try:
@@ -84,7 +88,7 @@ class NchantdWebManager(NchantdWidgetMixin, pyqt.QThread):
         self.available_engines = queue.Queue([])
         self.active_engines = queue.Queue([])
         cfg = {}
-        self.link_library = PyfficeURLLibrary(cfg)
+        # self.link_library = PyfficeURLLibrary(cfg) TODO must be implemented in the NchatndOffice layer
 
     def initModel(self):
         """"""
@@ -181,7 +185,7 @@ class NchantdWebViewer(NchantdWidget):
         self.profile_select_entry = None
         self.url_select_entry = None
         self.known_scripts = self.config.dikt["javascript"]["code"]
-        self.has_pro = self.app.model.user.has_pro
+        self.has_pro = getattr(self.app.model.user, 'has_pro', False) if self.app.model.user else False
         self.browser.urlChanged.connect(self.cmd_url_changed_handler)
 
     def initModel(self, cfg=None):

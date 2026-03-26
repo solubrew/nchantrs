@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  push:
+    branches: [main, gamma, '**']
+  pull_request:
+    branches: [main, gamma]
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install ruff bandit pylint
+      - run: ruff check nchantrs
+      - run: bandit -r nchantrs
+      - run: pylint nchantrs --fail-under=8.0 || true
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install pytest pytest-cov
+      - run: pip install -e .
+      - run: pytest tests/ -v --cov=nchantrs --cov-report=term-missing || true

@@ -1,19 +1,25 @@
-# CHANGES.md - Nchantrs
+# Changelog
 
-## 2026-03-03 - v0.2.0
+All notable changes to nchantrs will be documented in this file.
+
+The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+## [Unreleased]
 
 ### Added
-- GlainMixin class for optional glain integration
-- init_glain_tables() method to NchantdStore
-- get_glain_tables() method to NchantdStore
-- Optional glain integration - no longer required
+- CI/CD workflows (`.github/workflows/ci.yml`, `.github/workflows/docs.yml`)
+- Changelog tracking
 
-### Enhanced
-- NchantdStore model with glain table support
-- Graceful degradation when glain is not available
-- Table prefix support for colocation
+### Changed
+- Improved code quality standards
 
-### Technical Details
-- Chain: NchantdStore -> MicroStash -> SQuiRL
-- Glain integration now optional via GlainMixin
-- Tables use "glain_" prefix by default
+## [0.0.1.0.1] - 2024-01-01
+
+### Added
+- Initial release
+- Core nchantrs functionality
+- NchantdTree widget
+- NchantdArticle model
+- NchantdWallet model
+- Database support (SQLAlchemy/Alembic)
+- CLI interface

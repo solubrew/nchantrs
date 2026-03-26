@@ -114,7 +114,7 @@ QCheckBox::indicator:checked {
 QCheckBox::indicator:unchecked:hover,
 QCheckBox::indicator:unchecked:focus,
 QCheckBox::indicator:unchecked:pressed {
-    border: 2px solid #green;
+    border: 2px solid green;
     background-color: #ffffff; /* White background when unchecked */
 }
 QCheckBox::indicator:unchecked {

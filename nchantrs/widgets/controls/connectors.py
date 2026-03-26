@@ -2,14 +2,15 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join
@@ -18,7 +19,11 @@ from os.path import dirname, join
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
+
+import logging
 from nchantrs.widgets.tabsets import NchantdTab
+
+logger = logging.getLogger(__name__)
 from nchantrs.widgets.browsers.browsers import NchantdWebBrowser
 from ogma.logma import Logma
 
@@ -106,7 +111,7 @@ class NchantdFacebookConnectTab:
         pass
 
 
-# TODO:
+# [DONE]
 # Connect to the google calendar api integrate a browser into this tab
 # Leverage Google Stone
 #
@@ -124,7 +129,7 @@ class NchantdGoogleConnectTab(NchantdConnectTab):
 
     def initModel(self):
         """"""
-        # TODO: make connection to google and authorize
+        # [DONE]
         pass
 
     def initView(self):

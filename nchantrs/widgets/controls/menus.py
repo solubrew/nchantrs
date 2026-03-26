@@ -2,19 +2,23 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -26,11 +30,10 @@ from ogma.logma import Logma
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
-logma.off()
+# logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "menus.yaml")
-pxcfg = {}
 
 
 class NchantdMenu(pyqt.QMenu):
@@ -57,7 +60,13 @@ class NchantdMenu(pyqt.QMenu):
         """ """
         for action in self.actions:
             logma.info(f"Action {action}")
-            self.add_action(action["name_txt"], action["handler"])
+            if isinstance(action, str):
+                action = lookup(self.parent, action, None, True, True, False)
+                logma.info(f"Action {action}")
+            elif isinstance(action, int):
+                action = lookup(self.parent, action, None, True, True, False)
+                logma.info(f"Action {action}")
+            self.add_action(action.get("name_txt", None), action.get("handler", None))
         return self
 
     def initWidget(self):
@@ -107,10 +116,7 @@ class NchantdContextMenu(NchantdMenu):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdContextMenu"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(pxcfg).select("NchantdContextMenu").override(cfg)
         self.menu_data = None
         self.name = None
 

@@ -21,6 +21,10 @@ import datetime as dt
 from types import MethodType
 import re
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ===============================================================================||
 from condor import condor
 from nchantrs.dialogs.files import NchantdFileOpenSigil
@@ -491,7 +495,7 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
             font = pyqt.QFont(cfg["font"], cfg["font"]["size"], pyqt.QFont.Bold)
             self.setFont(font)
         logma.info(f"Size {self.config.dikt.get('size', None)}")
-        logma.info(f"Width {self.config.dikt.get('width', "BLANK")}")
+        logma.info(f"Width {self.config.dikt.get('width', 'BLANK')}")
         value = self.config.dikt.get("value", self.config.dikt.get("default_text", ""))
         self.set_value(value)
         self.set_size()
@@ -532,7 +536,7 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
 
     def on_return_pressed(self, text):
         """enter pressed"""
-        print("Enter Pressed")
+        logger.debug(f"Enter Pressed")
         self.user_editted = dt.datetime.now()
         self.can_save = True
         self.value = text
@@ -631,11 +635,11 @@ class NchantdLabeledEntry(NchantdWidget):
         self.name, value = None, None
         try:
             self.name = self.item(row, 0).text()
-        except:
+        except Exception:
             pass
         try:
             self.value = self.item(row, 1).text()
-        except:
+        except Exception:
             pass
         return self.name, self.value
 

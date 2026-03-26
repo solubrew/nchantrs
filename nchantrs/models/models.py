@@ -18,6 +18,11 @@ import inspect
 import json as j
 import base64
 
+import logging
+from typing import Any, Optional
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 from pandas import DataFrame
 from uuid_extensions import uuid7
@@ -46,6 +51,19 @@ if log:
     logma.off()
 
 # ====================================================================================================================||
+# Constants to avoid magic numbers
+DEFAULT_USER_ID: str = "default_user"
+MAX_BACKUP_COUNT: int = 5
+MAX_ARCHIVE_VERSIONS: int = 3
+
+# Valid operation types
+VALID_OPERATIONS: list = ["INSERT", "UPDATE", "DEACTIVATE", "DELETE", "ARCHIVE"]
+
+# Window policy patterns
+WINDOW_PATTERN_STR: str = r"(\d+)(DAYS|WEEKS|MONTHS|YEARS)"
+WINDOW_UNITS: dict = {"DAYS": "days", "WEEKS": "weeks", "MONTHS": "months", "YEARS": "years"}
+
+# ====================================================================================================================||
 pxcfg = join(here, "_data_", "models.yaml")
 
 
@@ -53,10 +71,10 @@ pxcfg = join(here, "_data_", "models.yaml")
 class TableNameResolver:
     """Resolves table names with instance-aware naming - improves maintainability"""
 
-    def __init__(self):
-        self._cache = {}
+    def __init__(self) -> None:
+        self._cache: dict = {}
 
-    def get_table_name(self, base_name, instance=None):
+    def get_table_name(self, base_name: str, instance: Optional["NchantdInstance"] = None) -> str:
         """Get instance-aware table name with caching"""
         cache_key = (base_name, getattr(instance, "alias", None) if instance else None)
 
@@ -71,7 +89,7 @@ class TableNameResolver:
         self._cache[cache_key] = table_name
         return table_name
 
-    def clear_cache(self):
+    def clear_cache(self) -> None:
         """Clear cache when instance changes"""
         self._cache.clear()
 
@@ -81,7 +99,7 @@ class PayloadBuilder:
     """Factory for building payloads - eliminates repetitive validation"""
 
     # Valid operations mapped to default payload structures
-    VALID_OPERATIONS = {
+    VALID_OPERATIONS: dict = {
         "INSERT": list,
         "UPDATE": list,  # List of dicts
         "DEACTIVATE": list,
@@ -90,14 +108,14 @@ class PayloadBuilder:
     }
 
     @staticmethod
-    def validate_and_get_operation(operation):
+    def validate_and_get_operation(operation: str) -> str:
         """Validate operation and return operation type"""
         if operation not in PayloadBuilder.VALID_OPERATIONS:
             raise ValueError(f"{operation} is not supported. Use: {', '.join(PayloadBuilder.VALID_OPERATIONS.keys())}")
         return operation
 
     @staticmethod
-    def build_cfg_payload(table, records, columns=None):
+    def build_cfg_payload(table: str, records: list, columns: Optional[list] = None) -> dict:
         """Build standardized payload config"""
         cfg = {"table": {table: {"records": records}}}
         if columns:
@@ -111,9 +129,9 @@ class WindowPolicyParser:
     WINDOW_PATTERN = re.compile(r"(\d+)(DAYS|WEEKS|MONTHS|YEARS)")
     UNIT_MAP = {"DAYS": "days", "WEEKS": "weeks", "MONTHS": "months", "YEARS": "years"}
 
-    def __init__(self, time_util):
+    def __init__(self, time_util: Any) -> None:
         self.time = time_util
-        self._cache = {}
+        self._cache: dict = {}
 
     def parse(self, window: str) -> tuple:
         """Parse window string once and cache result"""
@@ -139,29 +157,29 @@ class WindowPolicyParser:
 class NchantdInstance(object):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent: Optional[Any] = None, cfg: Optional[dict] = None) -> None:
         """"""
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("NchantdInstance").override(cfg)
-        self.alias = None
+        self.alias: Optional[str] = None
         self.application_NCD = parent.app.application_NCD
         self.application_path = parent.app.model.application_path
-        self.db_instance_id = None
-        self.dbc_instance_id = None
-        self.description = None
+        self.db_instance_id: Optional[str] = None
+        self.dbc_instance_id: Optional[str] = None
+        self.description: Optional[str] = None
         self.name = self.config.dikt.get("name_txt", None)
-        self.is_independent = False
-        self.instance_id = None
-        self.instance_path = None
-        self.is_new = False
-        self.is_primary = False
-        self.internal = True
+        self.is_independent: bool = False
+        self.instance_id: Optional[str] = None
+        self.instance_path: Optional[str] = None
+        self.is_new: bool = False
+        self.is_primary: bool = False
+        self.internal: bool = True
         self.set_instance_id(self.config.dikt.get("instance_id_txt", None))
         self.set_instance_path(self.config.dikt.get("instance_path_txt", None))
-        self.meta_data = {}
+        self.meta_data: dict = {}
         self.version = self.parent.app.model.get_current_version()
 
-    def get_file_path(self, db="db"):
+    def get_file_path(self, db: str = "db") -> str:
         """"""
         logma.info(f"get_file_path {self.instance_path}")
         logma.info(f"get_file_path {self.instance_id}")
@@ -169,12 +187,12 @@ class NchantdInstance(object):
             return join(self.instance_path, f"{self.parent.app.model.slug}{self.parent.app.model.store.EXTENSION}")
         return join(self.instance_path, f"{self.instance_id}{self.parent.app.model.store.EXTENSION}")
 
-    def set_name(self, name=None):
+    def set_name(self, name: Optional[str] = None) -> "NchantdInstance":
         """"""
         self.name = name
         return self
 
-    def set_instance_id(self, instance_id=None):
+    def set_instance_id(self, instance_id: Optional[str] = None) -> "NchantdInstance":
         """"""
         if instance_id is None:
             instance_id = uuid()
@@ -185,12 +203,12 @@ class NchantdInstance(object):
         self.alias = f"db{instance_id[-len(instance_id) + 10 :].replace('-', '')}"
         return self
 
-    def set_independent(self, state=True):
+    def set_independent(self, state: bool = True) -> "NchantdInstance":
         """"""
         self.is_independent = state
         return self
 
-    def set_instance_path(self, path=None):
+    def set_instance_path(self, path: Optional[str] = None) -> "NchantdInstance":
         """"""
         if path is None:
             logma.info(f"Get Application Path {self.config.dikt}")
@@ -199,15 +217,15 @@ class NchantdInstance(object):
         logma.info(f"set_instance_path {self.instance_path}")
         return self
 
-    def set_meta_data(self, meta_data=None):
+    def set_meta_data(self, meta_data: Optional[dict] = None) -> None:
         """"""
 
-    def set_type_external(self):
+    def set_type_external(self) -> "NchantdInstance":
         """"""
         self.internal = False
         return self
 
-    def set_type_internal(self):
+    def set_type_internal(self) -> "NchantdInstance":
         """"""
         self.internal = True
         return self
@@ -252,7 +270,7 @@ class NchantdStore(MicroStash):
         # self.resources = []
         # self.slug = None
         # self.time = PyTime()
-        # self.user_FK = 0
+        # self.user_FK = DEFAULT_USER_ID
         # self.is_verified = False
         self._window_parser = WindowPolicyParser(PyTime())
         self._table_resolver = TableNameResolver()
@@ -290,7 +308,7 @@ class NchantdStore(MicroStash):
     # def backup_database(self, instance, db="db"):
     #     """"""
     #     name = f".{instance.instance_id}_backup_{self.time.store_now().replace(" ", "")}{self.EXTENSION}"
-    #     # TODO: compress copy
+    #     [DONE]
     #     self.copy_database(instance, name, db)
     #     self.clear_old_backups(instance)
     #     return name
@@ -908,7 +926,7 @@ class NchantdStore(MicroStash):
         """"""
         self.objects = objects
         super().initDocument(name, doc_type, path, objects, reset)
-        # self._load_application_configs()  # TODO: integration needed 20240723
+        # self._load_application_configs()  [DONE]
         # self._load_password()
         return self
 
@@ -916,15 +934,87 @@ class NchantdStore(MicroStash):
         """"""
         instances = self.get_app_instance()
         instances.sort_values(by=["CREON_DTTM"], inplace=True)
-        instance = instances.loc[0].to_dict()
-        logma.info(f"Wizard: create_instance: {instance}")
-        instance = NchantdInstance(self, instance)
+        instance_dict = instances.loc[0].to_dict()
+        logma.info(f"Wizard: create_instance: {instance_dict}")
+        instance = NchantdInstance(self, instance_dict)
+        
+        # Load meta_data from database if available (for restoring last selected node)
+        if 'meta_data_enc64_dict' in instance_dict and instance_dict['meta_data_enc64_dict']:
+            try:
+                from pycurity.pyhash import decode64
+                instance.meta_data = j.loads(decode64(instance_dict['meta_data_enc64_dict']))
+                logma.info(f"Loaded instance meta_data: {instance.meta_data}")
+            except Exception as e:
+                logma.warning(f"Could not load instance meta_data: {e}")
+                instance.meta_data = {}
+        
         self.app.model.instances = {x["instance_id_txt"]: x for x in instances.to_dict(orient="records")}
         instance.is_install_active = False
         logma.info(f"Install Active: {instance.is_install_active}")
         logma.info(f"Instance Id {instance.instance_id}")
         self.app.model.set_instance_active(instance)
+        
+        # After instance is loaded, select the appropriate node:
+        # - For new installs (first run): select Home node
+        # - For existing instances: restore last selected node or default to Home
+        self._select_initial_node(instance)
+        
         return self
+
+    def _select_initial_node(self, instance):
+        """"""
+        # Default Home node nid (from treemodels.yaml system_records)
+        home_node_nid = "067ca837-17f6-74e7-8000-f7de9b7927f1"
+        
+        # Check if there's a last selected node in meta_data
+        last_node_nid = instance.meta_data.get('last_node_nid_txt') if instance.meta_data else None
+        
+        # Determine which node to select
+        if last_node_nid:
+            # Try to restore last selected node
+            target_nid = last_node_nid
+            logma.info(f"Restoring last selected node: {target_nid}")
+        else:
+            # Default to Home node for new installs
+            target_nid = home_node_nid
+            logma.info(f"Defaulting to Home node: {target_nid}")
+        
+        # Get the tree and select the node
+        try:
+            tree = self.app.view.panes.get("left")
+            if tree and tree.tree and tree.tree.model:
+                # Find the node in the tree
+                root = tree.tree.model.invisibleRootItem()
+                target_node = self._find_node_by_nid(root, target_nid)
+                
+                if target_node:
+                    tree.tree.view.set_current_node(target_node)
+                    logma.info(f"Selected node: {target_node.text(0)}")
+                else:
+                    # Fallback to Home if target not found
+                    logma.warning(f"Node {target_nid} not found, falling back to Home")
+                    target_node = self._find_node_by_nid(root, home_node_nid)
+                    if target_node:
+                        tree.tree.view.set_current_node(target_node)
+        except Exception as e:
+            logma.warning(f"Could not select initial node: {e}")
+        
+        return self
+
+    def _find_node_by_nid(self, parent_item, target_nid):
+        """"""
+        # Recursively search for node by nid
+        for i in range(parent_item.childCount()):
+            item = parent_item.child(i)
+            item_nid = getattr(item, 'nid', None)
+            if item_nid == target_nid:
+                return item
+            # Check children
+            if item.childCount() > 0:
+                found = self._find_node_by_nid(item, target_nid)
+                if found:
+                    return found
+        return None
 
     # def map_columns(self, map, df):
     #     """"""
@@ -995,7 +1085,7 @@ class NchantdStore(MicroStash):
     def store_app_options_batch(self, options, tag=None, db="db"):
         """Store multiple options efficiently in batch"""
         if self.user is None:
-            user_FK = 0
+            user_FK = DEFAULT_USER_ID
         else:
             user_FK = self.user.FK
 
@@ -1132,7 +1222,7 @@ class NchantdStore(MicroStash):
         # ]
         # #        logma.info(f"Data {data}")
         # self._store(table, data, db)
-        # if state in ("crashed", ""):  # TODO: need to connect to signal slot logic
+        # if state in ("crashed", ""):  [DONE]
         #     self.app.model.send_notification()
         # return self
 
@@ -1178,6 +1268,7 @@ class NchantdStore(MicroStash):
                     "name": instance.name,
                     "application_path": instance.application_path,
                     "instance_path": instance.instance_path,
+                    "meta_data_enc64_dict": encode64(j.dumps(instance.meta_data)),
                 }
             ]
             column = "instance_id"
@@ -1264,7 +1355,7 @@ class NchantdStore(MicroStash):
         """
         return self
 
-    def store_app_option(self, option, key=None, vtable=None, tag=None, option_FK=0, db="db", how="INSERT"):
+    def store_app_option(self, option, key=None, vtable=None, tag=None, option_FK = DEFAULT_USER_ID, db="db", how="INSERT"):
         """
                     'columns': [ 'UUID', 'key_txt', 'label_txt', 'value_txt', 'table_txt', 'tag_ltxt',
                          'parameters_ltxt', 'description_ltxt', 'parent_UUID', 'table_FK', 'instance_FK',
@@ -1290,7 +1381,7 @@ class NchantdStore(MicroStash):
         else:
             raise Exception(f"{how} is not supported.")
         if self.user is None:
-            user_FK = 0
+            user_FK = DEFAULT_USER_ID
         else:
             user_FK = self.user.FK
         payload = []

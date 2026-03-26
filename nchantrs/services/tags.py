@@ -20,7 +20,11 @@ from os.path import abspath, dirname, join
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
+
+import logging
 from nchantrs.libraries import qpandas
+
+logger = logging.getLogger(__name__)
 from ogma.logma import Logma
 from subtrix import thing
 
@@ -33,7 +37,7 @@ pxcfg = join(here, '_data_', 'tags.yaml')
 
 class TagGroup():
 	""""""
-	def __init__(self, name, description='', uuid=None):
+	def __init__(self, name: str, description: str = '', uuid: str = None) -> None:
 		""""""
 		self.name = name
 		self.description = description
@@ -44,7 +48,7 @@ class TagGroup():
 
 class Tag():
 	""""""
-	def __init__(self, name, description='', uuid=None):
+	def __init__(self, name: str, description: str = '', uuid: str = None) -> None:
 		""""""
 		self.name = name
 		self.description = description
@@ -52,10 +56,10 @@ class Tag():
 		if self.uuid is None:
 			self.uuid = thing.What().uuid().ruuid
 
-	def rename(self, name):
+	def rename(self, name: str) -> None:
 		""""""
 
-	def storage(self):
+	def storage(self) -> 'qpandas.DataFrame':
 		""""""
 		columns = ['name', 'description', 'uuid']
 		df = qpandas.DataFrame([[self.name, self.description, self.uuid]], columns=columns)

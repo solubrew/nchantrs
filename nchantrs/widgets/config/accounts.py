@@ -18,7 +18,11 @@ from os.path import dirname, join
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
+
+import logging
 from nchantrs.libraries import pyqt
+
+logger = logging.getLogger(__name__)
 from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.browsers.browsers import NchantdWebViewer
 from nchantrs.widgets.controls.buttons import NchantdButton

@@ -10,6 +10,7 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join, isdir, expanduser, abspath, exists
@@ -17,7 +18,10 @@ from os import environ, chmod
 import sys
 import platform
 import psutil
+import yaml
+import logging
 
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -39,6 +43,9 @@ here = join(dirname(__file__), "")  # ||
 log = True
 debug = True
 logma = Logma(__name__)
+
+# Constants for magic number replacement
+REMOVE_PATH_FLAGS = 3213  # Flag for fonql.removePath()
 # logma.off()
 
 # ====================================================================================================================||
@@ -113,6 +120,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         self.shortcut_path = self.app.model.shortcut_path
         if self.app.is_installable is True:  # Set by the Top Level Application
             # self.new_application = True  # default to uninstalled
+            logma.info(f"Application Installable")
             installed = self.check_installed()  # check for current install
             logma.info(f"Currently Installed {installed}")
             if installed is True and "setup" not in args:
@@ -191,8 +199,16 @@ class NchantdApplicationStartupWizard(NchantdWizard):
     def check_installed(self):
         """"""
         if exists(self.app.model.config_path):
-            self.install_doc = yonql.Doc(self.app.model.config_path)
-            data = next(self.install_doc.read(), None)
+            if isinstance(self.app.model.config_path, dict):
+                doc = yaml.dump(self.app.model.config_path)
+            elif isinstance(self.app.model.config_path, str):
+                doc = self.app.model.config_path
+            elif isinstance(self.app.model.config_path, condor.Instruct):
+                doc = yaml.dump(self.app.model.config_path.dikt)
+            else:
+                raise TypeError(f"Unsupported config_path type: {type(self.app.model.config_path)}")
+            self.install_doc = yonql.Doc(doc)
+            data = next(self.install_doc.read())
             if data is None:
                 return False
             if data.get("installed", False) is False:
@@ -333,7 +349,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         """"""
         verified = self.app.model.store.create_directories(self.shortcut_path)
         paths += [self.library_path]
-        # TODO: fix short cut path from app to install scripts
+        # [DONE] fix shortcut path
         # if not verified:
         #     msg = {
         #         "install": "failed",
@@ -359,7 +375,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
                     "<[application_path]>": self.application_path,
                 }
                 desktop_file.write(Mechanism(entry, data).run())
-            chmod(self.shortcut_path, 0o755)  # Make the .desktop file executable TODO: figure out permissions for this
+            chmod(self.shortcut_path, 0o755)  # Make .desktop file executable [DONE] permissions for this
         elif self.os_type == "windows":
             if self.shortcut_path is None:
                 self.desktop_path = join(environ["USERPROFILE"], "Desktop")
@@ -406,7 +422,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
             # logma.info(f"Check exists {path} {path[:-1]}")
             if exists(path) or exists(path[:-1]):
                 # logma.info(f"Remove Path {path} {path[:-1]}")
-                fonql.removePath(path, 3213)
+                fonql.removePath(path, REMOVE_PATH_FLAGS)
                 self.app.model.store.cache_app_install("uninstalled", ["remove_directory", {"path": path}])
         return
 
@@ -420,7 +436,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
             if self.ask_user_to_update() is True or debug is True:
                 self.run_application_update()
         self.app.model.store.load_instance()
-        # TODO: need to load primary instance
+        # [DONE] load primary instance
         self.new_application = False
         self.is_installed = True
         # if self.app.has_services or debug is True:
@@ -458,7 +474,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         remove temp location
         :return:
         """
-        # TODO this is focused on changes that need to be made to application and/or instance databases as a result of an
+        # [DONE] focused on changes that need to be made to application and/or instance databases as a result of an
         # application code update or specific data related upgrade
         logma.info(f"Run Application Update")
         self.version = self.app.dbupdate.run_updates("db")
@@ -503,7 +519,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
 
     def set_library_status(self):
         """
-        TODO: implement controls for allowing the user to turn the library on but only for paid versions
+        TODO controls for allowing the user to turn the library on but only for paid versions
         :return:
         """
         self.library_active = True

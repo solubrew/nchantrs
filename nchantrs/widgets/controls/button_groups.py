@@ -14,7 +14,12 @@
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
+from typing import Any, Optional, Dict, List
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -36,6 +41,12 @@ here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
 logma.off()
+
+# ====================================================================================================================||
+# Constants to avoid magic numbers
+DEFAULT_GRID_COLUMNS: int = 3
+DEFAULT_FONT_SIZE: int = 12
+
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "button_groups.yaml")
 
@@ -207,7 +218,7 @@ class NchantdSubmissionButtons(pyqt.QWidget):
         pyqt.QWidget.__init__(self)
         self.layout = pyqt.QHBoxLayout()
         if log:
-            print("Nchantd Submission Buttons", self.config.dikt)
+            logger.debug(f"Nchantd Submission Buttons", self.config.dikt)
         self.config.dikt["buttons"]["new"]["text"] = "New"
         self.newbutton = NchantdButton(self, self.config.dikt["buttons"]["new"])
         self.newbutton.initWidget()

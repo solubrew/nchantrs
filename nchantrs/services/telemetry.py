@@ -18,7 +18,11 @@ from os.path import abspath, dirname, join
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
+
+import logging
 from ogma.logma import Logma
+
+logger = logging.getLogger(__name__)
 
 # ====================================================================================================================||
 here = join(dirname(__file__), '')  # ||
@@ -29,7 +33,7 @@ pxcfg = join(here, '_data_', '.yaml')
 
 class TelemetryService:
 	""""""
-	def __init__(self, cfg=None):
+	def __init__(self, cfg: None = None):
 		""""""
 		self.config = condor.Instruct(pxcfg).select('TelemetryService').override(cfg)
 
@@ -42,7 +46,7 @@ class TelemetryService:
 		self._send_data(self.app.model.get_telemetry())
 		self.app.model.cleanup_telemetry()
 
-	def _send_data(self, data):
+	def _send_data(self, data: dict):
 		""""""
 
 # ====================================================================================================================||

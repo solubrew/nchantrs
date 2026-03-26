@@ -18,7 +18,11 @@ from os.path import dirname, join
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
+
+import logging
 from nchantrs.libraries import pyqt
+
+logger = logging.getLogger(__name__)
 from nchantrs.utilities.utils import lookup
 from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.media.editors.editors import NchantdEntryBox, NchantdEntryEditor
@@ -135,11 +139,16 @@ class NchantdButtonBar(NchantdWidget):
         allow for a block on buttons that is defined specifically
         :return:
         """
-        for button in self.buttons:
-            if button.get("block_toggle", False):
+        for action, button_data in self.buttons.items():
+            if button_data.get("block_toggle", False):
                 continue
             else:
-                button["widget"].setCheckable(True)
+                widget = button_data.get("widget", None)
+                if widget and hasattr(widget, "setCheckable"):
+                    # Check if not already initialized with checkable via config
+                    cfg = widget.config.dikt if hasattr(widget, "config") else {}
+                    if not cfg.get("checkable", False):
+                        widget.setCheckable(True)
 
 
 class NchantdMenuBar(NchantdWidget):

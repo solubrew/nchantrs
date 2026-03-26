@@ -15,6 +15,10 @@
 from os.path import dirname, join
 import datetime as dt
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -242,7 +246,7 @@ class NchantdTodayOverview(NchantdTab):
             logma.info(f"Day {day}")
             cfg = {"day": cfg}
             if day.strftime("%Y-%m-%d") == today.strftime("%Y-%m-%d"):
-                cfg["font_zoom"] = 1.2  # TODO: make the today mini widget slightly larger in text etc?
+                cfg["font_zoom"] = 1.2  [DONE]
             scroll.addWidget(NchantdDayDashboard(self, cfg).initWidget())
             # scrollbar = scroll.scroll.horizontalScrollBar()
             # scrollbar = scroll.scroll.horizontalScrollBar()

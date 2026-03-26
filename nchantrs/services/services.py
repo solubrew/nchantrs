@@ -12,9 +12,13 @@
 """
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
-from os.path import abspath, dirname, join
-import datetime as dt
+from os.path import dirname, join
+from typing import Optional, Dict, List
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -26,6 +30,9 @@ here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
 
+# Return type constants
+RETURN_NONE = None
+
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "services.yaml")
 
@@ -33,18 +40,18 @@ pxcfg = join(here, "_data_", "services.yaml")
 class NchantdServiceManager(object):
     """"""
 
-    def __init__(self, parent, cfg=None):
+    def __init__(self, parent, cfg=None) -> None:
         """"""
         self.config = condor.Instruct(pxcfg).select("NchantdServiceManager").override(cfg)
         self.app = parent
         self.is_update_available = False
         self.services = {}
 
-    def add_service(self, service_name):
+    def add_service(self, service_name) -> None:
         """"""
         self.services[service_name] = NchantdService(service_name)
 
-    def check_for_updates(self):
+    def check_for_updates(self) -> None:
         """"""
         # if the user is paying for bundled nchantrs service then all updates are handled by the single service
         if "nchantrs" in self.services.keys():
@@ -59,23 +66,23 @@ class NchantdServiceManager(object):
 class NchantdService(object):
     """"""
 
-    def __init__(self, service_name, cfg=None):
+    def __init__(self, service_name, cfg=None) -> None:
         """"""
         self.service_name = service_name
         self.config = condor.Instruct(pxcfg).select("NchantdService").override(cfg)
         self.service = None
         self.is_update_available = False
 
-    def set_api_key(self, api_key):
+    def set_api_key(self, api_key) -> 'NchantdService':
         """"""
         return self
 
-    def set_service_object(self, service):
+    def set_service_object(self, service) -> 'NchantdService':
         """"""
         self.service = service
         return self
 
-    def check_for_updates(self):
+    def check_for_updates(self) -> 'NchantdService':
         """"""
         self.is_update_available = False
         return self
@@ -84,11 +91,11 @@ class NchantdService(object):
 class NchantrsService(NchantdService):
     """Custom Service for Nchantrs Paid Users"""
 
-    def __init__(self, cfg=None):
+    def __init__(self, cfg=None) -> None:
         """"""
         self.config = condor.Instruct(pxcfg).select("NchantrsService").override(cfg)
 
-    def check_for_updates(self):
+    def check_for_updates(self) -> 'NchantrsService':
         """"""
         super().check_for_updates()
         return self

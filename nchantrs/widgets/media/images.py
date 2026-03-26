@@ -12,6 +12,10 @@
 """
 import base64
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join, exists
@@ -129,7 +133,7 @@ class NchantdImage(NchantdWidget):
             self.set_file_path(path)
         path = self.file_path
         logma.info(f"Path {path}")
-        logma.info(f"Path {self.config.dikt.get("path", None)}")
+        logma.info(f"Path {self.config.dikt.get('path', None)}")
         if exists(path):
             if path.endswith(".svg"):
                 logma.info(f"Path {path}")

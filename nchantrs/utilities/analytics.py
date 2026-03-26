@@ -17,11 +17,16 @@
 from os.path import abspath, dirname, join
 import datetime as dt
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
 from ogma.logma import Logma
+from typing import Optional, Dict, List, Any, Tuple
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -35,7 +40,7 @@ pxcfg = join(here, "_data_", ".yaml")
 class NchantdAnalytics:
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -44,17 +49,17 @@ class NchantdAnalytics:
             self.config.override(parent.config)
         self.config.override(cfg)
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> None:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> None:
         """"""
         super().initView(cfg)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         self.initModel()
         self.initView()

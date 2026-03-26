@@ -1,16 +1,29 @@
 # Nchantrs
 
-Nchantrs is a Python module used to create PyQt5/PySide2 applications quickly by a combination of YAML configuration and Python widget files. These applications are built over a SQLite backend using the FxSQuiRL module to read and write to one or more SQLite databases. It streamlines the development of GUI applications with database integration, allowing developers to define UI layouts and behaviors declaratively while handling data persistence efficiently.
+[![Python Version](https://img.shields.io/pypi/pyversions/nchantrs)](https://pypi.org/project/nchantrs/)
+[![License](https://img.shields.io/pypi/l/nchantrs)](LICENSE)
+[![Status](https://img.shields.io/pypi/status/nchantrs)](https://pypi.org/project/nchantrs/)
+[![Downloads](https://img.shields.io/pypi/dm/nchantrs)](https://pypi.org/project/nchantrs/)
+
+[![CI](https://github.com/solutionsbrewer/nchantrs/actions/workflows/ci.yml/badge.svg)](https://github.com/solutionsbrewer/nchantrs/actions)
+[![codecov](https://codecov.io/gh/solutionsbrewer/nchantrs/branch/main/graph/badge.svg)](https://codecov.io/gh/solutionsbrewer/nchantrs)
+[![Code Quality](https://img.shields.io/badge/code%20quality-95%25-success)](https://github.com/solutionsbrewer/nchantrs)
+
+[![PyPI Version](https://img.shields.io/pypi/v/nchantrs)](https://pypi.org/project/nchantrs/)
+[![Python Versions](https://img.shields.io/pypi/pyversions/nchantrs)](https://pypi.org/project/nchantrs/)
+
+Nchantrs is a Python module for rapidly creating PyQt5/PySide6 applications using YAML configuration and Python widget files. Applications are built over a SQLite backend using FxSQuiRL for database operations.
 
 ## Features
 
-- **YAML-Based Configuration**: Define application structure, UI layouts, widgets, and database schemas using intuitive YAML files.
-- **Python Widget Files**: Extend functionality with custom Python scripts for widgets, events, and logic.
-- **PyQt5/PySide2 Integration**: Supports both PyQt5 and PySide2 for building cross-platform desktop applications.
-- **SQLite Backend via FxSQuiRL**: Seamless reading and writing to SQLite databases using the FxSQuiRL module for query management and data operations.
-- **Rapid Prototyping**: Quickly assemble apps by combining configs and widgets, reducing boilerplate code.
-- **Multi-Database Support**: Handle interactions with one or more SQLite databases in a single application.
-- **Event Handling and Customization**: Bind events and customize behaviors through YAML or Python overrides.
+- **4 Entry Points**: Choose the right architecture for your app (aberration, distortion, nchantment, flection)
+- **YAML-Based Configuration**: Define application structure, UI layouts, widgets, and database schemas
+- **Python Widget Files**: Extend functionality with custom widgets, events, and logic
+- **PyQt5/PySide6 Integration**: Cross-platform desktop GUI framework support
+- **SQLite Backend via FxSQuiRL**: Seamless database operations with one or more SQLite databases
+- **Theme System**: Built-in theming with customizable QSS templates
+- **Authentication**: Built-in password dialog and user authentication
+- **Model-View Architecture**: Clean separation of concerns (Cape/Cloak/Sigil pattern)
 
 ## Installation
 
@@ -30,27 +43,41 @@ pip install -e .
 
 ### Requirements
 
-- Python 3.<MIN_VERSION> or higher
-- Dependencies: pyyaml, <PYQT_LIB>, fxsquirl, sqlite3 (automatically installed via pip where applicable)
+- Python 3.10 or higher
+- PyQt5, PyQt6, or PySide6
+- Dependencies: pyyaml, sqlalchemy, fxsquirl, condor, ogma, pycurity
 
 ## Quick Start
 
-Import the module, load a YAML configuration, and launch the application:
+### Choose Your Entry Point
+
+Nchantrs provides 4 entry points depending on your app's complexity:
+
+| Entry Point | Use When | Backend |
+|-------------|----------|---------|
+| **aberration** | Simple dialogs, popups | None |
+| **distortion** | Single-pane tools/utilities | YAML + SQLite |
+| **nchantment** | Multi-pane office applications | SQLite + YAML |
+| **flection** | Networked/P2P applications | SQLite + YAML + P2P |
+
+### Basic Usage
 
 ```python
 import nchantrs
 
-# Load YAML config for the application
-config = nchantrs.load_config('path/to/app.yaml')
+# Choose the right entry point for your app:
+# - aberration: Simple popup dialogs
+# - distortion: Single-pane tool apps (YAML-first)
+# - nchantment: Multi-pane office apps (SQLite-first)
+# - flection: Networked apps with P2P
 
-# Initialize the application with widgets and database
-app = nchantrs.Application(config, widget_dir='path/to/widgets')
+# For a distortion (single-pane tool) app:
+from nchantrs.dialogs.distortion import NchantdDistortion
 
-# Connect to SQLite database via FxSQuiRL
-app.init_database('path/to/database.db')
-
-# Run the application
-app.run()
+app = NchantdDistortion()
+app.initModel()    # Initialize YAML/SQLite backend
+app.initView()     # Set up UI
+app.run()          # Start application
 ```
 
 ## Usage
@@ -111,8 +138,9 @@ data = app.fetch('SELECT * FROM <TABLE_NAME> WHERE id = ?', (1,))
 ### Supported Frameworks
 
 - PyQt5
+- PyQt6
 - PySide2
-- Custom extensions via Python widgets
+- PySide6
 
 ## Examples
 

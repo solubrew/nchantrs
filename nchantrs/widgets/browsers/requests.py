@@ -17,7 +17,11 @@ import datetime as dt
 import enum
 import dataclasses
 from typing import Optional
+
+import logging
 from collections.abc import Callable
+
+logger = logging.getLogger(__name__)
 
 # ======================================3rd Party Library Modules=====================================================||
 
@@ -320,7 +324,7 @@ class CloudflareHandler(pyqt.QWebEngineView):
     def handle_challenge_detection(self, result):
         """Handle challenge detection result"""
         if result and result.get("challenge_detected"):
-            print(f"Cloudflare challenge detected: {result.get('challenge_type')}")
+            logger.info(f"Cloudflare challenge detected: {result.get('challenge_type')}")
             self.challenge_detected.emit()
 
             # Start monitoring for challenge completion
@@ -330,7 +334,7 @@ class CloudflareHandler(pyqt.QWebEngineView):
             if result.get("is_turnstile"):
                 self.help_turnstile_render()
         else:
-            print("No Cloudflare challenge detected")
+            logger.debug("No Cloudflare challenge detected")
 
     def help_turnstile_render(self):
         """Help Turnstile widget render properly"""
@@ -368,7 +372,7 @@ class CloudflareHandler(pyqt.QWebEngineView):
         })();
         """
 
-        self.page().runJavaScript(js_code, lambda result: print(f"Turnstile help result: {result}"))
+        self.page().runJavaScript(js_code, lambda result: logger.debug("Turnstile help result: %s", result))
 
     def check_challenge_status(self):
         """Periodically check if challenge is completed"""
@@ -407,13 +411,9 @@ class CloudflareHandler(pyqt.QWebEngineView):
         """Handle challenge status check"""
         if result:
             if not result.get("still_challenging") and result.get("turnstile_completed"):
-                print("Cloudflare challenge completed!")
+                logger.info("Cloudflare challenge completed!")
                 self.challenge_timer.stop()
                 self.challenge_completed.emit()
-            elif not result.get("still_challenging"):
-                # Challenge might be completed, wait a bit more to be sure
-                QTimer.singleShot(2000, lambda: self.challenge_completed.emit())
-                self.challenge_timer.stop()
 
 
 #

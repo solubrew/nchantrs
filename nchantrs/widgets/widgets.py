@@ -10,6 +10,7 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -104,7 +105,10 @@ class NchantdWidgetMixin(object):
 
     def init_variables(self):
         """"""
-        self.app = pyqt.QApplication.instance()
+        self.app = None
+        # First, try to get app from parent directly (most reliable)
+        if self.parent is not None and hasattr(self.parent, 'app'):
+            self.app = self.parent.app
         # Traverse parent chain to find the Nchantrs application (NchantdCape or NchantdCloak)
         # This handles both simple dialogs (distortion) and complex apps (nchantment)
         if self.parent is not None:
@@ -842,6 +846,7 @@ class NchantdWidgetMixin(object):
 
 class NchantdWidget(NchantdWidgetMixin, pyqt.QWidget):
     """"""
+
     # NOTE: Mixin comes before QWidget in MRO, but we must call QWidget.__init__ directly
     # to ensure Qt initialization. The mixin provides application logic, QWidget provides
     # the Qt widget functionality. Using super().__init__() would skip QWidget init.
@@ -850,7 +855,7 @@ class NchantdWidget(NchantdWidgetMixin, pyqt.QWidget):
         """ """
         # Explicitly call QWidget.__init__ to ensure proper Qt initialization
         # This fixes: RuntimeError: libshiboken: 'init' method of object's base class not called
-        pyqt.QWidget.__init__(self, parent)
+        pyqt.QWidget.__init__(self)
         self.config = condor.Instruct(pxcfg).select("NchantdWidget")
         logma.info(f"Init NchantdWidget Config {self.config}")
         self.parent = parent

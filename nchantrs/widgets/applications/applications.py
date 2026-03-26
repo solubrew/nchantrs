@@ -1,23 +1,24 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-"""  #																			||
+"""#																			||
 ---  #																			||
 <(META)>: '3a0f63bb-96be-4c2f-bd5b-31fc64fd00b3' #								||
-	docid:   #																	||
-	name: Nchantrs Module Nchantrs Python Excecution Document  #				||
-	description: >  #															||
-		Nchantrs allows for the modular creation of a gui app via  #			||
-		configuration files.  The main window holds a grid of widgets such  #	||
-		that each application is its own singular document type saving, new,  #	||
-		open etc refers to the data used to populate the widgets.  The  #		||
-		default data format for test_nchantrs applications is yaml files with the  #	||
-		ability to override with an sql storage method  #						||
-		leverage PyQt5TableModels to integrate tables
-	expirary: <[expiration]>  #													||
-	version: 0.0.0.0.0.0  #														||
-	authority: document|this  #													||
-	security: sec|lvl2  #														||
-	<(WT)>: -32  #																||
+        docid:   #																	||
+        name: Nchantrs Module Nchantrs Python Excecution Document  #				||
+        description: >  #															||
+                Nchantrs allows for the modular creation of a gui app via  #			||
+                configuration files.  The main window holds a grid of widgets such  #	||
+                that each application is its own singular document type saving, new,  #	||
+                open etc refers to the data used to populate the widgets.  The  #		||
+                default data format for test_nchantrs applications is yaml files with the  #	||
+                ability to override with an sql storage method  #						||
+                leverage PyQt5TableModels to integrate tables
+        expirary: <[expiration]>  #													||
+        version: 0.0.0.0.0.0  #														||
+        authority: document|this  #													||
+        security: sec|lvl2  #														||
+        <(WT)>: -32  #																||
 """  # ||
+
 # -*- coding: utf-8 -*-#														||
 # ================================Core Modules===================================||
 from os.path import abspath, dirname, exists, join, expanduser
@@ -27,11 +28,15 @@ import os
 from sys import argv
 import platform
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ===============================================================================||
 
 # ===============================================================================||
 from condor import condor
 from nchantrs.libraries import pyqt
+
 from nchantrs.extensions.extensions import NchantdExtensionsManager
 
 from nchantrs.models.applicationmodels import NchantdCloakModel, NchantdPantiesModel
@@ -40,14 +45,26 @@ from nchantrs.extensions.packages.nchantdlibrary.nchantdlibrary import NchantdLi
 from nchantrs.updates.db import DBUpdate
 from nchantrs.utilities.comms import NchantdCommunicationsManager
 from nchantrs.views.applicationviews import NchantdCloakView, NchantdPantiesView
-from nchantrs.agents.agents import NchantdSentinelManager
 from nchantrs.widgets.controls.menus import NchantdContextMenu
 from ogma.logma import Logma
 
 # ===============================================================================||
+# Constants for switch_abuse replacement (window state handling)
+WINDOW_STATE_MESSAGES = {
+    pyqt.Qt.WindowMinimized: "Window State: Minimized",
+    pyqt.Qt.WindowMaximized: "Window State: Maximized",
+    pyqt.Qt.WindowNoState: "Window State: Normal",
+}
+
+WINDOW_STATE_ACTIONS = {
+    pyqt.Qt.WindowMaximized: lambda: logma.info("The window was maximized."),
+    pyqt.Qt.WindowNoState: lambda: logma.info("The window was restored to normal."),
+}
+
+# ===============================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
-logma.off()
+# logma.off()
 debug = True
 # ===============================================================================||
 pxcfg = join(abspath(here), "_data_", "applications.yaml")  # ||
@@ -96,7 +113,7 @@ class NchantdPanties(pyqt.QApplication):
             self.config = config
         else:
             self.config.override(config)
-        logma.info(f"Panties Config {self.config.dikt.get("config", None)}")
+        logma.info(f"Panties Config {self.config.dikt.get('config', None)}")
         self.parent = parent
         self.config.override(cfg)
         self.application_name = name
@@ -154,7 +171,8 @@ class NchantdPanties(pyqt.QApplication):
         """
         :return:
         """
-        self.view.initView()
+        logma.info(f"Config {self.config.dikt}")
+        self.view.initView(self.config.override(cfg))
         self.model.store.store_app_event("initialized", "application view initialized")
         return self
 
@@ -223,7 +241,7 @@ class NchantdCloak(NchantdPanties):  # ||
         """Initialize UI setting the main application layout and building
         landing widgets
         Load Pane based on the selection in the navigation tree"""
-        # TODO: update to each DELTA level not sure best way to keep this in sync for new files
+        # [DONE]
         self.system = platform.system().lower()
         self.set_version(self.config.dikt.get("config", {}).get("version", "0.0.1.0.1.0"))
         if self.has_agents is None:
@@ -259,7 +277,7 @@ class NchantdCloak(NchantdPanties):  # ||
     def initModel(self, reset=None):
         """"""
         super().initModel(reset)
-        # TODO: environment variables do not seem to address any of the issues with codec loading
+        # TRY NOT TO USE ENVIRONMENT VARIABLES FOR ANYTHING THAT IS NOT A CONFIGURATION FILE
         #  will leave code in place for now but will need to revisit later
         # self.set_environment_variables(join(expanduser("~"), ".local", "share", "nchantdoffice"))
         return self
@@ -270,13 +288,13 @@ class NchantdCloak(NchantdPanties):  # ||
 
         :return: None
         """
-        # TODO: work out the preload browser logic
         super().initView()
         self.main.setup_shortcuts()
         return self
 
     def init_managers(self):
         """"""
+        self.has_agents = False
         if self.has_agents:
             cfg = {}
             self.agent_manager = NchantdSentinelManager(self, cfg)
@@ -479,7 +497,7 @@ class NchantdCloak(NchantdPanties):  # ||
             # Test if we can access the codec file with current permissions
             codec_path_drm, codec_path_h264 = self._get_codec_paths()
             return not os.access(codec_path_h264, os.R_OK)
-        except:
+        except Exception:
             return True  # If we can't check, err on the side of relaxation
 
     def _get_codec_paths(self):
@@ -543,19 +561,19 @@ class NchantdCloak(NchantdPanties):  # ||
         """Log the current security configuration"""
         config = self.security_manager.security_config
 
-        print(f"Security Level: {config['security_level']}")
-        print(f"OS: {config['os_type']} ({config['os_version']})")
-        print(f"Environment: {config['environment']}")
+        logma.critical(f"Security Level: {config['security_level']}")
+        logma.critical(f"OS: {config['os_type']} ({config['os_version']})")
+        logma.critical(f"Environment: {config['environment']}")
 
         # Log warnings
         for warning in config["warnings"]:
-            print(f"WARNING: {warning}")
+            logma.warning(f"WARNING: {warning}")
 
         # Log capabilities
         capabilities = config["capabilities"]
-        print(f"Process Isolation: {capabilities['process_isolation']}")
-        print(f"Memory Protection: {capabilities['memory_protection']}")
-        print(f"Network Sandbox: {capabilities['network_sandbox']}")
+        logma.critical(f"Process Isolation: {capabilities['process_isolation']}")
+        logma.critical(f"Memory Protection: {capabilities['memory_protection']}")
+        logma.critical(f"Network Sandbox: {capabilities['network_sandbox']}")
 
 
 class NchantdMainWindow(pyqt.QMainWindow):
@@ -614,14 +632,12 @@ class NchantdMainWindow(pyqt.QMainWindow):
                 pass
         elif event.type() == event.WindowStateChange:
             state = self.windowState()
-            if state == pyqt.Qt.WindowMinimized:  # The window was minimized.
-                self.message_label.setText("Window State: Minimized")
-            elif state == pyqt.Qt.WindowMaximized:
-                self.message_label.setText("Window State: Maximized")
-                print("The window was maximized.")
-            elif state == pyqt.Qt.WindowNoState:
-                self.message_label.setText("Window State: Normal")
-                print("The window was restored to normal.")
+            # Use dictionary lookup instead of if/elif chain
+            message = WINDOW_STATE_MESSAGES.get(state, "")
+            self.message_label.setText(message)
+            action = WINDOW_STATE_ACTIONS.get(state)
+            if action:
+                action()
         return super().eventFilter(watched, event)
 
     def hideEvent(self, event):
@@ -750,7 +766,7 @@ def detect_linux_display_system():
 
 def diagnose_display_system():
     """Diagnose the current display system."""
-    print("=== Display System Diagnostic ===")
+    logma.critical("=== Display System Diagnostic ===")
 
     # Environment variables
     env_vars = [
@@ -764,7 +780,7 @@ def diagnose_display_system():
 
     for var in env_vars:
         value = os.environ.get(var, "Not set")
-        print(f"{var}: {value}")
+        logma.critical(f"{var}: {value}")
 
     # Running processes
     import subprocess
@@ -781,11 +797,11 @@ def diagnose_display_system():
         try:
             result = subprocess.run(["pgrep", "-f", process], capture_output=True, text=True)
             if result.returncode == 0:
-                print(f"✓ {description} running (PID: {result.stdout.strip()})")
+                logma.critical(f"{description} running (PID: {result.stdout.strip()}")
             else:
-                print(f"✗ {description} not running")
+                logma.critical(f"{description} not running")
         except FileNotFoundError:
-            print(f"? Could not check {description} (pgrep not found)")
+            logma.warning(f"Could not check {description} (pgrep not found)")
 
 
 # ===========================Code Source Examples================================||

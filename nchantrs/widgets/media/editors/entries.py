@@ -15,6 +15,10 @@
 from os.path import abspath, dirname, join
 import datetime as dt
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -93,11 +97,12 @@ class NchantdActivateEntry(NchantdWidget):
         return self
 
     def initView(self):
-        """BUG: Seems to be a bug with the Checkable attribute in PySide6 as of 2025-03-17"""
+        """Initialize the view with checkable button via config only"""
         super().initView()
         cfg = self.config.override({"checkable": True}).dikt
         self.enable_button = NchantdButton(self, cfg).initWidget()
-        self.enable_button.setCheckable(True)
+        # Note: setCheckable(True) is now handled by NchantdButton.initView() via config
+        # Do NOT call setCheckable again here - it causes PySide6 bug
         self.layout.addWidget(self.enable_button)
         cfg = self.config.override({}).dikt
         self.editor = NchantdEntryBox(self, cfg).initWidget()

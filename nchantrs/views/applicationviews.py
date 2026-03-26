@@ -10,9 +10,11 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
+from typing import Optional, Dict, List, Any, Tuple
 import datetime as dt
 import time
 import inspect
@@ -30,7 +32,7 @@ from ogma.logma import Logma
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
-logma.off()
+# logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(abspath(here), "_data_", "applicationviews.yaml")
@@ -39,7 +41,7 @@ pxcfg = join(abspath(here), "_data_", "applicationviews.yaml")
 class NchantdPantiesView(object):
     """"""
 
-    def __init__(self, parent, cfg=None):
+    def __init__(self, parent, cfg=None) -> None:
         """"""
         super().__init__()
         self.parent = parent
@@ -52,33 +54,42 @@ class NchantdPantiesView(object):
         self.layout = None
         self.pre_view_init_ran = False
         self.post_view_init_ran = False
-        self.app = pyqt.QApplication.instance()
+        # Get app from parent - NchantdCape/NchantdPanties has .main attribute
+        # Don't use QApplication.instance() directly as it lacks .main
+        self.app = self.parent
 
-    def init_pre_view(self):
+    def init_pre_view(self, cfg=None) -> None:
         """ """
         self.theme = NchantdTheme(self.app.main)
         self.themes = self.theme.themes
-        self.set_theme(self.config.dikt["gui"]["desktop"]["theme"])
+
+        logma.info(f"Config {cfg.dikt.keys()}")
+
+        self.config.override(cfg)
+
+        logma.info(f"Config {self.config.dikt.keys()}")
+        theme = self.config.dikt["gui"]["desktop"]["theme"]
+        self.set_theme(theme)
         self.pre_view_init_ran = True
 
-    def init_post_view(self):
+    def init_post_view(self) -> None:
         """"""
         self.post_view_init_ran = True
 
-    def initView(self):
+    def initView(self, cfg=None) -> None:
         """"""
         if not self.pre_view_init_ran:
-            self.init_pre_view()
+            self.init_pre_view(cfg)
         self.layout = pyqt.QHBoxLayout()
         if not self.post_view_init_ran:
             self.init_post_view()
         return self
 
-    def set_theme(self, theme="midnight_mist"):
+    def set_theme(self, theme="midnight_mist") -> None:
         """"""
         self.theme.set_theme(theme)
 
-    # def paintEvent(self, event):
+    # def paintEvent(self, event) -> None:
     #     """"""
     #     qp = pyqt.QPainter()
     #     qp.begin(self)
@@ -91,7 +102,7 @@ class NchantdPantiesView(object):
 class NchantdCapeView(NchantdPantiesView):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -100,7 +111,7 @@ class NchantdCapeView(NchantdPantiesView):
             self.config.override(parent.config)
         self.config.override(cfg)
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> None:
         """"""
         super().initView()
         return self
@@ -109,7 +120,7 @@ class NchantdCapeView(NchantdPantiesView):
 class NchantdCloakView(NchantdPantiesView):
     """ """
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -127,10 +138,10 @@ class NchantdCloakView(NchantdPantiesView):
         self.status_message = f"{self.parent.app.application_name} - version: {version} || {_time}  "
         self.new_account_wizard = None
 
-    def initView(self):  # ||
+    def initView(self, cfg=None):  # ||
         """Initialize UI setting the main application layout and building
         landing widgets"""
-        super().initView()
+        super().initView(cfg)
         self.set_theme()
         self._set_configurations()
         self.set_toolbar()
@@ -143,7 +154,7 @@ class NchantdCloakView(NchantdPantiesView):
         self.app.main.showMaximized()  # ||
         return self
 
-    def add_status_bar(self):
+    def add_status_bar(self) -> None:
         """"""
         self.status_bar = pyqt.QStatusBar()
         self.status_bar.setStyleSheet("color: red")
@@ -151,7 +162,7 @@ class NchantdCloakView(NchantdPantiesView):
         self.app.main.setStatusBar(self.status_bar)
         return self
 
-    def add_status_bar_message(self, text=None):
+    def add_status_bar_message(self, text=None) -> None:
         """"""
         if self.status_message is not None:
             if text is not None:
@@ -159,14 +170,18 @@ class NchantdCloakView(NchantdPantiesView):
         self.set_status_bar_message(self.status_message)
         return self
 
-    def build_panes(self):
+    def build_panes(self) -> None:
         """"""
         dtop = self.config.dikt["gui"]["desktop"]
         style = "3Pane" if dtop["layout"]["style"] is None else dtop["layout"]["style"]
         for pos in self.config.dikt["gui"]["desktop"]["styles"][style]["positions"]:
+
             widget = self.configure_widget(dtop, pos)
+
             logma.info(f"Widget {widget} load")
             # Loads Main Panes for 1, 2, or 3 Pane Applications
+            # TODO we need to make sure the config goes to load Widget
+            logma.info(f"Parent {self.parent}")
             self.panes[pos] = loadWidget(self.parent, widget)
             if self.panes[pos] is None:
                 raise Exception(f"Widget {widget} not loaded")
@@ -174,20 +189,24 @@ class NchantdCloakView(NchantdPantiesView):
             self.splitter.addWidget(self.panes[pos])
         return self
 
-    def configure_widget(self, dtop, pos):
+    def configure_widget(self, dtop, pos) -> None:
         """"""
         default = {"name": "Generic", "widget": "nchantrs.widgets.tabsets.NchantdTabSet"}
         widget = dtop["layout"][pos] if dtop["layout"][pos]["widget"] is not None else default
         # Add apps which controls data systems access for configurations
-        widget["apps"] = self.config.dikt.get("apps", [])
+        widget["apps"] = []
+        widget["apps"].append(self.config.dikt.get("app", "nchantrs"))
+        widget["apps"] += self.config.dikt.get("apps", [])
         widget["apps"].append("nchantrs")
+        widget["apps"] = list(set(widget["apps"]))
+        widget["app"] = self.config.dikt.get("app", "nchantrs")
         widget["pos"] = pos
         # widget["has_toolbox"] = False
         # if pos == "center":
         #     widget["has_toolbox"] = True
         return widget
 
-    def create_objects(self, pos):
+    def create_objects(self, pos) -> None:
         """"""
         create_objects = True
         if pos == "right":
@@ -195,25 +214,25 @@ class NchantdCloakView(NchantdPantiesView):
         self.panes[pos].initWidget({"create_objects": create_objects})
         return self
 
-    def on_window_move(self, event):
+    def on_window_move(self, event) -> None:
         """"""
         self.refresh_window_size()
 
-    def on_window_resize(self, event):
+    def on_window_resize(self, event) -> None:
         """"""
         self.refresh_window_size()
 
-    def refresh_window_size(self):
+    def refresh_window_size(self) -> None:
         # self._set_screen_geometry()
         self._set_application_size()
 
-    def set_status_bar_message(self, text=""):
+    def set_status_bar_message(self, text="") -> None:
         """"""
         self.status_message = text
         self.status_bar.showMessage(self.status_message)
         return self
 
-    def set_theme(self, theme="midnight_mist"):
+    def set_theme(self, theme="midnight_mist") -> None:
         """"""
         super().set_theme(theme)
         self.app.main.setWindowTitle(self.parent.app.application_name)
@@ -224,14 +243,14 @@ class NchantdCloakView(NchantdPantiesView):
         self.refresh_window_size()
         return self
 
-    def set_toolbar(self):
+    def set_toolbar(self) -> None:
         """"""
         toolbar = self.panes.get("toolbar", None)
         if toolbar is not None:
             self.splitter.addWidget(toolbar)
         return self
 
-    def show_splash_screen(self):
+    def show_splash_screen(self) -> None:
         """ """
         cfg = self.config.dikt["dialogs"]["splash"]
         screen = dialogs.Sigil(cfg)
@@ -240,7 +259,7 @@ class NchantdCloakView(NchantdPantiesView):
         screen.close()
         return self
 
-    def take_screen_shot(self, save=False):
+    def take_screen_shot(self, save=False) -> None:
         """"""
         image = self.screen.grabWindow(0)
         if save:
@@ -248,12 +267,12 @@ class NchantdCloakView(NchantdPantiesView):
             self.screen.save(f"{name}_{uuid()}", "png")
         return image, self.gui.globalMousePosition()
 
-    def _set_background(self, path=None):
+    def _set_background(self, path=None) -> None:
         """"""
         if path:
             self.app.main.setStyleSheet(f"background-image: url({path});")
 
-    def _set_configurations(self):
+    def _set_configurations(self) -> None:
         """"""
         self.app.main.setAttribute(pyqt.Qt.WA_DeleteOnClose)
         self.app.main.setAutoFillBackground(True)
@@ -261,7 +280,7 @@ class NchantdCloakView(NchantdPantiesView):
         self.app.main.windowList = []
         self.app.main.recentFileActions = []
 
-    def _set_application_size(self):
+    def _set_application_size(self) -> None:
         """"""
         self.app.main.setMinimumSize(300, 300)
         screen_geometry = self.gui.geometry()

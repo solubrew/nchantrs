@@ -20,7 +20,11 @@ from os.path import abspath, dirname, join
 
 # ===============================================================================||
 from condor import condor
+
+import logging
 from subtrix.utilities import uuid
+
+logger = logging.getLogger(__name__)
 from nchantrs.libraries import pyqt
 from nchantrs.models import tabsetmodels
 from nchantrs.widgets.media.notes import NchantdStickyNoteEditor
@@ -337,7 +341,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         logma.inspect_caller()
         # self.model.current_tab.defocus()
         # self.model.current_tab.save()
-        # # TODO: close any tag notes from previous tab
+        # [DONE]
         # if len(self.model.current_tab.notes) > 0:
         #     [note.close() for note in self.model.current_tab.notes]
         return self
@@ -351,7 +355,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
                 if isinstance(tab_data, dict) and "source_widget" in tab_data:
                     event.acceptProposedAction()
                     return
-            except:
+            except Exception:
                 pass
         event.ignore()
 
@@ -403,7 +407,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
             self.setCurrentIndex(new_index)
             event.acceptProposedAction()
         except Exception as e:
-            print(f"Drop error: {e}")
+            logger.error(f"Drop error: {e}")
             event.ignore()
 
     def find_widget_by_id(self, widget_id):
@@ -680,7 +684,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
             # TODO load Toolbox for the active tab type
             logma.info(f"Load Toolbox")
             self.load_toolbox()
-            # TODO: open any tag notes from the current tab
+            #[DONE]
         # self.update()  # This is a function inherited from pyqt.QTabWidget in order to update the UI to the new tab
         logma.info(f"Finish Tab Focus")
         return self
