@@ -10,7 +10,6 @@
     security: seclvl2
     <(WT)>: -32
 """
-
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -18,9 +17,6 @@ import datetime as dt
 import json as j
 import math
 
-import logging
-
-logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -30,19 +26,15 @@ from ogma.logma import Logma
 from condor.utils import thingify
 from nchantrs.utilities.utils import lookup
 from nchantrs.widgets.controls.menus import NchantdMenu, NchantdContextMenu
-
-from nchantrs.themes.colors import NchantdColor
+from pyffice.items.colors import PyfficeColor
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")
 debug = True
-log = False
+log = True
 logma = Logma(__name__)
 if not log:
     logma.off()
-
-# Constants to avoid magic numbers
-MAX_WIDTH_SCALE = 1.5  # Scale factor for max width calculation
 
 # ====================================================================================================================||
 pxcfg = join(abspath(here), "_data_", "widgets.yaml")
@@ -108,26 +100,7 @@ class NchantdAction(object):
 
 
 class NchantdWidgetMixin(object):
-    """
-    Mixin class for Nchantd widgets providing shared functionality.
-    
-    Note: Does NOT inherit from QObject to avoid diamond inheritance issues.
-    QWidget already inherits from QObject, so concrete classes that inherit
-    from both NchantdWidgetMixin and QWidget will properly inherit from QObject
-    through the QWidget base class.
-    
-    Changes:
-    - 2026-03-25: Removed pyqt.QObject inheritance to fix "cannot be converted to
-      PyQt5.QtCore.QObject in this context" error. The diamond inheritance pattern
-      (NchantdWidgetMixin -> QObject, NchantdWidget -> NchantdWidgetMixin + QWidget -> QObject)
-      was causing signal/slot issues. QWidget already provides QObject functionality.
-    """
-
-    def __init__(self, *args, **kwargs):
-        """Initialize mixin - no Qt initialization needed, QWidget handles that."""
-        # Note: Do NOT call super().__init__() here - let the concrete class (QWidget)
-        # handle QObject initialization to avoid double initialization errors
-        return
+    """"""
 
     def init_variables(self):
         """"""
@@ -175,23 +148,6 @@ class NchantdWidgetMixin(object):
         self.toolbox_config = None
         self.widget_initialized = False
         logma.info(f"Initialize Variables {type(self)}")
-        return self
-
-    def init(self):
-        """
-        Initialize the widget. Propagates up the inheritance chain to QWidget.
-        
-        Note: Does NOT call super().__init__() in __init__ to avoid diamond inheritance
-        issues. Instead, we call super().init() here to ensure the QWidget initialization
-        happens through the init() method chain.
-        
-        Changes:
-        - 2026-03-25: Added init() method to properly chain QWidget initialization.
-        """
-        if getattr(self, '_widget_initialized', False):
-            return self
-        self._widget_initialized = True
-        super().init()
         return self
 
     def initModel(self, objects=None, get_actions=True):
@@ -256,18 +212,13 @@ class NchantdWidgetMixin(object):
                 cfg = {"actions": {}}
                 if not menu_df.empty:
                     cfg = {"actions": menu_df.to_dict("records")}
-            except NameError as e:
-                logma.warning(f"Failed to load menu '{menu_name}': name 'nid' is not defined - likely missing from database schema")
-                cfg = {"actions": {}}
             except Exception as e:
                 logma.warning(f"Failed to load menu '{menu_name}': {e}")
                 cfg = {"actions": {}}
         else:
             logma.warning(f"No app model available for context menu")
             cfg = {"actions": {}}
-        if isinstance(cfg, int):
-            # TODO: probably need to lookup the int to find the correct menu name
-            cfg = {"actions": {}}
+
         # logma.info(f"Initialize Context Menu {cfg.get('actions', {})}")
         self.context_menu = NchantdContextMenu(self, cfg).initWidget()
         return self
@@ -523,13 +474,13 @@ class NchantdWidgetMixin(object):
 
     def set_background(self, color=None, hex=None):
         """"""
-        # logma.info(f"Set Background {color} {hex}")
+        logma.info(f"Set Background {color} {hex}")
         if color is not None:
             cfg = {"unit": {"color": color}}
-            color = NchantdColor(cfg).load_unit()
+            color = PyfficeColor(cfg).load_unit()
         if hex is not None:
             cfg = {"unit": {"hex": hex}}
-            color = NchantdColor(cfg).load_unit()
+            color = PyfficeColor(cfg).load_unit()
 
         logma.info(f"Set Background {color.get_hex()}")
         self.setStyleSheet(f"background-color: {color.get_hex()}; color: {color.calculate_text_color()}")
@@ -624,7 +575,7 @@ class NchantdWidgetMixin(object):
         if max_width is None:
             max_width = set_width
         if max_width is None:
-            max_width = min_width * MAX_WIDTH_SCALE
+            max_width = min_width * 1.5
         self.min_width = min_width
         self.max_width = max_width
         # logma.info(f"Set Width {self.min_width} {self.max_width}")
@@ -674,7 +625,7 @@ class NchantdWidgetMixin(object):
     #     if max_height is None:
     #         max_height = set_height
     #     if max_height is None:
-    #         max_height = min_height * MAX_WIDTH_SCALE
+    #         max_height = min_height * 1.5
     #     self.max_height = max_height
     #     # logma.info(f"Set Height {self.min_height} {self.max_height}")
     #     if isinstance(self.min_height, str):
@@ -724,7 +675,7 @@ class NchantdWidgetMixin(object):
         if max_height is None:
             max_height = set_height
         if max_height is None:
-            max_height = min_height * MAX_WIDTH_SCALE
+            max_height = min_height * 1.5
         self.max_height = max_height
         # logma.info(f"Set Height {self.min_height} {self.max_height}")
         if isinstance(self.min_height, str):
@@ -801,7 +752,7 @@ class NchantdWidgetMixin(object):
     #     if max_height is None:
     #         max_height = set_height
     #     if max_height is None:
-    #         max_height = min_height * MAX_WIDTH_SCALE
+    #         max_height = min_height * 1.5
     #     self.max_height = max_height
     #     # logma.info(f"Set Height {self.min_height} {self.max_height}")
     #     if isinstance(self.min_height, str):
@@ -891,17 +842,21 @@ class NchantdWidgetMixin(object):
 
 class NchantdWidget(NchantdWidgetMixin, pyqt.QWidget):
     """"""
+    # NOTE: Mixin comes before QWidget in MRO, but we must call QWidget.__init__ directly
+    # to ensure Qt initialization. The mixin provides application logic, QWidget provides
+    # the Qt widget functionality. Using super().__init__() would skip QWidget init.
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        super(NchantdWidget, self).__init__()
+        # Explicitly call QWidget.__init__ to ensure proper Qt initialization
+        # This fixes: RuntimeError: libshiboken: 'init' method of object's base class not called
+        pyqt.QWidget.__init__(self, parent)
         self.config = condor.Instruct(pxcfg).select("NchantdWidget")
         logma.info(f"Init NchantdWidget Config {self.config}")
         self.parent = parent
         self.init_variables()
         self.config.override(cfg)
         self.layout = None
-        self._widget_initialized = False
 
     def initModel(self, cfg=None):
         """"""
@@ -921,15 +876,6 @@ class NchantdWidget(NchantdWidgetMixin, pyqt.QWidget):
         """"""
         self.initModel()
         self.initView()
-        return self
-
-    def init(self, parent=None, cfg=None):
-        """Initialize the widget - guarded to prevent double initialization of QWidget."""
-        if self._widget_initialized:
-            logma.info(f"Widget already initialized, skipping duplicate init() call")
-            return self
-        self._widget_initialized = True
-        super().init()
         return self
 
     def initTriggers(self):
@@ -1031,9 +977,28 @@ def loadWidget(parent, cfg=None):  # , panestyle=None):
         cfg = {}
     cfg = condor.Instruct(pxcfg).override(cfg).dikt
     if cfg.get("widget", None):
-        app = cfg.get("app", "nchantrs")
-        logma.info(f"{app}.{cfg['widget']}")
-        widget = thingify(f"{app}.{cfg['widget']}", None, None, True)(parent, cfg)
+        try:
+            app = cfg.get("app", "nchantrs")
+            logma.info(f"{app}.{cfg['widget']}")
+            widget = thingify(f"{app}.{cfg['widget']}", None, None, True)(parent, cfg)
+        except Exception as e:
+            # Try fallback apps if specified
+            apps = cfg.get("apps", [])
+            if apps:
+                for app in set(apps):
+                    try:
+                        logma.info(f"{app}.{cfg['widget']}")
+                        widget = thingify(f"{app}.{cfg['widget']}", None, None, True)(parent, cfg)
+                    except Exception as e:
+                        if debug:
+                            logma.warning(f"{app}.{cfg['widget']}")
+                            logma.warning(e)
+            else:
+                # No fallback apps, re-raise the original exception
+                if debug:
+                    logma.warning(f"Failed to load widget: {cfg['widget']}")
+                    logma.warning(e)
+                raise
     else:
         registered_widget = lookupWidget(list(cfg.keys())[0])
         widget = condor.Factory.object(registered_widget, parent.app.model.parents)(parent, cfg)

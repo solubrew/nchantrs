@@ -103,6 +103,8 @@ class NchantdPanties(pyqt.QApplication):
         :type parent: NchantdPanties or None
         :param cfg: The configuration for the instance.
         :type cfg: dict or None
+        :param log_file: Optional log file path for logging output.
+        :type log_file: str or None
         """
 
         config = condor.Instruct(pxcfg).select("NchantdPanties").addArgs(args)

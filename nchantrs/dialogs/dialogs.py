@@ -13,8 +13,7 @@
 """
 # -*- coding: utf-8 -*-
 # ================================Core Modules===================================||
-import traceback
-from os.path import abspath, dirname, exists, join
+from os.path import abspath, dirname, join
 from sys import argv
 
 # ===============================================================================||
@@ -34,12 +33,6 @@ from ogma.logma import Logma
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
-# Enable file logging to track issues without requiring console
-# Use standard logging FileHandler
-import logging
-file_handler = logging.FileHandler("nchantrs_dialogs.log")
-file_handler.setLevel(logging.DEBUG)
-logma.addHandler(file_handler)
 
 # ===============================================================================||
 pxcfg = join(abspath(here), "_data_", "dialogs.yaml")  # ||
@@ -52,376 +45,85 @@ class NchantdCape(NchantdPanties):
         """
         :param name:
         :param cfg:
-        
-        NOTE: We intentionally do NOT call super().__init__() because that would
-        start the Qt event loop and block. Instead, we set up necessary attributes
-        manually and defer Qt initialization.
         """
-        logma.critical("="*60)
-        logma.critical("NchantdCape.__init__ STARTING (NO super().__init__)")
-        logma.critical(f"name: {name}, cfg: {cfg}")
-        logma.critical(f"QApplication.instance(): {pyqt.QApplication.instance()}")
-        logma.critical(f"args: {args}")
-        logma.critical("="*60)
-        
-        # Set up config manually (like parent does, but without blocking)
-        config = condor.Instruct(pxcfg).select("NchantdPanties").addArgs(args)
-        if self.config is None:
-            self.config = config
-        else:
-            self.config.override(config)
-        
-        # Try to load app-specific YAML config (e.g., nchantdaxn.yaml for NchantdAXN)
-        # This allows apps to define their own settings like requires_auth
-        app_yaml_name = name.lower().replace(" ", "") + ".yaml"  # e.g., nchantdaxn.yaml
-        import importlib.util
-        # Find the app module to locate its _data_ directory
-        app_module_name = name.lower().replace(" ", "")  # e.g., nchantdaxn
-        try:
-            app_spec = importlib.util.find_spec(app_module_name)
-            if app_spec and app_spec.submodule_search_locations:
-                app_path = app_spec.submodule_search_locations[0]
-                app_yaml_path = join(app_path, "_data_", app_yaml_name)
-                if exists(app_yaml_path):
-                    logma.info(f"Loading app-specific config: {app_yaml_path}")
-                    self.config.override(app_yaml_path).select(name)
-        except Exception as e:
-            logma.info(f"Could not load app YAML: {e}")
-        
-        self.config.override(pxcfg).select("NchantdCape").override(cfg).addArgs(args)
+        # NOTE: We do NOT call super().__init__() here because NchantdPanties
+        # extends QApplication and we don't want to reinitialize it.
+        # The QApplication is already created by the time we get here.
+        self.config = condor.Instruct(pxcfg).select("NchantdCape")
+        if parent:
+            self.config.override(parent.config)
+        self.config.override(cfg).addArgs(args)
         logma.info(f"NchantdCape Config: {self.config.dikt}")
-        self.parent = parent
         
-        # Set up application attributes manually (without starting event loop)
         self.application_name = name
-        self.slug = self.application_name.lower().replace(" ", "_")
-        self.application_NCD = "da1e9bb0-1dab-48de-ac28-9afa91568a39"
-        self.dialogs = {}
-        self.reset = None
-        self.app = self  # Set app to self (like parent NchantdPanties does)
-        self.primary_focus = None
-        self.is_installable = self.config.dikt.get("is_installable", False)
-        self.is_install_optional = self.config.dikt.get("is_install_optional", False)
-        self.is_install_selected = False
+        self.name = name
+        self.parent = parent
 
-        # Create a main window widget to hold the content instead of a separate dialog
-        logma.critical("Creating main_widget...")
-        logma.critical("About to create QMainWindow...")
-        logma.critical(f"QApplication.instance() before QMainWindow: {pyqt.QApplication.instance()}")
-        
-        # CRITICAL: Create QApplication BEFORE creating QMainWindow
-        logma.critical("Creating QApplication...")
-        if pyqt.QApplication.instance() is None:
-            self._qapp = pyqt.QApplication(['nchantdaxn'])
-            logma.critical(f"QApplication created: {pyqt.QApplication.instance()}")
-        else:
-            logma.critical(f"QApplication already exists: {pyqt.QApplication.instance()}")
-        
+        # Create a main window widget to hold the content instead of being the window
         self.main_widget = pyqt.QMainWindow()
-        logma.critical(f"QApplication.instance() after QMainWindow: {pyqt.QApplication.instance()}")
         self.main_widget.setWindowTitle(name)
-        # CRITICAL: Prevent recursive quit by using a flag
-        self._quitting = False
         # QMainWindow doesn't have finished signal, use destroyed or closeEvent instead
-        self.main_widget.destroyed.connect(self._on_main_widget_destroyed)
-        logma.critical("main_widget created")
+        self.main_widget.destroyed.connect(self.quit)
 
-        logma.critical("Creating model and view...")
         self.model = NchantdCapeModel(self)
         self.view = NchantdCapeView(self)
         self.user = self.model.user
         self.newApplication = True
         self.src = None
-        logma.critical("Model and view created")
-
-        # CRITICAL: Initialize the view immediately after setup
-        # This ensures main_layout is created before any widget operations
-        logma.critical(f"About to call initView(cfg={cfg})...")
-        # NOTE: We do NOT call initView here - it will be called by initApp()
-        # This prevents double initialization
-        # try:
-        #     self.initView(cfg)
-        # except Exception as e:
-        #     print(f"CRITICAL ERROR in initView: {e}")
-
-        #     traceback.print_exc()
-        #     raise
-        logma.critical("initView() will be called by initApp() - skipping in __init__")
-
-    @classmethod
-    def init(cls, name, cfg=None, args=None, log_file=None):
-        """Class method to initialize and run the application"""
-        # Create instance and call initApp to run the Qt event loop
-        instance = cls(name=name, cfg=cfg, args=args, log_file=log_file)
-        return instance.initApp(cfg)
+        
+        # Track initialization state
+        self._init_view_called = False
 
     @property
     def main(self):
         """Expose main_widget as main for compatibility with theme initialization"""
         return self.main_widget
 
-    def quit(self):
-        """Exit the application"""
-        logma.critical("quit() called")
-        # Prevent recursive quit
-        if getattr(self, '_quitting', False):
-            logma.critical("Already quitting - ignoring")
-            return self
-        self._quitting = True
-        if self.app:
-            self.app.quit()
-        return self
-
-    def _on_main_widget_destroyed(self):
-        """Handle main_widget destruction without recursive quit"""
-        logma.critical("_on_main_widget_destroyed() called")
-        if not getattr(self, '_quitting', False):
-            self._quitting = True
-            if self.app:
-                self.app.quit()
-        return self
-
-    def exit(self, code=0):
-        """Exit the application with code"""
-        logma.critical(f"exit({code}) called")
-        if self.app:
-            self.app.exit(code)
-        return self
-
     def initView(self, cfg=None):
         """Initialize UI setting the main application layout and building
         landing widgets"""
-        # FORCE PRINT - to ensure we see this in all cases
-        logma.critical("="*60)
-        logma.critical("NchantdCape.initView() STARTING NOW")
-        logma.critical(f"cfg passed: {cfg}")
-        logma.critical("="*60)
-
-        logma.critical("="*60)
-        logma.critical("NchantdCape.initView() STARTING")
-        logma.critical(f"cfg passed: {cfg}")
-        logma.critical("="*60)
-
+        # Guard against double initialization
+        if hasattr(self, '_init_view_called') and self._init_view_called:
+            import traceback
+            logma.critical(f"NchantdCape.initView() called TWICE! Second call blocked.")
+            logma.critical(f"Call stack for second call:")
+            for line in traceback.format_stack():
+                logma.critical(f"  {line.strip()}")
+            return self
+        self._init_view_called = True
+        
         if cfg is None:
             cfg = {}
+        logma.critical(f"NchantdCape.initView() STARTING NOW")
+        logma.critical(f"cfg passed: {cfg}")
         
-        # Force print
-        logma.critical(f"cfg after None check: {cfg}")
-        
-        # DEBUG: Log the cfg at start of initView
-        logma.critical(f"NchantdCape.initView - cfg at start: {cfg}")
-        
-        super().initView()
-        self.view.initView()
-
-        # CRITICAL FIX: Set up the central widget properly
-        # The view (like NchantdCloakView) may have created panes with a splitter
-        # We need to use that as our central widget, or create a default one
-        
-        # Check if view has a splitter with panes (like NchantdCloakView does)
-        placeholder = None  # Initialize placeholder - may be None if using splitter
-        if hasattr(self.view, 'splitter') and self.view.splitter is not None:
-            logma.critical("View has splitter with panes - using as central widget")
-            logma.critical("View has splitter - using as central widget")
-            # Use the view's splitter as the central widget (like NchantdCloakView does)
-            self.main_widget.setCentralWidget(self.view.splitter)
-            # Still create a main_layout for add_widget() calls
-            central_widget = pyqt.QWidget()
-            self.main_layout = pyqt.QVBoxLayout()
-            central_widget.setLayout(self.main_layout)
-            logma.critical(f"main_layout created (with splitter): {self.main_layout}")
-        else:
-            # View doesn't have panes - create a simple central widget
-            logma.critical("View has no splitter - creating default central widget")
-            logma.critical("View has no splitter - creating default")
-            
-            central_widget = pyqt.QWidget()
-            self.main_layout = pyqt.QVBoxLayout()
-            central_widget.setLayout(self.main_layout)
-            
-            # Try to use AXN panes if this is NchantdAXN
-            if self.application_name.lower() == 'nchantdaxn':
-                try:
-                    from nchantdaxn.widgets import AXNTaskListPane, AXNProjectListPane
-                    logma.info("Creating AXNTaskListPane...")
-                    logma.info("Creating AXNTaskListPane...")
-                    
-                    # Create a tab widget for Tasks and Projects
-                    self.axn_tab_widget = pyqt.QTabWidget()
-                    self.axn_tab_widget.setTabPosition(pyqt.QTabWidget.North)
-                    
-                    # Create the task list pane
-                    self.axn_task_pane = AXNTaskListPane(self)
-                    self.axn_task_pane.initWidget()
-                    self.axn_tab_widget.addTab(self.axn_task_pane, "📋 Tasks")
-                    
-                    # Create the project list pane
-                    self.axn_project_pane = AXNProjectListPane(self)
-                    self.axn_project_pane.initWidget()
-                    self.axn_tab_widget.addTab(self.axn_project_pane, "📁 Projects")
-                    
-                    self.main_layout.addWidget(self.axn_tab_widget)
-                    
-                    # Store reference for tab switching on main widget for accessibility
-                    self.main_widget.switch_to_projects = lambda: self.axn_tab_widget.setCurrentIndex(1)
-                    self.axn_task_pane.switch_to_projects = lambda: self.axn_tab_widget.setCurrentIndex(1)
-                    
-                    logma.info("AXN Task/Project tabs added to layout")
-                    logma.info("AXN Task/Project tabs added successfully")
-                except Exception as e:
-                    logma.error(f"Failed to create AXN panes: {e}")
-                    logma.error(f"Failed to create AXN panes: {e}")
-
-                    traceback.print_exc()
-                    
-                    # Fallback to placeholder
-                    placeholder = pyqt.QLabel(f"Welcome to {self.application_name}\n\nThis is a basic NchantdCape application.\nUse NchantdCloakView for full panes.")
-                    placeholder.setAlignment(pyqt.Qt.AlignmentFlag.AlignCenter)
-                    placeholder.setStyleSheet("font-size: 18px; padding: 50px; color: #4caf50;")
-                    self.main_layout.addWidget(placeholder)
-            else:
-                # Fallback for non-AXN apps
-                placeholder = pyqt.QLabel(f"Welcome to {self.application_name}\n\nThis is a basic NchantdCape application.\nUse NchantdCloakView for full panes.")
-                placeholder.setAlignment(pyqt.Qt.AlignmentFlag.AlignCenter)
-                placeholder.setStyleSheet("font-size: 18px; padding: 50px; color: #4caf50;")
-                self.main_layout.addWidget(placeholder)
-            
-            self.main_widget.setCentralWidget(central_widget)
-            logma.critical(f"main_layout created with placeholder: {placeholder}")
-            logma.critical(f"main_layout created with placeholder label: {placeholder}")
-        
-        # DEBUG: Verify what's in the central widget
-        central = self.main_widget.centralWidget()
-        logma.debug(f"DEBUG: centralWidget is: {central}")
-        logma.debug(f"DEBUG: centralWidget layout is: {central.layout() if central else None}")
-        if central and central.layout():
-            logma.debug(f"DEBUG: centralWidget layout count: {central.layout().count()}")
-            for i in range(central.layout().count()):
-                item = central.layout().itemAt(i)
-                logma.debug(f"DEBUG: layout item {i}: {item.widget()}")
-        
-        logma.critical(f"main_layout ready: {self.main_layout}")
-        logma.critical(f"main_layout: {self.main_layout}, centralWidget: {self.main_widget.centralWidget()}")
-
-        # Check if this application requires authentication from config
-        requires_auth = self.config.dikt.get("requires_auth", False)
-        
-        # Force print
-        logma.critical(f"requires_auth: {requires_auth}")
-        logma.critical(f"NchantdCape.initView - requires_auth: {requires_auth}")
-        
-        if requires_auth:
-            logma.critical("Authentication required - showing password dialog NOW")
-            logma.critical("Authentication required - showing password dialog NOW")
-            if not self._show_password_dialog():
-                logma.critical("Authentication cancelled - exiting")
-                logma.critical("Authentication cancelled - exiting")
-                self.quit()
-                return self
-            logma.critical("Authentication successful")
-        else:
-            logma.info("Authentication NOT required - skipping password dialog")
-        # =======================================
+        # Create central widget for the main window
+        central_widget = pyqt.QWidget()
+        self.main_layout = pyqt.QVBoxLayout()
+        central_widget.setLayout(self.main_layout)
+        self.main_widget.setCentralWidget(central_widget)
 
         # Now add the widget since layout is initialized
         if cfg.get("widget", None):
             logma.info(f"Add Widget {cfg['widget']}")
             self.add_widget(cfg["widget"])
-
-        self.main_widget.MaxRecentFiles = MAX_RECENT_FILES
-        self.main_widget.windowList = []
-        self.main_widget.recentFileActs = []
-        self.main_widget.show()
-
-        return self
-
-        # Check if this application requires authentication from config
-        requires_auth = self.config.dikt.get("requires_auth", False)
-        
-        # Force print
-        logma.critical(f"requires_auth: {requires_auth}")
-        logma.critical(f"NchantdCape.initView - requires_auth: {requires_auth}")
-        
-        if requires_auth:
-            logma.critical("Authentication required - showing password dialog NOW")
-            logma.critical("Authentication required - showing password dialog NOW")
-            if not self._show_password_dialog():
-                logma.critical("Authentication cancelled - exiting")
-                logma.critical("Authentication cancelled - exiting")
-                self.quit()
-                return self
-            logma.critical("Authentication successful")
         else:
-            logma.info("Authentication NOT required - skipping password dialog")
-        # =======================================
+            # Add a welcome label as placeholder
+            logma.info("No widget provided - adding welcome placeholder")
+            welcome_label = pyqt.QLabel("Welcome to NchantdAXN")
+            welcome_label.setAlignment(pyqt.Qt.AlignCenter)
+            font = pyqt.QFont()
+            font.setPointSize(16)
+            font.setBold(True)
+            welcome_label.setFont(font)
+            self.main_layout.addWidget(welcome_label)
 
-        # Now add the widget since layout is initialized
-        if cfg.get("widget", None):
-            logma.info(f"Add Widget {cfg['widget']}")
-            self.add_widget(cfg["widget"])
-
-        self.main_widget.MaxRecentFiles = MAX_RECENT_FILES
+        self.main_widget.MaxRecentFiles = 10
         self.main_widget.windowList = []
         self.main_widget.recentFileActs = []
         self.main_widget.show()
 
         return self
-
-    def _show_password_dialog(self):
-        """Show password dialog for authentication"""
-        # FORCE PRINT - to ensure we see this in all cases
-        logma.critical("="*50)
-        logma.critical("_show_password_dialog() CALLED - ABOUT TO SHOW DIALOG")
-        logma.critical("="*50)
-        
-        logma.critical("="*50)
-        logma.critical("_show_password_dialog() CALLED")
-        logma.critical("="*50)
-        
-        dialog = pyqt.QDialog(self.main_widget)
-        dialog.setWindowTitle("Nchantrs Authentication")
-        dialog.setMinimumWidth(350)
-        dialog.setWindowFlags(dialog.windowFlags() | pyqt.Qt.Dialog)
-
-        layout = pyqt.QVBoxLayout(dialog)
-
-        # Icon
-        icon_label = pyqt.QLabel("🔐")
-        icon_label.setAlignment(pyqt.Qt.AlignCenter)
-        icon_label.setStyleSheet("font-size: 48px;")
-        layout.addWidget(icon_label)
-
-        layout.addWidget(pyqt.QLabel("Enter master passphrase to continue:"))
-
-        passphrase_input = pyqt.QLineEdit()
-        passphrase_input.setEchoMode(pyqt.QLineEdit.Password)
-        passphrase_input.returnPressed.connect(dialog.accept)
-        layout.addWidget(passphrase_input)
-
-        buttons = pyqt.QDialogButtonBox(pyqt.QDialogButtonBox.Ok | pyqt.QDialogButtonBox.Cancel)
-        buttons.accepted.connect(dialog.accept)
-        buttons.rejected.connect(dialog.reject)
-        layout.addWidget(buttons)
-
-        # Show dialog
-        logma.critical("About to call dialog.exec()...")
-        result = dialog.exec()
-        logma.critical(f"dialog.exec() returned: {result}")
-        
-        if result == pyqt.QDialog.Accepted:
-            password = passphrase_input.text()
-            if password:
-                logma.info("Password accepted")
-                logma.info("Password accepted")
-                return True
-            else:
-                logma.info("Empty password - rejecting")
-                logma.info("Empty password - rejecting")
-                return False
-        
-        logma.info("Dialog cancelled")
-        logma.info("Dialog cancelled")
-        return False
 
     def add_widget(self, widget):
         """"""
@@ -433,11 +135,6 @@ class NchantdCape(NchantdPanties):
             widget_instance.initWidget()
             logma.info(f"Widget initialized: {widget_instance}")
 
-            # DEBUG: Check main_layout
-            logma.info(f"main_layout is None: {self.main_layout is None}")
-            logma.info(f"widget_instance parent: {widget_instance.parent() if widget_instance.parent else None}")
-            logma.info(f"widget_instance layout: {widget_instance.layout()}")
-
             self.main_layout.addWidget(widget_instance)
             logma.info(f"Widget added to layout")
 
@@ -446,21 +143,24 @@ class NchantdCape(NchantdPanties):
             logma.info(f"Widget displayed")
         except Exception as e:
             logma.error(f"Error adding widget: {e}")
+            import traceback
+
             traceback.print_exc()
         return self
 
     def initApp(self, cfg=None):
-        """"""
+        """Initialize and run the application"""
+        # Initialize model
         self.initModel()
+        # Initialize view
         self.initView(cfg)
-
-        # CRITICAL: Show the main_widget and run the Qt event loop properly
-        # self.main_widget is the actual QMainWindow, not self
-        self.main_widget.show()
-        logma.info("Main widget shown - starting Qt event loop")
-        result = pyqt.QApplication.instance().exec()
-        logma.info(f"Application exiting with result: {result}")
-        return result
+        
+        # Run Qt event loop - use the QApplication instance's exec() method
+        logma.critical("Main widget shown - starting Qt event loop")
+        pyqt.QApplication.instance().exec()
+        
+        logma.info(f"Application exiting")
+        return 0
 
     def closeEvent(self, event):
         """Handle application close event"""
@@ -493,16 +193,10 @@ class NchantdClip(pyqt.QDialog):
         logma.info(f"Type {type(widget)}")
         layout.addWidget(widget().initWidget())
 
-    def initApp(self, cfg=None):
+    def initApp(self):
         """"""
-        # Initialize the view
-        self.initView()
-        
-        # Show the main widget
-        self.main_widget.show()
-        
-        # Run the Qt event loop
-        pyqt.QApplication.instance().exec()
+        self.exec()
+        self.app.exec()
 
 
 class NchantdSigilMixin(NchantdWidgetMixin):
