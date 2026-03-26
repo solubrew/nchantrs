@@ -311,10 +311,10 @@ class NchantdCloak(NchantdPanties):  # ||
             cfg = {}
             self.service_manager = NchantdServiceManager(self, cfg)
             # self.service_manager.initManager()
-        if self.has_extensions:
-            cfg = {}
-            self.extension_manager = NchantdExtensionsManager(self, cfg)
-            # self.extension_manager.initManager()
+        # if self.has_extensions:
+        #     cfg = {}
+        #     self.extension_manager = NchantdExtensionsManager(self, cfg)
+        #     # self.extension_manager.initManager()
         if self.has_library:
             cfg = {}
             self.library_manager = NchantdLibraryManager(self, cfg)
