@@ -1,23 +1,24 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-"""  #																			||
+"""#																			||
 ---  #																			||
 <(META)>: '3a0f63bb-96be-4c2f-bd5b-31fc64fd00b3' #								||
-	docid:   #																	||
-	name: Nchantrs Module Nchantrs Python Excecution Document  #				||
-	description: >  #															||
-		Nchantrs allows for the modular creation of a gui app via  #			||
-		configuration files.  The main window holds a grid of widgets such  #	||
-		that each application is its own singular document type saving, new,  #	||
-		open etc refers to the data used to populate the widgets.  The  #		||
-		default data format for test_nchantrs applications is yaml files with the  #	||
-		ability to override with an sql storage method  #						||
-		leverage PyQt5TableModels to integrate tables
-	expirary: <[expiration]>  #													||
-	version: 0.0.0.0.0.0  #														||
-	authority: document|this  #													||
-	security: sec|lvl2  #														||
-	<(WT)>: -32  #																||
+        docid:   #																	||
+        name: Nchantrs Module Nchantrs Python Excecution Document  #				||
+        description: >  #															||
+                Nchantrs allows for the modular creation of a gui app via  #			||
+                configuration files.  The main window holds a grid of widgets such  #	||
+                that each application is its own singular document type saving, new,  #	||
+                open etc refers to the data used to populate the widgets.  The  #		||
+                default data format for test_nchantrs applications is yaml files with the  #	||
+                ability to override with an sql storage method  #						||
+                leverage PyQt5TableModels to integrate tables
+        expirary: <[expiration]>  #													||
+        version: 0.0.0.0.0.0  #														||
+        authority: document|this  #													||
+        security: sec|lvl2  #														||
+        <(WT)>: -32  #																||
 """  # ||
+
 # -*- coding: utf-8 -*-#														||
 # ================================Core Modules===================================||
 from os.path import abspath, dirname, exists, join, expanduser
@@ -29,14 +30,14 @@ import platform
 
 import logging
 
-
 logger = logging.getLogger(__name__)
 # ===============================================================================||
 
 # ===============================================================================||
 from condor import condor
 from nchantrs.libraries import pyqt
-from nchantrs.extensions.extensions import NchantdExtensionsManager
+
+# from nchantrs.extensions.extensions import NchantdExtensionsManager #TODO extension manager not ready or needed yet 2026-03-26
 
 from nchantrs.models.applicationmodels import NchantdCloakModel, NchantdPantiesModel
 from nchantrs.services.services import NchantdServiceManager
@@ -63,7 +64,7 @@ WINDOW_STATE_ACTIONS = {
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
-#logma.off()
+# logma.off()
 debug = True
 # ===============================================================================||
 pxcfg = join(abspath(here), "_data_", "applications.yaml")  # ||
@@ -240,7 +241,7 @@ class NchantdCloak(NchantdPanties):  # ||
         """Initialize UI setting the main application layout and building
         landing widgets
         Load Pane based on the selection in the navigation tree"""
-        #[DONE]
+        # [DONE]
         self.system = platform.system().lower()
         self.set_version(self.config.dikt.get("config", {}).get("version", "0.0.1.0.1.0"))
         if self.has_agents is None:
