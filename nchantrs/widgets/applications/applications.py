@@ -37,7 +37,7 @@ logger = logging.getLogger(__name__)
 from condor import condor
 from nchantrs.libraries import pyqt
 
-# from nchantrs.extensions.extensions import NchantdExtensionsManager #TODO extension manager not ready or needed yet 2026-03-26
+from nchantrs.extensions.extensions import NchantdExtensionsManager
 
 from nchantrs.models.applicationmodels import NchantdCloakModel, NchantdPantiesModel
 from nchantrs.services.services import NchantdServiceManager
@@ -311,10 +311,10 @@ class NchantdCloak(NchantdPanties):  # ||
             cfg = {}
             self.service_manager = NchantdServiceManager(self, cfg)
             # self.service_manager.initManager()
-        # if self.has_extensions:
-        #     cfg = {}
-        #     self.extension_manager = NchantdExtensionsManager(self, cfg)
-        #     # self.extension_manager.initManager()
+        if self.has_extensions:
+            cfg = {}
+            self.extension_manager = NchantdExtensionsManager(self, cfg)
+            # self.extension_manager.initManager()
         if self.has_library:
             cfg = {}
             self.library_manager = NchantdLibraryManager(self, cfg)
