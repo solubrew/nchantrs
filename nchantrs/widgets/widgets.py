@@ -105,7 +105,10 @@ class NchantdWidgetMixin(object):
 
     def init_variables(self):
         """"""
-        self.app = pyqt.QApplication.instance()
+        self.app = None
+        # First, try to get app from parent directly (most reliable)
+        if self.parent is not None and hasattr(self.parent, 'app'):
+            self.app = self.parent.app
         # Traverse parent chain to find the Nchantrs application (NchantdCape or NchantdCloak)
         # This handles both simple dialogs (distortion) and complex apps (nchantment)
         if self.parent is not None:

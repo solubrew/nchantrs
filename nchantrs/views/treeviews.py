@@ -276,6 +276,29 @@ class NchantdTreeView(NchantdWidget):
         if "center" in self.parent.app.view.panes.keys():
             # self.parent.app.view.panes["center"].model.current_tab.save()
             node.updateTabs("center")
+        # Save last selected node to instance for restoration on next launch
+        self._save_last_node(node)
+        return self
+
+    def _save_last_node(self, node) -> None:
+        """"""
+        try:
+            if hasattr(self.parent.app, 'model') and self.parent.app.model:
+                store = self.parent.app.model.store
+                instance = self.parent.app.model.instance
+                if store and instance:
+                    # Get the node's nid
+                    node_nid = getattr(node, 'nid', None) or getattr(node, 'data', {}).get('nid_txt', None)
+                    if node_nid:
+                        # Update instance metadata with last node
+                        if not hasattr(instance, 'meta_data'):
+                            instance.meta_data = {}
+                        instance.meta_data['last_node_nid_txt'] = node_nid
+                        # Store the updated instance
+                        store.store_app_instance(instance, how="UPDATE")
+                        logma.info(f"Saved last node: {node_nid}")
+        except Exception as e:
+            logma.warning(f"Could not save last node: {e}")
         return self
 
     def set_node_widget(self, widget) -> None:

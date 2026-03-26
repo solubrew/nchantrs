@@ -1,7 +1,7 @@
 agent: arthr
 analysis:
   counts:
-    directories: 99
+    directories: 91
     file_sizes:
       nchantrs/__init__.py: 488
       nchantrs/__main__.py: 243
@@ -19,7 +19,7 @@ analysis:
       nchantrs/dialogs/about.py: 5090
       nchantrs/dialogs/authentication.py: 2980
       nchantrs/dialogs/colors.py: 2720
-      nchantrs/dialogs/dialogs.py: 34627
+      nchantrs/dialogs/dialogs.py: 19950
       nchantrs/dialogs/editors.py: 3030
       nchantrs/dialogs/errors.py: 2364
       nchantrs/dialogs/extensions.py: 2246
@@ -66,7 +66,7 @@ analysis:
       nchantrs/library/library.py: 1632
       nchantrs/logging/__init__.py: 1962
       nchantrs/models/__init__.py: 284
-      nchantrs/models/applicationmodels.py: 32901
+      nchantrs/models/applicationmodels.py: 32995
       nchantrs/models/models.py: 70744
       nchantrs/models/tabsetmodels.py: 12623
       nchantrs/models/treemodels.py: 16917
@@ -92,7 +92,7 @@ analysis:
       nchantrs/utilities/__init__.py: 409
       nchantrs/utilities/analytics.py: 2347
       nchantrs/utilities/books.py: 2570
-      nchantrs/utilities/comms.py: 4475
+      nchantrs/utilities/comms.py: 4147
       nchantrs/utilities/constants.py: 2157
       nchantrs/utilities/debug.py: 7907
       nchantrs/utilities/files.py: 2211
@@ -120,7 +120,7 @@ analysis:
       nchantrs/widgets/agents/agents.py: 4406
       nchantrs/widgets/annotations.py: 11256
       nchantrs/widgets/applications/__init__.py: 0
-      nchantrs/widgets/applications/applications.py: 30789
+      nchantrs/widgets/applications/applications.py: 30893
       nchantrs/widgets/applications/managers.py: 2738
       nchantrs/widgets/browsers/__init__.py: 0
       nchantrs/widgets/browsers/browsers.py: 23649
@@ -231,7 +231,7 @@ analysis:
       nchantrs/widgets/tables/tables.py: 24688
       nchantrs/widgets/tabsets.py: 27541
       nchantrs/widgets/trees.py: 16492
-      nchantrs/widgets/widgets.py: 35121
+      nchantrs/widgets/widgets.py: 35838
       nchantrs/wizards/__init__.py: 0
       nchantrs/wizards/accounts.py: 3319
       nchantrs/wizards/apps.py: 27126
@@ -241,13 +241,11 @@ analysis:
       nchantrs/wizards/wizards.py: 2662
       tests/__init__.py: 25
     files_by_type:
-      (no extension): 171
-      .TAG: 2
       .iml: 1
       .jpg: 2
       .json: 1
       .kra: 2
-      .md: 278
+      .md: 8
       .png: 30
       .py: 238
       .qss: 9
@@ -359,10 +357,10 @@ analysis:
         word_count: 193
       nchantrs/dialogs/dialogs.py:
         class_count: 6
-        file_size: 34627
+        file_size: 19950
         function_count: 0
-        import_count: 15
-        word_count: 2674
+        import_count: 13
+        word_count: 1600
       nchantrs/dialogs/editors.py:
         class_count: 1
         file_size: 3030
@@ -641,10 +639,10 @@ analysis:
         word_count: 33
       nchantrs/models/applicationmodels.py:
         class_count: 6
-        file_size: 32901
+        file_size: 32995
         function_count: 0
         import_count: 20
-        word_count: 2721
+        word_count: 2734
       nchantrs/models/models.py:
         class_count: 5
         file_size: 70744
@@ -797,10 +795,10 @@ analysis:
         word_count: 181
       nchantrs/utilities/comms.py:
         class_count: 1
-        file_size: 4475
+        file_size: 4147
         function_count: 0
-        import_count: 9
-        word_count: 361
+        import_count: 7
+        word_count: 324
       nchantrs/utilities/constants.py:
         class_count: 0
         file_size: 2157
@@ -965,10 +963,10 @@ analysis:
         word_count: 0
       nchantrs/widgets/applications/applications.py:
         class_count: 3
-        file_size: 30789
+        file_size: 30893
         function_count: 2
         import_count: 18
-        word_count: 2329
+        word_count: 2343
       nchantrs/widgets/applications/managers.py:
         class_count: 1
         file_size: 2738
@@ -1631,10 +1629,10 @@ analysis:
         word_count: 1341
       nchantrs/widgets/widgets.py:
         class_count: 4
-        file_size: 35121
+        file_size: 35838
         function_count: 6
-        import_count: 12
-        word_count: 2859
+        import_count: 11
+        word_count: 2908
       nchantrs/wizards/__init__.py:
         class_count: 0
         file_size: 0
@@ -1683,7 +1681,7 @@ analysis:
         function_count: 0
         import_count: 0
         word_count: 4
-audit_date: '1774150860.110541'
+audit_date: '1774557804.5151763'
 coverage_penalty:
   applied: true
   message: -10% penalty (file-level coverage 0.0% < 60%)
@@ -1977,14 +1975,14 @@ dimensions:
     details:
       issues:
       - fix: Add entries to CHANGES.md for recent changes
-        rule: 'Low changelog coverage: 6%'
+        rule: 'Low changelog coverage: 0%'
         severity: high
         unmatched_commits:
-        - dfc2221 Fix lambda antipattern in buttons.py
-        - df1d46c Fix 'nid is not defined' error in initialize_context
-        - '1b9c2df fix(browsers): null-safe has_pro check to prevent At'
-        - a820498 clean up
-        - dade3f5 clean up
+        - 1507b48 debug
+        - f01c08e Merge remote-tracking branch 'local/gamma' into gamm
+        - '229406e Fix init chain: call QWidget.__init__ directly to fi'
+        - '8fff83a Fix init chain: add init() to mixin, simplify Nchant'
+        - '3f16b6c Fix: Remove QObject from NchantdWidgetMixin to avoid'
       score: 20
       status: partial
     score: 20
@@ -2196,53 +2194,11 @@ dimensions:
     status: partial
   dependency_strategy:
     details:
-      external_imports: 942
-      info: 'Hint: 63 GitVein projects available but not used: PyQt5Pandas, apig,
-        asolutionfor, axn, basicbot...'
-      internal_import_details:
-      - file: nchantrs/agent_awareness.py
-        module: nchantrs.agent_awareness
-        project: nchantrs
-      - file: nchantrs/agent_awareness.py
-        module: nchantrs.agent_awareness
-        project: nchantrs
-      - file: nchantrs/nchantrs.py
-        module: nchantrs.widgets.applications.applications
-        project: nchantrs
-      - file: nchantrs/nchantrs.py
-        module: nchantrs.widgets.applications.applications
-        project: nchantrs
-      - file: nchantrs/nchantrs.py
-        module: ogma.logma
-        project: ogma
-      - file: nchantrs/libraries/orange.py
-        module: condor
-        project: condor
-      - file: nchantrs/libraries/qpandas.py
-        module: pyside6pandas.models.DataFrameModel
-        project: pyside6pandas
-      - file: nchantrs/libraries/qpandas.py
-        module: pyside6pandas.models.DataFrameModel
-        project: pyside6pandas
-      - file: nchantrs/libraries/qpandas.py
-        module: pyside6pandas.models.DataFrameModel
-        project: pyside6pandas
-      - file: nchantrs/services/integrity.py
-        module: condor
-        project: condor
-      internal_imports: 377
-      internal_projects_used:
-      - condor
-      - subtrix
-      - pyside6pandas
-      - nchantrs
-      - ogma
-      leverage_score: 28.58
-      score: 100
-      status: pass
-      total_imports: 1319
-    score: 100
-    status: pass
+      error: cannot import name 'CodeSearcher' from 'sasquatch' (/home/solubrew/ENVs/shieldface/lib/python3.12/site-packages/sasquatch/__init__.py)
+      score: 0
+      status: error
+    score: 0
+    status: error
   documentation:
     details:
       missing: []
@@ -2550,54 +2506,22 @@ dimensions:
       - fix: Use specific exception types instead of Exception
         rule: 'Generic Exception excepts found: 19'
         severity: medium
-      proper_try_except: 55
+      proper_try_except: 53
       score: 80
       status: pass
     score: 80
     status: pass
   external_dependencies_declared:
     details:
-      declared_count: 38
+      declared_count: 0
       declared_internal: []
-      issues:
-      - fix: Add these packages to [project.dependencies] in pyproject.toml
-        packages:
-        - _work
-        - colormath
-        - config
-        - cons
-        - feedparser
-        - fxsquirl
-        - gtk
-        - nchantdoffice
-        - pil
-        - pkg_resources
-        - pyqt5
-        - pyside6pandas
-        - turtle
-        - uuid_extensions
-        rule: 'External dependencies not declared in pyproject.toml: 14 packages'
-        severity: critical
-      score: 0
-      status: fail
-      undeclared_external:
-      - _work
-      - colormath
-      - config
-      - cons
-      - feedparser
-      - fxsquirl
-      - gtk
-      - nchantdoffice
-      - pil
-      - pkg_resources
-      - pyqt5
-      - pyside6pandas
-      - turtle
-      - uuid_extensions
-      used_external_count: 27
-    score: 0
-    status: fail
+      issues: []
+      score: 100
+      status: pass
+      undeclared_external: []
+      used_external_count: 0
+    score: 100
+    status: pass
   feature_envy:
     details:
       feature_envy_count: 3
@@ -2616,13 +2540,11 @@ dimensions:
     status: pass
   git_workflow:
     details:
-      branch: gamma
-      has_commits: true
-      is_git_repo: true
-      score: 100
-      status: pass
-    score: 100
-    status: pass
+      error: cannot import name 'GitAnalyzer' from 'sasquatch' (/home/solubrew/ENVs/shieldface/lib/python3.12/site-packages/sasquatch/__init__.py)
+      score: 0
+      status: error
+    score: 0
+    status: error
   god_class:
     details:
       god_class_count: 5
@@ -2641,7 +2563,7 @@ dimensions:
           severity: high
         - class: NchantdWidgetMixin
           file: nchantrs/widgets/widgets.py
-          line_count: 743
+          line_count: 738
           method_count: 63
           severity: critical
         - class: NchantdTable
@@ -2680,12 +2602,11 @@ dimensions:
     status: pass
   kiss_dry:
     details:
-      duplicate_warnings: 0
-      magic_numbers_found: 0
-      score: 100
-      status: pass
-    score: 100
-    status: pass
+      error: cannot import name 'CodeSearcher' from 'sasquatch' (/home/solubrew/ENVs/shieldface/lib/python3.12/site-packages/sasquatch/__init__.py)
+      score: 0
+      status: error
+    score: 0
+    status: error
   lambda_antipattern:
     details:
       antipattern_count: 5
@@ -2702,11 +2623,11 @@ dimensions:
         - file: nchantrs/widgets/browsers/downloads.py
           line: 188
         fix: Consider refactoring lambda anti-patterns
-        rule: 'Some lambda anti-patterns found: 5/37'
+        rule: 'Some lambda anti-patterns found: 5/35'
         severity: medium
       score: 80
       status: pass
-      total_lambdas: 37
+      total_lambdas: 35
     score: 80
     status: pass
   license_dependencies:
@@ -2719,8 +2640,8 @@ dimensions:
         - GitPython (BSD-3-Clause)
         - ImageIO (BSD-2-Clause)
         - Jinja2 (BSD License)
-        rule: 'Non-MIT licenses: 317/583'
-        severity: high
+        rule: 'Non-MIT licenses: 327/605'
+        severity: medium
       - fix: Verify license manually or remove dependency
         packages:
         - PyAudio
@@ -2728,9 +2649,9 @@ dimensions:
         - command-not-found
         - cupshelpers
         - distro-info
-        rule: 'Unknown licenses: 16/583'
-        severity: high
-      mit_percentage: 42.9
+        rule: 'Unknown licenses: 16/605'
+        severity: medium
+      mit_percentage: 43.3
       score: 80
       status: pass
       tools_available:
@@ -2752,30 +2673,18 @@ dimensions:
     status: partial
   logging:
     details:
-      print_files: []
-      print_statements: 0
-      score: 100
-      status: pass
-      uses_logging: true
-      uses_logma: false
-    score: 100
-    status: pass
+      error: cannot import name 'CodeSearcher' from 'sasquatch' (/home/solubrew/ENVs/shieldface/lib/python3.12/site-packages/sasquatch/__init__.py)
+      score: 0
+      status: error
+    score: 0
+    status: error
   long_method:
     details:
-      issues:
-      - fix: Extract into smaller helper functions
-        items:
-        - file: nchantrs/dialogs/dialogs.py
-          function: initView
-          line_count: 178
-          line_start: 191
-          severity: medium
-        rule: 'Long methods detected: 1'
-        severity: medium
-      long_method_count: 1
-      score: 90
+      issues: []
+      long_method_count: 0
+      score: 100
       status: pass
-    score: 90
+    score: 100
     status: pass
   magic_numbers:
     details:
@@ -2795,7 +2704,7 @@ dimensions:
           type: int
           value: 100000
         - file: nchantrs/utilities/comms.py
-          line: 35
+          line: 93
           type: int
           value: 5000
         - file: nchantrs/actions/text.py
@@ -2819,12 +2728,12 @@ dimensions:
           type: int
           value: 3000
         - file: nchantrs/widgets/widgets.py
-          line: 45
+          line: 578
           type: float
           value: 1.5
-        rule: 'Magic numbers detected: 57'
+        rule: 'Magic numbers detected: 58'
         severity: medium
-      magic_number_count: 57
+      magic_number_count: 58
       score: 0
       status: fail
     score: 0
@@ -2839,19 +2748,22 @@ dimensions:
     status: pass
   mkdocs_mkdocstrings:
     details:
-      coverage_percentage: 100.0
-      covered_modules: 18
-      docs_directory: true
-      has_index_md: true
+      coverage_percentage: 0
+      covered_modules: 0
+      docs_directory: false
+      has_index_md: false
       has_mkdocstrings: true
-      issues: []
+      issues:
+      - fix: 'Set up MkDocs with mkdocstrings: create mkdocs.yml and docs/index.md'
+        rule: No MkDocs documentation setup found
+        severity: high
       mkdocs_config: mkdocs.yml
-      score: 100
-      status: pass
-      total_modules: 18
+      score: 0
+      status: fail
+      total_modules: 0
       uncovered_modules: []
-    score: 100
-    status: pass
+    score: 0
+    status: fail
   module_cli_coverage:
     details:
       cli_commands:
@@ -2898,48 +2810,48 @@ dimensions:
       covered_modules: 17
       issues:
       - available_cli_commands:
-        - test
-        - dialogs
-        - utilities
-        - widgets
-        - library
-        - help
-        - actions
-        - services
-        - logging
+        - extensions
         - wizards
-        - cli
+        - run
+        - utilities
+        - help
+        - logging
+        - views
+        - models
+        - dialogs
         - config
-        - updates
-        - uninstall
+        - install
+        - services
         - version
         - libraries
-        - themes
-        - extensions
-        - events
-        - models
-        - install
-        - views
-        - nchantrs
-        - run
-        covered_modules:
-        - libraries
-        - logging
-        - models
-        - wizards
         - cli
-        - dialogs
-        - themes
-        - extensions
-        - utilities
+        - actions
+        - events
+        - uninstall
         - widgets
+        - updates
+        - test
         - library
+        - themes
+        - nchantrs
+        covered_modules:
+        - logging
+        - cli
+        - views
+        - actions
+        - models
+        - dialogs
+        - extensions
+        - wizards
+        - widgets
         - events
         - updates
-        - views
+        - utilities
+        - library
+        - themes
         - nchantrs
-        - actions
         - services
+        - libraries
         fix: 'Add CLI commands for: agent_awareness'
         rule: 'CLI coverage: 17/18 modules'
         severity: medium
@@ -3033,10 +2945,10 @@ dimensions:
     status: pass
   structure:
     details:
-      missing_dirs: []
+      missing_dirs:
+      - docs
       missing_files: []
       present_dirs:
-      - docs
       - nchantrs
       - tests
       - config
@@ -3058,9 +2970,9 @@ dimensions:
       - CHANGES_sasquatch.md
       - CHANGES.md
       - PROJECT_TRACKER.yaml
-      score: 100
+      score: 85
       status: pass
-    score: 100
+    score: 85
     status: pass
   switch_abuse:
     details:
@@ -3072,41 +2984,41 @@ dimensions:
           function: if/elif chain
           variable: previous_value
         - checks: 4
-          file: nchantrs/widgets/browsers/security/environment.py
+          file: nchantrs/widgets/browsers/profiles.py
           function: if/elif chain
-          variable: system
+          variable: policy_code
+        - checks: 26
+          file: nchantrs/widgets/media/charts/charts.py
+          function: match statement
+          variable: chart_type
+        - checks: 13
+          file: nchantrs/widgets/widgets.py
+          function: if/elif chain
+          variable: justify
+        - checks: 4
+          file: nchantrs/actions/tables.py
+          function: if/elif chain
+          variable: keyname
+        - checks: 8
+          file: nchantrs/events/mouse_events.py
+          function: if/elif chain
+          variable: shift
+        - checks: 11
+          file: nchantrs/themes/colors.py
+          function: if/elif chain
+          variable: style
         - checks: 82
           file: nchantrs/models/models.py
           function: if/elif chain
           variable: how
         - checks: 7
-          file: nchantrs/widgets/browsers/pages.py
+          file: nchantrs/widgets/browsers/codecs/h264.py
           function: if/elif chain
-          variable: feature
-        - checks: 8
-          file: nchantrs/events/mouse_events.py
-          function: if/elif chain
-          variable: shift
+          variable: system
         - checks: 4
-          file: nchantrs/widgets/controls/toolbars.py
+          file: nchantrs/widgets/calendars/timelines.py
           function: if/elif chain
-          variable: button_cfg
-        - checks: 6
-          file: nchantrs/dialogs/files.py
-          function: match statement
-          variable: gfilter
-        - checks: 13
-          file: nchantrs/widgets/widgets.py
-          function: if/elif chain
-          variable: justify
-        - checks: 5
-          file: nchantrs/widgets/groups.py
-          function: if/elif chain
-          variable: position
-        - checks: 11
-          file: nchantrs/themes/colors.py
-          function: if/elif chain
-          variable: style
+          variable: threshold
         rule: 'Switch abuse detected: 17 patterns'
         severity: medium
       score: 0
@@ -3136,7 +3048,7 @@ dimensions:
           line: 687
           priority: 3
         fix: Resolve all TODO comments, especially TODO:0 items
-        rule: 'TODO/FIXME comments found: 7 (penalty: -2)'
+        rule: 'TODO/FIXME comments found: 8 (penalty: -2)'
         severity: high
         todos:
         - *id001
@@ -3148,32 +3060,38 @@ dimensions:
           line: 103
           priority: 999
         - &id003
-          content: '# NOTE: We do NOT call initView here - it will be called by initApp()'
-          file: nchantrs/dialogs/dialogs.py
+          content: '# # TODO: need to check to see if server is running'
+          file: nchantrs/utilities/comms.py
           has_priority: false
-          line: 140
+          line: 111
           priority: 999
         - &id004
-          content: '# TODO: probably need to lookup the int to find the correct menu
-            name'
-          file: nchantrs/widgets/widgets.py
+          content: '# NOTE: We do NOT call super().__init__() here because NchantdPanties'
+          file: nchantrs/dialogs/dialogs.py
           has_priority: false
-          line: 233
+          line: 49
           priority: 999
         - &id005
+          content: '# NOTE: Mixin comes before QWidget in MRO, but we must call QWidget.__init__
+            directly'
+          file: nchantrs/widgets/widgets.py
+          has_priority: false
+          line: 845
+          priority: 999
+        - &id006
           content: '# Note: setCheckable(True) is now handled by NchantdButton.initView()
             via config'
           file: nchantrs/widgets/media/editors/entries.py
           has_priority: false
           line: 104
           priority: 999
-        - &id006
+        - &id007
           content: '#         # NOTE: Add paths to language-specific linters.'
           file: nchantrs/widgets/media/editors/code.py
           has_priority: false
           line: 152
           priority: 999
-        - &id007
+        - &id008
           content: '#TODO: should always be sorted in some positive manner either
             by the values or a given sequence'
           file: nchantrs/widgets/media/editors/selectors.py
@@ -3190,29 +3108,37 @@ dimensions:
       - *id005
       - *id006
       - *id007
+      - *id008
       status: partial
-      todo_count: 7
+      todo_count: 8
     score: 58
     status: partial
   try_except_imports:
     details:
-      issues: []
-      score: 100
+      issues:
+      - fix: Move required imports to top of file
+        rule: 'Required imports in try/except: 1'
+        severity: high
+        violations:
+        - file: nchantrs/dialogs/dialogs.py
+          import: import traceback
+          line: 144
+      score: 80
       status: pass
-      violation_count: 0
-    score: 100
+      violation_count: 1
+    score: 80
     status: pass
   type_annotations:
     details:
-      annotated_functions: 912
-      annotation_percentage: 25.9
+      annotated_functions: 904
+      annotation_percentage: 25.7
       issues:
       - fix: Add type hints to function signatures and return types
-        rule: 'Type annotation coverage: 25.9%'
+        rule: 'Type annotation coverage: 25.7%'
         severity: medium
       score: 60
       status: partial
-      total_functions: 3523
+      total_functions: 3518
     score: 60
     status: partial
   type_check_pyright:
@@ -3227,19 +3153,19 @@ dimensions:
       issues: []
       score: 100
       status: pass
-      total_functions: 3192
+      total_functions: 3187
       wrapper_count: 0
     score: 100
     status: pass
-overall_score: 65.27
+overall_score: 62.28
 project: nchantrs
 summary:
   failing: 7
   gitvein_projects_available: 68
-  passing: 33
+  passing: 29
   total_dimensions: 46
 versions:
-  project: dfc2221
-  project_status: dirty
-  project_uncommitted_changes: 4
+  project: 1507b48
+  project_status: clean
+  project_uncommitted_changes: 0
   sasquatch: unknown
