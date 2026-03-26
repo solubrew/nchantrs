@@ -23,7 +23,7 @@ import zmq
 from condor import condor
 from ogma.logma import Logma
 from nchantrs.widgets.managers import NchantdManager
-from pyularity.pyularity import Pyularity
+# from pyularity.pyularity import Pyularity
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||

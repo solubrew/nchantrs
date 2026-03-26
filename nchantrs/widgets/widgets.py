@@ -842,10 +842,15 @@ class NchantdWidgetMixin(object):
 
 class NchantdWidget(NchantdWidgetMixin, pyqt.QWidget):
     """"""
+    # NOTE: Mixin comes before QWidget in MRO, but we must call QWidget.__init__ directly
+    # to ensure Qt initialization. The mixin provides application logic, QWidget provides
+    # the Qt widget functionality. Using super().__init__() would skip QWidget init.
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        super().__init__()
+        # Explicitly call QWidget.__init__ to ensure proper Qt initialization
+        # This fixes: RuntimeError: libshiboken: 'init' method of object's base class not called
+        pyqt.QWidget.__init__(self, parent)
         self.config = condor.Instruct(pxcfg).select("NchantdWidget")
         logma.info(f"Init NchantdWidget Config {self.config}")
         self.parent = parent
