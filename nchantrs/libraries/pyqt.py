@@ -36,7 +36,7 @@ from PySide6.QtWebChannel import QWebChannel
 
 # ===============================================================================||
 from PySide6.QtWidgets import QApplication, QMainWindow, QToolBar, QToolButton, QDateTimeEdit
-from PySide6.QtWidgets import QApplication, QComboBox, QDialog, QFileDialog, QFrame, QListWidgetItem
+from PySide6.QtWidgets import QApplication, QComboBox, QDialog, QFileDialog, QFrame, QListWidgetItem, QPlainTextEdit
 from PySide6.QtWidgets import QGridLayout, QLabel, QLayout, QListView, QLabel, QDateEdit, QSplitter
 from PySide6.QtWidgets import QLineEdit, QMenu, QMenuBar, QPushButton, QSpinBox, QTableView, QTreeView
 from PySide6.QtWidgets import QTextBrowser, QScrollArea, QSizePolicy, QProgressBar, QFileSystemModel
