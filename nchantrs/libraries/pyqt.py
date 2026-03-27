@@ -1,6 +1,17 @@
 from PySide6.QtWidgets import QApplication, QMainWindow, QToolBar, QToolButton
-from PySide6.QtCore import Signal, Slot as Slot, QObject, QMetaObject, QEvent, QByteArray, QBuffer, QIODevice
-from PySide6.QtCore import QAbstractListModel, QAbstractItemModel, QSize, QThread, QThreadPool
+from PySide6.QtCore import (
+    Signal,
+    Slot as Slot,
+    QObject,
+    QMetaObject,
+    QEvent,
+    QByteArray,
+    QBuffer,
+    QIODevice,
+    QProcess,
+    QSocketNotifier,
+)
+from PySide6.QtCore import QAbstractListModel, QAbstractItemModel, QSize, QThread, QThreadPool, QProcessEnvironment
 from PySide6.QtCore import QAbstractTableModel, QDate, QPoint, qInstallMessageHandler, QMimeData
 from PySide6.QtCore import QModelIndex, QDir, QDate, Qt, QSettings, QTimer, QUrl, QRectF, QPointF, QStandardPaths
 

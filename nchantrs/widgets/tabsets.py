@@ -1,5 +1,5 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-"""  #																			||
+"""#																			||
 ---  #																			||
 <(META)>:  #																	||
     DOCid:   #																	||
@@ -14,6 +14,7 @@
     security: sec|lvl2  #														||
     <(WT)>: -32  #																||
 """  # ||
+
 # -*- coding: utf-8 -*-#														||
 # ===============================Core Modules====================================||
 from os.path import abspath, dirname, join
@@ -21,6 +22,7 @@ from os.path import abspath, dirname, join
 # ===============================================================================||
 from condor import condor
 
+import ast
 import logging
 from subtrix.utilities import uuid
 
@@ -351,7 +353,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         if event.mimeData().hasText():
             try:
                 # Check if this is a tab drag operation
-                tab_data = eval(event.mimeData().text())
+                tab_data = ast.literal_eval(event.mimeData().text())
                 if isinstance(tab_data, dict) and "source_widget" in tab_data:
                     event.acceptProposedAction()
                     return
@@ -374,7 +376,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
 
         try:
             # Parse tab data
-            tab_data = eval(event.mimeData().text())
+            tab_data = ast.literal_eval(event.mimeData().text())
             source_widget_id = tab_data["source_widget"]
             source_tab_index = tab_data["tab_index"]
             # Find source widget
@@ -684,7 +686,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
             # TODO load Toolbox for the active tab type
             logma.info(f"Load Toolbox")
             self.load_toolbox()
-            #[DONE]
+            # [DONE]
         # self.update()  # This is a function inherited from pyqt.QTabWidget in order to update the UI to the new tab
         logma.info(f"Finish Tab Focus")
         return self

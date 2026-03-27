@@ -35,8 +35,7 @@ from nchantrs.widgets.widgets import NchantdWidget
 
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
-there = abspath(join("../../.."))  # ||set path at pheonix level
-version = "0.0.0.0.0.0"  # ||
+version = "0.0.1"  # ||
 # ===============================================================================||
 pxcfg = f"{here}_data_/embeds.yaml"
 pxcfg = {}
@@ -73,23 +72,10 @@ class NchantdTerminalView(pyqt.QPlainTextEdit):
         env.insert("TERM", "xterm")  # Basic xterm emulation
         self.process.setProcessEnvironment(env)
 
-        # We use a trick to connect QProcess to pty:
-        # Start the process with the slave_fd as stdin/stdout/stderr
+        # To make it work with QProcess and pty on Linux:
         self.process.setProgram(shell)
         self.process.setArguments(["-i"])  # Interactive mode
-
-        # Start the process. On Linux, we can use start() and then
-        # handle the fd mapping if needed, but QProcess doesn't
-        # directly support pty easily without some low-level help or
-        # using a helper script.
-        # Alternatively, we can use os.fork() but QProcess is better for integration.
-
-        # Simplified approach: start Bash and use QProcess's own IO
-        # However, pty is better for interactive apps like 'top', 'vim'.
-        # Let's try the pty-based approach with a worker thread or socket notifier.
-
-        # To make it work with QProcess and pty on Linux:
-        self.process.setChildProcessModifier(self._setup_pty)
+        # self.process.setChildProcessModifier(self._setup_pty)
         self.process.start()
 
     def _setup_pty(self):
@@ -116,9 +102,8 @@ class NchantdTerminalView(pyqt.QPlainTextEdit):
     def handle_read(self):
         """Reads from pty and displays in the widget."""
         try:
-            data = os.read(self.master_fd, 1024)
+            data = os.read(self.master_fd, 4096)
             if data:
-                # Basic ANSI escape code filtering or handling
                 # Handle backspaces and basic carriage returns
                 text = data.decode("utf-8", errors="replace")
 
@@ -225,6 +210,6 @@ class NchantdTerminalEmbed(NchantdWidget):
         self.setLayout(self.layout)
 
         # Start the shell
-        shell = self.config.get("shell", "/bin/bash")
+        shell = self.config.dikt.get("shell", "/bin/bash")
         self.terminal.start_shell(shell)
         return self
