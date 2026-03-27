@@ -165,6 +165,8 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         # logma.inspect_caller()
         self.tabset = tabset
         self.current_node = node
+        # FIX: Clear existing tab_widgets to prevent duplication
+        self.tab_widgets = []
         logma.info(f"Tabsdata {tabsdata}")
         if tabsdata is None or tabsdata == []:
             tabsdata = self.get_tabs(node, tabset)
