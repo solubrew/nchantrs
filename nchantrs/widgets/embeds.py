@@ -56,6 +56,10 @@ class NchantdTerminalView(pyqt.QPlainTextEdit):
         font.setStyleHint(pyqt.QFont.Monospace)
         self.setFont(font)
 
+        # ANSI parsing state
+        self.current_format = pyqt.QTextCharFormat()
+        self._set_default_format()
+
         # Terminal process setup
         self.master_fd, self.slave_fd = pty.openpty()
         self.process = pyqt.QProcess(self)
@@ -66,10 +70,16 @@ class NchantdTerminalView(pyqt.QPlainTextEdit):
 
         self.process.finished.connect(self.on_finished)
 
+    def _set_default_format(self):
+        self.current_format = pyqt.QTextCharFormat()
+        self.current_format.setForeground(pyqt.QColor("white"))
+        self.current_format.setBackground(pyqt.QColor("black"))
+
     def start_shell(self, shell="/bin/bash"):
         """Starts the terminal shell."""
         env = pyqt.QProcessEnvironment.systemEnvironment()
-        env.insert("TERM", "xterm")  # Basic xterm emulation
+        env.insert("TERM", "xterm-256color")  # Enable color support
+        env.insert("COLORTERM", "truecolor")
         self.process.setProcessEnvironment(env)
 
         # To make it work with QProcess and pty on Linux:
@@ -104,34 +114,133 @@ class NchantdTerminalView(pyqt.QPlainTextEdit):
         try:
             data = os.read(self.master_fd, 4096)
             if data:
-                # Handle backspaces and basic carriage returns
                 text = data.decode("utf-8", errors="replace")
-
-                # Move cursor to end before inserting
-                cursor = self.textCursor()
-                cursor.movePosition(pyqt.QTextCursor.End)
-
-                # Simple backspace and ANSI escape code filtering
-                # We filter out common ANSI escape sequences like [?2004h (bracketed paste)
-                import re
-
-                ansi_escape = re.compile(r"\x1B(?:[@-Z\\-_]|\[[0-?]*[ -/]*[@-~])")
-                text = ansi_escape.sub("", text)
-
-                if "\b" in text:
-                    for char in text:
-                        if char == "\b":
-                            cursor.deletePreviousChar()
-                        else:
-                            cursor.insertText(char)
-                else:
-                    cursor.insertText(text)
-
-                self.setTextCursor(cursor)
-                # Scroll to bottom
-                self.ensureCursorVisible()
+                self._process_text(text)
         except OSError:
             pass
+
+    def _process_text(self, text):
+        cursor = self.textCursor()
+        cursor.movePosition(pyqt.QTextCursor.End)
+
+        import re
+
+        # ANSI escape sequence pattern
+        ansi_regex = re.compile(r"(\x1B\[[0-?]*[ -/]*[@-~])")
+        parts = ansi_regex.split(text)
+
+        for part in parts:
+            if not part:
+                continue
+            if part.lower().startswith("\x1b["):
+                self._handle_ansi_sequence(part, cursor)
+            else:
+                self._insert_text(part, cursor)
+
+        self.setTextCursor(cursor)
+        self.ensureCursorVisible()
+
+    def _insert_text(self, text, cursor):
+        if "\b" in text:
+            for char in text:
+                if char == "\b":
+                    cursor.deletePreviousChar()
+                else:
+                    cursor.insertText(char, self.current_format)
+        elif "\r" in text:
+            # Handle Carriage Return by moving to the beginning of the current block
+            # This is a simplified implementation for QPlainTextEdit
+            for char in text:
+                if char == "\r":
+                    cursor.movePosition(pyqt.QTextCursor.StartOfBlock, pyqt.QTextCursor.MoveAnchor)
+                else:
+                    cursor.insertText(char, self.current_format)
+        else:
+            cursor.insertText(text, self.current_format)
+
+    def _handle_ansi_sequence(self, seq, cursor):
+        """Handles basic ANSI escape sequences."""
+        if not seq.endswith("m") and not seq.endswith("J") and not seq.endswith("K") and not seq[2:-1].isdigit():
+            # For now, only focus on SGR (m), Clear (J, K)
+            pass
+
+        code = seq[-1]
+        params = seq[2:-1].split(";")
+        params = [int(p) if p else 0 for p in params]
+
+        if code == "m":  # SGR - Select Graphic Rendition
+            self._handle_sgr(params)
+        elif code == "J":  # Clear screen
+            if params[0] == 2:
+                self.clear()
+                cursor.movePosition(pyqt.QTextCursor.End)
+        elif code == "K":  # Clear line
+            if params[0] == 0:  # Clear from cursor to end of line
+                # In QPlainTextEdit, this is tricky. We'll just delete the rest of the block
+                cursor.movePosition(pyqt.QTextCursor.EndOfBlock, pyqt.QTextCursor.KeepAnchor)
+                cursor.removeSelectedText()
+
+    def _handle_sgr(self, params):
+        """Handles SGR (Select Graphic Rendition) parameters."""
+        if not params:
+            params = [0]
+
+        i = 0
+        while i < len(params):
+            p = params[i]
+            if p == 0:  # Reset
+                self._set_default_format()
+            elif p == 1:  # Bold
+                self.current_format.setFontWeight(pyqt.QFont.Bold)
+            elif p == 3:  # Italic
+                self.current_format.setFontItalic(True)
+            elif p == 4:  # Underline
+                self.current_format.setFontUnderline(True)
+            elif 30 <= p <= 37:  # Foreground color
+                self.current_format.setForeground(self._get_color(p - 30, bright=False))
+            elif 40 <= p <= 47:  # Background color
+                self.current_format.setBackground(self._get_color(p - 40, bright=False))
+            elif 90 <= p <= 97:  # Foreground color (bright)
+                self.current_format.setForeground(self._get_color(p - 90, bright=True))
+            elif 100 <= p <= 107:  # Background color (bright)
+                self.current_format.setBackground(self._get_color(p - 100, bright=True))
+            elif p == 38 or p == 48:  # 256 colors or true color
+                # Extended color support (simplified)
+                if i + 2 < len(params) and params[i + 1] == 5:
+                    color = self._get_256_color(params[i + 2])
+                    if p == 38:
+                        self.current_format.setForeground(color)
+                    else:
+                        self.current_format.setBackground(color)
+                    i += 2
+            i += 1
+
+    def _get_color(self, index, bright=False):
+        colors = [
+            "black",
+            "red",
+            "green",
+            "yellow",
+            "blue",
+            "magenta",
+            "cyan",
+            "white",
+        ]
+        color_name = colors[index]
+        if bright:
+            if color_name == "black":
+                return pyqt.QColor("gray")
+            return pyqt.QColor(f"light{color_name}")
+        return pyqt.QColor(color_name)
+
+    def _get_256_color(self, n):
+        # Simplified 256 color mapping
+        if n < 8:
+            return self._get_color(n, bright=False)
+        elif n < 16:
+            return self._get_color(n - 8, bright=True)
+        # Add more if needed, otherwise fallback
+        return pyqt.QColor("white")
 
     def keyPressEvent(self, event):
         """Captures key events and writes to pty."""
