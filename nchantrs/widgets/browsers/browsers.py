@@ -91,6 +91,7 @@ class NchantdWebManager(NchantdWidgetMixin, pyqt.QObject):
         """"""
         wip_engine_size = 3
         while len(self.available_engines) < wip_engine_size:
+            # Set self as parent to the viewer so it is destroyed with the manager
             viewer = NchantdWebViewer(self)
             viewer.browser.setHtml("<html><body><h1>Loading Complete</h1></body></html>")
             self.available_engines.append(viewer)
@@ -99,9 +100,10 @@ class NchantdWebManager(NchantdWidgetMixin, pyqt.QObject):
         """"""
         if not self.available_engines:
             self.create_engines()
-        engine = self.available_engines.popleft()
+        viewer = self.available_engines.popleft()
+        # Note: viewer is already parented to self
         self.create_engines()
-        return engine
+        return viewer
 
     def kill_engine(self):
         """"""
@@ -362,7 +364,8 @@ class NchantdWebViewer(NchantdWidget):
         urls = []
         if self.active_url is not None:
             urls += [self.active_url.path]
-        urls += self.app.model.get_urls(tag="important") + self.get_recent_urls()
+        if self.app and self.app.model:
+            urls += self.app.model.get_urls(tag="important") + self.get_recent_urls()
         urls = list(set(urls))
         return urls
 
@@ -579,10 +582,13 @@ class NchantdWebBrowser(NchantdWebViewer):
 
     def initModel(self, cfg=None):
         """"""
-
+        if isinstance(cfg, str):
+            url = cfg
+            cfg = {"url": url}
         if cfg is None:
             cfg = {}
-        cfg["url"] = self.config.dikt.get("url", self.home_url)
+        if "url" not in cfg:
+            cfg["url"] = self.config.dikt.get("url", self.home_url)
         logma.info(cfg["url"])
         super().initModel(cfg)
         self.url_options = self.get_important_urls()

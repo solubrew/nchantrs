@@ -2,14 +2,15 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -17,7 +18,6 @@ import datetime as dt
 from os import environ
 
 import logging
-
 
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
@@ -47,10 +47,10 @@ pxcfg = {}
 def setup_qt_environment():
     """Configure Qt environment for better graphics compatibility"""
     # Force software rendering if hardware acceleration fails
-    #environ["QT_QUICK_BACKEND"] = "software"
-    #environ["QTWEBENGINE_CHROMIUM_FLAGS"] = "--disable-gpu --disable-software-rasterizer --disable-gpu-sandbox --no-sandbox"
+    # environ["QT_QUICK_BACKEND"] = "software"
+    # environ["QTWEBENGINE_CHROMIUM_FLAGS"] = "--disable-gpu --disable-software-rasterizer --disable-gpu-sandbox --no-sandbox"
     # Set graphics backend
-    #environ["QT_QPA_PLATFORM"] = "xcb"  # For Linux
+    # environ["QT_QPA_PLATFORM"] = "xcb"  # For Linux
     # Disable hardware acceleration problematic features
     environ["QTWEBENGINE_DISABLE_GPU_THREAD"] = "1"
     # Force OpenGL ES 2.0 for better compatibility
@@ -105,13 +105,6 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
     forwardAvailable = pyqt.Signal(bool)
 
     def __init__(self, profile=None, parent=None, cfg=None):
-        # Set up graphics attributes before calling super().__init__
-        # if hasattr(pyqt.QWebEngineView, "setAttribute"):
-        #     try:
-        #         self.setAttribute(pyqt.Qt.WA_DontCreateNativeAncestors, True)
-        #         self.setAttribute(pyqt.Qt.WA_NativeWindow, False)
-        #     except AttributeError:
-        #         pass
         super().__init__(parent)
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("NchantdWebEngineView")
@@ -121,10 +114,12 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
 
         # Create custom profile if not provided
         if profile is None:
+            # Important: Set the view as parent to the profile to ensure correct destruction order
             profile = self.create_custom_profile()
 
         # Create custom page with the profile
         try:
+            # Set the view as parent to the page
             self.custom_page = NchantdWebEnginePage(profile, self)
             self.setPage(self.custom_page)
         except Exception as e:
@@ -175,6 +170,7 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
         """Create a custom web engine profile with error handling"""
         try:
             # Create a custom profile (can be persistent or off-the-record)
+            # Use self as parent to ensure profile is deleted after the view
             profile = pyqt.QWebEngineProfile("CustomProfile", self)
             # Configure profile settings
             profile.setHttpCacheType(pyqt.QWebEngineProfile.HttpCacheType.DiskHttpCache)
@@ -311,6 +307,17 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
 
         self.backAvailable.emit(can_go_back)
         self.forwardAvailable.emit(can_go_forward)
+
+    def closeEvent(self, event):
+        """Handle cleanup before destruction to avoid profile release warnings"""
+        # Set page to None to decouple it from the profile before the view is destroyed
+        # This helps ensuring the page is destroyed before the profile
+        logma.info("NchantdWebEngineView.closeEvent - cleaning up page")
+        self.setPage(pyqt.QWebEnginePage(self))
+        if hasattr(self, "custom_page") and self.custom_page:
+            self.custom_page.deleteLater()
+            self.custom_page = None
+        super().closeEvent(event)
 
 
 class NchantdWebEngineViewH264(NchantdWidgetMixin, pyqt.QWebEngineView):
