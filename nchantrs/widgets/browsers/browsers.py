@@ -1,5 +1,5 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Nchantrs@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-"""  #																			||
+"""#																			||
 ---  #																			||
 <(META)>:  #																	||
     docid: ''  #							||
@@ -13,69 +13,49 @@
     security: sec|lvl2  #														||
     <(WT)>: -32  #																||
 """  # ||
+
 # -*- coding: utf-8 -*-#														||
 # ================================Core Modules===================================||
 from os.path import dirname, join
-from os import environ
 from collections import deque
 import datetime as dt
 import queue
-
 import logging
-from os.path import dirname, join
 
-logger = logging.getLogger(__name__)
-from os import environ
-from collections import deque
-import datetime as dt
-import queue
-
-# Initialize Qt environment BEFORE importing PyQt modules
-from nchantrs.widgets.browsers.graphics import configure_qt_for_webengine, setup_application_attributes
-
-configure_qt_for_webengine()
-
-# ===============================================================================||
-
-# ===============================================================================||
 from condor import condor
 from subtrix.utilities import uuid
 from nchantrs.dialogs.notifications import NchantdNotificationSigil
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.browsers.engines import NchantdWebEngineView
-
-# from nchantrs.widgets.browsers.pages import NchantdWebPage
 from nchantrs.widgets.browsers.profiles import NchantdWebProfile
 from nchantrs.widgets.browsers.requests import NchantdRequestInterceptor
-from nchantrs.widgets.browsers.utilities import NchantdURL, NchantdWebChannel
+from nchantrs.widgets.browsers.utilities import NchantdURL, NchantdWebChannel, NchantdBackend as NchantdSafeFunction
 from nchantrs.widgets.media.editors.selectors import NchantdDropDown
 from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 from ogma.logma import Logma
-#from pyffice.web.url import PyfficeURLLibrary
+from nchantrs.widgets.browsers.graphics import configure_qt_for_webengine, setup_application_attributes
 
-# Set up Qt attributes after importing pyqt but before creating any widgets
+configure_qt_for_webengine()
+
 try:
     setup_application_attributes()
 except Exception as e:
-    from ogma.logma import Logma
-
-    logma = Logma(__name__)
-    logma.warning(f"Could not set all Qt attributes: {e}")
-
-from nchantrs.widgets.browsers.engines import NchantdWebEngineView
+    Logma(__name__).warning(f"Could not set all Qt attributes: {e}")
 
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
-# logma.off()
 
 # ===============================================================================||
 pxcfg = join(here, "_data_", "browsers.yaml")
 
 
-class NchantdWebManager(NchantdWidgetMixin, pyqt.QThread):
-    """"""
+class NchantdWebManager(NchantdWidgetMixin, pyqt.QObject):
+    """
+    Manages a pool of WebEngine views.
+    TODO: Proper implementation of engine reuse and background loading.
+    """
 
     def __init__(self, parent=None, cfg=None):
         """ """
@@ -85,8 +65,8 @@ class NchantdWebManager(NchantdWidgetMixin, pyqt.QThread):
             self.config.override(parent.config)
         super().__init__(self)
         self.config.override(cfg)
-        self.available_engines = queue.Queue([])
-        self.active_engines = queue.Queue([])
+        self.available_engines = deque([])
+        self.active_engines = deque([])
         cfg = {}
         # self.link_library = PyfficeURLLibrary(cfg) TODO must be implemented in the NchatndOffice layer
 
@@ -110,14 +90,16 @@ class NchantdWebManager(NchantdWidgetMixin, pyqt.QThread):
     def create_engines(self):
         """"""
         wip_engine_size = 3
-        for i in range(wip_engine_size - len(self.available_engines)):
+        while len(self.available_engines) < wip_engine_size:
             viewer = NchantdWebViewer(self)
-            viewer.setHtml("<html><body><h1>Loading Complete</h1></body></html>")
-            self.available_engines.put(viewer)
+            viewer.browser.setHtml("<html><body><h1>Loading Complete</h1></body></html>")
+            self.available_engines.append(viewer)
 
     def get_available_engine(self):
         """"""
-        engine = self.available_engines.pop()
+        if not self.available_engines:
+            self.create_engines()
+        engine = self.available_engines.popleft()
         self.create_engines()
         return engine
 
@@ -153,23 +135,9 @@ class NchantdWebViewer(NchantdWidget):
             self.config.override(parent.config)
         self.config.override(cfg)
         self.profiles = {}
-        # self.default_profile = NchantdWebProfile(self.app.model.user.name, None, True)
-        # self.default_profile = NchantdWebProfile.defaultProfile()
-        # logma.info(f"Environment Variables: {environ["QTWEBENGINE_CHROMIUM_FLAGS"]}")
         cfg = {}
         self.browser = NchantdWebEngineView(None, self, cfg).initWidget()
-        # cfg = {}
-        # self.profile = NchantdWebProfile(self.app.model.slug, self.browser, False, self, cfg)
-        # if self.profile.persistence is False:
-        #     self.profile.initProfile()
-        # cfg = {}
-        # page = NchantdWebPage(self, self.profile, True, cfg).initWidget()
-        # self.browser.setPage(page)
-        # self.set_persistence()
-        self.page = None
-        # self.profiles[self.app.model.user.name] = {"default": True, "profile": self.profile}
-        self.que = deque([])
-        self.fque = deque([])
+        self.page = self.browser.page()
         self.url_options = []
         self.lock = False
         self.pinned_url = None
@@ -184,9 +152,12 @@ class NchantdWebViewer(NchantdWidget):
         self.navigation_layout = None
         self.profile_select_entry = None
         self.url_select_entry = None
-        self.known_scripts = self.config.dikt["javascript"]["code"]
-        self.has_pro = getattr(self.app.model.user, 'has_pro', False) if self.app.model.user else False
+        self.known_scripts = self.config.dikt.get("javascript", {}).get("code", {})
+        self.has_pro = getattr(self.app.model.user, "has_pro", False) if self.app.model.user else False
+
         self.browser.urlChanged.connect(self.cmd_url_changed_handler)
+        self.browser.titleChanged.connect(self.title_changed.emit)
+        self.browser.loadProgress.connect(self.load_progress.emit)
 
     def initModel(self, cfg=None):
         """"""
@@ -318,12 +289,8 @@ class NchantdWebViewer(NchantdWidget):
 
     def cmd_next_page(self, signal=None, *args, **kwargs):
         """"""
-        if len(self.fque) > 0:
-            next_url = self.fque.pop()
-            self.goto_page(next_url)
-        if len(self.fque) == 0:
-            pass
-            # TODO figure out to set the button this handler is connected to be disabled
+        if self.browser.history().canGoForward():
+            self.browser.forward()
         return self
 
     def cmd_make_webapp(self, signal, *args, **kwargs):
@@ -340,11 +307,8 @@ class NchantdWebViewer(NchantdWidget):
 
     def cmd_previous_page(self, signal=None, *args, **kwargs):
         """"""
-        if len(self.que) == 0:
-            return self
-        previous_url = self.que.pop()
-        self.fque.append(previous_url)
-        self.goto_page(previous_url)
+        if self.browser.history().canGoBack():
+            self.browser.back()
         return self
 
     def enable_dark_mode(self):
@@ -483,26 +447,15 @@ class NchantdWebViewer(NchantdWidget):
         # self.runJavaScript(theme_script)
 
     def open_new_tab(self):
-        """"""
-        self.panes["toolbar"].add_document(args=[{"action": action}])
+        """Placeholder for opening a new tab."""
         return self
 
     def on_tab_changed(self, index: int):
-        # Pause/mute every other tab, resume/unmute the active one
-        for i in range(self.tabs.count()):
-            view: BrowserTab = self.tabs.widget(i)
-            if i == index:
-                view.resume_and_unmute()
-            else:
-                view.pause_and_mute()
+        """Placeholder for tab change logic if this viewer is used within a tabbed environment."""
         return self
 
     def on_tab_close_requested(self, index: int):
-        view: BrowserTab = self.tabs.widget(index)
-        if view:
-            view.hard_stop()
-            self.tabs.removeTab(index)
-            view.deleteLater()
+        """Placeholder for tab close logic if this viewer is used within a tabbed environment."""
         return self
 
     def populate_document(self, url):
@@ -533,16 +486,16 @@ class NchantdWebViewer(NchantdWidget):
         self.channel = NchantdWebChannel(self)
         self.backend = NchantdSafeFunction()
         self.channel.registerObject("backend", self.backend)
-        self.page.setWebChannel(self.channel)
+        self.browser.page().setWebChannel(self.channel)
         return self
 
     def set_interceptor(self):
         """"""
         interceptor = NchantdRequestInterceptor()
-        self.default_profile.setUrlRequestInterceptor(interceptor)
-        if self.page is None:
-            self.set_page()
-        self.page.setUrlRequestInterceptor(interceptor)
+        # Note: default_profile doesn't exist on self, but on QWebEngineProfile
+        pyqt.QWebEngineProfile.defaultProfile().setUrlRequestInterceptor(interceptor)
+        if self.browser.page():
+            self.browser.page().profile().setUrlRequestInterceptor(interceptor)
 
     # def set_page(self, page=None):
     #     """"""
@@ -554,7 +507,8 @@ class NchantdWebViewer(NchantdWidget):
 
     def set_persistence(self):
         """"""
-        self.profile.set_persistence()
+        if hasattr(self.browser.page().profile(), "set_persistence"):
+            self.browser.page().profile().set_persistence()
         return self
 
     def set_url_path(self, url=None):
@@ -568,9 +522,6 @@ class NchantdWebViewer(NchantdWidget):
                 return self
         if not isinstance(url, pyqt.QUrl):
             url = NchantdURL(url, self)
-        # if self.active_url is not None and self.page.is_main_frame is True:
-        #     # if self.active_url.is_valid():
-        #     self.que.append(self.active_url.url)
         self.active_url = url
         self.save()
         return self
@@ -653,7 +604,7 @@ class NchantdWebBrowser(NchantdWebViewer):
     def set_url_path(self, url=None):
         """"""
         super().set_url_path(url)
-        if url is not None:
+        if url is not None and self.url_select_entry is not None:
             if isinstance(url, pyqt.QUrl):
                 url = url.toString()
             self.url_select_entry.combobox.setCurrentText(url)
