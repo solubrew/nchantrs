@@ -10,6 +10,7 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join, exists, getmtime, expanduser
@@ -20,7 +21,6 @@ import base64
 
 import logging
 from typing import Any, Optional
-
 
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
@@ -937,38 +937,39 @@ class NchantdStore(MicroStash):
         instance_dict = instances.loc[0].to_dict()
         logma.info(f"Wizard: create_instance: {instance_dict}")
         instance = NchantdInstance(self, instance_dict)
-        
+
         # Load meta_data from database if available (for restoring last selected node)
-        if 'meta_data_enc64_dict' in instance_dict and instance_dict['meta_data_enc64_dict']:
+        if "meta_data_enc64_dict" in instance_dict and instance_dict["meta_data_enc64_dict"]:
             try:
                 from pycurity.pyhash import decode64
-                instance.meta_data = j.loads(decode64(instance_dict['meta_data_enc64_dict']))
+
+                instance.meta_data = j.loads(decode64(instance_dict["meta_data_enc64_dict"]))
                 logma.info(f"Loaded instance meta_data: {instance.meta_data}")
             except Exception as e:
                 logma.warning(f"Could not load instance meta_data: {e}")
                 instance.meta_data = {}
-        
+
         self.app.model.instances = {x["instance_id_txt"]: x for x in instances.to_dict(orient="records")}
         instance.is_install_active = False
         logma.info(f"Install Active: {instance.is_install_active}")
         logma.info(f"Instance Id {instance.instance_id}")
         self.app.model.set_instance_active(instance)
-        
+
         # After instance is loaded, select the appropriate node:
         # - For new installs (first run): select Home node
         # - For existing instances: restore last selected node or default to Home
         self._select_initial_node(instance)
-        
+
         return self
 
     def _select_initial_node(self, instance):
         """"""
         # Default Home node nid (from treemodels.yaml system_records)
         home_node_nid = "067ca837-17f6-74e7-8000-f7de9b7927f1"
-        
+
         # Check if there's a last selected node in meta_data
-        last_node_nid = instance.meta_data.get('last_node_nid_txt') if instance.meta_data else None
-        
+        last_node_nid = instance.meta_data.get("last_node_nid_txt") if instance.meta_data else None
+
         # Determine which node to select
         if last_node_nid:
             # Try to restore last selected node
@@ -978,7 +979,7 @@ class NchantdStore(MicroStash):
             # Default to Home node for new installs
             target_nid = home_node_nid
             logma.info(f"Defaulting to Home node: {target_nid}")
-        
+
         # Get the tree and select the node
         try:
             tree = self.app.view.panes.get("left")
@@ -986,7 +987,7 @@ class NchantdStore(MicroStash):
                 # Find the node in the tree
                 root = tree.tree.model.invisibleRootItem()
                 target_node = self._find_node_by_nid(root, target_nid)
-                
+
                 if target_node:
                     tree.tree.view.set_current_node(target_node)
                     logma.info(f"Selected node: {target_node.text(0)}")
@@ -998,7 +999,7 @@ class NchantdStore(MicroStash):
                         tree.tree.view.set_current_node(target_node)
         except Exception as e:
             logma.warning(f"Could not select initial node: {e}")
-        
+
         return self
 
     def _find_node_by_nid(self, parent_item, target_nid):
@@ -1006,7 +1007,7 @@ class NchantdStore(MicroStash):
         # Recursively search for node by nid
         for i in range(parent_item.childCount()):
             item = parent_item.child(i)
-            item_nid = getattr(item, 'nid', None)
+            item_nid = getattr(item, "nid", None)
             if item_nid == target_nid:
                 return item
             # Check children
@@ -1337,7 +1338,7 @@ class NchantdStore(MicroStash):
                 content["pUUID"],
                 content["page"],
                 content["entry"],
-                content["version"],
+                content["version"] + 1,
                 content["hash"],
                 content["content"],
                 content["context"],
@@ -1355,7 +1356,9 @@ class NchantdStore(MicroStash):
         """
         return self
 
-    def store_app_option(self, option, key=None, vtable=None, tag=None, option_FK = DEFAULT_USER_ID, db="db", how="INSERT"):
+    def store_app_option(
+        self, option, key=None, vtable=None, tag=None, option_FK=DEFAULT_USER_ID, db="db", how="INSERT"
+    ):
         """
                     'columns': [ 'UUID', 'key_txt', 'label_txt', 'value_txt', 'table_txt', 'tag_ltxt',
                          'parameters_ltxt', 'description_ltxt', 'parent_UUID', 'table_FK', 'instance_FK',
