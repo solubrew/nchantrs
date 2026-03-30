@@ -51,7 +51,7 @@ class Integrity(object):
 	controlled by a known apikey for control of data and potentially verification of NFTs"""
 	def __init__(self, cfg: None = None):
 		""""""
-		self.config = condor.instruct(pxcfg).select('Integrity').override(cfg)
+		self.config = condor.Instruct(pxcfg).select('Integrity').override(cfg)
 		self.interpreter_type = None
 		self.interpreter_path = None
 		self.interpreter_file = None

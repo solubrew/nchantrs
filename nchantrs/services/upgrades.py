@@ -2,23 +2,23 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-		upgrades will need to work with a live nid system this will require the handling of appnodes differently than
-		usernodes
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+                upgrades will need to work with a live nid system this will require the handling of appnodes differently than
+                usernodes
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join
 from typing import Optional, Dict, List
 
 import logging
-
 
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
@@ -67,7 +67,7 @@ class UpgradeManager(object):
 
     def __init__(self, parent=None, cfg=None):
         """"""
-        self.config = condor.instruct(pxcfg).select("").override(cfg)
+        self.config = condor.Instruct(pxcfg).select("").override(cfg)
         self.parent = parent
         self.current_version = None
         self.app = pyqt.QApplication.instance()
@@ -131,7 +131,7 @@ class UpgradeManager(object):
             SEC_LEVEL_1: self._handle_security_level_1,
             SEC_LEVEL_0: self._handle_security_level_0,
         }
-        
+
         security_level = upgrades.get("security", SEC_LEVEL_0)
         handler = security_handlers.get(security_level)
         if handler:
