@@ -37,8 +37,7 @@ from nchantrs.widgets.widgets import NchantdWidget
 here = join(dirname(__file__), "")  # ||
 version = "0.0.1"  # ||
 # ===============================================================================||
-pxcfg = f"{here}_data_/embeds.yaml"
-pxcfg = {}
+pxcfg = join(here, "_data_", "embeds.yaml")
 
 
 class NchantdTerminalView(pyqt.QPlainTextEdit):

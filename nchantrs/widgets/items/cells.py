@@ -1,5 +1,5 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-"""  #																			||
+"""#																			||
 ---  #																			||
 <(META)>:  #																	||
     docid:   #																	||
@@ -16,13 +16,13 @@
     security: sec|lvl2  #														||
     <(WT)>: -32  #																||
 """  # ||
+
 # -*- coding: utf-8 -*-#														||
 # ================================Core Modules===================================||
 from os.path import abspath, dirname, join
 from typing import Optional, Dict, List, Any, Tuple
 
 import logging
-
 
 logger = logging.getLogger(__name__)
 # ===============================================================================||
@@ -44,7 +44,6 @@ logma.off()
 
 # ===============================================================================||
 pxcfg = join(here, "_data_", "cells.yaml")
-pxcfg = {}
 
 
 class NchantdCell(NchantdWidgetMixin, pyqt.QWidget):
@@ -145,27 +144,23 @@ class NchantdCell(NchantdWidgetMixin, pyqt.QWidget):
         """
         self.is_active = not self.is_active
         color = self.active_color if self.is_active else self.default_color
-        self.setStyleSheet(
-            f"""
+        self.setStyleSheet(f"""
             background-color: {color};
             border: 1px solid black;
             min-width: 40px;
             min-height: 40px;
-        """
-        )
+        """)
 
     def toggle_border(self) -> None:
         """"""
         self.is_active = not self.is_active
         color = self.active_color if self.is_active else self.default_color
-        self.setStyleSheet(
-            f"""
+        self.setStyleSheet(f"""
             background-color: {color};
             border: 1px solid white;
             min-width: 40px;
             min-height: 40px;
-        """
-        )
+        """)
 
 
 class NchantdTableCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
@@ -265,24 +260,20 @@ class NchantdTableCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
         """
         self.is_active = not self.is_active
         color = self.active_color if self.is_active else self.default_color
-        self.setStyleSheet(
-            f"""
+        self.setStyleSheet(f"""
             background-color: {color};
             border: 1px solid black;
             min-width: 40px;
             min-height: 40px;
-        """
-        )
+        """)
 
     def toggle_border(self) -> None:
         """"""
         self.is_active = not self.is_active
         color = self.active_color if self.is_active else self.default_color
-        self.setStyleSheet(
-            f"""
+        self.setStyleSheet(f"""
             background-color: {color};
             border: 1px solid white;
             min-width: 40px;
             min-height: 40px;
-        """
-        )
+        """)

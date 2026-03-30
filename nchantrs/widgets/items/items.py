@@ -38,7 +38,6 @@ logma = Logma(__name__)
 
 # ===============================================================================||
 pxcfg = join(here, "_data_", "items.yaml")
-pxcfg = {}
 
 
 class NchantdItem(NchantdWidgetMixin, pyqt.QStandardItem):

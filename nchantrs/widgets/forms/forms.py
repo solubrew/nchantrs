@@ -36,7 +36,6 @@ if not log:
 
 # ===============================================================================||
 pxcfg = join(abspath(here), "_data_", "forms.yaml")
-pxcfg = {}
 
 
 class NchantdForm(NchantdWidget):

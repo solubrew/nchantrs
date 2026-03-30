@@ -40,7 +40,6 @@ logma = Logma(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")
-pxcfg = {}
 
 
 # Set Qt environment variables before QApplication creation

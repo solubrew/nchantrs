@@ -36,7 +36,7 @@ logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, '_data_', 'selectors.yaml')
-pxcfg = {}
+
 
 
 class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):

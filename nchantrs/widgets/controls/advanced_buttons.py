@@ -10,6 +10,7 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -17,7 +18,6 @@ import datetime as dt
 
 import logging
 from typing import Any, Dict, Optional
-
 
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
@@ -29,7 +29,6 @@ from nchantrs.widgets.controls.checkboxes import NchantdCheckbox
 from nchantrs.widgets.media.editors.editors import NchantdEntryBox
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 from nchantrs.widgets.controls.buttons import NchantdButton
-
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")
@@ -53,7 +52,6 @@ FONT_SIZE_SMALL: int = 8
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "advanced_buttons.yaml")
-pxcfg = {}
 
 
 class NchantdNumberWheelButton(NchantdWidget):

@@ -39,7 +39,6 @@ if not log:
 
 # ====================================================================================================================||
 pxcfg = join(abspath(here), "_data_", "widgets.yaml")
-pxcfg = {}
 
 
 class NchantdAction(object):
@@ -107,7 +106,7 @@ class NchantdWidgetMixin(object):
         """"""
         self.app = None
         # First, try to get app from parent directly (most reliable)
-        if self.parent is not None and hasattr(self.parent, 'app'):
+        if self.parent is not None and hasattr(self.parent, "app"):
             self.app = self.parent.app
         # Traverse parent chain to find the Nchantrs application (NchantdCape or NchantdCloak)
         # This handles both simple dialogs (distortion) and complex apps (nchantment)
@@ -151,14 +150,14 @@ class NchantdWidgetMixin(object):
         self.name = None
         self.toolbox_config = None
         self.widget_initialized = False
-        logma.info(f"Initialize Variables {type(self)}")
+        # logma.info(f"Initialize Variables {type(self)}")
         return self
 
     def initModel(self, objects=None, get_actions=True):
         """"""
         # logma.info("Mixin Model")
         self.init_variables()
-        logma.info(f"Initialize Context Menu")
+        # logma.info(f"Initialize Context Menu")
         if self.context_menu_name is not None:
             if getattr(self, "context_menu", None) is not None:
                 if self.parent.context_menu is not None:
@@ -206,13 +205,13 @@ class NchantdWidgetMixin(object):
         """"""
         if menu_name is None:
             menu_name = self.context_menu_name
-        logma.info(f"Initialize Context Menu Name {menu_name}")
+        # logma.info(f"Initialize Context Menu Name {menu_name}")
 
         # Guard against missing .app.model by checking if we have a proper app
         if hasattr(self, "app") and hasattr(self.app, "model") and hasattr(self.app.model, "get_menu"):
             try:
                 menu_df = self.app.model.get_menu(menu_name)
-                logma.info(f"Initialize Context Menu Data {menu_df}")
+                # logma.info(f"Initialize Context Menu Data {menu_df}")
                 cfg = {"actions": {}}
                 if not menu_df.empty:
                     cfg = {"actions": menu_df.to_dict("records")}
@@ -857,7 +856,7 @@ class NchantdWidget(NchantdWidgetMixin, pyqt.QWidget):
         # This fixes: RuntimeError: libshiboken: 'init' method of object's base class not called
         pyqt.QWidget.__init__(self)
         self.config = condor.Instruct(pxcfg).select("NchantdWidget")
-        logma.info(f"Init NchantdWidget Config {self.config}")
+        # logma.info(f"Init NchantdWidget Config {self.config}")
         self.parent = parent
         self.init_variables()
         self.config.override(cfg)
@@ -981,28 +980,31 @@ def loadWidget(parent, cfg=None):  # , panestyle=None):
     if cfg is None:
         cfg = {}
     cfg = condor.Instruct(pxcfg).override(cfg).dikt
+    logma.info(f"Load Widget Config {cfg}")
     if cfg.get("widget", None):
         try:
             app = cfg.get("app", "nchantrs")
             logma.info(f"{app}.{cfg['widget']}")
             widget = thingify(f"{app}.{cfg['widget']}", None, None, True)(parent, cfg)
         except Exception as e:
+            logma.info(f"Load Widget Exception {e}")
             # Try fallback apps if specified
             apps = cfg.get("apps", [])
+            widget = None
             if apps:
                 for app in set(apps):
                     try:
                         logma.info(f"{app}.{cfg['widget']}")
                         widget = thingify(f"{app}.{cfg['widget']}", None, None, True)(parent, cfg)
+                        if widget:
+                            break
                     except Exception as e:
-                        if debug:
-                            logma.warning(f"{app}.{cfg['widget']}")
-                            logma.warning(e)
-            else:
-                # No fallback apps, re-raise the original exception
-                if debug:
-                    logma.warning(f"Failed to load widget: {cfg['widget']}")
-                    logma.warning(e)
+                        logma.warning(f"{app}.{cfg['widget']}")
+                        logma.warning(e)
+
+            if widget is None:
+                # No fallback apps or all failed, re-raise the original exception
+                logma.warning(f"Failed to load widget: {cfg['widget']}")
                 raise
     else:
         registered_widget = lookupWidget(list(cfg.keys())[0])

@@ -1,19 +1,20 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-"""  #																			||
+"""#																			||
 ---  #																			||
 <(META)>:  #																	||
-	DOCid:   #																	||
-	name:   #																	||
-	description: >  #															||
-		  #			||
-	expirary: <[expiration]>  #													||
-	version: <[version]>  #														||
-	path: <[LEXIvrs]>  #														||
-	outline: <[outline]>  #														||
-	authority: document|this  #													||
-	security: sec|lvl2  #														||
-	<(WT)>: -32  #																||
+        DOCid:   #																	||
+        name:   #																	||
+        description: >  #															||
+                  #			||
+        expirary: <[expiration]>  #													||
+        version: <[version]>  #														||
+        path: <[LEXIvrs]>  #														||
+        outline: <[outline]>  #														||
+        authority: document|this  #													||
+        security: sec|lvl2  #														||
+        <(WT)>: -32  #																||
 """  # ||
+
 # -*- coding: utf-8 -*-#														||
 # ===============================Core Modules====================================||
 from os.path import abspath, dirname, exists, join
@@ -35,7 +36,6 @@ logma = Logma(__name__)
 
 # ===============================================================================||
 pxcfg = join(here, "_data_", "video.yaml")
-pxcfg = {}
 
 
 class NchantdVideo(NchantdWidget):

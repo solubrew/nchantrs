@@ -2,14 +2,15 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -33,7 +34,6 @@ logma = Logma(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")
-pxcfg = {}
 
 
 class NchantdWizardPage(pyqt.QWizardPage):
@@ -47,7 +47,7 @@ class NchantdWizardPage(pyqt.QWizardPage):
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)
-        self.app = self.parent.app 
+        self.app = self.parent.app
 
     def initModel(self):
         """"""

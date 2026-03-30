@@ -10,6 +10,7 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -19,14 +20,12 @@ import math
 import logging
 from typing import Any, Dict, Optional
 
-
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 from condor import condor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 from ogma.logma import Logma
-
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")
@@ -44,7 +43,6 @@ DEFAULT_GRID_COLUMNS: int = 2
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "checkboxes.yaml")
-pxcfg = {}
 
 
 class NchantdCheckbox(NchantdWidgetMixin, pyqt.QCheckBox):
@@ -82,9 +80,15 @@ class NchantdCheckbox(NchantdWidgetMixin, pyqt.QCheckBox):
         self.initView()
         return self
 
-    def set_size(self, set_width: Optional[int] = None, set_height: Optional[int] = None, 
-                min_width: int = DEFAULT_MIN_DIMENSION, min_height: int = DEFAULT_MIN_DIMENSION, 
-                max_width: Optional[int] = None, max_height: Optional[int] = None) -> None:
+    def set_size(
+        self,
+        set_width: Optional[int] = None,
+        set_height: Optional[int] = None,
+        min_width: int = DEFAULT_MIN_DIMENSION,
+        min_height: int = DEFAULT_MIN_DIMENSION,
+        max_width: Optional[int] = None,
+        max_height: Optional[int] = None,
+    ) -> None:
         """"""
         text_width, text_height = self._get_text_size(self.text)
         logma.info(f"Text Size {text_width} {text_height}")

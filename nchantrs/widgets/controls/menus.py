@@ -59,13 +59,13 @@ class NchantdMenu(pyqt.QMenu):
     def initView(self):
         """ """
         for action in self.actions:
-            logma.info(f"Action {action}")
+            # logma.info(f"Action {action}")
             if isinstance(action, str):
                 action = lookup(self.parent, action, None, True, True, False)
-                logma.info(f"Action {action}")
+                # logma.info(f"Action {action}")
             elif isinstance(action, int):
                 action = lookup(self.parent, action, None, True, True, False)
-                logma.info(f"Action {action}")
+                # logma.info(f"Action {action}")
             self.add_action(action.get("name_txt", None), action.get("handler", None))
         return self
 
@@ -119,6 +119,7 @@ class NchantdContextMenu(NchantdMenu):
         self.config.override(pxcfg).select("NchantdContextMenu").override(cfg)
         self.menu_data = None
         self.name = None
+        self.menu_df = None
 
     def initModel(self):
         """"""
@@ -143,7 +144,7 @@ class NchantdContextMenu(NchantdMenu):
         logma.info(f"Name {name}")
         if name:
             self.name = name
-        # self.menu_df = self.parent.app.model.get_menu(self.name)
+        self.menu_df = self.parent.app.model.get_menu(self.name)
         logma.info(f"Menu Data {self.menu_df.head()}")
         menu_data = convert_df_to_tree(self.menu_df)
         logma.info(f"Menu Data {menu_data}")

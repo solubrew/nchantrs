@@ -37,7 +37,7 @@ logma = Logma(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "entries.yaml")
-pxcfg = {}
+
 
 class NchantdEntryEditorExplainer(NchantdWidget):
     """"""

@@ -33,8 +33,9 @@ from ogma.logma import Logma
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
-debug = True
-logma.off()
+log = True
+if not log:
+    logma.off()
 
 # ====================================================================================================================||
 # Constants to avoid magic numbers
@@ -86,7 +87,9 @@ class NchantdButton(NchantdWidgetMixin, pyqt.QPushButton):
         """
         super().initModel()
         parameters_dikt = self.config.dikt.get("parameters_dict", "{}").replace("'", '"')
-        # logma.info(f"Parameters Dict {parameters_dikt}")
+        logma.info(f"Parameters Dict {parameters_dikt}")
+        if parameters_dikt == "":
+            parameters_dikt = "{}"
         self.parameters = j.loads(parameters_dikt)
         self.stati = self.parameters.get("stati", {})
         self.enabled = False

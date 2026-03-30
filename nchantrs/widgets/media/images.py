@@ -10,10 +10,10 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 import base64
 
 import logging
-
 
 logger = logging.getLogger(__name__)
 # -*- coding: utf-8 -*
@@ -37,7 +37,6 @@ logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "images.yaml")
-pxcfg = {}
 
 
 class NchantdImage(NchantdWidget):

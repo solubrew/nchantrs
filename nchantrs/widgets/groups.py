@@ -10,13 +10,13 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 
 import logging
-
 
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
@@ -36,7 +36,6 @@ logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "groups.yaml")
-pxcfg = {}
 
 
 class NchantdGroup(NchantdWidgetMixin, pyqt.QGroupBox):
@@ -151,8 +150,7 @@ class NchantdCollapsableGroup(NchantdWidget):
         self.tree.setHeaderHidden(True)
         self.tree.setColumnCount(1)
         self.tree.setIndentation(5)
-        self.tree.setStyleSheet(
-            """
+        self.tree.setStyleSheet("""
             QTreeView {
                 border: 1px solid #4F5665;
             }
@@ -161,8 +159,7 @@ class NchantdCollapsableGroup(NchantdWidget):
                 padding: 4px;
                 font-size: 14px;
             }
-        """
-        )
+        """)
         # self.root_item = pyqt.QTreeWidgetItem(self.tree)
         # self.root_item.setText(0, self.config.dikt.get("text", "Missing Group Title"))
         # self.child_item = pyqt.QTreeWidgetItem()

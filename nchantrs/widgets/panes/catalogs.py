@@ -2,21 +2,21 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 
 import logging
-
 
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
@@ -44,7 +44,6 @@ logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "catalogs.yaml")
-pxcfg = {}
 
 
 class NchantdNewNodePane(NchantdPane):
@@ -230,7 +229,7 @@ class NchantdNewNodePane(NchantdPane):
 
     def show_first_tab_options(self):
         """"""
-        #[DONE]
+        # [DONE]
         # allow it to be set as a default and then automatically create the tab document with each newly created node
         #
 

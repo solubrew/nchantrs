@@ -444,13 +444,13 @@ class NchantdCloakModel(NchantdPantiesModel):
         return instances
 
     def get_menu(self, name) -> None:
-        """
-            if name is None:
-                return DataFrame()
-            return self.store.get_app_menu(name)
+        """Get a menu from the database."""
+        if name is None:
+            return DataFrame()
+        return self.store.get_app_menu(name)
 
     def get_node(self, nid=None, tree=None) -> None:
-        """
+        """Get a node from the database."""
         # logma.info(f"Get Node {nid}")
         table = "vw_tree_node"
         # logma.info(f"Node {nid}")

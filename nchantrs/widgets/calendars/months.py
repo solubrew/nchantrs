@@ -2,13 +2,13 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
 
 # -*- coding: utf-8 -*
@@ -18,7 +18,6 @@ import datetime as dt
 import calendar
 
 import logging
-
 
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
@@ -41,7 +40,6 @@ logma = Logma(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "month.yaml")
-pxcfg = {}
 
 
 class NchantdMonthCalendar(NchantdTab):

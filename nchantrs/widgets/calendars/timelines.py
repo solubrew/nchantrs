@@ -10,13 +10,13 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join
 import datetime as dt
 
 import logging
-
 
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
@@ -43,7 +43,6 @@ logma = Logma(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "timelines.yaml")
-pxcfg = {}
 
 
 class NchantdHistory(NchantdWidget):
@@ -246,7 +245,7 @@ class NchantdTodayOverview(NchantdTab):
             logma.info(f"Day {day}")
             cfg = {"day": cfg}
             if day.strftime("%Y-%m-%d") == today.strftime("%Y-%m-%d"):
-                cfg["font_zoom"] = 1.2  [DONE]
+                cfg["font_zoom"] = 1.2  # [DONE]
             scroll.addWidget(NchantdDayDashboard(self, cfg).initWidget())
             # scrollbar = scroll.scroll.horizontalScrollBar()
             # scrollbar = scroll.scroll.horizontalScrollBar()

@@ -1,16 +1,17 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-"""  #																			||
+"""#																			||
 ---  #																			||
 <(META)>:  #																	||
-	docid: 'a4955210-9422-43dd-8a94-6f9f90568004'  #							||
-	name:	#																	||
-	description: >  #															||
-	expirary: <[expiration]>  #													||
-	version: <[version]>  #														||
-	authority: document|this  #													||
-	security: sec|lvl2  #														||
-	<(WT)>: -32  #																||
+        docid: 'a4955210-9422-43dd-8a94-6f9f90568004'  #							||
+        name:	#																	||
+        description: >  #															||
+        expirary: <[expiration]>  #													||
+        version: <[version]>  #														||
+        authority: document|this  #													||
+        security: sec|lvl2  #														||
+        <(WT)>: -32  #																||
 """  # ||
+
 # -*- coding: utf-8 -*-#														||
 # ===============================Core Modules====================================||
 from os.path import abspath, dirname, join
@@ -282,23 +283,24 @@ class NchantdTreeView(NchantdWidget):
 
     def _save_last_node(self, node) -> None:
         """"""
-        try:
-            if hasattr(self.parent.app, 'model') and self.parent.app.model:
-                store = self.parent.app.model.store
-                instance = self.parent.app.model.instance
-                if store and instance:
-                    # Get the node's nid
-                    node_nid = getattr(node, 'nid', None) or getattr(node, 'data', {}).get('nid_txt', None)
-                    if node_nid:
-                        # Update instance metadata with last node
-                        if not hasattr(instance, 'meta_data'):
-                            instance.meta_data = {}
-                        instance.meta_data['last_node_nid_txt'] = node_nid
-                        # Store the updated instance
-                        store.store_app_instance(instance, how="UPDATE")
-                        logma.info(f"Saved last node: {node_nid}")
-        except Exception as e:
-            logma.warning(f"Could not save last node: {e}")
+        # try:
+        #     # TODO: 0 must be fixed to be the correct value for the last node
+        #     if hasattr(self.parent.app, "model") and self.parent.app.model:
+        #         store = self.parent.app.model.store
+        #         instance = self.parent.app.model.instance
+        #         if store and instance:
+        #             # Get the node's nid
+        #             node_nid = getattr(node, "nid", None) or getattr(node, "data", {}).get("nid_txt", None)
+        #             if node_nid:
+        #                 # Update instance metadata with last node
+        #                 if not hasattr(instance, "meta_data"):
+        #                     instance.meta_data = {}
+        #                 instance.meta_data["last_node_nid_txt"] = node_nid
+        #                 # Store the updated instance
+        #                 store.store_app_instance(instance, how="UPDATE")
+        #                 logma.info(f"Saved last node: {node_nid}")
+        # except Exception as e:
+        #     logma.warning(f"Could not save last node: {e}")
         return self
 
     def set_node_widget(self, widget) -> None:

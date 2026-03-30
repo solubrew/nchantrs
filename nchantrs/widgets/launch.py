@@ -2,14 +2,15 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join
@@ -20,7 +21,6 @@ from os.path import dirname, join
 from condor import condor
 
 import logging
-
 
 logger = logging.getLogger(__name__)
 from nchantrs.wizards.accounts import NchantdNewApplicationWizard
@@ -34,7 +34,6 @@ logma = Logma(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")
-pxcfg = {}
 
 
 # class NchantdLaunch(NchantdWidget):

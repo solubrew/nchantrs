@@ -42,7 +42,6 @@ logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "utilities.yaml")
-pxcfg = {}
 
 
 def nchantd_message_handler(mode, context, message) -> None:

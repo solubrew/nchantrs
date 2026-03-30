@@ -10,13 +10,13 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join
 import json as j
 
 import logging
-
 
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
@@ -39,7 +39,6 @@ logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "catalogs.yaml")
-pxcfg = {}
 
 
 class NchantdCatalogItem(NchantdWidget):
@@ -77,7 +76,7 @@ class NchantdCatalogItem(NchantdWidget):
         self.slug = self.title_txt.replace(" ", "").lower().strip()
         self.subtitle_txt = self.config.dikt.get("sub_text", None)
         self.description_txt = self.config.dikt.get("description", "Missing Description")
-        self.set_size()  #[DONE]
+        self.set_size()  # [DONE]
         if item_cfg.get("icon_txt", None) is None or item_cfg.get("icon_txt", "") == "":
             item_cfg["icon_txt"] = self.icon_txt
         item_cfg["link"] = item_cfg.get("link", "")
@@ -112,8 +111,7 @@ class NchantdCatalogItem(NchantdWidget):
             font_size = 12
             font.setPointSize(font_size)  # Set the font size
             group.setFont(font)
-        group.setStyleSheet(
-            """
+        group.setStyleSheet("""
                     QGroupBox {
                         font: bold {font_size}px Arial;
                     }
@@ -122,10 +120,7 @@ class NchantdCatalogItem(NchantdWidget):
                         subcontrol-position: top center; /* Position at the top center */
                         padding: 10 0px;
                     }
-                """.replace(
-                "{font_size}", str(font_size)
-            )
-        )
+                """.replace("{font_size}", str(font_size)))
         group_layout = pyqt.QHBoxLayout()
         self.item_cfg["size"] = [128, 128]
         self.item_cfg["icon"] = self.item_cfg["path"]

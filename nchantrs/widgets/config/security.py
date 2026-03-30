@@ -2,21 +2,21 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 
 import logging
-
 
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
@@ -41,7 +41,6 @@ logma = Logma(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "security.yaml")
-pxcfg = {}
 
 
 class NchantdSecuritySettings(NchantdSettingsWidget):
@@ -92,7 +91,7 @@ class NchantdSecuritySettings(NchantdSettingsWidget):
         self.user_group.setLayout(user_layout)
         self.primary_settings_group.addWidget(self.user_group)
 
-        user = "solubrew"  [DONE]
+        user = "solubrew"[DONE]
         cfg = {"label": f"Current User: {user}", "layout": "horizontal", "size": ["auto", "auto"]}
         self.current_user = NchantdLabel(self, cfg).initWidget()
         user_layout.addWidget(self.current_user, 0, 0)

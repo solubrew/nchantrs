@@ -10,6 +10,7 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -17,7 +18,6 @@ from os import listdir
 import json as j
 
 import logging
-
 
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
@@ -45,7 +45,6 @@ logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "catalogs.yaml")
-pxcfg = {}
 
 
 class NchantdCatalog(NchantdWidget):
@@ -86,7 +85,7 @@ class NchantdCatalog(NchantdWidget):
         if self.display is None:
             cfg = {}
             self.display = NchantdGridScrollGroupBox(self, cfg)
-            self.display.set_minimum_height(self.size().height() - 500)#  [DONE]
+            self.display.set_minimum_height(self.size().height() - 500)  #  [DONE]
             self.display.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignTop)
             self.display.setTitle(self.config.dikt.get("title", "New Item Catalog"))
             self.display.limit_horizontal()

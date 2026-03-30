@@ -10,13 +10,13 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join
 import math
 
 import logging
-
 
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
@@ -39,7 +39,6 @@ logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "calculators.yaml")
-pxcfg = {}
 
 
 class NchantdCalculator(NchantdTab):
@@ -377,7 +376,7 @@ class NchantdCalculator(NchantdTab):
             "\N{MULTIPLICATION SIGN}": "_apply_multiply",
             "\N{DIVISION SIGN}": "_apply_divide",
         }
-        
+
         method_name = OPERATOR_METHODS.get(pendingOperator)
         if method_name and hasattr(self, method_name):
             method = getattr(self, method_name)
@@ -387,15 +386,15 @@ class NchantdCalculator(NchantdTab):
     def _apply_add(self, rightOperand: float) -> bool:
         self.sumSoFar += rightOperand
         return True
-    
+
     def _apply_subtract(self, rightOperand: float) -> bool:
         self.sumSoFar -= rightOperand
         return True
-    
+
     def _apply_multiply(self, rightOperand: float) -> bool:
         self.factorSoFar *= rightOperand
         return True
-    
+
     def _apply_divide(self, rightOperand: float) -> bool:
         if rightOperand == 0.0:
             return False

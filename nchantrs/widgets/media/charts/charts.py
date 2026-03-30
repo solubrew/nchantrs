@@ -13,13 +13,13 @@
     security: sec|lvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*-
 # ===============================Core Modules====================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 
 import logging
-
 
 logger = logging.getLogger(__name__)
 # ===============================================================================||
@@ -49,8 +49,7 @@ here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
 # ===============================================================================||
-pxcfg = join(abspath(here), "_data_/charts.yaml")
-pxcfg = {}
+pxcfg = join(abspath(here), "_data_", "charts.yaml")
 
 
 class NchantdChart(NchantdWidgetMixin, FigureCanvas):

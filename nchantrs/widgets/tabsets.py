@@ -41,7 +41,6 @@ logma.off()
 
 # ===============================================================================||
 pxcfg = join(abspath(here), "_data_", "tabsets.yaml")
-pxcfg = {}
 
 
 class NchantdTab(NchantdWidget):
@@ -196,10 +195,7 @@ class NchantdApplicationControlTab(NchantdTab):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config = condor.Instruct(pxcfg).select("NchantdApplicationControl").override(cfg)
         super().__init__(self.parent, self.config)
         self.tree = None
         self.note = None
