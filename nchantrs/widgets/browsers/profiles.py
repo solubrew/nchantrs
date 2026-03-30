@@ -2,14 +2,15 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -21,7 +22,6 @@ from typing import Dict, Optional
 import uuid
 
 import logging
-
 
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
@@ -190,56 +190,21 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
     def set_persistence(self):
         """"""
         logma.info(f"Set Persistence {self.name}")
-        self.setCachePath(join(self.app.model.store.application_path, f".cache_{self.name}"))
+        # Use application path for storage
+        storage_base = getattr(self.app.model.store, "application_path", ".")
+        cache_path = join(storage_base, f".cache_{self.name}")
+        persistent_path = join(storage_base, ".persistence", str(self.name))
+
+        self.setCachePath(cache_path)
+        self.setPersistentStoragePath(persistent_path)
+
         self.setHttpCacheType(pyqt.QWebEngineProfile.HttpCacheType.DiskHttpCache)
-        # self.setHttpCachePath(self.app.model.store.application_path, ".persistence", str(self.name))
-        self.setPersistentStoragePath(join(self.app.model.store.application_path, ".persistence", str(self.name)))
         self.setPersistentCookiesPolicy(pyqt.QWebEngineProfile.PersistentCookiesPolicy.AllowPersistentCookies)
-        # self.setPersistentCookiesPolicy(pyqt.QWebEngineProfile.ForcePersistentCookies)
 
-        # self.setOfflineStoragePath(self.app.path)
-        # self.setOfflineWebApplicationCachePath(self.config.offline_web_application_cache_path)
-        # self.setPersistentStoragePath(self.app.path)
-        #
-        # self.setPersistentCookiesPolicy(self.ForcePersistentCookies)
-        #
-        # self.setPersistentStoragePolicy(self.ForcePersistentStorage)
-        # self.setPersistentSessionStoragePolicy(self.ForcePersistentSessionStorage)
-        # self.setPersistentWebStoragePolicy(self.ForcePersistentWebStorage)
-        # self.setPersistentPermissionPolicy(self.ForcePersistentPermissionPolicy)
+        # Use a modern User-Agent for better compatibility (especially with Google)
+        modern_ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+        self.setHttpUserAgent(modern_ua)
 
-        # self.setPersistentItemCachePolicy(self.ForcePersistentItemCache)
-        # self.setPersistentResourceCachePolicy(self.ForcePersistentResourceCache)
-        # self.setPersistentDatabasePolicy(self.ForcePersistentDatabase)
-        # self.setPersistentOfflineStoragePolicy(self.ForcePersistentOfflineStorage)
-        # self.setPersistentOfflineWebApplicationCachePolicy(self.ForcePersistentOfflineWebApplicationCache)
-
-        # self.current_profile.setPersistentStoragePath(self.storage_path)
-        # self.current_profile.setHttpCacheType(pyqt.QWebEngineProfile.DiskHttpCache)
-        # self.current_profile.setPersistentCookiesPolicy(pyqt.QWebEngineProfile.ForcePersistentCookies)
-
-        # # self.setHttpCacheType(self.MemoryCache)
-        # self.setHttpCacheType(self.DiskHttpCache)
-        # self.setHttpProxyType(self.DefaultProxy)
-        # self.setHttpProxy(self.config.http_proxy)
-        # self.setHttpPort(self.config.http_port)
-        # self.setHttpsPort(self.config.https_port)
-        # self.setHttpAuthenticationType(self.NoAuthentication)
-        # self.setHttpAuthentication(self.config.http_user, self.config.http_password)
-        # self.setHttpProxyAuthenticationType(self.NoAuthentication)
-        # self.setHttpProxyAuthentication(self.config.http_proxy_user, self.config.http_proxy_password)
-        # self.setHttpUserAgentPolicy(self.DefaultUserAgent)
-        # self.setHttpAcceptLanguage(self.config.http_accept_language)
-        # self.setHttpAcceptEncoding(self.config.http_accept_encoding)
-        # self.setHttpAcceptText(self.config.http_accept_text)
-        # self.setHttpAcceptImages(self.config.http_accept_images)
-        # self.setHttpAcceptFonts(self.config.http_accept_fonts)
-        # self.setHttpAcceptMedia(self.config.http_accept_media)
-        # self.setHttpAcceptPlugins(self.config.http_accept_plugins)
-        # self.setHttpAcceptPopups(self.config.http_accept_popups)
-        # self.setHttpAcceptRichText(self.config.http_accept_rich_text)
-        # self.setHttpUserAgent(f"{self.config.user_agent} ({self.config.user_agent_id})")
-        # self._profile.downloadRequested.connect(self._download_manager_widget.download_requested)
         self.persistence = True
         return self
 

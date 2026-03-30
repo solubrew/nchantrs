@@ -33,6 +33,7 @@ from nchantrs.widgets.browsers.utilities import NchantdURL, NchantdWebChannel, N
 from nchantrs.widgets.media.editors.selectors import NchantdDropDown
 from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
+from nchantrs.services.links import LinkService
 from ogma.logma import Logma
 from nchantrs.widgets.browsers.graphics import configure_qt_for_webengine, setup_application_attributes
 
@@ -115,6 +116,25 @@ class NchantdWebManager(NchantdWidgetMixin, pyqt.QObject):
         :return:
         """
 
+    def hideEvent(self, event):
+        """Stop browser when widget is hidden to save resources (e.g. stop playing videos)"""
+        try:
+            self.browser.stop()
+            # Optionally load blank page to fully release resources
+            # self.browser.setUrl(pyqt.QUrl("about:blank"))
+        except Exception as e:
+            logma.error(f"Error stopping browser on hide: {e}")
+        super().hideEvent(event)
+
+    def closeEvent(self, event):
+        """Ensure browser is stopped on close"""
+        try:
+            self.browser.stop()
+            self.browser.setUrl(pyqt.QUrl("about:blank"))
+        except:
+            pass
+        super().closeEvent(event)
+
 
 class NchantdWebViewer(NchantdWidget):
     """ """
@@ -164,6 +184,25 @@ class NchantdWebViewer(NchantdWidget):
         self.browser.urlChanged.connect(self.cmd_url_changed_handler)
         self.browser.titleChanged.connect(self.title_changed.emit)
         self.browser.loadProgress.connect(self.load_progress.emit)
+
+        # Sync back/forward button states
+        self.browser.backAvailable.connect(self.on_back_available)
+        self.browser.forwardAvailable.connect(self.on_forward_available)
+
+        # Link tracking service
+        self.link_service = LinkService(self)
+
+    def on_back_available(self, available):
+        """Handle back availability change"""
+        # Update the toolbar button state if it exists
+        if hasattr(self, "toolbar") and hasattr(self.toolbar, "buttons"):
+            # Logic to find and disable/enable the back button
+            pass
+
+    def on_forward_available(self, available):
+        """Handle forward availability change"""
+        # Update the toolbar button state if it exists
+        pass
 
     def initModel(self, cfg=None):
         """"""
@@ -278,10 +317,17 @@ class NchantdWebViewer(NchantdWidget):
         logma.info(f"URL Changed: {url}")
         if self.lock is True:
             self.open_new_tab()
-        if isinstance(url, pyqt.QUrl):
-            url = url.toString()
-        self.set_url_path(url)
-        logma.info(f"URL Changed: {url}")
+
+        url_str = url.toString() if isinstance(url, pyqt.QUrl) else str(url)
+        self.set_url_path(url_str)
+
+        # Track URL change in links table
+        try:
+            title = self.browser.title() or url_str
+            self.link_service.store_link(title, url_str, "'type': 'history'")
+        except Exception as e:
+            logma.error(f"Failed to track link: {e}")
+
         self.save()
         return self
 

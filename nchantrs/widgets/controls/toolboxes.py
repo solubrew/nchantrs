@@ -16,9 +16,6 @@
 from os.path import abspath, dirname, join
 import datetime as dt
 
-import logging
-
-logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -163,7 +160,7 @@ class NchantdToolBox(NchantdTab):
         self.box = pyqt.QToolBox(self)
         self.box.currentChanged.connect(self.on_drawer_changed)
         if current_document is not None:
-            # logma.info(f"Config Toolbox {self.config.dikt.get("toolbox", {})}")  # [0]["items"]}")
+            logma.info(f"Config Toolbox {self.config.dikt.get("toolbox", {})}")  # [0]["items"]}")
             cfg = condor.Instruct(cfg).override({"toolbox": current_document.toolbox_config})
             cfg.override(self.config.dikt)
             cfg = cfg.dikt["toolbox"]

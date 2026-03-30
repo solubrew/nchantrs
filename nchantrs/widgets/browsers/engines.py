@@ -159,11 +159,18 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
         return self
 
     def contextMenuEvent(self, event):
-        menu = pyqt.QMenu(self)
-        download_action = menu.addAction("Download video")
-        action = menu.exec(self.mapToGlobal(event.pos()))
-        if action == download_action:
-            self.download_current_video()
+        """Handle right-click context menu"""
+        menu = self.page().createStandardContextMenu()
+
+        # Check if right-clicked on an image
+        hit_test = self.page().hitTestContent(event.pos())
+        if hit_test.isContentEditable():
+            pass  # Let standard menu handle it
+
+        # We can add custom actions here if needed
+        # For example, a custom "Save image" if we want to bypass standard dialog
+
+        menu.exec(self.mapToGlobal(event.pos()))
 
     def create_custom_profile(self):
         """Create a custom web engine profile with error handling"""
@@ -241,13 +248,17 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
 
     @pyqt.Slot()
     def on_history_changed(self):
-        """Handle history changes"""
+        """Handle navigation history changes"""
+        self.backAvailable.emit(self.history().canGoBack())
+        self.forwardAvailable.emit(self.history().canGoForward())
         self.update_navigation_states()
 
     @pyqt.Slot(bool)
     def on_load_finished(self, success):
         """Handle page load completion - this is when history is updated"""
         logma.info(f"Page load finished - Success: {success}")
+        self.backAvailable.emit(self.history().canGoBack())
+        self.forwardAvailable.emit(self.history().canGoForward())
         self.update_navigation_states()
 
     @pyqt.Slot(pyqt.QUrl, str)

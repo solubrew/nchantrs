@@ -166,6 +166,30 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
         logma.info(f"Request Type: {request_type}")
         logma.info(f"Is Main Frame: {is_main_frame}")
 
+    def javaScriptConsoleMessage(self, level, message, line_number, source_id):
+        """Handle console messages from JavaScript"""
+        if message.startswith("middleClick:"):
+            url = message[len("middleClick:") :]
+            logma.info(f"Middle-click on link: {url}")
+            # Try to use parent manager to open a new tab if available
+            if hasattr(self.parent(), "get_available_engine"):
+                new_viewer = self.parent().get_available_engine()
+                new_viewer.browser.setUrl(pyqt.QUrl(url))
+                # Add to UI - usually the parent of NchantdWebManager would be the application/window
+                if hasattr(self.parent().parent, "add_tab"):
+                    self.parent().parent.add_tab(new_viewer)
+            return
+
+        # logma.debug(f"JS Console message: {message}")
+        super().javaScriptConsoleMessage(level, message, line_number, source_id)
+
+    def createWindow(self, type_):
+        """Handle requests to create new windows (e.g. target="_blank")"""
+        if hasattr(self.parent(), "get_available_engine"):
+            new_viewer = self.parent().get_available_engine()
+            return new_viewer.browser.page()
+        return super().createWindow(type_)
+
     def _update_frame_state(self, is_main_frame):
         """Update internal frame state based on navigation context."""
         if not is_main_frame:
