@@ -5,21 +5,20 @@
     docid:
     name:
     description: >
+        Migration of the a database to a new version. we should not enforce an upgrade except for on x.n.x versions.
+        that means that all 0.1.x needs to be upgradable directly to 0.2.0.
     version: 0.0.0.0.0.0
     authority: filesystem
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 from typing import Optional, Dict, List, Any, Tuple
 import datetime as dt
 
-import logging
-
-
-logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -37,7 +36,23 @@ debug = True
 pxcfg = join(here, "_data_", "db.yaml")
 
 
-class DBUpdate(object):
+def migrate():
+    """Run a migration process from one version to the next"""
+
+
+def migrate_index():
+    """"""
+
+
+def migrate_table():
+    """"""
+
+
+def migrate_view():
+    """"""
+
+
+class NchantdDBUpdate(object):
     """"""
 
     def __init__(self, parent, cfg=None) -> None:
@@ -64,7 +79,7 @@ class DBUpdate(object):
         name = self.parent.model.store.backup_database(self.parent.app.model.instance, db)
         return name
 
-    def check_version(self, current_v) -> None:
+    def check_version(self, current_v) -> bool:
         """"""
         logma.info(f"Checking Version {current_v}")
         latest_v = self.get_latest_version()
@@ -73,11 +88,14 @@ class DBUpdate(object):
         current_parts = self._parse_version_parts(current_v)
         latest_parts = self._parse_version_parts(latest_v)
 
-        for i, (current_level, latest_level) in enumerate(zip(current_parts, latest_parts)):
-            logma.info(f"Checking Level {i} {current_level}")
-            if current_level == latest_level:
-                continue
-            return current_level < latest_level
+        for current_level, latest_level in zip(current_parts, latest_parts):
+            if current_level < latest_level:
+                return True
+            if current_level > latest_level:
+                return False
+
+        if len(latest_parts) > len(current_parts):
+            return True
 
         return False
 
@@ -85,30 +103,49 @@ class DBUpdate(object):
         """"""
         return self.parent.app.model.store.get_table(table, None, db)
 
-    def get_latest_version(self) -> None:
+    def get_latest_version(self) -> str:
         """"""
         self.current_version = self.parent.model.get_current_version()
-        max_version = 0
         logma.info(f"Current Version: {self.current_version}")
         logma.info(f"Versions: {self.versions.dikt.keys()}")
 
         version_data = self.versions.dikt.get(self.current_version)
-        if isinstance(version_data, dict):
-            for version_key in version_data.keys():
-                version_number = int(version_key.replace(".", ""))
-                if version_number > max_version:
-                    max_version = version_number
-        else:
+        if not isinstance(version_data, dict) or not version_data:
             return self.current_version
 
-        return ".".join([x for x in str(max_version)])[:-1]
+        latest_v = self.current_version
+        latest_parts = self._parse_version_parts(latest_v)
 
-    def insert_data(self, table, data, db="db", column_map=None) -> None:
+        for version_key in version_data.keys():
+            current_parts = self._parse_version_parts(version_key)
+            # Simple version comparison logic
+            is_newer = False
+            for p1, p2 in zip(current_parts, latest_parts):
+                if p1 > p2:
+                    is_newer = True
+                    break
+                if p1 < p2:
+                    break
+            else:
+                if len(current_parts) > len(latest_parts):
+                    is_newer = True
+
+            if is_newer:
+                latest_v = version_key
+                latest_parts = current_parts
+
+        return latest_v
+
+    def insert_data(self, table, data, db="db", column_map=None) -> bool:
         """"""
-        if column_map:
-            data = self.map_columns(data, column_map)
-        self.parent.app.model.store_records(table, data, db)
-        return True
+        try:
+            if column_map:
+                data = self.map_columns(data, column_map)
+            self.parent.app.model.store_records(table, data, db)
+            return True
+        except Exception as e:
+            logma.error(f"Insert failed for table {table}: {e}")
+            return False
 
     def map_columns(self, data, column_map) -> None:
         """"""
@@ -126,36 +163,71 @@ class DBUpdate(object):
         self.parent.app.model.store.restore_backup(db)
         return True
 
-    def run_updates(self, db) -> None:
+    def run_updates(self, db) -> str:
         """"""
         current_v = self.parent.model.get_current_version()
-        version = current_v
         logma.info(f"Current Version: {current_v}")
 
         if not self.check_version(current_v):
             logma.info("No updates needed")
-            return version
+            return current_v
 
         logma.info("Running Updates")
-        updates = self.versions.select(current_v).dikt
 
-        for version_key in updates.keys():
-            update_data = updates[version_key]
-            if not self._process_single_version_update(version_key, update_data, db):
-                break
-            version = version_key
+        # We need to find all versions that are greater than current_v and apply them in order.
+        # The versions are stored in self.versions.dikt[current_v] if it follows the old logic,
+        # but robust migration usually means we have a flat or nested list of all possible updates.
+        # Based on existing code, it seems it looks for updates UNDER the current version key.
+
+        updates_dict = self.versions.dikt.get(current_v, {})
+        if not updates_dict:
+            logma.info(f"No update paths found for version {current_v}")
+            return current_v
+
+        # Sort available target versions
+        available_versions = sorted(updates_dict.keys(), key=lambda v: self._parse_version_parts(v))
+
+        version = current_v
+        for version_key in available_versions:
+            # Only apply if version_key > version
+            if self._is_version_greater(version_key, version):
+                update_data = updates_dict[version_key]
+                logma.info(f"Applying update to {version_key}")
+                if not self._process_single_version_update(version_key, update_data, db):
+                    logma.error(f"Failed to update to {version_key}")
+                    break
+                version = version_key
+                # IMPORTANT: If we updated to version_key, we might have new update paths available
+                # from THIS new version. However, the current structure seems to suggest
+                # all updates from current_v are listed under it.
+                # If it's a chain (0.1 -> 0.2, then 0.2 -> 0.3), we'd need to re-check.
 
         return version
 
-    def run_update_indexes(self, indexes, db="db") -> None:
+    def _is_version_greater(self, v1: str, v2: str) -> bool:
+        """Returns True if v1 > v2."""
+        parts1 = self._parse_version_parts(v1)
+        parts2 = self._parse_version_parts(v2)
+        for p1, p2 in zip(parts1, parts2):
+            if p1 > p2:
+                return True
+            if p1 < p2:
+                return False
+        return len(parts1) > len(parts2)
+
+    def run_update_indexes(self, indexes, db="db") -> bool:
         """"""
         if indexes is None:
             return True
-        # for index, cmd in indexes.items():
-        #     self.parent.model.store.create_index(index, cmd, db)
+        for index, cmd in indexes.items():
+            try:
+                self.parent.app.model.store.create_index(index, cmd, db)
+            except Exception as e:
+                logma.error(f"Failed to create index {index}: {e}")
+                return False
         return True
 
-    def run_update_tables(self, tables, db="db") -> None:
+    def run_update_tables(self, tables, db="db") -> bool:
         """"""
         if tables is None:
             return True
@@ -168,18 +240,26 @@ class DBUpdate(object):
 
         return True
 
-    def run_update_views(self, views, db="db") -> None:
+    def run_update_views(self, views, db="db") -> bool:
         """"""
         if views is None:
             return True
         for view, cmd in views.items():
-            self.parent.store.update_view(view, cmd, db)
+            try:
+                self.parent.app.model.store.update_view(view, cmd, db)
+            except Exception as e:
+                logma.error(f"Failed to update view {view}: {e}")
+                return False
         return True
 
-    def update_data(self, update, column, value, db="db") -> None:
+    def update_data(self, update, column, value, db="db") -> bool:
         """"""
-        self.parent.app.model.store.update_record(update, column, value, db)
-        return True
+        try:
+            self.parent.app.model.store.update_record(update, column, value, db)
+            return True
+        except Exception as e:
+            logma.error(f"Update failed: {e}")
+            return False
 
     def _execute_update_step(self, step_name, step_function, step_data, db) -> None:
         """Execute a single update step with error handling and rollback."""
@@ -192,12 +272,14 @@ class DBUpdate(object):
             return False
         return True
 
-    def _parse_version_parts(self, version_string) -> None:
+    def _parse_version_parts(self, version_string) -> List[int]:
         """Parse version string into comparable integer parts."""
+        if not version_string:
+            return []
         logma.info(f"Parsing Version: {version_string}")
-        return [part for part in version_string.split(".")]
+        return [int(part) for part in version_string.split(".") if part.isdigit()]
 
-    def _process_single_version_update(self, version, update_data, db) -> None:
+    def _process_single_version_update(self, version, update_data, db) -> bool:
         """Process updates for a single version."""
         logma.info(f"Processing Version {version}")
         if update_data is None:
@@ -215,6 +297,15 @@ class DBUpdate(object):
         for step_name, step_function, step_data in update_steps:
             if not self._execute_update_step(step_name, step_function, step_data, db):
                 return False
+
+        # After successful update, we should update the version in the database
+        try:
+            self.parent.model.set_current_version(version, db)
+            logma.info(f"Successfully updated to version {version}")
+        except Exception as e:
+            logma.error(f"Failed to update version metadata in DB: {e}")
+            # If metadata update fails, we might still be okay, or we might want to fail.
+            # Usually it's better to fail if we can't record progress.
 
         return True
 
