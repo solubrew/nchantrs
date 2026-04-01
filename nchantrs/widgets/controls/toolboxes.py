@@ -157,7 +157,7 @@ class NchantdToolBox(NchantdTab):
         """"""
         logma.inspect_caller()
         current_document = self.app.view.panes["center"].currentWidget()
-        self.box = pyqt.QToolBox(self)
+        self.box = pyqt.QToolBox()
         self.box.currentChanged.connect(self.on_drawer_changed)
         if current_document is not None:
             logma.info(f"Config Toolbox {self.config.dikt.get("toolbox", {})}")  # [0]["items"]}")
