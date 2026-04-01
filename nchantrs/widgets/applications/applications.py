@@ -42,7 +42,7 @@ from nchantrs.extensions.extensions import NchantdExtensionsManager
 from nchantrs.models.applicationmodels import NchantdCloakModel, NchantdPantiesModel
 from nchantrs.services.services import NchantdServiceManager
 from nchantrs.extensions.packages.nchantdlibrary.nchantdlibrary import NchantdLibraryManager
-from nchantrs.updates.db import DBUpdate
+from nchantrs.updates.db import NchantdDBUpdate
 from nchantrs.utilities.comms import NchantdCommunicationsManager
 from nchantrs.views.applicationviews import NchantdCloakView, NchantdPantiesView
 from nchantrs.widgets.controls.menus import NchantdContextMenu
@@ -235,7 +235,7 @@ class NchantdCloak(NchantdPanties):  # ||
         self.main = NchantdMainWindow(self)
         self.model = NchantdCloakModel(self)
         self.view = NchantdCloakView(self)
-        self.dbupdate = DBUpdate(self)
+        self.dbupdate = NchantdDBUpdate(self)
 
     def initApp(self, cfg=None):  # ||
         """Initialize UI setting the main application layout and building
@@ -336,6 +336,22 @@ class NchantdCloak(NchantdPanties):  # ||
         pane.model.current_node.updateTabs("center")
         pane.model.current_node.updateTabs("right")
         pane.refresh()
+        # Schedule home node selection after all initialization is complete
+        pyqt.QTimer.singleShot(500, self._select_home_node)
+        return self
+
+    def _select_home_node(self):
+        """Select the Home node after startup is complete"""
+        logma.info("=== Selecting Home node after startup ===")
+        try:
+            pane = self.view.panes["left"].tree
+            # Find and select the Home node (index 0)
+            root_index = pane.model.index(0, 0)
+            if root_index.isValid():
+                pane.setCurrentIndex(root_index)
+                logma.info("Home node selected successfully")
+        except Exception as e:
+            logma.error(f"Failed to select Home node: {e}")
         return self
 
     def set_version(self, version):

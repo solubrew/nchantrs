@@ -314,7 +314,7 @@ class NchantdDBUpdate(object):
         # Handle reload operation
         if params.get("reload", False):
             logma.info(f"Reloading Table: {table}")
-            map_ = params.get("column-map")
+            map_ = params.get("column-map", None)
             filters = params.get("filters", {})
             if not self.reload_table(table, params.get("keep-records", False), map_, filters, db):
                 if debug:

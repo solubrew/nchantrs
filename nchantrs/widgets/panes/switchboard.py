@@ -41,7 +41,7 @@ class NchantdSwitchBoard(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(pxcfg).select("NchantdSwitchBoard").override(cfg)
+        self.config.override(condor.Instruct(pxcfg).select("NchantdSwitchBoard").override(cfg))
         self.commands = None
         self.options = None
 

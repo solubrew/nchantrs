@@ -116,7 +116,7 @@ class NchantdContextMenu(NchantdMenu):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(pxcfg).select("NchantdContextMenu").override(cfg)
+        self.config.override(condor.Instruct(pxcfg).select("NchantdContextMenu").override(cfg))
         self.menu_data = None
         self.name = None
         self.menu_df = None

@@ -80,7 +80,7 @@ class NchantdDynamicEntryForm(NchantdForm):
         super().__init__(parent, cfg)
         logma.info(f"Init NchantdDynamicEntryForm Config {cfg}")
         self.parent = parent
-        self.config.override(pxcfg).select("NchantdDynamicEntryForm").override(cfg)
+        self.config.override(condor.Instruct(pxcfg).select("NchantdDynamicEntryForm").override(cfg))
         self.fieldWDGTs = {}
         self.controlWDGTs = {}
         self.handlers = {}
