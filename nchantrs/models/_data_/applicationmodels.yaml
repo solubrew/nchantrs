@@ -1522,6 +1522,15 @@ NchantdPantiesModel:
             columns: [{"name": 'UUID', "type": "text"}, {"name": 'uUUID', "type": "text"},
                       {"name": 'key_txt', "type": "text"}, {"name": 'value_txt', "type": "text"}]
             records: []
+          'app_tab':
+            'columns': [{"name": 'name_txt', "type": "text"}, {"name": 'widget_txt', "type": "text"},
+                        {"name": 'widgdata_dict', "type": "text"}, {"name": 'pid_txt', "type": "text"},
+                        {"name": 'did_txt', "type": "text"}, {"name": 'position_int', "type": "integer"},
+                        {"name": 'tab_type_txt', "type": "text"}, {"name": 'tabset_type_txt', "type": "text"},
+                        {"name": 'readonly_bit', "type": "integer"}, {"name": 'editable_bit', "type": "integer"},
+                        {"name": 'visible_bit', "type": "integer"}, {"name": 'moveable_bit', "type": "integer"},
+                        {"name": 'tid_txt', "type": "text", "constraint": "unique"}]
+            'records': []
           'app_user':
             description: >
               The app_user table is used store user information for each install of the application, mostly used for

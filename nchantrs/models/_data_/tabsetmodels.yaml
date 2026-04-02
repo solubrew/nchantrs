@@ -67,7 +67,7 @@ NchantdTabSetModel:
               - ['FAQs', 'widgets.config.help.NchantdOfficeFAQs', "{}", '066abcfb-5af0-7027-8000-980e6c9d841b', "", 1, 'custom_widget', 'center']
               - ['Documentation', 'widgets.config.help.NchantdOfficeHelpDocs', "{}", '066abcfb-5af0-7027-8000-980e6c9d841b', "", 2, 'custom_widget', 'center']
               #Right Side TabSet
-              - ['Journal', 'widgets.documents.journal.NchantdJournalEditor', "{}", '0', "06875532-6b6d-787b-8000-41ace4c1038a", 0, 'custom_widget', 'right']
+              - ['Journal', 'widgets.documents.journal.NchantdOfficeJournalEditor', "{}", '0', "06875532-6b6d-787b-8000-41ace4c1038a", 0, 'custom_widget', 'right']
               - ['ToolBox', 'widgets.controls.toolboxes.NchantdOfficeApplicationToolBox', "{}", '0', "06875532-6b6d-7c8f-8000-a4ea03a7ece3", 1, 'custom_widget', 'right']
               #- ['Search', 'widgets.documents.atnrg.browsers.browsers.NchantdOfficeSlimTabSearch', "{}", '0', "", 2, 'custom_widget', 'right']
               - ['Calculator', 'widgets.calculators.calculators.NchantdCalculator', "{}", '0', "06875532-6b6d-7d9b-8000-c7073dc89ef6", 3, 'custom_widget', 'right']

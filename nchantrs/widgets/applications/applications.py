@@ -344,14 +344,15 @@ class NchantdCloak(NchantdPanties):  # ||
         """Select the Home node after startup is complete"""
         logma.info("=== Selecting Home node after startup ===")
         try:
-            tree_view = self.view.panes["left"].tree
-            tree_widget = tree_view.parent  # QTreeWidget
+            tree = self.view.panes["left"].tree
+            # tree_widget = tree_view.parent  # QTreeWidget
             # Get the first top-level item (Home node)
-            home_item = tree_widget.topLevelItem(0)
+            home_item = tree.topLevelItem(0)
+            # home_item = tree_widget.setCurrentItem(0)
             if home_item:
-                tree_widget.setCurrentItem(home_item)
-                tree_widget.scrollToItem(home_item)
-                tree_view.parent.model.current_node = home_item
+                tree.setCurrentItem(home_item)
+                tree.scrollToItem(home_item)
+                # tree_view.parent.model.current_node = home_item
                 logma.info(f"Home node '{home_item.text(0)}' selected successfully")
             else:
                 logma.error("Home node (topLevelItem 0) not found")
