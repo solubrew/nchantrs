@@ -207,6 +207,32 @@ class NchantdMonthCalendar(NchantdTab):
         self.insertCalendar()
 
 
+class NchantdQuarterYearCalendar(NchantdWidget):
+    """"""
+
+    def __init__(self, parent=None, cfg=None):
+        """ """
+        super().__init__(parent, cfg)
+        self.parent = parent
+        self.config.override(condor.Instruct(pxcfg).select("NchantdQuarterYearCalendar").override(cfg))
+
+    def initModel(self, cfg=None):
+        """"""
+        super().initModel(cfg)
+        return self
+
+    def initView(self, cfg=None):
+        """"""
+        super().initView(cfg)
+        return self
+
+    def initWidget(self):
+        """"""
+        self.initModel()
+        self.initView()
+        return self
+
+
 class NchantdMonthlyJournal(NchantdTab):
     """"""
 

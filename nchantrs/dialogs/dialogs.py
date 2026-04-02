@@ -11,6 +11,7 @@
     security: sec|lvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*-
 # ================================Core Modules===================================||
 from os.path import abspath, dirname, join
@@ -54,7 +55,7 @@ class NchantdCape(NchantdPanties):
             self.config.override(parent.config)
         self.config.override(cfg).addArgs(args)
         logma.info(f"NchantdCape Config: {self.config.dikt}")
-        
+
         self.application_name = name
         self.name = name
         self.parent = parent
@@ -70,7 +71,7 @@ class NchantdCape(NchantdPanties):
         self.user = self.model.user
         self.newApplication = True
         self.src = None
-        
+
         # Track initialization state
         self._init_view_called = False
 
@@ -83,20 +84,21 @@ class NchantdCape(NchantdPanties):
         """Initialize UI setting the main application layout and building
         landing widgets"""
         # Guard against double initialization
-        if hasattr(self, '_init_view_called') and self._init_view_called:
+        if hasattr(self, "_init_view_called") and self._init_view_called:
             import traceback
+
             logma.critical(f"NchantdCape.initView() called TWICE! Second call blocked.")
             logma.critical(f"Call stack for second call:")
             for line in traceback.format_stack():
                 logma.critical(f"  {line.strip()}")
             return self
         self._init_view_called = True
-        
+
         if cfg is None:
             cfg = {}
         logma.critical(f"NchantdCape.initView() STARTING NOW")
         logma.critical(f"cfg passed: {cfg}")
-        
+
         # Create central widget for the main window
         central_widget = pyqt.QWidget()
         self.main_layout = pyqt.QVBoxLayout()
@@ -154,11 +156,11 @@ class NchantdCape(NchantdPanties):
         self.initModel()
         # Initialize view
         self.initView(cfg)
-        
+
         # Run Qt event loop - use the QApplication instance's exec() method
         logma.critical("Main widget shown - starting Qt event loop")
         pyqt.QApplication.instance().exec()
-        
+
         logma.info(f"Application exiting")
         return 0
 
@@ -429,7 +431,8 @@ class NchantdSigil(NchantdSigilMixin, pyqt.QDialog):
         if self.layout is None:
             self.layout = pyqt.QVBoxLayout()
             self.setLayout(self.layout)
-        self.model = self.app.model
+        if hasattr(self.app, "model"):  # TODO ensure that this will work may need to switch to NchantdClip
+            self.model = self.app.model
         self.config.override(cfg)
         # Set minimum size to 10% of screen
         self._set_minimum_size()

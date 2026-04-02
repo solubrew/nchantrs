@@ -27,9 +27,10 @@ logger = logging.getLogger(__name__)
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 from nchantrs.widgets.panes.calendars import NchantdCalendarDetailPane
 from ogma.logma import Logma
+from nchantrs.widgets.calendars.hours import NchantdMinuteCalendar, NchantdHourCalendar, NchantdQuarterHourCalendar
 from nchantrs.widgets.calendars.days import NchantdDayCalendar
 from nchantrs.widgets.calendars.decades import NchantdDecadeCalendar
-from nchantrs.widgets.calendars.months import NchantdMonthCalendar
+from nchantrs.widgets.calendars.months import NchantdMonthCalendar, NchantdQuarterYearCalendar
 from nchantrs.widgets.calendars.weeks import NchantdWeekCalendar
 from nchantrs.widgets.calendars.years import NchantdYearCalendar
 
@@ -54,9 +55,9 @@ class NchantdCalendar(NchantdWidget):
         super().__init__(self, self.config)
         self.config.override(cfg)
         self.button_bar = None
-        self.calendar_pane = None
         self.detail_pane = None
         self.scope = None
+        self.calendar = None
 
     def initModel(self):
         """"""
