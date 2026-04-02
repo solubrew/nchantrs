@@ -152,10 +152,7 @@ class NchantdWebViewer(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdWebViewer"))
-        if parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(condor.Instruct(pxcfg).select("NchantdWebViewer").override(cfg))
         self.profiles = {}
         cfg = {}
         self.browser = NchantdWebEngineView(None, self, cfg).initWidget()
