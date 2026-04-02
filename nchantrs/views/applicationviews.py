@@ -142,7 +142,7 @@ class NchantdCloakView(NchantdPantiesView):
         """Initialize UI setting the main application layout and building
         landing widgets"""
         super().initView(cfg)
-        self.set_theme()
+        # Theme is already loaded by parent's init_pre_view() called from super().initView(cfg)
         self._set_configurations()
         self.set_toolbar()
         self.build_panes()
