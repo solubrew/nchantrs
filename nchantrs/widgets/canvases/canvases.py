@@ -97,6 +97,7 @@ class NchantdCanvas(NchantdWidgetMixin, pyqt.QGraphicsView):
         self.init_variables()
         self.scene = None
         self.shapes = None
+        self._display_pixmap = None
 
     def initModel(self, cfg=None):
         """"""
@@ -139,9 +140,48 @@ class NchantdCanvas(NchantdWidgetMixin, pyqt.QGraphicsView):
         # self.scene.addItem(item)
         self.scene.add_proxy_widget(item, position)
 
+    def setDisplayPixmap(self, pixmap):
+        """
+        Set a pixmap to be displayed as an overlay on this canvas.
+        This allows external code to render graphics and display them on the canvas.
+
+        Args:
+            pixmap (QPixmap): The pixmap to display on the canvas
+        """
+        self._display_pixmap = pixmap
+        self.viewport().update()
+
+    def getDrawingSurface(self):
+        """
+        Return the actual widget that can be painted on.
+        For QGraphicsView, this is the viewport.
+
+        Returns:
+            QWidget: The viewport widget that handles paint events
+        """
+        return self.viewport()
+
+    def drawForeground(self, painter, rect):
+        """
+        Override drawForeground to draw the display pixmap over the scene.
+        This is called after the scene is drawn.
+
+        Args:
+            painter (QPainter): The painter to use for drawing
+            rect (QRectF): The rectangle to draw in
+        """
+        super().drawForeground(painter, rect)
+
+        if self._display_pixmap and not self._display_pixmap.isNull():
+            # Draw the pixmap at the top-left of the view
+            painter.save()
+            painter.resetTransform()
+            painter.drawPixmap(0, 0, self._display_pixmap)
+            painter.restore()
+
 
 class NchantdPaintCanvas(NchantdCanvas):
-    """"""
+    """A canvas widget specifically designed for direct painting/drawing operations."""
 
     def __init__(self, parent=None, cfg=None):
         """ """
@@ -161,8 +201,12 @@ class NchantdPaintCanvas(NchantdCanvas):
         """"""
         super().initView()
         self.last_point = pyqt.QPoint()
-        self.pen_colr = pyqt.Qt.black
+        self.pen_color = pyqt.Qt.black
         self.pen_width = 10
+
+        # Initialize the canvas pixmap for painting
+        self.canvas = pyqt.QPixmap(self.size())
+        self.canvas.fill(pyqt.Qt.white)
 
         return self
 
@@ -172,25 +216,59 @@ class NchantdPaintCanvas(NchantdCanvas):
         self.initView()
         return self
 
-    def paintEvent(self, event):
-        """"""
-        painter = pyqt.QPainter(self)
-        painter.drawPixmap(self.rect(), self.canvas, self.rect())
+    def resizeEvent(self, event):
+        """Handle resize events to maintain canvas size."""
+        super().resizeEvent(event)
+        if hasattr(self, 'canvas'):
+            # Create new pixmap with new size
+            new_pixmap = pyqt.QPixmap(event.size())
+            new_pixmap.fill(pyqt.Qt.white)
+            # Copy old content
+            painter = pyqt.QPainter(new_pixmap)
+            painter.drawPixmap(0, 0, self.canvas)
+            painter.end()
+            self.canvas = new_pixmap
+
+    def drawForeground(self, painter, rect):
+        """Draw the paint canvas pixmap."""
+        super().drawForeground(painter, rect)
+
+        if hasattr(self, 'canvas') and not self.canvas.isNull():
+            painter.save()
+            painter.resetTransform()
+            painter.drawPixmap(0, 0, self.canvas)
+            painter.restore()
 
     def mousePressEvent(self, event):
-        """"""
+        """Handle mouse press for drawing."""
+        if event.button() == pyqt.Qt.LeftButton:
+            self.last_point = event.pos()
 
     def mouseMoveEvent(self, event):
-        """"""
+        """Handle mouse move for drawing."""
+        if event.buttons() & pyqt.Qt.LeftButton and hasattr(self, 'canvas'):
+            painter = pyqt.QPainter(self.canvas)
+            painter.setPen(pyqt.QPen(self.pen_color, self.pen_width, pyqt.Qt.SolidLine, pyqt.Qt.RoundCap, pyqt.Qt.RoundJoin))
+            painter.drawLine(self.last_point, event.pos())
+            painter.end()
+
+            self.last_point = event.pos()
+            self.viewport().update()
 
     def clear(self):
-        self.canvas.fill(pyqt.Qt.white)
-        self.update()
+        """Clear the canvas."""
+        if hasattr(self, 'canvas'):
+            self.canvas.fill(pyqt.Qt.white)
+            self.viewport().update()
 
     def select_pen_color(self):
-        self.pen_color = pyqt.QColorDialog.getColor()
+        """Open color dialog to select pen color."""
+        color = pyqt.QColorDialog.getColor()
+        if color.isValid():
+            self.pen_color = color
 
     def select_pen_width(self):
+        """Open dialog to select pen width."""
         i, okPressed = pyqt.QInputDialog.getInt(self, "Pen Width", "Value:", self.pen_width, 1, 50, 1)
         if okPressed:
             self.pen_width = i
