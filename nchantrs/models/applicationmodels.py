@@ -226,8 +226,16 @@ class NchantdCloakModel(NchantdPantiesModel):
         if str(pid) == "0":
             parent_node = self.app.view.panes["left"].tree
         else:
-            parent_node = self.get_current_node()  # [DONE]
-            # parent_node = self.get_node(pid)
+            # Find the actual parent node in the tree by its nid
+            parent_node = self.find_node_in_tree(pid)
+            if parent_node is None:
+                logma.warning(f"Parent node with nid {pid} not found in tree, using current node's parent")
+                current = self.get_current_node()
+                # If pid doesn't match current node's nid, this should be a sibling
+                if current and str(current.nid) != str(pid):
+                    parent_node = current.parent() if hasattr(current, 'parent') and callable(current.parent) else current
+                else:
+                    parent_node = current
         logma.info(f"Parent Node {parent_node}")
         new_node = NchantdTreeNode(parent_node, name, nid, dict(zip(columns, row)))
         new_node.initWidget()
@@ -449,6 +457,34 @@ class NchantdCloakModel(NchantdPantiesModel):
             return DataFrame()
         return self.store.get_app_menu(name)
 
+    def find_node_in_tree(self, nid, tree_widget=None):
+        """Find an existing node widget in the tree by its nid."""
+        if tree_widget is None:
+            tree_widget = self.app.view.panes["left"].tree
+
+        # Search top-level items
+        for i in range(tree_widget.topLevelItemCount()):
+            item = tree_widget.topLevelItem(i)
+            if hasattr(item, 'nid') and str(item.nid) == str(nid):
+                return item
+            # Recursively search children
+            found = self._find_node_recursive(item, nid)
+            if found:
+                return found
+        return None
+
+    def _find_node_recursive(self, parent_item, nid):
+        """Recursively search for a node in the tree."""
+        for i in range(parent_item.childCount()):
+            child = parent_item.child(i)
+            if hasattr(child, 'nid') and str(child.nid) == str(nid):
+                return child
+            # Recursively search this child's children
+            found = self._find_node_recursive(child, nid)
+            if found:
+                return found
+        return None
+
     def get_node(self, nid=None, tree=None) -> None:
         """Get a node from the database."""
         # logma.info(f"Get Node {nid}")
@@ -458,6 +494,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         if nid is not None:
             cfg["WHERE"] = {"IN": {"nid_txt": [str(nid)]}}
         nodes = next(self.store.docs["db"].read({"table": table}, cfg)).dikt[table]["df"].to_dict(orient="records")
+        logma.info(f"Nodes {nodes}")
         if len(nodes) == 0:
             raise Exception(f"Node {nid} not found")
         else:

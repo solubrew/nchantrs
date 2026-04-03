@@ -32,7 +32,7 @@ from pyffice.items.colors import PyfficeColor
 # ====================================================================================================================||
 here = join(dirname(__file__), "")
 debug = True
-log = True
+log = False
 logma = Logma(__name__)
 if not log:
     logma.off()

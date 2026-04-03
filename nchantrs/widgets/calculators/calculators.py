@@ -60,6 +60,8 @@ class NchantdCalculator(NchantdTab):
         self.sumSoFar = 0.0
         self.factorSoFar = 0.0
         self.waitingForOperand = True
+        self.calculation_history = []
+        self.current_expression = ""
         self.pointButton = None
         self.changeSignButton = None
         self.backspaceButton = None
@@ -135,16 +137,22 @@ class NchantdCalculator(NchantdTab):
         clickedOperator = clickedButton.text()
 
         try:
-            operand = float(self.display.text())
+            operand = float(self._get_current_line())
         except ValueError:
             self.abortOperation()
             return
+
+        # Build expression string
+        if not self.current_expression:
+            self.current_expression = str(operand)
+        else:
+            self.current_expression += " " + str(operand)
 
         if self.pendingMultiplicativeOperator:
             if not self.calculate(operand, self.pendingMultiplicativeOperator):
                 self.abortOperation()
                 return
-            self.display.setText(str(self.factorSoFar))
+            self._set_current_line(str(self.factorSoFar))
             operand = self.factorSoFar
             self.factorSoFar = 0.0
             self.pendingMultiplicativeOperator = ""
@@ -153,10 +161,11 @@ class NchantdCalculator(NchantdTab):
             if not self.calculate(operand, self.pendingAdditiveOperator):
                 self.abortOperation()
                 return
-            self.display.setText(str(self.sumSoFar))
+            self._set_current_line(str(self.sumSoFar))
         else:
             self.sumSoFar = operand
 
+        self.current_expression += " " + clickedOperator
         self.pendingAdditiveOperator = clickedOperator
         self.waitingForOperand = True
 
@@ -166,19 +175,26 @@ class NchantdCalculator(NchantdTab):
         clickedOperator = clickedButton.text()
 
         try:
-            operand = float(self.display.text())
+            operand = float(self._get_current_line())
         except ValueError:
             self.abortOperation()
             return
+
+        # Build expression string
+        if not self.current_expression:
+            self.current_expression = str(operand)
+        else:
+            self.current_expression += " " + str(operand)
 
         if self.pendingMultiplicativeOperator:
             if not self.calculate(operand, self.pendingMultiplicativeOperator):
                 self.abortOperation()
                 return
-            self.display.setText(str(self.factorSoFar))
+            self._set_current_line(str(self.factorSoFar))
         else:
             self.factorSoFar = operand
 
+        self.current_expression += " " + clickedOperator
         self.pendingMultiplicativeOperator = clickedOperator
         self.waitingForOperand = True
 
@@ -188,7 +204,7 @@ class NchantdCalculator(NchantdTab):
         clickedOperator = clickedButton.text()
 
         try:
-            operand = float(self.display.text())
+            operand = float(self._get_current_line())
         except ValueError:
             self.abortOperation()
             return
@@ -210,7 +226,7 @@ class NchantdCalculator(NchantdTab):
                 logma.warning(f"Unknown unary operator: {clickedOperator}")
                 return
 
-            self.display.setText(str(result))
+            self._set_current_line(str(result))
             self.waitingForOperand = True
         except Exception as e:
             logma.error(f"Error in unary operation: {e}")
@@ -225,36 +241,40 @@ class NchantdCalculator(NchantdTab):
         except ValueError:
             return
 
-        if self.display.text() == "0" and digitValue == 0:
+        current_text = self._get_current_line()
+        if current_text == "0" and digitValue == 0:
             return
 
         if self.waitingForOperand:
-            self.display.clear()
+            self._set_current_line("")
             self.waitingForOperand = False
+            # If starting fresh after equals, start on a new line
+            if not self.pendingAdditiveOperator and not self.pendingMultiplicativeOperator and self.calculation_history:
+                self._update_display('\n'.join(self.calculation_history[-10:]) + "\n")
 
-        self.display.setText(self.display.text() + str(digitValue))
+        self._set_current_line(self._get_current_line() + str(digitValue))
 
     def pointClicked(self):
         """Handle decimal point entry"""
         if self.waitingForOperand:
-            self.display.setText("0")
+            self._set_current_line("0")
 
-        current_text = self.display.text()
+        current_text = self._get_current_line()
         if current_text and "." not in current_text:
-            self.display.setText(current_text + ".")
+            self._set_current_line(current_text + ".")
 
         self.waitingForOperand = False
 
     def changeSignClicked(self):
         """Toggle sign of current number (+/-)"""
         try:
-            text = self.display.text()
+            text = self._get_current_line()
             value = float(text)
             if value > 0.0:
                 text = "-" + text
             elif value < 0.0:
                 text = text[1:]
-            self.display.setText(text)
+            self._set_current_line(text)
         except ValueError:
             self.abortOperation()
 
@@ -262,26 +282,28 @@ class NchantdCalculator(NchantdTab):
         """Remove last digit from display"""
         if self.waitingForOperand:
             return
-        text = self.display.text()[:-1]
+        text = self._get_current_line()[:-1]
         if not text:
             text = "0"
             self.waitingForOperand = True
-        self.display.setText(text)
+        self._set_current_line(text)
 
     def clear(self):
         """Clear current entry"""
         if self.waitingForOperand:
             return
-        self.display.setText("0")
+        self._set_current_line("0")
         self.waitingForOperand = True
 
     def clearAll(self):
-        """Clear all calculations"""
+        """Clear all calculations and history"""
         self.sumSoFar = 0.0
         self.factorSoFar = 0.0
         self.pendingAdditiveOperator = ""
         self.pendingMultiplicativeOperator = ""
-        self.display.setText("0")
+        self.calculation_history = []
+        self.current_expression = ""
+        self._update_display("0")
         self.waitingForOperand = True
 
     def clearMemory(self):
@@ -290,14 +312,14 @@ class NchantdCalculator(NchantdTab):
 
     def readMemory(self):
         """Read memory value (MR button)"""
-        self.display.setText(str(self.sumInMemory))
+        self._set_current_line(str(self.sumInMemory))
         self.waitingForOperand = True
 
     def setMemory(self):
         """Set memory to current display value (MS button)"""
         try:
             self.equalClicked()
-            self.sumInMemory = float(self.display.text())
+            self.sumInMemory = float(self._get_current_line())
         except ValueError:
             self.sumInMemory = 0.0
 
@@ -305,17 +327,23 @@ class NchantdCalculator(NchantdTab):
         """Add current display value to memory (M+ button)"""
         try:
             self.equalClicked()
-            self.sumInMemory += float(self.display.text())
+            self.sumInMemory += float(self._get_current_line())
         except ValueError:
             pass
 
     def equalClicked(self):
         """Compute result of pending calculations (= button)"""
         try:
-            operand = float(self.display.text())
+            operand = float(self._get_current_line())
         except ValueError:
             self.abortOperation()
             return
+
+        # Complete the expression with the final operand
+        if not self.current_expression:
+            expression = str(operand)
+        else:
+            expression = self.current_expression + " " + str(operand)
 
         if self.pendingMultiplicativeOperator:
             if not self.calculate(operand, self.pendingMultiplicativeOperator):
@@ -333,14 +361,71 @@ class NchantdCalculator(NchantdTab):
         else:
             self.sumSoFar = operand
 
-        self.display.setText(str(self.sumSoFar))
+        result = str(self.sumSoFar)
+
+        # Add to history
+        self._add_to_history(expression, result)
+
+        # Reset expression for next calculation
+        self.current_expression = ""
         self.sumSoFar = 0.0
         self.waitingForOperand = True
 
     def abortOperation(self):
         """Abort operation and display error state"""
         self.clearAll()
-        self.display.setText("Error")
+        self._set_current_line("Error")
+
+    def _get_current_line(self):
+        """Get the current line (last line) from the display"""
+        text = self.display.toPlainText()
+        lines = text.split('\n')
+        return lines[-1] if lines else "0"
+
+    def _set_current_line(self, value):
+        """Set the current line (last line) in the display"""
+        text = self.display.toPlainText()
+        lines = text.split('\n')
+        if len(lines) > 0:
+            lines[-1] = value
+        else:
+            lines = [value]
+        self._update_display('\n'.join(lines))
+
+    def _update_display(self, text):
+        """Update display with proper bottom alignment"""
+        # Calculate how many empty lines we need to push content to bottom
+        lines = text.split('\n')
+        font_metrics = self.display.fontMetrics()
+        line_height = font_metrics.lineSpacing()
+        display_height = self.display.viewport().height()
+
+        # Calculate number of lines that fit in the display
+        max_lines = max(1, display_height // line_height)
+        current_lines = len(lines)
+
+        # Add empty lines at the top to push content to bottom
+        padding_lines = max(0, max_lines - current_lines - 1)
+        padded_text = '\n' * padding_lines + text
+
+        # Use HTML to ensure right alignment
+        html_text = padded_text.replace('\n', '<br>')
+        self.display.setHtml(f'<div style="text-align: right;">{html_text}</div>')
+
+        # Scroll to bottom
+        self.display.moveCursor(pyqt.QTextCursor.MoveOperation.End)
+        scrollbar = self.display.verticalScrollBar()
+        scrollbar.setValue(scrollbar.maximum())
+
+    def _add_to_history(self, expression, result):
+        """Add a calculation to history and update display"""
+        history_line = f"{expression} = {result}"
+        self.calculation_history.append(history_line)
+
+        # Update display: show history + current result
+        display_text = '\n'.join(self.calculation_history[-10:])  # Keep last 10 calculations
+        display_text += f"\n{result}"
+        self._update_display(display_text)
 
     def buildKeyBoard(self):
         """Build all calculator buttons"""
@@ -409,27 +494,38 @@ class NchantdCalculator(NchantdTab):
         return button
 
     def setDisplay(self):
-        """Initialize the display widget"""
+        """Initialize the display widget as a multiline text area"""
         cfg = {"text": "0"}
         self.config.dikt["width"] = None
         self.config.dikt["height"] = None
         self.config.dikt["size"] = None
-        self.display = NchantdEntryBox(self, cfg).initWidget()
+        self.display = pyqt.QTextEdit(self)
         self.display.setReadOnly(True)
         self.display.setAlignment(pyqt.Qt.AlignmentFlag.AlignRight | pyqt.Qt.AlignmentFlag.AlignBottom)
-        self.display.setMaxLength(24)
 
         width = 300
         height = 800
-        self.display.set_size(None, None, width, int(height * 0.1))
+        self.display.setMinimumSize(width, int(height * 0.1))
 
         font = self.display.font()
         font.setPointSize(font.pointSize() + 8)
         self.display.setFont(font)
-        self.display.set_background(color="black")
+        self.display.setStyleSheet(
+            "QTextEdit { "
+            "background-color: black; "
+            "color: white; "
+            "padding: 5px; "
+            "}"
+        )
         self.display.setFocusPolicy(pyqt.Qt.FocusPolicy.NoFocus)
         self.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignCenter | pyqt.Qt.AlignmentFlag.AlignTop)
-        self.display.setText(str(0.0))
+
+        # Set vertical scrollbar to always be at bottom
+        self.display.setVerticalScrollBarPolicy(pyqt.Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+
+        # Initialize with right-aligned text at bottom
+        self.display.setHtml('<div style="text-align: right;">0</div>')
+
         return self
 
 

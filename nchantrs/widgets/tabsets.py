@@ -36,8 +36,10 @@ from ogma.logma import Logma
 
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
+log = False
 logma = Logma(__name__)
-logma.off()
+if not log:
+    logma.off()
 
 # ===============================================================================||
 pxcfg = join(abspath(here), "_data_", "tabsets.yaml")
@@ -336,7 +338,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
 
     def defocus(self):
         """"""
-        logma.inspect_caller()
+        # logma.inspect_caller()
         # self.model.current_tab.defocus()
         # self.model.current_tab.save()
         # [DONE]
@@ -509,7 +511,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         # if self.dragged_tab_index == -1:
         #     return
         # Start the drag operation
-        self.start_drag()
+        self.start_drag(self.dragged_tab_index)
         # Check if we should start a drag operation
         # if tab_index >= 0:  # Ensure a valid tab is clicked
         if self.drag_start_position is None:
@@ -536,7 +538,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
 
     def on_tab_focus(self, tabn=None):
         """"""
-        logma.inspect_caller()
+        # logma.inspect_caller()
         # self.save()
         if self.model.current_tab is not None:
             self.model.current_tab.save()
@@ -649,7 +651,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         this leave the possibility of losses but will be more efficent
         """
         logma.info(f"On Tab Focus {self.pane_position}")
-        logma.inspect_caller()
+        # logma.inspect_caller()
         if self.model.current_tab is not None:
             self.defocus()
         if tabn is None:
@@ -681,7 +683,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
             self.load_journal()
             # TODO load Toolbox for the active tab type
             logma.info(f"Load Toolbox")
-            self.load_toolbox()
+            # self.load_toolbox()
             # [DONE]
         # self.update()  # This is a function inherited from pyqt.QTabWidget in order to update the UI to the new tab
         logma.info(f"Finish Tab Focus")

@@ -18,13 +18,7 @@ from os.path import abspath, dirname, join
 
 # ===============================================================================||
 from condor import condor
-
-import logging
 from nchantrs.libraries import pyqt
-
-logger = logging.getLogger(__name__)
-
-# from nchantrs.logr import tree
 from subtrix import subtrix
 from ogma.logma import Logma
 from nchantrs.widgets.items.nodes import NchantdNode, NchantdTreeNode

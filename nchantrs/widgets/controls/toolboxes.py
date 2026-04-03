@@ -29,7 +29,9 @@ from nchantrs.libraries import pyqt
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
-# logma.off()
+log = False
+if not log:
+    logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "toolboxes.yaml")
@@ -143,10 +145,7 @@ class NchantdToolBox(NchantdTab):
         """"""
         if items is None:
             items = {}
-        self.drawers[drawer] = {
-            "widget": self.add_dummy_widget(),
-            "loaded": False
-        }
+        self.drawers[drawer] = {"widget": self.add_dummy_widget(), "loaded": False}
         logma.info(f"Add Drawer {drawer}")
         idx = self.box.addItem(self.drawers[drawer]["widget"], items.get("title", "Mystery Drawer"))
         logma.info(f"Index {idx}")
@@ -164,7 +163,7 @@ class NchantdToolBox(NchantdTab):
 
     def build_toolbox(self, cfg=None):
         """"""
-        logma.inspect_caller()
+        # logma.inspect_caller()
         current_document = self.app.view.panes["center"].currentWidget()
         self.box = pyqt.QToolBox()
         self.box.currentChanged.connect(self.on_drawer_changed)
