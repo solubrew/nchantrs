@@ -230,8 +230,7 @@ class NchantdCloak(NchantdPanties):  # ||
         data tables from the established source endpoints"""
         super().__init__(name, instance, parent)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdCloak"))
-        self.config.addArgs(args).override(cfg)
+        self.config.override(condor.Instruct(pxcfg).select("NchantdCloak").addArgs(args).override(cfg))
         self.main = NchantdMainWindow(self)
         self.model = NchantdCloakModel(self)
         self.view = NchantdCloakView(self)
