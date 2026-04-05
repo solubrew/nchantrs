@@ -18,7 +18,7 @@
 from os.path import abspath, dirname, join
 from typing import Optional, Dict, List, Any, Tuple
 import datetime as dt
-
+from copy import deepcopy
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -31,7 +31,8 @@ here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
 debug = True
-
+if not log:
+    logma.off()
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "db.yaml")
 
@@ -59,7 +60,7 @@ class NchantdDBUpdate(object):
         """"""
         self.parent = parent
         self.config = condor.Instruct(pxcfg).select("DBUpdate").override(cfg)
-        self.versions = self.config.select("versions")
+        self.versions = deepcopy(self.config.dikt.get("versions"))
         self.current_version = None
         self.version = None
         self.hold_data = {}
@@ -76,7 +77,9 @@ class NchantdDBUpdate(object):
         logma.info(f"Instance: {instance}")
         self.parent.app.model.set_instance_active(instance)
         logma.info(f"Instance Active: {self.parent.app.model.instance}")
-        name = self.parent.model.store.backup_database(self.parent.app.model.instance, db)
+        if self.parent.app.model.instance is not None:
+            instance = self.parent.app.model.instance
+        name = self.parent.model.store.backup_database(instance, db)
         return name
 
     def check_version(self, current_v) -> bool:
@@ -107,9 +110,9 @@ class NchantdDBUpdate(object):
         """"""
         self.current_version = self.parent.model.get_current_version()
         logma.info(f"Current Version: {self.current_version}")
-        logma.info(f"Versions: {self.versions.dikt.keys()}")
+        logma.info(f"Versions: {self.versions.keys()}")
 
-        version_data = self.versions.dikt.get(self.current_version)
+        version_data = self.versions.get(self.current_version)
         if not isinstance(version_data, dict) or not version_data:
             return self.current_version
 
@@ -175,11 +178,11 @@ class NchantdDBUpdate(object):
         logma.info("Running Updates")
 
         # We need to find all versions that are greater than current_v and apply them in order.
-        # The versions are stored in self.versions.dikt[current_v] if it follows the old logic,
+        # The versions are stored in self.versions[current_v] if it follows the old logic,
         # but robust migration usually means we have a flat or nested list of all possible updates.
         # Based on existing code, it seems it looks for updates UNDER the current version key.
 
-        updates_dict = self.versions.dikt.get(current_v, {})
+        updates_dict = self.versions.get(current_v, {})
         if not updates_dict:
             logma.info(f"No update paths found for version {current_v}")
             return current_v
@@ -342,6 +345,7 @@ class NchantdDBUpdate(object):
             logma.info(f"Updating: {update}")
             column = list(update["WHERE"].keys())[0]
             value = update["WHERE"][column]
+            # TODO:0 need to accomodate other operators than IN
 
             if not self.update_data({"table": {table: {"data": update["data"]}}}, column, value, db):
                 if debug:
@@ -400,14 +404,14 @@ class NchantdDBUpdate(object):
 #         """"""
 #         self.current_version = self.parent.model.get_current_version()
 #         # if self.current_version is None:
-#         #     versions = list(self.versions.dikt.keys())
+#         #     versions = list(self.versions.keys())
 #         #     versions.sort()
 #         #     self.current_version = versions[-1]
 #         max = 0
 #         logma.info(f"Current Version: {self.current_version}")
-#         logma.info(f"Versions: {self.versions.dikt.keys()}")
-#         if isinstance(self.versions.dikt[self.current_version], dict):
-#             for y in self.versions.dikt[self.current_version].keys():
+#         logma.info(f"Versions: {self.versions.keys()}")
+#         if isinstance(self.versions[self.current_version], dict):
+#             for y in self.versions[self.current_version].keys():
 #                 if int(y.replace(".", "")) > max:
 #                     max = int(y.replace(".", ""))
 #         else:
