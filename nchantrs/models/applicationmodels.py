@@ -38,14 +38,14 @@ from nchantrs.utilities.policies import NchantdDataPolicy
 from nchantrs.widgets.items.nodes import NchantdTreeNode
 from ogma.logma import Logma
 from pycurity.pyvice import Device
-from nchantrs.wizards.instances import NchantdNewInstanceWizard
 
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
-log = False
+log = True
 logma = Logma(__name__)
 debug = True
-# logma.off()
+if not log:
+    logma.off()
 # ===============================================================================||
 pxcfg = join(here, "_data_", "applicationmodels.yaml")
 
@@ -109,7 +109,7 @@ class NchantdPantiesModel(object):
         cfg = {}
         # Only create NchantdUser if authentication is required
         # This prevents unnecessary password dialogs for apps like NchantdAXN
-        requires_auth = self.config.dikt.get("requires_auth", False)
+        requires_auth = self.config.dikt.get("config", {}).get("requires_auth", False)
         if requires_auth:
             self.user = NchantdUser(self, cfg)
 
@@ -233,7 +233,9 @@ class NchantdCloakModel(NchantdPantiesModel):
                 current = self.get_current_node()
                 # If pid doesn't match current node's nid, this should be a sibling
                 if current and str(current.nid) != str(pid):
-                    parent_node = current.parent() if hasattr(current, 'parent') and callable(current.parent) else current
+                    parent_node = (
+                        current.parent() if hasattr(current, "parent") and callable(current.parent) else current
+                    )
                 else:
                     parent_node = current
         logma.info(f"Parent Node {parent_node}")
@@ -465,7 +467,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         # Search top-level items
         for i in range(tree_widget.topLevelItemCount()):
             item = tree_widget.topLevelItem(i)
-            if hasattr(item, 'nid') and str(item.nid) == str(nid):
+            if hasattr(item, "nid") and str(item.nid) == str(nid):
                 return item
             # Recursively search children
             found = self._find_node_recursive(item, nid)
@@ -477,7 +479,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         """Recursively search for a node in the tree."""
         for i in range(parent_item.childCount()):
             child = parent_item.child(i)
-            if hasattr(child, 'nid') and str(child.nid) == str(nid):
+            if hasattr(child, "nid") and str(child.nid) == str(nid):
                 return child
             # Recursively search this child's children
             found = self._find_node_recursive(child, nid)
@@ -574,36 +576,38 @@ class NchantdCloakModel(NchantdPantiesModel):
         return self
 
     def reload_table(self, table, keep, map_, filters={}, db="db") -> None:
-        """
-            if keep:
-                logma.info(f"Copy Table {table} to temp_table")
-                outcome = self.store.copy_table(table, f"temp_{table}", db)
-                logma.info(f"Copy Table {table} to temp_table {outcome}")
-                if not outcome:
-                    if debug:
-                        raise Exception(f"Cannot Copy Table {table} to temp_table")
-                    # if not self.store.copy_table(table, f"temp_{table}", db):
-                    return False
-            logma.info(f"Delete Table {table}")
-            if not self.store.delete_table(table, db):
+        """"""
+        if keep:
+            logma.info(f"Copy Table {table} to temp_table")
+            outcome = self.store.copy_table(table, f"temp_{table}", db)
+            logma.info(f"Copy Table {table} to temp_table {outcome}"[:500])
+            if not outcome:
+                if debug:
+                    raise Exception(f"Cannot Copy Table {table} to temp_table")
+                # if not self.store.copy_table(table, f"temp_{table}", db):
                 return False
-            logma.info(f"Create Table {table}")
-            if not self.store.create_table(table, db):
+        logma.info(f"Delete Table {table}")
+        if not self.store.delete_table(table, db):
+            logma.info(f"Cannot Delete Table {table}")
+            return False
+        logma.info(f"Create Table {table}")
+        if not self.store.create_table(table, db):
+            logma.info(f"Cannot Create Table {table}")
+            return False
+        if keep:
+            logma.info(f"Merge Table {table} from temp_table")
+            filter_ = DataFilter()
+            [filter_.add_exclude(column, value) for column, value in filters.get("exclude", {}).items()]
+            [filter_.add_include(column, value) for column, value in filters.get("include", {}).items()]
+            if self.store.merge_table(f"temp_{table}", table, map_, filter_, db) is False:
                 return False
-            if keep:
-                logma.info(f"Merge Table {table} from temp_table")
-                filter_ = DataFilter()
-                [filter_.add_exclude(column, value) for column, value in filters.get("exclude", {}).items()]
-                [filter_.add_include(column, value) for column, value in filters.get("include", {}).items()]
-                if self.store.merge_table(f"temp_{table}", table, map_, filter_, db) is False:
-                    return False
-                logma.info(f"Delete Table temp_{table}")
-                if not self.store.delete_table(f"temp_{table}", db):
-                    return False
-            return True
+            logma.info(f"Delete Table temp_{table}")
+            # if not self.store.delete_table(f"temp_{table}", db):
+            #     return False
+        return True
 
-        def remove_affiliate_links(self) -> None:
-        """
+    def remove_affiliate_links(self) -> None:
+        """"""
         self.store.delete_record("links", column="type_txt", value=["base", "webapp", "affiliate"])
         return self
 
@@ -632,6 +636,11 @@ class NchantdCloakModel(NchantdPantiesModel):
         def set_is_saved(self, saved=False) -> None:
         """
         self.is_saved = saved
+        return self
+
+    def save(self):
+        """"""
+        # TODO: need to implement application level save logic
         return self
 
     def set_instance_active(self, instance) -> None:
@@ -782,17 +791,17 @@ class NchantdCloakModel(NchantdPantiesModel):
         if data["internal_password"] is None:
             self._set_internal_password()
 
-    def _set_internal_password(self) -> None:
-        """
-            self.internal_password = uuid()
-            self.password = self.internal_password
-            data = [["internal_password", self.internal_password], ["password", self.password]]
-            payload = {"table": {"secure_store": {"records": data, "columns": ["key", "value"]}}}
-            self.docs[name].write(payload)
-            return self
+    def _set_internal_password(self, db="db") -> None:
+        """"""
+        self.internal_password = uuid()
+        self.password = self.internal_password
+        data = [["internal_password", self.internal_password], ["password", self.password]]
+        payload = {"table": {"secure_store": {"records": data, "columns": ["key", "value"]}}}
+        self.docs[db].write(payload)
+        return self
 
-        def _user_select(self) -> None:
-        """
+    def _user_select(self) -> None:
+        """"""
         table = "app_user"
         data = next(self.store.docs["db"].read({"table": table})).dikt[table]["df"]
         logma.info(f"Current Users {data}")

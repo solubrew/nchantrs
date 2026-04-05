@@ -33,19 +33,19 @@ NchantdPantiesModel:
             description: >
                 The config path holds a configuration file that is used for tracking installation paths
                 and other basic install data needed before the application database is spun up
-            path: "<[user_home]>/.config/delta/<[application_slug]>/config.yaml"
+            path: "<[user_home]>/.config/<[application_slug]>/config.yaml"
         application:
             description: >
                 The application path holds the install application executable
-            path: "<[user_home]>/.local/share/delta/<[application_slug]>/"
+            path: "<[user_home]>/.local/share/<[application_slug]>/"
         instance:
             description: >
                 The instance path holds instance specific databases that represent Nchantrs Files
-            path: "<[user_home]>/Document/delta/NchantdLibrary/<[application_slug]>/<[instance]>/"
+            path: "<[user_home]>/Document/NchantdLibrary/<[application_slug]>/<[instance]>/"
         library:
             description: >
                 The library path holds locally connected files
-            path: "<[user_home]>/Documents/delta/NchantdLibrary/"
+            path: "<[user_home]>/Documents/NchantdLibrary/"
 #        shortcut:
 #            description: >
 #                The shortcut path is the location where the launch shortcut is placed
