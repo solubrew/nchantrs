@@ -36,13 +36,14 @@ from nchantrs.wizards.wizards import NchantdWizard
 from ogma.logma import Logma
 from squirl.orgnql import fonql, yonql
 from subtrix.subtrix import Mechanism
-from subtrix.utilities import uuid
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 log = True
 debug = True
 logma = Logma(__name__)
+if not log:
+    logma.off()
 
 # Constants for magic number replacement
 REMOVE_PATH_FLAGS = 3213  # Flag for fonql.removePath()
