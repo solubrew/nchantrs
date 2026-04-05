@@ -18,36 +18,28 @@ from os import listdir
 import inspect
 import json as j
 import base64
-
-import logging
 from typing import Any, Optional
 
-logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 from pandas import DataFrame
-from uuid_extensions import uuid7
 import re
 import datetime as dt
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
 from ogma.logma import Logma
-
-# from squirl.squirl import SQuiRL
-# from squirl.orgnql import fonql, conql
-from subtrix.subtrix import Mechanism
+from squirl.orgnql import fonql
 from subtrix.utilities import uuid
-from nchantrs.utilities.models import combine_records
 from pycurity.pytime import PyTime
 from pycurity.pyhash import encode64, text_hashing_function
 from micromole.storage import MicroStash
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")
-log = False
+log = True
 debug = True
 logma = Logma(__name__)
-if log:
+if not log:
     logma.off()
 
 # ====================================================================================================================||
@@ -457,12 +449,12 @@ class NchantdStore(MicroStash):
     #     """"""
     #     return self
     #
-    # def create_table(self, table, db="db"):
-    #     """"""
-    #     logma.info(f"Create Table {table}")
-    #     objects = self.parent.config.dikt["dstruct"]["database"]["objects"]["table"]
-    #     logma.info(f"Table {objects.keys()}")
-    #     return self.docs[db].write({table: objects[table]})
+    def create_table(self, table, db="db"):
+        """"""
+        logma.info(f"Create Table {table}")
+        objects = self.parent.config.dikt["dstruct"]["database"]["objects"]["table"]
+        return super().create_table(table, objects[table], db)
+
     #
     # def create_views(self, db="db"):
     #     """"""
