@@ -111,8 +111,9 @@ class NchantdTreeModel(pyqt.QStandardItemModel):
         logma.info(f"Model Initialize Application {self.parent.app.new_application}")
         # logma.info(f"Model Initialize Instance {self.parent.app.new_instance}")
         db = "db"
-        if self.parent.app.model.instance.internal is False:
-            db = self.parent.app.model.instance.db_instance_id
+        if self.parent.app.model.instance is not None:
+            if self.parent.app.model.instance.internal is False:
+                db = self.parent.app.model.instance.db_instance_id
         objects = combine_records(self.config.dikt["dstruct"]["database"]["objects"])
         logma.info(f"New Application {self.parent.app.new_application}")
         if self.parent.app.new_application:
