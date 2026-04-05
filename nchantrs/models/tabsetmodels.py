@@ -19,22 +19,15 @@
 # ================================Core Modules===================================||
 from os.path import abspath, dirname, join
 import json as j
-from typing import Optional, Dict, List, Any, Tuple
 
-import logging
-
-logger = logging.getLogger(__name__)
 # ===============================================================================||
 from condor import condor
 from nchantrs.libraries import pyqt
-from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.controls.toolboxes import NchantdToolBox
-from nchantrs.widgets.items.nodes import NchantdTreeNode
 from ogma.logma import Logma
 from subtrix.utilities import uuid
 from nchantrs.utilities.models import combine_records
 from nchantrs.widgets.widgets import loadWidget
-from pycurity.pyhash import decode64
 
 # ===============================================================================||
 here = join(dirname(__file__), "")
@@ -98,8 +91,9 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
             model = initModel('left', '2', True)
         """
         db = "db"
-        if self.parent.app.model.instance.internal is False:
-            db = self.parent.app.model.instance.db_instance_id
+        if self.parent.app.model.instance is not None:
+            if self.parent.app.model.instance.internal is False:
+                db = self.parent.app.model.instance.db_instance_id
         objects = combine_records(self.config.dikt["dstruct"]["database"]["objects"])
         if self.parent.app.new_application and create_objects is True:
             if "table" not in objects:
