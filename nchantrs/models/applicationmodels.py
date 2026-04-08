@@ -161,10 +161,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdCloakModel"))
-        if parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(condor.Instruct(pxcfg).select("NchantdCloakModel").override(cfg))
         self.store.config.override(self.config)
         self.has_library = False
         self.has_changed = False
@@ -575,16 +572,24 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.registered_actions.append(action)
         return self
 
-    def reload_table(self, table, keep, map_, filters={}, db="db") -> None:
+    def reload_index(self, index):
         """"""
+
+    def reload_table(self, table, keep, map_, filters={}, db="db") -> None:
+        """This method reloads a table allowing changes to the table strucuture and the ability to reinject the
+        previous data and new data as needed.
+
+        TODO: there is an opportunity here to stream line I'm sure however we must ensure that primary keys of the
+            existing data are maintained and that new data is inserted in the correct order.
+
+        """
         if keep:
             logma.info(f"Copy Table {table} to temp_table")
-            outcome = self.store.copy_table(table, f"temp_{table}", db)
+            outcome = self.store.copy_table(table, f"temp_{table}", None, db)
             logma.info(f"Copy Table {table} to temp_table {outcome}"[:500])
             if not outcome:
                 if debug:
                     raise Exception(f"Cannot Copy Table {table} to temp_table")
-                # if not self.store.copy_table(table, f"temp_{table}", db):
                 return False
         logma.info(f"Delete Table {table}")
         if not self.store.delete_table(table, db):
@@ -594,17 +599,33 @@ class NchantdCloakModel(NchantdPantiesModel):
         if not self.store.create_table(table, db):
             logma.info(f"Cannot Create Table {table}")
             return False
+        if self.store.copy_table(table, f"new_{table}", None, db) is False:
+            return False
+        if not self.store.delete_table(table, db):
+            logma.info(f"Cannot Delete Table {table}")
+            return False
+        logma.info(f"Create Table {table}")
+        if not self.store.create_table(table, db, insert_data=False):
+            logma.info(f"Cannot Create Table {table}")
+            return False
+        logma.info(f"Merge Table {table} from temp_table")
+        filter_ = DataFilter()
+        [filter_.add_exclude(column, value) for column, value in filters.get("exclude", {}).items()]
+        [filter_.add_include(column, value) for column, value in filters.get("include", {}).items()]
         if keep:
-            logma.info(f"Merge Table {table} from temp_table")
-            filter_ = DataFilter()
-            [filter_.add_exclude(column, value) for column, value in filters.get("exclude", {}).items()]
-            [filter_.add_include(column, value) for column, value in filters.get("include", {}).items()]
-            if self.store.merge_table(f"temp_{table}", table, map_, filter_, db) is False:
+            if self.store.merge_table(f"temp_{table}", table, map_, filter_, db, include_pk=True) is False:
                 return False
             logma.info(f"Delete Table temp_{table}")
-            # if not self.store.delete_table(f"temp_{table}", db):
-            #     return False
+            if not self.store.delete_table(f"temp_{table}", db):
+                return False
+        if self.store.merge_table(f"new_{table}", table, map_, filter_, db) is False:
+            return False
+        if not self.store.delete_table(f"new_{table}", db):
+            return False
         return True
+
+    def reload_view(self, view):
+        """"""
 
     def remove_affiliate_links(self) -> None:
         """"""

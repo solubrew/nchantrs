@@ -297,13 +297,16 @@ class NchantdStore(MicroStash):
     #     self.create_objects(objects, db, False)
     #     return self
     #
-    # def backup_database(self, instance, db="db"):
-    #     """"""
-    #     name = f".{instance.instance_id}_backup_{self.time.store_now().replace(" ", "")}{self.EXTENSION}"
-    #     [DONE]
-    #     self.copy_database(instance, name, db)
-    #     self.clear_old_backups(instance)
-    #     return name
+    def backup_database(self, instance, db="db"):
+        """"""
+        app_name = self.app.application_name.lower()
+        in_name = instance.name
+        extension = self.EXTENSION
+        input_path = join(instance.instance_path, f"{app_name}{extension}")
+        name = f".{app_name}_{in_name}_backup_{self.app.model.store.time.store_now().replace(' ', '')}{extension}"
+        output_path = instance.instance_path
+        super().backup_database(input_path, output_path, name)
+        return name
 
     def cache_app_install(self, key, payload):
         """"""
@@ -357,57 +360,13 @@ class NchantdStore(MicroStash):
     def compact_instances(self):
         """"""
 
-    # def compact_database(self, db="db"):
-    #     """"""
-    #     # self.backup_database(self.slug, db)
-    #     # get each table with records marked as deleted and without a data policy of perm
-    #     # sdf = self.get_view_marked_deleted(db)
-    #     # if the window for those records is past then delete them from the database
-    #     policies = self.get_app_policy({"policy": "Data Retention Policy"}, db)
-    #     # policies.apply(self.compact_table, axis=1, args=(df, db))
-    #     return self
-    #
-    # def compact_table(self, row, df, db="db"):
-    #     """"""
-    #     table = row["target_txt"]
-    #     policy = j.loads(row["policy_dict"])
-    #     df = df[df["table"] == table]
-    #     window = policy.get("window", "30DAYS")
-    #     df["remove"] = False
-    #     df["remove"] = df.apply(self.check_window_policy, axis=1, args=(window, db))
-    #     df = df[df["remove"] == True]
-    #     self.docs[db].delete(table, {"WHERE": {"IN": {f"{table}_PK": df["PK"].values.tolist()}}})
-    #     return self
-
-    # def convert_database(self, version_from, version_to):
-    #     """"""
-    #     # Handle structure differences and switching to different database engines
-    #     return self
-    #
-    # def copy_database(self, instance, db_name, db="db"):
-    #     """"""
-    #     # self.compact_database(db)
-    #     logma.info(f"Copy Database {db_name} to {instance.alias}")
-    #     logma.info(f"Path {instance.instance_path}")
-    #     path = instance.instance_path
-    #     # if path is None:
-    #     #    path = self.parent.get_
-    #     path = join(instance.instance_path, db_name)
-    #     logma.info(f"Copy Database {path}")
-    #     fonql.fileCopy(instance.get_file_path(), path)
-    #     return self
-    #
-    # def copy_table(self, table, new_table, db="db"):
-    #     """"""
-    #     return self.docs[db].copy_table(table, new_table)
-    #
-    # def create_directories(self, path):
-    #     """"""
-    #     fonql.touch(f"{path}/")
-    #     if exists(path):
-    #         self.app.model.store.cache_app_install("install", ["create_directory", {"path": path}])
-    #         return True
-    #     return False
+    def create_directories(self, path):
+        """"""
+        fonql.touch(f"{path}/")
+        if exists(path):
+            self.app.model.store.cache_app_install("install", ["create_directory", {"path": path}])
+            return True
+        return False
 
     # def create_objects(self, objects=None, dbs="db", combine=True):
     #     """"""
@@ -449,21 +408,26 @@ class NchantdStore(MicroStash):
     #     """"""
     #     return self
     #
-    def create_table(self, table, db="db"):
+
+    def create_index(self, index, db="db"):
+        """"""
+        logma.info(f"Create Index {index}")
+        objects = self.parent.config.dikt["dstruct"]["database"]["objects"]["index"]
+        logma.info(f"Index {objects[index]}")
+        return super().create_index(index, objects[index], db)
+
+    def create_table(self, table, db="db", insert_data=True):
         """"""
         logma.info(f"Create Table {table}")
         objects = self.parent.config.dikt["dstruct"]["database"]["objects"]["table"]
-        return super().create_table(table, objects[table], db)
+        return super().create_table(table, objects[table], db, insert_data=insert_data)
 
-    #
-    # def create_views(self, db="db"):
-    #     """"""
-    #     return self
-    #
-    # def create_view(self, view, db="db"):
-    #     """"""
-    #     return self
-    #
+    def create_view(self, view, db="db"):
+        """"""
+        logma.info(f"Create View {view}")
+        objects = self.parent.config.dikt["dstruct"]["database"]["objects"]["view"]
+        return super().create_view(view, objects[view], db)
+
     # def delete_record(self, table, primary_key=None, uuid=None, column=None, db="db", flip=False):
     #     """"""
     #     if primary_key is not None:
@@ -483,17 +447,14 @@ class NchantdStore(MicroStash):
     #     views.apply(self.delete_view, axis=1)
     #     return self
     #
-    # def delete_view(self, view):
-    #     """"""
-    #     return self
-
-    # def disconnect(self):
-    #     """"""
-    #     return self
 
     def find_backup(self, instance, version):
         """"""
-        backups = [x for x in listdir(instance.instance_path) if "_backup_" in x]
+        if instance is None:
+            instance_path = self.app.model.store.instance_path
+        else:
+            instance_path = instance.instance_path
+        backups = [x for x in listdir(instance_path) if "_backup_" in x]
         backups.sort(reverse=True)
         if version == "latest":
             backup = backups[0]
@@ -714,6 +675,11 @@ class NchantdStore(MicroStash):
     def get_doc_user(self):
         """"""
 
+    def get_indexes(self, instance_name="db"):
+        """"""
+        objects = self.parent.config.dikt["dstruct"]["database"]["objects"]["index"]
+        return objects
+
     # def get_links(self, name=None, description=None, type_=None, tag=None, url=None, db="db"):
     #     """"""
     #     table = "vw_link"
@@ -866,6 +832,10 @@ class NchantdStore(MicroStash):
             if self.instance.is_independent:
                 table = f"vwt_tree_node_{self.instance.alias}"
         return self.get_table(table, cfg, db)
+
+    def get_views(self, instance_name="db"):
+        objects = self.parent.config.dikt["dstruct"]["database"]["objects"]["view"]
+        return objects
 
     def init_database_application(self, cfg=None):
         """Initializing the Database for the Nchantd Cloak application sets the

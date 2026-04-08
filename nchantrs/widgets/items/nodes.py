@@ -30,7 +30,7 @@ from ogma.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
-log = True
+log = False
 logma = Logma(__name__)
 debug = False
 if not log:

@@ -44,13 +44,10 @@ debug = True
 logma = Logma(__name__)
 if not log:
     logma.off()
-
-# Constants for magic number replacement
-REMOVE_PATH_FLAGS = 3213  # Flag for fonql.removePath()
-# logma.off()
-
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "apps.yaml")
+# Constants for magic number replacement
+REMOVE_PATH_FLAGS = 3213  # Flag for fonql.removePath()
 
 
 class NchantdApplicationStartupWizard(NchantdWizard):
@@ -111,6 +108,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
 
     def initModel(self, args=None):
         """"""
+        logma.info(f"Init Model {args}")
         if args is None:
             args = []
         paths = self.app.model.generate_paths()
@@ -137,7 +135,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
 
     def initView(self, args):
         """"""
-        logma.info(f"Args {args}")
+        logma.info(f"Init View {args}")
         super().initView()
         if "scratch" in args:
             self.wizard = False

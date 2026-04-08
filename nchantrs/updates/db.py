@@ -69,17 +69,17 @@ class NchantdDBUpdate(object):
 
     def backup_db(self, db="db") -> None:
         """"""
-        data = self.parent.app.model.get_instance(db)
-        logma.info(f"Instance: {data}")
-        if data.empty:
-            raise Exception("No Instance Found")
-        data = data.loc[0].to_dict()
-        instance = NchantdInstance(self, data)
-        logma.info(f"Instance: {instance}")
-        self.parent.app.model.set_instance_active(instance)
         logma.info(f"Instance Active: {self.parent.app.model.instance}")
-        if self.parent.app.model.instance is not None:
-            instance = self.parent.app.model.instance
+        instance = self.parent.app.model.instance
+        if self.parent.app.model.instance is None:
+            data = self.parent.app.model.get_instance(db)
+            logma.info(f"Instance Data: {data}")
+            if data.empty:
+                raise Exception("No Instance Found")
+            data = data.loc[0].to_dict()
+            instance = NchantdInstance(self, data)
+            logma.info(f"Instance: {instance}")
+            self.parent.app.model.set_instance_active(instance)
         name = self.parent.model.store.backup_database(instance, db)
         return name
 
@@ -113,7 +113,7 @@ class NchantdDBUpdate(object):
         logma.info(f"Current Version: {self.current_version}")
         logma.info(f"Versions: {self.versions.keys()}")
 
-        version_data = self.versions.get(self.current_version)
+        version_data = self.versions.get(self.current_version).get("versions", None)
         if not isinstance(version_data, dict) or not version_data:
             return self.current_version
 
@@ -158,13 +158,21 @@ class NchantdDBUpdate(object):
             del data[column]
         return data
 
+    def reload_index(self, index, db="db") -> None:
+        """"""
+        return self.parent.app.model.store.create_index(index, db)
+
     def reload_table(self, table, keep, map_, filters, db="db") -> None:
         """"""
         return self.parent.app.model.reload_table(table, keep, map_, filters, db)
 
-    def restore_backup(self, db) -> None:
+    def reload_view(self, view, db="db"):
         """"""
-        self.parent.app.model.store.restore_backup(db)
+        return self.parent.app.model.store.create_view(view, db)
+
+    def restore_backup(self, instance, version=None) -> None:
+        """"""
+        self.parent.app.model.store.restore_backup(instance, version)
         return True
 
     def run_updates(self, db) -> str:
@@ -184,18 +192,26 @@ class NchantdDBUpdate(object):
         # Based on existing code, it seems it looks for updates UNDER the current version key.
 
         updates_dict = self.versions.get(current_v, {})
+        logma.info(f"Updates Dict: {updates_dict}")
         if not updates_dict:
             logma.info(f"No update paths found for version {current_v}")
             return current_v
 
         # Sort available target versions
-        available_versions = sorted(updates_dict.keys(), key=lambda v: self._parse_version_parts(v))
+        available_versions = sorted(updates_dict["versions"].keys(), key=lambda v: self._parse_version_parts(v))
 
         version = current_v
+        if updates_dict.get("active", False) is False:
+            logma.info("Updates are disabled")
+            return current_v
         for version_key in available_versions:
+            logma.info(f"Checking Version: {version_key}")
             # Only apply if version_key > version
             if self._is_version_greater(version_key, version):
-                update_data = updates_dict[version_key]
+                # update_data = updates_dict[version_key]
+                update_data = updates_dict["versions"][version_key]
+                if update_data is None:
+                    continue
                 logma.info(f"Applying update to {version_key}")
                 if not self._process_single_version_update(version_key, update_data, db):
                     logma.error(f"Failed to update to {version_key}")
@@ -205,7 +221,6 @@ class NchantdDBUpdate(object):
                 # from THIS new version. However, the current structure seems to suggest
                 # all updates from current_v are listed under it.
                 # If it's a chain (0.1 -> 0.2, then 0.2 -> 0.3), we'd need to re-check.
-
         return version
 
     def _is_version_greater(self, v1: str, v2: str) -> bool:
@@ -223,12 +238,21 @@ class NchantdDBUpdate(object):
         """"""
         if indexes is None:
             return True
+        if indexes["reload"] is False:
+            return True
+        if indexes["all"]:
+            indexes = self.parent.app.model.store.get_indexes(db)
+        else:
+            indexes = indexes.get("indexes", {})
+
+        logma.info(f"Updating Indexes {indexes}")
         for index, cmd in indexes.items():
-            try:
-                self.parent.app.model.store.create_index(index, cmd, db)
-            except Exception as e:
-                logma.error(f"Failed to create index {index}: {e}")
-                return False
+            # try:
+            # self.parent.app.model.store.create_index(index, cmd, db)
+            self._process_index_operations(index, cmd, db)
+            # except Exception as e:
+            # logma.error(f"Failed to create index {index}: {e}")
+            # return False
         return True
 
     def run_update_tables(self, tables, db="db") -> bool:
@@ -248,9 +272,18 @@ class NchantdDBUpdate(object):
         """"""
         if views is None:
             return True
+        if views["reload"] is False:
+            return True
+        if views["all"]:
+            views = self.parent.app.model.store.get_views(db)
+        else:
+            views = views.get("views", {})
         for view, cmd in views.items():
+            logma.info(f"Updating View: {view}")
+            logma.info(f"Command: {cmd}")
             try:
-                self.parent.app.model.store.update_view(view, cmd, db)
+                # self.parent.app.model.store.update_view(view, cmd, db)
+                self._process_view_operations(view, cmd, db)
             except Exception as e:
                 logma.error(f"Failed to update view {view}: {e}")
                 return False
@@ -270,7 +303,9 @@ class NchantdDBUpdate(object):
         logma.info(f"Update {step_name}")
         if not step_function(step_data, db):
             logma.error(f"{step_name} failed, restoring backup")
-            self.restore_backup(db)
+            instance = self.parent.app.model.instance
+            version = None
+            self.restore_backup(instance, version)
             if debug:
                 raise Exception(f"Update Failed: {step_name}")
             return False
@@ -313,6 +348,14 @@ class NchantdDBUpdate(object):
 
         return True
 
+    def _process_index_operations(self, index, params, db) -> None:
+        """Process all operations for a single index."""
+        if not self.reload_index(index, db):
+            if debug:
+                raise Exception("Reload Failed")
+            return False
+        return True
+
     def _process_table_operations(self, table, params, db) -> None:
         """Process all operations for a single table."""
         # Handle reload operation
@@ -337,7 +380,6 @@ class NchantdDBUpdate(object):
                 if debug:
                     raise Exception("Insert Failed")
                 return False
-
         return True
 
     def _process_table_updates(self, table, updates, db) -> None:
@@ -352,6 +394,15 @@ class NchantdDBUpdate(object):
                 if debug:
                     raise Exception("Update Failed")
                 return False
+        return True
+
+    def _process_view_operations(self, view, params, db):
+        """Process update operations for a view."""
+        logma.info(f"Reloading View: {view}")
+        if not self.reload_view(view, db):
+            if debug:
+                raise Exception("Reload Failed")
+            return False
         return True
 
 
