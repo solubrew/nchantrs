@@ -15,6 +15,7 @@
     security: sec|lvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*-
 # ======================================Standard Library Modules======================================================||
 from __future__ import annotations
@@ -32,12 +33,12 @@ from ogma.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  #                                                 ||
-logma: Logma = Logma(__name__)
-# logma.off()
-debug: bool = True
 
-# Configure module logger
-logger: logging.Logger = logging.getLogger(__name__)
+logma: Logma = Logma(__name__)
+log = False
+if not log:
+    logma.off()
+debug: bool = True
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "utils.yaml")
@@ -45,12 +46,12 @@ pxcfg = join(here, "_data_", "utils.yaml")
 
 def convert_df_to_tree(df: Any, pid: str = "0", root: Optional[dict] = None) -> dict:
     """Convert a dataframe to a tree structure.
-    
+
     Args:
         df: Pandas DataFrame with pid_txt, name_txt, and UUID columns
         pid: Parent ID to start from (default: "0")
         root: Root dictionary for the tree
-        
+
     Returns:
         Dictionary representing the tree structure
     """
@@ -70,7 +71,7 @@ def convert_df_to_tree(df: Any, pid: str = "0", root: Optional[dict] = None) -> 
 
 def get_dialog(parent: Any, dialog_name: str) -> None:
     """Get a dialog by name from the parent.
-    
+
     Args:
         parent: Parent object containing dialogs dictionary
         dialog_name: Name of the dialog to retrieve
@@ -78,9 +79,11 @@ def get_dialog(parent: Any, dialog_name: str) -> None:
     parent.dialogs[dialog_name] = lookup_dialog(dialog_name)
 
 
-def lookup(app: Any, action: str, cfg: Optional[dict] = None, deep: bool = False, refresh: bool = False, debug: bool = True) -> dict:
+def lookup(
+    app: Any, action: str, cfg: Optional[dict] = None, deep: bool = False, refresh: bool = False, debug: bool = True
+) -> dict:
     """Lookup action within the action configurations system.
-    
+
     Args:
         app: Application instance
         action: Action name to lookup
@@ -88,13 +91,14 @@ def lookup(app: Any, action: str, cfg: Optional[dict] = None, deep: bool = False
         deep: Whether to do deep recursive search
         refresh: Whether to refresh from database
         debug: Whether to raise exceptions on errors
-        
+
     Returns:
         Dictionary containing action configuration
     """
     pxcfg = condor.Instruct(join(here, "../actions", "_data_", "actions.yaml")).override(cfg).dikt
     if not hasattr(app, "model"):
         return {}
+    refresh = True
     cfg = next(app.model.store.docs["dbc"].read("app_actions"))
     if cfg is None or refresh:
         logma.info("Retrieve Actions from Database")
@@ -105,6 +109,7 @@ def lookup(app: Any, action: str, cfg: Optional[dict] = None, deep: bool = False
         cfg = actions.dikt[table]["df"].to_dict("records")
         cfg = {c["lookup_code_txt"]: c for c in cfg}
         app.model.store.docs["dbc"].write({"app_actions": cfg})
+    logma.info(f"Action Lookup Config {cfg.keys()}")
     if cfg is None or cfg == {}:
         if debug:
             raise Exception(f"Action Lookup Config is Empty {cfg}")
@@ -114,13 +119,13 @@ def lookup(app: Any, action: str, cfg: Optional[dict] = None, deep: bool = False
 
 def search(action: str, gcfg: dict, deep: bool = False, debug: bool = True) -> dict:
     """Search dictionary for action recursively moving through tree levels.
-    
+
     Args:
         action: Action name to search for
         gcfg: Configuration dictionary to search in
         deep: Whether to do deep recursive search
         debug: Whether to raise exceptions on errors
-        
+
     Returns:
         Dictionary containing action configuration
     """
@@ -156,7 +161,7 @@ def search(action: str, gcfg: dict, deep: bool = False, debug: bool = True) -> d
 
 def restore(self, cmd: Any) -> None:
     """Restore the main window state from saved settings.
-    
+
     Args:
         self: Main window instance
         cmd: Command to execute after restoring settings

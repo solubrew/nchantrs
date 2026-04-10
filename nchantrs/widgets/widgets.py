@@ -983,15 +983,17 @@ def loadWidget(parent, cfg=None):  # , panestyle=None):
     logma.info(f"Load Widget Config {cfg}")
     if cfg.get("widget", None):
         try:
-            app = cfg.get("app", "nchantrs")
-            logma.info(f"{app}.{cfg['widget']}")
-            widget = thingify(f"{app}.{cfg['widget']}", None, None, True)(parent, cfg)
+            # app = cfg.get("app", "nchantrs")
+            # logma.info(f"{app}.{cfg['widget']}")
+            # widget = thingify(f"{app}.{cfg['widget']}", None, None, True)(parent, cfg)
+            logma.info(f"{cfg['widget']}")
+            widget = thingify(f"{cfg['widget']}", None, None, True)(parent, cfg)
         except Exception as e:
             logma.info(f"Load Widget Exception {e}")
             # Try fallback apps if specified
             apps = cfg.get("apps", [])
             widget = None
-            if apps:
+            if apps:  # TODO: not sure if we should keep this process long term
                 for app in set(apps):
                     try:
                         logma.info(f"{app}.{cfg['widget']}")

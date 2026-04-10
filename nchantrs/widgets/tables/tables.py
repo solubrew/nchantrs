@@ -33,7 +33,7 @@ from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 from nchantrs.widgets.controls.toolbars import NchantdButtonBar
 from ogma.logma import Logma
 from pycurity.pytime import PyTime
-from pyffice.spreadsheet.spreadsheet import calcExtendedRomanNumerals, calcArabicNumerals
+from thingery.numbers.numerals import calcExtendedRomanNumerals, calcArabicNumerals
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||

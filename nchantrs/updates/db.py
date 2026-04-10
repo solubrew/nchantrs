@@ -67,6 +67,11 @@ class NchantdDBUpdate(object):
         self.hold_data = {}
         self.app = parent
 
+    def add_uuid(self, table, control_column, data_column, db="db"):
+        """Generate and insert a uuid to each record of a column given the filters"""
+        self.app.model.store.add_uuid(table, control_column, data_column, db)
+        return self
+
     def backup_db(self, db="db") -> None:
         """"""
         logma.info(f"Instance Active: {self.parent.app.model.instance}")
@@ -158,17 +163,25 @@ class NchantdDBUpdate(object):
             del data[column]
         return data
 
-    def reload_index(self, index, db="db") -> None:
+    def reload_index(self, index, db="db") -> bool:
         """"""
-        return self.parent.app.model.store.create_index(index, db)
+        if self.parent.app.model.store.delete_index(index, db):
+            return self.parent.app.model.store.create_index(index, db)
+        return False
 
-    def reload_table(self, table, keep, map_, filters, db="db") -> None:
+    def reload_table(self, table, keep, map_, filters, db="db") -> bool:
         """"""
         return self.parent.app.model.reload_table(table, keep, map_, filters, db)
 
-    def reload_view(self, view, db="db"):
+    def reload_view(self, view, db="db") -> bool:
         """"""
-        return self.parent.app.model.store.create_view(view, db)
+        if self.parent.app.model.store.delete_view(view, db):
+            return self.parent.app.model.store.create_view(view, db)
+        return False
+
+    def repair_table(self, cmd, db="db"):
+        """"""
+        # need to run cmds for specific repairs
 
     def restore_backup(self, instance, version=None) -> None:
         """"""
@@ -200,6 +213,8 @@ class NchantdDBUpdate(object):
         # Sort available target versions
         available_versions = sorted(updates_dict["versions"].keys(), key=lambda v: self._parse_version_parts(v))
 
+        logma.info(f"Available Versions: {available_versions}")
+
         version = current_v
         if updates_dict.get("active", False) is False:
             logma.info("Updates are disabled")
@@ -223,17 +238,6 @@ class NchantdDBUpdate(object):
                 # If it's a chain (0.1 -> 0.2, then 0.2 -> 0.3), we'd need to re-check.
         return version
 
-    def _is_version_greater(self, v1: str, v2: str) -> bool:
-        """Returns True if v1 > v2."""
-        parts1 = self._parse_version_parts(v1)
-        parts2 = self._parse_version_parts(v2)
-        for p1, p2 in zip(parts1, parts2):
-            if p1 > p2:
-                return True
-            if p1 < p2:
-                return False
-        return len(parts1) > len(parts2)
-
     def run_update_indexes(self, indexes, db="db") -> bool:
         """"""
         if indexes is None:
@@ -245,7 +249,7 @@ class NchantdDBUpdate(object):
         else:
             indexes = indexes.get("indexes", {})
 
-        logma.info(f"Updating Indexes {indexes}")
+        # logma.info(f"Updating Indexes {indexes}")
         for index, cmd in indexes.items():
             # try:
             # self.parent.app.model.store.create_index(index, cmd, db)
@@ -279,8 +283,8 @@ class NchantdDBUpdate(object):
         else:
             views = views.get("views", {})
         for view, cmd in views.items():
-            logma.info(f"Updating View: {view}")
-            logma.info(f"Command: {cmd}")
+            # logma.info(f"Updating View: {view}")
+            # logma.info(f"Command: {cmd}")
             try:
                 # self.parent.app.model.store.update_view(view, cmd, db)
                 self._process_view_operations(view, cmd, db)
@@ -289,14 +293,19 @@ class NchantdDBUpdate(object):
                 return False
         return True
 
-    def update_data(self, update, column, value, db="db") -> bool:
+    # def update_data(self, update, column, value, db="db") -> bool:
+    #     """"""
+    #     try:
+    #         self.parent.app.model.store.update_record(update, column, value, db)
+    #         return True
+    #     except Exception as e:
+    #         logma.error(f"Update failed: {e}")
+    #         return False
+
+    def update(self, table, cfg, db="db"):
         """"""
-        try:
-            self.parent.app.model.store.update_record(update, column, value, db)
-            return True
-        except Exception as e:
-            logma.error(f"Update failed: {e}")
-            return False
+        data = {"table": {table: cfg}}
+        return self.parent.app.model.store.update_records(data, cfg, db)
 
     def _execute_update_step(self, step_name, step_function, step_data, db) -> None:
         """Execute a single update step with error handling and rollback."""
@@ -310,6 +319,17 @@ class NchantdDBUpdate(object):
                 raise Exception(f"Update Failed: {step_name}")
             return False
         return True
+
+    def _is_version_greater(self, v1: str, v2: str) -> bool:
+        """Returns True if v1 > v2."""
+        parts1 = self._parse_version_parts(v1)
+        parts2 = self._parse_version_parts(v2)
+        for p1, p2 in zip(parts1, parts2):
+            if p1 > p2:
+                return True
+            if p1 < p2:
+                return False
+        return len(parts1) > len(parts2)
 
     def _parse_version_parts(self, version_string) -> List[int]:
         """Parse version string into comparable integer parts."""
@@ -386,11 +406,7 @@ class NchantdDBUpdate(object):
         """Process update operations for a table."""
         for update in updates:
             logma.info(f"Updating: {update}")
-            column = list(update["WHERE"].keys())[0]
-            value = update["WHERE"][column]
-            # TODO:0 need to accomodate other operators than IN
-
-            if not self.update_data({"table": {table: {"data": update["data"]}}}, column, value, db):
+            if not self.update(table, update, db):
                 if debug:
                     raise Exception("Update Failed")
                 return False
@@ -398,7 +414,7 @@ class NchantdDBUpdate(object):
 
     def _process_view_operations(self, view, params, db):
         """Process update operations for a view."""
-        logma.info(f"Reloading View: {view}")
+        # logma.info(f"Reloading View: {view}")
         if not self.reload_view(view, db):
             if debug:
                 raise Exception("Reload Failed")

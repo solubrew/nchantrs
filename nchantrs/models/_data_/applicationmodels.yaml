@@ -313,7 +313,7 @@ NchantdPantiesModel:
               - ['base', 'add_http_media_daedalos', '', '', '067c117b-a21a-7a3b-8000-e5d10033f419', '', '', '', '', '', "{'file_type': 'webapp', 'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
               - ['base', 'add_api_media_openweatherapi', '', '', '067c117b-a21a-7aa9-8000-f9b0f07bd5a3', '', '', '', '', '', "{'file_type': 'webapp', 'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
               - ['base', 'add_http_media_nchantdwebapp', 'Add ', '', '067c12f9-975e-7659-8000-41db049ee204', '', '', '', '', '', "{'file_type': 'webapp', 'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
-              - ['base', 'add_http_media_jsonpub', 'Add JSON.pub', '', '', 'url', '', 'Add JSON.pub', '', '', "{'file_type': 'webapp', 'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
+              - ['base', 'add_http_media_jsonpub', 'Add JSON.pub', '', '3dbd2098-59d0-4598-aa79-a2a0e318f33b', 'url', '', 'Add JSON.pub', '', '', "{'file_type': 'webapp', 'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
               - ['base', 'add_http_media', 'Add URL', '', '066ef57b-2f20-78af-8000-3abc700f4f99', 'url', '', 'Add Web App Tab', '', '', "{'file_type': 'webapp', 'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
               - ['base', 'add_api_media_daedalos', 'Add DaedalOS', '', '067ae0df-d8ca-77f4-8000-b216a234418d', '', '', '', '', '', "{'file_type': 'daedalos', 'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
               - ['base', 'add_http_media_notion', 'Add Notion', '', '066ef57b-2f20-78af-8000-3abc700f4f99', 'notion-svgrepo-com', '', '', '', '', "{'file_type': 'notion', 'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
@@ -321,8 +321,26 @@ NchantdPantiesModel:
               - ['base', 'add_http_media_leonardoai', 'Add Leonardo Ai', '', '', 'leonardo-logo-white', '', '', '', '', "{'file_type': 'canva', 'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
               - ['base', 'add_http_media_scenarioai', 'Add Scenario Ai', '', '', 'scenario_logo_white', '', '', '', '', "{'file_type': 'canva', 'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
               - ['base', 'add_http_media_googledrive', 'Add Google Drive', '', '06716c79-7588-7e71-8000-5448604e668a', 'google-drive-svgrepo-com', '', '', '', '', "{'file_type': 'googledrive', 'google_drive_bit': 1, 'local_drive_bit': 0, 'import': 0}"]
-              - ['base', 'add_http_bookmark', 'Add Bookmark', '', '', 'star-svgrepo-com', '', '', '', '', "{'icons': {'inactive': 'start-svgrepo-com_black', 'active': 'star-svgrepo-com_yellow'}}"]
-              - ['base', 'add_http_media_googleworkspace', 'Add Google Workspace', '', '', 'google-drive-svgrepo-com', '', '', '', '', "{}"]
+              - ['base', 'add_http_bookmark', 'Add Bookmark', '', '33f5eeed-e33d-48d9-9af0-c5cf084c098d', 'star-svgrepo-com', '', '', '', '', "{'icons': {'inactive': 'start-svgrepo-com_black', 'active': 'star-svgrepo-com_yellow'}}"]
+              - ['base', 'add_http_media_googleworkspace', 'Add Google Workspace', '', '561ee619-a103-4f5a-9e69-b9d0df0ac3f7', 'google-drive-svgrepo-com', '', '', '', '', "{}"]
+              - ['base', 'add_journal_media_nchantdjournalsettings', 'Add Journal Settings', '', 'a9790c02-6826-4938-bf58-eb2ec5866890', '', '', '', '', '', "{}"]
+              - ['base', 'add_journal_media_nchantddayjournal', 'Add Day Journal', '', 'c31b9e57-0a98-4fc9-bd77-63e6e09093a9', '', '', '', '', '', "{}"]
+              - ['base', 'add_journal_media_nchantddaycalendar', 'Add Day Calendar', '', 'b9d8e88f-5c31-4f66-a9fd-cbe80011d9cf', '', '', '', '', '', "{}"]
+              - ['base', 'add_journal_media_nchantdweekjournal', 'Add Week Journal', '', 'a515ffc6-0b07-490a-ba77-7b14b1fb8a96', '', '', '', '', '', "{}"]
+              - ['base', 'add_journal_media_nchantdmonthjournal', 'Add Month Journal', '', '062f3879-b835-43b2-afcf-c08aefdbfc6a', '', '', '', '', '', "{}"]
+              - ['base', 'add_journal_media_nchantdmonthdashboard', 'Add Month Dash', '', '7a8cf175-db63-42bc-b9b2-fe97f270dfc9', '', '', '', '', '', "{}"]
+              - ['base', 'add_journal_media_nchantdyearlyjournal', 'Add Year Journal', '', '3aa911c9-99bf-471a-a995-f2a1d3848e3e', '', '', '', '', '', "{}"]
+              - ['base', 'add_journal_media_nchantdyearcalendar', 'Add Year Calendar', '', '49e38d33-6238-4ee0-88ec-3946f774b228', '', '', '', '', '', "{}"]
+              - ['base', 'add_journal_media_nchantdtodayoverview', 'Add Today Overview', '', '93a67241-ff65-4ba8-b4f6-bab7be90f345', '', '', '', '', '', "{}"]
+              - ['base', 'add_toolbox_media_nchantdcalculator', 'Add Calculator', '', '7e50e766-8691-43b1-aa7a-de4a29b27e8a', '', '', '', '', '', "{}"]
+              - ['base', 'add_toolbox_media_nchantdjournaleditor', 'Add Journal Editor', '', 'ee7aa916-4b03-4faf-88c2-d4e6ecbbe3e8', '', '', '', '', '', "{}"]
+              - ['base', 'add_nchantdoffice_settings_nchantdofficehelpdocs', 'Add NchantdOffice Help Docs', '', '', '', '', '', '', '', "{}"]
+              - ['base', 'add_nchantdoffice_settings_nchantdofficeaccountsettings', 'Add NchantdOffice Help Docs', '', '', '', '', '', '', '', "{}"]
+              - ['base', 'add_nchantdoffice_settings_nchantdofficeinterfacesettings', 'Add NchantdOffice Interface Settings', '', '', '', '', '', '', '', "{}"]
+              - ['base', 'add_nchantdoffice_settings_nchantdofficethemesettings', 'Add NchantdOffice Theme Settings', '', '', '', '', '', '', '', "{}"]
+              - ['base', 'add_nchantdoffice_settings_nchantdofficesecuritysettings', 'Add NchantdOffice Security Settings', '', '', '', '', '', '', '', "{}"]
+              - ['base', 'add_nchantdoffice_toolbox_nchantdofficeapplicationtoolbox', 'Add NchantdOffice Application Toolbox', '', '', '', '', '', '', '', "{}"]
+              #- ['base', 'add_', 'Add ', '', '', '', '', '', '', '', "{}"]
               - ['base', 'add_superweb_custom_nchantdprompt', 'Add NchantdPrompt', '', '067c1144-436f-77d3-8000-ed2bf227d4a8', 'prompt', '', '', '', 'widgets.documents.atnrg.prompts.NchantdOfficePrompt', "{'file_type': 'dune', 'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
               - ['base', 'add_http_media_dune', 'Add Dune', '', '066ef57b-2f20-78af-8000-3abc700f4f99', 'url', '', '', '', '', "{'file_type': 'dune', 'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
               - ['base', 'add_browser_document_nchantdbrowser', 'Add NchantdBrowser', '', '066ef57b-2f20-74e1-8000-852134fdc875', 'worldwideweb', '', '', '', 'widgets.documents.atnrg.browsers.browsers.NchantdOfficeWebBrowser', "{'file_type': 'webbrowser', 'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
@@ -744,13 +762,24 @@ NchantdPantiesModel:
                       {"name": 'parameters_dict', "type": "text"}, {"name": "sequence_int", "type": "integer"},
                       {"name": "document_types_txt", "type": "text"}, {"name": 'local_available_bit', "type": "integer"},
                       {"name": 'feature_plan_int', "type": "integer"}, {"name": 'google_available_bit', "type": "integer"},
-                      {"name": 'registered_bit', "type": "integer"}, {"name": 'quick_launch_bit', "type": "integer"}]
+                      {"name": 'registered_bit', "type": "integer"}, {"name": 'quick_launch_bit', "type": "integer"},
+                      {"name": "document_version_txt", "type": "text"}]
             system_records:
-              - ['066fae4e-d946-7865-8000-a5c9021800e4', 'node_top', 'app', 'Root Node', 'Create a top level node within the current document', 'widgets.items.nodes.NchantdTreeNode', "{}", 0, "base", 0, 0, 0, 0, 1]
-              - ['066fae4e-d946-7c6c-8000-7e312e81830c', 'node_sibling', 'app', 'Sibling Node', 'Create a node that has the same parent as the currently selected node', 'widgets.items.nodes.NchantdTreeNode', "{}", 1, "base", 0, 0, 0, 0, 1]
-              - ['066fae4e-d946-7d38-8000-c303a9d55b8b', 'node_child', 'app', 'Child Node', 'Create a node that is a child of the currently selected node', 'widgets.items.nodes.NchantdTreeNode', "{}", 2, "base", 0, 0, 0, 0, 1]
-              #- ['066fae58-be2f-7138-8000-0bc22f61efb5', 'http', 'media', 'Nchantd WebApp', 'A web browser pinned to a single web page with app specific buttons etc', 'widgets.browsers.browsers.NchantdWebApp', "{}", 4, "base", 0, 0, 0, 0, 0]
-              - ['066fae58-be2f-7095-8000-11dd4a720555', 'http', 'media', 'Nchantd Browser', 'A general web browser that can be used to render a remote or local html site', 'widgets.browsers.browsers.NchantdWebBrowser', "{}", 0, "base", 1, 0, 0, 0, 0]
+              - ['066fae4e-d946-7865-8000-a5c9021800e4', 'node_top', 'app', 'Root Node', 'Create a top level node within the current document', 'nchantrs.widgets.items.nodes.NchantdTreeNode', "{}", 0, "base", 0, 0, 0, 0, 1, "0.0.1.0.1.0"]
+              - ['066fae4e-d946-7c6c-8000-7e312e81830c', 'node_sibling', 'app', 'Sibling Node', 'Create a node that has the same parent as the currently selected node', 'nchantrs.widgets.items.nodes.NchantdTreeNode', "{}", 1, "base", 0, 0, 0, 0, 1, "0.0.1.0.1.0"]
+              - ['066fae4e-d946-7d38-8000-c303a9d55b8b', 'node_child', 'app', 'Child Node', 'Create a node that is a child of the currently selected node', 'nchantrs.widgets.items.nodes.NchantdTreeNode', "{}", 2, "base", 0, 0, 0, 0, 1, "0.0.1.0.1.0"]
+              #- ['066fae58-be2f-7138-8000-0bc22f61efb5', 'http', 'media', 'Nchantd WebApp', 'A web browser pinned to a single web page with app specific buttons etc', 'nchantrs.widgets.browsers.browsers.NchantdWebApp', "{}", 4, "base", 0, 0, 0, 0, 0, "0.0.1.0.1.0"]
+              - ['066fae58-be2f-7095-8000-11dd4a720555', 'http', 'media', 'Nchantd Browser', 'A general web browser that can be used to render a remote or local html site', 'nchantrs.widgets.browsers.browsers.NchantdWebBrowser', "{}", 0, "base", 1, 0, 0, 0, 0, "0.0.1.0.1.0"]
+              - [ '0c67c652-24a3-4484-9633-74554ca698e8', 'api', 'media', 'Nchantd Month Dashboard', '', 'nchantrs.widgets.calendars.months.NchantdMonthDashboard', "{}", 0, "base", 1, 0, 0, 0, 0 , "0.0.1.0.1.0"]
+              - [ 'd1704481-a02a-4bef-ba10-aedcccda14f6', 'api', 'media', 'Nchantd Month Journal', '', 'nchantrs.widgets.calendars.months.NchantdMonthlyJournal', "{}", 0, "base", 1, 0, 0, 0, 0 , "0.0.1.0.1.0"]
+              - [ '5b59398f-22eb-4d57-85e5-f80f13f1dfa2', 'api', 'media', 'Nchantd Year Calendar', '', 'nchantrs.widgets.calendars.years.NchantdYearCalendar', "{}", 0, "base", 1, 0, 0, 0, 0 , "0.0.1.0.1.0"]
+              - [ '86b4d07b-d7e1-424a-a5cb-0a1bf88a02cb', 'api', 'media', 'Nchantd Yearly Journal', '', 'nchantrs.widgets.calendars.years.NchantdYearlyJournal', "{}", 0, "base", 1, 0, 0, 0, 0 , "0.0.1.0.1.0"]
+              - [ '245e6c3a-9d8a-4861-baa7-1a129d1c24af', 'api', 'media', 'Nchantd Day Calendar', '', 'nchantrs.widgets.calendars.days.NchantdDayCalendar', "{}", 0, "base", 1, 0, 0, 0, 0 , "0.0.1.0.1.0"]
+              - [ 'd0342b04-fb1d-41a0-9810-fe53285d8a47', 'api', 'media', 'Nchantd Day Journal', '', 'nchantrs.widgets.calendars.days.NchantdDayJournal', "{}", 0, "base", 1, 0, 0, 0, 0 , "0.0.1.0.1.0"]
+              - [ '01f08951-2e48-47b8-ab19-79884ed2c175', 'api', 'media', 'Nchantd Today Overview', '', 'nchantrs.widgets.calendars.timelines.NchantdTodayOverview', "{}", 0, "base", 1, 0, 0, 0, 0 , "0.0.1.0.1.0"]
+              - [ '0f7553fa-4ee5-4560-8670-d0ab93d8a5bb', 'api', 'media', 'Nchantd Journal Settings', '', 'nchantrs.widgets.config.journal.NchantdJournalSettings', "{}", 0, "base", 1, 0, 0, 0, 0 , "0.0.1.0.1.0"]
+              - [ 'e94bd2cd-0f2f-42a3-b0d7-94ea02f7204d', 'toolbox', 'media', 'Nchantd Calculator', '', 'nchantrs.widgets.calculators.calculators.NchantdCalculator', "{}", 50, "base", 1, 0, 0, 0, 0 , "0.0.1.0.1.0"]
+              - ['1dab3256-eae9-4be1-b4fa-f34641b8076e', 'toolbox', 'media', 'Nchantd Journal Editor', '', 'nchantrs.widgets.editors.journal.NchantdJournalEditor', "{}", 51, "base", 1, 0, 0, 0, 0 , "0.0.1.0.1.0"]
           'app_event':
             description: >
               The app_event table holds each action made by the application for internal testing and usage history
@@ -1584,6 +1613,15 @@ NchantdPantiesModel:
                         {"name": 'is_private_bit', "type": "integer"}, {"name": 'is_secure_bit', "type": "integer"},
                         {"name": 'instance_FK', "type": "integer"}, {"name": 'application_new_bit', "type": "integer"},
                         {"name": 'instance_new_bit', "type": "integer"}]
+            'records': []
+          'doc_tab':
+            'columns': [{"name": 'name_txt', "type": "text"}, {"name": 'widget_txt', "type": "text"},
+                        {"name": 'widgdata_dict', "type": "text"}, {"name": 'pid_txt', "type": "text"},
+                        {"name": 'did_txt', "type": "text"}, {"name": 'position_int', "type": "integer"},
+                        {"name": 'tab_type_txt', "type": "text"}, {"name": 'tabset_type_txt', "type": "text"},
+                        {"name": 'readonly_bit', "type": "integer"}, {"name": 'editable_bit', "type": "integer"},
+                        {"name": 'visible_bit', "type": "integer"}, {"name": 'moveable_bit', "type": "integer"},
+                        {"name": 'tid_txt', "type": "text", "constraint": "unique"}]
             'records': []
           link:
             description: >

@@ -173,8 +173,8 @@ class NchantdInstance(object):
 
     def get_file_path(self, db: str = "db") -> str:
         """"""
-        logma.info(f"get_file_path {self.instance_path}")
-        logma.info(f"get_file_path {self.instance_id}")
+        # logma.info(f"get_file_path {self.instance_path}")
+        # logma.info(f"get_file_path {self.instance_id}")
         if db == "db":
             return join(self.instance_path, f"{self.parent.app.model.slug}{self.parent.app.model.store.EXTENSION}")
         return join(self.instance_path, f"{self.instance_id}{self.parent.app.model.store.EXTENSION}")
@@ -203,10 +203,10 @@ class NchantdInstance(object):
     def set_instance_path(self, path: Optional[str] = None) -> "NchantdInstance":
         """"""
         if path is None:
-            logma.info(f"Get Application Path {self.config.dikt}")
+            # logma.info(f"Get Application Path {self.config.dikt}")
             path = join(expanduser("~"), ".local", "share", self.parent.app.model.slug)
         self.instance_path = path
-        logma.info(f"set_instance_path {self.instance_path}")
+        # logma.info(f"set_instance_path {self.instance_path}")
         return self
 
     def set_meta_data(self, meta_data: Optional[dict] = None) -> None:
@@ -267,6 +267,16 @@ class NchantdStore(MicroStash):
         self._window_parser = WindowPolicyParser(PyTime())
         self._table_resolver = TableNameResolver()
 
+    def add_uuid(self, table, control_column, data_column, db="db"):
+        """"""
+        data = self.get_table(table, None, db, None)
+        data[control_column].apply(
+            lambda x: self.update_records(
+                {"table": {table: {data_column: str(uuid())}}}, {"WHERE": {control_column: x}}, db
+            )
+        )
+        return self
+
     # def append_cache(self, df, table):
     #     """"""
     #     self.cache.write_table(df, table, False)
@@ -300,7 +310,11 @@ class NchantdStore(MicroStash):
     def backup_database(self, instance, db="db"):
         """"""
         app_name = self.app.application_name.lower()
-        in_name = instance.name
+        if instance is None:
+            instance = self.app.model.store.instance
+        in_name = instance.instance_id
+        if in_name is None:
+            in_name = "db"
         extension = self.EXTENSION
         input_path = join(instance.instance_path, f"{app_name}{extension}")
         name = f".{app_name}_{in_name}_backup_{self.app.model.store.time.store_now().replace(' ', '')}{extension}"
@@ -321,7 +335,7 @@ class NchantdStore(MicroStash):
     def check_cache(self, table, filter=None):
         """"""
         df = next(self.cache.read(table))
-        logma.info(f"DF {df}")
+        # logma.info(f"DF {df}")
         return df
 
     def check_window_policy(self, row, window, db):
@@ -411,22 +425,23 @@ class NchantdStore(MicroStash):
 
     def create_index(self, index, db="db"):
         """"""
-        logma.info(f"Create Index {index}")
+        # logma.info(f"Create Index {index}")
         objects = self.parent.config.dikt["dstruct"]["database"]["objects"]["index"]
-        logma.info(f"Index {objects[index]}")
-        return super().create_index(index, objects[index], db)
+        # logma.info(f"Index {objects[index]}")
+        return super().create_index(index, objects[index]["cmd"], db)
 
     def create_table(self, table, db="db", insert_data=True):
         """"""
-        logma.info(f"Create Table {table}")
+        # logma.info(f"Create Table {table}")
         objects = self.parent.config.dikt["dstruct"]["database"]["objects"]["table"]
+        logma.info(f"Table {objects[table]}")
         return super().create_table(table, objects[table], db, insert_data=insert_data)
 
     def create_view(self, view, db="db"):
         """"""
-        logma.info(f"Create View {view}")
+        # logma.info(f"Create View {view}")
         objects = self.parent.config.dikt["dstruct"]["database"]["objects"]["view"]
-        return super().create_view(view, objects[view], db)
+        return super().create_view(view, objects[view]["cmd"], db)
 
     # def delete_record(self, table, primary_key=None, uuid=None, column=None, db="db", flip=False):
     #     """"""
@@ -872,8 +887,8 @@ class NchantdStore(MicroStash):
         :param reset:
         :return:
         """
-        logma.info(f"Instance {instance.instance_id}")
-        logma.info(f"Instance {instance.instance_path}")
+        # logma.info(f"Instance {instance.instance_id}")
+        # logma.info(f"Instance {instance.instance_path}")
         document_type = "sonql"
         tables = self.config.dikt.get("tables").dikt
         self.initDocument(instance.db_instance_id, document_type, instance.get_file_path(), tables, reset)
@@ -897,7 +912,7 @@ class NchantdStore(MicroStash):
         instances = self.get_app_instance()
         instances.sort_values(by=["CREON_DTTM"], inplace=True)
         instance_dict = instances.loc[0].to_dict()
-        logma.info(f"Wizard: create_instance: {instance_dict}")
+        # logma.info(f"Wizard: create_instance: {instance_dict}")
         instance = NchantdInstance(self, instance_dict)
 
         # Load meta_data from database if available (for restoring last selected node)
@@ -906,7 +921,7 @@ class NchantdStore(MicroStash):
                 from pycurity.pyhash import decode64
 
                 instance.meta_data = j.loads(decode64(instance_dict["meta_data_enc64_dict"]))
-                logma.info(f"Loaded instance meta_data: {instance.meta_data}")
+                # logma.info(f"Loaded instance meta_data: {instance.meta_data}")
             except Exception as e:
                 logma.warning(f"Could not load instance meta_data: {e}")
                 instance.meta_data = {}
@@ -914,7 +929,7 @@ class NchantdStore(MicroStash):
         self.app.model.instances = {x["instance_id_txt"]: x for x in instances.to_dict(orient="records")}
         instance.is_install_active = False
         logma.info(f"Install Active: {instance.is_install_active}")
-        logma.info(f"Instance Id {instance.instance_id}")
+        # logma.info(f"Instance Id {instance.instance_id}")
         self.app.model.set_instance_active(instance)
 
         # After instance is loaded, select the appropriate node:
@@ -989,18 +1004,6 @@ class NchantdStore(MicroStash):
     #             del df[column]
     #     return df
 
-    # def merge_table(self, old_table, new_table, map, filter_=None, db="db"):
-    #     """"""
-    #     df = self.get_table(old_table, db=db)
-    #     if filter_ is not None:
-    #         df = filter_.process(df)
-    #     df.drop(f"{old_table}_PK", axis=1, inplace=True)
-    #     df.drop(f"{new_table}_PK", axis=1, inplace=True)
-    #     if map is not None:
-    #         df = self.map_columns(map, df)
-    #     self.docs[db].writeDF(df, new_table)
-    #     return self.docs[db].checkTable(new_table, record_n=df.shape[0])
-    #
     # def remove_record(self, table, column, value, db="db"):
     #     """"""
     #     return self
@@ -1609,7 +1612,7 @@ class NchantdStore(MicroStash):
         else:
             raise Exception(f"{how} is not supported.")
         payload = [row]
-        logma.info(f"Table {table} {payload} {db}")
+        # logma.info(f"Table {table} {payload} {db}")
         self._store(table, payload, db)
         # self.store_app_event("user_interaction", "store_doc_tab", "".join(str(x) for x in row))
         return self
