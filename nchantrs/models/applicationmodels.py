@@ -169,6 +169,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.parent = parent
         self.config.override(condor.Instruct(pxcfg).select("NchantdCloakModel").override(cfg))
         self.store.config.override(self.config)
+        self.level = self.config.dikt.get("level", None)
         self.has_library = False
         self.has_changed = False
         self.are_mini_games_active = False  # will be used to run the mini game logic
@@ -392,14 +393,17 @@ class NchantdCloakModel(NchantdPantiesModel):
         """
         [DONE] where this method lives...could be moved to NchantdStore or NchantdApplicationStartupWizard
         :return:
+
+        #TODO: implement a path override for testing
+
         """
-        data = {"<[application_slug]>": self.slug, "<[user_home]>": self.home}
+        data = {"<[application_slug]>": self.slug, "<[user_home]>": self.home, "level": self.level}
         path = self.config.dikt["dstruct"]["filesystem"][self.os_type].get("application", "").get("path", "")
         self.application_path = Mechanism(path, data).run()
-        data = {"<[application_slug]>": self.slug, "<[user_home]>": self.home}
+        data = {"<[application_slug]>": self.slug, "<[user_home]>": self.home, "level": self.level}
         path = self.config.dikt["dstruct"]["filesystem"][self.os_type].get("config", "").get("path", "")
         self.config_path = Mechanism(path, data).run()
-        data = {"<[application_slug]>": self.slug, "<[user_home]>": self.home}
+        data = {"<[application_slug]>": self.slug, "<[user_home]>": self.home, "level": self.level}
         path = self.config.dikt["dstruct"]["filesystem"][self.os_type].get("library", "").get("path", "")
         self.library_path = Mechanism(path, data).run()
         # data = {"<[application_slug]>": self.slug, "<[user_home]>": self.home}

@@ -312,7 +312,9 @@ class NchantdStore(MicroStash):
         app_name = self.app.application_name.lower()
         if instance is None:
             instance = self.app.model.store.instance
-        in_name = instance.instance_id
+        if instance is None:
+            raise Exception("No Instance")
+        in_name = instance.name
         if in_name is None:
             in_name = "db"
         extension = self.EXTENSION
@@ -434,7 +436,9 @@ class NchantdStore(MicroStash):
         """"""
         # logma.info(f"Create Table {table}")
         objects = self.parent.config.dikt["dstruct"]["database"]["objects"]["table"]
-        logma.info(f"Table {objects[table]}")
+        logma.info(
+            f"Table {table} {objects[table]["columns"]} {len(objects[table].get("records", []) or [])} {len(objects[table].get("system_records", []) or [])}"
+        )
         return super().create_table(table, objects[table], db, insert_data=insert_data)
 
     def create_view(self, view, db="db"):
