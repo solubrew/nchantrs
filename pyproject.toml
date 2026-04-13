@@ -86,16 +86,10 @@ lint = [
     "safety",
 ]
 optional = [
-    "pyqt5",
-    "config",
-    "uuid_extensions",
-    "nchantdoffice",
-    "cons",
-    "fxsquirl",
 ]
-legacy = [
-    "pkg_resources",
-]
+#legacy = [
+#    "pkg_resources",
+#]
 all = [
     "nchantrs[dev,test,docs,lint,optional,legacy]",
 ]
