@@ -18,7 +18,6 @@ import math
 
 import logging
 
-logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -250,7 +249,7 @@ class NchantdCalculator(NchantdTab):
             self.waitingForOperand = False
             # If starting fresh after equals, start on a new line
             if not self.pendingAdditiveOperator and not self.pendingMultiplicativeOperator and self.calculation_history:
-                self._update_display('\n'.join(self.calculation_history[-10:]) + "\n")
+                self._update_display("\n".join(self.calculation_history[-10:]) + "\n")
 
         self._set_current_line(self._get_current_line() + str(digitValue))
 
@@ -379,23 +378,23 @@ class NchantdCalculator(NchantdTab):
     def _get_current_line(self):
         """Get the current line (last line) from the display"""
         text = self.display.toPlainText()
-        lines = text.split('\n')
+        lines = text.split("\n")
         return lines[-1] if lines else "0"
 
     def _set_current_line(self, value):
         """Set the current line (last line) in the display"""
         text = self.display.toPlainText()
-        lines = text.split('\n')
+        lines = text.split("\n")
         if len(lines) > 0:
             lines[-1] = value
         else:
             lines = [value]
-        self._update_display('\n'.join(lines))
+        self._update_display("\n".join(lines))
 
     def _update_display(self, text):
         """Update display with proper bottom alignment"""
         # Calculate how many empty lines we need to push content to bottom
-        lines = text.split('\n')
+        lines = text.split("\n")
         font_metrics = self.display.fontMetrics()
         line_height = font_metrics.lineSpacing()
         display_height = self.display.viewport().height()
@@ -406,10 +405,10 @@ class NchantdCalculator(NchantdTab):
 
         # Add empty lines at the top to push content to bottom
         padding_lines = max(0, max_lines - current_lines - 1)
-        padded_text = '\n' * padding_lines + text
+        padded_text = "\n" * padding_lines + text
 
         # Use HTML to ensure right alignment
-        html_text = padded_text.replace('\n', '<br>')
+        html_text = padded_text.replace("\n", "<br>")
         self.display.setHtml(f'<div style="text-align: right;">{html_text}</div>')
 
         # Scroll to bottom
@@ -423,7 +422,7 @@ class NchantdCalculator(NchantdTab):
         self.calculation_history.append(history_line)
 
         # Update display: show history + current result
-        display_text = '\n'.join(self.calculation_history[-10:])  # Keep last 10 calculations
+        display_text = "\n".join(self.calculation_history[-10:])  # Keep last 10 calculations
         display_text += f"\n{result}"
         self._update_display(display_text)
 
@@ -510,13 +509,7 @@ class NchantdCalculator(NchantdTab):
         font = self.display.font()
         font.setPointSize(font.pointSize() + 8)
         self.display.setFont(font)
-        self.display.setStyleSheet(
-            "QTextEdit { "
-            "background-color: black; "
-            "color: white; "
-            "padding: 5px; "
-            "}"
-        )
+        self.display.setStyleSheet("QTextEdit { " "background-color: black; " "color: white; " "padding: 5px; " "}")
         self.display.setFocusPolicy(pyqt.Qt.FocusPolicy.NoFocus)
         self.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignCenter | pyqt.Qt.AlignmentFlag.AlignTop)
 

@@ -50,7 +50,7 @@ here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
 
 # ====================================================================================================================||
-pxcfg = join(here, "_data_", "upgrades.yaml")
+pxcfg = join(here, "../services/_data_", "upgrades.yaml")
 
 
 def version_check() -> None:
