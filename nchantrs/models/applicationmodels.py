@@ -29,7 +29,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 # ===============================================================================||
-from condor import condor
+from kahndor import kahndor
 from subtrix.subtrix import Mechanism
 from subtrix.utilities import uuid
 from nchantrs.models.models import NchantdStore
@@ -37,7 +37,7 @@ from nchantrs.utilities.users import NchantdUser
 from nchantrs.utilities.policies import NchantdDataPolicy
 from nchantrs.widgets.items.nodes import NchantdTreeNode
 from nchantrs.wizards.instances import NchantdNewInstanceWizard
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from pycurity.pyvice import Device
 
 # ===============================================================================||
@@ -65,7 +65,7 @@ class NchantdPantiesModel(object):
         :param cfg:
         """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdPantiesModel")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdPantiesModel")
         logma.info(f"Tables {self.config.dikt['dstruct']['database']['objects']['table'].keys()}")
         if parent:
             self.config.override(parent.config)
@@ -151,7 +151,7 @@ class NchantdCapeModel(NchantdPantiesModel):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdSigilModel")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdSigilModel")
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -167,7 +167,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdCloakModel").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCloakModel").override(cfg))
         self.store.config.override(self.config)
         self.level = self.config.dikt.get("level", None)
         self.has_library = False
@@ -855,7 +855,7 @@ class NchantdSigilModel(NchantdPantiesModel):
         """ """
         super(NchantdSigilModel, self).__init__(parent, cfg)
         self.parent = parent
-        self.config = condor.Instruct(pxcfg)
+        self.config = kahndor.Instruct(pxcfg)
         self.config.select("NchantdSigilModel").override(cfg)
         if parent:
             logger.debug(f"Parent", parent.config.dikt["args"])
@@ -870,7 +870,7 @@ class NchantdModel(object):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdModel"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdModel"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

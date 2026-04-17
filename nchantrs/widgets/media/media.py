@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 import feedparser
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.controls.checkboxes import NchantdCheckbox, NchantdCheckboxGroup
 from nchantrs.widgets.controls.toolbars import NchantdButtonBar
@@ -32,7 +32,7 @@ from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.managers import NchantdManager
 from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.panes.files import NchantdFileDetailsPane
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -49,7 +49,7 @@ class NchantdNEWSLSummary(NchantdManager):
     def __init__(self, parent=None, cfg={}):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdNEWSLSummaryTab")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdNEWSLSummaryTab")
         if parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -94,7 +94,7 @@ class NchantdNEWSLArticle(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -179,7 +179,7 @@ class NchantdFileIcon(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -208,7 +208,7 @@ class NchantdFileViewer(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdFileViewer")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdFileViewer")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)

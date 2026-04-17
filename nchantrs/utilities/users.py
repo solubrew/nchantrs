@@ -2,14 +2,15 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -18,20 +19,19 @@ import base64
 
 import logging
 
-
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 from uuid_extensions import uuid7
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from pycurity.pycrypt import decrypt_aes, encrypt_aes, create_hash, create_public_private_keccak_keys
 from pycurity.pycrypt import create_public_private_rsa_keys, create_symmetric_aes_key, encrypt_password
 from pycurity.pycrypt import encrypt_rsa, encrypt_rsa, decrypt_rsa, decrypt_password, verify_sha3_signature
 from pycurity.pyvalid import validate_password_strength
 from pycurity.pyhash import encode64, text_hashing_function
 from nchantrs.libraries import pyqt
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 # Constants for magic number replacement
@@ -52,7 +52,7 @@ class NchantdUser(object):
 
     def __init__(self, parent, cfg=None):
         """"""
-        self.config = condor.Instruct(pxcfg).select("NchantdUser").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdUser").override(cfg)
         self.parent = parent
         self.config.override(parent.config)
         self.app = pyqt.QApplication.instance()
@@ -96,7 +96,7 @@ class NchantdUser(object):
     def get_password(self, message="Enter credentials: "):
         """
         Generate or retrieve password for authentication.
-        
+
         Note: Insecure default removed - must use proper password dialog.
         [DONE] implement password dialog
         :param message:
@@ -200,7 +200,7 @@ class NchantdUser(object):
     def verify_pword(self, pword):
         """
         Verify password against stored hash.
-        
+
         SECURITY FIX: Removed debug mode exception bypass that exposed password hash.
         Now properly returns False on verification failure.
         """

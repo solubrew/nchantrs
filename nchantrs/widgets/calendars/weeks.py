@@ -22,10 +22,10 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.widgets.calendars.days import NchantdDayCalendar
 from nchantrs.widgets.widgets import NchantdWidget
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from nchantrs.widgets.tabsets import NchantdTab
 
 # ====================================================================================================================||
@@ -43,7 +43,7 @@ class NchantdWeekCalendar(NchantdTab):
     def __init__(self, parent=None, cfg=None):
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdWeekCalendar"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdWeekCalendar"))
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)

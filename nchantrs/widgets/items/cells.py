@@ -28,8 +28,8 @@ logger = logging.getLogger(__name__)
 # ===============================================================================||
 
 # ===============================================================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.widgets import NchantdWidgetMixin
@@ -53,7 +53,7 @@ class NchantdCell(NchantdWidgetMixin, pyqt.QWidget):
         """ """
         super().__init__()
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdCell")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdCell")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -170,7 +170,7 @@ class NchantdTableCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
         """ """
         super().__init__()
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdCell")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdCell")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

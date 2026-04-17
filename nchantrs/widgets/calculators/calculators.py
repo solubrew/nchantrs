@@ -21,14 +21,14 @@ import logging
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.controls.button_groups import NchantdMathPad, NchantdNumberPad
 from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.media.editors.editors import NchantdEntryBox
 from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.tabsets import NchantdTab
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -48,7 +48,7 @@ class NchantdCalculator(NchantdTab):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdCalculator")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdCalculator")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(parent, cfg)
@@ -552,7 +552,7 @@ class NchantdFinancialCalculator(NchantdCalculator):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdFinancialCalculator")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdFinancialCalculator")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(parent, cfg)
@@ -581,7 +581,7 @@ class NchantdGraphingCalculator(NchantdAdvancedCalculator):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdGraphingCalculator")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdGraphingCalculator")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

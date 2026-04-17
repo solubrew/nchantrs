@@ -39,10 +39,10 @@ from pandas import date_range, DataFrame
 
 # need other plotting options for non pyQT-guis and cmdline style programs
 # ===============================================================================||
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidgetMixin
-from condor import condor
+from kahndor import kahndor
 
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -58,7 +58,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
     def __init__(self, parent=None, cfg={}):
         """ """
         width, height, dpi = 600, 4, 100
-        self.config = condor.Instruct(pxcfg).select("NchantdChart")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdChart")
 
         self.set_theme()
         fig = self.config.dikt.get("figure", None)

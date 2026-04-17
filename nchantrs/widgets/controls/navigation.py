@@ -22,9 +22,9 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -40,7 +40,7 @@ class NchantdNavigationButtons(pyqt.QWidget):
 
     def __init__(self, parent=None, cfg={}):
         """ """
-        self.config = condor.Instruct(pxcfg).override(cfg)
+        self.config = kahndor.Instruct(pxcfg).override(cfg)
         self.config.select("NchantdNavigationButtons")
         if parent:
             self.config.override(parent.config)

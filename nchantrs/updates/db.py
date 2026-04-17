@@ -23,8 +23,8 @@ from copy import deepcopy
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from nchantrs.models.models import NchantdInstance
 
 # ====================================================================================================================||
@@ -60,7 +60,7 @@ class NchantdDBUpdate(object):
     def __init__(self, parent, cfg=None) -> None:
         """"""
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("DBUpdate").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("DBUpdate").override(cfg)
         self.versions = deepcopy(self.config.dikt.get("versions"))
         self.current_version = None
         self.version = None
@@ -429,7 +429,7 @@ class NchantdDBUpdate(object):
 #     def __init__(self, parent, cfg=None) -> None:
 #         """"""
 #         self.parent = parent
-#         self.config = condor.Instruct(pxcfg).select("DBUpdate").override(cfg)
+#         self.config = kahndor.Instruct(pxcfg).select("DBUpdate").override(cfg)
 #         self.versions = self.config.select("versions")
 #         self.current_version = None
 #         self.version = None

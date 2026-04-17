@@ -18,7 +18,7 @@ from os.path import dirname, join
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 
 import logging
 from nchantrs.libraries import pyqt
@@ -38,7 +38,7 @@ from nchantrs.widgets.tabsets import NchantdTab
 from nchantrs.widgets.groups import NchantdGridScrollGroupBox, NchantdVScrollGroupBox, NchantdHScrollGroupBox
 from nchantrs.widgets.groups import NchantdHGroupBox, NchantdGroup
 from nchantrs.widgets.config.config import NchantdConfigStoreDocument
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -54,7 +54,7 @@ class NchantdSettingsWidget(NchantdTab):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdSettingsWidget")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdSettingsWidget")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -161,7 +161,7 @@ class NchantdInterfaceSettings(NchantdSettingsWidget):
     def __init__(self, parent, cfg=None):
         """"""
         super().__init__(parent, cfg)
-        self.config.override(condor.Instruct(pxcfg).select("NchantdInterfaceSettingsTab"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdInterfaceSettingsTab"))
         self.parent = parent
         if self.parent is not None:
             self.config.override(self.parent.config)
@@ -190,7 +190,7 @@ class NchantdThemeSettings(NchantdSettingsWidget):
     def __init__(self, parent, cfg=None):
         """"""
         super().__init__(parent, cfg)
-        self.config.override(condor.Instruct(pxcfg).select("NchantdThemeSettingsTab"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdThemeSettingsTab"))
         self.parent = parent
         if self.parent is not None:
             self.config.override(self.parent.config)

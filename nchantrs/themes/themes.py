@@ -2,14 +2,15 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join, exists
@@ -17,13 +18,12 @@ from typing import Optional, Dict, List, Any, Tuple
 
 import logging
 
-
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from squirl.objnql import txtonql
 
 from nchantrs.libraries import pyqt
@@ -43,8 +43,8 @@ class NchantdTheme:
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdTheme")
-        self.themes = condor.Instruct(pxcfg).select("Themes").dikt
+        self.config = kahndor.Instruct(pxcfg).select("NchantdTheme")
+        self.themes = kahndor.Instruct(pxcfg).select("Themes").dikt
         self.config.override(self.themes)
         self.config.override(cfg)
         super(NchantdTheme, self).__init__()
@@ -85,19 +85,19 @@ class NchantdTheme:
         qss = join(here, "_data_", "themes", f"{named_style}.qss")
         logma.info(f"[THEME] QSS file path: {qss}")
         logma.info(f"[THEME] File exists: {exists(qss)}")
-        
+
         # Read and log QSS content summary
         try:
             qss_content = open(qss, "r").read()
             logma.info(f"[THEME] QSS content length: {len(qss_content)} chars")
             # Check for any # references in the raw QSS
-            hash_lines = [line for line in qss_content.split('\n') if '#' in line and 'green' in line.lower()]
+            hash_lines = [line for line in qss_content.split("\n") if "#" in line and "green" in line.lower()]
             if hash_lines:
                 logma.info(f"[THEME] Lines with # and green: {hash_lines}")
         except Exception as e:
             logma.warning(f"[THEME] Could not read QSS: {e}")
             qss_content = ""
-            
+
         if named_style == "dynamic":
             styled = self.create_theme(palette, name, qss_content)
             logma.info(f"[THEME] Dynamic theme created, length: {len(styled)}")

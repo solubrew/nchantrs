@@ -23,9 +23,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -45,7 +45,7 @@ class LinkService:
     def __init__(self, parent, cfg: dict = None) -> None:
         """"""
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("").override(cfg)
         self.app = pyqt.QApplication.instance()
 
     def get_links(self) -> None:

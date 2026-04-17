@@ -17,10 +17,10 @@
 from os.path import abspath, dirname, join
 
 # ===============================================================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from subtrix import subtrix
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from nchantrs.widgets.items.nodes import NchantdNode, NchantdTreeNode
 from nchantrs.widgets.widgets import NchantdWidget
 
@@ -41,7 +41,7 @@ class NchantdTreeView(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdTreeView"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdTreeView"))
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)

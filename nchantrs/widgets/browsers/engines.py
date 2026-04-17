@@ -23,8 +23,8 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.browsers.javascript.scripts import event_listener_middle_click
 from nchantrs.widgets.browsers.pages import NchantdWebEnginePage
@@ -74,7 +74,7 @@ def setup_qt_environment():
 #     def __init__(self, profile=None, parent=None, cfg=None):
 #         super().__init__(parent)
 #         self.parent = parent
-#         self.config = condor.Instruct(pxcfg).select("NchantdWebEngineView")
+#         self.config = kahndor.Instruct(pxcfg).select("NchantdWebEngineView")
 #         if self.parent:
 #             self.config.override(parent.config)
 #         self.config.override(cfg)
@@ -106,7 +106,7 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
     def __init__(self, profile=None, parent=None, cfg=None):
         super().__init__(parent)
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdWebEngineView")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdWebEngineView")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -337,7 +337,7 @@ class NchantdWebEngineViewH264(NchantdWidgetMixin, pyqt.QWebEngineView):
         """ """
         super().__init__(parent)
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdWebEngineView")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdWebEngineView")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

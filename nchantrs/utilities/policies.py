@@ -10,6 +10,7 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -18,13 +19,12 @@ import json as j
 
 import logging
 
-
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from subtrix.utilities import uuid
 from typing import Optional, Dict, List, Any, Tuple
 
@@ -43,7 +43,7 @@ class NchantdDataPolicy(object):
     def __init__(self, parent=None, cfg=None) -> None:
         """"""
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdDataPolicy").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdDataPolicy").override(cfg)
         self.policies = None
         self.retention_polices = None
 

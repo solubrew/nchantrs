@@ -22,8 +22,8 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.panes.panes import NchantdPane
 
@@ -42,7 +42,7 @@ class NchantdCalendarDetailPane(NchantdPane):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdCalendarDetailPane")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdCalendarDetailPane")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self.parent, self.config)

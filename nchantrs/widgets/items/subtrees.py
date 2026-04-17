@@ -18,13 +18,13 @@ from os.path import dirname, join
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 
 import logging
 from _work.subtreemodels import NchantdProjectSubTreeModel
 
 logger = logging.getLogger(__name__)
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from typing import Optional, Dict, List, Any, Tuple
 
 # ====================================================================================================================||
@@ -42,7 +42,7 @@ class NchantdSubTree:
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdSubTree")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdSubTree")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -69,7 +69,7 @@ class NchantdProjectSubTree(NchantdSubTree):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdProjectSubTree")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdProjectSubTree")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -99,7 +99,7 @@ class NchantdFileSystemSubTree(NchantdSubTree):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdFileSystemSubTree")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdFileSystemSubTree")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

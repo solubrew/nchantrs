@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.config.settings import NchantdSettingsWidget
@@ -32,7 +32,7 @@ from nchantrs.widgets.media.editors.editors import NchantdEntryEditor
 from nchantrs.widgets.media.editors.selectors import NchantdDropDown
 from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.groups import NchantdVScrollGroupBox, NchantdGroup
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from pycurity.pyvalid import validate_password_strength, validate_pin
 
 # ====================================================================================================================||
@@ -49,7 +49,7 @@ class NchantdSecuritySettings(NchantdSettingsWidget):
     def __init__(self, parent, cfg=None):
         """"""
         super().__init__(parent, cfg)
-        self.config.override(condor.Instruct(pxcfg).select("NchantdSecuritySettingsTab"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdSecuritySettingsTab"))
         self.parent = parent
         if self.parent is not None:
             self.config.override(self.parent.config)

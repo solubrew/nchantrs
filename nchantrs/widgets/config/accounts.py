@@ -18,7 +18,7 @@ from os.path import dirname, join
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 
 import logging
 from nchantrs.libraries import pyqt
@@ -30,7 +30,7 @@ from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.media.images import NchantdImage
 from nchantrs.widgets.media.editors.editors import NchantdEntryEditor
 from nchantrs.utilities.users import NchantdUser
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from nchantrs.widgets.config.settings import NchantdSettingsWidget
 from nchantrs.widgets.tabsets import NchantdTab
 
@@ -49,7 +49,7 @@ class NchantdAccountOverview(NchantdTab):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdAccountOverview")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdAccountOverview")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -96,7 +96,7 @@ class NchantdAccountSettings(NchantdSettingsWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdAccountSettings"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdAccountSettings"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

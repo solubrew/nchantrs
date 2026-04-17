@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 from pandas import DataFrame
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt, qpandas
 from nchantrs.utilities import utils
 from nchantrs.widgets.annotations import NchantdLabel
@@ -31,7 +31,7 @@ from nchantrs.widgets.items.cells import NchantdCell, NchantdTableCell
 from nchantrs.widgets.media.editors.selectors import NchantdComboBox
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 from nchantrs.widgets.controls.toolbars import NchantdButtonBar
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from pycurity.pytime import PyTime
 from thingery.numbers.numerals import calcExtendedRomanNumerals, calcArabicNumerals
 
@@ -52,7 +52,7 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
         super().__init__(10, 10, parent)
         self.parent = parent
         self.setParent(parent)
-        self.config = condor.Instruct(pxcfg).select("NchantdTable")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdTable")
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -501,7 +501,7 @@ class NchantdDataFrameTable(NchantdWidgetMixin, qpandas.DataTableWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdDataFrameTable")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdDataFrameTable")
         self.init_variables()
         if parent:
             self.config.override(parent.config)
@@ -543,7 +543,7 @@ class NchantdGrid(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdGrid")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdGrid")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)

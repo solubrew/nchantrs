@@ -17,7 +17,7 @@
 from os.path import abspath, dirname, join
 
 # ===============================================================================||
-from condor import condor
+from kahndor import kahndor
 
 import logging
 from nchantrs.libraries import pyqt
@@ -25,7 +25,7 @@ from nchantrs.libraries import pyqt
 logger = logging.getLogger(__name__)
 from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.widgets import loadWidget
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -45,7 +45,7 @@ class NchantdForm(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdForm"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdForm"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -80,7 +80,7 @@ class NchantdDynamicEntryForm(NchantdForm):
         super().__init__(parent, cfg)
         logma.info(f"Init NchantdDynamicEntryForm Config {cfg}")
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdDynamicEntryForm").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdDynamicEntryForm").override(cfg))
         self.fieldWDGTs = {}
         self.controlWDGTs = {}
         self.handlers = {}
@@ -249,7 +249,7 @@ class NchantdAPIEntryForm(NchantdDynamicEntryForm):
 
     def __init__(self, parent=None, cfg={}):
         """ """
-        self.config = condor.Instruct(pxcfg).select("NchantdAPIEntryForm")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdAPIEntryForm")
         self.config.override(cfg)
         if parent:
             self.config.override(parent.config)

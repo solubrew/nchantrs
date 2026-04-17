@@ -18,14 +18,14 @@ from os.path import dirname, join
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 
 import logging
 from nchantrs.widgets.tabsets import NchantdTab
 
 logger = logging.getLogger(__name__)
 from nchantrs.widgets.browsers.browsers import NchantdWebBrowser
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -40,7 +40,7 @@ class NchantdCalendlyConnectTab:
 
     def __init__(self, parent=None, cfg=None):
         """"""
-        self.confg = condor.Instruct(pxcfg).select("NchantdCalendlyConnectTab")
+        self.confg = kahndor.Instruct(pxcfg).select("NchantdCalendlyConnectTab")
         self.parent = parent
         if self.parent is not None:
             self.config.override(self.parent.config)
@@ -65,7 +65,7 @@ class NchantdConnectTab(NchantdTab):
 
     def __init__(self, parent=None, cfg=None):
         """"""
-        self.confg = condor.Instruct(pxcfg).select("NchantdConnectTab")
+        self.confg = kahndor.Instruct(pxcfg).select("NchantdConnectTab")
         self.parent = parent
         if self.parent is not None:
             self.config.override(self.parent.config)
@@ -90,7 +90,7 @@ class NchantdFacebookConnectTab:
 
     def __init__(self, parent=None, cfg=None):
         """"""
-        self.confg = condor.Instruct(pxcfg).select("NchantdFacebookConnectTab")
+        self.confg = kahndor.Instruct(pxcfg).select("NchantdFacebookConnectTab")
         self.parent = parent
         if self.parent is not None:
             self.config.override(self.parent.config)
@@ -119,7 +119,7 @@ class NchantdGoogleConnectTab(NchantdConnectTab):
 
     def __init__(self, parent=None, cfg=None):
         """"""
-        self.confg = condor.Instruct(pxcfg).select("NchantdGoogleConnectTab")
+        self.confg = kahndor.Instruct(pxcfg).select("NchantdGoogleConnectTab")
         self.parent = parent
         if self.parent is not None:
             self.config.override(self.parent.config)
@@ -147,7 +147,7 @@ class NchantdOutlookConnectTab:
 
     def __init__(self, parent=None, cfg=None):
         """"""
-        self.confg = condor.Instruct(pxcfg).select("NchantdOutlookConnectTab")
+        self.confg = kahndor.Instruct(pxcfg).select("NchantdOutlookConnectTab")
         self.parent = parent
         if self.parent is not None:
             self.config.override(self.parent.config)
@@ -172,7 +172,7 @@ class NchantdXConnectTab:
 
     def __init__(self, parent=None, cfg=None):
         """"""
-        self.confg = condor.Instruct(pxcfg).select("NchantdCalendlyConnectTab")
+        self.confg = kahndor.Instruct(pxcfg).select("NchantdCalendlyConnectTab")
         self.parent = parent
         if self.parent is not None:
             self.config.override(self.parent.config)

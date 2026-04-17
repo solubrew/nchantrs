@@ -18,7 +18,7 @@ from os.path import abspath, dirname, join
 from sys import argv
 
 # ===============================================================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.views.applicationviews import NchantdCapeView
 from nchantrs.widgets.applications.applications import NchantdPanties
@@ -28,7 +28,7 @@ from nchantrs.widgets.widgets import NchantdWidgetMixin, loadWidget
 from nchantrs.widgets.controls.button_groups import NchantdAcceptButtons, NchantdOkButtons
 from nchantrs.themes.themes import NchantdTheme
 from nchantrs.widgets.widgets import NchantdWidget
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -50,7 +50,7 @@ class NchantdCape(NchantdPanties):
         # NOTE: We do NOT call super().__init__() here because NchantdPanties
         # extends QApplication and we don't want to reinitialize it.
         # The QApplication is already created by the time we get here.
-        self.config = condor.Instruct(pxcfg).select("NchantdCape")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdCape")
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg).addArgs(args)
@@ -423,7 +423,7 @@ class NchantdSigil(NchantdSigilMixin, pyqt.QDialog):
         :param cfg:
         """
         super().__init__(parent)
-        self.config = condor.Instruct(pxcfg).select("NchantdSigil")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdSigil")
         if parent:
             self.config.override(parent.config)
         self.init_variables(name)
@@ -448,7 +448,7 @@ class NchantdSigil(NchantdSigilMixin, pyqt.QDialog):
     #     #    super().__init__(parent.app.main)
     #     # else:
     #     #    super().__init__(parent)
-    #     self.config = condor.Instruct(pxcfg).select("NchantdSigil")
+    #     self.config = kahndor.Instruct(pxcfg).select("NchantdSigil")
     #     if parent:
     #         self.config.override(parent.config)
     #     self.init_variables(name)
@@ -549,7 +549,7 @@ class NchantdBroach(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdBroach"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdBroach"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

@@ -24,9 +24,9 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # Optional imports for pull_updates - may not be available
 try:
@@ -67,7 +67,7 @@ class UpgradeManager(object):
 
     def __init__(self, parent=None, cfg=None):
         """"""
-        self.config = condor.Instruct(pxcfg).select("").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("").override(cfg)
         self.parent = parent
         self.current_version = None
         self.app = pyqt.QApplication.instance()

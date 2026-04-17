@@ -21,10 +21,10 @@ import math
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
-from ogma.logma import Logma
-from condor.utils import thingify
+from kahndor.logma import Logma
+from kahndor.utils import thingify
 from nchantrs.utilities.utils import lookup
 from nchantrs.widgets.controls.menus import NchantdMenu, NchantdContextMenu
 from pyffice.items.colors import PyfficeColor
@@ -46,7 +46,7 @@ class NchantdAction(object):
 
     def __init__(self, action_term, code_group="base", parent=None, cfg=None):
         """"""
-        self.config = condor.Instruct(pxcfg).select("NchantdAction").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdAction").override(cfg)
         self.app = None
         # logma.info(f"Action {parent}")
         if parent is not None:
@@ -855,7 +855,7 @@ class NchantdWidget(NchantdWidgetMixin, pyqt.QWidget):
         # Explicitly call QWidget.__init__ to ensure proper Qt initialization
         # This fixes: RuntimeError: libshiboken: 'init' method of object's base class not called
         pyqt.QWidget.__init__(self)
-        self.config = condor.Instruct(pxcfg).select("NchantdWidget")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdWidget")
         # logma.info(f"Init NchantdWidget Config {self.config}")
         self.parent = parent
         self.init_variables()
@@ -906,7 +906,7 @@ class NchantdSideBar(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdSideBar")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdSideBar")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -943,7 +943,7 @@ def buildPane(parent, cfg, offsetcol=0):
 
 def expandCFG(cfg):
     """Expand Configuration Details to all child wigets within config"""
-    dcfg = condor.Instruct(pxcfg).select("expandCFG").override(cfg).dikt
+    dcfg = kahndor.Instruct(pxcfg).select("expandCFG").override(cfg).dikt
     fonts, styles = dcfg["fonts"], dcfg["styles"]
     for row in dcfg["seq"].keys():
         for col, wCFG in dcfg["seq"][row].items():
@@ -979,7 +979,7 @@ def loadWidget(parent, cfg=None):  # , panestyle=None):
     Load Source for Daynamically building the tabset for the pane"""
     if cfg is None:
         cfg = {}
-    cfg = condor.Instruct(pxcfg).override(cfg).dikt
+    cfg = kahndor.Instruct(pxcfg).override(cfg).dikt
     logma.info(f"Load Widget Config {cfg}")
     if cfg.get("widget", None):
         try:
@@ -1010,14 +1010,14 @@ def loadWidget(parent, cfg=None):  # , panestyle=None):
                 raise
     else:
         registered_widget = lookupWidget(list(cfg.keys())[0])
-        widget = condor.Factory.object(registered_widget, parent.app.model.parents)(parent, cfg)
+        widget = kahndor.Factory.object(registered_widget, parent.app.model.parents)(parent, cfg)
         widget.initWidget(parent.newInstance)
     return widget
 
 
 def lookupWidget(key):
     """ """
-    return condor.Instruct(pxcfg).select("RegisteredWidgets").dikt[key]
+    return kahndor.Instruct(pxcfg).select("RegisteredWidgets").dikt[key]
 
 
 # ====================================================================================================================||

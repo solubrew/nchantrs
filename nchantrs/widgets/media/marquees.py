@@ -22,10 +22,10 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidget
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -43,7 +43,7 @@ class NchantdTextMarquee(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdTextMarquee"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdTextMarquee"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -93,7 +93,7 @@ class NchantdImageMarquee(NchantdTextMarquee):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdImageMarquee"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdImageMarquee"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

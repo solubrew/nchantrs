@@ -10,6 +10,7 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join
@@ -17,7 +18,7 @@ from os.path import dirname, join
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 
 import logging
 from nchantrs.libraries import pyqt
@@ -28,7 +29,7 @@ from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.media.editors.editors import NchantdEntryBox, NchantdEntryEditor
 from nchantrs.widgets.media.editors.selectors import NchantdDropDown
 from nchantrs.widgets.widgets import NchantdWidget
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -46,7 +47,7 @@ class NchantdButtonBar(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdButtonBar"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdButtonBar"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -89,7 +90,7 @@ class NchantdButtonBar(NchantdWidget):
             if action is None:
                 continue
             self.buttons[action] = {}
-            action_cfg = condor.Instruct(lookup(self.app, action)).override(self.config)
+            action_cfg = kahndor.Instruct(lookup(self.app, action)).override(self.config)
             if isinstance(button_cfg, dict):
                 action_cfg.override(button_cfg)
             self.buttons[action]["widget"] = action_cfg.dikt.get("widget", None)
@@ -157,7 +158,7 @@ class NchantdMenuBar(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdMenuBar")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdMenuBar")
         if parent:
             self.config.override(parent.config)
         super().__init__(self.parent)
@@ -211,7 +212,7 @@ class NchantdToolBar(pyqt.QToolBar):
     def __init__(self, parent, cfg: dict = None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdToolBar")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdToolBar")
         self.config.override(cfg)
         super().__init__()
         self.app = pyqt.QApplication.instance()
@@ -288,7 +289,7 @@ class NchantdApplicationToolBar(NchantdToolBar):
         """ """
         self.parent = parent
         super().__init__(self.parent, cfg)
-        self.config.override(condor.Instruct(pxcfg).select("NchantdApplicationToolBar"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdApplicationToolBar"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -330,7 +331,7 @@ class NchantdRecordNavigationToolbar(NchantdToolBar):
 
     def __init__(self, cfg: dict = {}):
         """ """
-        self.config = condor.Instruct(pxcfg)
+        self.config = kahndor.Instruct(pxcfg)
         self.config.select("nchantdrecordnavigationtoolbar").override(cfg)
         super(NchantdRecordNavigationToolbar, self).__init__()
         self.model = NchantdTableModel(app, self.config.dikt, parent)
@@ -370,7 +371,7 @@ class NchantdSettingsToolBar(NchantdToolBar):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdSettingsToolBar")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdSettingsToolBar")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

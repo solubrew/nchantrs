@@ -2,17 +2,18 @@
 """
 ---
 <(META)>:
-	docid:
-	name: Nchantrs File Utilities
-	description: >
-		File utilities for the nchantrs application including file manipulation
-		and QImage to data URI conversion.
+        docid:
+        name: Nchantrs File Utilities
+        description: >
+                File utilities for the nchantrs application including file manipulation
+                and QImage to data URI conversion.
 
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from __future__ import annotations
@@ -26,8 +27,8 @@ from typing import Any, Optional
 import base64
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
 
 # ====================================================================================================================||

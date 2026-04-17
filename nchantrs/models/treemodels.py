@@ -26,14 +26,14 @@ logger = logging.getLogger(__name__)
 # ===============================================================================||
 from pandas import DataFrame
 from subtrix.utilities import uuid
-from condor.utils import thingify
+from kahndor.utils import thingify
 
 # ===============================================================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt, qpandas
 from nchantrs.widgets.items.nodes import NchantdNode, NchantdTreeNode
 from nchantrs.utilities.models import combine_records
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -51,7 +51,7 @@ class NchantdFileSystemModel(pyqt.QFileSystemModel):
     def __init__(self, parent=None, root=None, cfg={}) -> None:
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdTreeModel")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdTreeModel")
         self.config.override(cfg)
         if parent:
             self.config.override(parent.config)
@@ -80,7 +80,7 @@ class NchantdTreeModel(pyqt.QStandardItemModel):
         :param cfg:
         """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdTreeModel")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdTreeModel")
         if parent:
             self.config.override(parent.config)
         super().__init__()
@@ -277,7 +277,7 @@ class NchantdApplicationTreeModel(NchantdTreeModel):
     def __init__(self, parent=None, root=None, cfg=None) -> None:
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdApplicationTreeModel")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdApplicationTreeModel")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self.parent, root, self.config)
@@ -300,7 +300,7 @@ class NchantdTimeTreeModel(NchantdApplicationTreeModel):
         if log:
             logma.info(f"NchantdTimeTreeModelParent {parent.config.dikt.keys()}")
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdTimeTreeModel")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdTimeTreeModel")
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)

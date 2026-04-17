@@ -18,7 +18,7 @@ from os.path import dirname, join
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from typing import Optional, Dict, List, Any, Tuple
 
 import logging
@@ -28,7 +28,7 @@ from nchantrs.dialogs.dialogs import NchantdSigil, NchantdErrorNotifySigil
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.media.editors.editors import NchantdLabeledEntry
 from nchantrs.widgets.controls.buttons import NchantdTabSideButtons
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -45,7 +45,7 @@ class NewNchantdAPIKeyManualEntrySigil(NchantdSigil):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdNewAPIKeyManualEntry")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdNewAPIKeyManualEntry")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -84,7 +84,7 @@ class NewNchantdNodeSigil(NchantdSigil):
     def __init__(self, parent=None, nid="0", cfg=None) -> None:
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NewNchantdNodeSigil")
+        self.config = kahndor.Instruct(pxcfg).select("NewNchantdNodeSigil")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -119,7 +119,7 @@ class NewNchantdTabSigil(NchantdSigil):
     def __init__(self, name="tab", parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NewNchantdTabSigil")
+        self.config = kahndor.Instruct(pxcfg).select("NewNchantdTabSigil")
         if self.parent:
             self.config.override(self.parent.config)
         super().__init__(name, self, self.config)
@@ -180,7 +180,7 @@ class EditNchantdNodeSigil(NewNchantdNodeSigil):
     def __init__(self, parent=None, nid="0", cfg=None) -> None:
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("EditNchantdNodeSigil")
+        self.config = kahndor.Instruct(pxcfg).select("EditNchantdNodeSigil")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

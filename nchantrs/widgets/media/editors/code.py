@@ -18,8 +18,8 @@
 # # ======================================3rd Party Library Modules=====================================================||
 #
 # # ======================================Solutions Brewer Library Modules==============================================||
-# from condor import condor
-# from ogma.logma import Logma
+# from kahndor import kahndor
+# from kahndor.logma import Logma
 # from nchantrs.libraries import pyqt
 # from nchantrs.nchantrs import nchantment
 # from nchantrs.widgets.media.editors.editors import NchantdDocEditor
@@ -39,7 +39,7 @@
 #     def __init__(self, parent=None, cfg=None):
 #         """ """
 #         self.parent = parent
-#         self.config = condor.Instruct(pxcfg).select("NchantdCodeEditor")
+#         self.config = kahndor.Instruct(pxcfg).select("NchantdCodeEditor")
 #         if self.parent:
 #             self.config.override(parent.config)
 #         super().__init__(self)
@@ -189,7 +189,7 @@
 #
 #     def __init__(self, document, language="Plain Text", cfg=None):
 #         """"""
-#         self.config = condor.Instruct(pxcfg).select("").override(cfg)
+#         self.config = kahndor.Instruct(pxcfg).select("").override(cfg)
 #         super().__init__(document)
 #         self.language = language
 #         self.highlighting_rules = []

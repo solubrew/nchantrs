@@ -20,7 +20,7 @@
 from os.path import abspath, dirname, join
 
 # ===============================================================================||
-from condor import condor
+from kahndor import kahndor
 
 import ast
 import logging
@@ -32,7 +32,7 @@ from nchantrs.models import tabsetmodels
 from nchantrs.widgets.media.notes import NchantdStickyNoteEditor
 from nchantrs.widgets.widgets import NchantdWidgetMixin, NchantdWidget
 from nchantrs.widgets.trees import NchantdApplicationTree
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -52,7 +52,7 @@ class NchantdTab(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdTab"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdTab"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -197,7 +197,7 @@ class NchantdApplicationControlTab(NchantdTab):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdApplicationControl").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdApplicationControl").override(cfg)
         super().__init__(self.parent, self.config)
         self.tree = None
         self.note = None
@@ -253,7 +253,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         """'"""
         super().__init__()
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdTabSet")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdTabSet")
         self.config.override(cfg)
         if parent:
             self.config.override(parent.config)

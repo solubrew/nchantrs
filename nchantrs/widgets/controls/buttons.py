@@ -23,12 +23,12 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.media.images import NchantdImage
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -65,7 +65,7 @@ class NchantdButton(NchantdWidgetMixin, pyqt.QPushButton):
         """Create a button widget and set default configurations"""
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdButton")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdButton")
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -202,7 +202,7 @@ class NchantdLabeledButton(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """"""
         self.parent = parent
-        self.config = condor.Instruct(pxcfg)
+        self.config = kahndor.Instruct(pxcfg)
         self.config.select("NchantdLabeledButton")
         if parent:
             self.config.override(parent.config)
@@ -240,7 +240,7 @@ class NchantdSaveButton(NchantdButton):
 
     def __init__(self, parent=None, cfg={}):
         """ """
-        self.config = condor.Instruct(pxcfg).override(cfg)
+        self.config = kahndor.Instruct(pxcfg).override(cfg)
         self.config.select("NchantdSaveButton")
         if parent:
             self.config.override(parent.config)
@@ -272,7 +272,7 @@ class NchantdSliderButton(NchantdWidgetMixin, pyqt.QSlider):
         """https://www.tutorialspoint.com/pyqt/pyqt_qslider_widget_signal.htm"""
         if parent:
             cfg = parent.config
-        self.config = condor.Instruct(pxcfg).override(cfg)
+        self.config = kahndor.Instruct(pxcfg).override(cfg)
         super(pyqt.QSlider, self).__init__(cfg["name"])
         self.setMinimum(cfg["min"])
         self.setMaximum(cfg["max"])
@@ -292,7 +292,7 @@ class NchantdTextButton(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -321,7 +321,7 @@ class NchantdDynamicTextButton(NchantdTextButton):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from ogma.logma import Logma
 
@@ -41,7 +41,7 @@ class NchantdToolTip(pyqt.QWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdToolTip")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdToolTip")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

@@ -23,9 +23,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from typing import Optional, Dict, List, Any, Tuple
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||

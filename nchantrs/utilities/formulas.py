@@ -24,8 +24,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -41,7 +41,7 @@ class NchantdFormula(object):
 
     def __init__(self, formula: str, cfg: Optional[Dict[str, Any]] = None) -> None:
         """"""
-        self.config = condor.Instruct(pxcfg).override(cfg)
+        self.config = kahndor.Instruct(pxcfg).override(cfg)
         self.formula = formula
         self.parsed_formula = self.parse()
         self.value: Optional[Any] = None

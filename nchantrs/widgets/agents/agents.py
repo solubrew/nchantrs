@@ -10,6 +10,7 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -17,13 +18,13 @@ from os.path import abspath, dirname, join
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 
 import logging
 from nchantrs.services.telemetry import TelemetryService
 
 logger = logging.getLogger(__name__)
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from sentinel.sentinel import Sentinel, Automaton
 
 # ====================================================================================================================||
@@ -39,7 +40,7 @@ class NchantdSentinelManager(object):
 
     def __init__(self, parent, cfg=None):
         """"""
-        self.config = condor.Instruct(pxcfg).select("NchantdSentinelManager").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdSentinelManager").override(cfg)
         self.agents = []
 
     def initAgents(self):
@@ -67,7 +68,7 @@ class NchantdSentinel(Sentinel):
     def __init__(self, parent, cfg=None):
         """"""
         self.parent = parent
-        self.config = condor.Instruct(pxcfg)
+        self.config = kahndor.Instruct(pxcfg)
         if parent is not None:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -114,7 +115,7 @@ class NchantdAgent(Automaton):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)

@@ -22,9 +22,9 @@ import logging
 logger = logging.getLogger(__name__)
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from squirl.orgnql.fonql import calculate_hash
 
 # ====================================================================================================================||
@@ -51,7 +51,7 @@ class Integrity(object):
 	controlled by a known apikey for control of data and potentially verification of NFTs"""
 	def __init__(self, cfg: None = None):
 		""""""
-		self.config = condor.Instruct(pxcfg).select('Integrity').override(cfg)
+		self.config = kahndor.Instruct(pxcfg).select('Integrity').override(cfg)
 		self.interpreter_type = None
 		self.interpreter_path = None
 		self.interpreter_file = None

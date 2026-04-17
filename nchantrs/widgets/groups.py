@@ -19,11 +19,11 @@ import datetime as dt
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from networkx.algorithms.connectivity import minimum_node_cut
 
 from nchantrs.libraries import pyqt
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 
 # ====================================================================================================================||
@@ -42,7 +42,7 @@ class NchantdGroup(NchantdWidgetMixin, pyqt.QGroupBox):
         """ """
         super().__init__()
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdGroup")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdGroup")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -127,7 +127,7 @@ class NchantdCollapsableGroup(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdCollapsableGroup"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCollapsableGroup"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -198,7 +198,7 @@ class NchantdHGroupBox(pyqt.QGroupBox):
     def __init__(self, parent=None, cfg=None):
         """"""
         super().__init__(parent, cfg)
-        self.config = condor.Instruct(pxcfg).select("NchantdHGroupBox")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdHGroupBox")
         self.parent = parent
         if parent is not None and not isinstance(parent, pyqt.QWidget):
             self.config.override(parent.config)
@@ -232,7 +232,7 @@ class NchantdVGroupBox(pyqt.QGroupBox):
     def __init__(self, parent=None, cfg=None):
         """"""
         super().__init__()
-        self.config = condor.Instruct(pxcfg).select("NchantdVGroupBox")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdVGroupBox")
         self.parent = parent
         if parent is not None and not isinstance(parent, pyqt.QWidget):
             self.config.override(parent.config)
@@ -266,7 +266,7 @@ class NchantdVScrollGroupBox(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """"""
         super().__init__(parent, cfg)
-        self.config.override(condor.Instruct(pxcfg).select("NchantdVScrollGroupBox"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdVScrollGroupBox"))
         self.parent = parent
         if parent is not None and not isinstance(parent, pyqt.QWidget):
             self.config.override(parent.config)
@@ -355,7 +355,7 @@ class NchantdHScrollGroupBox(pyqt.QWidget):
     def __init__(self, parent=None, cfg=None):
         """"""
         super().__init__(parent)
-        self.config = condor.Instruct(pxcfg).select("NchantdHScrollGroupBox")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdHScrollGroupBox")
         self.parent = parent
         if parent is not None and not isinstance(parent, pyqt.QWidget):
             self.config.override(parent.config)
@@ -451,7 +451,7 @@ class NchantdGridScrollGroupBox(pyqt.QWidget):
     def __init__(self, parent=None, cfg=None):
         """"""
         super().__init__(parent)
-        self.config = condor.Instruct(pxcfg)
+        self.config = kahndor.Instruct(pxcfg)
         self.parent = parent
         if parent is not None and not isinstance(parent, pyqt.QWidget):
             self.config.override(parent.config)

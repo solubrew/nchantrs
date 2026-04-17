@@ -2,14 +2,15 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join
@@ -17,14 +18,14 @@ from os.path import dirname, join
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from typing import Optional, Dict, List, Any, Tuple
 
 import logging
 from nchantrs.dialogs.dialogs import NchantdCape
 
 logger = logging.getLogger(__name__)
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -39,7 +40,7 @@ class NewPasswordDialog(NchantdCape):
 
     def __init__(self, parent, cfg=None) -> None:
         """"""
-        self.config = condor.Instruct(pxcfg)
+        self.config = kahndor.Instruct(pxcfg)
         if parent is not None:
             self.config.override(parent.config)
         self.parent = parent
@@ -52,7 +53,7 @@ class ChangePasswordDialog(NchantdCape):
 
     def __init__(self, parent, cfg=None) -> None:
         """"""
-        self.config = condor.Instruct(parent)
+        self.config = kahndor.Instruct(parent)
         if parent is not None:
             self.config.override(parent.config)
         self.parent = parent

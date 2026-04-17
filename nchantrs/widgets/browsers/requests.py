@@ -28,9 +28,9 @@ logger = logging.getLogger(__name__)
 
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from nchantrs.widgets.browsers.utilities import NchantdURL
 
 # ====================================================================================================================||

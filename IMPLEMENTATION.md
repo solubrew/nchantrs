@@ -111,7 +111,7 @@ app.run()          # Start application with P2P discovery
 
 ## Internal Projects Dependencies
 
-Per CODING_STANDARDS, internal projects (condor, ogma, nchantrs, pycurity) should **NOT** be included as dependencies in `pyproject.toml`. They must be:
+Per CODING_STANDARDS, internal projects (kahndor, ogma, nchantrs, pycurity) should **NOT** be included as dependencies in `pyproject.toml`. They must be:
 
 - Installed separately in the environment
 - Imported directly where needed

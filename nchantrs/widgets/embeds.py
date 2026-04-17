@@ -20,7 +20,7 @@
 from os.path import abspath, dirname, exists, join
 
 # ===============================================================================||
-from condor import condor
+from kahndor import kahndor
 
 import logging
 import os

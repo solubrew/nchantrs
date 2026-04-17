@@ -19,8 +19,8 @@ import datetime as dt
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from nchantrs.widgets.groups import NchantdGridScrollGroupBox
 from nchantrs.widgets.tabsets import NchantdTab
 from nchantrs.widgets.widgets import NchantdWidget
@@ -44,7 +44,7 @@ class NchantdDrawer(NchantdWidget):
         """ """
         super().__init__(parent)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdDrawer"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdDrawer"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -103,7 +103,7 @@ class NchantdToolBox(NchantdTab):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdToolBox"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdToolBox"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -169,7 +169,7 @@ class NchantdToolBox(NchantdTab):
         self.box.currentChanged.connect(self.on_drawer_changed)
         if current_document is not None:
             logma.info(f"Config Toolbox {self.config.dikt.get("toolbox", {})}")  # [0]["items"]}")
-            cfg = condor.Instruct(cfg).override({"toolbox": current_document.toolbox_config})
+            cfg = kahndor.Instruct(cfg).override({"toolbox": current_document.toolbox_config})
             cfg.override(self.config.dikt)
             cfg = cfg.dikt["toolbox"]
             default_cfg = self.config.dikt.get("default", {})

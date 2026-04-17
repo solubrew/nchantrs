@@ -21,8 +21,8 @@ from typing import Any, Dict, Optional
 
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.controls.checkboxes import NchantdCheckbox
@@ -61,7 +61,7 @@ class NchantdNumberWheelButton(NchantdWidget):
     def __init__(self, parent: Optional[Any] = None, cfg: Optional[Dict] = None) -> None:
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdNumberWheelButton")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdNumberWheelButton")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -171,7 +171,7 @@ class NchantdShareButton(NchantdWidgetMixin, pyqt.QPushButton):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdLinkIcon")).override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdLinkIcon")).override(cfg)
 
     def initModel(self):
         """"""
@@ -195,7 +195,7 @@ class NchantdEnableSpinBox(NchantdWidget):
         """ """
         super().__init__(parent)
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdSpinBox")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdSpinBox")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -234,7 +234,7 @@ class NchantdEnableSequencer(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdEnableSequencer"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdEnableSequencer"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -280,7 +280,7 @@ class NchantdSpinBox(NchantdWidgetMixin, pyqt.QSpinBox):
         """ """
         super().__init__(parent)
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdSpinBox")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdSpinBox")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -325,7 +325,7 @@ class NchantdActivateSpinBox(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdLabeledSpinBox"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdLabeledSpinBox"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -366,7 +366,7 @@ class NchantdLabeledSpinBox(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdLabeledSpinBox"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdLabeledSpinBox"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -412,7 +412,7 @@ class NchantdLabeledDoubleSpinBox(NchantdWidget):
         """ """
         super().__init__(self)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdLabeledDoubleSpinBox"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdLabeledDoubleSpinBox"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -452,7 +452,7 @@ class NchantdColorSelectButton(NchantdWidget):
         """ """
         super().__init__(self)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdSelectButton"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdSelectButton"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

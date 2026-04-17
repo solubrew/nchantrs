@@ -20,10 +20,10 @@
 from os.path import abspath, dirname, join
 
 # ===============================================================================||
-from condor import condor
+from kahndor import kahndor
 
 import logging
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 logger = logging.getLogger(__name__)
 
@@ -44,7 +44,7 @@ class NchantdMap:
         self.parent = parent
         if parent:
             cfg = self.parent.config
-        self.config = condor.Instruct(pxcfg).select("NchantdItem")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdItem")
         self.config.override(cfg)
         super(NchantdItem, self).__init__(parent)
         self.model = NchantdMapModel(self)
@@ -75,7 +75,7 @@ class NchantdMindMap:
         self.parent = parent
         if parent:
             cfg = self.parent.config
-        self.config = condor.Instruct(pxcfg).select("NchantdItem")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdItem")
         self.config.override(cfg)
         super(NchantdItem, self).__init__(parent)
         self.model = NchantdMapModel(self)

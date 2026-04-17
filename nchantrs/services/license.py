@@ -22,8 +22,8 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -38,7 +38,7 @@ class Ownership(object):
 
     def __init__(self, cfg=None):
         """"""
-        self.config = condor.Instruct(pxcfg).select("Ownership").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("Ownership").override(cfg)
         # [DONE] find NFT contracts
         #  the desktop settings and background can be hard coded into the
         #  software
@@ -53,7 +53,7 @@ class TOS:
 
     def __init__(self, cfg=None):
         """"""
-        self.config = condor.Instruct(pxcfg).select("TOS").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("TOS").override(cfg)
 
 
 # ====================================================================================================================||

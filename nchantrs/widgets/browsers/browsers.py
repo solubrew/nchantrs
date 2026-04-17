@@ -22,7 +22,7 @@ import datetime as dt
 import queue
 import logging
 
-from condor import condor
+from kahndor import kahndor
 from subtrix.utilities import uuid
 from nchantrs.dialogs.notifications import NchantdNotificationSigil
 from nchantrs.libraries import pyqt
@@ -34,7 +34,7 @@ from nchantrs.widgets.media.editors.selectors import NchantdDropDown
 from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 from nchantrs.services.links import LinkService
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from nchantrs.widgets.browsers.graphics import configure_qt_for_webengine, setup_application_attributes
 
 configure_qt_for_webengine()
@@ -61,7 +61,7 @@ class NchantdWebManager(NchantdWidgetMixin, pyqt.QObject):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdWebManager")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdWebManager")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -152,7 +152,7 @@ class NchantdWebViewer(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdWebViewer").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdWebViewer").override(cfg))
         self.profiles = {}
         cfg = {}
         self.browser = NchantdWebEngineView(None, self, cfg).initWidget()
@@ -607,7 +607,7 @@ class NchantdWebBrowser(NchantdWebViewer):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdWebBrowser")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdWebBrowser")
         if parent:
             self.config.override(parent.config)
         super().__init__(self.parent, self.config)

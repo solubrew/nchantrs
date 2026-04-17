@@ -22,10 +22,10 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.themes.themes import NchantdTheme
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -42,7 +42,7 @@ class NchantdWizard(pyqt.QWizard):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdWizard")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdWizard")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.utilities import utils
 from nchantrs.utilities.formatting import getAlignment
@@ -30,7 +30,7 @@ from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.groups import NchantdVScrollGroupBox, NchantdCollapsableGroup
 from nchantrs.widgets.items.cells import NchantdCell
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -48,7 +48,7 @@ class NchantdList(NchantdWidgetMixin, pyqt.QListWidget):
         """ """
         super().__init__(parent)
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdList")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdList")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -100,7 +100,7 @@ class NchantdListEditor(NchantdWidget):
         """ """
         super().__init__(self)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("Nchantd"))
+        self.config.override(kahndor.Instruct(pxcfg).select("Nchantd"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -134,7 +134,7 @@ class NchantdBulletedList(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdBulletedList")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdBulletedList")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -176,7 +176,7 @@ class NchantdCollapsableList(NchantdCollapsableGroup):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdCollapsableList"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCollapsableList"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -207,7 +207,7 @@ class NchantdTextList(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)

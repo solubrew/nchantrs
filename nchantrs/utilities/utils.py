@@ -27,9 +27,9 @@ from typing import Any, Optional
 # ======================================3rd Party Library Modules======================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  #                                                 ||
@@ -95,7 +95,7 @@ def lookup(
     Returns:
         Dictionary containing action configuration
     """
-    pxcfg = condor.Instruct(join(here, "../actions", "_data_", "actions.yaml")).override(cfg).dikt
+    pxcfg = kahndor.Instruct(join(here, "../actions", "_data_", "actions.yaml")).override(cfg).dikt
     if not hasattr(app, "model"):
         return {}
     refresh = True

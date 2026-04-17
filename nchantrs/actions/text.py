@@ -2,31 +2,33 @@
 """
 ---
 <(META)>:
-	docid: ad51c0fb-cf03-4f75-8850-ee720fac479b
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid: ad51c0fb-cf03-4f75-8850-ee720fac479b
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 
 import logging
+
 # ======================================3rd Party Library Modules=====================================================||
 
 logger = logging.getLogger(__name__)
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from typing import Optional, Dict, List, Any, Tuple
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
-here = join(dirname(__file__), '')  # ||
+here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
 
@@ -35,213 +37,258 @@ DEFAULT_STATUS_MESSAGE_TIMEOUT = 3000  # milliseconds
 DEFAULT_FIND_TIMEOUT = 2000  # milliseconds
 
 # ====================================================================================================================||
-pxcfg = join(here, '_data_', '.yaml')
+pxcfg = join(here, "_data_", ".yaml")
+
 
 def bold() -> None:
-	"""Set selected text to a bold font"""
-	return
+    """Set selected text to a bold font"""
+    return
+
 
 def capitalize() -> None:
-	"""Change selected to a capitalized text"""
-	return
+    """Change selected to a capitalized text"""
+    return
+
 
 def copy() -> None:
-	"""Add selected text to clipboard"""
-	return
+    """Add selected text to clipboard"""
+    return
+
 
 def cut() -> None:
-	"""Add selected text to clipboard and remove selected text from selected
-		area """
-	return
+    """Add selected text to clipboard and remove selected text from selected
+    area"""
+    return
+
 
 def edit() -> None:
-	""""""
-	return
+    """"""
+    return
+
 
 def findinapplication() -> None:
-	"""Search through all connected workbooks for selected text """
+    """Search through all connected workbooks for selected text"""
+
 
 def findinsheet() -> None:
-	"""Search through active sheet for selected text"""
-	return
+    """Search through active sheet for selected text"""
+    return
+
 
 def findinworkbook() -> None:
-	"""Search through active workbook for selected text"""
-	return
+    """Search through active workbook for selected text"""
+    return
+
 
 def findText(self, word) -> None:
-	if self.myeditor.find(word):
-		self.statusBar().showMessage("'" + word + "' gefunden", 2000)
-	else:
-		self.myeditor.moveCursor(QTextCursor.Start)
-		if self.myeditor.find(word):
-			return
-		else:
-			 self.statusBar().showMessage("nichts gefunden", DEFAULT_STATUS_MESSAGE_TIMEOUT)
+    if self.myeditor.find(word):
+        self.statusBar().showMessage("'" + word + "' gefunden", 2000)
+    else:
+        self.myeditor.moveCursor(QTextCursor.Start)
+        if self.myeditor.find(word):
+            return
+        else:
+            self.statusBar().showMessage("nichts gefunden", DEFAULT_STATUS_MESSAGE_TIMEOUT)
+
 
 def findreplaceinapplication() -> None:
-	"""Search through all connected workbooks for selected text and replace with
-	 	other text"""
-	return
+    """Search through all connected workbooks for selected text and replace with
+    other text"""
+    return
+
 
 def findreplaceinsheet() -> None:
-	"""Search through sheet for selected text and replace with other text"""
-	return
+    """Search through sheet for selected text and replace with other text"""
+    return
+
 
 def findreplaceinworkbook() -> None:
-	"""Search through active workbook for selected text and replace with
-	 	other text"""
-	return
+    """Search through active workbook for selected text and replace with
+    other text"""
+    return
+
 
 def replaceAll(self) -> None:
-	oldtext = self.findfield.text()
-	newtext = self.replacefield.text()
-	if not oldtext == "":
-		h = self.myeditor.toHtml().replace(oldtext, newtext)
-		self.myeditor.setText(h)
-		self.setModified(True)
-		self.statusBar().showMessage("alles ersetzt", DEFAULT_STATUS_MESSAGE_TIMEOUT)
-	else:
-		self.statusBar().showMessage("nichts zu ersetzen", DEFAULT_STATUS_MESSAGE_TIMEOUT)
+    oldtext = self.findfield.text()
+    newtext = self.replacefield.text()
+    if not oldtext == "":
+        h = self.myeditor.toHtml().replace(oldtext, newtext)
+        self.myeditor.setText(h)
+        self.setModified(True)
+        self.statusBar().showMessage("alles ersetzt", DEFAULT_STATUS_MESSAGE_TIMEOUT)
+    else:
+        self.statusBar().showMessage("nichts zu ersetzen", DEFAULT_STATUS_MESSAGE_TIMEOUT)
+
+
 def replaceOne(self) -> None:
-	oldtext = self.findfield.text()
-	newtext = self.replacefield.text()
-	if not oldtext == "":
-		h = self.myeditor.toHtml().replace(oldtext, newtext, 1)
-		self.myeditor.setText(h)
-		self.setModified(True)
-		self.statusBar().showMessage("1 ersetzt", DEFAULT_STATUS_MESSAGE_TIMEOUT)
-	else:
-		self.statusBar().showMessage("nichts zu ersetzen", DEFAULT_STATUS_MESSAGE_TIMEOUT)
+    oldtext = self.findfield.text()
+    newtext = self.replacefield.text()
+    if not oldtext == "":
+        h = self.myeditor.toHtml().replace(oldtext, newtext, 1)
+        self.myeditor.setText(h)
+        self.setModified(True)
+        self.statusBar().showMessage("1 ersetzt", DEFAULT_STATUS_MESSAGE_TIMEOUT)
+    else:
+        self.statusBar().showMessage("nichts zu ersetzen", DEFAULT_STATUS_MESSAGE_TIMEOUT)
+
 
 def format() -> None:
-	""" """
-	return
+    """ """
+    return
+
 
 def italic() -> None:
-	""" """
-	return
+    """ """
+    return
+
 
 def line_spacing_1_0() -> None:
-	"""Set the line spacing of selected text to 1"""
-	return
+    """Set the line spacing of selected text to 1"""
+    return
+
 
 def line_spacing_1_5() -> None:
-	"""Set the line spacing of selected text to 1.5"""
-	return
+    """Set the line spacing of selected text to 1.5"""
+    return
+
 
 def line_spacing_2_0() -> None:
-	"""Set the line spacing of selected text to 2"""
-	return
+    """Set the line spacing of selected text to 2"""
+    return
+
 
 def line_spacing_custom() -> None:
-	"""Set the line spacing of selected text to 2"""
-	return
+    """Set the line spacing of selected text to 2"""
+    return
+
 
 def lowercase() -> None:
-	""" """
-	return
+    """ """
+    return
+
 
 def paste() -> None:
-	"""Add object from clipboard to document at cursor location"""
-	return
+    """Add object from clipboard to document at cursor location"""
+    return
+
 
 def pasteunformattedtext() -> None:
-	"""Add object from clipboard to document at cursor location removing all
-		formating of object"""
-	return
+    """Add object from clipboard to document at cursor location removing all
+    formating of object"""
+    return
+
 
 def pastespecial() -> None:
-	"""Open dialog to select formatting options"""
-	return
+    """Open dialog to select formatting options"""
+    return
+
 
 def paragraphspacingincrease() -> None:
-	""" """
-	return
+    """ """
+    return
+
 
 def paragraphspacingdecrease() -> None:
-	""" """
-	return
+    """ """
+    return
+
 
 def propercase() -> None:
-	""" """
-	return
+    """ """
+    return
+
 
 def replaceThis(self) -> None:
-	if not self.myeditor.textCursor().selectedText() == "":
-		rtext = self.myeditor.textCursor().selectedText()
-		dlg = QInputDialog(self, Qt.Dialog)
-		dlg.setOkButtonText("Replace")
-		text = dlg.getText(self, "Ersetzen","ersetze '" + rtext + "' durch:", QLineEdit.Normal, "")
-		oldtext = self.myeditor.document().toPlainText()
-		if not (text[0] == ""):
-			newtext = oldtext.replace(rtext, text[0])
-			self.myeditor.setPlainText(newtext)
-			self.myeditor.document().setModified(True)
+    if not self.myeditor.textCursor().selectedText() == "":
+        rtext = self.myeditor.textCursor().selectedText()
+        dlg = QInputDialog(self, Qt.Dialog)
+        dlg.setOkButtonText("Replace")
+        text = dlg.getText(self, "Ersetzen", "ersetze '" + rtext + "' durch:", QLineEdit.Normal, "")
+        oldtext = self.myeditor.document().toPlainText()
+        if not (text[0] == ""):
+            newtext = oldtext.replace(rtext, text[0])
+            self.myeditor.setPlainText(newtext)
+            self.myeditor.document().setModified(True)
+
 
 def selectall() -> None:
-	""" """
-	return
+    """ """
+    return
+
 
 def select() -> None:
-	""" """
-	return
+    """ """
+    return
+
 
 def sentencecase() -> None:
-	""" """
-	return
+    """ """
+    return
+
 
 def shadow() -> None:
-	''
-	return
+    """"""
+    return
+
 
 def spacing() -> None:
-	""" """
-	return
+    """ """
+    return
+
 
 def strikethrough() -> None:
-	""" """
-	return
+    """ """
+    return
+
 
 def superscript() -> None:
-	""" """
-	return
+    """ """
+    return
+
 
 def subscript() -> None:
-	""" """
-	return
+    """ """
+    return
+
 
 def styles() -> None:
-	""" """
-	return
+    """ """
+    return
+
 
 def text() -> None:
-	""" """
-	return
+    """ """
+    return
+
 
 def textwrap() -> None:
-	""" """
-	return
+    """ """
+    return
+
 
 def togglecase() -> None:
-	""" """
-	return
+    """ """
+    return
+
 
 def trackchanges() -> None:
-	""" """
-	return
+    """ """
+    return
+
 
 def underline() -> None:
-	""" """
-	return
+    """ """
+    return
+
 
 def underlinedouble() -> None:
-	""" """
-	return
+    """ """
+    return
+
 
 def uppercase() -> None:
-	""" """
-	return
+    """ """
+    return
 
 
 # ====================================================================================================================||

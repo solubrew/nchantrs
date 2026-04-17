@@ -21,7 +21,7 @@ from os.path import dirname, join
 
 # ===============================================================================||
 # ===============================================================================||
-from condor import condor
+from kahndor import kahndor
 
 import logging
 from nchantrs.libraries import pyqt
@@ -29,7 +29,7 @@ from nchantrs.libraries import pyqt
 logger = logging.getLogger(__name__)
 from nchantrs.widgets.widgets import NchantdWidgetMixin
 from typing import Optional, Dict, List, Any, Tuple
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -46,7 +46,7 @@ class NchantdItem(NchantdWidgetMixin, pyqt.QStandardItem):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdItem")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdItem")
         self.catalog = parent.catalog
         NchantdWidgetMixin.__init__(self)
         pyqt.QStandardItem.__init__(self, parent)
@@ -147,7 +147,7 @@ class NchantdTreeItem(NchantdWidgetMixin, pyqt.QTreeWidgetItem):
         NchantdWidgetMixin.__init__(self)
         pyqt.QTreeWidgetItem.__init__(self, parent)
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdTreeItem").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdTreeItem").override(cfg)
         self.app = self.parent.app
 
     def initModel(self, cfg) -> None:

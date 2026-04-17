@@ -23,11 +23,11 @@ from os.path import dirname, join, exists
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.media.utilities import render_svg_to_pixmap
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -48,7 +48,7 @@ class NchantdImage(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdImage"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdImage"))
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -251,7 +251,7 @@ class NchantdScreenShot(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)

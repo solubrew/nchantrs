@@ -21,8 +21,8 @@ import datetime as dt
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from nchantrs.widgets.widgets import NchantdWidget
 
 # ====================================================================================================================||
@@ -41,7 +41,7 @@ class NchantdSwitchBoard(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdSwitchBoard").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdSwitchBoard").override(cfg))
         self.commands = None
         self.options = None
 

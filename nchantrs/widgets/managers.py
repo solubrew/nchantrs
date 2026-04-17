@@ -19,9 +19,9 @@ import datetime as dt
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.widgets.widgets import NchantdWidget
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -39,7 +39,7 @@ class NchantdManager(NchantdWidget):
         """ """
         super().__init__(self)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdManager"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdManager"))
         # if self.parent:
         #     self.config.override(parent.config)
         self.config.override(cfg)
@@ -68,7 +68,7 @@ class NchantdBasket(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdBasket")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdBasket")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -97,7 +97,7 @@ class NchantdBasketManager(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdBasketManager")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdBasketManager")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -136,7 +136,7 @@ class NchantdExtensionManager(NchantdManager):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdExtensionManager")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdExtensionManager")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -185,7 +185,7 @@ class NchantdFileSystemsManager(NchantdManager):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdFileSystemsManager")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdFileSystemsManager")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

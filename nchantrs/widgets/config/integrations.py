@@ -22,9 +22,9 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.widgets.widgets import NchantdWidget
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from nchantrs.widgets.config.settings import NchantdSettingsWidget
 
 # ====================================================================================================================||
@@ -42,7 +42,7 @@ class NchantdIntegrationSettings(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdIntegrationSettings")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdIntegrationSettings")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -71,7 +71,7 @@ class NchantdIntegrationCatalog(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdIntegrationCatalog")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdIntegrationCatalog")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

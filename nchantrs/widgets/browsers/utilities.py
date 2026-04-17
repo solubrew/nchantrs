@@ -29,8 +29,8 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidgetMixin
 from typing import Optional, Dict, List, Any, Tuple
@@ -109,7 +109,7 @@ class NchantdJSSafeFunction(pyqt.QWebEngineScript):
 
     def __init__(self, cfg=None) -> None:
         """"""
-        self.config = condor.Instruct(pxcfg).select("").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("").override(cfg)
 
     def add_script(self, cmd) -> None:
         """"""
@@ -125,7 +125,7 @@ class NchantdURL(NchantdWidgetMixin, pyqt.QUrl):
         """ """
         self.parent = parent
         super().__init__(url)
-        self.config = condor.Instruct(pxcfg).select("NchantdURL")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdURL")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -182,7 +182,7 @@ class NchantdWebChannel(pyqt.QWebChannel):
 
     def __init__(self, parent=None, cfg=None) -> None:
         """"""
-        self.config = condor.Instruct(pxcfg).select("NchantdWebChannel").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdWebChannel").override(cfg)
         self.parent = parent
         super().__init__()
 

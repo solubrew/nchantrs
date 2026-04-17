@@ -22,10 +22,10 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.utilities.utils import convert_df_to_tree, lookup
 from nchantrs.libraries import pyqt
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -43,7 +43,7 @@ class NchantdMenu(pyqt.QMenu):
         """ """
         super().__init__()
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdMenu")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdMenu")
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -116,7 +116,7 @@ class NchantdContextMenu(NchantdMenu):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdContextMenu").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdContextMenu").override(cfg))
         self.menu_data = None
         self.name = None
         self.menu_df = None

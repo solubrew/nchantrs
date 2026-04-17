@@ -2,14 +2,15 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join, exists
@@ -20,14 +21,13 @@ import json as j
 
 import logging
 
-
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from squirl.orgnql import yonql
 
 # ====================================================================================================================||
@@ -41,7 +41,7 @@ pxcfg = join(here, "_data_", "install.yaml")
 
 class NchantdExtensionLoader(pyqt.QObject):
     def __init__(self, parent=None, cfg=None) -> None:
-        self.config = condor.Instruct(pxcfg).select("NchantdExtensionLoader").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdExtensionLoader").override(cfg)
         super().__init__()
         self.loaded_extensions = []
         self.extensions_path = self.config.dikt.get("extensions_path", None)

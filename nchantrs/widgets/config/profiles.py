@@ -22,8 +22,8 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.config.settings import NchantdSettingsWidget
 
@@ -44,7 +44,7 @@ class NchantdProfile(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdProfile")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdProfile")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

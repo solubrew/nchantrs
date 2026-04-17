@@ -2,7 +2,7 @@ import sys
 import os
 from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget
 from nchantrs.widgets.embeds import NchantdTerminalEmbed
-from condor import condor
+from kahndor import kahndor
 
 
 def main():
@@ -22,7 +22,7 @@ def main():
     # We need a mock 'app' object if NchantdTerminalEmbed expects one with specific attributes
     class MockApp:
         def __init__(self):
-            self.config = condor.Instruct({})
+            self.config = kahndor.Instruct({})
 
     mock_app = MockApp()
 

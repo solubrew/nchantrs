@@ -1,20 +1,21 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-"""  #																			||
+"""#																			||
 ---  #																			||
 <(META)>:  #																	||
-	docid:   #																	||
-	name:	#																	||
-	description: >  #															||
-		Develop Qt5TreeModel module and leverage it instead of adhoc
-		building it here  #			||
-	expirary: <[expiration]>  #													||
-	version: <[version]>  #														||
-	path: <[LEXIvrs]>  #														||
-	outline: <[outline]>  #														||
-	authority: document|this  #													||
-	security: sec|lvl2  #														||
-	<(WT)>: -32  #																||
+        docid:   #																	||
+        name:	#																	||
+        description: >  #															||
+                Develop Qt5TreeModel module and leverage it instead of adhoc
+                building it here  #			||
+        expirary: <[expiration]>  #													||
+        version: <[version]>  #														||
+        path: <[LEXIvrs]>  #														||
+        outline: <[outline]>  #														||
+        authority: document|this  #													||
+        security: sec|lvl2  #														||
+        <(WT)>: -32  #																||
 """  # ||
+
 # -*- coding: utf-8 -*-#														||
 # ===============================Core Modules====================================||
 from os.path import abspath, dirname, join, expanduser
@@ -22,15 +23,14 @@ from pathlib import Path
 
 import logging
 
-
 logger = logging.getLogger(__name__)
 # ===============================================================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.views.treeviews import NchantdTreeView  # , NchantdTimeTreeView
 from nchantrs.models.treemodels import NchantdApplicationTreeModel, NchantdTreeModel, NchantdTimeTreeModel
 from nchantrs.widgets.widgets import NchantdWidgetMixin
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -74,7 +74,7 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
     def __init__(self, parent=None, cfg={}, root=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).override(cfg)
+        self.config = kahndor.Instruct(pxcfg).override(cfg)
         if parent:
             self.config.override(self.parent.config)
         self.init_variables()
@@ -147,10 +147,10 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
     def refresh(self):
         """"""
         h_scroll = self.horizontalScrollBar().value()
-        #self.cached_splitter_size = self.app.view.splitter.sizes()
+        # self.cached_splitter_size = self.app.view.splitter.sizes()
         self.view.init_tree()
         self.horizontalScrollBar().setValue(h_scroll)
-        #self.app.view.splitter.setSizes(self.cached_splitter_size)
+        # self.app.view.splitter.setSizes(self.cached_splitter_size)
         return self
 
     def reset_expansion_state(self):
@@ -206,7 +206,7 @@ class NchantdGroupTree(NchantdTree):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -236,7 +236,7 @@ class NchantdApplicationTree(NchantdTree):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdApplicationTree"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdApplicationTree"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -285,7 +285,7 @@ class NchantdFileSystem(pyqt.QTreeWidget):
         """ """
         super().__init__(parent)
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdFileSystem")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdFileSystem")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

@@ -24,10 +24,10 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from subtrix.utilities import uuid
 from nchantrs.libraries import pyqt
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from nchantrs.widgets.browsers.utilities import NchantdURL
 from nchantrs.widgets.widgets import NchantdWidgetMixin
 from nchantrs.widgets.browsers.javascript.scripts import media_pause, media_play
@@ -375,7 +375,7 @@ class CloudflareCompatibleView(QWebEngineView):
 #         super().__init__(profile, parent)
 #         self.parent = parent
 #         self.profile = profile
-#         self.config = condor.Instruct(pxcfg).select("NchantdWebPage")
+#         self.config = kahndor.Instruct(pxcfg).select("NchantdWebPage")
 #         self.config.override(cfg)
 #         self.selectClientCertificate.connect(self.handle_select_client_certificate)
 #         self.certificateError.connect(self.handle_certificate_error)
@@ -651,7 +651,7 @@ class CloudflareCompatibleView(QWebEngineView):
 #         super().__init__(profile, parent)
 #         self.parent = parent
 #         self.profile = profile
-#         self.config = condor.Instruct(pxcfg).select("NchantdWebPage")
+#         self.config = kahndor.Instruct(pxcfg).select("NchantdWebPage")
 #         self.config.override(cfg)
 #         self.selectClientCertificate.connect(self.handle_select_client_certificate)
 #         self.certificateError.connect(self.handle_certificate_error)

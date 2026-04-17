@@ -27,9 +27,9 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from subtrix.subtrix import Mechanism
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.browsers.requests import NchantdRequestInterceptor
 from nchantrs.widgets.widgets import NchantdWidgetMixin
@@ -63,7 +63,7 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
         self.parent = parent
         self.name = name
         self.browser = browser
-        self.config = condor.Instruct(pxcfg).select("NchantdWebProfile")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdWebProfile")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

@@ -22,13 +22,13 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.annotations import NchantdLabel, NchantdHighLowLabel
 from nchantrs.widgets.managers import NchantdManager
 from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.tables.tables import NchantdTable
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from nchantrs.widgets.groups import NchantdVScrollGroupBox
 from nchantrs.widgets.controls.toolbars import NchantdButtonBar
 from nchantrs.widgets.tabsets import NchantdTab
@@ -50,7 +50,7 @@ class NchantdDayCalendar(NchantdTab):
     def __init__(self, parent=None, cfg=None):
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).load("NchantdDayCalendar"))
+        self.config.override(kahndor.Instruct(pxcfg).load("NchantdDayCalendar"))
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -115,7 +115,7 @@ class NchantdDayDashboard(NchantdTab):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdDayMiniOverview")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdDayMiniOverview")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -171,7 +171,7 @@ class NchantdDayJournal(NchantdTab):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdDayJournal"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdDayJournal"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -204,7 +204,7 @@ class NchantdDayManager(NchantdManager):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -235,7 +235,7 @@ class NchantdHourDay(NchantdTab):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdHourlyDay")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdHourlyDay")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -264,7 +264,7 @@ class NchantdQuarterHourDay(NchantdTab):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)

@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 from pandas import DataFrame
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.annotations import NchantdLabel
 from typing import Optional, Dict, List, Any, Tuple
@@ -35,7 +35,7 @@ from nchantrs.widgets.groups import NchantdGridScrollGroupBox
 from nchantrs.widgets.items.catalogs import NchantdCatalogItem
 from nchantrs.widgets.panes.catalogs import NchantdNewNodePane
 from nchantrs.widgets.widgets import NchantdWidget
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from subtrix.utilities import uuid
 
 # ====================================================================================================================||
@@ -54,7 +54,7 @@ class NchantdCatalog(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdCatalog"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCatalog"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -164,7 +164,7 @@ class NchantdImageCatalog(NchantdCatalog):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

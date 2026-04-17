@@ -11,6 +11,7 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from __future__ import annotations
@@ -22,10 +23,9 @@ from typing import Any, Optional
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
-
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -43,7 +43,7 @@ class NchantdFonts:
 
     def __init__(self, cfg: Optional[dict[str, Any]] = None) -> None:
         """Initialize the fonts with optional configuration."""
-        self.config = condor.Instruct(pxcfg).select("NchantdFonts").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdFonts").override(cfg)
         self.fonts = self.apply_sequence(pyqt.QFontDatabase().families())
 
     def apply_sequence(self, fonts: list[str]) -> list[str]:
@@ -58,10 +58,10 @@ class NchantdFonts:
 
 def getAlignment(justify: str) -> int:
     """Get Qt alignment flag from justification string.
-    
+
     Args:
         justify: The justification type ('left', 'center', 'right', 'top', 'bottom', 'top_left')
-        
+
     Returns:
         Qt alignment flag
     """

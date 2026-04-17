@@ -10,6 +10,7 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join
@@ -17,13 +18,12 @@ from typing import Optional, Dict, List
 
 import logging
 
-
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -42,7 +42,7 @@ class NchantdServiceManager(object):
 
     def __init__(self, parent, cfg=None) -> None:
         """"""
-        self.config = condor.Instruct(pxcfg).select("NchantdServiceManager").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdServiceManager").override(cfg)
         self.app = parent
         self.is_update_available = False
         self.services = {}
@@ -69,20 +69,20 @@ class NchantdService(object):
     def __init__(self, service_name, cfg=None) -> None:
         """"""
         self.service_name = service_name
-        self.config = condor.Instruct(pxcfg).select("NchantdService").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdService").override(cfg)
         self.service = None
         self.is_update_available = False
 
-    def set_api_key(self, api_key) -> 'NchantdService':
+    def set_api_key(self, api_key) -> "NchantdService":
         """"""
         return self
 
-    def set_service_object(self, service) -> 'NchantdService':
+    def set_service_object(self, service) -> "NchantdService":
         """"""
         self.service = service
         return self
 
-    def check_for_updates(self) -> 'NchantdService':
+    def check_for_updates(self) -> "NchantdService":
         """"""
         self.is_update_available = False
         return self
@@ -93,12 +93,13 @@ class NchantrsService(NchantdService):
 
     def __init__(self, cfg=None) -> None:
         """"""
-        self.config = condor.Instruct(pxcfg).select("NchantrsService").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantrsService").override(cfg)
 
-    def check_for_updates(self) -> 'NchantrsService':
+    def check_for_updates(self) -> "NchantrsService":
         """"""
         super().check_for_updates()
         return self
+
 
 # ====================================================================================================================||
 

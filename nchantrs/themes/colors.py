@@ -23,8 +23,8 @@ from colormath.color_conversions import convert_color
 from matplotlib.colors import CSS4_COLORS
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -65,7 +65,7 @@ class NchantdColor(object):
             style (str): The format of the input color. Default is "rgb".
             cfg (dict, optional): Configuration object.
         """
-        self.config = condor.Instruct(pxcfg).select("PyfficeColor").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("PyfficeColor").override(cfg)
         self.rgb = None
         self.hex = None
         self.rgba = None

@@ -23,8 +23,8 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from pycurity.pyhash import text_hashing_function
 
 # ====================================================================================================================||
@@ -41,7 +41,7 @@ class NchantdConfigStoreDocument(object):
 
     def __init__(self, cfg=None):
         """"""
-        self.config = condor.Instruct(pxcfg).select("NchantdConfigStoreDocument").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdConfigStoreDocument").override(cfg)
         self.interface = None
 
     def get_settings(self):

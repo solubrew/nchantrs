@@ -24,14 +24,14 @@ logger = logging.getLogger(__name__)
 from calendar import monthrange
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.groups import NchantdVScrollGroupBox
 from nchantrs.widgets.media.editors.selectors import NchantdDropDown
 from nchantrs.widgets.tables.tables import NchantdGrid
 from nchantrs.widgets.tabsets import NchantdTab
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -49,7 +49,7 @@ class NchantdMonthCalendar(NchantdTab):
         """"""
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdMonthCalendar"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdMonthCalendar"))
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -214,7 +214,7 @@ class NchantdQuarterYearCalendar(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdQuarterYearCalendar").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdQuarterYearCalendar").override(cfg))
 
     def initModel(self, cfg=None):
         """"""
@@ -240,7 +240,7 @@ class NchantdMonthlyJournal(NchantdTab):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdMonthlyJournal"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdMonthlyJournal"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -274,7 +274,7 @@ class NchantdMonthDashboard(NchantdTab):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdMonthDashboard"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdMonthDashboard"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

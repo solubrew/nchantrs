@@ -1,28 +1,29 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Nchantrs@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-"""  #																			||
+"""#																			||
 ---  #																			||
 <(META)>:  #																	||
-	docid:   #																	||
-	name: Nchantrs Python Excecution Document  #				||
-	description: >  #															||
+        docid:   #																	||
+        name: Nchantrs Python Excecution Document  #				||
+        description: >  #															||
 
-	expirary: <[expiration]>  #													||
-	version: <[version]>  #														||
-	path: <[LEXIvrs]>  #														||
-	outline: <[outline]>  #														||
-	authority: document|this  #													||
-	security: sec|lvl2  #														||
-	<(WT)>: -32  #																||
+        expirary: <[expiration]>  #													||
+        version: <[version]>  #														||
+        path: <[LEXIvrs]>  #														||
+        outline: <[outline]>  #														||
+        authority: document|this  #													||
+        security: sec|lvl2  #														||
+        <(WT)>: -32  #																||
 """  # 																			||
+
 # -*- coding: utf-8 -*-#														||
 # ================================Core Modules===================================||
 from os.path import abspath, dirname, exists, join, expanduser
 
 # ===============================================================================||
-from condor import condor
+from kahndor import kahndor
 
 import logging
-from condor.thing import thingify, getName
+from kahndor.thing import thingify, getName
 
 logger = logging.getLogger(__name__)
 from fxsquirl.fxsquirl import Chunker
@@ -38,7 +39,9 @@ ECHO_MODES = {
 VALIDATOR_TYPES = {
     0: None,
     1: lambda: QIntValidator(self.validatorLineEdit),
-    2: lambda: QDoubleValidator(MIN_VALIDATOR_VALUE, MAX_VALIDATOR_VALUE, VALIDATOR_DECIMAL_PLACES, self.validatorLineEdit),
+    2: lambda: QDoubleValidator(
+        MIN_VALIDATOR_VALUE, MAX_VALIDATOR_VALUE, VALIDATOR_DECIMAL_PLACES, self.validatorLineEdit
+    ),
 }
 
 ALIGNMENT_MODES = {
@@ -56,7 +59,7 @@ INPUT_MASKS = {
 
 ACCESS_MODES = {
     0: False,  # read-write
-    1: True,   # read-only
+    1: True,  # read-only
 }
 
 # ====================================================================================================================||
@@ -83,7 +86,7 @@ class NchantdEventSet:
         self.parent = parent
         if parent:
             cfg = parent.config
-        self.config = condor.Instruct(pxcfg)
+        self.config = kahndor.Instruct(pxcfg)
         self.config.select("NchantdEventSet").override(cfg)
         if not parent.newInstance:
             self.restoreEventSet()

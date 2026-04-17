@@ -2,14 +2,15 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -29,13 +30,12 @@ import ssl
 
 import logging
 
-
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -270,7 +270,9 @@ class CrossPlatformSecurityManager:
                 # If file doesn't exist, try creating a user namespace
                 try:
                     result = subprocess.run(
-                        ["unshare", "--user", "--pid", "--map-root-user", "true"], capture_output=True, timeout=PROCESS_CHECK_TIMEOUT
+                        ["unshare", "--user", "--pid", "--map-root-user", "true"],
+                        capture_output=True,
+                        timeout=PROCESS_CHECK_TIMEOUT,
                     )
                     return result.returncode == 0
                 except Exception:

@@ -22,9 +22,9 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from elv1r4.keys.keys import createPrivateKey
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -51,7 +51,7 @@ class EthereumBond(Bond):
     def __init__(self, parent: Any, cfg: Optional[Dict[str, Any]] = None) -> None:
         """"""
         logma.info("Initializing EthereumBond")
-        self.config = condor.Instruct(parent)
+        self.config = kahndor.Instruct(parent)
         if parent is not None:
             self.config.override(parent.config)
         self.parent = parent

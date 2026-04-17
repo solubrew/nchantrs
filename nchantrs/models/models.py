@@ -26,8 +26,8 @@ import re
 import datetime as dt
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from squirl.orgnql import fonql
 from subtrix.utilities import uuid
 from pycurity.pytime import PyTime
@@ -152,7 +152,7 @@ class NchantdInstance(object):
     def __init__(self, parent: Optional[Any] = None, cfg: Optional[dict] = None) -> None:
         """"""
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdInstance").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdInstance").override(cfg)
         self.alias: Optional[str] = None
         self.application_NCD = parent.app.application_NCD
         self.application_path = parent.app.model.application_path
@@ -245,7 +245,7 @@ class NchantdStore(MicroStash):
 
     def __init__(self, name, parent, cfg=None):
         """"""
-        self.config = condor.Instruct(pxcfg).select("NchantdStore")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdStore")
         if parent is not None:
             self.config.override(parent.config)
         super().__init__(name, self.config)

@@ -18,14 +18,14 @@ from os.path import dirname, join
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 
 import logging
 
 logger = logging.getLogger(__name__)
 from nchantrs.wizards.accounts import NchantdNewApplicationWizard
 from nchantrs.widgets.widgets import NchantdWidget
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -42,7 +42,7 @@ pxcfg = join(here, "_data_", ".yaml")
 #     def __init__(self, application, parent=None, cfg=None):
 #         """ """
 #         self.parent = parent
-#         self.config = condor.Instruct(pxcfg).select("NchantdLaunch")
+#         self.config = kahndor.Instruct(pxcfg).select("NchantdLaunch")
 #         if self.parent:
 #             self.config.override(parent.config)
 #         self.config.override(cfg)

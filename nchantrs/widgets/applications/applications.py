@@ -34,7 +34,7 @@ logger = logging.getLogger(__name__)
 # ===============================================================================||
 
 # ===============================================================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 
 from nchantrs.extensions.extensions import NchantdExtensionsManager
@@ -46,7 +46,7 @@ from nchantrs.updates.db import NchantdDBUpdate
 from nchantrs.utilities.comms import NchantdCommunicationsManager
 from nchantrs.views.applicationviews import NchantdCloakView, NchantdPantiesView
 from nchantrs.widgets.controls.menus import NchantdContextMenu
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ===============================================================================||
 # Constants for switch_abuse replacement (window state handling)
@@ -108,7 +108,7 @@ class NchantdPanties(pyqt.QApplication):
         :type log_file: str or None
         """
 
-        config = condor.Instruct(pxcfg).select("NchantdPanties").addArgs(args)
+        config = kahndor.Instruct(pxcfg).select("NchantdPanties").addArgs(args)
         if self.config is None:
             self.config = config
         else:
@@ -230,7 +230,7 @@ class NchantdCloak(NchantdPanties):  # ||
         data tables from the established source endpoints"""
         super().__init__(name, instance, parent)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdCloak").addArgs(args).override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCloak").addArgs(args).override(cfg))
         self.main = NchantdMainWindow(self)
         self.model = NchantdCloakModel(self)
         self.view = NchantdCloakView(self)
@@ -604,7 +604,7 @@ class NchantdMainWindow(pyqt.QMainWindow):
         """ """
         self.parent = parent
         super().__init__()
-        self.config = condor.Instruct(pxcfg).select("NchantdMainWindow").addArgs(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdMainWindow").addArgs(cfg)
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

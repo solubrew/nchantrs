@@ -22,12 +22,12 @@ import inspect
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from subtrix.utilities import uuid
 from nchantrs.libraries import pyqt
 from nchantrs.themes.themes import NchantdTheme
 from nchantrs.widgets.widgets import loadWidget
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -45,7 +45,7 @@ class NchantdPantiesView(object):
         """"""
         super().__init__()
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdPantiesView").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdPantiesView").override(cfg)
         if self.parent:
             self.config.override(parent.config)
         self.theme = None
@@ -106,7 +106,7 @@ class NchantdCapeView(NchantdPantiesView):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdCapeView"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCapeView"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -124,7 +124,7 @@ class NchantdCloakView(NchantdPantiesView):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdCloakView").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCloakView").override(cfg))
         if self.parent:
             self.config.override(parent.config)
         self.menus = {}

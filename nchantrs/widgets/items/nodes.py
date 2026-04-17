@@ -22,11 +22,11 @@ import threading
 from pandas import DataFrame
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.items.items import NchantdItem, NchantdTreeItem
 from nchantrs.widgets.widgets import NchantdWidgetMixin
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -112,7 +112,7 @@ class NchantdNode(NchantdItem):
         """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdNode")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdNode")
         if parent:
             self.config.override(parent.config)
         logma.info(f"Item {item}")
@@ -322,7 +322,7 @@ class NchantdTreeNode(NchantdTreeItem):
         """
         super().__init__(parent)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdTreeNode"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdTreeNode"))
         self.item = name  # data displayed in the tree node
         self.name = node["name_txt"]
         self.nid = nid
@@ -717,7 +717,7 @@ class NchantdRectangleNode(NchantdCanvasNodeMixin, pyqt.QGraphicsRectItem):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -758,7 +758,7 @@ class NchantdEllipseNode(NchantdCanvasNodeMixin, pyqt.QGraphicsEllipseItem):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -787,7 +787,7 @@ class NchantdCircleNode(NchantdEllipseNode):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdCircleItem")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdCircleItem")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -816,7 +816,7 @@ class NchantdLineNode(NchantdCanvasNodeMixin, pyqt.QGraphicsLineItem):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdLineItem")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdLineItem")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -845,7 +845,7 @@ class NchantdLineArrowNode(NchantdLineNode):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdLineNode")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdLineNode")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -874,7 +874,7 @@ class NchantdLineDoubleArrowNode(NchantdLineArrowNode):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdLineNode")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdLineNode")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -903,7 +903,7 @@ class NchantdImageNode(NchantdCanvasNodeMixin, pyqt.QGraphicsPixmapItem):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdImageItem")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdImageItem")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -932,7 +932,7 @@ class NchantdTextNode(NchantdCanvasNodeMixin, pyqt.QGraphicsTextItem):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdTextItem")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdTextItem")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -961,7 +961,7 @@ class NchantdIrregularShapeNode(NchantdCanvasNodeMixin, pyqt.QGraphicsPathItem):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdIrregularShapeItem")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdIrregularShapeItem")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -990,7 +990,7 @@ class NchantdPolygonNode(NchantdCanvasNodeMixin, pyqt.QGraphicsPolygonItem):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdPolygonItem")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdPolygonItem")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -1019,7 +1019,7 @@ class NchantdTriangleNode(NchantdPolygonNode):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

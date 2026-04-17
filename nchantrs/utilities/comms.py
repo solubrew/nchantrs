@@ -21,8 +21,8 @@ import subprocess
 import zmq
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from nchantrs.widgets.managers import NchantdManager
 
 # from pyularity.pyularity import Pyularity
@@ -42,7 +42,7 @@ class NchantdCommunicationsManager(object):
     def __init__(self, parent, cfg=None):
         """"""
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdCommunicationsManager").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdCommunicationsManager").override(cfg)
         self.socket = None
         self.reply = None
         # self.supervisor = Pyularity()

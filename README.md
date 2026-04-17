@@ -45,7 +45,7 @@ pip install -e .
 
 - Python 3.10 or higher
 - PyQt5, PyQt6, or PySide6
-- Dependencies: pyyaml, sqlalchemy, fxsquirl, condor, ogma, pycurity
+- Dependencies: pyyaml, sqlalchemy, fxsquirl, kahndor, ogma, pycurity
 
 ## Quick Start
 

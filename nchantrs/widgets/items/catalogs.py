@@ -22,13 +22,13 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.utilities.utils import lookup
 from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.items.items import NchantdItem
 from typing import Optional, Dict, List, Any, Tuple
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.media.images import NchantdImage
 
@@ -49,7 +49,7 @@ class NchantdCatalogItem(NchantdWidget):
     def __init__(self, parent=None, cfg=None) -> None:
         """"""
         super().__init__(parent, cfg)
-        self.config.override(condor.Instruct(pxcfg).select("NchantdCatalogItem"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCatalogItem"))
         self.parent = parent
         self.catalog = None
         if self.parent is not None:
@@ -168,7 +168,7 @@ class NchantdAccountCatalogItem(NchantdCatalogItem):
 
     def __init__(self, parent=None, cfg=None) -> None:
         """"""
-        self.config = condor.Instruct(pxcfg).select("NchantdAccountCatalogItem")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdAccountCatalogItem")
         self.parent = parent
         if self.parent is not None:
             self.config.override(self.parent.config)
@@ -197,7 +197,7 @@ class NchantdExtensionCatalogItem(NchantdCatalogItem):
 
     def __init__(self, parent=None, cfg=None) -> None:
         """"""
-        self.config = condor.Instruct(pxcfg).select("NchantdExtensionCatalogItem")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdExtensionCatalogItem")
         self.parent = parent
         if self.parent is not None:
             self.config.override(self.parent.config)
@@ -224,7 +224,7 @@ class NchantdThemeCatalogItem(NchantdCatalogItem):
 
     def __init__(self, parent=None, cfg=None) -> None:
         """"""
-        self.config = condor.Instruct(pxcfg).select("NchantdThemeCatalogItem")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdThemeCatalogItem")
         self.parent = parent
         if self.parent is not None:
             self.config.override(self.parent.config)

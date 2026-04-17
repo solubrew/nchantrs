@@ -22,10 +22,10 @@ from typing import Any, Dict, Optional
 
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")
@@ -50,7 +50,7 @@ class NchantdCheckbox(NchantdWidgetMixin, pyqt.QCheckBox):
         """https://www.tutorialspoint.com/pyqt/pyqt_qcheckbox_self.htm"""
         super().__init__("", parent)
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdCheckbox")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdCheckbox")
         if self.parent:
             self.config.override(self.parent.config.dikt)
         self.config.override(cfg)
@@ -126,7 +126,7 @@ class NchantdCheckboxGroup(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdCheckboxGroup"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCheckboxGroup"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -172,7 +172,7 @@ class NchantdCheckboxCombo(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdCheckboxCombo"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCheckboxCombo"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

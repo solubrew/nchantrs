@@ -22,7 +22,7 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.utilities.utils import lookup
 from nchantrs.widgets.controls.buttons import NchantdButton
@@ -33,7 +33,7 @@ from nchantrs.widgets.media.editors.editors import NchantdLabeledEntry
 from nchantrs.widgets.media.editors.selectors import NchantdDropDown
 from nchantrs.widgets.panes.panes import NchantdPane
 from nchantrs.widgets.controls.button_groups import NchantdAcceptButtons, NchantdFontConfigBar
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from subtrix.utilities import uuid
 
 # ====================================================================================================================||
@@ -52,7 +52,7 @@ class NchantdNewNodePane(NchantdPane):
     def __init__(self, parent=None, cfg=None):
         """ """
         super().__init__(parent, cfg)
-        self.config.override(condor.Instruct(pxcfg).select("NchantdNewNodePane"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdNewNodePane"))
         if parent:
             self.config.override(parent.config)
             self.parent = parent

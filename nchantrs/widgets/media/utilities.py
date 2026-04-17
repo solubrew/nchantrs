@@ -18,7 +18,7 @@ from os.path import dirname, join
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 
 import logging
 from nchantrs.libraries import pyqt
@@ -27,7 +27,7 @@ logger = logging.getLogger(__name__)
 
 # from nchantrs.widgets.media.media import NchantdFileViewer
 from nchantrs.widgets.widgets import NchantdWidget
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -60,7 +60,7 @@ class NchantdPaletteShifter(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdPaletteShifter")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdPaletteShifter")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)

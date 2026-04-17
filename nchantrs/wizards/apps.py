@@ -25,7 +25,7 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.controls.radios import NchantdRadioButtonGroup
 from nchantrs.wizards.pages import NchantdWizardPage
@@ -33,7 +33,7 @@ from nchantrs.widgets.media.editors.editors import NchantdEntryEditor, NchantdLa
 from nchantrs.wizards.instances import NchantdNewInstanceWizard
 from nchantrs.wizards.users import NchantdNewUserWizard
 from nchantrs.wizards.wizards import NchantdWizard
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from squirl.orgnql import fonql, yonql
 from subtrix.subtrix import Mechanism
 
@@ -56,7 +56,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
     def __init__(self, app=None, cfg=None):
         """ """
         super().__init__(app, cfg)
-        self.config.override(condor.Instruct(pxcfg).select("NchantdApplicationStartupWizard"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdApplicationStartupWizard"))
         self.config.override(app.config).override(cfg)
         self.app = app
         self.app.startup = self
@@ -202,7 +202,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
                 doc = yaml.dump(self.app.model.config_path)
             elif isinstance(self.app.model.config_path, str):
                 doc = self.app.model.config_path
-            elif isinstance(self.app.model.config_path, condor.Instruct):
+            elif isinstance(self.app.model.config_path, kahndor.Instruct):
                 doc = yaml.dump(self.app.model.config_path.dikt)
             else:
                 raise TypeError(f"Unsupported config_path type: {type(self.app.model.config_path)}")
@@ -553,7 +553,7 @@ class NchantdAddExtensionWizard(NchantdWizardPage):
     def __init__(self, parent=None, cfg=None):
         """"""
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdFundAccountsTab")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdFundAccountsTab")
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -574,7 +574,7 @@ class NchantdRemoveExtensionWizard(NchantdWizardPage):
     def __init__(self, parent=None, cfg=None):
         """"""
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdFundAccountsTab")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdFundAccountsTab")
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -596,7 +596,7 @@ class NchantdApplicationSetupDetailsPage(NchantdWizardPage):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdApplicationSetupDetailsPage")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdApplicationSetupDetailsPage")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -647,7 +647,7 @@ class NchantdApplicationConfigurationPage(NchantdWizardPage):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("Nchantd"))
+        self.config.override(kahndor.Instruct(pxcfg).select("Nchantd"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

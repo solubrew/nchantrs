@@ -2,14 +2,15 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -19,14 +20,13 @@ import json as j
 
 import logging
 
-
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -42,7 +42,7 @@ class NchantdEventAPI(object):
 
     def __init__(self, cfg=None) -> None:
         """"""
-        self.config = condor.Instruct(pxcfg).select("NchantdEventAPI").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdEventAPI").override(cfg)
         self.eventTriggered = pyqt.Signal(str)
 
     def triggerEvent(self, event_name) -> None:
@@ -102,7 +102,7 @@ class NchantdNodesAPI(object):
 
     def __init__(self, cfg=None) -> None:
         """"""
-        self.config = condor.Instruct(pxcfg).select("").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("").override(cfg)
 
     @pyqt.Slot(str)
     def create(self, url) -> None:
@@ -129,7 +129,7 @@ class NchantdRuntimeAPI(object):
 
     def __init__(self, cfg=None) -> None:
         """"""
-        self.config = condor.Instruct(pxcfg).select("").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("").override(cfg)
 
     @pyqt.Slot(str)
     def sendMessage(self, message) -> None:
@@ -153,7 +153,7 @@ class NchantdSourceAPI(object):
 
     def __init__(self, cfg=None) -> None:
         """"""
-        self.config = condor.Instruct(pxcfg).select("NchantdSourceAPI").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdSourceAPI").override(cfg)
 
     def load_source(self) -> None:
         """"""
@@ -170,7 +170,7 @@ class NchantdStorageAPI(object):
 
     def __init__(self, cfg=None) -> None:
         """"""
-        self.config = condor.Instruct(pxcfg).select("NchantdStorageAPI").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdStorageAPI").override(cfg)
         self.storage_file = "storage.json"  # connect to database storage
         self.load_storage()
 
@@ -200,7 +200,7 @@ class NchantdWebRequestAPI(object):
 
     def __init__(self, profile, cfg=None) -> None:
         """"""
-        self.config = condor.Instruct(pxcfg).select("").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("").override(cfg)
         self.profile = profile
         self.intercept_requests()
 
@@ -217,7 +217,7 @@ class NchantdWebRequestAPI(object):
 # Handle Python-JavaScript communication using QWebChannel
 class NchantdExtensionAPI(pyqt.QObject):
     def __init__(self, parent=None, cfg=None) -> None:
-        self.config = condor.Instruct(pxcfg).select("NchantdExtensionAPI").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdExtensionAPI").override(cfg)
         super().__init__(parent)
         profile = None
         if profile:

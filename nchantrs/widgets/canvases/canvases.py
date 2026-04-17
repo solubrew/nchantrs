@@ -22,10 +22,10 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidgetMixin
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from nchantrs.widgets.canvases.scenes import NchantdScene
 
 # ====================================================================================================================||
@@ -90,7 +90,7 @@ class NchantdCanvas(NchantdWidgetMixin, pyqt.QGraphicsView):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdCanvas")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdCanvas")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -186,7 +186,7 @@ class NchantdPaintCanvas(NchantdCanvas):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdPaintCanvas")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdPaintCanvas")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -219,7 +219,7 @@ class NchantdPaintCanvas(NchantdCanvas):
     def resizeEvent(self, event):
         """Handle resize events to maintain canvas size."""
         super().resizeEvent(event)
-        if hasattr(self, 'canvas'):
+        if hasattr(self, "canvas"):
             # Create new pixmap with new size
             new_pixmap = pyqt.QPixmap(event.size())
             new_pixmap.fill(pyqt.Qt.white)
@@ -233,7 +233,7 @@ class NchantdPaintCanvas(NchantdCanvas):
         """Draw the paint canvas pixmap."""
         super().drawForeground(painter, rect)
 
-        if hasattr(self, 'canvas') and not self.canvas.isNull():
+        if hasattr(self, "canvas") and not self.canvas.isNull():
             painter.save()
             painter.resetTransform()
             painter.drawPixmap(0, 0, self.canvas)
@@ -246,9 +246,11 @@ class NchantdPaintCanvas(NchantdCanvas):
 
     def mouseMoveEvent(self, event):
         """Handle mouse move for drawing."""
-        if event.buttons() & pyqt.Qt.LeftButton and hasattr(self, 'canvas'):
+        if event.buttons() & pyqt.Qt.LeftButton and hasattr(self, "canvas"):
             painter = pyqt.QPainter(self.canvas)
-            painter.setPen(pyqt.QPen(self.pen_color, self.pen_width, pyqt.Qt.SolidLine, pyqt.Qt.RoundCap, pyqt.Qt.RoundJoin))
+            painter.setPen(
+                pyqt.QPen(self.pen_color, self.pen_width, pyqt.Qt.SolidLine, pyqt.Qt.RoundCap, pyqt.Qt.RoundJoin)
+            )
             painter.drawLine(self.last_point, event.pos())
             painter.end()
 
@@ -257,7 +259,7 @@ class NchantdPaintCanvas(NchantdCanvas):
 
     def clear(self):
         """Clear the canvas."""
-        if hasattr(self, 'canvas'):
+        if hasattr(self, "canvas"):
             self.canvas.fill(pyqt.Qt.white)
             self.viewport().update()
 
@@ -281,7 +283,7 @@ class NchantdGameCanvas(NchantdCanvas):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdPaintCanvas")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdPaintCanvas")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -324,7 +326,7 @@ class NchantdMapCanvas(NchantdCanvas):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdPaintCanvas")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdPaintCanvas")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -351,7 +353,7 @@ class NchantdWireFrameCanvas(NchantdCanvas):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -380,7 +382,7 @@ class NchantdSpace(NchantdCanvas):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdSpace")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdSpace")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self.parent, self.config)

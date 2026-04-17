@@ -21,11 +21,11 @@ import logging
 
 logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")
@@ -41,7 +41,7 @@ class NchantdRadioButton(NchantdWidgetMixin, pyqt.QRadioButton):
     def __init__(self, parent: Any, cfg: Optional[Dict] = None) -> None:
         """https://www.tutorialspoint.com/pyqt/pyqt_qradiobutton_self.htm"""
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdRadioButton")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdRadioButton")
         if parent:
             self.config.override(parent.config)
         super().__init__(self.parent)
@@ -71,7 +71,7 @@ class NchantdRadioButtonGroup(NchantdWidget):
     def __init__(self, parent: Optional[Any] = None, cfg: Optional[Dict] = None) -> None:
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdRadioButtonGroup")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdRadioButtonGroup")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self.parent, self.config)

@@ -150,7 +150,7 @@ nchantrs/
 ### Core Dependencies
 | Package | Purpose |
 |---------|---------|
-| **condor** | Configuration management |
+| **kahndor** | Configuration management |
 | **subtrix** | Path mechanisms |
 | **ogma** | Logging (Logma) |
 | **pyqt / pyside6** | GUI framework |
@@ -171,7 +171,7 @@ nchantrs/
 |---------|--------|-------|
 | NchantdStore | ✅ Stable | SQLite-backed data storage |
 | Theme system | ✅ Implemented | YAML + QSS based |
-| YAML configs | ✅ Implemented | Via condor |
+| YAML configs | ✅ Implemented | Via kahndor |
 | Widget system | ✅ Implemented | Base NchantdWidget |
 | Model classes | ✅ Implemented | Panties, Cloak, Sigil |
 | GlainMixin | ✅ Implemented | Optional agent memory |

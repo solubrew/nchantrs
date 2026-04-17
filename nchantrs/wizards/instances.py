@@ -22,8 +22,8 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from nchantrs.wizards.wizards import NchantdWizard
 from nchantrs.wizards.pages import NchantdSelectInstancePage
 from nchantrs.models.models import NchantdInstance
@@ -45,7 +45,7 @@ class NchantdNewInstanceWizard(NchantdWizard):
         """ """
         super().__init__(parent)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdNewInstanceWizard"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdNewInstanceWizard"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

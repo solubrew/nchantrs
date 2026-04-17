@@ -22,8 +22,8 @@ logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidgetMixin
 
@@ -43,7 +43,7 @@ class NchantdProxyWidget(NchantdWidgetMixin, pyqt.QGraphicsProxyWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdProxyWidget")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdProxyWidget")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -103,7 +103,7 @@ class NchantdScene(pyqt.QGraphicsScene):
         """ """
         super().__init__(parent)
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdScene")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdScene")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

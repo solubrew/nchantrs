@@ -21,10 +21,10 @@ from os.path import abspath, dirname, join
 import json as j
 
 # ===============================================================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.controls.toolboxes import NchantdToolBox
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from subtrix.utilities import uuid
 from nchantrs.utilities.models import combine_records
 from nchantrs.widgets.widgets import loadWidget
@@ -48,7 +48,7 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdTabSetModel")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdTabSetModel")
         if parent is not None:
             self.config.override(parent.config)
         self.config.override(cfg)

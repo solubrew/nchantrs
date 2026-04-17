@@ -19,8 +19,8 @@ import datetime as dt
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from nchantrs.widgets.panes.panes import NchantdPane
 from nchantrs.libraries import pyqt
 
@@ -40,7 +40,7 @@ class NchantdChat(NchantdPane):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdChat").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdChat").override(cfg))
         self.display = None
         self.protocol = None
         self.text_input = None

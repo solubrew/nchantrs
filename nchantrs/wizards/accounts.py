@@ -18,7 +18,7 @@ from os.path import dirname, join
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 
 import logging
 from nchantrs.libraries import pyqt
@@ -29,7 +29,7 @@ from nchantrs.widgets.controls.controls import NchantdRadioButtonGroup
 from nchantrs.widgets.media.editors.editors import NchantdEntryEditor
 from nchantrs.wizards.pages import NchantdWizardPage
 from nchantrs.wizards.wizards import NchantdWizard
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -52,7 +52,7 @@ class NchantdAddAPIWizard(NchantdWizard):
     def __init__(self, parent=None, cfg=None):
         """"""
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdFundAccountsTab")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdFundAccountsTab")
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -74,7 +74,7 @@ class NchantdNewAccountWizard(NchantdWizard):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdNewAccountWizard")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdNewAccountWizard")
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)
