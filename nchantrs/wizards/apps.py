@@ -111,7 +111,10 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         logma.info(f"Init Model {args}")
         if args is None:
             args = []
-        paths = self.app.model.generate_paths()
+        cfg = {"args": args}
+        if len(args) > 1:
+            cfg["level"] = args[1]
+        paths = self.app.model.generate_paths(cfg)
         self.config_path = self.app.model.config_path
         self.application_path = self.app.model.application_path
         self.icon_path = self.app.model.icon_path
@@ -266,6 +269,12 @@ class NchantdApplicationStartupWizard(NchantdWizard):
 
     def copy_application(self):
         """"""
+
+    def create_config_file(self, cfg=None):
+        """"""
+        if cfg is None:
+            cfg = {}
+        self.config_file.write(cfg)
 
     def create_database_application(self):
         """"""

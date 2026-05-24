@@ -169,7 +169,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.parent = parent
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdCloakModel").override(cfg))
         self.store.config.override(self.config)
-        self.level = self.config.dikt.get("level", None)
+        self.level = self.config.dikt.get("level", "")
         self.has_library = False
         self.has_changed = False
         self.are_mini_games_active = False  # will be used to run the mini game logic
@@ -389,7 +389,7 @@ class NchantdCloakModel(NchantdPantiesModel):
                 if details["active"]:
                     self._activate_extension(extension, details)
 
-    def generate_paths(self) -> None:
+    def generate_paths(self, cfg) -> None:
         """
         [DONE] where this method lives...could be moved to NchantdStore or NchantdApplicationStartupWizard
         :return:
@@ -397,6 +397,9 @@ class NchantdCloakModel(NchantdPantiesModel):
         #TODO: implement a path override for testing
 
         """
+        if cfg.get("level", None) is not None:
+            self.level = cfg.get("level")  # TODO: IMPLEMENT better for instance
+        logma.info(f"Level {self.level}")
         data = {"<[application_slug]>": self.slug, "<[user_home]>": self.home, "level": self.level}
         path = self.config.dikt["dstruct"]["filesystem"][self.os_type].get("application", "").get("path", "")
         self.application_path = Mechanism(path, data).run()

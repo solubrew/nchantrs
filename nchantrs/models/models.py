@@ -5,6 +5,7 @@
     docid:
     name:
     description: >
+        Integration module for embedding Glain tables inside NchantdStore database
     version: 0.0.0.0.0.0
     authority: filesystem
     security: seclvl2
@@ -19,11 +20,13 @@ import inspect
 import json as j
 import base64
 from typing import Any, Optional
+from typing import Any, Dict, List, Optional
 
 # ======================================3rd Party Library Modules=====================================================||
 from pandas import DataFrame
 import re
 import datetime as dt
+import sqlite3
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
@@ -906,6 +909,8 @@ class NchantdStore(MicroStash):
     def initDocument(self, name, doc_type, path=None, objects=None, reset=None):
         """"""
         self.objects = objects
+        logma.info(f"Initializing {name} {doc_type}")
+        logma.info(f"Path: {path}")
         super().initDocument(name, doc_type, path, objects, reset)
         # self._load_application_configs()  [DONE]
         # self._load_password()
@@ -1957,6 +1962,350 @@ def get_node_base(nodetype, treeid=0, tabfocus=0):
     elif nodetype == "usernode":
         base = [1, 0, 1, 0, 1, 1, 0]
     return treeid + base + tabfocus
+
+
+# Table name mappings (unprefixed -> prefixed)
+TABLE_NAMES = [
+    "documents",
+    "document_versions",
+    "document_links",
+    "chunks",
+    "chunks_fts",
+    "query_associations",
+    "webhooks",
+    "vec_chunks",
+    "scheduled_queries",
+]
+
+
+class GlainNchantdStore:
+    """
+    Glain Integration for NchantdStore.
+
+    Allows embedding Glain knowledge base tables inside an existing
+    NchantdStore (or any SQLite) database.
+
+    Usage:
+        # In NchantdStore application
+        from glain.nchantdstore import GlainNchantdStore
+
+        # Create or attach to existing database
+        glain = GlainNchantdStore(
+            connection=store.docs['db'].conn,  # Use NchantdStore's connection
+            table_prefix="glain"                # Prefix to avoid collisions
+        )
+
+        # Use Glain as normal
+        doc_id = glain.add_document("My document content")
+        results = glain.search_fts("search query")
+    """
+
+    DEFAULT_PREFIX = "glain"
+
+    def __init__(
+        self,
+        connection: Optional[sqlite3.Connection] = None,
+        db_path: Optional[str] = None,
+        table_prefix: str = DEFAULT_PREFIX,
+    ):
+        """
+        Initialize Glain for NchantdStore.
+
+        Args:
+            connection: SQLite connection (from NchantdStore)
+            db_path: Path to database file (if creating standalone)
+            table_prefix: Prefix for Glain tables (default: "glain")
+        """
+        self.table_prefix = table_prefix
+        if self.table_prefix and not self.table_prefix.endswith("_"):
+            self.table_prefix += "_"
+
+        # Create Database with prefixing
+        # For now, we use a simplified approach
+        self._db = GlainDatabase(
+            db_path=db_path or ":memory:",
+            conn=connection,
+            table_prefix=table_prefix,
+            load_extensions=True,
+        )
+
+        # Override table names if prefix is set
+        if table_prefix:
+            self._apply_prefixes()
+
+    def _apply_prefixes(self):
+        """Apply table prefix to internal database."""
+        # This is a simplified version - full implementation
+        # would modify all SQL in database.py
+        # For now, we document the expected table names
+        pass
+
+    def _prefix_table(self, table: str) -> str:
+        """Get prefixed table name."""
+        if self.table_prefix:
+            return f"{self.table_prefix}{table}"
+        return table
+
+    # Delegate methods to underlying Database
+    # These wrap the core functionality
+
+    def add_document(
+        self,
+        content: str,
+        metadata: Optional[Dict[str, Any]] = None,
+        entities: Optional[List[Dict[str, Any]]] = None,
+        summary: Optional[str] = None,
+        privacy_level: str = "public",
+    ) -> int:
+        """Add a document to the knowledge base."""
+        return self._db.add_document(
+            content=content,
+            metadata=metadata,
+            entities=entities,
+            summary=summary,
+            privacy_level=privacy_level,
+        )
+
+    def add_chunk(self, doc_id: int, content: str, embedding):
+        """Add a chunk to a document."""
+        return self._db.add_chunk(doc_id, content, embedding)
+
+    def add_chunks_batch(self, doc_id: int, contents: List[str], embeddings):
+        """Add multiple chunks at once."""
+        return self._db.add_chunks_batch(doc_id, contents, embeddings)
+
+    def get_document(self, doc_id: int) -> Optional[Dict[str, Any]]:
+        """Get a document by ID."""
+        return self._db.get_document(doc_id)
+
+    def search_fts(
+        self,
+        query: str,
+        limit: int = 10,
+        metadata_filter: Optional[Dict[str, Any]] = None,
+        privacy_levels: Optional[List[str]] = None,
+    ) -> List[Dict[str, Any]]:
+        """Full-text search."""
+        return self._db.search_fts(
+            query=query,
+            limit=limit,
+            metadata_filter=metadata_filter,
+            privacy_levels=privacy_levels,
+        )
+
+    def search_vector(
+        self,
+        query_embedding,
+        limit: int = 10,
+        metadata_filter: Optional[Dict[str, Any]] = None,
+        privacy_levels: Optional[List[str]] = None,
+    ) -> List[Dict[str, Any]]:
+        """Vector similarity search."""
+        return self._db.search_vector(
+            query_embedding=query_embedding,
+            limit=limit,
+            metadata_filter=metadata_filter,
+            privacy_levels=privacy_levels,
+        )
+
+    def delete_document(self, doc_id: int):
+        """Delete a document and its chunks."""
+        return self._db.delete_document(doc_id)
+
+    def update_document(
+        self,
+        doc_id: int,
+        content: Optional[str] = None,
+        metadata: Optional[Dict[str, Any]] = None,
+        privacy_level: Optional[str] = None,
+    ):
+        """Update a document."""
+        return self._db.update_document(
+            doc_id=doc_id,
+            content=content,
+            metadata=metadata,
+            privacy_level=privacy_level,
+        )
+
+    def get_document_versions(self, doc_id: int) -> List[Dict[str, Any]]:
+        """Get version history of a document."""
+        return self._db.get_document_versions(doc_id)
+
+    def revert_document(self, doc_id: int, version_number: int):
+        """Revert document to a specific version."""
+        return self._db.revert_document(doc_id, version_number)
+
+    def get_stats(self) -> Dict[str, Any]:
+        """Get database statistics."""
+        return self._db.get_stats()
+
+    def list_documents(self, limit: int = 100, offset: int = 0) -> List[Dict[str, Any]]:
+        """List documents with pagination."""
+        return self._db.list_documents(limit=limit, offset=offset)
+
+    def get_all_chunks(self) -> List[Dict[str, Any]]:
+        """Get all chunks."""
+        return self._db.get_all_chunks()
+
+    def get_filtered_chunks(
+        self,
+        metadata_filter: Optional[Dict[str, Any]] = None,
+        include_embeddings: bool = True,
+        privacy_levels: Optional[List[str]] = None,
+    ) -> List[Dict[str, Any]]:
+        """Get chunks with filtering."""
+        return self._db.get_filtered_chunks(
+            metadata_filter=metadata_filter,
+            include_embeddings=include_embeddings,
+            privacy_levels=privacy_levels,
+        )
+
+    # Webhooks
+    def add_webhook(self, url: str, keyword: str) -> int:
+        """Add a webhook."""
+        return self._db.add_webhook(url, keyword)
+
+    def list_webhooks(self) -> List[Dict[str, Any]]:
+        """List all webhooks."""
+        return self._db.list_webhooks()
+
+    def delete_webhook(self, webhook_id: int):
+        """Delete a webhook."""
+        return self._db.delete_webhook(webhook_id)
+
+    def get_webhooks_by_keyword(self, keyword: str) -> List[str]:
+        """Get webhook URLs by keyword."""
+        return self._db.get_webhooks_by_keyword(keyword)
+
+    # Scheduled Queries
+    def add_scheduled_query(
+        self,
+        query_text: str,
+        interval_seconds: int,
+        metadata_filter: Optional[Dict[str, Any]] = None,
+        privacy_levels: Optional[List[str]] = None,
+    ) -> int:
+        """Add a scheduled query."""
+        return self._db.add_scheduled_query(
+            query_text=query_text,
+            interval_seconds=interval_seconds,
+            metadata_filter=metadata_filter,
+            privacy_levels=privacy_levels,
+        )
+
+    def list_scheduled_queries(self) -> List[Dict[str, Any]]:
+        """List all scheduled queries."""
+        return self._db.list_scheduled_queries()
+
+    def delete_scheduled_query(self, query_id: int):
+        """Delete a scheduled query."""
+        return self._db.delete_scheduled_query(query_id)
+
+    def get_pending_scheduled_queries(self) -> List[Dict[str, Any]]:
+        """Get queries due to run."""
+        return self._db.get_pending_scheduled_queries()
+
+    def update_scheduled_query_run(self, query_id: int):
+        """Update scheduled query after running."""
+        return self._db.update_scheduled_query_run(query_id)
+
+    # Query Associations
+    def add_query_association(self, query_text: str, chunk_id: int):
+        """Associate a query with a chunk."""
+        return self._db.add_query_association(query_text, chunk_id)
+
+    def get_associated_queries(self, chunk_id: int) -> List[str]:
+        """Get queries associated with a chunk."""
+        return self._db.get_associated_queries(chunk_id)
+
+    def get_expanded_associated_chunks(self, query_text: str) -> List[int]:
+        """Get 2-hop expanded chunks for a query."""
+        return self._db.get_expanded_associated_chunks(query_text)
+
+    # Document Links
+    def add_document_link(self, source_id: int, target_id: int, reason: str, score: float):
+        """Add a link between documents."""
+        return self._db.add_document_link(source_id, target_id, reason, score)
+
+    def get_document_links(self, doc_id: int) -> List[Dict[str, Any]]:
+        """Get links from a document."""
+        return self._db.get_document_links(doc_id)
+
+    # Summary & Entities
+    def update_document_summary(self, doc_id: int, summary: str):
+        """Update document summary."""
+        return self._db.update_document_summary(doc_id, summary)
+
+    def update_document_entities(self, doc_id: int, entities: List[Dict[str, Any]]):
+        """Update document entities."""
+        return self._db.update_document_entities(doc_id, entities)
+
+    # Database operations
+    def merge_database(self, source_db_path: str) -> Dict[str, Any]:
+        """Merge another Glain database."""
+        return self._db.merge_database(source_db_path)
+
+    @property
+    def connection(self) -> sqlite3.Connection:
+        """Get the SQLite connection."""
+        return self._db.conn
+
+    def close(self):
+        """Close the database connection."""
+        if hasattr(self._db, "_owns_connection") and self._db._owns_connection:
+            self._db.conn.close()
+
+
+def attach_glain(
+    nchantdstore_instance,
+    table_prefix: str = "glain",
+) -> GlainNchantdStore:
+    """
+    Attach Glain to an existing NchantdStore instance.
+
+    Args:
+        nchantdstore_instance: An instance of NchantdStore or MicroStash
+        table_prefix: Prefix for Glain tables
+
+    Returns:
+        GlainNchantdStore instance
+
+    Usage:
+        from glain.nchantdstore import attach_glain
+
+        # In your NchantdStore application
+        store = NchantdStore('myapp')
+        glain = attach_glain(store)
+
+        # Now use Glain features
+        doc_id = glain.add_document("Hello world")
+    """
+    # Try to get connection from NchantdStore
+    # NchantdStore (MicroStash -> SQuiRL) stores connection in docs['db']
+    connection = None
+
+    if hasattr(nchantdstore_instance, "docs"):
+        if "db" in nchantdstore_instance.docs:
+            db_doc = nchantdstore_instance.docs["db"]
+            # Try to get connection from doc
+            if hasattr(db_doc, "conn"):
+                connection = db_doc.conn
+            elif hasattr(db_doc, "_conn"):
+                connection = db_doc._conn
+
+    # Also check for direct connection attribute
+    if connection is None and hasattr(nchantdstore_instance, "conn"):
+        connection = nchantdstore_instance.conn
+
+    if connection is None:
+        raise ValueError(
+            "Could not find SQLite connection in NchantdStore instance. " "Please ensure the store is initialized."
+        )
+
+    return GlainNchantdStore(
+        connection=connection,
+        table_prefix=table_prefix,
+    )
 
 
 # ====================================================================================================================||

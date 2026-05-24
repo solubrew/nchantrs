@@ -52,10 +52,7 @@ class NchantdTab(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdTab"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdTab").override(cfg))
         self.tid = None
         self.tabn = None
         self.name = None
