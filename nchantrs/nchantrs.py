@@ -29,7 +29,7 @@ from nchantrs.widgets.applications.applications import NchantdCloak
 from nchantrs.dialogs.dialogs import NchantdCape, NchantdClip
 from nchantrs.widgets.browsers.initialize import _configure_qt_environment
 from nchantrs.wizards.apps import NchantdApplicationStartupWizard  # , NchantdQuickStartWizard
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from squirl.objnql import txtonql
 
 # ====================================================================================================================||

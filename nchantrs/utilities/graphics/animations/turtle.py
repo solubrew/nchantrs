@@ -2,26 +2,28 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join
 from random import randint
 
 import logging
+
 # ======================================3rd Party Library Modules=====================================================||
 
 logger = logging.getLogger(__name__)
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 # Constants for magic number replacement
@@ -35,18 +37,20 @@ TURTLE_COLOR_MODES = {
 }
 
 # ====================================================================================================================||
-here = join(dirname(__file__), '')  # ||
+here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
 
 # ====================================================================================================================||
-pxcfg = join(here, '_data_', '.yaml')
+pxcfg = join(here, "_data_", ".yaml")
+
 
 def get_number(max_n):
     """"""
     while True:
-        n = randint(int(max_n*0.05), max_n)
+        n = randint(int(max_n * 0.05), max_n)
         yield n
+
 
 def turn(t, cnt, direction):
     """Turn the turtle and return new direction"""
@@ -56,6 +60,7 @@ def turn(t, cnt, direction):
     else:
         direction = DIRECTION_HORIZONTAL
     return direction
+
 
 def animation_panel(background, accent):
     """"""
@@ -100,6 +105,7 @@ def animation_panel(background, accent):
             logger.debug("Turtle position: %s", pos)
         t[cnt].hideturtle()
         cnt += 1
+
 
 # ====================================================================================================================||
 

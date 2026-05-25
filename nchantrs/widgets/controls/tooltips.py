@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 # ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from nchantrs.libraries import pyqt
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
