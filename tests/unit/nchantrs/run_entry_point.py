@@ -21,7 +21,7 @@ os.environ['QT_QPA_PLATFORM'] = 'offscreen'
 sys.path.insert(0, '/home/solubrew/.arthr/workspace/projects/nchantrs')
 
 # Configure logging - output to both terminal and log file
-LOG_DIR = '/home/solubrew/.arthr/workspace'
+LOG_DIR = '/home/solubrew/.senbai/workspace'
 LOG_FILE = os.path.join(LOG_DIR, 'nchantrs_entry_point.log')
 
 # Create logger

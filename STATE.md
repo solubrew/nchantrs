@@ -10,14 +10,14 @@
 | **Branch** | arthr-ws (development) |
 | **Location** | `/home/solubrew/.arthr/workspace/projects/nchantrs` |
 | **Repository** | `file:///mnt/overse/SBST01/vein/GitVein/nchantrs.git` |
-| **Last Updated** | 2026-03-03 |
+| **Last Updated** | 2026-06-22 |
 
 ### Purpose
 Nchantrs is a Python module for rapidly creating PyQt5/PySide6 applications using YAML configuration and Python widget files. Applications are built over a SQLite backend using FxSQuiRL.
 
 ---
 
-## Recent Activity (2026-03-03)
+## Recent Activity (2026-06-22)
 
 ### Latest Commits
 | Commit | Description |
@@ -33,6 +33,7 @@ Nchantrs is a Python module for rapidly creating PyQt5/PySide6 applications usin
 | Feature | Status | Description |
 |---------|--------|-------------|
 | **Debug Utilities** | ✅ NEW | `nchantrs/utilities/debug.py` - DataSourceDumper for inspecting store/model state |
+| **Authentication Flow** | ✅ NEW | Password dialog in NchantdCape initView() |
 
 ### Known Issues
 | Issue | Status | Description |
@@ -77,7 +78,7 @@ NchantdPantiesModel (Base)
 |-------|---------|
 | **NchantdCape** | Main dialog window container |
 | **NchantdCloak** | Multi-pane main window |
-| **NchantdSigil** | Modal/非modal dialog window |
+| **NchantdSigil** | Modal/non-modal dialog window |
 | **NchantdWidget** | Base widget with config, theming, and lifecycle |
 | **NchantdStore** | SQLite-backed data storage |
 
@@ -113,7 +114,7 @@ nchantrs/
 │   ├── users.py               # User management
 │   ├── policies.py            # Policy enforcement
 │   ├── files.py               # File utilities
-│   └── ...
+│   └── debug.py               # Debug utilities (NEW)
 ├── views/                     # View components
 ├── widgets/                   # UI widgets
 │   ├── widgets.py             # Base NchantdWidget
@@ -177,14 +178,19 @@ nchantrs/
 | GlainMixin | ✅ Implemented | Optional agent memory |
 | Extension system | ✅ Implemented | Plugin architecture |
 | Multi-pane (Cloak) | ✅ Implemented | Tabbed/docked windows |
-| Authentication | 🔄 In Progress | Password dialog added |
+| Authentication | ✅ Implemented | Password dialog in Cape |
+| Debug Utilities | ✅ Implemented | DataSourceDumper for inspection |
+| Terminal Widget | ✅ Implemented | Full ANSI escape sequence support |
+| Web Browser Widgets | ✅ Implemented | NchantdBrowser with history |
+| Navigation Stack | ✅ Implemented | Native QWebEngineHistory |
+| Session Persistence | ✅ Implemented | Persistent cookies |
 
 ### Feature Roadmap
 | Feature | Status | Priority |
 |---------|--------|----------|
-| Authentication flow | 🔄 In Progress | High |
-| Unit tests | ⏳ Pending | Medium |
-| Documentation | ⏳ Pending | Medium |
+| Unit tests | ⏳ Pending | High |
+| Documentation polish | ⏳ Pending | Medium |
+| BREAKING_CHANGES.md | ⏳ Pending | Medium |
 
 ---
 
@@ -214,7 +220,7 @@ nchantrs/
 
 ---
 
-## Upgrade Scope (2026-03-03)
+## Upgrade Scope (2026-06-22)
 
 ### Scope Definition
 | Item | Details |
@@ -243,9 +249,12 @@ nchantrs/
 | File | Purpose | Status |
 |------|---------|--------|
 | **STATE.md** | Project state and overview | ✅ This file |
-| **CHANGES.md** | Changelog of all changes | ✅ Exists |
-| **BREAKING_CHANGES.md** | Breaking changes only | ❌ Missing |
+| **CHANGELOG.md** | Changelog of all changes | ✅ Updated (2026-06-22) |
+| **BREAKING_CHANGES.md** | Breaking changes only | ⚠️ Needs content |
 | **README.md** | Project readme | ✅ Exists |
+| **IMPLEMENTATION.md** | Developer guidance | ✅ Exists |
+| **CONTRIBUTING.md** | Contribution workflow | ✅ Exists |
+| **CLI.md** | Command reference | ✅ Exists |
 
 ---
 
@@ -258,6 +267,7 @@ nchantrs/
 ### Test Status
 | Category | Status |
 |----------|--------|
+| Functional tests | ✅ Present |
 | Core tests | ⏳ Pending |
 | Widget tests | ⏳ Pending |
 | Dialog tests | ⏳ Pending |
@@ -265,4 +275,14 @@ nchantrs/
 
 ---
 
-*Last updated: 2026-03-03*
+## Version History
+
+| Version | Date | Status |
+|---------|------|--------|
+| **Unreleased** | 2026-06-22 | Current development |
+| **0.0.1** | 2026-01-15 | Initial structured release |
+| **Initial** | 2025-12-01 | Project inception |
+
+---
+
+*Last updated: 2026-06-22*
