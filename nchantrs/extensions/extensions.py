@@ -96,6 +96,34 @@ class NchantdExtensionsManager(NchantdWidget):
         self.extension_loader.load_extension(ext_name)
 
 
+def load_extension():
+    """use the wizard class"""
+
+
+def load_extensions(dir_):
+    """"""
+    plugins = []
+    for filename in listdir(dir_):
+        if filename.endswith(".py"):
+            spec = importlib.util.spec_from_file_location(filename[:-3], join(dir_, filename))
+            plugin = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(plugin)
+            plugins.append(plugin)
+    return plugins
+
+
+def decompress_extension():
+    """"""
+
+
+def register_extension():
+    """register the extension"""
+
+
+def remove_extension():
+    """use the wizard class"""
+
+
 # ====================================================================================================================||
 
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
