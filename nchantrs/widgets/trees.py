@@ -131,26 +131,211 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         self.save_tree_expansion_state()
         super().closeEvent(event)
 
+    def dragEnterEvent(self, event):
+        """Handle drag enter event with validation."""
+        if event.mimeData().hasFormat("application/x-qabstractitemmodeldatalist"):
+            event.acceptProposedAction()
+        else:
+            event.ignore()
+
     def dragMoveEvent(self, event):
-        """Allow drag move inside the tree."""
+        """Allow drag move inside the tree with visual feedback."""
+        item = self.itemAt(event.pos())
+        
+        # Validate drop target
+        if item and hasattr(item, "moveable") and not item.moveable:
+            event.ignore()
+            return
+        
+        # Accept the drop if we have a valid target
+        if item:
+            event.acceptProposedAction()
+        else:
+            # Allow drops on empty tree area (becomes root-level)
+            event.acceptProposedAction()
+
+    def dragLeaveEvent(self, event):
+        """Handle drag leave event for cleanup."""
         event.accept()
 
     def dropEvent(self, event):
-        """Handle the drop event to reparent dragged nodes."""
-        new_parent_item = self.itemAt(event.pos())
-        logma.info(f"Source Item {new_parent_item}")
-        item = self.currentItem()
-        logma.info(f"Current Item {item}")
-        # need to rewrite the logic here so that the dropped item becomes the child
-        # need to alter the dropped item parent and children
-        if item and new_parent_item:
-            if new_parent_item.parent:
-                item.parent.removeChild(item)
-                new_parent_item.addChild(item)
-                # self.expandAll()
-                self.model.swap_parent(item, new_parent_item)
+        """Handle the drop event to reparent dragged nodes with position awareness.
+        
+        Drop behavior:
+        - On folder/expandable node: becomes child
+        - Above item (top half): becomes previous sibling
+        - Below item (bottom half): becomes next sibling
+        """
+        dragged_item = self.currentItem()
+        target_item = self.itemAt(event.pos())
+        
+        logma.info(f"Dragged Item: {dragged_item}")
+        logma.info(f"Target Item: {target_item}")
+        logma.info(f"Drop Position: {event.pos()}")
+        
+        # Validate dragged item can be moved
+        if not dragged_item:
+            event.ignore()
+            return
+        
+        if hasattr(dragged_item, "moveable") and not dragged_item.moveable:
+            logma.info("Item is not moveable")
+            event.ignore()
+            return
+        
+        # Prevent dropping item onto itself or its descendants
+        if target_item:
+            if target_item == dragged_item:
+                event.ignore()
+                return
+            if self._is_descendant(dragged_item, target_item):
+                logma.info("Cannot drop item onto its own descendant")
+                event.ignore()
+                return
+        
+        # Determine drop position relative to target
+        drop_mode = self._determine_drop_mode(target_item, event.pos())
+        
+        if target_item:
+            # Get the visual rect of the target item
+            target_rect = self.visualItemRect(target_item)
+            relative_y = event.pos().y() - target_rect.top()
+            item_height = target_rect.height()
+            
+            # Determine drop behavior based on position
+            if item_height > 0:
+                relative_position = relative_y / item_height
+            else:
+                relative_position = 0.5
         else:
-            super().dropEvent(event)  # Fallback default behavior
+            # Dropped on empty area - becomes root-level item
+            drop_mode = "root"
+        
+        # Perform the appropriate move operation
+        if drop_mode == "child":
+            self._drop_as_child(dragged_item, target_item)
+        elif drop_mode == "sibling_before":
+            self._drop_as_sibling(dragged_item, target_item, before=True)
+        elif drop_mode == "sibling_after":
+            self._drop_as_sibling(dragged_item, target_item, before=False)
+        elif drop_mode == "root":
+            self._drop_as_root(dragged_item)
+        
+        event.accept()
+        self.viewport().update()
+
+    def _is_descendant(self, potential_parent, potential_child):
+        """Check if potential_child is a descendant of potential_parent."""
+        current = potential_child
+        while current:
+            parent = current.parent()
+            if parent == potential_parent:
+                return True
+            current = parent
+        return False
+
+    def _determine_drop_mode(self, target_item, pos):
+        """Determine the drop mode based on target item and position.
+        
+        Returns:
+            'child': Drop onto target as child
+            'sibling_before': Drop before target as sibling
+            'sibling_after': Drop after target as sibling
+            'root': Drop as root-level item
+        """
+        if not target_item:
+            return "root"
+        
+        # Check if target can accept children
+        if hasattr(target_item, "pregnable") and target_item.pregnable:
+            # Check if dropped in the upper portion of the item
+            target_rect = self.visualItemRect(target_item)
+            relative_y = pos.y() - target_rect.top()
+            item_height = target_rect.height()
+            
+            if item_height > 0:
+                relative_position = relative_y / item_height
+            else:
+                relative_position = 0.5
+            
+            # Upper 25% = become first child, Middle = sibling, Lower 25% = become last child
+            if relative_position < 0.25:
+                return "sibling_before"  # Top edge - become sibling before
+            elif relative_position > 0.75:
+                return "child"  # Bottom edge - become child (last)
+            else:
+                return "sibling_before"  # Middle - become sibling before
+        
+        return "sibling_before"
+
+    def _drop_as_child(self, dragged_item, new_parent):
+        """Move dragged_item to become the last child of new_parent."""
+        logma.info(f"Dropping {dragged_item.name} as child of {new_parent.name}")
+        
+        # Remove from current parent
+        old_parent = dragged_item.parent()
+        if old_parent:
+            old_parent.removeChild(dragged_item)
+        else:
+            self.invisibleRootItem().removeChild(dragged_item)
+        
+        # Add to new parent
+        new_parent.addChild(dragged_item)
+        new_parent.setExpanded(True)
+        
+        # Update database - set new parent and position at end
+        position = new_parent.childCount() - 1
+        self.model.swap_parent(dragged_item, new_parent, position)
+        
+        logma.info(f"Successfully moved {dragged_item.name} as child of {new_parent.name}")
+
+    def _drop_as_sibling(self, dragged_item, target_item, before=True):
+        """Move dragged_item to become a sibling of target_item."""
+        logma.info(f"Dropping {dragged_item.name} as sibling of {target_item.name} (before={before})")
+        
+        parent = target_item.parent()
+        if not parent:
+            parent = self.invisibleRootItem()
+        
+        # Calculate target index
+        target_index = parent.indexOfChild(target_item)
+        if not before:
+            target_index += 1
+        
+        # Remove from current parent
+        old_parent = dragged_item.parent()
+        if old_parent:
+            old_parent.removeChild(dragged_item)
+        else:
+            self.invisibleRootItem().removeChild(dragged_item)
+        
+        # Insert at new position
+        parent.insertChild(target_index, dragged_item)
+        
+        # Update database
+        self.model.move_sibling(dragged_item, parent, target_index)
+        
+        logma.info(f"Successfully moved {dragged_item.name} as sibling")
+
+    def _drop_as_root(self, dragged_item):
+        """Move dragged_item to become a root-level item."""
+        logma.info(f"Dropping {dragged_item.name} as root-level item")
+        
+        # Remove from current parent
+        old_parent = dragged_item.parent()
+        if old_parent:
+            old_parent.removeChild(dragged_item)
+        else:
+            self.invisibleRootItem().removeChild(dragged_item)
+        
+        # Add as root-level item at the end
+        root = self.invisibleRootItem()
+        root.addChild(dragged_item)
+        
+        # Update database - set as root (pid = 0 or None)
+        self.model.move_to_root(dragged_item)
+        
+        logma.info(f"Successfully moved {dragged_item.name} to root level")
 
     def goto_node(self, node):
         """"""
