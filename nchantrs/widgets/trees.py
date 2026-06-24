@@ -59,12 +59,20 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         - model: The NchantdTreeModel object associated with the NchantdTree.
         - view: The NchantdTreeView object associated with the NchantdTree.
         - nodes: The list of tree nodes in the NchantdTree.
+        - clipboard_state: Clipboard for cut/copy/paste operations.
 
     Methods:
         - __init__(self, parent=None, cfg={}, root=None): Initializes the NchantdTree object.
         - initModel(self): Initializes the model for the NchantdTree.
         - initView(self): Initializes the view for the NchantdTree.
         - initWidget(self, pos=None): Initializes the NchantdTree widget.
+        - init_context_menu(self): Initialize context menu for the tree.
+        - show_context_menu(position): Display context menu at position.
+        - get_context_menu_items(node_type): Get menu items for node type.
+        - execute_context_action(action): Execute a context menu action.
+        - get_selected_item(self): Get currently selected item.
+        - get_clipboard(self): Get clipboard state.
+        - set_clipboard(node, mode): Set clipboard for cut/copy.
 
     Example Usage:
         tree = NchantdTree()
@@ -88,6 +96,11 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         self.setDropIndicatorShown(True)  # Show where drops will occur
         self.nodes = []
         self.expansion_state = {}
+        # Clipboard state for cut/copy/paste/duplicate
+        self.clipboard_state = {"nodes": [], "mode": None}
+        # Context menu initialization
+        self.context_menu = None
+        self.init_context_menu()
 
     def initModel(self):
         """ """
