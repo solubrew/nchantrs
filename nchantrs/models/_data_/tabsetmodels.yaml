@@ -70,7 +70,7 @@ NchantdTabSetModel:
               - ['Journal', 'nchantdoffice.widgets.documents.journal.NchantdOfficeJournalEditor', "{}", '0', "06875532-6b6d-787b-8000-41ace4c1038a", 0, 'custom_widget', 'right']
               - ['Scratch', 'nchantdoffice.widgets.documents.media.notes.NchantdOfficeScratchEditor', "{}", '0', "", 1, 'custom_widget', 'right']
               - ['ToolBox', 'nchantdoffice.widgets.controls.toolboxes.NchantdOfficeApplicationToolBox', "{}", '0', "06875532-6b6d-7c8f-8000-a4ea03a7ece3", 2, 'custom_widget', 'right']
-              #- ['Search', 'widgets.documents.atnrg.browsers.browsers.NchantdOfficeSlimTabSearch', "{}", '0', "7e7a40ce-4455-4561-ae40-12852d810b81", 2, 'custom_widget', 'right']
+              #- ['Search', 'widgets.documents.atnrg.browsers.NchantdOfficeSlimTabSearch', "{}", '0', "7e7a40ce-4455-4561-ae40-12852d810b81", 2, 'custom_widget', 'right']
               - ['Calculator', 'nchantrs.widgets.calculators.calculators.NchantdCalculator', "{}", '0', "06875532-6b6d-7d9b-8000-c7073dc89ef6", 3, 'custom_widget', 'right']
               #- ['Feedback', 'widgets.documents.media.forms.NchantdOfficeFeedback', "{}", '0', "37f8112e-c361-4a06-b5ae-6541b3a77d8a", 3, 'custom_widget', 'right']
             'params':
@@ -86,7 +86,7 @@ NchantdTabSetModel:
             'records': []
             system_records: []
               #Home
-              #- [ 'Browser', 'widgets.documents.atnrg.browsers.browsers.NchantdOfficeWebBrowser', "{}", '067ca837-17f6-74e7-8000-f7de9b7927f1', "", 0, 'custom_widget', 'center' ]
+              #- [ 'Browser', 'widgets.documents.atnrg.browsers.NchantdOfficeWebBrowser', "{}", '067ca837-17f6-74e7-8000-f7de9b7927f1', "", 0, 'custom_widget', 'center' ]
               #- [ 'Script', 'widgets.documents.media.scripts.NchantdOfficeScript', "{}", '067ca837-17f6-74e7-8000-f7de9b7927f1', "", 0, 'custom_widget', 'center' ]
               #              - ['Matrix', 'widgets.documents.workbooks.matricies.NchantdOfficeMatrix', "{}", '067ca837-17f6-74e7-8000-f7de9b7927f1', "", 0, 'custom_widget', 'center']
               #- [ 'Image', 'widgets.documents.media.graphics.images.NchantdOfficeImage', "{}", '067ca837-17f6-74e7-8000-f7de9b7927f1', "", 0, 'custom_widget', 'center' ]

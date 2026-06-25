@@ -100,7 +100,7 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         self.clipboard_state = {"nodes": [], "mode": None}
         # Context menu initialization
         self.context_menu = None
-        self.init_context_menu()
+        self.initialize_context_menu()
 
     def initModel(self):
         """ """

@@ -162,7 +162,7 @@ class NchantdInstance(object):
         self.db_instance_id: Optional[str] = None
         self.dbc_instance_id: Optional[str] = None
         self.description: Optional[str] = None
-        self.name = self.config.dikt.get("name_txt", None)
+        self.name = self.config.dikt.get("name_txt", "db")
         self.is_independent: bool = False
         self.instance_id: Optional[str] = None
         self.instance_path: Optional[str] = None
@@ -314,7 +314,7 @@ class NchantdStore(MicroStash):
         """"""
         app_name = self.app.application_name.lower()
         if instance is None:
-            instance = self.app.model.store.instance
+            instance = self.app.model.instance
         if instance is None:
             raise Exception("No Instance")
         in_name = instance.name
@@ -554,6 +554,7 @@ class NchantdStore(MicroStash):
             cfg["table"][table] = {"ORDER": {"MODON_DTTM": "DESC"}, "TOP": most_recent}
         else:
             cfg["table"][table] = {"WHERE": {"EQUAL": {"name_txt": db}}}
+        logma.info(f"Table {table} {cfg} {db}")
         df = self.get_table(table, cfg, db)
         return df
 

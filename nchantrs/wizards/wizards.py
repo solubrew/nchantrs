@@ -50,11 +50,11 @@ class NchantdWizard(pyqt.QWizard):
         self.theme = NchantdTheme(self)
         self.set_theme(self.config.dikt["gui"]["desktop"]["theme"])
 
-    def initModel(self):
+    def initModel(self, cfg=None):
         """"""
         return self
 
-    def initView(self):
+    def initView(self, cfg=None):
         """"""
         cancel_button = self.button(pyqt.QWizard.CancelButton)
         if cancel_button:

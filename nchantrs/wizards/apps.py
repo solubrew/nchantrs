@@ -136,11 +136,11 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         super().initModel()
         return self
 
-    def initView(self, args):
+    def initView(self, cfg):
         """"""
-        logma.info(f"Init View {args}")
-        super().initView()
-        if "scratch" in args:
+        logma.info(f"Init View {cfg}")
+        super().initView(cfg)
+        if "scratch" in cfg:
             self.wizard = False
             return self
         if self.config.dikt.get("profile", None):

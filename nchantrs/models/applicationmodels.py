@@ -32,7 +32,7 @@ logger = logging.getLogger(__name__)
 from kahndor import kahndor
 from subtrix.subtrix import Mechanism
 from subtrix.utilities import uuid
-from nchantrs.models.models import NchantdStore
+from nchantrs.models.models import NchantdStore, NchantdInstance
 from nchantrs.utilities.users import NchantdUser
 from nchantrs.utilities.policies import NchantdDataPolicy
 from nchantrs.widgets.items.nodes import NchantdTreeNode
@@ -342,7 +342,9 @@ class NchantdCloakModel(NchantdPantiesModel):
         """"""
         self.is_install_active = False
         cfg = {}
-        _ = NchantdNewInstanceWizard(self, cfg).initWizard()
+        instance = NchantdNewInstanceWizard(self, cfg).initWizard()
+        if self.instance is None:
+            self.instance = instance
         # [DONE]
         self.instance.set_independent()
         logma.info("Request New Instance")
@@ -417,6 +419,15 @@ class NchantdCloakModel(NchantdPantiesModel):
         path = self.config.dikt["dstruct"]["filesystem"][self.os_type].get("icon", "").get("path", "")
         self.icon_path = Mechanism(path, data).run()
         return [self.application_path, self.config_path, self.library_path, self.shortcut_path, self.icon_path]
+
+    def get_current_instance(self):
+        """"""
+        instances = self.store.get_app_instance()
+        if instances.empty:
+            raise Exception("No Instance available")
+        logma.info(f"Instances {instances}")
+        instance = instances.iloc[0].to_dict()
+        return NchantdInstance.from_dict(instance)
 
     def get_current_node(self, pane="left") -> None:
         """"""
@@ -561,6 +572,8 @@ class NchantdCloakModel(NchantdPantiesModel):
         logma.info("Maintain Application")
         self.store.compact_instances()
         self.store.compact_database(db)
+        if self.instance is None:
+            raise Exception(f"No Instance Configured")
         self.store.backup_database(self.instance, db)
         return self
 

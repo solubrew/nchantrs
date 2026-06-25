@@ -266,7 +266,7 @@ NchantdPantiesModel:
               - ['base', 'about', 'About', 'About dialog containing information related to contact etc', '869525a0-0f67-4964-beb8-b8d588f2bee2', 'about', '', 'Launch an about dialog', '', '', "{}"]
               - ['base', 'add_automation', 'Automation', '', '<^[UUID]^>', 'automation', '', 'Create automation', '', '', "{}"]
               - ['base', 'add_research_subtree', 'Research', '', 'e04ac962-bc54-4b7e-9875-5dd89b7c593f', 'research', '', 'Create a research subtree', '', '', "{}"]
-              - ['base', 'add_http_media_nchantdbrowser', 'Add Nchantd Browser', '', '067c1144-436f-751f-8000-fb934c98bd06', '', '', '', '', 'widgets.documents.atnrg.browsers.browsers.NchantdOfficeWebBrowser', "{'file_type': 'webapp', 'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
+              - ['base', 'add_http_media_nchantdbrowser', 'Add Nchantd Browser', '', '067c1144-436f-751f-8000-fb934c98bd06', '', '', '', '', 'widgets.documents.atnrg.browsers.NchantdOfficeWebBrowser', "{'file_type': 'webapp', 'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
               - ['base', 'add_node_sibling_app_siblingnode', 'Add Sibling Node', 'Add a Node to the tree below the current node at the same level', '7fd2107c-76c2-4c35-88b2-4f42ee229850', 'arrow-down', '', '', '', 'actions.tree.add_node_sibling', "{'widget': '', 'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
               - ['base', 'add_node_child_app_childnode', 'Add Child Node', 'Add a Node to the tree below the current node at one level lower', '7fd2107c-76c2-4c35-88b2-4f42ee229850', 'corner-down-right', '', '', '', 'actions.tree.add_node_child', "{'widget': '', 'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
               - ['base', 'add_node_top_app_rootnode', 'Add Top Node', '', '066f628d-4ef4-75bc-8000-df6959b586bb', 'top-level-node', '', '', '', 'actions.tree.add_node_top', "{'widget': '', 'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
@@ -343,7 +343,7 @@ NchantdPantiesModel:
               #- ['base', 'add_', 'Add ', '', '<^[UUID]^>', '', '', '', '', '', "{}"]
               - ['base', 'add_superweb_custom_nchantdprompt', 'Add NchantdPrompt', '', '067c1144-436f-77d3-8000-ed2bf227d4a8', 'prompt', '', '', '', 'widgets.documents.atnrg.prompts.NchantdOfficePrompt', "{'file_type': 'dune', 'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
               - ['base', 'add_http_media_dune', 'Add Dune', '', '066ef57b-2f20-78af-8000-3abc700f4f99', 'url', '', '', '', '', "{'file_type': 'dune', 'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
-              - ['base', 'add_browser_document_nchantdbrowser', 'Add NchantdBrowser', '', '066ef57b-2f20-74e1-8000-852134fdc875', 'worldwideweb', '', '', '', 'widgets.documents.atnrg.browsers.browsers.NchantdOfficeWebBrowser', "{'file_type': 'webbrowser', 'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
+              - ['base', 'add_browser_document_nchantdbrowser', 'Add NchantdBrowser', '', '066ef57b-2f20-74e1-8000-852134fdc875', 'worldwideweb', '', '', '', 'widgets.documents.atnrg.browsers.NchantdOfficeWebBrowser', "{'file_type': 'webbrowser', 'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
               - ['base', 'add_nchantd_action_package', 'Nchantd Action', '', '067ae0e3-7b4b-7bf3-8000-539c4f830282', '', '', '', '', '', "{'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
               - ['base', 'add_nchantd_arena_package', 'Nchantd Arena', '', '067ae0e3-7b4b-7fce-8000-a8e7f5fcfa5e', '', '', '', '', '', "{'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
               - ['base', 'add_nchantd_bliss_package', 'Nchantd Bliss', '', '067ae0e3-7b4c-70e5-8000-c35ced44b002', '', '', '', '', '', "{'google_drive_bit': 0, 'local_drive_bit': 0, 'import': 0}"]
@@ -818,7 +818,7 @@ NchantdPantiesModel:
               file_type: ['UUID', 'AUDIO', 'PDF', 'WEB', 'IMAGE', 'SHEETS', 'PRESENTATIONS', 'SCRIPTS', 'VIDEO']
               store_location: ['database', 'filesystem', 'cloudservice']
               encoding: ['.mp3', 'mp4', '.png', '.gif', '...etc']
-          app_media_content':
+          'app_media_content':
             description: >
               The doc_media_content table is used
             columns: [{"name": 'UUID', "type": "text"}, {"name": 'pUUID', "type": "text"},
