@@ -260,7 +260,6 @@ class NchantdStore(MicroStash):
         # self.config_path = None
         # self.instance_path = None
         # self.library_path = None
-        # self.cache = conql.Doc()
         # self.instances = {}
         # self.resources = []
         # self.slug = None
@@ -579,11 +578,13 @@ class NchantdStore(MicroStash):
     def get_app_menu(self, tag="app", db="db"):
         """"""
         table = self._table_resolver.get_table_name("app_menu", self.instance)
-
-        # Efficient tag building - single pass O(n)
-        tags = self._build_tag_hierarchy(tag)
-        params = {"WHERE": {"IN": {"tag_txt": tags}}}
-        return self.get_table(table, params, db)
+        data = self.cache.get_table(table)
+        if data.empty:
+            # Efficient tag building - single pass O(n)
+            tags = self._build_tag_hierarchy(tag)
+            params = {"WHERE": {"IN": {"tag_txt": tags}}}
+            data = self.get_table(table, params, db)
+        return data
 
     def get_app_option(self, tags, table="ANY", page_size=None, db="db"):
         """"""
