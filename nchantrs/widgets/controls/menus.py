@@ -144,6 +144,7 @@ class NchantdContextMenu(NchantdMenu):
         logma.info(f"Name {name}")
         if name:
             self.name = name
+        #TODO: implement cache of menu
         self.menu_df = self.parent.app.model.get_menu(self.name)
         logma.info(f"Menu Data {self.menu_df.head()}")
         menu_data = convert_df_to_tree(self.menu_df)
