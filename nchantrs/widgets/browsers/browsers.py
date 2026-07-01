@@ -215,21 +215,38 @@ class NchantdWebViewer(NchantdWidget):
 
     def initView(self, cfg=None):
         """"""
+        # The web view is the single expanding document this container hosts,
+        # so opt out of the base class' global AlignTop|AlignLeft (Fix A2).
+        cfg = dict(cfg or {})
+        cfg.setdefault("fill", True)
         super().initView(cfg)
         # if self.page is None:
         #     page = None if self.config.dikt.get("page", None) is None else self.config.dikt["page"]
         #     self.set_page(page)
         self.browser.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
-        self.cmd_goto_page()
         # Access the page and connect the signal
         page = self.browser.page()  # Get QWebEnginePage object
         logma.info(f"Page {page}")
         # page.javaScriptConsoleMessage.connect(self.handle_console_message)  # Connect the signal
         self.layout.addWidget(self.browser)
-        self.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignTop)
+        # Clear any inherited layout alignment so the view fills the pane
+        # instead of being pinned to its sizeHint (Fix A1). Simply not setting
+        # it is not enough: the base initView already applied AlignTop|AlignLeft.
+        self.layout.setAlignment(pyqt.Qt.AlignmentFlag(0))
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.setSpacing(0)
+        # Defer the first load until the view actually has an on-screen surface
+        # (Fix B) so the initial about:blank load cannot commit late and clobber
+        # a later navigation back to blank.
+        self._did_initial_load = False
         return self
+
+    def showEvent(self, event):
+        """Load the configured URL on first show, once we have a surface."""
+        super().showEvent(event)
+        if not getattr(self, "_did_initial_load", False):
+            self._did_initial_load = True
+            self.cmd_goto_page()
 
     def initWidget(self, url=None):
         """ """

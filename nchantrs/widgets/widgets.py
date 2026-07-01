@@ -188,7 +188,11 @@ class NchantdWidgetMixin(object):
         else:
             # logma.info("Set Vertical Layout")
             self.layout = pyqt.QVBoxLayout()
-        self.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignTop | pyqt.Qt.AlignmentFlag.AlignLeft)
+        # Fill-widget containers (browser/notebook/editor hosting a single
+        # expanding document) opt out of the global corner alignment, which
+        # would otherwise pin their child to its sizeHint and collapse it.
+        if not self.config.dikt.get("fill", False):
+            self.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignTop | pyqt.Qt.AlignmentFlag.AlignLeft)
         self.setLayout(self.layout)
         # self._set_alignment()
         # self.app.model.store.store_app_event("initialize", "widget_view_initialization")

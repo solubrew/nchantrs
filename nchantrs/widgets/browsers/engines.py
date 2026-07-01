@@ -158,6 +158,22 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
         self.page().runJavaScript(script)
         return self
 
+    def showEvent(self, event):
+        """Reactivate the page lifecycle and repaint when re-shown (Fix C).
+
+        QWebEngineView drops its rendered frame when its page is hidden (e.g.
+        on QTabWidget tab switches / rebuilds) and does not always repaint on
+        re-show. Bring the page back to Active and force an update.
+        """
+        super().showEvent(event)
+        page = self.page()
+        if page is not None:
+            try:
+                page.setLifecycleState(pyqt.QWebEnginePage.LifecycleState.Active)
+            except Exception:
+                pass
+        self.update()
+
     def contextMenuEvent(self, event):
         """Handle right-click context menu"""
         menu = self.page().createStandardContextMenu()
