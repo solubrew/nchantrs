@@ -487,9 +487,9 @@ class NchantdCloakModel(NchantdPantiesModel):
         if name is None:
             return DataFrame()
         if not refresh and name in self.menu_cache:
-            logma.info(f"Menu cache hit {name}")
+            #logma.info(f"Menu cache hit {name}")
             return self.menu_cache[name]
-        logma.info(f"Menu cache miss {name}")
+        #logma.info(f"Menu cache miss {name}")
         menu_df = self.store.get_app_menu(name)
         self.menu_cache[name] = menu_df
         return menu_df
@@ -501,10 +501,10 @@ class NchantdCloakModel(NchantdPantiesModel):
         entire cache so subsequent get_menu calls re-fetch from the store.
         """
         if name is None:
-            logma.info("Invalidating entire menu cache")
+            #logma.info("Invalidating entire menu cache")
             self.menu_cache.clear()
         else:
-            logma.info(f"Invalidating menu cache {name}")
+            #logma.info(f"Invalidating menu cache {name}")
             self.menu_cache.pop(name, None)
         return self
 

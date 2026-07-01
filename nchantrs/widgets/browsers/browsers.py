@@ -488,6 +488,11 @@ class NchantdWebViewer(NchantdWidget):
         # """
         # self.runJavaScript(theme_script)
 
+    def load_url(self, url):
+        """"""
+        self.populate_document(url)
+        return self
+
     def open_new_tab(self):
         """Placeholder for opening a new tab."""
         return self

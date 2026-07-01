@@ -69,7 +69,7 @@ class NchantdButton(NchantdWidgetMixin, pyqt.QPushButton):
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)
-        self.app = pyqt.QApplication.instance()
+        #self.app = pyqt.QApplication.instance()
         self.action: Optional[Any] = None
         self.button_text: Optional[str] = None
         self.data: Optional[Any] = None
@@ -95,8 +95,9 @@ class NchantdButton(NchantdWidgetMixin, pyqt.QPushButton):
         self.enabled = False
         return self
 
-    def initView(self, handler: Optional[Any] = None, text: Optional[str] = None) -> "NchantdButton":
+    def initView(self, handler: Optional[Any] = None, text: Optional[str] = None, cfg=None) -> "NchantdButton":
         """"""
+        super().initView(cfg)
         self.setCheckable(self.config.dikt.get("checkable", False))
         if self.config.dikt.get("checkable", False):
             self.setChecked(False)
@@ -119,6 +120,7 @@ class NchantdButton(NchantdWidgetMixin, pyqt.QPushButton):
         if self.config.dikt.get("tip_txt", None):
             self.setToolTip(self.config.dikt["tip_txt"])
         self.set_handler(handler)
+        self.initialize_context_menu()
         return self
 
     def initWidget(self, handler: Optional[Any] = None, text: Optional[str] = None) -> "NchantdButton":

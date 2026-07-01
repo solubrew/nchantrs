@@ -195,6 +195,7 @@ class NchantdWidgetMixin(object):
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.setSpacing(6)
         self.widget_initialized = True
+        self.initialize_context_menu()
         return self
 
     def accpet(self):
@@ -244,10 +245,10 @@ class NchantdWidgetMixin(object):
 
     def contextMenuEvent(self, event):
         """"""
-        logma.info(f"execute contextMenuEvent {self}")
-        logma.info(f"Context Menu {self.context_menu}")
         # if self.context_menu is None:
         self.initialize_context_menu()
+        logma.info(f"execute contextMenuEvent {self}")
+        logma.info(f"Context Menu {self.context_menu}")
         logma.info(f"execute contextMenuEvent {self.context_menu.menu_data}")
         self.context_menu.exec(event.globalPos())
         return self
