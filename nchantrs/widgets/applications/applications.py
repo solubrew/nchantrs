@@ -30,7 +30,6 @@ import platform
 
 import logging
 
-logger = logging.getLogger(__name__)
 # ===============================================================================||
 
 # ===============================================================================||
@@ -64,7 +63,9 @@ WINDOW_STATE_ACTIONS = {
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
-# logma.off()
+log = False
+if not log:
+    logma.off()
 debug = True
 # ===============================================================================||
 pxcfg = join(abspath(here), "_data_", "applications.yaml")  # ||

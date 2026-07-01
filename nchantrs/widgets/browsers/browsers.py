@@ -223,12 +223,20 @@ class NchantdWebViewer(NchantdWidget):
         # if self.page is None:
         #     page = None if self.config.dikt.get("page", None) is None else self.config.dikt["page"]
         #     self.set_page(page)
+        # BOTH the viewer widget AND its inner web view must be Expanding.
+        # Clearing the layout alignment (below) only lets an item grow if the
+        # item itself is expanding; the viewer's own default (Preferred) size
+        # policy would otherwise still collapse it to its sizeHint inside the
+        # parent document layout (which is why it rendered on some builds but
+        # not on clean rebuilds).
+        self.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
         self.browser.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
         # Access the page and connect the signal
         page = self.browser.page()  # Get QWebEnginePage object
         logma.info(f"Page {page}")
         # page.javaScriptConsoleMessage.connect(self.handle_console_message)  # Connect the signal
-        self.layout.addWidget(self.browser)
+        # Add with a stretch factor so the view claims all spare space.
+        self.layout.addWidget(self.browser, 1)
         # Clear any inherited layout alignment so the view fills the pane
         # instead of being pinned to its sizeHint (Fix A1). Simply not setting
         # it is not enough: the base initView already applied AlignTop|AlignLeft.
@@ -242,11 +250,46 @@ class NchantdWebViewer(NchantdWidget):
         return self
 
     def showEvent(self, event):
-        """Load the configured URL on first show, once we have a surface."""
+        """Load on first show, once we have a surface (Fix B).
+
+        Prefer the active URL over the configured default: an earlier
+        navigation (e.g. the notebook pointing us at /tree before the tab was
+        shown) sets active_url, and reloading the config default here would
+        clobber it back to about:blank.
+        """
         super().showEvent(event)
+        try:
+            vs = self.size()
+            bs = self.browser.size()
+            logma.info(
+                f"[webviewer] showEvent | viewer={vs.width()}x{vs.height()} visible={self.isVisible()} "
+                f"| view={bs.width()}x{bs.height()} view_visible={self.browser.isVisible()} "
+                f"| did_initial_load={getattr(self, '_did_initial_load', None)} "
+                f"| active_url={getattr(self.active_url, 'url', None)}"
+            )
+        except Exception as e:
+            logma.error(f"[webviewer] showEvent geometry log failed: {e}")
         if not getattr(self, "_did_initial_load", False):
             self._did_initial_load = True
-            self.cmd_goto_page()
+            if self.active_url is not None:
+                logma.info(f"[webviewer] first show -> loading active_url {self.active_url.url}")
+                self.populate_document(self.active_url)
+            else:
+                logma.info("[webviewer] first show -> no active_url, loading configured default")
+                self.cmd_goto_page()
+
+    def resizeEvent(self, event):
+        """Log resizes so a collapsed (zero-height) viewer is visible in the log."""
+        super().resizeEvent(event)
+        try:
+            s = event.size()
+            bs = self.browser.size()
+            logma.info(
+                f"[webviewer] resizeEvent | viewer={s.width()}x{s.height()} "
+                f"view={bs.width()}x{bs.height()} visible={self.isVisible()}"
+            )
+        except Exception as e:
+            logma.error(f"[webviewer] resizeEvent log failed: {e}")
 
     def initWidget(self, url=None):
         """ """

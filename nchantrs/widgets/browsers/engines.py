@@ -158,6 +158,23 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
         self.page().runJavaScript(script)
         return self
 
+    def _geo(self):
+        """Compact geometry/visibility string for diagnostic logging."""
+        try:
+            s = self.size()
+            p = self.parentWidget()
+            ps = p.size() if p is not None else None
+            return (
+                f"size={s.width()}x{s.height()} visible={self.isVisible()} "
+                f"hidden={self.isHidden()} url={self.url().toString()!r} "
+                f"parent={type(p).__name__ if p is not None else None} "
+                f"parent_size={ps.width()}x{ps.height() if ps is not None else '?'}"
+                if ps is not None
+                else f"size={s.width()}x{s.height()} visible={self.isVisible()} url={self.url().toString()!r} parent=None"
+            )
+        except Exception as e:
+            return f"<geo error: {e}>"
+
     def showEvent(self, event):
         """Reactivate the page lifecycle and repaint when re-shown (Fix C).
 
@@ -166,13 +183,29 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
         re-show. Bring the page back to Active and force an update.
         """
         super().showEvent(event)
+        logma.info(f"[webengine] showEvent | {self._geo()}")
         page = self.page()
         if page is not None:
             try:
                 page.setLifecycleState(pyqt.QWebEnginePage.LifecycleState.Active)
-            except Exception:
-                pass
+                logma.info("[webengine] showEvent -> lifecycle set Active")
+            except Exception as e:
+                logma.error(f"[webengine] setLifecycleState failed: {e}")
         self.update()
+
+    def resizeEvent(self, event):
+        """Log resizes so we can see whether the view ever gets real geometry."""
+        super().resizeEvent(event)
+        try:
+            s = event.size()
+            logma.info(f"[webengine] resizeEvent | new={s.width()}x{s.height()} visible={self.isVisible()}")
+        except Exception as e:
+            logma.error(f"[webengine] resizeEvent log failed: {e}")
+
+    def hideEvent(self, event):
+        """Log hides (tab switch / rebuild) to correlate with blank-on-reshow."""
+        super().hideEvent(event)
+        logma.info(f"[webengine] hideEvent | {self._geo()}")
 
     def contextMenuEvent(self, event):
         """Handle right-click context menu"""
@@ -189,16 +222,32 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
         menu.exec(self.mapToGlobal(event.pos()))
 
     def create_custom_profile(self):
-        """Create a custom web engine profile with error handling"""
+        """Create a per-view web engine profile.
+
+        CRITICAL: this used to build a *named* persistent profile,
+        ``QWebEngineProfile("CustomProfile", self)``, with DiskHttpCache. Every
+        view shares the same name -> the same on-disk storage/GPUCache path, so
+        the second view (tab reselect) collides with the first ("Using the same
+        data path for profile, may corrupt the data") and the persisted cache
+        then breaks rendering on every later view AND after restart. That is the
+        "renders once on a fresh install, blank forever after" symptom.
+
+        An off-the-record profile (parent-only constructor) keeps storage in
+        memory, so each view is independent and nothing persists to corrupt the
+        next run. Persistent cookies/cache can be reintroduced later via a single
+        shared profile with a unique storage path if login persistence is needed.
+        """
         try:
-            # Create a custom profile (can be persistent or off-the-record)
-            # Use self as parent to ensure profile is deleted after the view
-            profile = pyqt.QWebEngineProfile("CustomProfile", self)
-            # Configure profile settings
-            profile.setHttpCacheType(pyqt.QWebEngineProfile.HttpCacheType.DiskHttpCache)
-            profile.setPersistentCookiesPolicy(pyqt.QWebEngineProfile.PersistentCookiesPolicy.AllowPersistentCookies)
-            # Set custom user agent
+            # Off-the-record: no name -> in-memory storage, no shared-path clash.
+            profile = pyqt.QWebEngineProfile(self)
+            profile.setHttpCacheType(pyqt.QWebEngineProfile.HttpCacheType.MemoryHttpCache)
+            profile.setPersistentCookiesPolicy(pyqt.QWebEngineProfile.PersistentCookiesPolicy.NoPersistentCookies)
             profile.setHttpUserAgent("CustomWebBrowser/1.0")
+            logma.info(
+                f"[webengine] profile created | off_the_record={profile.isOffTheRecord()} "
+                f"| storage={profile.persistentStoragePath()!r} | cache={profile.cachePath()!r} "
+                f"| cache_type={profile.httpCacheType()}"
+            )
 
             # Create and install request interceptor with error handling
             try:
