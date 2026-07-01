@@ -64,7 +64,7 @@ class NchantdWebManager(NchantdWidgetMixin, pyqt.QObject):
         self.config = kahndor.Instruct(pxcfg).select("NchantdWebManager")
         if self.parent:
             self.config.override(parent.config)
-        super().__init__(self)
+        super().__init__(parent)
         self.config.override(cfg)
         self.available_engines = deque([])
         self.active_engines = deque([])
@@ -367,14 +367,6 @@ class NchantdWebViewer(NchantdWidget):
 
     def enterFullscreenMode(self, request):
         """Enter fullscreen mode when requested by the web page."""
-        if request.toggleOn():
-            self.browser.setParent(None)  # Detach from the main layout
-            self.browser.showFullScreen()
-            request.accept()  # Accept the fullscreen request
-        else:
-            self.browser.setParent(self.centralWidget())  # Reattach to the main layout
-            self.browser.showNormal()
-            request.accept()  # Accept the fullscreen exit request
         if request.toggleOn():
             # Detach browser and enter fullscreen
             self.browser.setParent(None)
