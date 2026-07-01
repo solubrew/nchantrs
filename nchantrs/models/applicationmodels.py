@@ -98,6 +98,26 @@ class NchantdPantiesModel(object):
         self.is_secure = None  # Secure will enforce the same as private but also encrypt all information stored and held in cache...this will not be available unless a true security audit is compeleted
         self.instance_cfg = None
         self.reset = None
+        # App-level web-engine profile pool (single shared default profile).
+        # Built lazily via get_web_profiles() so QtWebEngine/profile imports and
+        # storage paths are resolved only when a web view actually needs them.
+        self.web_profiles = None
+
+    def get_web_profiles(self):
+        """Return the app-level web profile pool, creating it on first use.
+
+        A single shared pool owns the profiles so they outlive individual web
+        views (parented to the app), and every view shares one default profile
+        object at one storage path — the safe pattern that both restores
+        persistence and avoids the multi-object same-path corruption.
+        """
+        if getattr(self, "web_profiles", None) is None:
+            from nchantrs.widgets.browsers.profiles import ProfileManager
+
+            base = self.application_path or getattr(self.store, "application_path", None) or self.home
+            logma.info(f"[appmodel] creating app-level web_profiles pool | storage_base={base!r}")
+            self.web_profiles = ProfileManager(self.parent, storage_base=base)
+        return self.web_profiles
 
     def initialize_application(self) -> None:
         """

@@ -221,45 +221,77 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
 
         menu.exec(self.mapToGlobal(event.pos()))
 
-    def create_custom_profile(self):
-        """Create a per-view web engine profile.
+    def _resolve_app_model(self):
+        """Reach the app model from a web view during __init__.
 
-        CRITICAL: this used to build a *named* persistent profile,
-        ``QWebEngineProfile("CustomProfile", self)``, with DiskHttpCache. Every
-        view shares the same name -> the same on-disk storage/GPUCache path, so
-        the second view (tab reselect) collides with the first ("Using the same
-        data path for profile, may corrupt the data") and the persisted cache
-        then breaks rendering on every later view AND after restart. That is the
-        "renders once on a fresh install, blank forever after" symptom.
-
-        An off-the-record profile (parent-only constructor) keeps storage in
-        memory, so each view is independent and nothing persists to corrupt the
-        next run. Persistent cookies/cache can be reintroduced later via a single
-        shared profile with a unique storage path if login persistence is needed.
+        self.app may not be wired yet this early, so fall back to the parent
+        (the NchantdWebViewer), which has already resolved self.app.
         """
+        for owner in (self, getattr(self, "parent", None)):
+            app = getattr(owner, "app", None) if owner is not None else None
+            model = getattr(app, "model", None) if app is not None else None
+            if model is not None:
+                return model
+        return None
+
+    def create_custom_profile(self):
+        """Return the web engine profile this view should use.
+
+        Preferred: a shared profile from the app-level pool
+        (``app.model.get_web_profiles()``) — the default is one persistent
+        profile shared by every view at a single storage path, which restores
+        cookie/login persistence while avoiding the multi-object same-path
+        corruption that previously blanked every view after the first.
+
+        The viewer cfg may request a named profile via ``cfg["profile"]``.
+
+        Fallback (pool/app unavailable): an off-the-record in-memory profile so
+        the view still renders, just without persistence.
+        """
+        # 1) Try the app-level shared profile pool.
         try:
-            # Off-the-record: no name -> in-memory storage, no shared-path clash.
+            model = self._resolve_app_model()
+            if model is not None and hasattr(model, "get_web_profiles"):
+                pool = model.get_web_profiles()
+                name = None
+                try:
+                    name = self.config.dikt.get("profile")
+                except Exception:
+                    name = None
+                if name:
+                    profile = pool.get_or_create(name)
+                else:
+                    profile = pool.get_default_profile()
+                logma.info(
+                    f"[webengine] using shared pool profile name={name or 'default'} "
+                    f"| off_the_record={profile.isOffTheRecord()} "
+                    f"| storage={profile.persistentStoragePath()!r} | cache={profile.cachePath()!r}"
+                )
+                # NOTE: do NOT parent/interceptor here — the pool owns lifetime
+                # and installs the interceptor once on the shared profile.
+                return profile
+            logma.warning("[webengine] app profile pool unavailable; using off-the-record fallback")
+        except Exception as e:
+            logma.error(f"[webengine] pool profile fetch failed ({e}); using off-the-record fallback", exc_info=True)
+
+        # 2) Fallback: off-the-record, in-memory, no shared-path clash.
+        try:
             profile = pyqt.QWebEngineProfile(self)
             profile.setHttpCacheType(pyqt.QWebEngineProfile.HttpCacheType.MemoryHttpCache)
             profile.setPersistentCookiesPolicy(pyqt.QWebEngineProfile.PersistentCookiesPolicy.NoPersistentCookies)
             profile.setHttpUserAgent("CustomWebBrowser/1.0")
             logma.info(
-                f"[webengine] profile created | off_the_record={profile.isOffTheRecord()} "
-                f"| storage={profile.persistentStoragePath()!r} | cache={profile.cachePath()!r} "
+                f"[webengine] fallback profile created | off_the_record={profile.isOffTheRecord()} "
                 f"| cache_type={profile.httpCacheType()}"
             )
-
-            # Create and install request interceptor with error handling
             try:
                 self.interceptor = NchantdRequestInterceptor(profile)
                 profile.setUrlRequestInterceptor(self.interceptor)
             except Exception as e:
                 logma.error(f"Failed to create request interceptor: {e}")
-
             return profile
         except Exception as e:
             logma.error(f"Failed to create custom profile: {e}")
-            # Return default profile as fallback
             return pyqt.QWebEngineProfile.defaultProfile()
 
     # def create_custom_profile(self):

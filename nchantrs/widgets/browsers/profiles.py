@@ -391,15 +391,25 @@ class ProfileManager(pyqt.QObject):
     profileRemoved = pyqt.Signal(str)  # profile_name
     defaultProfileChanged = pyqt.Signal(str)  # profile_name
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, storage_base=None):
         super().__init__(parent)
         self.profiles: Dict[str, pyqt.QWebEngineProfile] = {}
         self.configurations: Dict[str, ProfileConfiguration] = {}
         self.interceptors: Dict[str, NchantdRequestInterceptor] = {}
         self.default_profile_name = "default"
+        # Base directory under which each persistent profile gets its own stable
+        # storage/cache dir. Passed by the app pool (app.model.store.application_path).
+        self.storage_base = storage_base or "."
+        logma.info(f"[profiles] ProfileManager init | storage_base={self.storage_base!r}")
 
-        # Create default profile
+        # Create default profile (persistent, shared app-wide).
         self.create_profile("default", ProfileType.DEFAULT, is_default=True)
+
+    def get_or_create(self, name: str, profile_type: "ProfileType" = None) -> pyqt.QWebEngineProfile:
+        """Return an existing profile or create a persistent one with this name."""
+        if name in self.profiles:
+            return self.profiles[name]
+        return self.create_profile(name, profile_type or ProfileType.DEFAULT)
 
     def create_profile(
         self,
@@ -424,8 +434,11 @@ class ProfileManager(pyqt.QObject):
             # Off-the-record profile
             profile = pyqt.QWebEngineProfile(self)
         else:
-            # Persistent profile
-            storage_name = f"profile_{name}_{uuid.uuid4().hex[:8]}"
+            # Persistent profile. Use a STABLE storage name (the profile name)
+            # so the on-disk storage/cache dir is reused across restarts — a
+            # uuid suffix would create a fresh empty profile every run and
+            # nothing (cookies/logins) would persist.
+            storage_name = f"profile_{name}"
             profile = pyqt.QWebEngineProfile(storage_name, self)
 
         # Configure the profile
@@ -447,9 +460,24 @@ class ProfileManager(pyqt.QObject):
 
     def _configure_profile(self, profile: pyqt.QWebEngineProfile, config: ProfileConfiguration):
         """Configure a profile with the given configuration"""
+        from os import makedirs
 
         # Basic settings
         profile.setHttpUserAgent(config.user_agent)
+
+        # Stable on-disk storage/cache for persistent (non-incognito) profiles,
+        # rooted under the app storage base so each named profile is isolated
+        # and reused across restarts.
+        if config.profile_type != ProfileType.INCOGNITO and not profile.isOffTheRecord():
+            persistent_path = config.storage_path or join(self.storage_base, ".webprofiles", config.name)
+            cache_path = join(self.storage_base, ".webprofiles", config.name, "cache")
+            try:
+                makedirs(persistent_path, exist_ok=True)
+                makedirs(cache_path, exist_ok=True)
+            except Exception as e:
+                logma.error(f"[profiles] could not create profile dirs for '{config.name}': {e}")
+            profile.setPersistentStoragePath(persistent_path)
+            profile.setCachePath(cache_path)
 
         # Cache settings
         if config.cache_enabled:
@@ -467,11 +495,23 @@ class ProfileManager(pyqt.QObject):
         if config.download_path:
             profile.setDownloadPath(config.download_path)
 
-        # Create and install request interceptor
-        if config.interceptor_rules:
-            interceptor = NchantdRequestInterceptor(config.name, config.interceptor_rules, profile)
-            profile.setUrlRequestInterceptor(interceptor)
-            self.interceptors[config.name] = interceptor
+        # Create and install request interceptor (once per profile).
+        if config.name not in self.interceptors:
+            try:
+                if config.interceptor_rules:
+                    interceptor = NchantdRequestInterceptor(config.name, config.interceptor_rules, profile)
+                else:
+                    interceptor = NchantdRequestInterceptor(profile)
+                profile.setUrlRequestInterceptor(interceptor)
+                self.interceptors[config.name] = interceptor
+            except Exception as e:
+                logma.error(f"[profiles] could not install interceptor for '{config.name}': {e}")
+
+        logma.info(
+            f"[profiles] configured '{config.name}' | off_the_record={profile.isOffTheRecord()} "
+            f"| storage={profile.persistentStoragePath()!r} | cache={profile.cachePath()!r} "
+            f"| cache_type={profile.httpCacheType()} | cookies={profile.persistentCookiesPolicy()}"
+        )
 
     def get_profile(self, name: str) -> Optional[pyqt.QWebEngineProfile]:
         """Get a profile by name"""

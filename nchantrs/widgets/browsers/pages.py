@@ -184,10 +184,44 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
         super().javaScriptConsoleMessage(level, message, line_number, source_id)
 
     def createWindow(self, type_):
-        """Handle requests to create new windows (e.g. target="_blank")"""
-        if hasattr(self.parent(), "get_available_engine"):
-            new_viewer = self.parent().get_available_engine()
+        """Handle requests to create new windows (e.g. target="_blank").
+
+        For app-style single-view embeds (the Jupyter notebook view), Jupyter
+        opens a notebook via a new window/tab; there is no tab strip to receive
+        it, so the request was previously dropped and double-click did nothing.
+        When the owning view opts into in-place navigation we capture the
+        intended URL with a throwaway page and load it into the current view.
+        """
+        view = self.parent()
+
+        # A tabbed browser can still hand new windows to a pooled engine.
+        if hasattr(view, "get_available_engine"):
+            new_viewer = view.get_available_engine()
             return new_viewer.browser.page()
+
+        # Decide whether new-window requests should open in this same view.
+        in_place = False
+        try:
+            cfg = getattr(view, "config", None)
+            dikt = getattr(cfg, "dikt", {}) if cfg is not None else {}
+            in_place = bool(dikt.get("links_in_place", dikt.get("is_app", False)))
+        except Exception:
+            in_place = False
+
+        if in_place:
+            logma.info(f"[webpage] createWindow type={type_} in_place=True -> redirecting to current view")
+            # Throwaway page captures the target URL, then we load it in-place.
+            temp = pyqt.QWebEnginePage(self.profile(), self)
+
+            def _redirect(url, _temp=temp):
+                logma.info(f"[webpage] createWindow redirect -> loading {url.toString()} in current view")
+                self.setUrl(url)
+                _temp.deleteLater()
+
+            temp.urlChanged.connect(_redirect)
+            return temp
+
+        logma.info(f"[webpage] createWindow type={type_} in_place=False -> default handling")
         return super().createWindow(type_)
 
     def _update_frame_state(self, is_main_frame):
