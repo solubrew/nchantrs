@@ -42,6 +42,32 @@ logma = Logma(__name__)
 pxcfg = join(here, "_data_", "pages.yaml")
 
 
+class _RedirectCapturePage(pyqt.QWebEnginePage):
+    """One-shot page returned from createWindow to capture a popup/new-window
+    target URL and load it into an existing page instead.
+
+    Chromium loads whatever page createWindow returns; if that page actually
+    navigated it would create a second document/kernel session racing the
+    original. So this page BLOCKS its own navigation (acceptNavigationRequest
+    returns False), hands the URL to the target page, and self-destructs — the
+    net effect is a single in-place navigation.
+    """
+
+    def __init__(self, target_page):
+        super().__init__(target_page.profile(), target_page)
+        self._target_page = target_page
+
+    def acceptNavigationRequest(self, url, _type, _is_main_frame):
+        try:
+            logma.info(f"[webpage] redirect-capture -> loading {url.toString()} in current view")
+            self._target_page.setUrl(url)
+        except Exception as e:
+            logma.error(f"[webpage] redirect-capture failed: {e}")
+        finally:
+            self.deleteLater()
+        return False
+
+
 class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
     """Custom web page with enhanced navigation handling"""
 
@@ -209,17 +235,15 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
             in_place = False
 
         if in_place:
-            logma.info(f"[webpage] createWindow type={type_} in_place=True -> redirecting to current view")
-            # Throwaway page captures the target URL, then we load it in-place.
-            temp = pyqt.QWebEnginePage(self.profile(), self)
-
-            def _redirect(url, _temp=temp):
-                logma.info(f"[webpage] createWindow redirect -> loading {url.toString()} in current view")
-                self.setUrl(url)
-                _temp.deleteLater()
-
-            temp.urlChanged.connect(_redirect)
-            return temp
+            logma.info(f"[webpage] createWindow type={type_} in_place=True -> capture+redirect to current view")
+            # Return a one-shot capture page. It must NOT load the target itself:
+            # a returned new-window page is loaded by Chromium, which would spin
+            # up a SECOND full notebook app + kernel session racing the first
+            # (symptoms: duplicated menu commands, "Not same Y.Doc", multiple
+            # kernel channel WebSockets, "Failed to initialize the context").
+            # _RedirectCapturePage blocks its own navigation and loads the URL
+            # into THIS page instead, so exactly one notebook app loads.
+            return _RedirectCapturePage(self)
 
         logma.info(f"[webpage] createWindow type={type_} in_place=False -> default handling")
         return super().createWindow(type_)

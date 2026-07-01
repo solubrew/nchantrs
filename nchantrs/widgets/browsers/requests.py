@@ -78,7 +78,26 @@ class NchantdRequestInterceptor(pyqt.QWebEngineUrlRequestInterceptor):
         super().__init__(parent)
 
     def interceptRequest(self, info):
-        """"""
+        """Diagnostic logging only (no blocking).
+
+        Logs every resource request — including XHR/fetch and WebSocket handshakes
+        — so we can see which request the Jupyter front-end is failing on
+        ("Failed to fetch"). Especially flags /api/ and websocket requests.
+        """
+        try:
+            url = info.requestUrl().toString()
+            method = bytes(info.requestMethod()).decode("ascii", "replace")
+            rtype = info.resourceType()
+            fp = info.firstPartyUrl().toString()
+            is_api = "/api/" in url
+            is_ws = url.startswith("ws://") or url.startswith("wss://")
+            if is_api or is_ws:
+                logma.info(f"[req] {method} {url} | type={rtype} | api={is_api} ws={is_ws} | firstParty={fp}")
+            else:
+                logma.info(f"[req] {method} {url} | type={rtype}")
+        except Exception as e:
+            logma.error(f"[req] interceptor log failed: {e}")
+        return
         # profile = info.profile()
         # # data = profile.property("custom-data")
         # logma.info(profile.url().toString())
