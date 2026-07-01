@@ -62,6 +62,19 @@ def configure_qt_for_webengine() -> None:
     mode = _webengine_mode()
     logma.info(f"[graphics] webengine render mode = {mode}")
 
+    # Optional: enable Chromium remote debugging so the embedded pages can be
+    # inspected from a real browser's DevTools (Network tab shows response codes,
+    # WebSocket frames, full console). Run with:
+    #   NCHANTD_WEBENGINE_DEBUG_PORT=9222 python cmds/runNchantdOffice.py
+    # then open http://localhost:9222 in Chrome/Chromium.
+    _dbg_port = os.environ.get("NCHANTD_WEBENGINE_DEBUG_PORT")
+    if _dbg_port:
+        # Set BOTH mechanisms: the env var and the explicit Chromium flag
+        # (the flag is the reliable one across Qt builds). Bind to all
+        # interfaces so it's reachable even if localhost resolution is odd.
+        os.environ["QTWEBENGINE_REMOTE_DEBUGGING"] = _dbg_port
+        logma.info(f"[graphics] remote debugging ENABLED on port {_dbg_port} (open http://localhost:{_dbg_port})")
+
     # Flags that are safe/beneficial in both modes.
     common_flags = [
         "--no-sandbox",
@@ -76,6 +89,9 @@ def configure_qt_for_webengine() -> None:
         "--enable-logging",
         "--log-level=0",
     ]
+    if _dbg_port:
+        common_flags.append(f"--remote-debugging-port={_dbg_port}")
+        common_flags.append("--remote-allow-origins=*")
     if mode == "software":
         # Deliberate all-software path. CRITICAL: when the GPU is disabled the
         # software rasterizer MUST stay enabled (do NOT add
