@@ -143,6 +143,8 @@ class NchantdPantiesModel(object):
     def _reset_cache(self) -> None:
         """Reset cache"""
         self.store.reset_cache()
+        if hasattr(self, "menu_cache"):
+            self.menu_cache.clear()
 
 
 class NchantdCapeModel(NchantdPantiesModel):
@@ -177,6 +179,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.is_saved = False
         self.are_services_active = False  # will be used to connect to 3rd party services
         self.instance = None
+        self.menu_cache = {}  # application-wide cache of menu DataFrames keyed by name
 
     def initModel(self, reset=None) -> None:
         """"""
@@ -474,11 +477,36 @@ class NchantdCloakModel(NchantdPantiesModel):
         instances = instances.to_list(orient="records")
         return instances
 
-    def get_menu(self, name) -> None:
-        """Get a menu from the database."""
+    def get_menu(self, name, refresh=False) -> None:
+        """Get a menu from the database.
+
+        Results are cached application-wide keyed by name. Pass refresh=True
+        to bypass the cache for a single call, or use invalidate_menu_cache
+        to drop cached entries when the underlying menu data changes.
+        """
         if name is None:
             return DataFrame()
-        return self.store.get_app_menu(name)
+        if not refresh and name in self.menu_cache:
+            logma.info(f"Menu cache hit {name}")
+            return self.menu_cache[name]
+        logma.info(f"Menu cache miss {name}")
+        menu_df = self.store.get_app_menu(name)
+        self.menu_cache[name] = menu_df
+        return menu_df
+
+    def invalidate_menu_cache(self, name=None) -> None:
+        """Invalidate the application menu cache.
+
+        Pass a name to drop a single cached menu, or omit it to clear the
+        entire cache so subsequent get_menu calls re-fetch from the store.
+        """
+        if name is None:
+            logma.info("Invalidating entire menu cache")
+            self.menu_cache.clear()
+        else:
+            logma.info(f"Invalidating menu cache {name}")
+            self.menu_cache.pop(name, None)
+        return self
 
     def find_node_in_tree(self, nid, tree_widget=None):
         """Find an existing node widget in the tree by its nid."""

@@ -120,7 +120,6 @@ class NchantdContextMenu(NchantdMenu):
         self.menu_data = None
         self.name = None
         self.menu_df = None
-        self.menu_cache = {}
 
     def initModel(self):
         """"""
@@ -145,13 +144,8 @@ class NchantdContextMenu(NchantdMenu):
         logma.info(f"Name {name}")
         if name:
             self.name = name
-        if self.name in self.menu_cache:
-            logma.info(f"Menu cache hit {self.name}")
-            self.menu_df = self.menu_cache[self.name]
-        else:
-            logma.info(f"Menu cache miss {self.name}")
-            self.menu_df = self.parent.app.model.get_menu(self.name)
-            self.menu_cache[self.name] = self.menu_df
+        # menus are cached application-wide by the model; see invalidate_cache
+        self.menu_df = self.parent.app.model.get_menu(self.name)
         logma.info(f"Menu Data {self.menu_df.head()}")
         menu_data = convert_df_to_tree(self.menu_df)
         logma.info(f"Menu Data {menu_data}")
@@ -164,18 +158,13 @@ class NchantdContextMenu(NchantdMenu):
         return self
 
     def invalidate_cache(self, name=None):
-        """Invalidate the menu cache.
+        """Invalidate the application-wide menu cache.
 
-        Pass a name to drop a single cached menu, or omit it to clear the
-        entire cache. Call this whenever the underlying menu data changes so
-        the next get_menu re-fetches from the model.
+        Delegates to the model so every menu/widget sees the refresh. Pass a
+        name to drop a single cached menu, or omit it to clear them all. Call
+        this whenever the underlying menu data changes.
         """
-        if name is None:
-            logma.info("Invalidating entire menu cache")
-            self.menu_cache.clear()
-        else:
-            logma.info(f"Invalidating menu cache {name}")
-            self.menu_cache.pop(name, None)
+        self.parent.app.model.invalidate_menu_cache(name)
         return self
 
 

@@ -217,6 +217,8 @@ class NchantdWidgetMixin(object):
                     cfg = {"actions": menu_df.to_dict("records")}
             except Exception as e:
                 logma.warning(f"Failed to load menu '{menu_name}': {e}")
+                if debug:
+                    raise e
                 cfg = {"actions": {}}
         else:
             logma.warning(f"No app model available for context menu")

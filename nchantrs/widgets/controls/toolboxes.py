@@ -29,7 +29,7 @@ from nchantrs.libraries import pyqt
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
-log = False
+log = True
 if not log:
     logma.off()
 
@@ -45,8 +45,8 @@ class NchantdDrawer(NchantdWidget):
         super().__init__(parent)
         self.parent = parent
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdDrawer"))
-        if self.parent:
-            self.config.override(parent.config)
+        # if self.parent:
+        #     self.config.override(parent.config)
         self.config.override(cfg)
         self.group = None
         self.items = None

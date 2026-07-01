@@ -578,7 +578,8 @@ class NchantdStore(MicroStash):
     def get_app_menu(self, tag="app", db="db"):
         """"""
         table = self._table_resolver.get_table_name("app_menu", self.instance)
-        data = self.cache.get_table(table)
+        #data = self.cache.get_table(table)
+        data = DataFrame()
         if data.empty:
             # Efficient tag building - single pass O(n)
             tags = self._build_tag_hierarchy(tag)
