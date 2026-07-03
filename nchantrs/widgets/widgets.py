@@ -254,7 +254,43 @@ class NchantdWidgetMixin(object):
         logma.info(f"execute contextMenuEvent {self}")
         logma.info(f"Context Menu {self.context_menu}")
         logma.info(f"execute contextMenuEvent {self.context_menu.menu_data}")
+        if debug:
+            self.add_developer_menu(self.context_menu)
         self.context_menu.exec(event.globalPos())
+        return self
+
+    def developer_info(self):
+        """Collect developer-facing metadata about this widget."""
+        try:
+            rect = self.geometry()
+            geo = f"{rect.width()}x{rect.height()} @ ({rect.x()},{rect.y()})"
+        except Exception:
+            geo = "n/a"
+        return {
+            "class": type(self).__name__,
+            "module": type(self).__module__,
+            "name": getattr(self, "name", None),
+            "object_name": self.objectName() or None,
+            "file_path": getattr(self, "file_path", None),
+            "context_menu": getattr(self, "context_menu_name", None),
+            "parent": type(self.parent).__name__ if getattr(self, "parent", None) else None,
+            "geometry": geo,
+        }
+
+    def add_developer_menu(self, menu):
+        """Append a debug-only 'Developer' submenu exposing widget metadata."""
+        info = self.developer_info()
+        text = "\n".join(f"{k}: {v}" for k, v in info.items())
+        menu.addSeparator()
+        dev = menu.addMenu("\U0001F6E0 Developer")
+        for key, value in info.items():
+            row = dev.addAction(f"{key}: {value}")
+            row.setEnabled(False)
+        dev.addSeparator()
+        copy = dev.addAction("Copy widget info")
+        copy.triggered.connect(lambda *_: pyqt.QApplication.clipboard().setText(text))
+        log_it = dev.addAction("Log widget info")
+        log_it.triggered.connect(lambda *_: logma.info(f"[developer] {info}"))
         return self
 
     def cmd_copy_selection(self, selection=""):

@@ -44,10 +44,7 @@ class NchantdDrawer(NchantdWidget):
         """ """
         super().__init__(parent)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdDrawer"))
-        # if self.parent:
-        #     self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdDrawer").override(cfg))
         self.group = None
         self.items = None
 
@@ -103,10 +100,7 @@ class NchantdToolBox(NchantdTab):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdToolBox"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdToolBox").override(cfg))
         self.box = None
         self.drawers = None
         self.name = "ToolBox"
@@ -123,7 +117,6 @@ class NchantdToolBox(NchantdTab):
         """"""
         super().initView(cfg)
         self.build_toolbox(cfg)
-        # self.load_drawer(0)
         self.box.layout().update()
         self.box.currentChanged.connect(self.on_drawer_changed)
         return self

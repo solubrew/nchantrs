@@ -47,10 +47,7 @@ class NchantdButtonBar(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdButtonBar"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdButtonBar").override(cfg))
         self.buttons = {}
         self.actions = {}
         self.layout = None
@@ -96,7 +93,7 @@ class NchantdButtonBar(NchantdWidget):
             self.buttons[action]["widget"] = action_cfg.dikt.get("widget", None)
             if isinstance(self.buttons[action]["widget"], str):
                 self.buttons[action]["widget"] = None
-            # logma.info(f"Action Config {action_cfg.dikt.get("buttons", None)}")
+            logma.info(f"Action Config {action_cfg.dikt.get("buttons", None)}")
             if self.buttons[action].get("widget", None) is None:
                 if action_cfg.dikt.get("type", None) == "dropdown":
                     self.buttons[action]["widget"] = NchantdDropDown(self, action_cfg)
@@ -110,8 +107,8 @@ class NchantdButtonBar(NchantdWidget):
             self.buttons[action]["widget"].initWidget()
             self.layout.addWidget(self.buttons[action]["widget"])
 
-            # self.buttons[action]["widget"].layout.setContentsMargins(0, 0, 0, 0)
-            # self.buttons[action]["widget"].layout.setSpacing(3)
+            self.buttons[action]["widget"].layout.setContentsMargins(0, 0, 0, 0)
+            self.buttons[action]["widget"].layout.setSpacing(3)
         if self.config.dikt.get("justify", None) is None:
             self.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignLeft | pyqt.Qt.AlignmentFlag.AlignTop)
         else:
@@ -315,8 +312,8 @@ class NchantdApplicationToolBar(NchantdToolBar):
         self.toolbar.addWidget(search_entry)
         action = lookup(self.app, "search_go")
         # cfg = {action}
-        search_button = NchantdButton(self, action).initWidget()
-        self.toolbar.addWidget(search_button)
+        #search_button = NchantdButton(self, action).initWidget()
+        #self.toolbar.addWidget(search_button)
         return self
 
     def initWidget(self):

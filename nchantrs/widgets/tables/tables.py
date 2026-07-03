@@ -16,9 +16,6 @@
 from os.path import abspath, dirname, join
 import datetime as dt
 
-import logging
-
-logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 from pandas import DataFrame
 
@@ -39,7 +36,9 @@ from thingery.numbers.numerals import calcExtendedRomanNumerals, calcArabicNumer
 here = join(dirname(__file__), "")  # ||
 debug = True
 logma = Logma(__name__)
-logma.off()
+log = True
+if not log:
+    logma.off()
 # ====================================================================================================================||
 pxcfg = join(abspath(here), "_data_", "tables.yaml")
 
@@ -130,6 +129,7 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
 
     def get_roman_numeral_headers(self):
         """"""
+        logma.warning(f"calc roman numerals")
         return [calcExtendedRomanNumerals(x) for x in range(1, self.columnCount() + 1)]
 
     def lookup_column(self, column):
@@ -315,6 +315,7 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
     def set_current_cell(self, row, column):
         """"""
         logma.info(f"Set Current Cell {row} {column}")
+        logma.info(f"calc roman numerals")
         column = calcExtendedRomanNumerals(column)
         self.current_cell = f"{column}|{row}"
         return self
