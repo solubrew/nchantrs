@@ -232,8 +232,9 @@ class NchantdWebViewer(NchantdWidget):
         self.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
         self.browser.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
         # Access the page and connect the signal
-        page = self.browser.page()  # Get QWebEnginePage object
-        logma.info(f"Page {page}")
+        if self.browser.page is not None:
+            page = self.browser.page()  # Get QWebEnginePage object
+            logma.info(f"Page {page}")
         # page.javaScriptConsoleMessage.connect(self.handle_console_message)  # Connect the signal
         # Add with a stretch factor so the view claims all spare space.
         self.layout.addWidget(self.browser, 1)
