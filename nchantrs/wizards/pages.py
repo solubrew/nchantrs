@@ -2,14 +2,15 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -17,10 +18,14 @@ from os.path import abspath, dirname, join
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
+
+import logging
 from nchantrs.libraries import pyqt
+
+logger = logging.getLogger(__name__)
 from nchantrs.widgets import controls
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from nchantrs.widgets.controls.radios import NchantdRadioButtonGroup
 
 # ====================================================================================================================||
@@ -29,7 +34,6 @@ logma = Logma(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")
-pxcfg = {}
 
 
 class NchantdWizardPage(pyqt.QWizardPage):
@@ -39,11 +43,11 @@ class NchantdWizardPage(pyqt.QWizardPage):
         """ """
         super().__init__()
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdFundAccountsTab")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdFundAccountsTab")
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)
-        self.app = self.parent.app 
+        self.app = self.parent.app
 
     def initModel(self):
         """"""
@@ -70,7 +74,7 @@ class NchantdSelectInstancePage(NchantdWizardPage):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdSelectInstancePage")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdSelectInstancePage")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self.parent)

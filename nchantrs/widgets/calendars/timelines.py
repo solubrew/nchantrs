@@ -10,15 +10,19 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join
 import datetime as dt
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.calendars.calendars import NchantdDateSelect
 from nchantrs.widgets.calendars.days import NchantdDayCalendar
@@ -31,7 +35,7 @@ from nchantrs.widgets.tabsets import NchantdTab
 from nchantrs.widgets.media.media import NchantdNEWSLSummary
 
 from nchantrs.widgets.calendars.days import NchantdDayDashboard
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -39,7 +43,6 @@ logma = Logma(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "timelines.yaml")
-pxcfg = {}
 
 
 class NchantdHistory(NchantdWidget):
@@ -48,7 +51,7 @@ class NchantdHistory(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdHistory")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdHistory")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -177,7 +180,7 @@ class NchantdRecentChanges(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdRecentChanges")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdRecentChanges")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -211,7 +214,7 @@ class NchantdTodayOverview(NchantdTab):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdTodayOverviewTab"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdTodayOverviewTab"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -242,7 +245,7 @@ class NchantdTodayOverview(NchantdTab):
             logma.info(f"Day {day}")
             cfg = {"day": cfg}
             if day.strftime("%Y-%m-%d") == today.strftime("%Y-%m-%d"):
-                cfg["font_zoom"] = 1.2  # TODO: make the today mini widget slightly larger in text etc?
+                cfg["font_zoom"] = 1.2  # [DONE]
             scroll.addWidget(NchantdDayDashboard(self, cfg).initWidget())
             # scrollbar = scroll.scroll.horizontalScrollBar()
             # scrollbar = scroll.scroll.horizontalScrollBar()
@@ -288,7 +291,7 @@ class NchantdTODOCalendar(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -322,7 +325,7 @@ class NchantdTimeTrackerForm(NchantdWidget):
         """ """
         self.parent = parent
         logma.info("CFG", cfg)
-        self.config = condor.Instruct(pxcfg).select("tabsets.NchantdTab")
+        self.config = kahndor.Instruct(pxcfg).select("tabsets.NchantdTab")
         self.config.override(cfg)
         if parent:
             self.config.override(parent.config)
@@ -412,7 +415,7 @@ class NchantdTimeTrackerFormFast(NchantdWidget):
         super().__init__(parent, cfg, panestyle)
         self.parent = parent
         logma.info("CFG", cfg)
-        self.config.override(condor.Instruct(pxcfg).select("NchantdTimeTrackerFormFast"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdTimeTrackerFormFast"))
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)

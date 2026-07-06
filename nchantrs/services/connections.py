@@ -2,16 +2,17 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-		Setup connections for each outside data service that the Nchantrs system will use.  This will leverage the
-		Worldbridge Stone system
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+                Setup connections for each outside data service that the Nchantrs system will use.  This will leverage the
+                Worldbridge Stone system
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -19,41 +20,48 @@ from os.path import abspath, dirname, join
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+
+import logging
+from kahndor.logma import Logma
+
+logger = logging.getLogger(__name__)
 
 # ====================================================================================================================||
-here = join(dirname(__file__), '')  # ||
+here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
 
 # ====================================================================================================================||
-pxcfg = join(here, '_data_', '.yaml')
+pxcfg = join(here, "_data_", ".yaml")
+
 
 class NchantdConnections(object):
-	""""""
-	def __init__(self):
-		""""""
-		self.connections = {}
-	def connect_to_database(self, name=None):
-		"""Allow for adhoc connecting to multiple databases"""
-		if 'db' not in self.connections:
-			self.connections['db'] = {}
-		return self
+    """"""
 
-	def connect_to_google(self):
-		"""leverate google stone"""
+    def __init__(self) -> None:
+        """"""
+        self.connections = {}
 
+    def connect_to_database(self, name: str = None) -> "NchantdConnections":
+        """Allow for adhoc connecting to multiple databases"""
+        if "db" not in self.connections:
+            self.connections["db"] = {}
+        return self
 
+    def connect_to_google(self) -> "NchantdConnections":
+        """leverate google stone"""
 
-	def connect_to_wikipedia(self):
-		"""leverage wikipedia stone"""
+    def connect_to_wikipedia(self) -> "NchantdConnections":
+        """leverage wikipedia stone"""
 
-	def connect_to_wrlok(self):
-		"""Nchantrs native data source for a consolidated data experience"""
-		if 'wrlok' not in self.connections:
-			self.connections['wrlok'] = {}
-		self.available_extensions = ['NchantdApplicationExport', ]
-		return self
+    def connect_to_wrlok(self) -> "NchantdConnections":
+        """Nchantrs native data source for a consolidated data experience"""
+        if "wrlok" not in self.connections:
+            self.connections["wrlok"] = {}
+        self.available_extensions = [
+            "NchantdApplicationExport",
+        ]
+        return self
 
 
 # ====================================================================================================================||

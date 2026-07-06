@@ -2,14 +2,15 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -17,15 +18,19 @@ import datetime as dt
 import enum
 import dataclasses
 from typing import Optional
+
+import logging
 from collections.abc import Callable
+
+logger = logging.getLogger(__name__)
 
 # ======================================3rd Party Library Modules=====================================================||
 
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from nchantrs.widgets.browsers.utilities import NchantdURL
 
 # ====================================================================================================================||
@@ -36,7 +41,6 @@ logma = Logma(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")
-pxcfg = {}
 
 
 class NchantdLocalServiceRequestInterceptor(pyqt.QWebEngineUrlRequestInterceptor):
@@ -74,7 +78,26 @@ class NchantdRequestInterceptor(pyqt.QWebEngineUrlRequestInterceptor):
         super().__init__(parent)
 
     def interceptRequest(self, info):
-        """"""
+        """Diagnostic logging only (no blocking).
+
+        Logs every resource request — including XHR/fetch and WebSocket handshakes
+        — so we can see which request the Jupyter front-end is failing on
+        ("Failed to fetch"). Especially flags /api/ and websocket requests.
+        """
+        try:
+            url = info.requestUrl().toString()
+            method = bytes(info.requestMethod()).decode("ascii", "replace")
+            rtype = info.resourceType()
+            fp = info.firstPartyUrl().toString()
+            is_api = "/api/" in url
+            is_ws = url.startswith("ws://") or url.startswith("wss://")
+            if is_api or is_ws:
+                logma.info(f"[req] {method} {url} | type={rtype} | api={is_api} ws={is_ws} | firstParty={fp}")
+            else:
+                logma.info(f"[req] {method} {url} | type={rtype}")
+        except Exception as e:
+            logma.error(f"[req] interceptor log failed: {e}")
+        return
         # profile = info.profile()
         # # data = profile.property("custom-data")
         # logma.info(profile.url().toString())
@@ -320,7 +343,7 @@ class CloudflareHandler(pyqt.QWebEngineView):
     def handle_challenge_detection(self, result):
         """Handle challenge detection result"""
         if result and result.get("challenge_detected"):
-            print(f"Cloudflare challenge detected: {result.get('challenge_type')}")
+            logger.info(f"Cloudflare challenge detected: {result.get('challenge_type')}")
             self.challenge_detected.emit()
 
             # Start monitoring for challenge completion
@@ -330,7 +353,7 @@ class CloudflareHandler(pyqt.QWebEngineView):
             if result.get("is_turnstile"):
                 self.help_turnstile_render()
         else:
-            print("No Cloudflare challenge detected")
+            logger.debug("No Cloudflare challenge detected")
 
     def help_turnstile_render(self):
         """Help Turnstile widget render properly"""
@@ -368,7 +391,7 @@ class CloudflareHandler(pyqt.QWebEngineView):
         })();
         """
 
-        self.page().runJavaScript(js_code, lambda result: print(f"Turnstile help result: {result}"))
+        self.page().runJavaScript(js_code, lambda result: logger.debug("Turnstile help result: %s", result))
 
     def check_challenge_status(self):
         """Periodically check if challenge is completed"""
@@ -407,13 +430,9 @@ class CloudflareHandler(pyqt.QWebEngineView):
         """Handle challenge status check"""
         if result:
             if not result.get("still_challenging") and result.get("turnstile_completed"):
-                print("Cloudflare challenge completed!")
+                logger.info("Cloudflare challenge completed!")
                 self.challenge_timer.stop()
                 self.challenge_completed.emit()
-            elif not result.get("still_challenging"):
-                # Challenge might be completed, wait a bit more to be sure
-                QTimer.singleShot(2000, lambda: self.challenge_completed.emit())
-                self.challenge_timer.stop()
 
 
 #

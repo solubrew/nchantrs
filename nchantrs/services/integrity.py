@@ -15,12 +15,16 @@
 from os.path import abspath, dirname, join, realpath
 import sys
 import hashlib
+
+import logging
 # ======================================3rd Party Library Modules=====================================================||
 
-# ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+logger = logging.getLogger(__name__)
 
-from ogma.logma import Logma
+# ======================================Solutions Brewer Library Modules==============================================||
+from kahndor import kahndor
+
+from kahndor.logma import Logma
 from squirl.orgnql.fonql import calculate_hash
 
 # ====================================================================================================================||
@@ -30,33 +34,41 @@ logma = Logma(__name__)
 # ====================================================================================================================||
 pxcfg = join(here, '_data_', 'integrity.yaml')
 
-def exectuableHash():
-	""""""
-	start_dir = dirname(realpath(sys.executable))
+# Return code constants
+HASH_VERIFY_SUCCESS = True
+HASH_VERIFY_FAIL = False
+
+# ====================================================================================================================||
+
+def exectuableHash() -> None:
+    """Calculate hash of the current executable."""
+    start_dir = dirname(realpath(sys.executable))
 	start_file_name = realpath(sys.executable)
 	start_file_name_hash = calculate_hash(start_file_name)
 
 class Integrity(object):
 	"""A class to check the integrity of files within the license chain to verify that the specific application is
 	controlled by a known apikey for control of data and potentially verification of NFTs"""
-	def __init__(self, cfg=None):
+	def __init__(self, cfg: None = None):
 		""""""
-		self.config = condor.instruct(pxcfg).select('Integrity').override(cfg)
+		self.config = kahndor.Instruct(pxcfg).select('Integrity').override(cfg)
 		self.interpreter_type = None
 		self.interpreter_path = None
 		self.interpreter_file = None
 		self.interpreter_hash = None
 		self.module_hashes = {}
 
-	def addModules(self):
+	def addModules(self) -> None:
 		"""Add Modules and their paths to the list of modules/files needing to be hashed use for both development and
 		to leveraged in an addon system to allow the addons to verify their own code"""
+		pass
 
-	def hashInterpreter(self):
-		""""""
+	def hashInterpreter(self) -> None:
+		"""Hash the Python interpreter"""
+		pass
 
 
-	def hashFiles(self):
+	def hashFiles(self) -> None:
 		module_hashes = {}
 		for module, file_ in self.module_hashes.items():
 			module_hashes[module] = {}
@@ -65,8 +77,9 @@ class Integrity(object):
 				module_hashes[module][name]['hash'] = calculate_hash(path)
 		self.module_hashes = module_hashes
 
-	def verifyHashes(self):
-		""""""
+	def verifyHashes(self) -> bool:
+		"""Verify stored hashes against current file hashes"""
+		for module, files in self.module_hashes.items():"
 		for module, files in self.module_hashes.items():
 			for name, file_info in files.items():
 				path = file_info['path']
@@ -74,8 +87,8 @@ class Integrity(object):
 				if expected_hash:
 						actual_hash = calculate_hash(path)
 						if actual_hash != expected_hash:
-							return False
-		return True
+							return HASH_VERIFY_FAIL
+		return HASH_VERIFY_SUCCESS
 
 # ====================================================================================================================||
 

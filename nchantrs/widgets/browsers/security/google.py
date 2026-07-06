@@ -2,24 +2,29 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
+from typing import Optional, Dict, List, Any, Tuple
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -37,12 +42,12 @@ import os
 class PersistentGoogleSession:
     """Manage persistent Google login sessions."""
 
-    def __init__(self, app_name="your_app"):
+    def __init__(self, app_name="your_app") -> None:
         self.app_name = app_name
         self.profile = None
         self.setup_persistent_profile()
 
-    def setup_persistent_profile(self):
+    def setup_persistent_profile(self) -> None:
         """Create a persistent web profile for storing login data."""
         # Get app data directory
         data_path = QStandardPaths.writableLocation(QStandardPaths.StandardLocation.AppDataLocation)
@@ -66,7 +71,7 @@ class PersistentGoogleSession:
 
         return self.profile
 
-    def create_web_view(self, parent=None):
+    def create_web_view(self, parent=None) -> None:
         """Create a QWebEngineView with persistent session."""
         from PySide6.QtWebEngineWidgets import QWebEngineView
         from PySide6.QtWebEngineCore import QWebEnginePage

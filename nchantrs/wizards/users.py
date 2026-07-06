@@ -2,23 +2,27 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.controls.radios import NchantdRadioButtonGroup
 from nchantrs.widgets.controls.checkboxes import NchantdCheckbox
@@ -27,7 +31,7 @@ from nchantrs.widgets.browsers.browsers import NchantdWebBrowser
 from nchantrs.widgets.media.editors.editors import NchantdDocEditor, NchantdLabeledEntry
 from nchantrs.wizards.pages import NchantdWizardPage
 from nchantrs.wizards.wizards import NchantdWizard
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -45,7 +49,7 @@ class NchantdNewUserWizard(NchantdWizard):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdNewUserWizard"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdNewUserWizard"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -96,7 +100,7 @@ class NchantdTOSSignOffPage(NchantdWizardPage):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdTOSSignOffPage"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdTOSSignOffPage"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -150,7 +154,7 @@ class NchantdNewUserDetailsPage(NchantdWizardPage):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdFundAccountsTab")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdFundAccountsTab")
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -249,7 +253,7 @@ class NchantdNewUserSignupPage(NchantdWebBrowser):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdNewUserSignupPage")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdNewUserSignupPage")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -278,7 +282,7 @@ class NchantdUserNameSelectorPage(NchantdWizardPage):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdUserNameSelectorPage")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdUserNameSelectorPage")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

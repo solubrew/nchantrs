@@ -10,6 +10,7 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join
@@ -17,14 +18,18 @@ from os.path import dirname, join
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
+
+import logging
 from nchantrs.libraries import pyqt
+
+logger = logging.getLogger(__name__)
 from nchantrs.utilities.utils import lookup
 from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.media.editors.editors import NchantdEntryBox, NchantdEntryEditor
 from nchantrs.widgets.media.editors.selectors import NchantdDropDown
 from nchantrs.widgets.widgets import NchantdWidget
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -42,10 +47,7 @@ class NchantdButtonBar(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdButtonBar"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdButtonBar").override(cfg))
         self.buttons = {}
         self.actions = {}
         self.layout = None
@@ -85,13 +87,13 @@ class NchantdButtonBar(NchantdWidget):
             if action is None:
                 continue
             self.buttons[action] = {}
-            action_cfg = condor.Instruct(lookup(self.app, action)).override(self.config)
+            action_cfg = kahndor.Instruct(lookup(self.app, action)).override(self.config)
             if isinstance(button_cfg, dict):
                 action_cfg.override(button_cfg)
             self.buttons[action]["widget"] = action_cfg.dikt.get("widget", None)
             if isinstance(self.buttons[action]["widget"], str):
                 self.buttons[action]["widget"] = None
-            # logma.info(f"Action Config {action_cfg.dikt.get("buttons", None)}")
+            logma.info(f"Action Config {action_cfg.dikt.get("buttons", None)}")
             if self.buttons[action].get("widget", None) is None:
                 if action_cfg.dikt.get("type", None) == "dropdown":
                     self.buttons[action]["widget"] = NchantdDropDown(self, action_cfg)
@@ -105,8 +107,8 @@ class NchantdButtonBar(NchantdWidget):
             self.buttons[action]["widget"].initWidget()
             self.layout.addWidget(self.buttons[action]["widget"])
 
-            # self.buttons[action]["widget"].layout.setContentsMargins(0, 0, 0, 0)
-            # self.buttons[action]["widget"].layout.setSpacing(3)
+            self.buttons[action]["widget"].layout.setContentsMargins(0, 0, 0, 0)
+            self.buttons[action]["widget"].layout.setSpacing(3)
         if self.config.dikt.get("justify", None) is None:
             self.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignLeft | pyqt.Qt.AlignmentFlag.AlignTop)
         else:
@@ -135,11 +137,16 @@ class NchantdButtonBar(NchantdWidget):
         allow for a block on buttons that is defined specifically
         :return:
         """
-        for button in self.buttons:
-            if button.get("block_toggle", False):
+        for action, button_data in self.buttons.items():
+            if button_data.get("block_toggle", False):
                 continue
             else:
-                button["widget"].setCheckable(True)
+                widget = button_data.get("widget", None)
+                if widget and hasattr(widget, "setCheckable"):
+                    # Check if not already initialized with checkable via config
+                    cfg = widget.config.dikt if hasattr(widget, "config") else {}
+                    if not cfg.get("checkable", False):
+                        widget.setCheckable(True)
 
 
 class NchantdMenuBar(NchantdWidget):
@@ -148,7 +155,7 @@ class NchantdMenuBar(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdMenuBar")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdMenuBar")
         if parent:
             self.config.override(parent.config)
         super().__init__(self.parent)
@@ -202,7 +209,7 @@ class NchantdToolBar(pyqt.QToolBar):
     def __init__(self, parent, cfg: dict = None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdToolBar")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdToolBar")
         self.config.override(cfg)
         super().__init__()
         self.app = pyqt.QApplication.instance()
@@ -279,7 +286,7 @@ class NchantdApplicationToolBar(NchantdToolBar):
         """ """
         self.parent = parent
         super().__init__(self.parent, cfg)
-        self.config.override(condor.Instruct(pxcfg).select("NchantdApplicationToolBar"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdApplicationToolBar"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -305,8 +312,8 @@ class NchantdApplicationToolBar(NchantdToolBar):
         self.toolbar.addWidget(search_entry)
         action = lookup(self.app, "search_go")
         # cfg = {action}
-        search_button = NchantdButton(self, action).initWidget()
-        self.toolbar.addWidget(search_button)
+        #search_button = NchantdButton(self, action).initWidget()
+        #self.toolbar.addWidget(search_button)
         return self
 
     def initWidget(self):
@@ -321,7 +328,7 @@ class NchantdRecordNavigationToolbar(NchantdToolBar):
 
     def __init__(self, cfg: dict = {}):
         """ """
-        self.config = condor.Instruct(pxcfg)
+        self.config = kahndor.Instruct(pxcfg)
         self.config.select("nchantdrecordnavigationtoolbar").override(cfg)
         super(NchantdRecordNavigationToolbar, self).__init__()
         self.model = NchantdTableModel(app, self.config.dikt, parent)
@@ -361,7 +368,7 @@ class NchantdSettingsToolBar(NchantdToolBar):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdSettingsToolBar")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdSettingsToolBar")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

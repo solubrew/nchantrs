@@ -11,13 +11,14 @@
     security: sec|lvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*-
 # ================================Core Modules===================================||
 from os.path import abspath, dirname, join
 from sys import argv
 
 # ===============================================================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.views.applicationviews import NchantdCapeView
 from nchantrs.widgets.applications.applications import NchantdPanties
@@ -27,7 +28,7 @@ from nchantrs.widgets.widgets import NchantdWidgetMixin, loadWidget
 from nchantrs.widgets.controls.button_groups import NchantdAcceptButtons, NchantdOkButtons
 from nchantrs.themes.themes import NchantdTheme
 from nchantrs.widgets.widgets import NchantdWidget
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -41,17 +42,25 @@ pxcfg = join(abspath(here), "_data_", "dialogs.yaml")  # ||
 class NchantdCape(NchantdPanties):
     """Cape is the base class leveraging dialogs to create single pane applications"""
 
-    def __init__(self, name, instance=None, parent=None, cfg=None, args=None):
+    def __init__(self, name, instance=None, parent=None, cfg=None, args=None, log_file=None):
         """
         :param name:
         :param cfg:
         """
-        super().__init__(name, instance, parent, self.config)
-        self.config.override(pxcfg).select("NchantdCape").override(cfg).addArgs(args)
+        # NOTE: We do NOT call super().__init__() here because NchantdPanties
+        # extends QApplication and we don't want to reinitialize it.
+        # The QApplication is already created by the time we get here.
+        self.config = kahndor.Instruct(pxcfg).select("NchantdCape")
+        if parent:
+            self.config.override(parent.config)
+        self.config.override(cfg).addArgs(args)
         logma.info(f"NchantdCape Config: {self.config.dikt}")
+
+        self.application_name = name
+        self.name = name
         self.parent = parent
 
-        # Create a main window widget to hold the content instead of a separate dialog
+        # Create a main window widget to hold the content instead of being the window
         self.main_widget = pyqt.QMainWindow()
         self.main_widget.setWindowTitle(name)
         # QMainWindow doesn't have finished signal, use destroyed or closeEvent instead
@@ -63,6 +72,9 @@ class NchantdCape(NchantdPanties):
         self.newApplication = True
         self.src = None
 
+        # Track initialization state
+        self._init_view_called = False
+
     @property
     def main(self):
         """Expose main_widget as main for compatibility with theme initialization"""
@@ -71,10 +83,21 @@ class NchantdCape(NchantdPanties):
     def initView(self, cfg=None):
         """Initialize UI setting the main application layout and building
         landing widgets"""
+        # Guard against double initialization
+        if hasattr(self, "_init_view_called") and self._init_view_called:
+            import traceback
+
+            logma.critical(f"NchantdCape.initView() called TWICE! Second call blocked.")
+            logma.critical(f"Call stack for second call:")
+            for line in traceback.format_stack():
+                logma.critical(f"  {line.strip()}")
+            return self
+        self._init_view_called = True
+
         if cfg is None:
             cfg = {}
-        super().initView()
-        self.view.initView()
+        logma.critical(f"NchantdCape.initView() STARTING NOW")
+        logma.critical(f"cfg passed: {cfg}")
 
         # Create central widget for the main window
         central_widget = pyqt.QWidget()
@@ -86,6 +109,16 @@ class NchantdCape(NchantdPanties):
         if cfg.get("widget", None):
             logma.info(f"Add Widget {cfg['widget']}")
             self.add_widget(cfg["widget"])
+        else:
+            # Add a welcome label as placeholder
+            logma.info("No widget provided - adding welcome placeholder")
+            welcome_label = pyqt.QLabel("Welcome to NchantdAXN")
+            welcome_label.setAlignment(pyqt.Qt.AlignCenter)
+            font = pyqt.QFont()
+            font.setPointSize(16)
+            font.setBold(True)
+            welcome_label.setFont(font)
+            self.main_layout.addWidget(welcome_label)
 
         self.main_widget.MaxRecentFiles = 10
         self.main_widget.windowList = []
@@ -118,13 +151,18 @@ class NchantdCape(NchantdPanties):
         return self
 
     def initApp(self, cfg=None):
-        """"""
+        """Initialize and run the application"""
+        # Initialize model
         self.initModel()
+        # Initialize view
         self.initView(cfg)
 
-        result = self.exec_()
-        logma.info(f"Application exiting with result: {result}")
-        return result
+        # Run Qt event loop - use the QApplication instance's exec() method
+        logma.critical("Main widget shown - starting Qt event loop")
+        pyqt.QApplication.instance().exec()
+
+        logma.info(f"Application exiting")
+        return 0
 
     def closeEvent(self, event):
         """Handle application close event"""
@@ -385,7 +423,7 @@ class NchantdSigil(NchantdSigilMixin, pyqt.QDialog):
         :param cfg:
         """
         super().__init__(parent)
-        self.config = condor.Instruct(pxcfg).select("NchantdSigil")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdSigil")
         if parent:
             self.config.override(parent.config)
         self.init_variables(name)
@@ -393,7 +431,8 @@ class NchantdSigil(NchantdSigilMixin, pyqt.QDialog):
         if self.layout is None:
             self.layout = pyqt.QVBoxLayout()
             self.setLayout(self.layout)
-        self.model = self.app.model
+        if hasattr(self.app, "model"):  # TODO ensure that this will work may need to switch to NchantdClip
+            self.model = self.app.model
         self.config.override(cfg)
         # Set minimum size to 10% of screen
         self._set_minimum_size()
@@ -409,7 +448,7 @@ class NchantdSigil(NchantdSigilMixin, pyqt.QDialog):
     #     #    super().__init__(parent.app.main)
     #     # else:
     #     #    super().__init__(parent)
-    #     self.config = condor.Instruct(pxcfg).select("NchantdSigil")
+    #     self.config = kahndor.Instruct(pxcfg).select("NchantdSigil")
     #     if parent:
     #         self.config.override(parent.config)
     #     self.init_variables(name)
@@ -510,7 +549,7 @@ class NchantdBroach(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdBroach"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdBroach"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

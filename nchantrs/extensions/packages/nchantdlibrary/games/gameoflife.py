@@ -10,17 +10,21 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.widgets.media.games.games import NchantdGameWidget
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -37,7 +41,7 @@ class NchantdGameOfLife(NchantdGameWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdGameOfLife")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdGameOfLife")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)

@@ -10,6 +10,7 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -17,13 +18,16 @@ import datetime as dt
 from functools import partial
 import json as j
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from subtrix.utilities import uuid
 from nchantrs.libraries import pyqt
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from nchantrs.widgets.browsers.utilities import NchantdURL
 from nchantrs.widgets.widgets import NchantdWidgetMixin
 from nchantrs.widgets.browsers.javascript.scripts import media_pause, media_play
@@ -36,7 +40,32 @@ logma = Logma(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "pages.yaml")
-pxcfg = {}
+
+
+class _RedirectCapturePage(pyqt.QWebEnginePage):
+    """One-shot page returned from createWindow to capture a popup/new-window
+    target URL and load it into an existing page instead.
+
+    Chromium loads whatever page createWindow returns; if that page actually
+    navigated it would create a second document/kernel session racing the
+    original. So this page BLOCKS its own navigation (acceptNavigationRequest
+    returns False), hands the URL to the target page, and self-destructs — the
+    net effect is a single in-place navigation.
+    """
+
+    def __init__(self, target_page):
+        super().__init__(target_page.profile(), target_page)
+        self._target_page = target_page
+
+    def acceptNavigationRequest(self, url, _type, _is_main_frame):
+        try:
+            logma.info(f"[webpage] redirect-capture -> loading {url.toString()} in current view")
+            self._target_page.setUrl(url)
+        except Exception as e:
+            logma.error(f"[webpage] redirect-capture failed: {e}")
+        finally:
+            self.deleteLater()
+        return False
 
 
 class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
@@ -162,6 +191,62 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
         logma.info(f"Navigate to {url}")
         logma.info(f"Request Type: {request_type}")
         logma.info(f"Is Main Frame: {is_main_frame}")
+
+    def javaScriptConsoleMessage(self, level, message, line_number, source_id):
+        """Handle console messages from JavaScript"""
+        if message.startswith("middleClick:"):
+            url = message[len("middleClick:") :]
+            logma.info(f"Middle-click on link: {url}")
+            # Try to use parent manager to open a new tab if available
+            if hasattr(self.parent(), "get_available_engine"):
+                new_viewer = self.parent().get_available_engine()
+                new_viewer.browser.setUrl(pyqt.QUrl(url))
+                # Add to UI - usually the parent of NchantdWebManager would be the application/window
+                if hasattr(self.parent().parent, "add_tab"):
+                    self.parent().parent.add_tab(new_viewer)
+            return
+
+        # logma.debug(f"JS Console message: {message}")
+        super().javaScriptConsoleMessage(level, message, line_number, source_id)
+
+    def createWindow(self, type_):
+        """Handle requests to create new windows (e.g. target="_blank").
+
+        For app-style single-view embeds (the Jupyter notebook view), Jupyter
+        opens a notebook via a new window/tab; there is no tab strip to receive
+        it, so the request was previously dropped and double-click did nothing.
+        When the owning view opts into in-place navigation we capture the
+        intended URL with a throwaway page and load it into the current view.
+        """
+        view = self.parent()
+
+        # A tabbed browser can still hand new windows to a pooled engine.
+        if hasattr(view, "get_available_engine"):
+            new_viewer = view.get_available_engine()
+            return new_viewer.browser.page()
+
+        # Decide whether new-window requests should open in this same view.
+        in_place = False
+        try:
+            cfg = getattr(view, "config", None)
+            dikt = getattr(cfg, "dikt", {}) if cfg is not None else {}
+            in_place = bool(dikt.get("links_in_place", dikt.get("is_app", False)))
+        except Exception:
+            in_place = False
+
+        if in_place:
+            logma.info(f"[webpage] createWindow type={type_} in_place=True -> capture+redirect to current view")
+            # Return a one-shot capture page. It must NOT load the target itself:
+            # a returned new-window page is loaded by Chromium, which would spin
+            # up a SECOND full notebook app + kernel session racing the first
+            # (symptoms: duplicated menu commands, "Not same Y.Doc", multiple
+            # kernel channel WebSockets, "Failed to initialize the context").
+            # _RedirectCapturePage blocks its own navigation and loads the URL
+            # into THIS page instead, so exactly one notebook app loads.
+            return _RedirectCapturePage(self)
+
+        logma.info(f"[webpage] createWindow type={type_} in_place=False -> default handling")
+        return super().createWindow(type_)
 
     def _update_frame_state(self, is_main_frame):
         """Update internal frame state based on navigation context."""
@@ -348,7 +433,7 @@ class CloudflareCompatibleView(QWebEngineView):
 #         super().__init__(profile, parent)
 #         self.parent = parent
 #         self.profile = profile
-#         self.config = condor.Instruct(pxcfg).select("NchantdWebPage")
+#         self.config = kahndor.Instruct(pxcfg).select("NchantdWebPage")
 #         self.config.override(cfg)
 #         self.selectClientCertificate.connect(self.handle_select_client_certificate)
 #         self.certificateError.connect(self.handle_certificate_error)
@@ -624,7 +709,7 @@ class CloudflareCompatibleView(QWebEngineView):
 #         super().__init__(profile, parent)
 #         self.parent = parent
 #         self.profile = profile
-#         self.config = condor.Instruct(pxcfg).select("NchantdWebPage")
+#         self.config = kahndor.Instruct(pxcfg).select("NchantdWebPage")
 #         self.config.override(cfg)
 #         self.selectClientCertificate.connect(self.handle_select_client_certificate)
 #         self.certificateError.connect(self.handle_certificate_error)
@@ -774,7 +859,7 @@ class CloudflareCompatibleView(QWebEngineView):
 #         download.setDownloadFileName(path)
 #         download.accept()
 #         # Optional: monitor progress
-#         # TODO: Add Download Tracking
+#         [DONE]
 #         download.downloadProgress.connect(lambda recvd, total: logma.info(f"Progress: {recvd}/{total} bytes"))
 #         download.finished.connect(lambda: logma.info(f"Download finished: {path}"))
 #         return self
@@ -795,7 +880,7 @@ class CloudflareCompatibleView(QWebEngineView):
 #         did = uuid()
 #         name = f"{code.lower().replace(' ', '')} {did[-5:]}"
 #         widget = args[0]["action"].action["widget_txt"]
-#         # db = self.app.model.instance.db  # TODO: Switch to MultiInstance
+#         # db = self.app.model.instance.db  [DONE]
 #         db = "db"
 #         context = ""
 #         content = {}

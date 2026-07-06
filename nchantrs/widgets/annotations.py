@@ -2,29 +2,33 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 import math
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.utilities.utils import lookup
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 from nchantrs.widgets.media.images import NchantdImage
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -34,7 +38,6 @@ logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "annotations.yaml")
-pxcfg = {}
 
 
 class NchantdLabel(NchantdWidgetMixin, pyqt.QLabel):
@@ -44,7 +47,7 @@ class NchantdLabel(NchantdWidgetMixin, pyqt.QLabel):
         """ """
         super().__init__()
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdLabel")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdLabel")
         if self.parent:
             self.config.override(self.parent.config)
         self.config.override(cfg)
@@ -141,7 +144,7 @@ class NchantdBadgeBar(NchantdWidget):
         """ """
         super().__init__(self, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdBadgeBar")).override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdBadgeBar")).override(cfg)
         self.badges = {}
 
     def initModel(self, actions=None):
@@ -172,7 +175,7 @@ class NchantdBadgeBar(NchantdWidget):
             if action is None:
                 continue
             self.badges[action] = {}
-            action_cfg = condor.Instruct(lookup(self.app, action)).override(self.config)
+            action_cfg = kahndor.Instruct(lookup(self.app, action)).override(self.config)
             if isinstance(button_cfg, dict):
                 action_cfg.override(button_cfg)
             self.badges[action]["widget"] = NchantdLabel(self, action_cfg)
@@ -209,7 +212,7 @@ class NchantdCurrentTimeWidget(pyqt.QWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -236,7 +239,7 @@ class NchantdDisplayBox(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdEntryBox")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdEntryBox")
         if parent:
             self.config.override(parent.config)
         super().__init__()
@@ -265,7 +268,7 @@ class NchantdHighLowLabel(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdHighLowLabel")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdHighLowLabel")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -307,7 +310,7 @@ class NchantdProgressBar(pyqt.QProgressBar):
         self.parent = parent
         if parent:
             cfg = parent.config
-        self.config = condor.Instruct(pxcfg).select("NchantdEntryBox")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdEntryBox")
         self.config.override(cfg)
         super().__init__(self)
         self.setValue(0)

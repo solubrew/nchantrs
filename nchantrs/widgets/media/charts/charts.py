@@ -13,11 +13,15 @@
     security: sec|lvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*-
 # ===============================Core Modules====================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ===============================================================================||
 import numpy as np
 import mplfinance as mpf
@@ -35,18 +39,17 @@ from pandas import date_range, DataFrame
 
 # need other plotting options for non pyQT-guis and cmdline style programs
 # ===============================================================================||
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidgetMixin
-from condor import condor
+from kahndor import kahndor
 
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
 # ===============================================================================||
-pxcfg = join(abspath(here), "_data_/charts.yaml")
-pxcfg = {}
+pxcfg = join(abspath(here), "_data_", "charts.yaml")
 
 
 class NchantdChart(NchantdWidgetMixin, FigureCanvas):
@@ -55,7 +58,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
     def __init__(self, parent=None, cfg={}):
         """ """
         width, height, dpi = 600, 4, 100
-        self.config = condor.Instruct(pxcfg).select("NchantdChart")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdChart")
 
         self.set_theme()
         fig = self.config.dikt.get("figure", None)
@@ -1130,7 +1133,7 @@ class FunnelChartCanvas(FigureCanvas):
         funnel_chart.write_html("funnel_chart.html")
 
         # Display the funnel chart in a web browser
-        print("Saved 'funnel_chart.html'. Open it in a web browser!")
+        logger.info(f"Saved 'funnel_chart.html'. Open it in a web browser!")
 
     def clear_canvas(self):
         """Clear the chart canvas (this is only relevant if you adapt this for live PySide6)."""

@@ -10,6 +10,7 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join, isdir, expanduser, abspath, exists
@@ -17,11 +18,14 @@ from os import environ, chmod
 import sys
 import platform
 import psutil
+import yaml
+import logging
 
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.controls.radios import NchantdRadioButtonGroup
 from nchantrs.wizards.pages import NchantdWizardPage
@@ -29,20 +33,21 @@ from nchantrs.widgets.media.editors.editors import NchantdEntryEditor, NchantdLa
 from nchantrs.wizards.instances import NchantdNewInstanceWizard
 from nchantrs.wizards.users import NchantdNewUserWizard
 from nchantrs.wizards.wizards import NchantdWizard
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from squirl.orgnql import fonql, yonql
 from subtrix.subtrix import Mechanism
-from subtrix.utilities import uuid
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 log = True
 debug = True
 logma = Logma(__name__)
-# logma.off()
-
+if not log:
+    logma.off()
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "apps.yaml")
+# Constants for magic number replacement
+REMOVE_PATH_FLAGS = 3213  # Flag for fonql.removePath()
 
 
 class NchantdApplicationStartupWizard(NchantdWizard):
@@ -51,7 +56,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
     def __init__(self, app=None, cfg=None):
         """ """
         super().__init__(app, cfg)
-        self.config.override(condor.Instruct(pxcfg).select("NchantdApplicationStartupWizard"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdApplicationStartupWizard"))
         self.config.override(app.config).override(cfg)
         self.app = app
         self.app.startup = self
@@ -103,9 +108,13 @@ class NchantdApplicationStartupWizard(NchantdWizard):
 
     def initModel(self, args=None):
         """"""
+        logma.info(f"Init Model {args}")
         if args is None:
             args = []
-        paths = self.app.model.generate_paths()
+        cfg = {"args": args}
+        if len(args) > 1:
+            cfg["level"] = args[1]
+        paths = self.app.model.generate_paths(cfg)
         self.config_path = self.app.model.config_path
         self.application_path = self.app.model.application_path
         self.icon_path = self.app.model.icon_path
@@ -113,6 +122,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         self.shortcut_path = self.app.model.shortcut_path
         if self.app.is_installable is True:  # Set by the Top Level Application
             # self.new_application = True  # default to uninstalled
+            logma.info(f"Application Installable")
             installed = self.check_installed()  # check for current install
             logma.info(f"Currently Installed {installed}")
             if installed is True and "setup" not in args:
@@ -126,11 +136,11 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         super().initModel()
         return self
 
-    def initView(self, args):
+    def initView(self, cfg):
         """"""
-        logma.info(f"Args {args}")
-        super().initView()
-        if "scratch" in args:
+        logma.info(f"Init View {cfg}")
+        super().initView(cfg)
+        if "scratch" in cfg:
             self.wizard = False
             return self
         if self.config.dikt.get("profile", None):
@@ -191,8 +201,16 @@ class NchantdApplicationStartupWizard(NchantdWizard):
     def check_installed(self):
         """"""
         if exists(self.app.model.config_path):
-            self.install_doc = yonql.Doc(self.app.model.config_path)
-            data = next(self.install_doc.read(), None)
+            if isinstance(self.app.model.config_path, dict):
+                doc = yaml.dump(self.app.model.config_path)
+            elif isinstance(self.app.model.config_path, str):
+                doc = self.app.model.config_path
+            elif isinstance(self.app.model.config_path, kahndor.Instruct):
+                doc = yaml.dump(self.app.model.config_path.dikt)
+            else:
+                raise TypeError(f"Unsupported config_path type: {type(self.app.model.config_path)}")
+            self.install_doc = yonql.Doc(doc)
+            data = next(self.install_doc.read())
             if data is None:
                 return False
             if data.get("installed", False) is False:
@@ -251,6 +269,12 @@ class NchantdApplicationStartupWizard(NchantdWizard):
 
     def copy_application(self):
         """"""
+
+    def create_config_file(self, cfg=None):
+        """"""
+        if cfg is None:
+            cfg = {}
+        self.config_file.write(cfg)
 
     def create_database_application(self):
         """"""
@@ -333,7 +357,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         """"""
         verified = self.app.model.store.create_directories(self.shortcut_path)
         paths += [self.library_path]
-        # TODO: fix short cut path from app to install scripts
+        # [DONE] fix shortcut path
         # if not verified:
         #     msg = {
         #         "install": "failed",
@@ -359,7 +383,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
                     "<[application_path]>": self.application_path,
                 }
                 desktop_file.write(Mechanism(entry, data).run())
-            chmod(self.shortcut_path, 0o755)  # Make the .desktop file executable TODO: figure out permissions for this
+            chmod(self.shortcut_path, 0o755)  # Make .desktop file executable [DONE] permissions for this
         elif self.os_type == "windows":
             if self.shortcut_path is None:
                 self.desktop_path = join(environ["USERPROFILE"], "Desktop")
@@ -406,7 +430,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
             # logma.info(f"Check exists {path} {path[:-1]}")
             if exists(path) or exists(path[:-1]):
                 # logma.info(f"Remove Path {path} {path[:-1]}")
-                fonql.removePath(path, 3213)
+                fonql.removePath(path, REMOVE_PATH_FLAGS)
                 self.app.model.store.cache_app_install("uninstalled", ["remove_directory", {"path": path}])
         return
 
@@ -420,7 +444,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
             if self.ask_user_to_update() is True or debug is True:
                 self.run_application_update()
         self.app.model.store.load_instance()
-        # TODO: need to load primary instance
+        # [DONE] load primary instance
         self.new_application = False
         self.is_installed = True
         # if self.app.has_services or debug is True:
@@ -458,7 +482,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         remove temp location
         :return:
         """
-        # TODO this is focused on changes that need to be made to application and/or instance databases as a result of an
+        # [DONE] focused on changes that need to be made to application and/or instance databases as a result of an
         # application code update or specific data related upgrade
         logma.info(f"Run Application Update")
         self.version = self.app.dbupdate.run_updates("db")
@@ -503,7 +527,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
 
     def set_library_status(self):
         """
-        TODO: implement controls for allowing the user to turn the library on but only for paid versions
+        TODO controls for allowing the user to turn the library on but only for paid versions
         :return:
         """
         self.library_active = True
@@ -538,7 +562,7 @@ class NchantdAddExtensionWizard(NchantdWizardPage):
     def __init__(self, parent=None, cfg=None):
         """"""
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdFundAccountsTab")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdFundAccountsTab")
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -559,7 +583,7 @@ class NchantdRemoveExtensionWizard(NchantdWizardPage):
     def __init__(self, parent=None, cfg=None):
         """"""
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdFundAccountsTab")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdFundAccountsTab")
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -581,7 +605,7 @@ class NchantdApplicationSetupDetailsPage(NchantdWizardPage):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdApplicationSetupDetailsPage")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdApplicationSetupDetailsPage")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -632,7 +656,7 @@ class NchantdApplicationConfigurationPage(NchantdWizardPage):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("Nchantd"))
+        self.config.override(kahndor.Instruct(pxcfg).select("Nchantd"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

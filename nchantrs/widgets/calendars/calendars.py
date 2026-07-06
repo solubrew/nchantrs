@@ -2,14 +2,15 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join
@@ -17,14 +18,19 @@ from os.path import dirname, join
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
+
+import logging
 from nchantrs.libraries import pyqt
+
+logger = logging.getLogger(__name__)
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 from nchantrs.widgets.panes.calendars import NchantdCalendarDetailPane
-from ogma.logma import Logma
+from kahndor.logma import Logma
+from nchantrs.widgets.calendars.hours import NchantdMinuteCalendar, NchantdHourCalendar, NchantdQuarterHourCalendar
 from nchantrs.widgets.calendars.days import NchantdDayCalendar
 from nchantrs.widgets.calendars.decades import NchantdDecadeCalendar
-from nchantrs.widgets.calendars.months import NchantdMonthCalendar
+from nchantrs.widgets.calendars.months import NchantdMonthCalendar, NchantdQuarterYearCalendar
 from nchantrs.widgets.calendars.weeks import NchantdWeekCalendar
 from nchantrs.widgets.calendars.years import NchantdYearCalendar
 
@@ -35,7 +41,6 @@ logma = Logma(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "calendars.yaml")
-pxcfg = {}
 
 
 class NchantdCalendar(NchantdWidget):
@@ -44,15 +49,15 @@ class NchantdCalendar(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdCalendar")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdCalendar")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self, self.config)
         self.config.override(cfg)
         self.button_bar = None
-        self.calendar_pane = None
         self.detail_pane = None
         self.scope = None
+        self.calendar = None
 
     def initModel(self):
         """"""
@@ -114,7 +119,7 @@ class NchantdDateTimeSelect(NchantdWidgetMixin, pyqt.QDateTimeEdit):
     def __init__(self, parent, cfg=None, *args, **kwargs):
         """"""
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).override(cfg)
+        self.config = kahndor.Instruct(pxcfg).override(cfg)
         super().__init__(*args, **kwargs)
 
     def initModel(self, objects=None, get_actions=True):
@@ -139,7 +144,7 @@ class NchantdDateTimeGroup(NchantdWidget):
     def __init__(self, parent, cfg=None):
         """"""
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdDateTimeGroup")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdDateTimeGroup")
         if self.parent is not None:
             self.config.override(self.parent.config)
         super().__init__(self)
@@ -186,7 +191,7 @@ class NchantdDateSelect(NchantdWidgetMixin, pyqt.QCalendarWidget):
     def __init__(self, parent, cfg=None, *args, **kwargs):
         """"""
         self.parent = parent
-        self.config = condor.Instruct(pxcfg)
+        self.config = kahndor.Instruct(pxcfg)
         if self.parent:
             self.config.override(self.parent.config)
         super().__init__(*args, **kwargs)
@@ -223,7 +228,7 @@ class NchantdDateIterate(NchantdWidgetMixin, pyqt.QDateEdit):
     def __init__(self, parent, cfg=None):
         """"""
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).override(cfg)
+        self.config = kahndor.Instruct(pxcfg).override(cfg)
         super().__init__()
         self.setDate(pyqt.QDate.currentDate())
 
@@ -234,7 +239,7 @@ class NchantdEventsList(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self.parent, self.config)
@@ -261,7 +266,7 @@ class NchantdTimeSelect(NchantdWidgetMixin, pyqt.QTimeEdit):
     def __init__(self, parent, cfg=None, *args, **kwargs):
         """"""
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdTimeSelect")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdTimeSelect")
         super().__init__(*args, **kwargs)
         self.config.override(cfg)
 

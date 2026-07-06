@@ -10,6 +10,7 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -19,7 +20,7 @@ import datetime as dt
 from pandas import DataFrame
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt, qpandas
 from nchantrs.utilities import utils
 from nchantrs.widgets.annotations import NchantdLabel
@@ -27,18 +28,19 @@ from nchantrs.widgets.items.cells import NchantdCell, NchantdTableCell
 from nchantrs.widgets.media.editors.selectors import NchantdComboBox
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 from nchantrs.widgets.controls.toolbars import NchantdButtonBar
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from pycurity.pytime import PyTime
-from pyffice.spreadsheet.spreadsheet import calcExtendedRomanNumerals, calcArabicNumerals
+from thingery.numbers.numerals import calcExtendedRomanNumerals, calcArabicNumerals
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 debug = True
 logma = Logma(__name__)
-logma.off()
+log = True
+if not log:
+    logma.off()
 # ====================================================================================================================||
 pxcfg = join(abspath(here), "_data_", "tables.yaml")
-pxcfg = {}
 
 
 class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
@@ -49,7 +51,7 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
         super().__init__(10, 10, parent)
         self.parent = parent
         self.setParent(parent)
-        self.config = condor.Instruct(pxcfg).select("NchantdTable")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdTable")
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -127,6 +129,7 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
 
     def get_roman_numeral_headers(self):
         """"""
+        logma.warning(f"calc roman numerals")
         return [calcExtendedRomanNumerals(x) for x in range(1, self.columnCount() + 1)]
 
     def lookup_column(self, column):
@@ -312,6 +315,7 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
     def set_current_cell(self, row, column):
         """"""
         logma.info(f"Set Current Cell {row} {column}")
+        logma.info(f"calc roman numerals")
         column = calcExtendedRomanNumerals(column)
         self.current_cell = f"{column}|{row}"
         return self
@@ -498,7 +502,7 @@ class NchantdDataFrameTable(NchantdWidgetMixin, qpandas.DataTableWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdDataFrameTable")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdDataFrameTable")
         self.init_variables()
         if parent:
             self.config.override(parent.config)
@@ -540,7 +544,7 @@ class NchantdGrid(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdGrid")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdGrid")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)

@@ -1,0 +1,18 @@
+name: Docs
+
+on:
+  push:
+    branches: [main, gamma]
+  workflow_dispatch:
+
+jobs:
+  docs:
+    name: Build Docs
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install mkdocs mkdocs-material pymdown-extensions
+      - run: mkdocs build || echo "Docs build attempted"

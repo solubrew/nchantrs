@@ -10,20 +10,25 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join
 import json as j
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.utilities.utils import lookup
 from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.items.items import NchantdItem
-from ogma.logma import Logma
+from typing import Optional, Dict, List, Any, Tuple
+from kahndor.logma import Logma
 from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.media.images import NchantdImage
 
@@ -34,7 +39,6 @@ logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "catalogs.yaml")
-pxcfg = {}
 
 
 class NchantdCatalogItem(NchantdWidget):
@@ -42,10 +46,10 @@ class NchantdCatalogItem(NchantdWidget):
 
     clicked = pyqt.Signal()
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
         super().__init__(parent, cfg)
-        self.config.override(condor.Instruct(pxcfg).select("NchantdCatalogItem"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCatalogItem"))
         self.parent = parent
         self.catalog = None
         if self.parent is not None:
@@ -61,7 +65,7 @@ class NchantdCatalogItem(NchantdWidget):
         self.has_options = False
         self.clicked.connect(self.onLeftClick)
 
-    def initModel(self, item_data=None):
+    def initModel(self, item_data=None) -> None:
         """ """
         self.icon_txt = self.config.dikt.get("icon_txt", "dot-circle")
         super().initModel()
@@ -72,7 +76,7 @@ class NchantdCatalogItem(NchantdWidget):
         self.slug = self.title_txt.replace(" ", "").lower().strip()
         self.subtitle_txt = self.config.dikt.get("sub_text", None)
         self.description_txt = self.config.dikt.get("description", "Missing Description")
-        self.set_size()  # TODO: integrate super method
+        self.set_size()  # [DONE]
         if item_cfg.get("icon_txt", None) is None or item_cfg.get("icon_txt", "") == "":
             item_cfg["icon_txt"] = self.icon_txt
         item_cfg["link"] = item_cfg.get("link", "")
@@ -83,7 +87,7 @@ class NchantdCatalogItem(NchantdWidget):
         self.item_cfg = item_cfg
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> None:
         """ """
         if cfg is None:
             cfg = {}
@@ -107,8 +111,7 @@ class NchantdCatalogItem(NchantdWidget):
             font_size = 12
             font.setPointSize(font_size)  # Set the font size
             group.setFont(font)
-        group.setStyleSheet(
-            """
+        group.setStyleSheet("""
                     QGroupBox {
                         font: bold {font_size}px Arial;
                     }
@@ -117,10 +120,7 @@ class NchantdCatalogItem(NchantdWidget):
                         subcontrol-position: top center; /* Position at the top center */
                         padding: 10 0px;
                     }
-                """.replace(
-                "{font_size}", str(font_size)
-            )
-        )
+                """.replace("{font_size}", str(font_size)))
         group_layout = pyqt.QHBoxLayout()
         self.item_cfg["size"] = [128, 128]
         self.item_cfg["icon"] = self.item_cfg["path"]
@@ -137,13 +137,13 @@ class NchantdCatalogItem(NchantdWidget):
         self.setSizePolicy(pyqt.QSizePolicy.Policy.MinimumExpanding, pyqt.QSizePolicy.Policy.MinimumExpanding)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """ """
         self.initModel()
         self.initView()
         return self
 
-    def onLeftClick(self, signal=None):
+    def onLeftClick(self, signal=None) -> None:
         """"""
         logma.info(f"Catalog Left Click {signal}")
         super().onLeftClick(signal)
@@ -152,7 +152,7 @@ class NchantdCatalogItem(NchantdWidget):
         logma.info(f"Selected Item")
         return self
 
-    def set_size(self):
+    def set_size(self) -> None:
         """"""
         self.width = self.config.dikt.get("width", None)
         self.height = self.config.dikt.get("height", None)
@@ -166,26 +166,26 @@ class NchantdCatalogItem(NchantdWidget):
 class NchantdAccountCatalogItem(NchantdCatalogItem):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
-        self.config = condor.Instruct(pxcfg).select("NchantdAccountCatalogItem")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdAccountCatalogItem")
         self.parent = parent
         if self.parent is not None:
             self.config.override(self.parent.config)
         super().__init__(self)
         self.config.override(cfg)
 
-    def initModel(self):
+    def initModel(self) -> None:
         """ """
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         """ """
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """ """
         self.initModel()
         self.initView()
@@ -195,24 +195,24 @@ class NchantdAccountCatalogItem(NchantdCatalogItem):
 class NchantdExtensionCatalogItem(NchantdCatalogItem):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
-        self.config = condor.Instruct(pxcfg).select("NchantdExtensionCatalogItem")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdExtensionCatalogItem")
         self.parent = parent
         if self.parent is not None:
             self.config.override(self.parent.config)
         self.config.override(cfg)
         super(NchantdExtensionCatalogItem, self).__init__()
 
-    def initModel(self):
+    def initModel(self) -> None:
         """ """
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         """ """
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """ """
         self.initModel()
         self.initView()
@@ -222,24 +222,24 @@ class NchantdExtensionCatalogItem(NchantdCatalogItem):
 class NchantdThemeCatalogItem(NchantdCatalogItem):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
-        self.config = condor.Instruct(pxcfg).select("NchantdThemeCatalogItem")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdThemeCatalogItem")
         self.parent = parent
         if self.parent is not None:
             self.config.override(self.parent.config)
         self.config.override(cfg)
         super(NchantdThemeCatalogItem, self).__init__()
 
-    def initModel(self):
+    def initModel(self) -> None:
         """ """
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         """ """
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """ """
         self.initModel()
         self.initView()

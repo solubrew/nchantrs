@@ -10,73 +10,85 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 import math
 
-# ======================================3rd Party Library Modules=====================================================||
+import logging
+from typing import Any, Dict, Optional
 
-# ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+logger = logging.getLogger(__name__)
+# ======================================3rd Party Library Modules=====================================================||
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), "")
 log = True
 logma = Logma(__name__)
 logma.off()
 
+
+# ====================================================================================================================||
+# Constants to avoid magic numbers
+DEFAULT_FONT_SIZE: int = 10
+DEFAULT_MIN_DIMENSION: int = 10
+DEFAULT_GRID_COLUMNS: int = 2
+
+
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "checkboxes.yaml")
-pxcfg = {}
 
 
 class NchantdCheckbox(NchantdWidgetMixin, pyqt.QCheckBox):
-    def __init__(self, parent, cfg=None):
+    def __init__(self, parent: Any, cfg: Optional[Dict] = None) -> None:
         """https://www.tutorialspoint.com/pyqt/pyqt_qcheckbox_self.htm"""
         super().__init__("", parent)
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdCheckbox")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdCheckbox")
         if self.parent:
             self.config.override(self.parent.config.dikt)
         self.config.override(cfg)
         self.init_variables()
 
-    def initModel(self):
+    def initModel(self) -> "NchantdCheckbox":
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> "NchantdCheckbox":
         """"""
         super().initView()
         self.setText(self.config.dikt.get("text", "Missing Text"))
         self.setChecked(self.config.dikt.get("checked", False))
         if self.config.dikt.get("font", None):
             font = pyqt.QFont()
-            font.setPointSize(self.config.dikt["font"].get("size", 10))
+            font.setPointSize(self.config.dikt["font"].get("size", DEFAULT_FONT_SIZE))
             font.setFamily(self.config.dikt["font"].get("family", "Arial"))
             self.setFont(font)
         self.set_size()
-        # self.stateChanged.connect(getattr(parent, self.config.dikt['handlers']['stateChanged_handler']))
-        # self.toggled.connect(getattr(parent, self.config.dikt['handlers']['toggled_handler']))
-
-        # self.activated.connect(getattr(self, self.config.dikt['handlers']['activated_handler']))
-        # self.currentIndexChanged.connect(getattr(self, self.config.dikt['handlers']['current_index_changed_handler']))
-        # self.highlight.connect(getattr(self, self.config.dikt['handlers']['highlighted_handler']))
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> "NchantdCheckbox":
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def set_size(self, set_width=None, set_height=None, min_width=10, min_height=10, max_width=None, max_height=None):
+    def set_size(
+        self,
+        set_width: Optional[int] = None,
+        set_height: Optional[int] = None,
+        min_width: int = DEFAULT_MIN_DIMENSION,
+        min_height: int = DEFAULT_MIN_DIMENSION,
+        max_width: Optional[int] = None,
+        max_height: Optional[int] = None,
+    ) -> None:
         """"""
         text_width, text_height = self._get_text_size(self.text)
         logma.info(f"Text Size {text_width} {text_height}")
@@ -114,7 +126,7 @@ class NchantdCheckboxGroup(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdCheckboxGroup"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCheckboxGroup"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -160,7 +172,7 @@ class NchantdCheckboxCombo(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdCheckboxCombo"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCheckboxCombo"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

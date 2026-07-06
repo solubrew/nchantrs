@@ -2,14 +2,15 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -17,14 +18,18 @@ from os.path import abspath, dirname, join
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
+
+import logging
 from nchantrs.libraries import pyqt
+
+logger = logging.getLogger(__name__)
 from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.media.editors.selectors import NchantdDropDownExplainer
 from nchantrs.widgets.groups import NchantdVScrollGroupBox
 from nchantrs.widgets.media.editors.entries import NchantdActivateEntry, NchantdCheckboxEditor, NchantdCheckbox
 from nchantrs.widgets.media.editors.selectors import NchantdDropDown
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from nchantrs.widgets.config.settings import NchantdSettingsWidget
 
 # ====================================================================================================================||
@@ -34,7 +39,6 @@ logma = Logma(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "storage.yaml")
-pxcfg = {}
 
 
 class NchantdStorageSettings(NchantdSettingsWidget):
@@ -44,7 +48,7 @@ class NchantdStorageSettings(NchantdSettingsWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdStorageSettings"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdStorageSettings"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

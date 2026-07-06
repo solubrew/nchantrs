@@ -2,27 +2,32 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join, exists
+from typing import Optional, Dict, List, Any, Tuple
 from os import listdir
 import datetime as dt
 import json as j
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from squirl.orgnql import yonql
 
 # ====================================================================================================================||
@@ -35,8 +40,8 @@ pxcfg = join(here, "_data_", "install.yaml")
 
 
 class NchantdExtensionLoader(pyqt.QObject):
-    def __init__(self, parent=None, cfg=None):
-        self.config = condor.Instruct(pxcfg).select("NchantdExtensionLoader").override(cfg)
+    def __init__(self, parent=None, cfg=None) -> None:
+        self.config = kahndor.Instruct(pxcfg).select("NchantdExtensionLoader").override(cfg)
         super().__init__()
         self.loaded_extensions = []
         self.extensions_path = self.config.dikt.get("extensions_path", None)
@@ -44,7 +49,7 @@ class NchantdExtensionLoader(pyqt.QObject):
             self.extensions_path = ""
         self.manifest = None
 
-    def load_extension(self, name):
+    def load_extension(self, name) -> None:
         """
         Load an extension given its name.
         """
@@ -53,32 +58,32 @@ class NchantdExtensionLoader(pyqt.QObject):
         self.load_manifest(manifest_path)
         return self
 
-    def load_manifest(self, manifest_path):
+    def load_manifest(self, manifest_path) -> None:
         """"""
         manifest = yonql.Doc(manifest_path)
         next(self.manifest.read())
         self.manifest = manifest.dikt
         return self
 
-    def inject_script(self, js_code):
+    def inject_script(self, js_code) -> None:
         """
         Inject JavaScript into the WebView.
         """
         self.browser.page().runJavaScript(js_code)
 
-    def execute_background_script(self, js_code):
+    def execute_background_script(self, js_code) -> None:
         """
         Execute a background script in the context of Python (as an event-driven task).
         """
         exec(js_code, globals())
 
-    def list_extensions(self):
+    def list_extensions(self) -> None:
         """
         Return a list of available extensions.
         """
         return listdir(self.extensions_path)
 
-    def validate_extension(self, name):
+    def validate_extension(self, name) -> None:
         """check to ensure file structure is valid and all required files are present"""
         if not exists(manifest_path):
             raise FileNotFoundError(f"Manifest not found for extension: {name}")
@@ -102,9 +107,9 @@ class NchantdExtensionLoader(pyqt.QObject):
                 js_code = script_file.read()
                 self.execute_background_script(js_code)
 
-        print(f"Extension {name} loaded successfully!")
+        logger.info(f"Extension {name} loaded successfully!")
 
-    def verify_extension(self, name):
+    def verify_extension(self, name) -> None:
         """
         verify that extension is registered with twoFDNS or Granite system
         :param name:

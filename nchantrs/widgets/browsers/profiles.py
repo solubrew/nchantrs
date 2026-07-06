@@ -2,14 +2,15 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -20,12 +21,15 @@ from enum import Enum
 from typing import Dict, Optional
 import uuid
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from subtrix.subtrix import Mechanism
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.browsers.requests import NchantdRequestInterceptor
 from nchantrs.widgets.widgets import NchantdWidgetMixin
@@ -59,7 +63,7 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
         self.parent = parent
         self.name = name
         self.browser = browser
-        self.config = condor.Instruct(pxcfg).select("NchantdWebProfile")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdWebProfile")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -186,56 +190,21 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
     def set_persistence(self):
         """"""
         logma.info(f"Set Persistence {self.name}")
-        self.setCachePath(join(self.app.model.store.application_path, f".cache_{self.name}"))
+        # Use application path for storage
+        storage_base = getattr(self.app.model.store, "application_path", ".")
+        cache_path = join(storage_base, f".cache_{self.name}")
+        persistent_path = join(storage_base, ".persistence", str(self.name))
+
+        self.setCachePath(cache_path)
+        self.setPersistentStoragePath(persistent_path)
+
         self.setHttpCacheType(pyqt.QWebEngineProfile.HttpCacheType.DiskHttpCache)
-        # self.setHttpCachePath(self.app.model.store.application_path, ".persistence", str(self.name))
-        self.setPersistentStoragePath(join(self.app.model.store.application_path, ".persistence", str(self.name)))
         self.setPersistentCookiesPolicy(pyqt.QWebEngineProfile.PersistentCookiesPolicy.AllowPersistentCookies)
-        # self.setPersistentCookiesPolicy(pyqt.QWebEngineProfile.ForcePersistentCookies)
 
-        # self.setOfflineStoragePath(self.app.path)
-        # self.setOfflineWebApplicationCachePath(self.config.offline_web_application_cache_path)
-        # self.setPersistentStoragePath(self.app.path)
-        #
-        # self.setPersistentCookiesPolicy(self.ForcePersistentCookies)
-        #
-        # self.setPersistentStoragePolicy(self.ForcePersistentStorage)
-        # self.setPersistentSessionStoragePolicy(self.ForcePersistentSessionStorage)
-        # self.setPersistentWebStoragePolicy(self.ForcePersistentWebStorage)
-        # self.setPersistentPermissionPolicy(self.ForcePersistentPermissionPolicy)
+        # Use a modern User-Agent for better compatibility (especially with Google)
+        modern_ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
+        self.setHttpUserAgent(modern_ua)
 
-        # self.setPersistentItemCachePolicy(self.ForcePersistentItemCache)
-        # self.setPersistentResourceCachePolicy(self.ForcePersistentResourceCache)
-        # self.setPersistentDatabasePolicy(self.ForcePersistentDatabase)
-        # self.setPersistentOfflineStoragePolicy(self.ForcePersistentOfflineStorage)
-        # self.setPersistentOfflineWebApplicationCachePolicy(self.ForcePersistentOfflineWebApplicationCache)
-
-        # self.current_profile.setPersistentStoragePath(self.storage_path)
-        # self.current_profile.setHttpCacheType(pyqt.QWebEngineProfile.DiskHttpCache)
-        # self.current_profile.setPersistentCookiesPolicy(pyqt.QWebEngineProfile.ForcePersistentCookies)
-
-        # # self.setHttpCacheType(self.MemoryCache)
-        # self.setHttpCacheType(self.DiskHttpCache)
-        # self.setHttpProxyType(self.DefaultProxy)
-        # self.setHttpProxy(self.config.http_proxy)
-        # self.setHttpPort(self.config.http_port)
-        # self.setHttpsPort(self.config.https_port)
-        # self.setHttpAuthenticationType(self.NoAuthentication)
-        # self.setHttpAuthentication(self.config.http_user, self.config.http_password)
-        # self.setHttpProxyAuthenticationType(self.NoAuthentication)
-        # self.setHttpProxyAuthentication(self.config.http_proxy_user, self.config.http_proxy_password)
-        # self.setHttpUserAgentPolicy(self.DefaultUserAgent)
-        # self.setHttpAcceptLanguage(self.config.http_accept_language)
-        # self.setHttpAcceptEncoding(self.config.http_accept_encoding)
-        # self.setHttpAcceptText(self.config.http_accept_text)
-        # self.setHttpAcceptImages(self.config.http_accept_images)
-        # self.setHttpAcceptFonts(self.config.http_accept_fonts)
-        # self.setHttpAcceptMedia(self.config.http_accept_media)
-        # self.setHttpAcceptPlugins(self.config.http_accept_plugins)
-        # self.setHttpAcceptPopups(self.config.http_accept_popups)
-        # self.setHttpAcceptRichText(self.config.http_accept_rich_text)
-        # self.setHttpUserAgent(f"{self.config.user_agent} ({self.config.user_agent_id})")
-        # self._profile.downloadRequested.connect(self._download_manager_widget.download_requested)
         self.persistence = True
         return self
 
@@ -422,15 +391,25 @@ class ProfileManager(pyqt.QObject):
     profileRemoved = pyqt.Signal(str)  # profile_name
     defaultProfileChanged = pyqt.Signal(str)  # profile_name
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, storage_base=None):
         super().__init__(parent)
         self.profiles: Dict[str, pyqt.QWebEngineProfile] = {}
         self.configurations: Dict[str, ProfileConfiguration] = {}
         self.interceptors: Dict[str, NchantdRequestInterceptor] = {}
         self.default_profile_name = "default"
+        # Base directory under which each persistent profile gets its own stable
+        # storage/cache dir. Passed by the app pool (app.model.store.application_path).
+        self.storage_base = storage_base or "."
+        logma.info(f"[profiles] ProfileManager init | storage_base={self.storage_base!r}")
 
-        # Create default profile
+        # Create default profile (persistent, shared app-wide).
         self.create_profile("default", ProfileType.DEFAULT, is_default=True)
+
+    def get_or_create(self, name: str, profile_type: "ProfileType" = None) -> pyqt.QWebEngineProfile:
+        """Return an existing profile or create a persistent one with this name."""
+        if name in self.profiles:
+            return self.profiles[name]
+        return self.create_profile(name, profile_type or ProfileType.DEFAULT)
 
     def create_profile(
         self,
@@ -442,7 +421,7 @@ class ProfileManager(pyqt.QObject):
         """Create a new web engine profile"""
 
         if name in self.profiles:
-            print(f"Profile '{name}' already exists")
+            logma.warning(f"Profile '{name}' already exists")
             return self.profiles[name]
 
         # Create configuration if not provided
@@ -455,8 +434,11 @@ class ProfileManager(pyqt.QObject):
             # Off-the-record profile
             profile = pyqt.QWebEngineProfile(self)
         else:
-            # Persistent profile
-            storage_name = f"profile_{name}_{uuid.uuid4().hex[:8]}"
+            # Persistent profile. Use a STABLE storage name (the profile name)
+            # so the on-disk storage/cache dir is reused across restarts — a
+            # uuid suffix would create a fresh empty profile every run and
+            # nothing (cookies/logins) would persist.
+            storage_name = f"profile_{name}"
             profile = pyqt.QWebEngineProfile(storage_name, self)
 
         # Configure the profile
@@ -473,14 +455,29 @@ class ProfileManager(pyqt.QObject):
         # Emit signal
         self.profileCreated.emit(name, profile)
 
-        print(f"Created profile '{name}' of type {profile_type.value}")
+        logma.info(f"Created profile '{name}' of type {profile_type.value}")
         return profile
 
     def _configure_profile(self, profile: pyqt.QWebEngineProfile, config: ProfileConfiguration):
         """Configure a profile with the given configuration"""
+        from os import makedirs
 
         # Basic settings
         profile.setHttpUserAgent(config.user_agent)
+
+        # Stable on-disk storage/cache for persistent (non-incognito) profiles,
+        # rooted under the app storage base so each named profile is isolated
+        # and reused across restarts.
+        if config.profile_type != ProfileType.INCOGNITO and not profile.isOffTheRecord():
+            persistent_path = config.storage_path or join(self.storage_base, ".webprofiles", config.name)
+            cache_path = join(self.storage_base, ".webprofiles", config.name, "cache")
+            try:
+                makedirs(persistent_path, exist_ok=True)
+                makedirs(cache_path, exist_ok=True)
+            except Exception as e:
+                logma.error(f"[profiles] could not create profile dirs for '{config.name}': {e}")
+            profile.setPersistentStoragePath(persistent_path)
+            profile.setCachePath(cache_path)
 
         # Cache settings
         if config.cache_enabled:
@@ -498,11 +495,23 @@ class ProfileManager(pyqt.QObject):
         if config.download_path:
             profile.setDownloadPath(config.download_path)
 
-        # Create and install request interceptor
-        if config.interceptor_rules:
-            interceptor = NchantdRequestInterceptor(config.name, config.interceptor_rules, profile)
-            profile.setUrlRequestInterceptor(interceptor)
-            self.interceptors[config.name] = interceptor
+        # Create and install request interceptor (once per profile).
+        if config.name not in self.interceptors:
+            try:
+                if config.interceptor_rules:
+                    interceptor = NchantdRequestInterceptor(config.name, config.interceptor_rules, profile)
+                else:
+                    interceptor = NchantdRequestInterceptor(profile)
+                profile.setUrlRequestInterceptor(interceptor)
+                self.interceptors[config.name] = interceptor
+            except Exception as e:
+                logma.error(f"[profiles] could not install interceptor for '{config.name}': {e}")
+
+        logma.info(
+            f"[profiles] configured '{config.name}' | off_the_record={profile.isOffTheRecord()} "
+            f"| storage={profile.persistentStoragePath()!r} | cache={profile.cachePath()!r} "
+            f"| cache_type={profile.httpCacheType()} | cookies={profile.persistentCookiesPolicy()}"
+        )
 
     def get_profile(self, name: str) -> Optional[pyqt.QWebEngineProfile]:
         """Get a profile by name"""
@@ -524,12 +533,12 @@ class ProfileManager(pyqt.QObject):
             self.configurations[name].is_default = True
 
             self.defaultProfileChanged.emit(name)
-            print(f"Default profile changed to '{name}'")
+            logma.warning(f"Default profile changed to '{name}'")
 
     def remove_profile(self, name: str):
         """Remove a profile"""
         if name == self.default_profile_name:
-            print(f"Cannot remove default profile '{name}'")
+            logma.warning(f"Cannot remove default profile '{name}'")
             return
 
         if name in self.profiles:
@@ -541,7 +550,7 @@ class ProfileManager(pyqt.QObject):
             del self.configurations[name]
 
             self.profileRemoved.emit(name)
-            print(f"Removed profile '{name}'")
+            logger.info(f"Removed profile '{name}'")
 
     def get_profile_names(self) -> list:
         """Get list of all profile names"""

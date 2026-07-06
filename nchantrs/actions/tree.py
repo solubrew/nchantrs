@@ -2,25 +2,30 @@
 """
 ---
 <(META)>:
-	docid: 62ea7f1-d120-4d97-92b4-2ed26d0aee4a
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid: 62ea7f1-d120-4d97-92b4-2ed26d0aee4a
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
+from typing import Optional, Dict, List, Any, Tuple
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.dialogs.new import NewNchantdNodeSigil
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -31,7 +36,7 @@ logma = Logma(__name__)
 pxcfg = join(here, "_data_", "tree.yaml")
 
 
-# def add_node(name, app, params=None):
+# def add_node(name, app, params=None) -> None:
 #     """"""
 #     logma.info(f"Name {name}")
 #     logma.info(f"App {app}")
@@ -49,7 +54,7 @@ pxcfg = join(here, "_data_", "tree.yaml")
 #         # app.view.panes['left'].view.initView()
 
 
-# def add_node_child(name, app, params=None):
+# def add_node_child(name, app, params=None) -> None:
 #     """
 #     Launch dialog
 #             enter node name
@@ -72,7 +77,7 @@ pxcfg = join(here, "_data_", "tree.yaml")
 #         # app.view.panes['left'].view.refresh()
 
 
-# def add_node_sibling(name, app, params=None):
+# def add_node_sibling(name, app, params=None) -> None:
 #     """
 #     Launch dialog
 #             enter node name
@@ -94,7 +99,7 @@ pxcfg = join(here, "_data_", "tree.yaml")
 #         # app.view.panes['left'].view.refresh()
 
 
-# def add_node_subtree(name, app, params=None):
+# def add_node_subtree(name, app, params=None) -> None:
 #     """"""
 #     sigil = ImportNchantdSubtreeSigil(app).initWidget()
 #     if sigil.ok:
@@ -110,7 +115,7 @@ pxcfg = join(here, "_data_", "tree.yaml")
 #             app.view.panes["left"].model.add_node(name, ntype, pid, pos)
 #
 #
-# def add_node_top(name, app, params=None):
+# def add_node_top(name, app, params=None) -> None:
 #     """
 #     Launch dialog
 #             enter node name
@@ -131,31 +136,31 @@ pxcfg = join(here, "_data_", "tree.yaml")
 #         app.view.panes["left"].view.refresh()
 #
 #
-# def childadd():
+# def childadd() -> None:
 #     """Add a child to the currently selected node"""
 #
 #
-# def childrendelete():
+# def childrendelete() -> None:
 #     """Mark the currently selected nodes children deleted"""
 #
 #
-# def nodedelete():
+# def nodedelete() -> None:
 #     """Mark the currently selected node deleted"""
 #
 #
-# def nodedown():
+# def nodedown() -> None:
 #     """Move currently selected node down in the tree structure"""
 #
 #
-# def nodeedit():
+# def nodeedit() -> None:
 #     """Edit currently selected node features"""
 #
 #
-# def nodeup():
+# def nodeup() -> None:
 #     """Move currently seleted node up in the tree structure"""
 #
 #
-# def siblingadd():
+# def siblingadd() -> None:
 #     """Add a sibling node to the currently selected node"""
 #
 

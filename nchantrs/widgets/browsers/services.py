@@ -2,14 +2,15 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -24,11 +25,14 @@ from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass
 from enum import Enum
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
 
 # ====================================================================================================================||
@@ -80,7 +84,7 @@ class ServiceDiscovery(pyqt.QObject):
     serviceFound = pyqt.Signal(LocalService)
     serviceStatusChanged = pyqt.Signal(str, ServiceStatus)  # service_name, status
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.services: Dict[str, LocalService] = {}
         self.scan_timer = pyqt.QTimer()
@@ -99,23 +103,23 @@ class ServiceDiscovery(pyqt.QObject):
             "Streamlit": [8501],
         }
 
-    def start_discovery(self, interval_ms: int = 5000):
+    def start_discovery(self, interval_ms: int = 5000) -> None:
         """Start automatic service discovery"""
-        print("Starting service discovery...")
+        logma.info("Starting service discovery...")
         self.scan_services()  # Initial scan
         self.scan_timer.start(interval_ms)
 
-    def stop_discovery(self):
+    def stop_discovery(self) -> None:
         """Stop automatic service discovery"""
         self.scan_timer.stop()
-        print("Service discovery stopped")
+        logma.info("Service discovery stopped")
 
-    def scan_services(self):
+    def scan_services(self) -> None:
         """Scan for running local web services"""
         for port in self.common_ports:
             threading.Thread(target=self._check_port, args=(port,), daemon=True).start()
 
-    def _check_port(self, port: int):
+    def _check_port(self, port: int) -> None:
         """Check if a port is open and serving HTTP"""
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
@@ -131,17 +135,17 @@ class ServiceDiscovery(pyqt.QObject):
                         self.services[service_name] = service
                         self.serviceFound.emit(service)
                         self.serviceStatusChanged.emit(service_name, ServiceStatus.RUNNING)
-                        print(f"Found service: {service_name} on port {port}")
+                        logma.info(f"Found service: {service_name} on port {port}")
                 else:
                     # Check if we previously had a service on this port
                     for name, service in list(self.services.items()):
                         if service.port == port and service.status == ServiceStatus.RUNNING:
                             service.status = ServiceStatus.STOPPED
                             self.serviceStatusChanged.emit(name, ServiceStatus.STOPPED)
-                            print(f"Service stopped: {name} on port {port}")
+                            logma.info(f"Service stopped: {name} on port {port}")
 
         except Exception as e:
-            print(f"Error checking port {port}: {e}")
+            logma.error(f"Error checking port {port}: {e}")
 
     def _identify_service(self, port: int) -> str:
         """Try to identify the type of service running on a port"""
@@ -150,17 +154,17 @@ class ServiceDiscovery(pyqt.QObject):
                 return f"{framework} (:{port})"
         return f"Local Service (:{port})"
 
-    def add_custom_service(self, service: LocalService):
+    def add_custom_service(self, service: LocalService) -> None:
         """Manually add a custom service"""
         self.services[service.name] = service
         self.serviceFound.emit(service)
-        print(f"Added custom service: {service.name}")
+        logma.info(f"Added custom service: {service.name}")
 
-    def remove_service(self, service_name: str):
+    def remove_service(self, service_name: str) -> None:
         """Remove a service from tracking"""
         if service_name in self.services:
             del self.services[service_name]
-            print(f"Removed service: {service_name}")
+            logma.info(f"Removed service: {service_name}")
 
     def get_service(self, name: str) -> Optional[LocalService]:
         """Get a service by name"""

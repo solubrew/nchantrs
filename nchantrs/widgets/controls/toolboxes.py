@@ -2,14 +2,15 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -18,8 +19,8 @@ import datetime as dt
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from nchantrs.widgets.groups import NchantdGridScrollGroupBox
 from nchantrs.widgets.tabsets import NchantdTab
 from nchantrs.widgets.widgets import NchantdWidget
@@ -28,11 +29,12 @@ from nchantrs.libraries import pyqt
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
-logma.off()
+log = False
+if not log:
+    logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "toolboxes.yaml")
-pxcfg = {}
 
 
 class NchantdDrawer(NchantdWidget):
@@ -42,10 +44,7 @@ class NchantdDrawer(NchantdWidget):
         """ """
         super().__init__(parent)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdDrawer"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdDrawer").override(cfg))
         self.group = None
         self.items = None
 
@@ -67,17 +66,23 @@ class NchantdDrawer(NchantdWidget):
         items = self.config.dikt.get("items", {})
         if items is None:
             items = {}
-        # logma.info(f"Drawer Items {items}")
+        logma.info(f"Drawer Items: {items}")
+        logma.info(f"Number of items: {len(items)}")
         for i, item in items.items():
+            logma.info(f"Processing item {i}: {item}")
             self.items[i] = item
             widget = self.items[i].get("widget", None)
+            logma.info(f"Widget for item {i}: {widget}")
             if widget is None:
+                logma.warning(f"Item {i} has no widget, skipping")
                 continue
             widget.initWidget()
             self.items[i]["widget"] = widget
             drawer_group.addWidget(widget, row, col)
+            logma.info(f"Added widget for item {i} at row {row}")
             row += 1
 
+        logma.info(f"Total widgets added to drawer: {row}")
         self.layout.addLayout(drawer_group.layout)
         return self
 
@@ -95,10 +100,7 @@ class NchantdToolBox(NchantdTab):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdToolBox"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdToolBox").override(cfg))
         self.box = None
         self.drawers = None
         self.name = "ToolBox"
@@ -115,7 +117,6 @@ class NchantdToolBox(NchantdTab):
         """"""
         super().initView(cfg)
         self.build_toolbox(cfg)
-        # self.load_drawer(0)
         self.box.layout().update()
         self.box.currentChanged.connect(self.on_drawer_changed)
         return self
@@ -137,7 +138,7 @@ class NchantdToolBox(NchantdTab):
         """"""
         if items is None:
             items = {}
-        self.drawers[drawer] = {"widget": self.add_dummy_widget()}
+        self.drawers[drawer] = {"widget": self.add_dummy_widget(), "loaded": False}
         logma.info(f"Add Drawer {drawer}")
         idx = self.box.addItem(self.drawers[drawer]["widget"], items.get("title", "Mystery Drawer"))
         logma.info(f"Index {idx}")
@@ -155,13 +156,13 @@ class NchantdToolBox(NchantdTab):
 
     def build_toolbox(self, cfg=None):
         """"""
-        logma.inspect_caller()
+        # logma.inspect_caller()
         current_document = self.app.view.panes["center"].currentWidget()
-        self.box = pyqt.QToolBox(self)
+        self.box = pyqt.QToolBox()
         self.box.currentChanged.connect(self.on_drawer_changed)
         if current_document is not None:
-            # logma.info(f"Config Toolbox {self.config.dikt.get("toolbox", {})}")  # [0]["items"]}")
-            cfg = condor.Instruct(cfg).override({"toolbox": current_document.toolbox_config})
+            logma.info(f"Config Toolbox {self.config.dikt.get("toolbox", {})}")  # [0]["items"]}")
+            cfg = kahndor.Instruct(cfg).override({"toolbox": current_document.toolbox_config})
             cfg.override(self.config.dikt)
             cfg = cfg.dikt["toolbox"]
             default_cfg = self.config.dikt.get("default", {})
@@ -198,23 +199,51 @@ class NchantdToolBox(NchantdTab):
     @pyqt.Slot(int)
     def load_drawer(self, idx: int):
         """"""
-        try:
-            index = [x for x, y in self.drawers.items() if y["idx"] == idx][0]
-        except Exception as e:
+        logma.info(f"load_drawer called for index {idx}")
+        # Find drawer key by matching index
+        drawer_key = None
+        drawer_data = None
+        for key, data in self.drawers.items():
+            logma.info(f"Checking drawer key={key}, data idx={data.get('idx')}, loaded={data.get('loaded')}")
+            if data.get("idx") == idx:
+                drawer_key = key
+                drawer_data = data
+                break
+
+        # If not found, nothing to do
+        if drawer_key is None:
+            logma.info(f"Drawer at index {idx} not found in drawers dict")
             return self
+
+        # If already loaded, nothing to do
+        if drawer_data.get("loaded", False):
+            logma.info(f"Drawer at index {idx} already loaded")
+            return self
+
+        logma.info(f"Building drawer {drawer_key} at index {idx}")
         try:
-            drawer = NchantdDrawer(self, self.drawers.get(index, {}).get("cfg", {})).initWidget()
-            self.drawers[index]["widget"] = drawer
+            drawer = NchantdDrawer(self, drawer_data.get("cfg", {})).initWidget()
+            drawer_data["widget"] = drawer
+            drawer_data["loaded"] = True
+            logma.info(f"Successfully built drawer {drawer_key}")
         except Exception as e:
+            logma.error(f"Failed to build drawer {drawer_key}: {e}")
             # If building fails, show a simple error page, but keep toolbox functional
             drawer = pyqt.QWidget()
             lay = pyqt.QVBoxLayout(drawer)
             msg = pyqt.QLabel(f"Failed to load drawer content:\n{e}")
             msg.setStyleSheet("color: #b00;")
             lay.addWidget(msg)
+            drawer_data["widget"] = drawer
+            drawer_data["loaded"] = True
+
         # Preserve title and icon, replace at the same index
         title = self.box.itemText(idx)
         icon = self.box.itemIcon(idx)
+
+        # Get old widget and prepare to delete it
+        old_widget = self.box.widget(idx)
+
         self.box.blockSignals(True)
         try:
             self.box.removeItem(idx)
@@ -223,9 +252,12 @@ class NchantdToolBox(NchantdTab):
             else:
                 self.box.insertItem(idx, drawer, icon, title)
             self.box.setCurrentIndex(idx)
+            # Delete old dummy widget
+            if old_widget is not None:
+                old_widget.deleteLater()
+            logma.info(f"Replaced dummy widget with real drawer at index {idx}")
         finally:
             self.box.blockSignals(False)
-        del self.drawers[index]
         return self
 
     def on_drawer_changed(self, index):

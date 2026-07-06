@@ -10,20 +10,25 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
+from typing import Any, Optional, Dict, List
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 
 from nchantrs.dialogs.colors import NchantdColorSelectSigil
 from nchantrs.libraries import pyqt
 from nchantrs.utilities.utils import lookup
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 from nchantrs.widgets.media.editors.selectors import NchantdComboBox
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
@@ -36,6 +41,12 @@ here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
 logma.off()
+
+# ====================================================================================================================||
+# Constants to avoid magic numbers
+DEFAULT_GRID_COLUMNS: int = 3
+DEFAULT_FONT_SIZE: int = 12
+
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "button_groups.yaml")
 
@@ -46,7 +57,7 @@ class NchantdButtonGrid(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -84,7 +95,7 @@ class NchantdAcceptButtons(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdOkButtons")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdOkButtons")
         if parent:
             self.config.override(self.parent.config)
         self.config.override(cfg)
@@ -124,7 +135,7 @@ class NchantdOkButtons(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdOkButtons"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdOkButtons"))
         if parent:
             self.config.override(self.parent.config)
         self.config.override(cfg)
@@ -155,7 +166,7 @@ class NchantdSaveButtons(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdSaveButtons")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdSaveButtons")
         if parent:
             self.config.override(self.parent.config)
         self.config.override(cfg)
@@ -199,7 +210,7 @@ class NchantdSubmissionButtons(pyqt.QWidget):
 
     def __init__(self, parent=None, cfg={}):
         """ """
-        self.config = condor.Instruct(pxcfg).override(cfg)
+        self.config = kahndor.Instruct(pxcfg).override(cfg)
         self.config.select("NchantdSubmissionButtons")
         if parent:
             self.config.override(parent.config)
@@ -207,7 +218,7 @@ class NchantdSubmissionButtons(pyqt.QWidget):
         pyqt.QWidget.__init__(self)
         self.layout = pyqt.QHBoxLayout()
         if log:
-            print("Nchantd Submission Buttons", self.config.dikt)
+            logger.debug(f"Nchantd Submission Buttons", self.config.dikt)
         self.config.dikt["buttons"]["new"]["text"] = "New"
         self.newbutton = NchantdButton(self, self.config.dikt["buttons"]["new"])
         self.newbutton.initWidget()
@@ -233,7 +244,7 @@ class NchantdTabSideButtons(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdOkButtons")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdOkButtons")
         if parent:
             self.config.override(self.parent.config)
         self.config.override(cfg)
@@ -277,7 +288,7 @@ class NchantdMathPad(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdMathPad")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdMathPad")
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -319,7 +330,7 @@ class NchantdNumberPad(pyqt.QWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdNumberPad")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdNumberPad")
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -376,7 +387,7 @@ class NchantdFontConfigBar(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdFontConfigBar"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdFontConfigBar"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -666,7 +677,7 @@ class NchantdBorderConfigBar(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdBorderConfigBar"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdBorderConfigBar"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

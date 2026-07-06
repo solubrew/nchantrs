@@ -2,28 +2,33 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantdoffice.models import NchantdOfficeCloakModel
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from pyffice.notes.cherrytree import PyfficeCherryTree
 from pyffice.pyffice import PyfficeDocument
 from squirl.orgnql import fonql
+from typing import Optional, Dict, List, Any, Tuple
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -34,7 +39,7 @@ logma = Logma(__name__)
 pxcfg = join(here, "_data_", "nchantrs.yaml")
 
 
-def convert_cherrytree_2_nchantdbook(path, name=None, import_=False):
+def convert_cherrytree_2_nchantdbook(path, name=None, import_=False) -> None:
     """"""
     doc = PyfficeNchantdBook(cfg)
     cherry_doc = PyfficeCherryTree.open(path)
@@ -42,7 +47,7 @@ def convert_cherrytree_2_nchantdbook(path, name=None, import_=False):
         doc.create_node()
 
 
-def convert_filesystem_2_nchantdbook(path, name=None, import_=False):
+def convert_filesystem_2_nchantdbook(path, name=None, import_=False) -> None:
     """"""
     doc = PyfficeNchantdBook(path)
     doc.create_note_book()
@@ -60,11 +65,11 @@ def convert_filesystem_2_nchantdbook(path, name=None, import_=False):
     doc.save_as(f"{path}/{name}.ctd")
 
 
-def convert_excel_2_nchantdmatrix(path, name=None):
+def convert_excel_2_nchantdmatrix(path, name=None) -> None:
     """"""
 
 
-def convert_word_2_nchantdscript(path, name=None):
+def convert_word_2_nchantdscript(path, name=None) -> None:
     """"""
 
 

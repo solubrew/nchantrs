@@ -2,24 +2,29 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
+from typing import Dict, Any, Optional
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -33,11 +38,11 @@ pxcfg = join(here, "_data_", ".yaml")
 # class NchantdApplicationSkeleton:
 #     """"""
 #
-#     def __init__(self, path):
+#     def __init__(self, path) -> None:
 #         """"""
 #         self.path = path
 #
-#     def create_folder_structure(self):
+#     def create_folder_structure(self) -> None:
 #         """"""
 #         app_name = ""
 #         app_name_lower = ""

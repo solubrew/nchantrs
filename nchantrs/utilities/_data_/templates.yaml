@@ -39,11 +39,11 @@ NchantdApplicationSkeleton:
             # ======================================3rd Party Library Modules=====================================================||
 
             # ======================================Solutions Brewer Library Modules==============================================||
-            from condor import condor
+            from kahndor import kahndor
             from nchantrs.models import treemodels, applicationmodels
             from nchantrs.models.tabsetmodels import NchantdTabSetModel
             from thing.thing import Thing
-            from ogma.logma import Logma
+            from kahndor.logma import Logma
 
             # ====================================================================================================================||
             here = join(dirname(__file__), '')  # ||
@@ -58,7 +58,7 @@ NchantdApplicationSkeleton:
             	def __init__(self, parent=None, cfg=None):
             		""" """
             		self.parent = parent
-            		self.config = condor.instruct(pxcfg).select('NFDCloakModel')
+            		self.config = kahndor.Instruct(pxcfg).select('NFDCloakModel')
             		if self.parent:
             			self.config.override(parent.config)
             		self.config.override(cfg)
@@ -114,7 +114,7 @@ NchantdApplicationSkeleton:
 
             	def __init__(self, parent=None, root=None, cfg=None):
             		""" """
-            		self.config = condor.instruct(pxcfg).select('NFDTreeModel')
+            		self.config = kahndor.Instruct(pxcfg).select('NFDTreeModel')
             		logma.info(f"NFDTreeModel Config\n {self.config.dikt.keys()}")
             		self.parent = parent
             		if parent:
@@ -359,7 +359,7 @@ NchantdApplicationSkeleton:
 
             	def __init__(self, parent, cfg):
             		""""""
-            		self.config = condor.instruct(pxcfg).select('NFDTabSetModel')
+            		self.config = kahndor.Instruct(pxcfg).select('NFDTabSetModel')
             		if parent:
             			self.config.override(parent.config)
             		self.config.override(cfg)
@@ -396,9 +396,9 @@ NchantdApplicationSkeleton:
             # ======================================3rd Party Library Modules=====================================================||
 
             # ======================================Solutions Brewer Library Modules==============================================||
-            from condor import condor
+            from kahndor import kahndor
             from nchantrs.nchantrs import NchantdCloak
-              from ogma.logma import Logma
+              from kahndor.logma import Logma
 
             # ====================================================================================================================||
             here = join(dirname(__file__), '')  # ||
@@ -412,7 +412,7 @@ NchantdApplicationSkeleton:
             	""" """
             	def __init__(self, args, parent=None):
             		""" """
-            		self.config = condor.instruct(pxcfg).load().addArgs(args)
+            		self.config = kahndor.Instruct(pxcfg).load().addArgs(args)
             		if parent:
             			self.config.override(parent.config)
             		super(<[app_name]>, self).__init__('<[app_name]>', self.config)

@@ -5,21 +5,26 @@
     docid:
     name:
     description: >
+        Migration of the a database to a new version. we should not enforce an upgrade except for on x.n.x versions.
+        that means that all 0.1.x needs to be upgradable directly to 0.2.0.
     version: 0.0.0.0.0.0
     authority: filesystem
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
+from typing import Optional, Dict, List, Any, Tuple
 import datetime as dt
+from copy import deepcopy
 
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from nchantrs.models.models import NchantdInstance
 
 # ====================================================================================================================||
@@ -27,39 +32,63 @@ here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
 debug = True
-
+if not log:
+    logma.off()
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "db.yaml")
 
 
-class DBUpdate(object):
+def migrate():
+    """Run a migration process from one version to the next"""
+
+
+def migrate_index():
     """"""
 
-    def __init__(self, parent, cfg=None):
+
+def migrate_table():
+    """"""
+
+
+def migrate_view():
+    """"""
+
+
+class NchantdDBUpdate(object):
+    """"""
+
+    def __init__(self, parent, cfg=None) -> None:
         """"""
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("DBUpdate").override(cfg)
-        self.versions = self.config.select("versions")
+        self.config = kahndor.Instruct(pxcfg).select("DBUpdate").override(cfg)
+        self.versions = deepcopy(self.config.dikt.get("versions"))
         self.current_version = None
         self.version = None
         self.hold_data = {}
         self.app = parent
 
-    def backup_db(self, db="db"):
+    def add_uuid(self, table, control_column, data_column, db="db"):
+        """Generate and insert a uuid to each record of a column given the filters"""
+        self.app.model.store.add_uuid(table, control_column, data_column, db)
+        return self
+
+    def backup_db(self, db="db") -> None:
         """"""
-        data = self.parent.app.model.get_instance(db)
-        logma.info(f"Instance: {data}")
-        if data.empty:
-            raise Exception("No Instance Found")
-        data = data.loc[0].to_dict()
-        instance = NchantdInstance(self, data)
-        logma.info(f"Instance: {instance}")
-        self.parent.app.model.set_instance_active(instance)
         logma.info(f"Instance Active: {self.parent.app.model.instance}")
-        name = self.parent.model.store.backup_database(self.parent.app.model.instance, db)
+        instance = self.parent.app.model.instance
+        if self.parent.app.model.instance is None:
+            data = self.parent.app.model.get_instance(db)
+            logma.info(f"Instance Data: {data}")
+            if data.empty:
+                raise Exception("No Instance Found")
+            data = data.loc[0].to_dict()
+            instance = NchantdInstance(self, data)
+            logma.info(f"Instance: {instance}")
+            self.parent.app.model.set_instance_active(instance)
+        name = self.parent.model.store.backup_database(instance, db)
         return name
 
-    def check_version(self, current_v):
+    def check_version(self, current_v) -> bool:
         """"""
         logma.info(f"Checking Version {current_v}")
         latest_v = self.get_latest_version()
@@ -68,89 +97,169 @@ class DBUpdate(object):
         current_parts = self._parse_version_parts(current_v)
         latest_parts = self._parse_version_parts(latest_v)
 
-        for i, (current_level, latest_level) in enumerate(zip(current_parts, latest_parts)):
-            logma.info(f"Checking Level {i} {current_level}")
-            if current_level == latest_level:
-                continue
-            return current_level < latest_level
+        for current_level, latest_level in zip(current_parts, latest_parts):
+            if current_level < latest_level:
+                return True
+            if current_level > latest_level:
+                return False
+
+        if len(latest_parts) > len(current_parts):
+            return True
 
         return False
 
-    def get_data(self, table, db="db"):
+    def get_data(self, table, db="db") -> None:
         """"""
         return self.parent.app.model.store.get_table(table, None, db)
 
-    def get_latest_version(self):
+    def get_latest_version(self) -> str:
         """"""
         self.current_version = self.parent.model.get_current_version()
-        max_version = 0
         logma.info(f"Current Version: {self.current_version}")
-        logma.info(f"Versions: {self.versions.dikt.keys()}")
+        logma.info(f"Versions: {self.versions.keys()}")
 
-        version_data = self.versions.dikt.get(self.current_version)
-        if isinstance(version_data, dict):
-            for version_key in version_data.keys():
-                version_number = int(version_key.replace(".", ""))
-                if version_number > max_version:
-                    max_version = version_number
-        else:
+        version_data = self.versions.get(self.current_version).get("versions", None)
+        if not isinstance(version_data, dict) or not version_data:
             return self.current_version
 
-        return ".".join([x for x in str(max_version)])[:-1]
+        latest_v = self.current_version
+        latest_parts = self._parse_version_parts(latest_v)
 
-    def insert_data(self, table, data, db="db", column_map=None):
+        for version_key in version_data.keys():
+            current_parts = self._parse_version_parts(version_key)
+            # Simple version comparison logic
+            is_newer = False
+            for p1, p2 in zip(current_parts, latest_parts):
+                if p1 > p2:
+                    is_newer = True
+                    break
+                if p1 < p2:
+                    break
+            else:
+                if len(current_parts) > len(latest_parts):
+                    is_newer = True
+
+            if is_newer:
+                latest_v = version_key
+                latest_parts = current_parts
+
+        return latest_v
+
+    def insert_data(self, table, data, db="db", column_map=None) -> bool:
         """"""
-        if column_map:
-            data = self.map_columns(data, column_map)
-        self.parent.app.model.store_records(table, data, db)
-        return True
+        try:
+            if column_map:
+                data = self.map_columns(data, column_map)
+            self.parent.app.model.store_records(table, data, db)
+            return True
+        except Exception as e:
+            logma.error(f"Insert failed for table {table}: {e}")
+            return False
 
-    def map_columns(self, data, column_map):
+    def map_columns(self, data, column_map) -> None:
         """"""
         for column in column_map.keys():
             data[column_map[column]] = data[column]
             del data[column]
         return data
 
-    def reload_table(self, table, keep, map_, filters, db="db"):
+    def reload_index(self, index, db="db") -> bool:
+        """"""
+        if self.parent.app.model.store.delete_index(index, db):
+            return self.parent.app.model.store.create_index(index, db)
+        return False
+
+    def reload_table(self, table, keep, map_, filters, db="db") -> bool:
         """"""
         return self.parent.app.model.reload_table(table, keep, map_, filters, db)
 
-    def restore_backup(self, db):
+    def reload_view(self, view, db="db") -> bool:
         """"""
-        self.parent.app.model.store.restore_backup(db)
+        if self.parent.app.model.store.delete_view(view, db):
+            return self.parent.app.model.store.create_view(view, db)
+        return False
+
+    def repair_table(self, cmd, db="db"):
+        """"""
+        # need to run cmds for specific repairs
+
+    def restore_backup(self, instance, version=None) -> None:
+        """"""
+        self.parent.app.model.store.restore_backup(instance, version)
         return True
 
-    def run_updates(self, db):
+    def run_updates(self, db) -> str:
         """"""
         current_v = self.parent.model.get_current_version()
-        version = current_v
         logma.info(f"Current Version: {current_v}")
 
         if not self.check_version(current_v):
             logma.info("No updates needed")
-            return version
+            return current_v
 
         logma.info("Running Updates")
-        updates = self.versions.select(current_v).dikt
 
-        for version_key in updates.keys():
-            update_data = updates[version_key]
-            if not self._process_single_version_update(version_key, update_data, db):
-                break
-            version = version_key
+        # We need to find all versions that are greater than current_v and apply them in order.
+        # The versions are stored in self.versions[current_v] if it follows the old logic,
+        # but robust migration usually means we have a flat or nested list of all possible updates.
+        # Based on existing code, it seems it looks for updates UNDER the current version key.
 
+        updates_dict = self.versions.get(current_v, {})
+        logma.info(f"Updates Dict: {updates_dict}")
+        if not updates_dict:
+            logma.info(f"No update paths found for version {current_v}")
+            return current_v
+
+        # Sort available target versions
+        available_versions = sorted(updates_dict["versions"].keys(), key=lambda v: self._parse_version_parts(v))
+
+        logma.info(f"Available Versions: {available_versions}")
+
+        version = current_v
+        if updates_dict.get("active", False) is False:
+            logma.info("Updates are disabled")
+            return current_v
+        for version_key in available_versions:
+            logma.info(f"Checking Version: {version_key}")
+            # Only apply if version_key > version
+            if self._is_version_greater(version_key, version):
+                # update_data = updates_dict[version_key]
+                update_data = updates_dict["versions"][version_key]
+                if update_data is None:
+                    continue
+                logma.info(f"Applying update to {version_key}")
+                if not self._process_single_version_update(version_key, update_data, db):
+                    logma.error(f"Failed to update to {version_key}")
+                    break
+                version = version_key
+                # IMPORTANT: If we updated to version_key, we might have new update paths available
+                # from THIS new version. However, the current structure seems to suggest
+                # all updates from current_v are listed under it.
+                # If it's a chain (0.1 -> 0.2, then 0.2 -> 0.3), we'd need to re-check.
         return version
 
-    def run_update_indexes(self, indexes, db="db"):
+    def run_update_indexes(self, indexes, db="db") -> bool:
         """"""
         if indexes is None:
             return True
-        # for index, cmd in indexes.items():
-        #     self.parent.model.store.create_index(index, cmd, db)
+        if indexes["reload"] is False:
+            return True
+        if indexes["all"]:
+            indexes = self.parent.app.model.store.get_indexes(db)
+        else:
+            indexes = indexes.get("indexes", {})
+
+        # logma.info(f"Updating Indexes {indexes}")
+        for index, cmd in indexes.items():
+            # try:
+            # self.parent.app.model.store.create_index(index, cmd, db)
+            self._process_index_operations(index, cmd, db)
+            # except Exception as e:
+            # logma.error(f"Failed to create index {index}: {e}")
+            # return False
         return True
 
-    def run_update_tables(self, tables, db="db"):
+    def run_update_tables(self, tables, db="db") -> bool:
         """"""
         if tables is None:
             return True
@@ -163,36 +272,73 @@ class DBUpdate(object):
 
         return True
 
-    def run_update_views(self, views, db="db"):
+    def run_update_views(self, views, db="db") -> bool:
         """"""
         if views is None:
             return True
+        if views["reload"] is False:
+            return True
+        if views["all"]:
+            views = self.parent.app.model.store.get_views(db)
+        else:
+            views = views.get("views", {})
         for view, cmd in views.items():
-            self.parent.store.update_view(view, cmd, db)
+            # logma.info(f"Updating View: {view}")
+            # logma.info(f"Command: {cmd}")
+            try:
+                # self.parent.app.model.store.update_view(view, cmd, db)
+                self._process_view_operations(view, cmd, db)
+            except Exception as e:
+                logma.error(f"Failed to update view {view}: {e}")
+                return False
         return True
 
-    def update_data(self, update, column, value, db="db"):
+    # def update_data(self, update, column, value, db="db") -> bool:
+    #     """"""
+    #     try:
+    #         self.parent.app.model.store.update_record(update, column, value, db)
+    #         return True
+    #     except Exception as e:
+    #         logma.error(f"Update failed: {e}")
+    #         return False
+
+    def update(self, table, cfg, db="db"):
         """"""
-        self.parent.app.model.store.update_record(update, column, value, db)
-        return True
+        data = {"table": {table: cfg}}
+        return self.parent.app.model.store.update_records(data, cfg, db)
 
-    def _execute_update_step(self, step_name, step_function, step_data, db):
+    def _execute_update_step(self, step_name, step_function, step_data, db) -> None:
         """Execute a single update step with error handling and rollback."""
         logma.info(f"Update {step_name}")
         if not step_function(step_data, db):
             logma.error(f"{step_name} failed, restoring backup")
-            self.restore_backup(db)
+            instance = self.parent.app.model.instance
+            version = None
+            self.restore_backup(instance, version)
             if debug:
                 raise Exception(f"Update Failed: {step_name}")
             return False
         return True
 
-    def _parse_version_parts(self, version_string):
-        """Parse version string into comparable integer parts."""
-        logma.info(f"Parsing Version: {version_string}")
-        return [part for part in version_string.split(".")]
+    def _is_version_greater(self, v1: str, v2: str) -> bool:
+        """Returns True if v1 > v2."""
+        parts1 = self._parse_version_parts(v1)
+        parts2 = self._parse_version_parts(v2)
+        for p1, p2 in zip(parts1, parts2):
+            if p1 > p2:
+                return True
+            if p1 < p2:
+                return False
+        return len(parts1) > len(parts2)
 
-    def _process_single_version_update(self, version, update_data, db):
+    def _parse_version_parts(self, version_string) -> List[int]:
+        """Parse version string into comparable integer parts."""
+        if not version_string:
+            return []
+        logma.info(f"Parsing Version: {version_string}")
+        return [int(part) for part in version_string.split(".") if part.isdigit()]
+
+    def _process_single_version_update(self, version, update_data, db) -> bool:
         """Process updates for a single version."""
         logma.info(f"Processing Version {version}")
         if update_data is None:
@@ -211,14 +357,31 @@ class DBUpdate(object):
             if not self._execute_update_step(step_name, step_function, step_data, db):
                 return False
 
+        # After successful update, we should update the version in the database
+        try:
+            self.parent.model.set_current_version(version, db)
+            logma.info(f"Successfully updated to version {version}")
+        except Exception as e:
+            logma.error(f"Failed to update version metadata in DB: {e}")
+            # If metadata update fails, we might still be okay, or we might want to fail.
+            # Usually it's better to fail if we can't record progress.
+
         return True
 
-    def _process_table_operations(self, table, params, db):
+    def _process_index_operations(self, index, params, db) -> None:
+        """Process all operations for a single index."""
+        if not self.reload_index(index, db):
+            if debug:
+                raise Exception("Reload Failed")
+            return False
+        return True
+
+    def _process_table_operations(self, table, params, db) -> None:
         """Process all operations for a single table."""
         # Handle reload operation
         if params.get("reload", False):
             logma.info(f"Reloading Table: {table}")
-            map_ = params.get("column-map")
+            map_ = params.get("column-map", None)
             filters = params.get("filters", {})
             if not self.reload_table(table, params.get("keep-records", False), map_, filters, db):
                 if debug:
@@ -237,20 +400,25 @@ class DBUpdate(object):
                 if debug:
                     raise Exception("Insert Failed")
                 return False
-
         return True
 
-    def _process_table_updates(self, table, updates, db):
+    def _process_table_updates(self, table, updates, db) -> None:
         """Process update operations for a table."""
         for update in updates:
             logma.info(f"Updating: {update}")
-            column = list(update["WHERE"].keys())[0]
-            value = update["WHERE"][column]
-
-            if not self.update_data({"table": {table: {"data": update["data"]}}}, column, value, db):
+            if not self.update(table, update, db):
                 if debug:
                     raise Exception("Update Failed")
                 return False
+        return True
+
+    def _process_view_operations(self, view, params, db):
+        """Process update operations for a view."""
+        # logma.info(f"Reloading View: {view}")
+        if not self.reload_view(view, db):
+            if debug:
+                raise Exception("Reload Failed")
+            return False
         return True
 
 
@@ -258,17 +426,17 @@ class DBUpdate(object):
 # class DBUpdate(object):
 #     """"""
 #
-#     def __init__(self, parent, cfg=None):
+#     def __init__(self, parent, cfg=None) -> None:
 #         """"""
 #         self.parent = parent
-#         self.config = condor.Instruct(pxcfg).select("DBUpdate").override(cfg)
+#         self.config = kahndor.Instruct(pxcfg).select("DBUpdate").override(cfg)
 #         self.versions = self.config.select("versions")
 #         self.current_version = None
 #         self.version = None
 #         self.hold_data = {}
 #         self.app = parent
 #
-#     def backup_db(self, db="db"):
+#     def backup_db(self, db="db") -> None:
 #         """"""
 #         data = self.parent.app.model.get_instance(db)
 #         logma.info(f"Instance: {data}")
@@ -282,7 +450,7 @@ class DBUpdate(object):
 #         name = self.parent.model.store.backup_database(self.parent.app.model.instance, db)
 #         return name
 #
-#     def check_version(self, current_v):
+#     def check_version(self, current_v) -> None:
 #         """"""
 #         logma.info(f"Checking Version {current_v}")
 #         latest_v = self.get_latest_version().split(".")
@@ -296,55 +464,55 @@ class DBUpdate(object):
 #             elif int(level) > int(latest_v[i]):
 #                 return False
 #
-#     def get_data(self, table, db="db"):
+#     def get_data(self, table, db="db") -> None:
 #         """"""
 #         return self.parent.app.model.store.get_table(table, None, db)
 #
-#     def get_latest_version(self):
+#     def get_latest_version(self) -> None:
 #         """"""
 #         self.current_version = self.parent.model.get_current_version()
 #         # if self.current_version is None:
-#         #     versions = list(self.versions.dikt.keys())
+#         #     versions = list(self.versions.keys())
 #         #     versions.sort()
 #         #     self.current_version = versions[-1]
 #         max = 0
 #         logma.info(f"Current Version: {self.current_version}")
-#         logma.info(f"Versions: {self.versions.dikt.keys()}")
-#         if isinstance(self.versions.dikt[self.current_version], dict):
-#             for y in self.versions.dikt[self.current_version].keys():
+#         logma.info(f"Versions: {self.versions.keys()}")
+#         if isinstance(self.versions[self.current_version], dict):
+#             for y in self.versions[self.current_version].keys():
 #                 if int(y.replace(".", "")) > max:
 #                     max = int(y.replace(".", ""))
 #         else:
 #             return self.current_version
 #         return ".".join([f"{x}." for x in str(max)])[:-1]
 #
-#     def insert_data(self, table, data, db="db", column_map=None):
+#     def insert_data(self, table, data, db="db", column_map=None) -> None:
 #         """"""
 #         if column_map:
 #             data = self.map_columns(data, column_map)
 #         self.parent.app.model.store_records(table, data, db)
 #         return self
 #
-#     def map_columns(self, data, column_map):
+#     def map_columns(self, data, column_map) -> None:
 #         """"""
 #         for column in column_map.keys():
 #             data[column_map[column]] = data[column]
 #             del data[column]
 #         return data
 #
-#     def reload_table(self, table, keep, map_, filters, db="db"):
+#     def reload_table(self, table, keep, map_, filters, db="db") -> None:
 #         """"""
 #         # # only reload app tables - this makes no sense often doc tables will have to be reloaded but with data keeping
 #         # if "app_" != table[:4]:
 #         #     return False
 #         return self.parent.app.model.reload_table(table, keep, map_, filters, db)
 #
-#     def restore_backup(self, db):
+#     def restore_backup(self, db) -> None:
 #         """"""
 #         self.parent.app.model.store.restore_backup(db)
 #         return self
 #
-#     def run_updates(self, db):
+#     def run_updates(self, db) -> None:
 #         """"""
 #         current_v = self.parent.model.get_current_version()
 #         version = current_v
@@ -379,7 +547,7 @@ class DBUpdate(object):
 #         #self.parent.model.set_current_version(version)
 #         return version
 #
-#     def run_update_indexes(self, indexes, db="db"):
+#     def run_update_indexes(self, indexes, db="db") -> None:
 #         """"""
 #         if indexes is None:
 #             return self
@@ -387,7 +555,7 @@ class DBUpdate(object):
 #         #     self.parent.model.store.create_index(index, cmd, db)
 #         return self
 #
-#     def run_update_tables(self, tables, db="db"):
+#     def run_update_tables(self, tables, db="db") -> None:
 #         """"""
 #         outcome = True
 #         if tables is None:
@@ -424,7 +592,7 @@ class DBUpdate(object):
 #                     break
 #         return outcome
 #
-#     def run_update_views(self, views, db="db"):
+#     def run_update_views(self, views, db="db") -> None:
 #         """"""
 #         if views is None:
 #             return self
@@ -432,7 +600,7 @@ class DBUpdate(object):
 #             self.parent.store.update_view(view, cmd, db)
 #         return self
 #
-#     def update_data(self, update, column, value, db="db"):
+#     def update_data(self, update, column, value, db="db") -> None:
 #         """"""
 #         self.parent.app.model.store.update_record(update, column, value, db)
 #         return self

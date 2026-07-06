@@ -1,7 +1,14 @@
 
-def TabSetClass(tabset):
+# -*- coding: utf-8 -*-
+#===============================================================================||
+import logging
+
+logger = logging.getLogger(__name__)
+
+
+def TabSetClass(tabset) -> None:
 	''' '''
-	print('TABSET', tabset.__dir__())
+	logger.debug('TABSET %s', tabset.__dir__())
 	# print('__module__', tabset.)
 	# print('__doc__', tabset.)
 	# print('__init__', tabset.)
@@ -412,9 +419,9 @@ def TabSetClass(tabset):
 	# print('PdmPhysicalDpiY', tabset.)
 	# print('PdmWidth', tabset.)
 	# print('PdmWidthMM', tabset.)
-def leftClickSignalLog(signal, level=0):
+def leftClickSignalLog(signal, level=0) -> None:
 	''' '''
 
-def mousePressEventLog(event, level=0):
+def mousePressEventLog(event, level=0) -> None:
 	''' '''
-	print('TabSet Mouse Press Event', event.__dir__())
+	logger.debug('TabSet Mouse Press Event %s', event.__dir__())

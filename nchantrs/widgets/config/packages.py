@@ -10,16 +10,20 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.media.editors.selectors import NchantdDropDown
 from nchantrs.widgets.widgets import NchantdWidget
@@ -36,7 +40,6 @@ logma = Logma(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "packages.yaml")
-pxcfg = {}
 
 
 class NchantdPackageSettings(NchantdSettingsWidget):
@@ -44,7 +47,7 @@ class NchantdPackageSettings(NchantdSettingsWidget):
 
     def __init__(self, parent, cfg=None):
         """"""
-        self.config = condor.Instruct(pxcfg).select("NchantdPackageSettings")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdPackageSettings")
         self.parent = parent
         if self.parent is not None:
             self.config.override(self.parent.config)

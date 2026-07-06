@@ -11,19 +11,21 @@
     <(WT)>: -32
 """
 
-
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join
 import datetime as dt
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 import calendar
 from calendar import monthrange
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.groups import NchantdVScrollGroupBox
 from nchantrs.widgets.tables.tables import NchantdGrid
@@ -37,7 +39,6 @@ logma = Logma(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "years.yaml")
-pxcfg = {}
 
 
 class NchantdYearCalendar(NchantdTab):
@@ -47,7 +48,7 @@ class NchantdYearCalendar(NchantdTab):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdYearCalendar"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdYearCalendar"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -112,7 +113,7 @@ class NchantdYearlyJournal(NchantdTab):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdYearlyJournal"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdYearlyJournal"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -146,7 +147,7 @@ class NchantdYearSummaryTab(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdYearSummaryTab"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdYearSummaryTab"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

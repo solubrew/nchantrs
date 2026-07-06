@@ -164,7 +164,11 @@ def tabledelete():
 import gtk, pango
 import os, csv, codecs, cStringIO, copy
 import cons, support
+
+import logging
 class TablesHandler:
+
+logger = logging.getLogger(__name__)
     """Handler of the Tables"""
     def __init__(self, dad):
         """Lists Handler boot"""
@@ -255,7 +259,7 @@ class TablesHandler:
             keyname = gtk.gdk.keyval_name(event.keyval)
             if keyname == cons.STR_KEY_RETURN:
                 try: dialog.get_widget_for_response(gtk.RESPONSE_ACCEPT).clicked()
-                except: print cons.STR_PYGTK_222_REQUIRED
+                except Exception:
                 return True
             elif keyname == cons.STR_KEY_TAB:
                 if self.dad.table_column_mode == "rename": table_column_delete_radiobutton.set_active(True)
@@ -362,7 +366,7 @@ class TablesHandler:
                 spinbutton_col_min.update()
                 spinbutton_col_max.update()
                 try: dialog.get_widget_for_response(gtk.RESPONSE_ACCEPT).clicked()
-                except: print cons.STR_PYGTK_222_REQUIRED
+                except Exception:
                 return True
             return False
         def on_checkbutton_table_ins_from_file_toggled(checkbutton):
@@ -476,7 +480,7 @@ class TablesHandler:
             if table != None:
                 for column in range(self.dad.table_columns):
                     try: anchor.liststore[row_iter][column] = table['matrix'][row][column]
-                    except: pass # there are cases when some rows have less columns
+                    except IndexError: pass  # there are cases when some rows have less columns
         if table_justification:
             text_iter = text_buffer.get_iter_at_child_anchor(anchor)
             self.dad.state_machine.apply_object_justification(text_iter, table_justification, text_buffer)
@@ -754,7 +758,7 @@ class UnicodeReader:
         try:
             row = self.reader.next()
             return [unicode(s, cons.STR_UTF8, cons.STR_IGNORE) for s in row]
-        except: return None
+        except Exception: return None
     def __iter__(self):
         return self
 class UnicodeWriter:

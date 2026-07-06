@@ -1,0 +1,85 @@
+NchantrsDBUpdate:
+  versions:
+    0.0.1.0.1.1:
+      active: True
+      description:
+    0.0.1.0.1.2:
+      active: True
+      description:
+    0.0.1.0.1.3:
+      active: True
+      description:
+    0.0.1.0.1.4:
+      active: True
+      description:
+      versions:
+        0.0.1.0.1.5:
+          description:
+          versions:
+            tables:
+              app_tab:
+                reload: True
+                keep-records: True
+                add_columns: ["app_document_type_FK"]
+                merge_on_columns: ["did_txt"]
+                update:
+                  -
+                    data:
+                      widget_txt: "nchantrs.widgets.calendars.timelines.NchantdTodayOverview"
+                    WHERE:
+                      "EQUAL":
+                        "widget_txt": "widgets.calendars.timelines.NchantdTodayOverview"
+                  -
+                    data:
+                      widget_txt: "nchantdoffice.widgets.documents.journal.NchantdOfficeJournalOverview"
+                    WHERE:
+                      "EQUAL":
+                        "widget_txt": "widgets.documents.journal.NchantdOfficeJournalOverview"
+                  -
+                    data:
+                      widget_txt: "nchantrs.widgets.config.journal.NchantdJournalSettings"
+                    WHERE:
+                      "EQUAL":
+                        "widget_txt": "widgets.config.journal.NchantdJournalSettings"
+                  -
+                    data:
+                      widget_txt: "nchantrs.widgets.calculators.calculators.NchantdCalculator"
+                    WHERE:
+                      "EQUAL":
+                        "widget_txt": "widgets.calculators.calculators.NchantdCalculator"
+                  -
+                    data:
+                      widget_txt: "nchantrs.widgets.calendars.years.NchantdYearCalendar"
+                    WHERE:
+                      "EQUAL":
+                        "widget_txt": "widgets.calendars.years.NchantdYearCalendar"
+                  -
+                    data:
+                      widget_txt: "nchantrs.widgets.calendars.years.NchantdYearlyJournal"
+                    WHERE:
+                      "EQUAL":
+                        "widget_txt": "widgets.calendars.years.NchantdYearlyJournal"
+                  -
+                    data:
+                      widget_txt: "nchantrs.widgets.calendars.months.NchantdMonthDashboard"
+                    WHERE:
+                      "EQUAL":
+                        "widget_txt": "widgets.calendars.months.NchantdMonthDashboard"
+                  -
+                    data:
+                      widget_txt: "nchantrs.widgets.calendars.months.NchantdMonthlyJournal"
+                    WHERE:
+                      "EQUAL":
+                        "widget_txt": "widgets.calendars.months.NchantdMonthlyJournal"
+                  -
+                    data:
+                      widget_txt: "nchantrs.widgets.calendars.days.NchantdDayCalendar"
+                    WHERE:
+                      "EQUAL":
+                        "widget_txt": "widgets.calendars.days.NchantdDayCalendar"
+                  -
+                    data:
+                      widget_txt: "nchantrs.widgets.calendars.days.NchantdDayJournal"
+                    WHERE:
+                      "EQUAL":
+                        "widget_txt": "widgets.calendars.days.NchantdDayJournal"

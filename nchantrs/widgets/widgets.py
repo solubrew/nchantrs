@@ -10,6 +10,7 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
@@ -20,10 +21,10 @@ import math
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
-from ogma.logma import Logma
-from condor.utils import thingify
+from kahndor.logma import Logma
+from kahndor.utils import thingify
 from nchantrs.utilities.utils import lookup
 from nchantrs.widgets.controls.menus import NchantdMenu, NchantdContextMenu
 from pyffice.items.colors import PyfficeColor
@@ -31,14 +32,13 @@ from pyffice.items.colors import PyfficeColor
 # ====================================================================================================================||
 here = join(dirname(__file__), "")
 debug = True
-log = True
+log = False
 logma = Logma(__name__)
 if not log:
     logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(abspath(here), "_data_", "widgets.yaml")
-pxcfg = {}
 
 
 class NchantdAction(object):
@@ -46,7 +46,7 @@ class NchantdAction(object):
 
     def __init__(self, action_term, code_group="base", parent=None, cfg=None):
         """"""
-        self.config = condor.Instruct(pxcfg).select("NchantdAction").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdAction").override(cfg)
         self.app = None
         # logma.info(f"Action {parent}")
         if parent is not None:
@@ -104,7 +104,10 @@ class NchantdWidgetMixin(object):
 
     def init_variables(self):
         """"""
-        self.app = pyqt.QApplication.instance()
+        self.app = None
+        # First, try to get app from parent directly (most reliable)
+        if self.parent is not None and hasattr(self.parent, "app"):
+            self.app = self.parent.app
         # Traverse parent chain to find the Nchantrs application (NchantdCape or NchantdCloak)
         # This handles both simple dialogs (distortion) and complex apps (nchantment)
         if self.parent is not None:
@@ -147,14 +150,14 @@ class NchantdWidgetMixin(object):
         self.name = None
         self.toolbox_config = None
         self.widget_initialized = False
-        logma.info(f"Initialize Variables {type(self)}")
+        # logma.info(f"Initialize Variables {type(self)}")
         return self
 
     def initModel(self, objects=None, get_actions=True):
         """"""
         # logma.info("Mixin Model")
         self.init_variables()
-        logma.info(f"Initialize Context Menu")
+        # logma.info(f"Initialize Context Menu")
         if self.context_menu_name is not None:
             if getattr(self, "context_menu", None) is not None:
                 if self.parent.context_menu is not None:
@@ -185,13 +188,18 @@ class NchantdWidgetMixin(object):
         else:
             # logma.info("Set Vertical Layout")
             self.layout = pyqt.QVBoxLayout()
-        self.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignTop | pyqt.Qt.AlignmentFlag.AlignLeft)
+        # Fill-widget containers (browser/notebook/editor hosting a single
+        # expanding document) opt out of the global corner alignment, which
+        # would otherwise pin their child to its sizeHint and collapse it.
+        if not self.config.dikt.get("fill", False):
+            self.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignTop | pyqt.Qt.AlignmentFlag.AlignLeft)
         self.setLayout(self.layout)
         # self._set_alignment()
         # self.app.model.store.store_app_event("initialize", "widget_view_initialization")
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.setSpacing(6)
         self.widget_initialized = True
+        self.initialize_context_menu()
         return self
 
     def accpet(self):
@@ -202,18 +210,20 @@ class NchantdWidgetMixin(object):
         """"""
         if menu_name is None:
             menu_name = self.context_menu_name
-        logma.info(f"Initialize Context Menu Name {menu_name}")
+        # logma.info(f"Initialize Context Menu Name {menu_name}")
 
         # Guard against missing .app.model by checking if we have a proper app
         if hasattr(self, "app") and hasattr(self.app, "model") and hasattr(self.app.model, "get_menu"):
             try:
                 menu_df = self.app.model.get_menu(menu_name)
-                logma.info(f"Initialize Context Menu Data {menu_df}")
+                # logma.info(f"Initialize Context Menu Data {menu_df}")
                 cfg = {"actions": {}}
                 if not menu_df.empty:
                     cfg = {"actions": menu_df.to_dict("records")}
             except Exception as e:
                 logma.warning(f"Failed to load menu '{menu_name}': {e}")
+                if debug:
+                    raise e
                 cfg = {"actions": {}}
         else:
             logma.warning(f"No app model available for context menu")
@@ -239,12 +249,48 @@ class NchantdWidgetMixin(object):
 
     def contextMenuEvent(self, event):
         """"""
-        logma.info(f"execute contextMenuEvent {self}")
-        logma.info(f"Context Menu {self.context_menu}")
         # if self.context_menu is None:
         self.initialize_context_menu()
+        logma.info(f"execute contextMenuEvent {self}")
+        logma.info(f"Context Menu {self.context_menu}")
         logma.info(f"execute contextMenuEvent {self.context_menu.menu_data}")
+        if debug:
+            self.add_developer_menu(self.context_menu)
         self.context_menu.exec(event.globalPos())
+        return self
+
+    def developer_info(self):
+        """Collect developer-facing metadata about this widget."""
+        try:
+            rect = self.geometry()
+            geo = f"{rect.width()}x{rect.height()} @ ({rect.x()},{rect.y()})"
+        except Exception:
+            geo = "n/a"
+        return {
+            "class": type(self).__name__,
+            "module": type(self).__module__,
+            "name": getattr(self, "name", None),
+            "object_name": self.objectName() or None,
+            "file_path": getattr(self, "file_path", None),
+            "context_menu": getattr(self, "context_menu_name", None),
+            "parent": type(self.parent).__name__ if getattr(self, "parent", None) else None,
+            "geometry": geo,
+        }
+
+    def add_developer_menu(self, menu):
+        """Append a debug-only 'Developer' submenu exposing widget metadata."""
+        info = self.developer_info()
+        text = "\n".join(f"{k}: {v}" for k, v in info.items())
+        menu.addSeparator()
+        dev = menu.addMenu("\U0001F6E0 Developer")
+        for key, value in info.items():
+            row = dev.addAction(f"{key}: {value}")
+            row.setEnabled(False)
+        dev.addSeparator()
+        copy = dev.addAction("Copy widget info")
+        copy.triggered.connect(lambda *_: pyqt.QApplication.clipboard().setText(text))
+        log_it = dev.addAction("Log widget info")
+        log_it.triggered.connect(lambda *_: logma.info(f"[developer] {info}"))
         return self
 
     def cmd_copy_selection(self, selection=""):
@@ -843,11 +889,17 @@ class NchantdWidgetMixin(object):
 class NchantdWidget(NchantdWidgetMixin, pyqt.QWidget):
     """"""
 
+    # NOTE: Mixin comes before QWidget in MRO, but we must call QWidget.__init__ directly
+    # to ensure Qt initialization. The mixin provides application logic, QWidget provides
+    # the Qt widget functionality. Using super().__init__() would skip QWidget init.
+
     def __init__(self, parent=None, cfg=None):
         """ """
-        super().__init__()
-        self.config = condor.Instruct(pxcfg).select("NchantdWidget")
-        logma.info(f"Init NchantdWidget Config {self.config}")
+        # Explicitly call QWidget.__init__ to ensure proper Qt initialization
+        # This fixes: RuntimeError: libshiboken: 'init' method of object's base class not called
+        pyqt.QWidget.__init__(self)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdWidget")
+        # logma.info(f"Init NchantdWidget Config {self.config}")
         self.parent = parent
         self.init_variables()
         self.config.override(cfg)
@@ -897,7 +949,7 @@ class NchantdSideBar(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdSideBar")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdSideBar")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -934,7 +986,7 @@ def buildPane(parent, cfg, offsetcol=0):
 
 def expandCFG(cfg):
     """Expand Configuration Details to all child wigets within config"""
-    dcfg = condor.Instruct(pxcfg).select("expandCFG").override(cfg).dikt
+    dcfg = kahndor.Instruct(pxcfg).select("expandCFG").override(cfg).dikt
     fonts, styles = dcfg["fonts"], dcfg["styles"]
     for row in dcfg["seq"].keys():
         for col, wCFG in dcfg["seq"][row].items():
@@ -970,40 +1022,45 @@ def loadWidget(parent, cfg=None):  # , panestyle=None):
     Load Source for Daynamically building the tabset for the pane"""
     if cfg is None:
         cfg = {}
-    cfg = condor.Instruct(pxcfg).override(cfg).dikt
+    cfg = kahndor.Instruct(pxcfg).override(cfg).dikt
+    logma.info(f"Load Widget Config {cfg}")
     if cfg.get("widget", None):
         try:
-            app = cfg.get("app", "nchantrs")
-            logma.info(f"{app}.{cfg['widget']}")
-            widget = thingify(f"{app}.{cfg['widget']}", None, None, True)(parent, cfg)
+            # app = cfg.get("app", "nchantrs")
+            # logma.info(f"{app}.{cfg['widget']}")
+            # widget = thingify(f"{app}.{cfg['widget']}", None, None, True)(parent, cfg)
+            logma.info(f"{cfg['widget']}")
+            widget = thingify(f"{cfg['widget']}", None, None, True)(parent, cfg)
         except Exception as e:
+            logma.info(f"Load Widget Exception {e}")
             # Try fallback apps if specified
             apps = cfg.get("apps", [])
-            if apps:
+            widget = None
+            if apps:  # TODO: not sure if we should keep this process long term
                 for app in set(apps):
                     try:
                         logma.info(f"{app}.{cfg['widget']}")
                         widget = thingify(f"{app}.{cfg['widget']}", None, None, True)(parent, cfg)
+                        if widget:
+                            break
                     except Exception as e:
-                        if debug:
-                            logma.warning(f"{app}.{cfg['widget']}")
-                            logma.warning(e)
-            else:
-                # No fallback apps, re-raise the original exception
-                if debug:
-                    logma.warning(f"Failed to load widget: {cfg['widget']}")
-                    logma.warning(e)
+                        logma.warning(f"{app}.{cfg['widget']}")
+                        logma.warning(e)
+
+            if widget is None:
+                # No fallback apps or all failed, re-raise the original exception
+                logma.warning(f"Failed to load widget: {cfg['widget']}")
                 raise
     else:
         registered_widget = lookupWidget(list(cfg.keys())[0])
-        widget = condor.Factory.object(registered_widget, parent.app.model.parents)(parent, cfg)
+        widget = kahndor.Factory.object(registered_widget, parent.app.model.parents)(parent, cfg)
         widget.initWidget(parent.newInstance)
     return widget
 
 
 def lookupWidget(key):
     """ """
-    return condor.Instruct(pxcfg).select("RegisteredWidgets").dikt[key]
+    return kahndor.Instruct(pxcfg).select("RegisteredWidgets").dikt[key]
 
 
 # ====================================================================================================================||

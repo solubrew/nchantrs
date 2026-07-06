@@ -2,25 +2,29 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 from os import environ
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.browsers.javascript.scripts import event_listener_middle_click
 from nchantrs.widgets.browsers.pages import NchantdWebEnginePage
@@ -36,17 +40,16 @@ logma = Logma(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")
-pxcfg = {}
 
 
 # Set Qt environment variables before QApplication creation
 def setup_qt_environment():
     """Configure Qt environment for better graphics compatibility"""
     # Force software rendering if hardware acceleration fails
-    #environ["QT_QUICK_BACKEND"] = "software"
-    #environ["QTWEBENGINE_CHROMIUM_FLAGS"] = "--disable-gpu --disable-software-rasterizer --disable-gpu-sandbox --no-sandbox"
+    # environ["QT_QUICK_BACKEND"] = "software"
+    # environ["QTWEBENGINE_CHROMIUM_FLAGS"] = "--disable-gpu --disable-software-rasterizer --disable-gpu-sandbox --no-sandbox"
     # Set graphics backend
-    #environ["QT_QPA_PLATFORM"] = "xcb"  # For Linux
+    # environ["QT_QPA_PLATFORM"] = "xcb"  # For Linux
     # Disable hardware acceleration problematic features
     environ["QTWEBENGINE_DISABLE_GPU_THREAD"] = "1"
     # Force OpenGL ES 2.0 for better compatibility
@@ -71,7 +74,7 @@ def setup_qt_environment():
 #     def __init__(self, profile=None, parent=None, cfg=None):
 #         super().__init__(parent)
 #         self.parent = parent
-#         self.config = condor.Instruct(pxcfg).select("NchantdWebEngineView")
+#         self.config = kahndor.Instruct(pxcfg).select("NchantdWebEngineView")
 #         if self.parent:
 #             self.config.override(parent.config)
 #         self.config.override(cfg)
@@ -101,26 +104,21 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
     forwardAvailable = pyqt.Signal(bool)
 
     def __init__(self, profile=None, parent=None, cfg=None):
-        # Set up graphics attributes before calling super().__init__
-        # if hasattr(pyqt.QWebEngineView, "setAttribute"):
-        #     try:
-        #         self.setAttribute(pyqt.Qt.WA_DontCreateNativeAncestors, True)
-        #         self.setAttribute(pyqt.Qt.WA_NativeWindow, False)
-        #     except AttributeError:
-        #         pass
         super().__init__(parent)
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdWebEngineView")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdWebEngineView")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
 
         # Create custom profile if not provided
         if profile is None:
+            # Important: Set the view as parent to the profile to ensure correct destruction order
             profile = self.create_custom_profile()
 
         # Create custom page with the profile
         try:
+            # Set the view as parent to the page
             self.custom_page = NchantdWebEnginePage(profile, self)
             self.setPage(self.custom_page)
         except Exception as e:
@@ -160,35 +158,140 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
         self.page().runJavaScript(script)
         return self
 
+    def _geo(self):
+        """Compact geometry/visibility string for diagnostic logging."""
+        try:
+            s = self.size()
+            p = self.parentWidget()
+            ps = p.size() if p is not None else None
+            return (
+                f"size={s.width()}x{s.height()} visible={self.isVisible()} "
+                f"hidden={self.isHidden()} url={self.url().toString()!r} "
+                f"parent={type(p).__name__ if p is not None else None} "
+                f"parent_size={ps.width()}x{ps.height() if ps is not None else '?'}"
+                if ps is not None
+                else f"size={s.width()}x{s.height()} visible={self.isVisible()} url={self.url().toString()!r} parent=None"
+            )
+        except Exception as e:
+            return f"<geo error: {e}>"
+
+    def showEvent(self, event):
+        """Reactivate the page lifecycle and repaint when re-shown (Fix C).
+
+        QWebEngineView drops its rendered frame when its page is hidden (e.g.
+        on QTabWidget tab switches / rebuilds) and does not always repaint on
+        re-show. Bring the page back to Active and force an update.
+        """
+        super().showEvent(event)
+        logma.info(f"[webengine] showEvent | {self._geo()}")
+        page = self.page()
+        if page is not None:
+            try:
+                page.setLifecycleState(pyqt.QWebEnginePage.LifecycleState.Active)
+                logma.info("[webengine] showEvent -> lifecycle set Active")
+            except Exception as e:
+                logma.error(f"[webengine] setLifecycleState failed: {e}")
+        self.update()
+
+    def resizeEvent(self, event):
+        """Log resizes so we can see whether the view ever gets real geometry."""
+        super().resizeEvent(event)
+        try:
+            s = event.size()
+            logma.info(f"[webengine] resizeEvent | new={s.width()}x{s.height()} visible={self.isVisible()}")
+        except Exception as e:
+            logma.error(f"[webengine] resizeEvent log failed: {e}")
+
+    def hideEvent(self, event):
+        """Log hides (tab switch / rebuild) to correlate with blank-on-reshow."""
+        super().hideEvent(event)
+        logma.info(f"[webengine] hideEvent | {self._geo()}")
+
     def contextMenuEvent(self, event):
-        menu = pyqt.QMenu(self)
-        download_action = menu.addAction("Download video")
-        action = menu.exec(self.mapToGlobal(event.pos()))
-        if action == download_action:
-            self.download_current_video()
+        """Handle right-click context menu"""
+        menu = self.page().createStandardContextMenu()
+
+        # Check if right-clicked on an image
+        hit_test = self.page().hitTestContent(event.pos())
+        if hit_test.isContentEditable():
+            pass  # Let standard menu handle it
+
+        # We can add custom actions here if needed
+        # For example, a custom "Save image" if we want to bypass standard dialog
+
+        menu.exec(self.mapToGlobal(event.pos()))
+
+    def _resolve_app_model(self):
+        """Reach the app model from a web view during __init__.
+
+        self.app may not be wired yet this early, so fall back to the parent
+        (the NchantdWebViewer), which has already resolved self.app.
+        """
+        for owner in (self, getattr(self, "parent", None)):
+            app = getattr(owner, "app", None) if owner is not None else None
+            model = getattr(app, "model", None) if app is not None else None
+            if model is not None:
+                return model
+        return None
 
     def create_custom_profile(self):
-        """Create a custom web engine profile with error handling"""
-        try:
-            # Create a custom profile (can be persistent or off-the-record)
-            profile = pyqt.QWebEngineProfile("CustomProfile", self)
-            # Configure profile settings
-            profile.setHttpCacheType(pyqt.QWebEngineProfile.HttpCacheType.DiskHttpCache)
-            profile.setPersistentCookiesPolicy(pyqt.QWebEngineProfile.PersistentCookiesPolicy.AllowPersistentCookies)
-            # Set custom user agent
-            profile.setHttpUserAgent("CustomWebBrowser/1.0")
+        """Return the web engine profile this view should use.
 
-            # Create and install request interceptor with error handling
+        Preferred: a shared profile from the app-level pool
+        (``app.model.get_web_profiles()``) — the default is one persistent
+        profile shared by every view at a single storage path, which restores
+        cookie/login persistence while avoiding the multi-object same-path
+        corruption that previously blanked every view after the first.
+
+        The viewer cfg may request a named profile via ``cfg["profile"]``.
+
+        Fallback (pool/app unavailable): an off-the-record in-memory profile so
+        the view still renders, just without persistence.
+        """
+        # 1) Try the app-level shared profile pool.
+        try:
+            model = self._resolve_app_model()
+            if model is not None and hasattr(model, "get_web_profiles"):
+                pool = model.get_web_profiles()
+                name = None
+                try:
+                    name = self.config.dikt.get("profile")
+                except Exception:
+                    name = None
+                if name:
+                    profile = pool.get_or_create(name)
+                else:
+                    profile = pool.get_default_profile()
+                logma.info(
+                    f"[webengine] using shared pool profile name={name or 'default'} "
+                    f"| off_the_record={profile.isOffTheRecord()} "
+                    f"| storage={profile.persistentStoragePath()!r} | cache={profile.cachePath()!r}"
+                )
+                # NOTE: do NOT parent/interceptor here — the pool owns lifetime
+                # and installs the interceptor once on the shared profile.
+                return profile
+            logma.warning("[webengine] app profile pool unavailable; using off-the-record fallback")
+        except Exception as e:
+            logma.error(f"[webengine] pool profile fetch failed ({e}); using off-the-record fallback", exc_info=True)
+
+        # 2) Fallback: off-the-record, in-memory, no shared-path clash.
+        try:
+            profile = pyqt.QWebEngineProfile(self)
+            profile.setHttpCacheType(pyqt.QWebEngineProfile.HttpCacheType.MemoryHttpCache)
+            profile.setPersistentCookiesPolicy(pyqt.QWebEngineProfile.PersistentCookiesPolicy.NoPersistentCookies)
+            profile.setHttpUserAgent("CustomWebBrowser/1.0")
+            logma.info(
+                f"[webengine] fallback profile created | off_the_record={profile.isOffTheRecord()} "
+                f"| cache_type={profile.httpCacheType()}"
+            )
             try:
                 self.interceptor = NchantdRequestInterceptor(profile)
                 profile.setUrlRequestInterceptor(self.interceptor)
             except Exception as e:
                 logma.error(f"Failed to create request interceptor: {e}")
-
             return profile
         except Exception as e:
             logma.error(f"Failed to create custom profile: {e}")
-            # Return default profile as fallback
             return pyqt.QWebEngineProfile.defaultProfile()
 
     # def create_custom_profile(self):
@@ -242,13 +345,17 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
 
     @pyqt.Slot()
     def on_history_changed(self):
-        """Handle history changes"""
+        """Handle navigation history changes"""
+        self.backAvailable.emit(self.history().canGoBack())
+        self.forwardAvailable.emit(self.history().canGoForward())
         self.update_navigation_states()
 
     @pyqt.Slot(bool)
     def on_load_finished(self, success):
         """Handle page load completion - this is when history is updated"""
         logma.info(f"Page load finished - Success: {success}")
+        self.backAvailable.emit(self.history().canGoBack())
+        self.forwardAvailable.emit(self.history().canGoForward())
         self.update_navigation_states()
 
     @pyqt.Slot(pyqt.QUrl, str)
@@ -308,6 +415,17 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
         self.backAvailable.emit(can_go_back)
         self.forwardAvailable.emit(can_go_forward)
 
+    def closeEvent(self, event):
+        """Handle cleanup before destruction to avoid profile release warnings"""
+        # Set page to None to decouple it from the profile before the view is destroyed
+        # This helps ensuring the page is destroyed before the profile
+        logma.info("NchantdWebEngineView.closeEvent - cleaning up page")
+        self.setPage(pyqt.QWebEnginePage(self))
+        if hasattr(self, "custom_page") and self.custom_page:
+            self.custom_page.deleteLater()
+            self.custom_page = None
+        super().closeEvent(event)
+
 
 class NchantdWebEngineViewH264(NchantdWidgetMixin, pyqt.QWebEngineView):
     """"""
@@ -316,7 +434,7 @@ class NchantdWebEngineViewH264(NchantdWidgetMixin, pyqt.QWebEngineView):
         """ """
         super().__init__(parent)
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdWebEngineView")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdWebEngineView")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

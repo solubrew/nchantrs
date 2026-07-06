@@ -1,26 +1,31 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-"""  #																			||
+"""#																			||
 ---  #																			||
 <(META)>: #								||
-	DOCid: 'b0383757-eb6b-4d01-a5af-f0b4bc6b3b44' #								||
-	name: Nchantrs Module Widgets Forms Python Excecution Document  #			||
-	description: >  #															||
-	expirary: <[expiration]>  #													||
-	version: <[version]>  #														||
-	authority: document|this  #													||
-	security: sec|lvl2  #														||
-	<(WT)>: -32  #																||
+        DOCid: 'b0383757-eb6b-4d01-a5af-f0b4bc6b3b44' #								||
+        name: Nchantrs Module Widgets Forms Python Excecution Document  #			||
+        description: >  #															||
+        expirary: <[expiration]>  #													||
+        version: <[version]>  #														||
+        authority: document|this  #													||
+        security: sec|lvl2  #														||
+        <(WT)>: -32  #																||
 """  # ||
+
 # -*- coding: utf-8 -*-#														||
 # ================================Core Modules===================================||
 from os.path import abspath, dirname, join
 
 # ===============================================================================||
-from condor import condor
+from kahndor import kahndor
+
+import logging
 from nchantrs.libraries import pyqt
+
+logger = logging.getLogger(__name__)
 from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.widgets import loadWidget
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -31,7 +36,6 @@ if not log:
 
 # ===============================================================================||
 pxcfg = join(abspath(here), "_data_", "forms.yaml")
-pxcfg = {}
 
 
 class NchantdForm(NchantdWidget):
@@ -41,7 +45,7 @@ class NchantdForm(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdForm"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdForm"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -76,7 +80,7 @@ class NchantdDynamicEntryForm(NchantdForm):
         super().__init__(parent, cfg)
         logma.info(f"Init NchantdDynamicEntryForm Config {cfg}")
         self.parent = parent
-        self.config.override(pxcfg).select("NchantdDynamicEntryForm").override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdDynamicEntryForm").override(cfg))
         self.fieldWDGTs = {}
         self.controlWDGTs = {}
         self.handlers = {}
@@ -192,7 +196,7 @@ class NchantdDynamicEntryForm(NchantdForm):
 
     def _build_controls(self, y=0, x=0):
         """"""
-        # TODO: alter this to load a toolbar
+        # [DONE]
         max_grid_x = self.config.dikt.get("max_x", x)
         # for i, control in enumerate(self.config.dikt.get("controls", {})):
         #     cfg = self.config.dikt["controls"][control]
@@ -245,7 +249,7 @@ class NchantdAPIEntryForm(NchantdDynamicEntryForm):
 
     def __init__(self, parent=None, cfg={}):
         """ """
-        self.config = condor.Instruct(pxcfg).select("NchantdAPIEntryForm")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdAPIEntryForm")
         self.config.override(cfg)
         if parent:
             self.config.override(parent.config)

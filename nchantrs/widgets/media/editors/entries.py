@@ -15,11 +15,15 @@
 from os.path import abspath, dirname, join
 import datetime as dt
 
+import logging
+
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 
 from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.controls.checkboxes import NchantdCheckbox
@@ -33,14 +37,14 @@ logma = Logma(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "entries.yaml")
-pxcfg = {}
+
 
 class NchantdEntryEditorExplainer(NchantdWidget):
     """"""
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select('NchantdEntryEditorExplainer')
+        self.config = kahndor.Instruct(pxcfg).select('NchantdEntryEditorExplainer')
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -81,7 +85,7 @@ class NchantdActivateEntry(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select('Nchantd')
+        self.config = kahndor.Instruct(pxcfg).select('Nchantd')
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -93,11 +97,12 @@ class NchantdActivateEntry(NchantdWidget):
         return self
 
     def initView(self):
-        """BUG: Seems to be a bug with the Checkable attribute in PySide6 as of 2025-03-17"""
+        """Initialize the view with checkable button via config only"""
         super().initView()
         cfg = self.config.override({"checkable": True}).dikt
         self.enable_button = NchantdButton(self, cfg).initWidget()
-        self.enable_button.setCheckable(True)
+        # Note: setCheckable(True) is now handled by NchantdButton.initView() via config
+        # Do NOT call setCheckable again here - it causes PySide6 bug
         self.layout.addWidget(self.enable_button)
         cfg = self.config.override({}).dikt
         self.editor = NchantdEntryBox(self, cfg).initWidget()
@@ -116,7 +121,7 @@ class NchantdCheckboxEditor(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select('NchantdCheckboxEditor'))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdCheckboxEditor'))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

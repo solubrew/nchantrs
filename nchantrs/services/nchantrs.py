@@ -10,17 +10,21 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
-from os.path import abspath, dirname, join
-import datetime as dt
+from os.path import dirname, join
+from typing import Optional, Dict, List
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.services.services import NchantdService
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -37,7 +41,7 @@ class NchantdApplicationService(NchantdService):
 
     def __init__(self, cfg=None):
         """"""
-        self.config = condor.Instruct(pxcfg).select("NchantdApplicationService")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdApplicationService")
         super().__init__(self)
         self.config.override(cfg)
 

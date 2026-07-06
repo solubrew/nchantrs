@@ -2,24 +2,29 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
+from typing import Optional, Dict, List, Any, Tuple
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from nchantrs.dialogs.settings import NchantdSettingsSigil
 from nchantrs.widgets.controls.checkboxes import NchantdCheckbox
 
@@ -35,10 +40,10 @@ pxcfg = join(here, "_data_", "editors.yaml")
 class NchantdJournalSettingsSigil(NchantdSettingsSigil):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdJournalSettingsSigil")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdJournalSettingsSigil")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -47,12 +52,12 @@ class NchantdJournalSettingsSigil(NchantdSettingsSigil):
         self.running_log = False
         self.main_settings = None
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
         checkboxes = []
         for checkbox in self.config.dikt["checkboxes"]:
@@ -62,23 +67,23 @@ class NchantdJournalSettingsSigil(NchantdSettingsSigil):
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def set_append_only(self, append_only):
+    def set_append_only(self, append_only) -> None:
         """"""
         self.append_only = append_only
         return self
 
-    def set_rotate_time(self):
+    def set_rotate_time(self) -> None:
         """"""
         self.rotate_time = self.current_time + 24 * 60 * 60
         return self
 
-    def set_running_log(self, running_log):
+    def set_running_log(self, running_log) -> None:
         """"""
         self.running_log = running_log
         return self

@@ -2,35 +2,38 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.utilities.utils import convert_df_to_tree, lookup
 from nchantrs.libraries import pyqt
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
-logma.off()
+# logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "menus.yaml")
-pxcfg = {}
 
 
 class NchantdMenu(pyqt.QMenu):
@@ -40,7 +43,7 @@ class NchantdMenu(pyqt.QMenu):
         """ """
         super().__init__()
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdMenu")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdMenu")
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -56,8 +59,14 @@ class NchantdMenu(pyqt.QMenu):
     def initView(self):
         """ """
         for action in self.actions:
-            logma.info(f"Action {action}")
-            self.add_action(action["name_txt"], action["handler"])
+            # logma.info(f"Action {action}")
+            if isinstance(action, str):
+                action = lookup(self.parent, action, None, True, True, False)
+                # logma.info(f"Action {action}")
+            elif isinstance(action, int):
+                action = lookup(self.parent, action, None, True, True, False)
+                # logma.info(f"Action {action}")
+            self.add_action(action.get("name_txt", None), action.get("handler", None))
         return self
 
     def initWidget(self):
@@ -107,12 +116,10 @@ class NchantdContextMenu(NchantdMenu):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdContextMenu"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdContextMenu").override(cfg))
         self.menu_data = None
         self.name = None
+        self.menu_df = None
 
     def initModel(self):
         """"""
@@ -137,7 +144,8 @@ class NchantdContextMenu(NchantdMenu):
         logma.info(f"Name {name}")
         if name:
             self.name = name
-        # self.menu_df = self.parent.app.model.get_menu(self.name)
+        # menus are cached application-wide by the model; see invalidate_cache
+        self.menu_df = self.parent.app.model.get_menu(self.name)
         logma.info(f"Menu Data {self.menu_df.head()}")
         menu_data = convert_df_to_tree(self.menu_df)
         logma.info(f"Menu Data {menu_data}")
@@ -147,6 +155,16 @@ class NchantdContextMenu(NchantdMenu):
             self.menu_data.update(menu_data)
         logma.info(f"Menu Data {self.menu_data.keys()}")
         self.buildMenu(self.name, self.menu_data)
+        return self
+
+    def invalidate_cache(self, name=None):
+        """Invalidate the application-wide menu cache.
+
+        Delegates to the model so every menu/widget sees the refresh. Pass a
+        name to drop a single cached menu, or omit it to clear them all. Call
+        this whenever the underlying menu data changes.
+        """
+        self.parent.app.model.invalidate_menu_cache(name)
         return self
 
 

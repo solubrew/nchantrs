@@ -1,28 +1,73 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Nchantrs@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-"""  #																			||
+"""#																			||
 ---  #																			||
 <(META)>:  #																	||
-	docid:   #																	||
-	name: Nchantrs Python Excecution Document  #				||
-	description: >  #															||
+        docid:   #																	||
+        name: Nchantrs Python Excecution Document  #				||
+        description: >  #															||
 
-	expirary: <[expiration]>  #													||
-	version: <[version]>  #														||
-	path: <[LEXIvrs]>  #														||
-	outline: <[outline]>  #														||
-	authority: document|this  #													||
-	security: sec|lvl2  #														||
-	<(WT)>: -32  #																||
+        expirary: <[expiration]>  #													||
+        version: <[version]>  #														||
+        path: <[LEXIvrs]>  #														||
+        outline: <[outline]>  #														||
+        authority: document|this  #													||
+        security: sec|lvl2  #														||
+        <(WT)>: -32  #																||
 """  # 																			||
+
 # -*- coding: utf-8 -*-#														||
 # ================================Core Modules===================================||
 from os.path import abspath, dirname, exists, join, expanduser
 
 # ===============================================================================||
-from condor import condor
-from condor.thing import thingify, getName
+from kahndor import kahndor
+
+import logging
+from kahndor.thing import thingify, getName
+
+logger = logging.getLogger(__name__)
 from fxsquirl.fxsquirl import Chunker
 
+# Constants for switch_abuse replacement (if/elif chains)
+ECHO_MODES = {
+    0: QLineEdit.Normal,
+    1: QLineEdit.Password,
+    2: QLineEdit.PasswordEchoOnEdit,
+    3: QLineEdit.NoEcho,
+}
+
+VALIDATOR_TYPES = {
+    0: None,
+    1: lambda: QIntValidator(self.validatorLineEdit),
+    2: lambda: QDoubleValidator(
+        MIN_VALIDATOR_VALUE, MAX_VALIDATOR_VALUE, VALIDATOR_DECIMAL_PLACES, self.validatorLineEdit
+    ),
+}
+
+ALIGNMENT_MODES = {
+    0: Qt.AlignLeft,
+    1: Qt.AlignCenter,
+    2: Qt.AlignRight,
+}
+
+INPUT_MASKS = {
+    0: "",
+    1: "+99 99 99 99 99;_",
+    2: "0000-00-00",
+    3: ">AAAAA-AAAAA-AAAAA-AAAAA-AAAAA;#",
+}
+
+ACCESS_MODES = {
+    0: False,  # read-write
+    1: True,  # read-only
+}
+
+# ====================================================================================================================||
+# Constants for magic number replacement
+MIN_VALIDATOR_VALUE = -999.0
+MAX_VALIDATOR_VALUE = 999.0
+VALIDATOR_DECIMAL_PLACES = 2
+DEFAULT_INPUT_MASK_INDEX = 0
 # ===============================================================================||
 here = join(dirname(__file__), "")  # 												||
 there = abspath(join("../../.."))  # 												||set path at pheonix level
@@ -36,30 +81,30 @@ class NchantdEventSet:
     """The EventSet is historical log of actions relative to an Nchantd
     Documnet"""
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         """ """
         self.parent = parent
         if parent:
             cfg = parent.config
-        self.config = condor.Instruct(pxcfg)
+        self.config = kahndor.Instruct(pxcfg)
         self.config.select("NchantdEventSet").override(cfg)
         if not parent.newInstance:
             self.restoreEventSet()
         self.lastEvent = self.getLastEvent()
 
-    def store(self, event):
+    def store(self, event) -> None:
         """ """
         return self
 
-    def restoreEventSet(self):
+    def restoreEventSet(self) -> None:
         """ """
         return self
 
-    def restoreEvent(self):
+    def restoreEvent(self) -> None:
         """ """
         return self
 
-    def getLastEvent(self):
+    def getLastEvent(self) -> None:
         """ """
         return event
 
@@ -67,24 +112,24 @@ class NchantdEventSet:
 class NchantdEvent:
     """An Event provides data to listeners and storage of the event"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """ """
 
-    def store(self, event):
+    def store(self, event) -> None:
         """ """
         return self
 
-    def currentCharFormatChanged(self, format):
+    def currentCharFormatChanged(self, format) -> None:
         self.fontChanged(format.font())
         self.colorChanged(format.foreground().color())
 
-    def cursorPositionChanged(self):
+    def cursorPositionChanged(self) -> None:
         self.alignmentChanged(self.textEdit.alignment())
 
-    def clipboardDataChanged(self):
+    def clipboardDataChanged(self) -> None:
         self.actionPaste.setEnabled(len(QApplication.clipboard().text()) != 0)
 
-    def about(self):
+    def about(self) -> None:
         QMessageBox.about(
             self,
             "About",
@@ -93,26 +138,26 @@ class NchantdEvent:
             "experiment with.",
         )
 
-    def mergeFormatOnWordOrSelection(self, format):
+    def mergeFormatOnWordOrSelection(self, format) -> None:
         cursor = self.textEdit.textCursor()
         if not cursor.hasSelection():
             cursor.select(QTextCursor.WordUnderCursor)
         cursor.mergeCharFormat(format)
         self.textEdit.mergeCurrentCharFormat(format)
 
-    def fontChanged(self, font):
+    def fontChanged(self, font) -> None:
         self.comboFont.setCurrentIndex(self.comboFont.findText(QFontInfo(font).family()))
         self.comboSize.setCurrentIndex(self.comboSize.findText("%s" % font.pointSize()))
         self.actionTextBold.setChecked(font.bold())
         self.actionTextItalic.setChecked(font.italic())
         self.actionTextUnderline.setChecked(font.underline())
 
-    def colorChanged(self, color):
+    def colorChanged(self, color) -> None:
         pix = QPixmap(16, 16)
         pix.fill(color)
         self.actionTextColor.setIcon(QIcon(pix))
 
-    def alignmentChanged(self, alignment):
+    def alignmentChanged(self, alignment) -> None:
         if alignment & Qt.AlignLeft:
             self.actionAlignLeft.setChecked(True)
         elif alignment & Qt.AlignHCenter:
@@ -122,52 +167,39 @@ class NchantdEvent:
         elif alignment & Qt.AlignJustify:
             self.actionAlignJustify.setChecked(True)
 
-    def echoChanged(self, index):
-        if index == 0:
-            self.echoLineEdit.setEchoMode(QLineEdit.Normal)
-        elif index == 1:
-            self.echoLineEdit.setEchoMode(QLineEdit.Password)
-        elif index == 2:
-            self.echoLineEdit.setEchoMode(QLineEdit.PasswordEchoOnEdit)
-        elif index == 3:
-            self.echoLineEdit.setEchoMode(QLineEdit.NoEcho)
+    def echoChanged(self, index) -> None:
+        """Change echo mode based on index using dictionary lookup"""
+        mode = ECHO_MODES.get(index, QLineEdit.Normal)
+        self.echoLineEdit.setEchoMode(mode)
 
-    def validatorChanged(self, index):
-        if index == 0:
+    def validatorChanged(self, index) -> None:
+        """Change validator based on index using dictionary lookup"""
+        validator_func = VALIDATOR_TYPES.get(index)
+        if validator_func:
+            self.validatorLineEdit.setValidator(validator_func())
+        else:
             self.validatorLineEdit.setValidator(0)
-        elif index == 1:
-            self.validatorLineEdit.setValidator(QIntValidator(self.validatorLineEdit))
-        elif index == 2:
-            self.validatorLineEdit.setValidator(QDoubleValidator(-999.0, 999.0, 2, self.validatorLineEdit))
         self.validatorLineEdit.clear()
 
-    def alignmentChanged(self, index):
-        if index == 0:
-            self.alignmentLineEdit.setAlignment(Qt.AlignLeft)
-        elif index == 1:
-            self.alignmentLineEdit.setAlignment(Qt.AlignCenter)
-        elif index == 2:
-            self.alignmentLineEdit.setAlignment(Qt.AlignRight)
+    def alignmentChanged(self, index) -> None:
+        """Change alignment based on index using dictionary lookup"""
+        alignment = ALIGNMENT_MODES.get(index, Qt.AlignLeft)
+        self.alignmentLineEdit.setAlignment(alignment)
 
-    def inputMaskChanged(self, index):
-        if index == 0:
-            self.inputMaskLineEdit.setInputMask("")
-        elif index == 1:
-            self.inputMaskLineEdit.setInputMask("+99 99 99 99 99;_")
-        elif index == 2:
-            self.inputMaskLineEdit.setInputMask("0000-00-00")
+    def inputMaskChanged(self, index) -> None:
+        """Change input mask based on index using dictionary lookup"""
+        mask = INPUT_MASKS.get(index, "")
+        self.inputMaskLineEdit.setInputMask(mask)
+        if index == 2:
             self.inputMaskLineEdit.setText("00000000")
             self.inputMaskLineEdit.setCursorPosition(0)
-        elif index == 3:
-            self.inputMaskLineEdit.setInputMask(">AAAAA-AAAAA-AAAAA-AAAAA-AAAAA;#")
 
-    def accessChanged(self, index):
-        if index == 0:
-            self.accessLineEdit.setReadOnly(False)
-        elif index == 1:
-            self.accessLineEdit.setReadOnly(True)
+    def accessChanged(self, index) -> None:
+        """Change access mode based on index using dictionary lookup"""
+        read_only = ACCESS_MODES.get(index, False)
+        self.accessLineEdit.setReadOnly(read_only)
 
-    def update_format(self):
+    def update_format(self) -> None:
         """
         Update the font format toolbar/actions when a new text selection is made. This is neccessary to keep
         toolbars/etc. in sync with the current edit state.

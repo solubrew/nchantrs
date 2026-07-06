@@ -2,25 +2,29 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -29,7 +33,6 @@ logma = Logma(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")
-pxcfg = {}
 
 
 class NchantdShape(pyqt.QWidget):
@@ -38,7 +41,7 @@ class NchantdShape(pyqt.QWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdShape")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdShape")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -84,7 +87,7 @@ class NchantdEllipse(NchantdShape):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdEllipse")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdEllipse")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -135,7 +138,7 @@ class NchantdCircle(NchantdEllipse):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdCircle")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdCircle")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -162,7 +165,7 @@ class NchantdPolygon(NchantdShape):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdPolygon")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdPolygon")
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)

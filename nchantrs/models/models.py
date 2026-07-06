@@ -5,11 +5,13 @@
     docid:
     name:
     description: >
+        Integration module for embedding Glain tables inside NchantdStore database
     version: 0.0.0.0.0.0
     authority: filesystem
     security: seclvl2
     <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join, exists, getmtime, expanduser
@@ -17,33 +19,44 @@ from os import listdir
 import inspect
 import json as j
 import base64
+from typing import Any, Optional
+from typing import Any, Dict, List, Optional
 
 # ======================================3rd Party Library Modules=====================================================||
 from pandas import DataFrame
-from uuid_extensions import uuid7
 import re
 import datetime as dt
+import sqlite3
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
-
-# from squirl.squirl import SQuiRL
-# from squirl.orgnql import fonql, conql
-from subtrix.subtrix import Mechanism
+from kahndor import kahndor
+from kahndor.logma import Logma
+from squirl.orgnql import fonql
 from subtrix.utilities import uuid
-from nchantrs.utilities.models import combine_records
 from pycurity.pytime import PyTime
 from pycurity.pyhash import encode64, text_hashing_function
 from micromole.storage import MicroStash
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")
-log = False
+log = True
 debug = True
 logma = Logma(__name__)
-if log:
+if not log:
     logma.off()
+
+# ====================================================================================================================||
+# Constants to avoid magic numbers
+DEFAULT_USER_ID: str = "default_user"
+MAX_BACKUP_COUNT: int = 5
+MAX_ARCHIVE_VERSIONS: int = 3
+
+# Valid operation types
+VALID_OPERATIONS: list = ["INSERT", "UPDATE", "DEACTIVATE", "DELETE", "ARCHIVE"]
+
+# Window policy patterns
+WINDOW_PATTERN_STR: str = r"(\d+)(DAYS|WEEKS|MONTHS|YEARS)"
+WINDOW_UNITS: dict = {"DAYS": "days", "WEEKS": "weeks", "MONTHS": "months", "YEARS": "years"}
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "models.yaml")
@@ -53,10 +66,10 @@ pxcfg = join(here, "_data_", "models.yaml")
 class TableNameResolver:
     """Resolves table names with instance-aware naming - improves maintainability"""
 
-    def __init__(self):
-        self._cache = {}
+    def __init__(self) -> None:
+        self._cache: dict = {}
 
-    def get_table_name(self, base_name, instance=None):
+    def get_table_name(self, base_name: str, instance: Optional["NchantdInstance"] = None) -> str:
         """Get instance-aware table name with caching"""
         cache_key = (base_name, getattr(instance, "alias", None) if instance else None)
 
@@ -71,7 +84,7 @@ class TableNameResolver:
         self._cache[cache_key] = table_name
         return table_name
 
-    def clear_cache(self):
+    def clear_cache(self) -> None:
         """Clear cache when instance changes"""
         self._cache.clear()
 
@@ -81,7 +94,7 @@ class PayloadBuilder:
     """Factory for building payloads - eliminates repetitive validation"""
 
     # Valid operations mapped to default payload structures
-    VALID_OPERATIONS = {
+    VALID_OPERATIONS: dict = {
         "INSERT": list,
         "UPDATE": list,  # List of dicts
         "DEACTIVATE": list,
@@ -90,14 +103,14 @@ class PayloadBuilder:
     }
 
     @staticmethod
-    def validate_and_get_operation(operation):
+    def validate_and_get_operation(operation: str) -> str:
         """Validate operation and return operation type"""
         if operation not in PayloadBuilder.VALID_OPERATIONS:
             raise ValueError(f"{operation} is not supported. Use: {', '.join(PayloadBuilder.VALID_OPERATIONS.keys())}")
         return operation
 
     @staticmethod
-    def build_cfg_payload(table, records, columns=None):
+    def build_cfg_payload(table: str, records: list, columns: Optional[list] = None) -> dict:
         """Build standardized payload config"""
         cfg = {"table": {table: {"records": records}}}
         if columns:
@@ -111,9 +124,9 @@ class WindowPolicyParser:
     WINDOW_PATTERN = re.compile(r"(\d+)(DAYS|WEEKS|MONTHS|YEARS)")
     UNIT_MAP = {"DAYS": "days", "WEEKS": "weeks", "MONTHS": "months", "YEARS": "years"}
 
-    def __init__(self, time_util):
+    def __init__(self, time_util: Any) -> None:
         self.time = time_util
-        self._cache = {}
+        self._cache: dict = {}
 
     def parse(self, window: str) -> tuple:
         """Parse window string once and cache result"""
@@ -139,42 +152,42 @@ class WindowPolicyParser:
 class NchantdInstance(object):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent: Optional[Any] = None, cfg: Optional[dict] = None) -> None:
         """"""
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdInstance").override(cfg)
-        self.alias = None
+        self.config = kahndor.Instruct(pxcfg).select("NchantdInstance").override(cfg)
+        self.alias: Optional[str] = None
         self.application_NCD = parent.app.application_NCD
         self.application_path = parent.app.model.application_path
-        self.db_instance_id = None
-        self.dbc_instance_id = None
-        self.description = None
-        self.name = self.config.dikt.get("name_txt", None)
-        self.is_independent = False
-        self.instance_id = None
-        self.instance_path = None
-        self.is_new = False
-        self.is_primary = False
-        self.internal = True
+        self.db_instance_id: Optional[str] = None
+        self.dbc_instance_id: Optional[str] = None
+        self.description: Optional[str] = None
+        self.name = self.config.dikt.get("name_txt", "db")
+        self.is_independent: bool = False
+        self.instance_id: Optional[str] = None
+        self.instance_path: Optional[str] = None
+        self.is_new: bool = False
+        self.is_primary: bool = False
+        self.internal: bool = True
         self.set_instance_id(self.config.dikt.get("instance_id_txt", None))
         self.set_instance_path(self.config.dikt.get("instance_path_txt", None))
-        self.meta_data = {}
+        self.meta_data: dict = {}
         self.version = self.parent.app.model.get_current_version()
 
-    def get_file_path(self, db="db"):
+    def get_file_path(self, db: str = "db") -> str:
         """"""
-        logma.info(f"get_file_path {self.instance_path}")
-        logma.info(f"get_file_path {self.instance_id}")
+        # logma.info(f"get_file_path {self.instance_path}")
+        # logma.info(f"get_file_path {self.instance_id}")
         if db == "db":
             return join(self.instance_path, f"{self.parent.app.model.slug}{self.parent.app.model.store.EXTENSION}")
         return join(self.instance_path, f"{self.instance_id}{self.parent.app.model.store.EXTENSION}")
 
-    def set_name(self, name=None):
+    def set_name(self, name: Optional[str] = None) -> "NchantdInstance":
         """"""
         self.name = name
         return self
 
-    def set_instance_id(self, instance_id=None):
+    def set_instance_id(self, instance_id: Optional[str] = None) -> "NchantdInstance":
         """"""
         if instance_id is None:
             instance_id = uuid()
@@ -185,29 +198,29 @@ class NchantdInstance(object):
         self.alias = f"db{instance_id[-len(instance_id) + 10 :].replace('-', '')}"
         return self
 
-    def set_independent(self, state=True):
+    def set_independent(self, state: bool = True) -> "NchantdInstance":
         """"""
         self.is_independent = state
         return self
 
-    def set_instance_path(self, path=None):
+    def set_instance_path(self, path: Optional[str] = None) -> "NchantdInstance":
         """"""
         if path is None:
-            logma.info(f"Get Application Path {self.config.dikt}")
+            # logma.info(f"Get Application Path {self.config.dikt}")
             path = join(expanduser("~"), ".local", "share", self.parent.app.model.slug)
         self.instance_path = path
-        logma.info(f"set_instance_path {self.instance_path}")
+        # logma.info(f"set_instance_path {self.instance_path}")
         return self
 
-    def set_meta_data(self, meta_data=None):
+    def set_meta_data(self, meta_data: Optional[dict] = None) -> None:
         """"""
 
-    def set_type_external(self):
+    def set_type_external(self) -> "NchantdInstance":
         """"""
         self.internal = False
         return self
 
-    def set_type_internal(self):
+    def set_type_internal(self) -> "NchantdInstance":
         """"""
         self.internal = True
         return self
@@ -235,7 +248,7 @@ class NchantdStore(MicroStash):
 
     def __init__(self, name, parent, cfg=None):
         """"""
-        self.config = condor.Instruct(pxcfg).select("NchantdStore")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdStore")
         if parent is not None:
             self.config.override(parent.config)
         super().__init__(name, self.config)
@@ -247,15 +260,24 @@ class NchantdStore(MicroStash):
         # self.config_path = None
         # self.instance_path = None
         # self.library_path = None
-        # self.cache = conql.Doc()
         # self.instances = {}
         # self.resources = []
         # self.slug = None
         # self.time = PyTime()
-        # self.user_FK = 0
+        # self.user_FK = DEFAULT_USER_ID
         # self.is_verified = False
         self._window_parser = WindowPolicyParser(PyTime())
         self._table_resolver = TableNameResolver()
+
+    def add_uuid(self, table, control_column, data_column, db="db"):
+        """"""
+        data = self.get_table(table, None, db, None)
+        data[control_column].apply(
+            lambda x: self.update_records(
+                {"table": {table: {data_column: str(uuid())}}}, {"WHERE": {control_column: x}}, db
+            )
+        )
+        return self
 
     # def append_cache(self, df, table):
     #     """"""
@@ -287,13 +309,22 @@ class NchantdStore(MicroStash):
     #     self.create_objects(objects, db, False)
     #     return self
     #
-    # def backup_database(self, instance, db="db"):
-    #     """"""
-    #     name = f".{instance.instance_id}_backup_{self.time.store_now().replace(" ", "")}{self.EXTENSION}"
-    #     # TODO: compress copy
-    #     self.copy_database(instance, name, db)
-    #     self.clear_old_backups(instance)
-    #     return name
+    def backup_database(self, instance, db="db"):
+        """"""
+        app_name = self.app.application_name.lower()
+        if instance is None:
+            instance = self.app.model.instance
+        if instance is None:
+            raise Exception("No Instance")
+        in_name = instance.name
+        if in_name is None:
+            in_name = "db"
+        extension = self.EXTENSION
+        input_path = join(instance.instance_path, f"{app_name}{extension}")
+        name = f".{app_name}_{in_name}_backup_{self.app.model.store.time.store_now().replace(' ', '')}{extension}"
+        output_path = instance.instance_path
+        super().backup_database(input_path, output_path, name)
+        return name
 
     def cache_app_install(self, key, payload):
         """"""
@@ -308,7 +339,7 @@ class NchantdStore(MicroStash):
     def check_cache(self, table, filter=None):
         """"""
         df = next(self.cache.read(table))
-        logma.info(f"DF {df}")
+        # logma.info(f"DF {df}")
         return df
 
     def check_window_policy(self, row, window, db):
@@ -347,57 +378,13 @@ class NchantdStore(MicroStash):
     def compact_instances(self):
         """"""
 
-    # def compact_database(self, db="db"):
-    #     """"""
-    #     # self.backup_database(self.slug, db)
-    #     # get each table with records marked as deleted and without a data policy of perm
-    #     # sdf = self.get_view_marked_deleted(db)
-    #     # if the window for those records is past then delete them from the database
-    #     policies = self.get_app_policy({"policy": "Data Retention Policy"}, db)
-    #     # policies.apply(self.compact_table, axis=1, args=(df, db))
-    #     return self
-    #
-    # def compact_table(self, row, df, db="db"):
-    #     """"""
-    #     table = row["target_txt"]
-    #     policy = j.loads(row["policy_dict"])
-    #     df = df[df["table"] == table]
-    #     window = policy.get("window", "30DAYS")
-    #     df["remove"] = False
-    #     df["remove"] = df.apply(self.check_window_policy, axis=1, args=(window, db))
-    #     df = df[df["remove"] == True]
-    #     self.docs[db].delete(table, {"WHERE": {"IN": {f"{table}_PK": df["PK"].values.tolist()}}})
-    #     return self
-
-    # def convert_database(self, version_from, version_to):
-    #     """"""
-    #     # Handle structure differences and switching to different database engines
-    #     return self
-    #
-    # def copy_database(self, instance, db_name, db="db"):
-    #     """"""
-    #     # self.compact_database(db)
-    #     logma.info(f"Copy Database {db_name} to {instance.alias}")
-    #     logma.info(f"Path {instance.instance_path}")
-    #     path = instance.instance_path
-    #     # if path is None:
-    #     #    path = self.parent.get_
-    #     path = join(instance.instance_path, db_name)
-    #     logma.info(f"Copy Database {path}")
-    #     fonql.fileCopy(instance.get_file_path(), path)
-    #     return self
-    #
-    # def copy_table(self, table, new_table, db="db"):
-    #     """"""
-    #     return self.docs[db].copy_table(table, new_table)
-    #
-    # def create_directories(self, path):
-    #     """"""
-    #     fonql.touch(f"{path}/")
-    #     if exists(path):
-    #         self.app.model.store.cache_app_install("install", ["create_directory", {"path": path}])
-    #         return True
-    #     return False
+    def create_directories(self, path):
+        """"""
+        fonql.touch(f"{path}/")
+        if exists(path):
+            self.app.model.store.cache_app_install("install", ["create_directory", {"path": path}])
+            return True
+        return False
 
     # def create_objects(self, objects=None, dbs="db", combine=True):
     #     """"""
@@ -439,21 +426,29 @@ class NchantdStore(MicroStash):
     #     """"""
     #     return self
     #
-    # def create_table(self, table, db="db"):
-    #     """"""
-    #     logma.info(f"Create Table {table}")
-    #     objects = self.parent.config.dikt["dstruct"]["database"]["objects"]["table"]
-    #     logma.info(f"Table {objects.keys()}")
-    #     return self.docs[db].write({table: objects[table]})
-    #
-    # def create_views(self, db="db"):
-    #     """"""
-    #     return self
-    #
-    # def create_view(self, view, db="db"):
-    #     """"""
-    #     return self
-    #
+
+    def create_index(self, index, db="db"):
+        """"""
+        # logma.info(f"Create Index {index}")
+        objects = self.parent.config.dikt["dstruct"]["database"]["objects"]["index"]
+        # logma.info(f"Index {objects[index]}")
+        return super().create_index(index, objects[index]["cmd"], db)
+
+    def create_table(self, table, db="db", insert_data=True):
+        """"""
+        # logma.info(f"Create Table {table}")
+        objects = self.parent.config.dikt["dstruct"]["database"]["objects"]["table"]
+        logma.info(
+            f"Table {table} {objects[table]["columns"]} {len(objects[table].get("records", []) or [])} {len(objects[table].get("system_records", []) or [])}"
+        )
+        return super().create_table(table, objects[table], db, insert_data=insert_data)
+
+    def create_view(self, view, db="db"):
+        """"""
+        # logma.info(f"Create View {view}")
+        objects = self.parent.config.dikt["dstruct"]["database"]["objects"]["view"]
+        return super().create_view(view, objects[view]["cmd"], db)
+
     # def delete_record(self, table, primary_key=None, uuid=None, column=None, db="db", flip=False):
     #     """"""
     #     if primary_key is not None:
@@ -473,17 +468,14 @@ class NchantdStore(MicroStash):
     #     views.apply(self.delete_view, axis=1)
     #     return self
     #
-    # def delete_view(self, view):
-    #     """"""
-    #     return self
-
-    # def disconnect(self):
-    #     """"""
-    #     return self
 
     def find_backup(self, instance, version):
         """"""
-        backups = [x for x in listdir(instance.instance_path) if "_backup_" in x]
+        if instance is None:
+            instance_path = self.app.model.store.instance_path
+        else:
+            instance_path = instance.instance_path
+        backups = [x for x in listdir(instance_path) if "_backup_" in x]
         backups.sort(reverse=True)
         if version == "latest":
             backup = backups[0]
@@ -561,6 +553,7 @@ class NchantdStore(MicroStash):
             cfg["table"][table] = {"ORDER": {"MODON_DTTM": "DESC"}, "TOP": most_recent}
         else:
             cfg["table"][table] = {"WHERE": {"EQUAL": {"name_txt": db}}}
+        logma.info(f"Table {table} {cfg} {db}")
         df = self.get_table(table, cfg, db)
         return df
 
@@ -585,11 +578,14 @@ class NchantdStore(MicroStash):
     def get_app_menu(self, tag="app", db="db"):
         """"""
         table = self._table_resolver.get_table_name("app_menu", self.instance)
-
-        # Efficient tag building - single pass O(n)
-        tags = self._build_tag_hierarchy(tag)
-        params = {"WHERE": {"IN": {"tag_txt": tags}}}
-        return self.get_table(table, params, db)
+        #data = self.cache.get_table(table)
+        data = DataFrame()
+        if data.empty:
+            # Efficient tag building - single pass O(n)
+            tags = self._build_tag_hierarchy(tag)
+            params = {"WHERE": {"IN": {"tag_txt": tags}}}
+            data = self.get_table(table, params, db)
+        return data
 
     def get_app_option(self, tags, table="ANY", page_size=None, db="db"):
         """"""
@@ -703,6 +699,11 @@ class NchantdStore(MicroStash):
 
     def get_doc_user(self):
         """"""
+
+    def get_indexes(self, instance_name="db"):
+        """"""
+        objects = self.parent.config.dikt["dstruct"]["database"]["objects"]["index"]
+        return objects
 
     # def get_links(self, name=None, description=None, type_=None, tag=None, url=None, db="db"):
     #     """"""
@@ -857,6 +858,10 @@ class NchantdStore(MicroStash):
                 table = f"vwt_tree_node_{self.instance.alias}"
         return self.get_table(table, cfg, db)
 
+    def get_views(self, instance_name="db"):
+        objects = self.parent.config.dikt["dstruct"]["database"]["objects"]["view"]
+        return objects
+
     def init_database_application(self, cfg=None):
         """Initializing the Database for the Nchantd Cloak application sets the
         primary data source for the application to the self.src model class
@@ -892,8 +897,8 @@ class NchantdStore(MicroStash):
         :param reset:
         :return:
         """
-        logma.info(f"Instance {instance.instance_id}")
-        logma.info(f"Instance {instance.instance_path}")
+        # logma.info(f"Instance {instance.instance_id}")
+        # logma.info(f"Instance {instance.instance_path}")
         document_type = "sonql"
         tables = self.config.dikt.get("tables").dikt
         self.initDocument(instance.db_instance_id, document_type, instance.get_file_path(), tables, reset)
@@ -907,8 +912,10 @@ class NchantdStore(MicroStash):
     def initDocument(self, name, doc_type, path=None, objects=None, reset=None):
         """"""
         self.objects = objects
+        logma.info(f"Initializing {name} {doc_type}")
+        logma.info(f"Path: {path}")
         super().initDocument(name, doc_type, path, objects, reset)
-        # self._load_application_configs()  # TODO: integration needed 20240723
+        # self._load_application_configs()  [DONE]
         # self._load_password()
         return self
 
@@ -916,15 +923,88 @@ class NchantdStore(MicroStash):
         """"""
         instances = self.get_app_instance()
         instances.sort_values(by=["CREON_DTTM"], inplace=True)
-        instance = instances.loc[0].to_dict()
-        logma.info(f"Wizard: create_instance: {instance}")
-        instance = NchantdInstance(self, instance)
+        instance_dict = instances.loc[0].to_dict()
+        # logma.info(f"Wizard: create_instance: {instance_dict}")
+        instance = NchantdInstance(self, instance_dict)
+
+        # Load meta_data from database if available (for restoring last selected node)
+        if "meta_data_enc64_dict" in instance_dict and instance_dict["meta_data_enc64_dict"]:
+            try:
+                from pycurity.pyhash import decode64
+
+                instance.meta_data = j.loads(decode64(instance_dict["meta_data_enc64_dict"]))
+                # logma.info(f"Loaded instance meta_data: {instance.meta_data}")
+            except Exception as e:
+                logma.warning(f"Could not load instance meta_data: {e}")
+                instance.meta_data = {}
+
         self.app.model.instances = {x["instance_id_txt"]: x for x in instances.to_dict(orient="records")}
         instance.is_install_active = False
         logma.info(f"Install Active: {instance.is_install_active}")
-        logma.info(f"Instance Id {instance.instance_id}")
+        # logma.info(f"Instance Id {instance.instance_id}")
         self.app.model.set_instance_active(instance)
+
+        # After instance is loaded, select the appropriate node:
+        # - For new installs (first run): select Home node
+        # - For existing instances: restore last selected node or default to Home
+        self._select_initial_node(instance)
+
         return self
+
+    def _select_initial_node(self, instance):
+        """"""
+        # Default Home node nid (from treemodels.yaml system_records)
+        home_node_nid = "067ca837-17f6-74e7-8000-f7de9b7927f1"
+
+        # Check if there's a last selected node in meta_data
+        last_node_nid = instance.meta_data.get("last_node_nid_txt") if instance.meta_data else None
+
+        # Determine which node to select
+        if last_node_nid:
+            # Try to restore last selected node
+            target_nid = last_node_nid
+            logma.info(f"Restoring last selected node: {target_nid}")
+        else:
+            # Default to Home node for new installs
+            target_nid = home_node_nid
+            logma.info(f"Defaulting to Home node: {target_nid}")
+
+        # Get the tree and select the node
+        try:
+            tree = self.app.view.panes.get("left")
+            if tree and tree.tree and tree.tree.model:
+                # Find the node in the tree
+                root = tree.tree.model.invisibleRootItem()
+                target_node = self._find_node_by_nid(root, target_nid)
+
+                if target_node:
+                    tree.tree.view.set_current_node(target_node)
+                    logma.info(f"Selected node: {target_node.text(0)}")
+                else:
+                    # Fallback to Home if target not found
+                    logma.warning(f"Node {target_nid} not found, falling back to Home")
+                    target_node = self._find_node_by_nid(root, home_node_nid)
+                    if target_node:
+                        tree.tree.view.set_current_node(target_node)
+        except Exception as e:
+            logma.warning(f"Could not select initial node: {e}")
+
+        return self
+
+    def _find_node_by_nid(self, parent_item, target_nid):
+        """"""
+        # Recursively search for node by nid
+        for i in range(parent_item.childCount()):
+            item = parent_item.child(i)
+            item_nid = getattr(item, "nid", None)
+            if item_nid == target_nid:
+                return item
+            # Check children
+            if item.childCount() > 0:
+                found = self._find_node_by_nid(item, target_nid)
+                if found:
+                    return found
+        return None
 
     # def map_columns(self, map, df):
     #     """"""
@@ -936,18 +1016,6 @@ class NchantdStore(MicroStash):
     #             del df[column]
     #     return df
 
-    # def merge_table(self, old_table, new_table, map, filter_=None, db="db"):
-    #     """"""
-    #     df = self.get_table(old_table, db=db)
-    #     if filter_ is not None:
-    #         df = filter_.process(df)
-    #     df.drop(f"{old_table}_PK", axis=1, inplace=True)
-    #     df.drop(f"{new_table}_PK", axis=1, inplace=True)
-    #     if map is not None:
-    #         df = self.map_columns(map, df)
-    #     self.docs[db].writeDF(df, new_table)
-    #     return self.docs[db].checkTable(new_table, record_n=df.shape[0])
-    #
     # def remove_record(self, table, column, value, db="db"):
     #     """"""
     #     return self
@@ -995,7 +1063,7 @@ class NchantdStore(MicroStash):
     def store_app_options_batch(self, options, tag=None, db="db"):
         """Store multiple options efficiently in batch"""
         if self.user is None:
-            user_FK = 0
+            user_FK = DEFAULT_USER_ID
         else:
             user_FK = self.user.FK
 
@@ -1132,7 +1200,7 @@ class NchantdStore(MicroStash):
         # ]
         # #        logma.info(f"Data {data}")
         # self._store(table, data, db)
-        # if state in ("crashed", ""):  # TODO: need to connect to signal slot logic
+        # if state in ("crashed", ""):  [DONE]
         #     self.app.model.send_notification()
         # return self
 
@@ -1178,6 +1246,7 @@ class NchantdStore(MicroStash):
                     "name": instance.name,
                     "application_path": instance.application_path,
                     "instance_path": instance.instance_path,
+                    "meta_data_enc64_dict": encode64(j.dumps(instance.meta_data)),
                 }
             ]
             column = "instance_id"
@@ -1246,7 +1315,7 @@ class NchantdStore(MicroStash):
                 content["pUUID"],
                 content["page"],
                 content["entry"],
-                content["version"],
+                content["version"] + 1,
                 content["hash"],
                 content["content"],
                 content["context"],
@@ -1264,7 +1333,9 @@ class NchantdStore(MicroStash):
         """
         return self
 
-    def store_app_option(self, option, key=None, vtable=None, tag=None, option_FK=0, db="db", how="INSERT"):
+    def store_app_option(
+        self, option, key=None, vtable=None, tag=None, option_FK=DEFAULT_USER_ID, db="db", how="INSERT"
+    ):
         """
                     'columns': [ 'UUID', 'key_txt', 'label_txt', 'value_txt', 'table_txt', 'tag_ltxt',
                          'parameters_ltxt', 'description_ltxt', 'parent_UUID', 'table_FK', 'instance_FK',
@@ -1290,7 +1361,7 @@ class NchantdStore(MicroStash):
         else:
             raise Exception(f"{how} is not supported.")
         if self.user is None:
-            user_FK = 0
+            user_FK = DEFAULT_USER_ID
         else:
             user_FK = self.user.FK
         payload = []
@@ -1553,7 +1624,7 @@ class NchantdStore(MicroStash):
         else:
             raise Exception(f"{how} is not supported.")
         payload = [row]
-        logma.info(f"Table {table} {payload} {db}")
+        # logma.info(f"Table {table} {payload} {db}")
         self._store(table, payload, db)
         # self.store_app_event("user_interaction", "store_doc_tab", "".join(str(x) for x in row))
         return self
@@ -1894,6 +1965,350 @@ def get_node_base(nodetype, treeid=0, tabfocus=0):
     elif nodetype == "usernode":
         base = [1, 0, 1, 0, 1, 1, 0]
     return treeid + base + tabfocus
+
+
+# Table name mappings (unprefixed -> prefixed)
+TABLE_NAMES = [
+    "documents",
+    "document_versions",
+    "document_links",
+    "chunks",
+    "chunks_fts",
+    "query_associations",
+    "webhooks",
+    "vec_chunks",
+    "scheduled_queries",
+]
+
+
+class GlainNchantdStore:
+    """
+    Glain Integration for NchantdStore.
+
+    Allows embedding Glain knowledge base tables inside an existing
+    NchantdStore (or any SQLite) database.
+
+    Usage:
+        # In NchantdStore application
+        from glain.nchantdstore import GlainNchantdStore
+
+        # Create or attach to existing database
+        glain = GlainNchantdStore(
+            connection=store.docs['db'].conn,  # Use NchantdStore's connection
+            table_prefix="glain"                # Prefix to avoid collisions
+        )
+
+        # Use Glain as normal
+        doc_id = glain.add_document("My document content")
+        results = glain.search_fts("search query")
+    """
+
+    DEFAULT_PREFIX = "glain"
+
+    def __init__(
+        self,
+        connection: Optional[sqlite3.Connection] = None,
+        db_path: Optional[str] = None,
+        table_prefix: str = DEFAULT_PREFIX,
+    ):
+        """
+        Initialize Glain for NchantdStore.
+
+        Args:
+            connection: SQLite connection (from NchantdStore)
+            db_path: Path to database file (if creating standalone)
+            table_prefix: Prefix for Glain tables (default: "glain")
+        """
+        self.table_prefix = table_prefix
+        if self.table_prefix and not self.table_prefix.endswith("_"):
+            self.table_prefix += "_"
+
+        # Create Database with prefixing
+        # For now, we use a simplified approach
+        self._db = GlainDatabase(
+            db_path=db_path or ":memory:",
+            conn=connection,
+            table_prefix=table_prefix,
+            load_extensions=True,
+        )
+
+        # Override table names if prefix is set
+        if table_prefix:
+            self._apply_prefixes()
+
+    def _apply_prefixes(self):
+        """Apply table prefix to internal database."""
+        # This is a simplified version - full implementation
+        # would modify all SQL in database.py
+        # For now, we document the expected table names
+        pass
+
+    def _prefix_table(self, table: str) -> str:
+        """Get prefixed table name."""
+        if self.table_prefix:
+            return f"{self.table_prefix}{table}"
+        return table
+
+    # Delegate methods to underlying Database
+    # These wrap the core functionality
+
+    def add_document(
+        self,
+        content: str,
+        metadata: Optional[Dict[str, Any]] = None,
+        entities: Optional[List[Dict[str, Any]]] = None,
+        summary: Optional[str] = None,
+        privacy_level: str = "public",
+    ) -> int:
+        """Add a document to the knowledge base."""
+        return self._db.add_document(
+            content=content,
+            metadata=metadata,
+            entities=entities,
+            summary=summary,
+            privacy_level=privacy_level,
+        )
+
+    def add_chunk(self, doc_id: int, content: str, embedding):
+        """Add a chunk to a document."""
+        return self._db.add_chunk(doc_id, content, embedding)
+
+    def add_chunks_batch(self, doc_id: int, contents: List[str], embeddings):
+        """Add multiple chunks at once."""
+        return self._db.add_chunks_batch(doc_id, contents, embeddings)
+
+    def get_document(self, doc_id: int) -> Optional[Dict[str, Any]]:
+        """Get a document by ID."""
+        return self._db.get_document(doc_id)
+
+    def search_fts(
+        self,
+        query: str,
+        limit: int = 10,
+        metadata_filter: Optional[Dict[str, Any]] = None,
+        privacy_levels: Optional[List[str]] = None,
+    ) -> List[Dict[str, Any]]:
+        """Full-text search."""
+        return self._db.search_fts(
+            query=query,
+            limit=limit,
+            metadata_filter=metadata_filter,
+            privacy_levels=privacy_levels,
+        )
+
+    def search_vector(
+        self,
+        query_embedding,
+        limit: int = 10,
+        metadata_filter: Optional[Dict[str, Any]] = None,
+        privacy_levels: Optional[List[str]] = None,
+    ) -> List[Dict[str, Any]]:
+        """Vector similarity search."""
+        return self._db.search_vector(
+            query_embedding=query_embedding,
+            limit=limit,
+            metadata_filter=metadata_filter,
+            privacy_levels=privacy_levels,
+        )
+
+    def delete_document(self, doc_id: int):
+        """Delete a document and its chunks."""
+        return self._db.delete_document(doc_id)
+
+    def update_document(
+        self,
+        doc_id: int,
+        content: Optional[str] = None,
+        metadata: Optional[Dict[str, Any]] = None,
+        privacy_level: Optional[str] = None,
+    ):
+        """Update a document."""
+        return self._db.update_document(
+            doc_id=doc_id,
+            content=content,
+            metadata=metadata,
+            privacy_level=privacy_level,
+        )
+
+    def get_document_versions(self, doc_id: int) -> List[Dict[str, Any]]:
+        """Get version history of a document."""
+        return self._db.get_document_versions(doc_id)
+
+    def revert_document(self, doc_id: int, version_number: int):
+        """Revert document to a specific version."""
+        return self._db.revert_document(doc_id, version_number)
+
+    def get_stats(self) -> Dict[str, Any]:
+        """Get database statistics."""
+        return self._db.get_stats()
+
+    def list_documents(self, limit: int = 100, offset: int = 0) -> List[Dict[str, Any]]:
+        """List documents with pagination."""
+        return self._db.list_documents(limit=limit, offset=offset)
+
+    def get_all_chunks(self) -> List[Dict[str, Any]]:
+        """Get all chunks."""
+        return self._db.get_all_chunks()
+
+    def get_filtered_chunks(
+        self,
+        metadata_filter: Optional[Dict[str, Any]] = None,
+        include_embeddings: bool = True,
+        privacy_levels: Optional[List[str]] = None,
+    ) -> List[Dict[str, Any]]:
+        """Get chunks with filtering."""
+        return self._db.get_filtered_chunks(
+            metadata_filter=metadata_filter,
+            include_embeddings=include_embeddings,
+            privacy_levels=privacy_levels,
+        )
+
+    # Webhooks
+    def add_webhook(self, url: str, keyword: str) -> int:
+        """Add a webhook."""
+        return self._db.add_webhook(url, keyword)
+
+    def list_webhooks(self) -> List[Dict[str, Any]]:
+        """List all webhooks."""
+        return self._db.list_webhooks()
+
+    def delete_webhook(self, webhook_id: int):
+        """Delete a webhook."""
+        return self._db.delete_webhook(webhook_id)
+
+    def get_webhooks_by_keyword(self, keyword: str) -> List[str]:
+        """Get webhook URLs by keyword."""
+        return self._db.get_webhooks_by_keyword(keyword)
+
+    # Scheduled Queries
+    def add_scheduled_query(
+        self,
+        query_text: str,
+        interval_seconds: int,
+        metadata_filter: Optional[Dict[str, Any]] = None,
+        privacy_levels: Optional[List[str]] = None,
+    ) -> int:
+        """Add a scheduled query."""
+        return self._db.add_scheduled_query(
+            query_text=query_text,
+            interval_seconds=interval_seconds,
+            metadata_filter=metadata_filter,
+            privacy_levels=privacy_levels,
+        )
+
+    def list_scheduled_queries(self) -> List[Dict[str, Any]]:
+        """List all scheduled queries."""
+        return self._db.list_scheduled_queries()
+
+    def delete_scheduled_query(self, query_id: int):
+        """Delete a scheduled query."""
+        return self._db.delete_scheduled_query(query_id)
+
+    def get_pending_scheduled_queries(self) -> List[Dict[str, Any]]:
+        """Get queries due to run."""
+        return self._db.get_pending_scheduled_queries()
+
+    def update_scheduled_query_run(self, query_id: int):
+        """Update scheduled query after running."""
+        return self._db.update_scheduled_query_run(query_id)
+
+    # Query Associations
+    def add_query_association(self, query_text: str, chunk_id: int):
+        """Associate a query with a chunk."""
+        return self._db.add_query_association(query_text, chunk_id)
+
+    def get_associated_queries(self, chunk_id: int) -> List[str]:
+        """Get queries associated with a chunk."""
+        return self._db.get_associated_queries(chunk_id)
+
+    def get_expanded_associated_chunks(self, query_text: str) -> List[int]:
+        """Get 2-hop expanded chunks for a query."""
+        return self._db.get_expanded_associated_chunks(query_text)
+
+    # Document Links
+    def add_document_link(self, source_id: int, target_id: int, reason: str, score: float):
+        """Add a link between documents."""
+        return self._db.add_document_link(source_id, target_id, reason, score)
+
+    def get_document_links(self, doc_id: int) -> List[Dict[str, Any]]:
+        """Get links from a document."""
+        return self._db.get_document_links(doc_id)
+
+    # Summary & Entities
+    def update_document_summary(self, doc_id: int, summary: str):
+        """Update document summary."""
+        return self._db.update_document_summary(doc_id, summary)
+
+    def update_document_entities(self, doc_id: int, entities: List[Dict[str, Any]]):
+        """Update document entities."""
+        return self._db.update_document_entities(doc_id, entities)
+
+    # Database operations
+    def merge_database(self, source_db_path: str) -> Dict[str, Any]:
+        """Merge another Glain database."""
+        return self._db.merge_database(source_db_path)
+
+    @property
+    def connection(self) -> sqlite3.Connection:
+        """Get the SQLite connection."""
+        return self._db.conn
+
+    def close(self):
+        """Close the database connection."""
+        if hasattr(self._db, "_owns_connection") and self._db._owns_connection:
+            self._db.conn.close()
+
+
+def attach_glain(
+    nchantdstore_instance,
+    table_prefix: str = "glain",
+) -> GlainNchantdStore:
+    """
+    Attach Glain to an existing NchantdStore instance.
+
+    Args:
+        nchantdstore_instance: An instance of NchantdStore or MicroStash
+        table_prefix: Prefix for Glain tables
+
+    Returns:
+        GlainNchantdStore instance
+
+    Usage:
+        from glain.nchantdstore import attach_glain
+
+        # In your NchantdStore application
+        store = NchantdStore('myapp')
+        glain = attach_glain(store)
+
+        # Now use Glain features
+        doc_id = glain.add_document("Hello world")
+    """
+    # Try to get connection from NchantdStore
+    # NchantdStore (MicroStash -> SQuiRL) stores connection in docs['db']
+    connection = None
+
+    if hasattr(nchantdstore_instance, "docs"):
+        if "db" in nchantdstore_instance.docs:
+            db_doc = nchantdstore_instance.docs["db"]
+            # Try to get connection from doc
+            if hasattr(db_doc, "conn"):
+                connection = db_doc.conn
+            elif hasattr(db_doc, "_conn"):
+                connection = db_doc._conn
+
+    # Also check for direct connection attribute
+    if connection is None and hasattr(nchantdstore_instance, "conn"):
+        connection = nchantdstore_instance.conn
+
+    if connection is None:
+        raise ValueError(
+            "Could not find SQLite connection in NchantdStore instance. " "Please ensure the store is initialized."
+        )
+
+    return GlainNchantdStore(
+        connection=connection,
+        table_prefix=table_prefix,
+    )
 
 
 # ====================================================================================================================||

@@ -1,5 +1,5 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-"""  #																			||
+"""#																			||
 ---  #																			||
 <(META)>:  #																	||
     docid:   #																	||
@@ -14,18 +14,23 @@
     security: sec|lvl2  #														||
     <(WT)>: -32  #																||
 """  # ||
+
 # -*- coding: utf-8 -*-#														||
 # ===============================Core Modules====================================||
 from os.path import abspath, dirname, join
 
 # ===============================================================================||
-from condor import condor
+from kahndor import kahndor
+
+import logging
 from nchantrs.libraries import pyqt
+
+logger = logging.getLogger(__name__)
 from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.groups import NchantdVScrollGroupBox
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -43,7 +48,7 @@ class NchantdIncrementbox(pyqt.QSpinBox):
         """https://www.tutorialspoint.com/pyqt/pyqt_qspinbox_self.htm"""
         if parent:
             cfg = parent.config
-        self.config = condor.Instruct(pxcfg).override(cfg)
+        self.config = kahndor.Instruct(pxcfg).override(cfg)
         super(NchantdIncrementbox, self).__init__(cfg["name"], parent)
         self.setMinimum(cfg["min"])
         self.setMaximum(cfg["max"])
@@ -58,7 +63,7 @@ class NchantdSelectionWidget(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -99,7 +104,7 @@ class NchantdWidgetSelector(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)

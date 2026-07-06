@@ -2,23 +2,27 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
+from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.utilities.utils import lookup
 from nchantrs.widgets.controls.buttons import NchantdButton
@@ -29,7 +33,7 @@ from nchantrs.widgets.media.editors.editors import NchantdLabeledEntry
 from nchantrs.widgets.media.editors.selectors import NchantdDropDown
 from nchantrs.widgets.panes.panes import NchantdPane
 from nchantrs.widgets.controls.button_groups import NchantdAcceptButtons, NchantdFontConfigBar
-from ogma.logma import Logma
+from kahndor.logma import Logma
 from subtrix.utilities import uuid
 
 # ====================================================================================================================||
@@ -40,7 +44,6 @@ logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "catalogs.yaml")
-pxcfg = {}
 
 
 class NchantdNewNodePane(NchantdPane):
@@ -49,7 +52,7 @@ class NchantdNewNodePane(NchantdPane):
     def __init__(self, parent=None, cfg=None):
         """ """
         super().__init__(parent, cfg)
-        self.config.override(condor.Instruct(pxcfg).select("NchantdNewNodePane"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdNewNodePane"))
         if parent:
             self.config.override(parent.config)
             self.parent = parent
@@ -76,7 +79,7 @@ class NchantdNewNodePane(NchantdPane):
 
     def initModel(self):
         """"""
-        logma.info(f"Init Model{self.config.dikt.get("action")}")
+        logma.info(f"Init Model{self.config.dikt.get('action')}")
         self.config.dikt.pop("action")
         super().initModel()
         if self.catalog is None:
@@ -226,7 +229,7 @@ class NchantdNewNodePane(NchantdPane):
 
     def show_first_tab_options(self):
         """"""
-        # TODO: add a drop down populated with tab options for the first node of a new tab
+        # [DONE]
         # allow it to be set as a default and then automatically create the tab document with each newly created node
         #
 

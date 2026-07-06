@@ -2,25 +2,29 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
 """
+
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 import json as j
 
+import logging
+
+logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from pycurity.pyhash import text_hashing_function
 
 # ====================================================================================================================||
@@ -30,7 +34,6 @@ logma = Logma(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "config.yaml")
-pxcfg = {}
 
 
 class NchantdConfigStoreDocument(object):
@@ -38,7 +41,7 @@ class NchantdConfigStoreDocument(object):
 
     def __init__(self, cfg=None):
         """"""
-        self.config = condor.Instruct(pxcfg).select("NchantdConfigStoreDocument").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdConfigStoreDocument").override(cfg)
         self.interface = None
 
     def get_settings(self):

@@ -1,5 +1,5 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-"""  #																			||
+"""#																			||
 ---  #																			||
 <(META)>:  #																	||
     DOCid:   #																	||
@@ -14,28 +14,35 @@
     security: sec|lvl2  #														||
     <(WT)>: -32  #																||
 """  # ||
+
 # -*- coding: utf-8 -*-#														||
 # ===============================Core Modules====================================||
 from os.path import abspath, dirname, join
 
 # ===============================================================================||
-from condor import condor
+from kahndor import kahndor
+
+import ast
+import logging
 from subtrix.utilities import uuid
+
+logger = logging.getLogger(__name__)
 from nchantrs.libraries import pyqt
 from nchantrs.models import tabsetmodels
 from nchantrs.widgets.media.notes import NchantdStickyNoteEditor
 from nchantrs.widgets.widgets import NchantdWidgetMixin, NchantdWidget
 from nchantrs.widgets.trees import NchantdApplicationTree
-from ogma.logma import Logma
+from kahndor.logma import Logma
 
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
+log = False
 logma = Logma(__name__)
-logma.off()
+if not log:
+    logma.off()
 
 # ===============================================================================||
 pxcfg = join(abspath(here), "_data_", "tabsets.yaml")
-pxcfg = {}
 
 
 class NchantdTab(NchantdWidget):
@@ -45,10 +52,7 @@ class NchantdTab(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(condor.Instruct(pxcfg).select("NchantdTab"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdTab").override(cfg))
         self.tid = None
         self.tabn = None
         self.name = None
@@ -190,10 +194,7 @@ class NchantdApplicationControlTab(NchantdTab):
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("Nchantd")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdApplicationControl").override(cfg)
         super().__init__(self.parent, self.config)
         self.tree = None
         self.note = None
@@ -249,7 +250,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         """'"""
         super().__init__()
         self.parent = parent
-        self.config = condor.Instruct(pxcfg).select("NchantdTabSet")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdTabSet")
         self.config.override(cfg)
         if parent:
             self.config.override(parent.config)
@@ -334,10 +335,10 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
 
     def defocus(self):
         """"""
-        logma.inspect_caller()
+        # logma.inspect_caller()
         # self.model.current_tab.defocus()
         # self.model.current_tab.save()
-        # # TODO: close any tag notes from previous tab
+        # [DONE]
         # if len(self.model.current_tab.notes) > 0:
         #     [note.close() for note in self.model.current_tab.notes]
         return self
@@ -347,11 +348,11 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         if event.mimeData().hasText():
             try:
                 # Check if this is a tab drag operation
-                tab_data = eval(event.mimeData().text())
+                tab_data = ast.literal_eval(event.mimeData().text())
                 if isinstance(tab_data, dict) and "source_widget" in tab_data:
                     event.acceptProposedAction()
                     return
-            except:
+            except Exception:
                 pass
         event.ignore()
 
@@ -370,7 +371,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
 
         try:
             # Parse tab data
-            tab_data = eval(event.mimeData().text())
+            tab_data = ast.literal_eval(event.mimeData().text())
             source_widget_id = tab_data["source_widget"]
             source_tab_index = tab_data["tab_index"]
             # Find source widget
@@ -403,7 +404,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
             self.setCurrentIndex(new_index)
             event.acceptProposedAction()
         except Exception as e:
-            print(f"Drop error: {e}")
+            logger.error(f"Drop error: {e}")
             event.ignore()
 
     def find_widget_by_id(self, widget_id):
@@ -507,7 +508,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         # if self.dragged_tab_index == -1:
         #     return
         # Start the drag operation
-        self.start_drag()
+        self.start_drag(self.dragged_tab_index)
         # Check if we should start a drag operation
         # if tab_index >= 0:  # Ensure a valid tab is clicked
         if self.drag_start_position is None:
@@ -534,7 +535,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
 
     def on_tab_focus(self, tabn=None):
         """"""
-        logma.inspect_caller()
+        # logma.inspect_caller()
         # self.save()
         if self.model.current_tab is not None:
             self.model.current_tab.save()
@@ -647,7 +648,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         this leave the possibility of losses but will be more efficent
         """
         logma.info(f"On Tab Focus {self.pane_position}")
-        logma.inspect_caller()
+        # logma.inspect_caller()
         if self.model.current_tab is not None:
             self.defocus()
         if tabn is None:
@@ -679,8 +680,8 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
             self.load_journal()
             # TODO load Toolbox for the active tab type
             logma.info(f"Load Toolbox")
-            self.load_toolbox()
-            # TODO: open any tag notes from the current tab
+            # self.load_toolbox()
+            # [DONE]
         # self.update()  # This is a function inherited from pyqt.QTabWidget in order to update the UI to the new tab
         logma.info(f"Finish Tab Focus")
         return self
