@@ -172,11 +172,7 @@ class NchantdWebViewer(NchantdWidget):
         self.profile_select_entry = None
         self.url_select_entry = None
         self.known_scripts = self.config.dikt.get("javascript", {}).get("code", {})
-        self.has_pro = (
-            getattr(self.app.model.user, "has_pro", False)
-            if self.app and self.app.model and self.app.model.user
-            else False
-        )
+
 
         self.browser.urlChanged.connect(self.cmd_url_changed_handler)
         self.browser.titleChanged.connect(self.title_changed.emit)
@@ -312,26 +308,7 @@ class NchantdWebViewer(NchantdWidget):
     def build_toolbar(self):
         """"""
         buttons = {}
-        if self.is_simple is False:
-            # TOOD this shouldl be in the NchantdOffice Browser not here
-            if self.has_pro:
-                cfg = {
-                    "label": "Profile",
-                    "layout": "horizontal",
-                    "size": [10, 20],
-                    "drop_down": {"size": [100, 20]},
-                    "options": ["default"],
-                }
-                self.profile_select_entry = NchantdDropDown(self, cfg).initWidget()
-                buttons[0] = {"name": "get_pro", "widget": self.profile_select_entry}
-            else:
-                cfg = {
-                    "text": "Get Pro",
-                    "handler": self.app.view.switch_to_account_tab,
-                    "height": 24,
-                }
-                self.profile_select_entry = NchantdButton(self, cfg).initWidget()
-                buttons[10] = {"name": "get_pro_features", "widget": self.profile_select_entry}
+
 
         buttons[11] = {"action": "web_page_back", "handler": self.cmd_previous_page}
         buttons[12] = {"action": "web_page_forward", "handler": self.cmd_next_page}

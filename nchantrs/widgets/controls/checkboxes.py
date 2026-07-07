@@ -25,6 +25,7 @@ logger = logging.getLogger(__name__)
 from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
+#from nchantrs.widgets.media.editors.selectors import NchantdComboBox
 from kahndor.logma import Logma
 
 # ====================================================================================================================||
@@ -48,7 +49,7 @@ pxcfg = join(here, "_data_", "checkboxes.yaml")
 class NchantdCheckbox(NchantdWidgetMixin, pyqt.QCheckBox):
     def __init__(self, parent: Any, cfg: Optional[Dict] = None) -> None:
         """https://www.tutorialspoint.com/pyqt/pyqt_qcheckbox_self.htm"""
-        super().__init__("", parent)
+        super().__init__(parent)
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdCheckbox")
         if self.parent:
@@ -165,41 +166,41 @@ class NchantdCheckboxGroup(NchantdWidget):
         return self
 
 
-class NchantdCheckboxCombo(NchantdWidget):
-    """"""
-
-    def __init__(self, parent=None, cfg=None):
-        """ """
-        super().__init__(parent, cfg)
-        self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCheckboxCombo"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
-
-    def initModel(self, cfg=None):
-        """"""
-        super().initModel(cfg)
-        return self
-
-    def initView(self, cfg=None):
-        """"""
-        if cfg is None:
-            cfg = {}
-        cfg["layout"] = "horizontal"
-        super().initView(cfg)
-        self.checkbox = NchantdCheckbox(self, cfg).initWidget()
-        self.layout.addWidget(self.checkbox)
-        cfg = {}
-        self.combo = NchantdComboBox(self, cfg).initWidget()
-        self.layout.addWidget(self.combo)
-        return self
-
-    def initWidget(self):
-        """"""
-        self.initModel()
-        self.initView()
-        return self
+# class NchantdCheckboxCombo(NchantdWidget):
+#     """"""
+# 
+#     def __init__(self, parent=None, cfg=None):
+#         """ """
+#         super().__init__(parent, cfg)
+#         self.parent = parent
+#         self.config.override(kahndor.Instruct(pxcfg).select("NchantdCheckboxCombo"))
+#         if self.parent:
+#             self.config.override(parent.config)
+#         self.config.override(cfg)
+# 
+#     def initModel(self, cfg=None):
+#         """"""
+#         super().initModel(cfg)
+#         return self
+# 
+#     def initView(self, cfg=None):
+#         """"""
+#         if cfg is None:
+#             cfg = {}
+#         cfg["layout"] = "horizontal"
+#         super().initView(cfg)
+#         self.checkbox = NchantdCheckbox(self, cfg).initWidget()
+#         self.layout.addWidget(self.checkbox)
+#         cfg = {}
+#         self.combo = NchantdComboBox(self, cfg).initWidget()
+#         self.layout.addWidget(self.combo)
+#         return self
+# 
+#     def initWidget(self):
+#         """"""
+#         self.initModel()
+#         self.initView()
+#         return self
 
 
 # ====================================================================================================================||
