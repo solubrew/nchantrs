@@ -265,7 +265,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
 
         self.draw()
 
-    def plot_bar_stacked_chart(self):
+    def plot_bar_chart_stacked(self):
         """Generate and plot a stacked bar chart."""
         #TODO: this feature is not working the entire graph widget disappears when BarStacked is selected in the chart type dropdown
         # Clear previous plots
