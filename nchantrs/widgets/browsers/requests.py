@@ -17,6 +17,7 @@ from os.path import abspath, dirname, join
 import datetime as dt
 import enum
 import dataclasses
+import platform as _platform
 from typing import Optional
 
 import logging
@@ -42,6 +43,50 @@ if not log:
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")
+
+# ---------------------------------------------------------------------------||
+# Google sign-in "site-specific quirk".
+#
+# Google's OAuth/sign-in flow hard-blocks embedded browsers that identify as
+# Chrome ("Couldn't sign you in — this browser or app may not be secure"). The
+# proven workaround (used by qutebrowser and other QtWebEngine browsers) is to
+# advertise a *Firefox* User-Agent, but ONLY on the sign-in hosts — a Firefox UA
+# applied globally breaks many other sites. So we rewrite the User-Agent header
+# per-request for the account hosts and leave the modern Chrome UA everywhere
+# else. See qutebrowser issue #5182.
+# ---------------------------------------------------------------------------||
+_FIREFOX_VERSION = "140.0"
+
+# Hosts that serve Google's sign-in / account challenge pages. Matched exactly
+# or as a dotted suffix (so "foo.accounts.google.com" also matches).
+GOOGLE_LOGIN_HOSTS = (
+    "accounts.google.com",
+    "accounts.youtube.com",
+)
+
+
+def _quirk_platform_token():
+    """UA platform token for the host OS, in Firefox's format."""
+    system = _platform.system()
+    if system == "Windows":
+        return "Windows NT 10.0; Win64; x64"
+    if system == "Darwin":
+        return "Macintosh; Intel Mac OS X 10.15"
+    return "X11; Linux x86_64"
+
+
+def google_login_user_agent():
+    """Firefox User-Agent used on Google sign-in hosts (F2 quirk)."""
+    return (
+        f"Mozilla/5.0 ({_quirk_platform_token()}; rv:{_FIREFOX_VERSION}) "
+        f"Gecko/20100101 Firefox/{_FIREFOX_VERSION}"
+    )
+
+
+def is_google_login_host(host):
+    """True if host is (or is under) a Google sign-in host."""
+    host = (host or "").lower()
+    return any(host == h or host.endswith("." + h) for h in GOOGLE_LOGIN_HOSTS)
 
 
 class NchantdLocalServiceRequestInterceptor(pyqt.QWebEngineUrlRequestInterceptor):
@@ -98,6 +143,15 @@ class NchantdRequestInterceptor(pyqt.QWebEngineUrlRequestInterceptor):
                 logma.info(f"[req] {method} {url} | type={rtype}")
         except Exception as e:
             logma.error(f"[req] interceptor log failed: {e}")
+
+        # Google sign-in quirk: advertise Firefox on the account/login hosts so
+        # Google does not hard-block the embedded view (F2). Everything else keeps
+        # the profile's modern Chrome UA.
+        try:
+            if is_google_login_host(info.requestUrl().host()):
+                info.setHttpHeader(b"User-Agent", google_login_user_agent().encode("ascii"))
+        except Exception as e:
+            logma.error(f"[req] google login UA quirk failed: {e}")
         return
         # profile = info.profile()
         # # data = profile.property("custom-data")
