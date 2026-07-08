@@ -93,6 +93,70 @@ def modern_user_agent(platform_token=None):
     )
 
 
+def install_google_login_ua_script(profile):
+    """Make ``navigator`` report Firefox on Google sign-in hosts.
+
+    NchantdRequestInterceptor already rewrites the *request* User-Agent header to
+    Firefox for those hosts, but Google's sign-in flow also reads the JS-visible
+    ``navigator.userAgent`` / ``navigator.userAgentData``. If those still say
+    Chrome, Google applies its embedded-Chrome integrity check and hard-blocks
+    login ("this browser or app may not be secure"). This injects a main-world
+    script (before page scripts) that overrides the navigator fields to Firefox
+    values, but only when the page is on a Google sign-in host — everything else
+    keeps the real Chrome navigator. See F2 / qutebrowser #5182.
+    """
+    try:
+        from nchantrs.widgets.browsers.requests import GOOGLE_LOGIN_HOSTS, google_login_user_agent
+    except Exception as e:
+        logma.error(f"[profiles] cannot load google login quirk: {e}")
+        return
+
+    ff_ua = google_login_user_agent()
+    system = _platform.system()
+    if system == "Windows":
+        platform_val, oscpu = "Win32", "Windows NT 10.0; Win64; x64"
+    elif system == "Darwin":
+        platform_val, oscpu = "MacIntel", "Intel Mac OS X 10.15"
+    else:
+        platform_val, oscpu = "Linux x86_64", "Linux x86_64"
+
+    hosts_js = ", ".join(j.dumps(h) for h in GOOGLE_LOGIN_HOSTS)
+    js = f"""
+(function() {{
+  try {{
+    var hosts = [{hosts_js}];
+    var h = (location.hostname || '').toLowerCase();
+    var match = hosts.some(function(x) {{ return h === x || h.endsWith('.' + x); }});
+    if (!match) return;
+    function def(prop, val) {{
+      try {{ Object.defineProperty(navigator, prop, {{get: function() {{ return val; }}, configurable: true}}); }} catch (e) {{}}
+    }}
+    def('userAgent', {j.dumps(ff_ua)});
+    def('appVersion', '5.0 (' + {j.dumps(platform_val)} + ')');
+    def('platform', {j.dumps(platform_val)});
+    def('oscpu', {j.dumps(oscpu)});
+    def('vendor', '');
+    def('vendorSub', '');
+    def('productSub', '20100101');
+    def('userAgentData', undefined);
+  }} catch (e) {{}}
+}})();
+"""
+    try:
+        script = pyqt.QWebEngineScript()
+        script.setName("nchantd_google_login_uaquirk")
+        script.setInjectionPoint(pyqt.QWebEngineScript.InjectionPoint.DocumentCreation)
+        script.setWorldId(pyqt.QWebEngineScript.ScriptWorldId.MainWorld)
+        script.setRunsOnSubFrames(True)
+        script.setSourceCode(js)
+        collection = profile.scripts()
+        already = any(s.name() == script.name() for s in collection.toList())
+        if not already:
+            collection.insert(script)
+    except Exception as e:
+        logma.error(f"[profiles] could not insert google login quirk script: {e}")
+
+
 class ProfileType(Enum):
     """Define different types of profiles"""
 
@@ -532,6 +596,10 @@ class ProfileManager(pyqt.QObject):
             settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.JavascriptCanOpenWindows, True)
         except Exception as e:
             logma.error(f"[profiles] could not apply web settings for '{config.name}': {e}")
+
+        # Google sign-in quirk (navigator side — pairs with the interceptor's
+        # request-header UA rewrite).
+        install_google_login_ua_script(profile)
 
         # Stable on-disk storage/cache for persistent (non-incognito) profiles,
         # rooted under the app storage base so each named profile is isolated
