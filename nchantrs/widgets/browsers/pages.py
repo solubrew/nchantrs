@@ -69,6 +69,32 @@ class _RedirectCapturePage(pyqt.QWebEnginePage):
         return False
 
 
+class _NewWindowCapturePage(pyqt.QWebEnginePage):
+    """One-shot page returned from createWindow to capture a new-window target
+    URL (target="_blank" / window.open) and hand it to a widget-supplied
+    ``open_new_window(url)`` handler — e.g. "open in a new app tab, or focus the
+    existing tab for this URL" — instead of spawning a detached Chromium window.
+
+    Like _RedirectCapturePage it BLOCKS its own navigation and self-destructs, so
+    Chromium does not actually load a second document; the handler decides what to
+    do with the URL.
+    """
+
+    def __init__(self, source_page, on_url):
+        super().__init__(source_page.profile(), source_page)
+        self._on_url = on_url
+
+    def acceptNavigationRequest(self, url, _type, _is_main_frame):
+        try:
+            logma.info(f"[webpage] new-window capture -> {url.toString()}")
+            self._on_url(url)
+        except Exception as e:
+            logma.error(f"[webpage] new-window capture handler failed: {e}")
+        finally:
+            self.deleteLater()
+        return False
+
+
 class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
     """Custom web page with enhanced navigation handling"""
 
@@ -210,6 +236,29 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
         # logma.debug(f"JS Console message: {message}")
         super().javaScriptConsoleMessage(level, message, line_number, source_id)
 
+    def _resolve_new_window_target(self):
+        """Walk the owning view/widget chain for an object exposing
+        ``open_new_window(url)``.
+
+        The chain mixes Qt parent() methods and ``self.parent`` attributes set by
+        the widget framework, so at each hop we take the attribute if present
+        (not callable) else call the bound parent() method. Bounded to a few hops.
+        """
+        node = self.parent()  # the QWebEngineView hosting this page
+        for _ in range(6):
+            if node is None:
+                break
+            if node is not self and hasattr(node, "open_new_window"):
+                return node
+            nxt = getattr(node, "parent", None)
+            if callable(nxt):
+                try:
+                    nxt = nxt()
+                except Exception:
+                    nxt = None
+            node = nxt
+        return None
+
     def createWindow(self, type_):
         """Handle requests to create new windows (e.g. target="_blank").
 
@@ -245,6 +294,19 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
             # _RedirectCapturePage blocks its own navigation and loads the URL
             # into THIS page instead, so exactly one notebook app loads.
             return _RedirectCapturePage(self)
+
+        # Not an in-place app view: if a widget in the owning chain wants to handle
+        # new windows itself (open the target in a new app tab, or focus the tab
+        # already showing it), delegate to it. This is what makes target="_blank"
+        # links and window.open() actually do something instead of being silently
+        # dropped (e.g. Google account "favorites" shortcuts).
+        target = self._resolve_new_window_target()
+        if target is not None:
+            logma.info(
+                f"[webpage] createWindow type={type_} -> delegating to "
+                f"{type(target).__name__}.open_new_window"
+            )
+            return _NewWindowCapturePage(self, target.open_new_window)
 
         logma.info(f"[webpage] createWindow type={type_} in_place=False -> default handling")
         return super().createWindow(type_)
