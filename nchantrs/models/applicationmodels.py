@@ -765,7 +765,9 @@ class NchantdCloakModel(NchantdPantiesModel):
         """"""
         self.store.store_app_instance(instance)
         return self
-
+    def store_link(self, name, url=None, tags=None):
+        """"""
+        # TODO: implement method
     def store_records(self, table, data, db="db") -> None:
         """"""
         self.store.store_records(table, data, db)

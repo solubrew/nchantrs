@@ -359,7 +359,7 @@ class NchantdWebViewer(NchantdWidget):
         # Track URL change in links table
         try:
             title = self.browser.title() or url_str
-            self.link_service.store_link(title, url_str, "'type': 'history'")
+            self.link_service.store_link(name=title, path=url_str, tags="'type': 'history'")
         except Exception as e:
             logma.error(f"Failed to track link: {e}")
 

@@ -117,13 +117,23 @@ def firefox_user_agent(platform_token=None):
 
 
 # Baseline User-Agent for every profile — the single knob for F2 browser
-# compliance. Findings from iterating against Google:
-#   * mainstream Chrome UA  -> Google HARD-BLOCKS embedded sign-in.
-#   * unknown UA ("CustomBrowser/1.0") -> login works but a soft "old/uncommon
-#     browser" banner is shown.
-#   * consistent Firefox UA -> login works AND no banner (Firefox is supported).
-# Fallback if Firefox ever regresses: set this back to "CustomBrowser/1.0"
-# (login keeps working, banner returns).
+# compliance. CONFIRMED (2026-07-08): Google account login succeeds with NO error
+# in this configuration. DO NOT REGRESS without re-testing a *fresh* (cold-cookie)
+# Google sign-in.
+#
+# Findings from iterating against Google:
+#   * mainstream Chrome UA        -> Google HARD-BLOCKS embedded sign-in.
+#   * PARTIAL Firefox disguise    -> still hard-blocked (Chrome tells leak through:
+#     navigator.vendor="Google Inc.", productSub, userAgentData, window.chrome,
+#     Sec-CH-UA headers).
+#   * FULL, consistent Firefox    -> login works. Requires ALL of:
+#       - this Firefox profile UA, AND
+#       - requests.ENABLE_GOOGLE_LOGIN_QUIRK=True (navigator/window overrides on
+#         accounts.google.com via install_google_login_ua_script), AND
+#       - Chromium client hints disabled (graphics.py --disable-features=
+#         UserAgentClientHint,...), so Sec-CH-UA is not sent.
+#   * unknown UA ("CustomBrowser/1.0") -> login also works, but shows a soft
+#     "old/uncommon browser" banner. Reliable fallback if Google tightens again.
 DEFAULT_USER_AGENT = firefox_user_agent()
 
 

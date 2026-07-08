@@ -57,7 +57,7 @@ class LinkService:
 
     def store_link(self, name: str, path: str, tags: str) -> None:
         """"""
-        self.app.model.store_link(path, name=name, tag=tags)
+        self.app.model.store_link(name=name, url=path, tag=tags)
 
 
 # ====================================================================================================================||
