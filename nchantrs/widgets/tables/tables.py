@@ -541,6 +541,7 @@ class NchantdTableWidget(NchantdWidget):
         """"""
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdTableWidget").override(cfg))
+        self.table = None
 
     def initModel(self, cfg=None):
         """"""

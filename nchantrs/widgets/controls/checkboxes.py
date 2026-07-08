@@ -122,8 +122,8 @@ class NchantdCheckboxWidget(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """"""
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdButtonWidget").override(cfg))
-        self.button = None
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCheckboxWidget").override(cfg))
+        self.checkbox = None
 
     def initModel(self, cfg=None):
         """"""
