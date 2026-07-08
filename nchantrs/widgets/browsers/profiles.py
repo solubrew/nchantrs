@@ -99,12 +99,32 @@ def modern_user_agent(platform_token=None):
     )
 
 
-# Baseline User-Agent for all profiles. Deliberately NOT a mainstream Chrome
-# string: Google shows a soft "unsupported browser" banner but still lets sign-in
-# through, which is the known-good state. Switching this to modern_user_agent()
-# reintroduces Google's hard sign-in block. This is the single knob to tune when
-# iterating on browser-compliance (F2).
-DEFAULT_USER_AGENT = "CustomBrowser/1.0"
+_FIREFOX_VERSION = "140.0"
+
+
+def firefox_user_agent(platform_token=None):
+    """Build a current Firefox User-Agent string.
+
+    Firefox is a *supported* Google browser, so it clears both the "unsupported
+    browser" banner AND Google's embedded-Chrome hard block — provided the whole
+    identity is consistently Firefox (profile UA, navigator, and client hints all
+    align). We set this as the profile UA (not just a request-header rewrite) so
+    Chromium does not emit contradicting Chrome ``Sec-CH-UA`` client hints. F2.
+    """
+    if platform_token is None:
+        platform_token = _default_platform_token()
+    return f"Mozilla/5.0 ({platform_token}; rv:{_FIREFOX_VERSION}) Gecko/20100101 Firefox/{_FIREFOX_VERSION}"
+
+
+# Baseline User-Agent for every profile — the single knob for F2 browser
+# compliance. Findings from iterating against Google:
+#   * mainstream Chrome UA  -> Google HARD-BLOCKS embedded sign-in.
+#   * unknown UA ("CustomBrowser/1.0") -> login works but a soft "old/uncommon
+#     browser" banner is shown.
+#   * consistent Firefox UA -> login works AND no banner (Firefox is supported).
+# Fallback if Firefox ever regresses: set this back to "CustomBrowser/1.0"
+# (login keeps working, banner returns).
+DEFAULT_USER_AGENT = firefox_user_agent()
 
 
 def install_google_login_ua_script(profile):
