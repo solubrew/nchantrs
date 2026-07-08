@@ -83,6 +83,12 @@ def modern_user_agent(platform_token=None):
 
     The Chrome token tracks the real engine version so sites doing browser
     version checks (Gmail in particular) treat the view as current.
+
+    NOTE (F2): advertising Chrome makes Google *hard-block* sign-in from this
+    embedded QtWebEngine view ("this browser or app may not be secure"). The
+    legacy non-Chrome UA (see DEFAULT_USER_AGENT) instead yields only a soft
+    "unsupported browser" banner and still allows login. This helper is kept for
+    non-Google contexts / future experiments but is NOT the current default.
     """
     if platform_token is None:
         platform_token = _default_platform_token()
@@ -91,6 +97,14 @@ def modern_user_agent(platform_token=None):
         f"Mozilla/5.0 ({platform_token}) AppleWebKit/537.36 "
         f"(KHTML, like Gecko) Chrome/{major}.0.0.0 Safari/537.36"
     )
+
+
+# Baseline User-Agent for all profiles. Deliberately NOT a mainstream Chrome
+# string: Google shows a soft "unsupported browser" banner but still lets sign-in
+# through, which is the known-good state. Switching this to modern_user_agent()
+# reintroduces Google's hard sign-in block. This is the single knob to tune when
+# iterating on browser-compliance (F2).
+DEFAULT_USER_AGENT = "CustomBrowser/1.0"
 
 
 def install_google_login_ua_script(profile):
@@ -106,9 +120,19 @@ def install_google_login_ua_script(profile):
     keeps the real Chrome navigator. See F2 / qutebrowser #5182.
     """
     try:
-        from nchantrs.widgets.browsers.requests import GOOGLE_LOGIN_HOSTS, google_login_user_agent
+        from nchantrs.widgets.browsers.requests import (
+            ENABLE_GOOGLE_LOGIN_QUIRK,
+            GOOGLE_LOGIN_HOSTS,
+            google_login_user_agent,
+        )
     except Exception as e:
         logma.error(f"[profiles] cannot load google login quirk: {e}")
+        return
+
+    # Disabled while we hold the known-good soft-banner baseline (F2). The Firefox
+    # navigator/header spoof did not defeat Google's embedded hard block, so it is
+    # gated off rather than removed, ready for the next iteration.
+    if not ENABLE_GOOGLE_LOGIN_QUIRK:
         return
 
     ff_ua = google_login_user_agent()
@@ -314,9 +338,8 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
         self.setHttpCacheType(pyqt.QWebEngineProfile.HttpCacheType.DiskHttpCache)
         self.setPersistentCookiesPolicy(pyqt.QWebEngineProfile.PersistentCookiesPolicy.AllowPersistentCookies)
 
-        # Use a modern User-Agent for better compatibility (especially with Google).
-        # Derived from the real engine version so it never lags behind Chromium.
-        self.setHttpUserAgent(modern_user_agent())
+        # Baseline non-Chrome UA (see DEFAULT_USER_AGENT) — soft banner, login works.
+        self.setHttpUserAgent(DEFAULT_USER_AGENT)
         self.setHttpAcceptLanguage("en-US,en;q=0.9")
 
         self.persistence = True
@@ -374,9 +397,8 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
             #   QTWEBENGINE_DISABLE_SANDBOX=0
             # Disable Local Storage
             settings.setAttribute(pyqt.QWebEngineProfile.LocalStorageEnabled, False)
-            # Even in high-security mode advertise a real UA — a bogus token
-            # ("SafeUserAgent") breaks sites without adding any privacy.
-            self.setHttpUserAgent(modern_user_agent())  # Customize user-agent
+            # Use the baseline UA rather than a bogus token ("SafeUserAgent").
+            self.setHttpUserAgent(DEFAULT_USER_AGENT)  # Customize user-agent
             # Prevent local files access
             settings.setAttribute(pyqt.QWebEngineSettings.LocalContentCanAccessFileUrls, False)
             # Prevent remote access
@@ -462,9 +484,9 @@ class ProfileConfiguration:
     def __init__(self, name: str, profile_type: ProfileType = ProfileType.DEFAULT):
         self.name = name
         self.profile_type = profile_type
-        # Modern Chrome UA matched to the real engine — a legacy string here
-        # ("CustomBrowser/1.0") is what made Gmail reject the browser (F2).
-        self.user_agent = modern_user_agent()
+        # Baseline non-Chrome UA — yields Google's soft "unsupported" banner but
+        # keeps sign-in working (a Chrome UA triggers Google's hard block). F2.
+        self.user_agent = DEFAULT_USER_AGENT
         self.cache_enabled = True
         self.cookies_enabled = True
         self.javascript_enabled = True
@@ -489,8 +511,7 @@ class ProfileConfiguration:
             self.plugins_enabled = False
 
         elif self.profile_type == ProfileType.DEVELOPMENT:
-            # Keep a modern UA even in dev so version-gated sites still work.
-            self.user_agent = modern_user_agent()
+            self.user_agent = DEFAULT_USER_AGENT
             self.interceptor_rules = {
                 "blocked_domains": [],
                 "blocked_extensions": [],

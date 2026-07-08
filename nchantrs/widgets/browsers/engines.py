@@ -278,15 +278,15 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
         # 2) Fallback: off-the-record, in-memory, no shared-path clash.
         try:
             # Local import avoids any import cycle between engines and profiles.
-            from nchantrs.widgets.browsers.profiles import modern_user_agent, install_google_login_ua_script
+            from nchantrs.widgets.browsers.profiles import DEFAULT_USER_AGENT, install_google_login_ua_script
 
             profile = pyqt.QWebEngineProfile(self)
             profile.setHttpCacheType(pyqt.QWebEngineProfile.HttpCacheType.MemoryHttpCache)
             profile.setPersistentCookiesPolicy(pyqt.QWebEngineProfile.PersistentCookiesPolicy.NoPersistentCookies)
-            # Modern UA matched to the real engine (was legacy "CustomWebBrowser/1.0").
-            profile.setHttpUserAgent(modern_user_agent())
+            # Baseline non-Chrome UA (soft banner, login works) — F2 baseline.
+            profile.setHttpUserAgent(DEFAULT_USER_AGENT)
             profile.setHttpAcceptLanguage("en-US,en;q=0.9")
-            # Google sign-in quirk (navigator side — pairs with interceptor header rewrite).
+            # Google sign-in quirk (no-op unless ENABLE_GOOGLE_LOGIN_QUIRK).
             install_google_login_ua_script(profile)
             logma.info(
                 f"[webengine] fallback profile created | off_the_record={profile.isOffTheRecord()} "

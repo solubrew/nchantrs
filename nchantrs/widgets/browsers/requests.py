@@ -54,7 +54,14 @@ pxcfg = join(here, "_data_", ".yaml")
 # applied globally breaks many other sites. So we rewrite the User-Agent header
 # per-request for the account hosts and leave the modern Chrome UA everywhere
 # else. See qutebrowser issue #5182.
+#
+# DISABLED for now: the Firefox header + navigator spoof did NOT defeat Google's
+# embedded-browser hard block. We are back on the known-good soft-banner baseline
+# (legacy non-Chrome UA, see profiles.DEFAULT_USER_AGENT). Flip this flag to True
+# to re-arm the quirk for the next iteration.
 # ---------------------------------------------------------------------------||
+ENABLE_GOOGLE_LOGIN_QUIRK = False
+
 _FIREFOX_VERSION = "140.0"
 
 # Hosts that serve Google's sign-in / account challenge pages. Matched exactly
@@ -146,9 +153,9 @@ class NchantdRequestInterceptor(pyqt.QWebEngineUrlRequestInterceptor):
 
         # Google sign-in quirk: advertise Firefox on the account/login hosts so
         # Google does not hard-block the embedded view (F2). Everything else keeps
-        # the profile's modern Chrome UA.
+        # the profile's UA. Disabled by default — see ENABLE_GOOGLE_LOGIN_QUIRK.
         try:
-            if is_google_login_host(info.requestUrl().host()):
+            if ENABLE_GOOGLE_LOGIN_QUIRK and is_google_login_host(info.requestUrl().host()):
                 info.setHttpHeader(b"User-Agent", google_login_user_agent().encode("ascii"))
         except Exception as e:
             logma.error(f"[req] google login UA quirk failed: {e}")
