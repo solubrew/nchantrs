@@ -64,11 +64,10 @@ class NchantdButton(NchantdWidgetMixin, pyqt.QPushButton):
     def __init__(self, parent: Optional[Any] = None, cfg: Optional[Dict] = None) -> None:
         """Create a button widget and set default configurations"""
         super().__init__(parent, cfg)
+        self.init_variables()
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdButton")
-        if parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdButton").override(parent.config).override(cfg)
+
         #self.app = pyqt.QApplication.instance()
         self.action: Optional[Any] = None
         self.button_text: Optional[str] = None
@@ -104,6 +103,7 @@ class NchantdButton(NchantdWidgetMixin, pyqt.QPushButton):
         self.setEnabled(self.config.dikt.get("enabled", False))
         self.setAutoDefault(self.config.dikt.get("auto_default", None))
         self.button_text = self.config.dikt.get("text", None)
+        logma.warning(f"Button Text {self.button_text}")
         self.config.dikt.pop("width", None)
         self.config.dikt.pop("height", None)
         self.config.dikt.pop("size", None)
@@ -196,6 +196,31 @@ class NchantdButton(NchantdWidgetMixin, pyqt.QPushButton):
         min_width, min_height = self._get_text_size(self.config.dikt.get("label", self.config.dikt.get("text", "")))
         # logma.info(f"Min width {min_width} Min height {min_height}")
         super().set_size(set_width, set_height, min_width, min_height, max_width, max_height)
+
+
+class NchantdButtonWidget(NchantdWidget):
+    """"""
+    def __init__(self, parent=None, cfg=None):
+        """"""
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdButtonWidget").override(cfg))
+        self.button = None
+
+    def initModel(self, cfg=None):
+        """"""
+        super().initModel(cfg)
+
+    def initView(self, cfg=None):
+        """"""
+        super().initView(cfg)
+        self.button = NchantdButton(self, cfg).initWidget()
+        self.layout.addWidget(self.button)
+
+    def initWidget(self):
+        """"""
+        self.initModel()
+        self.initView()
+
 
 
 class NchantdLabeledButton(NchantdWidget):

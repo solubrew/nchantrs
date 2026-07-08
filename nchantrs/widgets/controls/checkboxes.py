@@ -51,10 +51,7 @@ class NchantdCheckbox(NchantdWidgetMixin, pyqt.QCheckBox):
         """https://www.tutorialspoint.com/pyqt/pyqt_qcheckbox_self.htm"""
         super().__init__(parent)
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdCheckbox")
-        if self.parent:
-            self.config.override(self.parent.config.dikt)
-        self.config.override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdCheckbox").override(self.parent.config.dikt).override(cfg)
         self.init_variables()
 
     def initModel(self) -> "NchantdCheckbox":
@@ -120,6 +117,29 @@ class NchantdCheckbox(NchantdWidgetMixin, pyqt.QCheckBox):
         super().set_size(set_width, set_height, min_width, min_height, max_width, max_height)
 
 
+class NchantdCheckboxWidget(NchantdWidget):
+    """"""
+    def __init__(self, parent=None, cfg=None):
+        """"""
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdButtonWidget").override(cfg))
+        self.button = None
+
+    def initModel(self, cfg=None):
+        """"""
+        super().initModel(cfg)
+
+    def initView(self, cfg=None):
+        """"""
+        super().initView(cfg)
+        self.checkbox = NchantdCheckbox(self, cfg).initWidget()
+        self.layout.addWidget(self.checkbox)
+
+    def initWidget(self):
+        """"""
+        self.initModel()
+        self.initView()
+
 class NchantdCheckboxGroup(NchantdWidget):
     """"""
 
@@ -127,10 +147,7 @@ class NchantdCheckboxGroup(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCheckboxGroup"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCheckboxGroup").override(cfg))
         self.checks = {}
 
     def initModel(self):

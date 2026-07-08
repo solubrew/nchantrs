@@ -34,9 +34,10 @@ from nchantrs.widgets.browsers.javascript.scripts import media_pause, media_play
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
-log = True
+log = False
 logma = Logma(__name__)
-# logma.off()
+if not log:
+    logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "pages.yaml")

@@ -225,10 +225,7 @@ class NchantdDropDown(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdDropDown"))
-        if parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdDropDown").override(cfg))
         self.label = None
         self.combobox = None
         self.options = []
@@ -281,20 +278,28 @@ class NchantdDropDown(NchantdWidget):
         self.combobox.setCurrentIndex(self.combobox.findText(value))
         return self
 
+    def set_options(self, options):
+        """"""
+        self.update_options(options, True)
+
     def update_options(self, options, replace=False, sort=True):
         """"""
         if not isinstance(options, list):
             options = [options]
         if replace:
             self.options = []
+            self.combobox.clear()
         self.options += options
         options = []
         for x in self.options:
             if x is None:
                 continue
             options.append(x)
-            if self.combobox.findText(x) == -1:  # -1 means the item doesn't exist
-                self.combobox.addItem(x)
+            if replace:
+                self.combobox.set_options(self.options)
+            else:
+                if self.combobox.findText(x) == -1:  # -1 means the item doesn't exist
+                    self.combobox.addItem(x)
         return self
 
 

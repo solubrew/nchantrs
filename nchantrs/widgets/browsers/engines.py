@@ -34,9 +34,10 @@ from nchantrs.widgets.browsers.downloads import NchantdDownloadManager, CodecDow
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
-log = True
+log = False
 logma = Logma(__name__)
-
+if not log:
+    logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")

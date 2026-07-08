@@ -51,10 +51,7 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
         super().__init__(10, 10, parent)
         self.parent = parent
         self.setParent(parent)
-        self.config = kahndor.Instruct(pxcfg).select("NchantdTable")
-        if parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdTable").override(parent.config).override(cfg)
         self.current_cell = "I|1"
         self.cell_handlers = {}
         self.columns = None
@@ -538,17 +535,38 @@ class NchantdDataFrameTable(NchantdWidgetMixin, qpandas.DataTableWidget):
         return self
 
 
+class NchantdTableWidget(NchantdWidget):
+    """"""
+    def __init__(self, parent=None, cfg=None):
+        """"""
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdTableWidget").override(cfg))
+
+    def initModel(self, cfg=None):
+        """"""
+        super().initModel(cfg)
+
+    def initView(self, cfg=None):
+        """"""
+        super().initView(cfg)
+        self.table = NchantdTable(self, cfg).initWidget()
+        self.layout.addWidget(self.table)
+
+    def initWidget(self):
+        """"""
+        self.initModel()
+        self.initView()
+
+
+
 class NchantdGrid(NchantdWidget):
     """"""
 
     def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdGrid")
-        if self.parent:
-            self.config.override(parent.config)
         super().__init__(self)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdGrid").override(parent.config).override(cfg))
         self.rows = None
         self.columns = None
         self.cells = []

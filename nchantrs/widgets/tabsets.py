@@ -507,8 +507,18 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
             return
         # if self.dragged_tab_index == -1:
         #     return
+
+
         # Start the drag operation
-        self.start_drag(self.dragged_tab_index)
+        # TODO: fix following error
+        # Error calling Python override of QTabWidget::mouseMoveEvent(): Traceback (most recent call last):
+        # File "/mnt/iverse/SB/3_Functions/Operations/opENGRg/3_Work/jobElfSys/actvPython/tskNchantrs/1_DELTA/nchantrs/nchantrs/widgets/tabsets.py", line 511, in mouseMoveEvent
+        # self.start_drag(self.dragged_tab_index)
+        # ^^^^^^^^^^^^^^^^^^^^^^
+        # AttributeError: 'NchantdOfficeTabSet' object has no attribute 'dragged_tab_index'
+        #self.start_drag(self.dragged_tab_index)
+        #END TODO:
+
         # Check if we should start a drag operation
         # if tab_index >= 0:  # Ensure a valid tab is clicked
         if self.drag_start_position is None:

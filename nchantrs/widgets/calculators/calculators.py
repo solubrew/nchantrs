@@ -39,7 +39,7 @@ logma.off()
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "calculators.yaml")
 
-
+#TODO: need to route number keys to calculator when the widget is active from number line and number pad
 class NchantdCalculator(NchantdTab):
     """"""
 
