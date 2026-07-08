@@ -42,6 +42,14 @@ if not log:
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "pages.yaml")
 
+# Route target="_blank" / window.open through the owning widget's open_new_window
+# hook (open-in-new-tab / focus-existing). DISABLED by default: hijacking
+# window.open — returning a page that blocks navigation and self-destructs —
+# makes popups "open then vanish", which Google's sign-in security JS flags as an
+# insecure/automated browser and HARD-BLOCKS login. Re-enable only with an
+# approach that leaves Google's own window.open behaviour untouched.
+ENABLE_NEW_WINDOW_DELEGATION = False
+
 
 class _RedirectCapturePage(pyqt.QWebEnginePage):
     """One-shot page returned from createWindow to capture a popup/new-window
@@ -300,7 +308,7 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
         # already showing it), delegate to it. This is what makes target="_blank"
         # links and window.open() actually do something instead of being silently
         # dropped (e.g. Google account "favorites" shortcuts).
-        target = self._resolve_new_window_target()
+        target = self._resolve_new_window_target() if ENABLE_NEW_WINDOW_DELEGATION else None
         if target is not None:
             logma.info(
                 f"[webpage] createWindow type={type_} -> delegating to "

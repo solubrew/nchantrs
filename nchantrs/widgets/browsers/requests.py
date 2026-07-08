@@ -55,12 +55,13 @@ pxcfg = join(here, "_data_", ".yaml")
 # per-request for the account hosts and leave the modern Chrome UA everywhere
 # else. See qutebrowser issue #5182.
 #
-# DISABLED for now: the Firefox header + navigator spoof did NOT defeat Google's
-# embedded-browser hard block. We are back on the known-good soft-banner baseline
-# (legacy non-Chrome UA, see profiles.DEFAULT_USER_AGENT). Flip this flag to True
-# to re-arm the quirk for the next iteration.
+# ENABLED alongside a global Firefox profile UA (profiles.DEFAULT_USER_AGENT):
+# the profile UA is now Firefox, so this quirk REINFORCES a consistent Firefox
+# identity on the sign-in hosts (navigator.vendor/productSub/userAgentData +
+# window.chrome fixed to Firefox values) rather than contradicting a Chrome UA as
+# it did in earlier attempts. Set to False to fall back to the plain profile UA.
 # ---------------------------------------------------------------------------||
-ENABLE_GOOGLE_LOGIN_QUIRK = False
+ENABLE_GOOGLE_LOGIN_QUIRK = True
 
 _FIREFOX_VERSION = "140.0"
 

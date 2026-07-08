@@ -183,6 +183,9 @@ def install_google_login_ua_script(profile):
     def('vendorSub', '');
     def('productSub', '20100101');
     def('userAgentData', undefined);
+    // Chromium-only global that betrays a fake Firefox (real Firefox has no
+    // window.chrome). Hide it so the identity is consistently Firefox.
+    try {{ Object.defineProperty(window, 'chrome', {{get: function() {{ return undefined; }}, configurable: true}}); }} catch (e) {{}}
   }} catch (e) {{}}
 }})();
 """

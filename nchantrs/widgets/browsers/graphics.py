@@ -84,7 +84,14 @@ def configure_qt_for_webengine() -> None:
         "--disable-background-timer-throttling",
         "--disable-backgrounding-occluded-windows",
         "--disable-renderer-backgrounding",
-        "--disable-features=TranslateUI",
+        # UserAgentClientHint(*): stop Chromium from emitting Sec-CH-UA request
+        # headers and navigator.userAgentData. Our profile UA is Firefox (F2), and
+        # real Firefox sends NO client hints — leaving Chromium's Chrome-branded
+        # hints in place is the Firefox-UA/Chrome-hints mismatch that makes Google
+        # hard-block a fresh embedded sign-in. Disabling them makes the identity
+        # consistently Firefox. Combined into one --disable-features (Chromium
+        # honours a single comma-separated list, not repeated flags).
+        "--disable-features=TranslateUI,UserAgentClientHint,UserAgentClientHintFullVersionList",
         "--disable-ipc-flooding-protection",
         "--enable-logging",
         "--log-level=0",
