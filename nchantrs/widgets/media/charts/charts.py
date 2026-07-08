@@ -150,13 +150,13 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         match chart_type:
             case "area":
                 self.plot_area_chart()
-            case "area_3d":
+            case "area3d":
                 self.plot_area_chart_3D()
             case "bar":
                 self.plot_bar_chart()
-            case "bar_3d":
+            case "bar3d":
                 self.plot_bar_chart_3D()
-            case "bar_stacked":
+            case "barstacked":
                 self.plot_bar_chart_stacked()
             case "bubble":
                 self.plot_bubble_chart()
@@ -164,23 +164,23 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
                 self.plot_candlestick_chart()
             case "column":
                 self.plot_column_chart()
-            case "column_stacked":
+            case "columnstacked":
                 self.plot_column_chart_stacked()
             case "doughnut":
                 self.plot_doughnut_chart()
             case "funnel":
                 self.plot_funnel_chart()
-            case "gantt_chart":
+            case "gantt":
                 self.plot_gantt_chart()
             case "heatmap":
                 self.plot_heatmap_chart()
-            case "histogram_chart":
+            case "histogram":
                 self.plot_histogram_chart()
             case "line":
                 self.plot_line_chart()
             case "pie":
                 self.plot_pie_chart()
-            case "pie_3d":
+            case "pie3d":
                 self.plot_pie_chart()
             case "radar":
                 self.plot_radar_chart()
@@ -188,7 +188,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
                 self.plot_sankey_chart()
             case "scatter":
                 self.plot_scatter_chart()
-            case "scatter_3d":
+            case "scatter3d":
                 self.plot_scatter_chart_3D()
             case "surface":
                 self.plot_surface_chart()
@@ -999,6 +999,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
     def plot_word_cloud(self):
         """Generate and plot a word cloud."""
         # Example text for the word cloud
+        #TODO: this feature is not working the entire graph widget disappears when wordcloud is selected in the chart type dropdown
         text = (
             "Python programming, Matplotlib, PySide6, data visualization, charts, "
             "histograms, scatterplots, coding, pandas, NumPy, libraries, "
@@ -1139,117 +1140,115 @@ class FunnelChartCanvas(FigureCanvas):
         """Clear the chart canvas (this is only relevant if you adapt this for live PySide6)."""
         pass
 
+def render_bar_chart(self):
+    """Render a bar chart with the provided series data."""
+    for series in self.series:
+        sns.barplot(
+            x=series["data"]["x"],
+            y=series["data"]["y"],
+            label=series["data"]["label"].iloc[0],
+            **series.get("kwargs", {}),
+        )
+    self.finalize_chart()
 
+
+def render_line_chart(self):
+    """Render a line chart with the provided series data."""
+    for series in self.series:
+        sns.lineplot(
+            x=series["data"]["x"],
+            y=series["data"]["y"],
+            label=series["data"]["label"].iloc[0],
+            **series.get("kwargs", {}),
+        )
+    self.finalize_chart()
+
+
+def render_area_chart(self):
+    """Render an area chart with the provided series data (using `fill_between`)."""
+    for series in self.series:
+        plt.fill_between(
+            series["data"]["x"],
+            series["data"]["y"],
+            label=series["data"]["label"].iloc[0],
+            alpha=0.4,
+            **series.get("kwargs", {}),
+        )
+    self.finalize_chart()
+
+
+def render_scatter_plot(self):
+    """Render a scatter plot with the provided series data."""
+    for series in self.series:
+        sns.scatterplot(
+            x=series["data"]["x"],
+            y=series["data"]["y"],
+            label=series["data"]["label"].iloc[0],
+            **series.get("kwargs", {}),
+        )
+    self.finalize_chart()
+
+
+def render_box_plot(self, x: str = None, y: str = None, **kwargs):
+    """
+    Render a box plot for visualizing distributions.
+
+    Args:
+        x (str): Column name for the X-axis.
+        y (str): Column name for the Y-axis.
+        **kwargs: Additional Seaborn boxplot parameters (e.g., hue).
+    """
+    sns.boxplot(data=self.data, x=x, y=y, **kwargs)
+    self.finalize_chart()
+
+
+def render_histogram(self, x: str, bins: int = 20, kde: bool = False, **kwargs):
+    """
+    Render a histogram for a single variable.
+
+    Args:
+        x (str): Column name for the variable.
+        bins (int): Number of bins.
+        kde (bool): Whether to overlay a kernel density estimation (KDE).
+        **kwargs: Additional Seaborn parameters (e.g., color).
+    """
+    sns.histplot(data=self.data, x=x, bins=bins, kde=kde, **kwargs)
+    self.finalize_chart()
+
+
+def render_pie_chart(self, values: list, labels: list, **kwargs):
+    """
+    Render a pie chart using Matplotlib.
+
+    Args:
+        values (list): List of values for the pie slices.
+        labels (list): Corresponding labels for the slices.
+        **kwargs: Additional matplotlib.pie parameters (e.g., colors, explode).
+    """
+    plt.pie(values, labels=labels, autopct="%1.1f%%", **kwargs)
+    plt.title(self.title, fontsize=16)
+    plt.show()
+
+
+def render_heatmap(self, data: DataFrame, cmap="viridis", **kwargs):
+    """
+    Render a heatmap from a 2D data array.
+
+    Args:
+        data (DataFrame): 2-dimensional data for the heatmap.
+        cmap (str): Color palette for the heatmap.
+        **kwargs: Additional Seaborn heatmap parameters.
+    """
+    sns.heatmap(data, annot=True, cmap=cmap, **kwargs)
+    self.finalize_chart()
+def finalize_chart(self):
+    """
+    Finalize the chart by setting the title, axis labels, legends, and showing the plot.
+    """
+
+    plt.show()
 # ===========================Code Source Examples================================||
 """
 """
-
-
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-# def render_bar_chart(self):
-#     """Render a bar chart with the provided series data."""
-#     for series in self.series:
-#         sns.barplot(
-#             x=series["data"]["x"],
-#             y=series["data"]["y"],
-#             label=series["data"]["label"].iloc[0],
-#             **series.get("kwargs", {}),
-#         )
-#     self.finalize_chart()
-#
-#
-# def render_line_chart(self):
-#     """Render a line chart with the provided series data."""
-#     for series in self.series:
-#         sns.lineplot(
-#             x=series["data"]["x"],
-#             y=series["data"]["y"],
-#             label=series["data"]["label"].iloc[0],
-#             **series.get("kwargs", {}),
-#         )
-#     self.finalize_chart()
-#
-#
-# def render_area_chart(self):
-#     """Render an area chart with the provided series data (using `fill_between`)."""
-#     for series in self.series:
-#         plt.fill_between(
-#             series["data"]["x"],
-#             series["data"]["y"],
-#             label=series["data"]["label"].iloc[0],
-#             alpha=0.4,
-#             **series.get("kwargs", {}),
-#         )
-#     self.finalize_chart()
-#
-#
-# def render_scatter_plot(self):
-#     """Render a scatter plot with the provided series data."""
-#     for series in self.series:
-#         sns.scatterplot(
-#             x=series["data"]["x"],
-#             y=series["data"]["y"],
-#             label=series["data"]["label"].iloc[0],
-#             **series.get("kwargs", {}),
-#         )
-#     self.finalize_chart()
-#
-#
-# def render_box_plot(self, x: str = None, y: str = None, **kwargs):
-#     """
-#     Render a box plot for visualizing distributions.
-#
-#     Args:
-#         x (str): Column name for the X-axis.
-#         y (str): Column name for the Y-axis.
-#         **kwargs: Additional Seaborn boxplot parameters (e.g., hue).
-#     """
-#     sns.boxplot(data=self.data, x=x, y=y, **kwargs)
-#     self.finalize_chart()
-#
-#
-# def render_histogram(self, x: str, bins: int = 20, kde: bool = False, **kwargs):
-#     """
-#     Render a histogram for a single variable.
-#
-#     Args:
-#         x (str): Column name for the variable.
-#         bins (int): Number of bins.
-#         kde (bool): Whether to overlay a kernel density estimation (KDE).
-#         **kwargs: Additional Seaborn parameters (e.g., color).
-#     """
-#     sns.histplot(data=self.data, x=x, bins=bins, kde=kde, **kwargs)
-#     self.finalize_chart()
-#
-#
-# def render_pie_chart(self, values: list, labels: list, **kwargs):
-#     """
-#     Render a pie chart using Matplotlib.
-#
-#     Args:
-#         values (list): List of values for the pie slices.
-#         labels (list): Corresponding labels for the slices.
-#         **kwargs: Additional matplotlib.pie parameters (e.g., colors, explode).
-#     """
-#     plt.pie(values, labels=labels, autopct="%1.1f%%", **kwargs)
-#     plt.title(self.title, fontsize=16)
-#     plt.show()
-#
-#
-# def render_heatmap(self, data: pd.DataFrame, cmap="viridis", **kwargs):
-#     """
-#     Render a heatmap from a 2D data array.
-#
-#     Args:
-#         data (pd.DataFrame): 2-dimensional data for the heatmap.
-#         cmap (str): Color palette for the heatmap.
-#         **kwargs: Additional Seaborn heatmap parameters.
-#     """
-#     sns.heatmap(data, annot=True, cmap=cmap, **kwargs)
-#     self.finalize_chart()
-# def finalize_chart(self):
-#     """
-#     Finalize the chart by setting the title, axis labels, legends, and showing the plot.
-#     """
-#
-#     plt.show()
+
