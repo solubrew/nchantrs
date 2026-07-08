@@ -17,6 +17,7 @@ from os.path import abspath, dirname, join
 from os import environ
 import datetime as dt
 import json as j
+import platform as _platform
 from enum import Enum
 from typing import Dict, Optional
 import uuid
@@ -42,6 +43,54 @@ logma = Logma(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "profiles.yaml")
+
+# Current stable Chrome major used only when the running engine cannot be
+# queried. Runtime UA is normally derived from the actual QtWebEngine Chromium
+# version (see chromium_major_version) so the advertised version never lags the
+# real engine — the mismatch that made Gmail flag the browser as unsupported.
+_FALLBACK_CHROME_MAJOR = "138"
+
+
+def _default_platform_token():
+    """Return a UA platform token matching the host OS."""
+    system = _platform.system()
+    if system == "Windows":
+        return "Windows NT 10.0; Win64; x64"
+    if system == "Darwin":
+        return "Macintosh; Intel Mac OS X 10_15_7"
+    return "X11; Linux x86_64"
+
+
+def chromium_major_version():
+    """Major version of the Chromium that QtWebEngine is actually built on.
+
+    Falls back to _FALLBACK_CHROME_MAJOR when the version API is unavailable
+    (older bindings) or raises.
+    """
+    fn = getattr(pyqt, "qWebEngineChromiumVersion", None)
+    if fn is not None:
+        try:
+            version = fn()
+            if version:
+                return str(version).split(".")[0]
+        except Exception:
+            pass
+    return _FALLBACK_CHROME_MAJOR
+
+
+def modern_user_agent(platform_token=None):
+    """Build a modern Chrome-compatible User-Agent string.
+
+    The Chrome token tracks the real engine version so sites doing browser
+    version checks (Gmail in particular) treat the view as current.
+    """
+    if platform_token is None:
+        platform_token = _default_platform_token()
+    major = chromium_major_version()
+    return (
+        f"Mozilla/5.0 ({platform_token}) AppleWebKit/537.36 "
+        f"(KHTML, like Gecko) Chrome/{major}.0.0.0 Safari/537.36"
+    )
 
 
 class ProfileType(Enum):
@@ -201,9 +250,10 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
         self.setHttpCacheType(pyqt.QWebEngineProfile.HttpCacheType.DiskHttpCache)
         self.setPersistentCookiesPolicy(pyqt.QWebEngineProfile.PersistentCookiesPolicy.AllowPersistentCookies)
 
-        # Use a modern User-Agent for better compatibility (especially with Google)
-        modern_ua = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36"
-        self.setHttpUserAgent(modern_ua)
+        # Use a modern User-Agent for better compatibility (especially with Google).
+        # Derived from the real engine version so it never lags behind Chromium.
+        self.setHttpUserAgent(modern_user_agent())
+        self.setHttpAcceptLanguage("en-US,en;q=0.9")
 
         self.persistence = True
         return self
@@ -260,7 +310,9 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
             #   QTWEBENGINE_DISABLE_SANDBOX=0
             # Disable Local Storage
             settings.setAttribute(pyqt.QWebEngineProfile.LocalStorageEnabled, False)
-            self.setHttpUserAgent("SafeUserAgent")  # Customize user-agent
+            # Even in high-security mode advertise a real UA — a bogus token
+            # ("SafeUserAgent") breaks sites without adding any privacy.
+            self.setHttpUserAgent(modern_user_agent())  # Customize user-agent
             # Prevent local files access
             settings.setAttribute(pyqt.QWebEngineSettings.LocalContentCanAccessFileUrls, False)
             # Prevent remote access
@@ -346,7 +398,9 @@ class ProfileConfiguration:
     def __init__(self, name: str, profile_type: ProfileType = ProfileType.DEFAULT):
         self.name = name
         self.profile_type = profile_type
-        self.user_agent = "CustomBrowser/1.0"
+        # Modern Chrome UA matched to the real engine — a legacy string here
+        # ("CustomBrowser/1.0") is what made Gmail reject the browser (F2).
+        self.user_agent = modern_user_agent()
         self.cache_enabled = True
         self.cookies_enabled = True
         self.javascript_enabled = True
@@ -371,7 +425,8 @@ class ProfileConfiguration:
             self.plugins_enabled = False
 
         elif self.profile_type == ProfileType.DEVELOPMENT:
-            self.user_agent = "DevBrowser/1.0 (Development)"
+            # Keep a modern UA even in dev so version-gated sites still work.
+            self.user_agent = modern_user_agent()
             self.interceptor_rules = {
                 "blocked_domains": [],
                 "blocked_extensions": [],
@@ -464,6 +519,19 @@ class ProfileManager(pyqt.QObject):
 
         # Basic settings
         profile.setHttpUserAgent(config.user_agent)
+        # Advertise a normal Accept-Language; Google flags requests that omit it.
+        profile.setHttpAcceptLanguage("en-US,en;q=0.9")
+
+        # Gmail (and most modern web apps) require JavaScript + local storage.
+        # Enable them explicitly so a profile is never left in a state that
+        # trips the "unsupported browser" path.
+        try:
+            settings = profile.settings()
+            settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.JavascriptEnabled, config.javascript_enabled)
+            settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.LocalStorageEnabled, True)
+            settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.JavascriptCanOpenWindows, True)
+        except Exception as e:
+            logma.error(f"[profiles] could not apply web settings for '{config.name}': {e}")
 
         # Stable on-disk storage/cache for persistent (non-incognito) profiles,
         # rooted under the app storage base so each named profile is isolated

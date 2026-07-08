@@ -43,6 +43,13 @@ from PySide6.QtWebEngineCore import QWebEngineCertificateError, QWebEngineClient
 from PySide6.QtWebEngineCore import QWebEngineClientCertificateSelection, QWebEngineClientHints
 from PySide6.QtWebEngineCore import QWebEngineCookieStore, QWebEngineDownloadRequest, QWebEngineFileSystemAccessRequest
 from PySide6.QtWebEngineCore import QWebEngineUrlRequestInterceptor
+
+# Version of the Chromium engine QtWebEngine is built on. Used to build a
+# User-Agent whose Chrome token matches the real engine (Gmail compliance).
+try:
+    from PySide6.QtWebEngineCore import qWebEngineChromiumVersion
+except ImportError:  # older bindings without the helper
+    qWebEngineChromiumVersion = None
 from PySide6.QtWebChannel import QWebChannel
 
 # ===============================================================================||

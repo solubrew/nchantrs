@@ -277,10 +277,15 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
 
         # 2) Fallback: off-the-record, in-memory, no shared-path clash.
         try:
+            # Local import avoids any import cycle between engines and profiles.
+            from nchantrs.widgets.browsers.profiles import modern_user_agent
+
             profile = pyqt.QWebEngineProfile(self)
             profile.setHttpCacheType(pyqt.QWebEngineProfile.HttpCacheType.MemoryHttpCache)
             profile.setPersistentCookiesPolicy(pyqt.QWebEngineProfile.PersistentCookiesPolicy.NoPersistentCookies)
-            profile.setHttpUserAgent("CustomWebBrowser/1.0")
+            # Modern UA matched to the real engine (was legacy "CustomWebBrowser/1.0").
+            profile.setHttpUserAgent(modern_user_agent())
+            profile.setHttpAcceptLanguage("en-US,en;q=0.9")
             logma.info(
                 f"[webengine] fallback profile created | off_the_record={profile.isOffTheRecord()} "
                 f"| cache_type={profile.httpCacheType()}"

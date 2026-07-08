@@ -14,7 +14,11 @@ NchantdWebProfile:
         webkit-version:
             - 537.36
         chrome-version:
-            - 126.0.0.0
+            # Fallback only — the runtime UA is derived from the real QtWebEngine
+            # Chromium version (see profiles.modern_user_agent). Kept current so
+            # the templated agent path is not stale if that derivation is bypassed.
+            - 138.0.0.0
+            #- 126.0.0.0
             #- 117.0.5938.62
             #- 102.0.6099.109
         safari-version:

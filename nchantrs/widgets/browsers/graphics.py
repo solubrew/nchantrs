@@ -86,6 +86,11 @@ def configure_qt_for_webengine() -> None:
         "--disable-renderer-backgrounding",
         "--disable-features=TranslateUI",
         "--disable-ipc-flooding-protection",
+        # Hide the automation/webdriver signal so Google's login flow does not
+        # treat the embedded view as a bot / unsupported browser (F2). The TODO
+        # named --disable-blink-features=OutOfBlinkCors, which was removed from
+        # Chromium years ago; AutomationControlled is the current, effective flag.
+        "--disable-blink-features=AutomationControlled",
         "--enable-logging",
         "--log-level=0",
     ]
