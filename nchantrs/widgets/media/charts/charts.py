@@ -215,6 +215,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
 
     def plot_area_chart_3D(self):
         """Generate and plot a 3D area chart."""
+        #TODO: this feature is not working the entire graph widget disappears when Area3D is selected in the chart type dropdown
         self.fig.clear()
         ax = self.fig.add_subplot(111, projection="3d")
 
@@ -266,6 +267,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
 
     def plot_bar_stacked_chart(self):
         """Generate and plot a stacked bar chart."""
+        #TODO: this feature is not working the entire graph widget disappears when BarStacked is selected in the chart type dropdown
         # Clear previous plots
         self.fig.clear()
         ax = self.fig.add_subplot(111)
@@ -650,6 +652,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
 
     def plot_gantt_chart(self):
         """Plot a Gantt chart."""
+        #TODO: this feature is not working the entire graph widget disappears when gantt is selected in the chart type dropdown
         self.clear_axes()
 
         # Task positions (y-axis); reversed to plot Task A at the top
@@ -680,6 +683,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
 
     def plot_heat_chart(self):
         """Plot a heat chart."""
+        #TODO: this feature is not working the entire graph widget disappears when HeatMap is selected in the chart type dropdown
         self.clear_axes()
 
         # Use Seaborn's heatmap function to create a heatmap
@@ -781,6 +785,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
 
     def plot_pie_chart_3D(self):
         """Generate and plot a 3D pie chart (as stacked bars)."""
+        #TODO: Pie3D is showing the same graph as regular Pie chart
         self.fig.clear()
         ax = self.fig.add_subplot(111, projection="3d")
 
@@ -938,6 +943,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
 
     def plot_time_series_chart(self):
         """Plots a time series chart."""
+        #TODO: this feature is not working the entire graph widget disappears when timeseries is selected in the chart type dropdown
         self.clear_axes()
         self.axes.plot(self.time_data, self.time_series_values, label="Cumulative Sum", linewidth=2)
         self.axes.set_title("Time Series Plot")
@@ -950,6 +956,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
     def plot_tree_chart(self):
         """Plot a basic line chart."""
         # pull in the DrillTreeChartWebEngine
+        #TODO: this feature is not working the entire graph widget disappears when TreeMap is selected in the chart type dropdown
 
     def plot_violin_chart(self):
         """Generate and plot a violin chart."""
