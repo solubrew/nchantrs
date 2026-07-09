@@ -431,7 +431,13 @@ class NchantdSigil(NchantdSigilMixin, pyqt.QDialog):
         if self.layout is None:
             self.layout = pyqt.QVBoxLayout()
             self.setLayout(self.layout)
-        if hasattr(self.app, "model"):  # TODO ensure that this will work may need to switch to NchantdClip
+        # NOTE: hasattr guard is necessary because NchantdSigil is used both as a
+        # child of the full NchantdCape app (has self.app.model) and as a free
+        # QDialog in NchantdClip / tests (no model attribute on self.app). The
+        # guard is the contract — switching to NchantdClip wholesale would break
+        # the Cape-hosted sigils (NchantdNodeNameEditSigil, ImportDocumentNchantdSigil,
+        # etc. all rely on self.app.model). Keep the guard.
+        if hasattr(self.app, "model"):
             self.model = self.app.model
         self.config.override(cfg)
         # Set minimum size to 10% of screen
