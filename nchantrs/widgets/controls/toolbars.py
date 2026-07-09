@@ -218,16 +218,23 @@ class NchantdToolBar(pyqt.QToolBar):
 
         logma.info(f"Tool Bar Parent {self.parent}")
         self.theme = None
-        self.toolbar = pyqt.QToolBar()
 
     def buildToolbar(self):
-        """Build toolbar from toolbar configuration tree"""
-        self.toolbar.setMovable(True)
-        self.toolbar.setFloatable(True)
+        """Build toolbar from toolbar configuration tree.
+        
+        H24 fix: Reuse self (the QToolBar instance from pyqt.QToolBar base class)
+        instead of creating a separate self.toolbar attribute that was never shown.
+        """
+        # H24 fix: Use 'self' (the QToolBar base) directly — do NOT create a
+        # separate pyqt.QToolBar() instance. Previously a second, orphaned
+        # toolbar was created here while initView() added that to main, leaving
+        # the original self.toolbar (set in __init__) unused and floating.
+        self.setMovable(True)
+        self.setFloatable(True)
         if self.config.dikt.get("layout", None) == "horizontal":
-            self.toolbar.setOrientation(pyqt.Qt.Horizontal)
+            self.setOrientation(pyqt.Qt.Horizontal)
         else:
-            self.toolbar.setOrientation(pyqt.Qt.Vertical)
+            self.setOrientation(pyqt.Qt.Vertical)
         for seq, code in self.actions.items():
             action = lookup(self.app, code)
             name = action["name_txt"]
@@ -240,8 +247,8 @@ class NchantdToolBar(pyqt.QToolBar):
                 btn.setToolTip(action.get("tip_txt"))
             btn.setCheckable(True)
             btn.setAutoExclusive(True)
-            self.toolbar.addWidget(btn)
-        return self.toolbar
+            self.addWidget(btn)
+        return self
 
     def initModel(self, actions=None):
         """"""
@@ -253,6 +260,8 @@ class NchantdToolBar(pyqt.QToolBar):
         """ """
         self.config.override(cfg)
         self.theme = self.app.view.theme
+        # H24 fix: add self (the QToolBar base) to main toolbar area.
+        # buildToolbar() reuses 'self' directly, so no orphaned toolbar.
         self.app.main.addToolBar(self.buildToolbar())
         # if self.actions:
         # 	for action in self.actions:
