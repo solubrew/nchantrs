@@ -63,9 +63,9 @@ NchantdTabSetModel:
 #              - ['Settings', 'nchantdoffice.widgets.config.sources.NchantdDataSourcesSettings', "{}", '066c9768-8efd-7816-8000-3bd305f0de84', "c7669186-76bc-4043-b024-c9b53ba0fd84", 1, 'custom_widget', 'center']
 #              - ['APIs', 'nchantdoffice.widgets.config.apis.NchantdOfficeAPIFile', "{}", '066c9768-8efd-7816-8000-3bd305f0de84', "b5ac46bc-230a-4380-bb60-e6dca155cb27", 2, 'custom_widget', 'center']
               #Help Documents
-              - ['Help', 'nchantdoffice.widgets.config.help.NchantdOfficeHelpChatDex', "{}", '066abcfb-5af0-7027-8000-980e6c9d841b', "755ca550-fbf5-4bf4-b990-311043053577", 0, 'custom_widget', 'center']
-              - ['FAQs', 'nchantdoffice.widgets.config.help.NchantdOfficeFAQs', "{}", '066abcfb-5af0-7027-8000-980e6c9d841b', "4862cdca-9bee-4daf-9f7f-ec10bf90ce48", 1, 'custom_widget', 'center']
-              - ['Documentation', 'nchantdoffice.widgets.config.help.NchantdOfficeHelpDocs', "{}", '066abcfb-5af0-7027-8000-980e6c9d841b', "f44b83ea-8932-486d-a9ea-26bf7b56ff2f", 2, 'custom_widget', 'center']
+              - ['FAQs', 'nchantdoffice.widgets.config.help.NchantdOfficeFAQs', "{}", '066abcfb-5af0-7027-8000-980e6c9d841b', "4862cdca-9bee-4daf-9f7f-ec10bf90ce48", 0, 'custom_widget', 'center']
+              - ['Documentation', 'nchantdoffice.widgets.config.help.NchantdOfficeHelpDocs', "{}", '066abcfb-5af0-7027-8000-980e6c9d841b', "f44b83ea-8932-486d-a9ea-26bf7b56ff2f", 1, 'custom_widget', 'center']
+              - ['Help', 'nchantdoffice.widgets.config.help.NchantdOfficeHelpChatDex', "{}", '066abcfb-5af0-7027-8000-980e6c9d841b', "755ca550-fbf5-4bf4-b990-311043053577", 2, 'custom_widget', 'center']
               #Right Side TabSet
               - ['Journal', 'nchantdoffice.widgets.documents.journal.NchantdOfficeJournalEditor', "{}", '0', "06875532-6b6d-787b-8000-41ace4c1038a", 0, 'custom_widget', 'right']
               - ['Scratch', 'nchantdoffice.widgets.documents.media.notes.NchantdOfficeScratchEditor', "{}", '0', "", 1, 'custom_widget', 'right']

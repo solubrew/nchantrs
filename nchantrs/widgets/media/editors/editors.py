@@ -692,7 +692,7 @@ class NchantdEntryEditor(NchantdLabeledEntry):
 
     def initWidget(self):
         """"""
-        logma.depricate("NchantdEntryEditor is deprecated. Use NchantdLabledEntry instead.")
+        logma.deprecate("NchantdEntryEditor is deprecated. Use NchantdLabledEntry instead.")
         self.initModel()
         self.initView()
         return self

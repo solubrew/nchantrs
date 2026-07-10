@@ -96,10 +96,7 @@ class NchantdAccountSettings(NchantdSettingsWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdAccountSettings"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdAccountSettings").override(parent.config).override(cfg))
 
     def initModel(self):
         """"""

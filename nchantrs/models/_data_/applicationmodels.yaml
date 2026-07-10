@@ -1548,6 +1548,17 @@ NchantdPantiesModel:
               - ['<+(UUID)+>', 'nodes', 'user', '', 'tags', "{}", "{}", '', '', 0, 0, 0, 0, 1]
               - ['<+(UUID)+>', 'tabs', 'app', 'library', 'tags', "{}", "{}", '', '', 0, 0, 0, 0, 1]
               - ['<+(UUID)+>', 'tabs', 'user', '', 'tags', "{}", "{}", '', '', 0, 0, 0, 0, 1]
+              #FAQs
+              - ['<+(UUID)+>', 'faq1', 'Question', 'How to get an NchantdOffice Acct?', 'faqs', "{}", "{}", '', '', 0, 0, 0, 0, 1]
+              - ['<+(UUID)+>', 'faq1', 'Answer', 'Click Link -> ', 'faqs', "{}", "{}", '', '', 0, 0, 0, 0, 1]
+              - [ '<+(UUID)+>', 'faq2', 'Question', 'How much does an NchantdOffice Acct Cost?', 'faqs', "{}", "{}", '', '', 0, 0, 0, 0, 1 ]
+              - [ '<+(UUID)+>', 'faq2', 'Answer', 'Click Link -> ', 'faqs', "{}", "{}", '', '', 0, 0, 0, 0, 1 ]
+              - [ '<+(UUID)+>', 'faq3', 'Question', 'How can I cancel my NchantdOffice Acct?', 'faqs', "{}", "{}", '', '', 0, 0, 0, 0, 1 ]
+              - [ '<+(UUID)+>', 'faq3', 'Answer', 'Click Link -> ', 'faqs', "{}", "{}", '', '', 0, 0, 0, 0, 1 ]
+              - [ '<+(UUID)+>', 'faq4', 'Question', 'Can I open more than one instance?', 'faqs', "{}", "{}", '', '', 0, 0, 0, 0, 1 ]
+              - [ '<+(UUID)+>', 'faq4', 'Answer', 'Currently no you can only open multiple copies of the same instance, this will change in the future', 'faqs', "{}", "{}", '', '', 0, 0, 0, 0, 1 ]
+              - [ '<+(UUID)+>', 'faq5', 'Question', '', 'faqs', "{}", "{}", '', '', 0, 0, 0, 0, 1 ]
+              - [ '<+(UUID)+>', 'faq5', 'Answer', '', 'faqs', "{}", "{}", '', '', 0, 0, 0, 0, 1 ]
             options:
               'option': ['UUID', 'application_NCD', 'internal_password']
           'app_option_key':

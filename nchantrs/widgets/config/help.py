@@ -30,7 +30,7 @@ from nchantrs.widgets.media.images import NchantdImage
 from nchantrs.widgets.widgets import NchantdWidget
 from kahndor.logma import Logma
 from nchantrs.widgets.tabsets import NchantdTab
-
+from nchantrs.widgets.trees import NchantdTree
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 log = True
@@ -47,22 +47,29 @@ class NchantdFAQs(NchantdTab):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdFAQs"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdFAQs").override(parent.config).override(cfg))
         self.primary_settings_group = None
+        self.faqs = None
 
-    def initModel(self):
+    def initModel(self, cfg=None):
         """"""
+        super().initModel(cfg)
+        self.faqs = self.app.model.get_view_options_faqs()
         return self
 
-    def initView(self):
+    def initView(self, cfg=None):
         """"""
-        super().initView()
+        super().initView(cfg)
         cfg = {"size": ["auto", "auto"]}
         self.primary_settings_group = NchantdVScrollGroupBox(self, cfg)
         self.primary_settings_group.setTitle("Frequently Asked Questions")
+        #TODO build out a list of FAQs using a simple Q/A tree widget pulling data from a datatable updated from the service
+        #
+        cfg = {}
+        faqtree = NchantdTree(self, cfg)
+        for faq in self.faqs:
+            faqtree.add_item(faq)
+        self.primary_settings_group.addWidget(faqtree)
         self.layout.addLayout(self.primary_settings_group.layout)
         return self
 
@@ -80,29 +87,27 @@ class NchantdHelpChatDex(NchantdTab):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdHelpChatDex"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdHelpChatDex").override(parent.config).override(cfg))
 
-    def initModel(self):
+    def initModel(self, cfg=None):
         """"""
-        super().initModel()
+        super().initModel(cfg)
         return self
 
-    def initView(self):
+    def initView(self, cfg=None):
         """"""
-        super().initView()
+        super().initView(cfg)
         cfg = {"size": ["auto", "auto"]}
         self.model_view = NchantdHScrollGroupBox(self, cfg)
         self.layout.addLayout(self.model_view.layout)
         layout = pyqt.QHBoxLayout()
-        cfg = {"size": ["auto", "auto"]}
-        index_group = NchantdVScrollGroupBox(self, cfg)
-        layout.addLayout(index_group.layout)
-        cfg = {"size": ["auto", "auto"]}
-        chat_group = NchantdVScrollGroupBox(self, cfg)
 
+        #cfg = {"size": ["auto", "auto"], "text": "Index"}
+        #index_group = NchantdVScrollGroupBox(self, cfg)
+        #layout.addLayout(index_group.layout)
+
+        cfg = {"size": ["auto", "auto"], "text": "Chat"}
+        chat_group = NchantdVScrollGroupBox(self, cfg)
         layout.addLayout(chat_group.layout)
         self.layout.addLayout(layout)
 
@@ -113,6 +118,7 @@ class NchantdHelpChatDex(NchantdTab):
         chat_entry_group.addWidget(bot_image)
         cfg = {"text": "Chat with the Nchantd", "layout": "horizontal"}
         chat_entry = NchantdEntryEditor(self, cfg).initWidget()
+
         chat_entry_group.addWidget(chat_entry)
         self.layout.addWidget(chat_entry_group)
 
@@ -132,23 +138,22 @@ class NchantdHelpDocs(NchantdTab):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdHelpDocs"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdHelpDocs").override(parent.config).override(cfg))
 
-    def initModel(self):
+    def initModel(self, cfg=None):
         """"""
-        super().initModel()
+        super().initModel(cfg)
         return self
 
-    def initView(self):
+    def initView(self, cfg=None):
         """"""
-        super().initView()
+        cfg = cfg or {}
+        super().initView(cfg)
         cfg = {"size": ["auto", "auto"]}
-        self.primary_settings_group = NchantdVScrollGroupBox(self, cfg)
-        self.primary_settings_group.setTitle("Documentation")
-        self.layout.addLayout(self.primary_settings_group.layout)
+        # self.primary_settings_group = NchantdVScrollGroupBox(self, cfg)
+        # self.primary_settings_group.setTitle("Documentation")
+        # self.layout.addLayout(self.primary_settings_group.layout)
+
         return self
 
     def initWidget(self):

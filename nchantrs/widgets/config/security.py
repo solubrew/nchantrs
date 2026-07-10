@@ -15,10 +15,8 @@
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
+from pathlib import Path
 
-import logging
-
-logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -49,11 +47,8 @@ class NchantdSecuritySettings(NchantdSettingsWidget):
     def __init__(self, parent, cfg=None):
         """"""
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdSecuritySettingsTab"))
         self.parent = parent
-        if self.parent is not None:
-            self.config.override(self.parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdSecuritySettingsTab").override(self.parent.config).override(cfg))
         self.levels = self.config.dikt.get("levels", [])
         self.primary_settings_group = None
         self.button_bar = None
@@ -91,7 +86,7 @@ class NchantdSecuritySettings(NchantdSettingsWidget):
         self.user_group.setLayout(user_layout)
         self.primary_settings_group.addWidget(self.user_group)
 
-        user = "solubrew"[DONE]
+        user = Path.home().name
         cfg = {"label": f"Current User: {user}", "layout": "horizontal", "size": ["auto", "auto"]}
         self.current_user = NchantdLabel(self, cfg).initWidget()
         user_layout.addWidget(self.current_user, 0, 0)
