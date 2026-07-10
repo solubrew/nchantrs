@@ -116,25 +116,6 @@ class NchantdWebManager(NchantdWidgetMixin, pyqt.QObject):
         :return:
         """
 
-    def hideEvent(self, event):
-        """Stop browser when widget is hidden to save resources (e.g. stop playing videos)"""
-        try:
-            self.browser.stop()
-            # Optionally load blank page to fully release resources
-            # self.browser.setUrl(pyqt.QUrl("about:blank"))
-        except Exception as e:
-            logma.error(f"Error stopping browser on hide: {e}")
-        super().hideEvent(event)
-
-    def closeEvent(self, event):
-        """Ensure browser is stopped on close"""
-        try:
-            self.browser.stop()
-            self.browser.setUrl(pyqt.QUrl("about:blank"))
-        except:
-            pass
-        super().closeEvent(event)
-
 
 class NchantdWebViewer(NchantdWidget):
     """ """

@@ -154,28 +154,76 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         return self
 
     def buildTabSet(self, node, tabset="center", tabsdata=None, toolbox=None) -> None:
-        """Dynamically create a tabset based on configurations and data whose parent is the selected node provided"""
-        # check for node tabs in cache
-        # logma.inspect_caller()
-        self.tabset = tabset
-        self.current_node = node
-        # FIX: Clear existing tab_widgets to prevent duplication
-        self.tab_widgets = []
-        logma.info(f"Tabsdata {tabsdata}")
-        if tabsdata is None or tabsdata == []:
-            tabsdata = self.get_tabs(node, tabset)
-            if tabsdata is None:
-                logma.info("No tabs in the tabset")
-                return self
-            if not tabsdata.empty:
-                tabsdata = [tab for tab in tabsdata.to_dict(orient="records")]
-            else:
-                return self
-        logma.info(f"Tabsdata {tabsdata}")
-        self.tabsdata = tabsdata
-        node.active_tab_position = 0  # [DONE]
-        self.load_tab_set(tabset, node.active_tab_position)
+        """Dynamically create a tabset based on configurations and data whose parent is the selected node provided
+        
+        Implements lazy loading: Only the active tab is fully loaded on build.
+        Other tabs are created as placeholder widgets to defer loading until needed.
+        """
+        # Prevent recursive builds
+        if hasattr(self, "_building") and self._building:
+            return self
+        self._building = True
+        
+        try:
+            self.tabset = tabset
+            self.current_node = node
+            self.tab_widgets = []
+            logma.info(f"Tabsdata {tabsdata}")
+            
+            # Get tabs data if not provided
+            if tabsdata is None or tabsdata == []:
+                tabsdata = self.get_tabs(node, tabset)
+                if tabsdata is None:
+                    logma.info("No tabs in the tabset")
+                    return self
+                if not tabsdata.empty:
+                    tabsdata = [tab for tab in tabsdata.to_dict(orient="records")]
+                else:
+                    return self
+            
+            logma.info(f"Tabsdata {tabsdata}")
+            self.tabsdata = tabsdata
+            
+            # Determine active tab position - can be overridden by subclasses
+            active_tab_position = self._get_active_tab_position(node, 0)
+            
+            # Load tabs with lazy loading
+            for tabn, tab in enumerate(self.tabsdata):
+                self.load_tab(tab, tabn, tabset, active_tab_position)
+            
+            # Set the active tab
+            self.parent.setCurrentIndex(active_tab_position)
+            
+        finally:
+            self._building = False
+        
         return self
+    
+    def _get_active_tab_position(self, node, default=0):
+        """Get the active tab position from node parameters.
+        
+        Subclasses can override to customize how the active tab is determined.
+        
+        Args:
+            node: Node object containing tab configuration
+            default: Default position if not found
+            
+        Returns:
+            Integer tab position (0-indexed)
+        """
+        if hasattr(node, 'parameters') and node.parameters:
+            active_pos = node.parameters.get("active_tab_position", default)
+            try:
+                active_pos = int(active_pos)
+                # Ensure within bounds
+                if active_pos < 0:
+                    active_pos = 0
+                elif self.tabsdata and active_pos >= len(self.tabsdata):
+                    active_pos = 0
+                return active_pos
+            except (ValueError, TypeError):
+                return default
+        return default
 
     def create_toolbox(self, parent=None, cfg=None) -> None:
         """"""
