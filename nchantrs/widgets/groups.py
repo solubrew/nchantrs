@@ -42,10 +42,7 @@ class NchantdGroup(NchantdWidgetMixin, pyqt.QGroupBox):
         """ """
         super().__init__()
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdGroup")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdGroup").override(parent.config).override(cfg)
         self.init_variables()
         self.collapsible = None
         self.fixed_height = None
@@ -55,7 +52,7 @@ class NchantdGroup(NchantdWidgetMixin, pyqt.QGroupBox):
             self.set_open(False)
         label = self.config.dikt.get("text", "Missing Group Text")
         self.setTitle(label)
-        self.setAlignment(pyqt.Qt.AlignmentFlag.AlignTop | pyqt.Qt.AlignmentFlag.AlignCenter)
+        #self.setAlignment(pyqt.Qt.AlignmentFlag.AlignTop | pyqt.Qt.AlignmentFlag.AlignCenter)
         self.setSizePolicy(self.sizePolicy().horizontalPolicy(), self.sizePolicy().verticalPolicy())
         self.toggled.connect(self.set_open)
 
@@ -71,20 +68,20 @@ class NchantdGroup(NchantdWidgetMixin, pyqt.QGroupBox):
         logma.info(f"Show {self.config.dikt.get('text', 'Missing Group Text')}")
         # size = self.config.dikt.get("size", [None, 250])
         logma.info(f"Size {self.parent.size().height()}")
-        minimum_height = 250
-        height = self.parent.size().height()
-        if height < minimum_height:
-            height = minimum_height
-        logma.info(f"Height {self.height}")
-        if self.fixed_height is None:
-            self.set_height(height)
+        #minimum_height = 250
+        #height = self.parent.size().height()
+        #if height < minimum_height:
+        #    height = minimum_height
+        #logma.info(f"Height {self.height}")
+        #if self.fixed_height is None:
+        #    self.set_height(height)
         # self.set_size("auto", self.parent.size().height(), None, 250)
         # cfg_height = self.config.dikt.get("size", [None, minimum_height])[1]
         # if cfg_height == "auto":
         # height = minimum_height
 
-        self.setMinimumHeight(self.fixed_height)
-        self.setMaximumHeight(self.fixed_height)
+        #self.setMinimumHeight(self.fixed_height)
+        #self.setMaximumHeight(self.fixed_height)
         # self.updateGeometry()
         # self.parent.updateGeometry()
         return self
@@ -282,34 +279,33 @@ class NchantdVScrollGroupBox(NchantdWidget):
         """"""
         cfg = {}
         self.group = NchantdGroup(self, cfg)
+        self.group.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
         if self.config.get("height", None):
             self.setMaxiumHeight(self.config.get("height"))
-        layout = pyqt.QVBoxLayout()
-        self.group.setLayout(layout)
-        layout.setSpacing(0)
-        layout.setContentsMargins(0, 0, 0, 0)
+
+        self.layout_box = pyqt.QVBoxLayout(self)
+        self.layout_box.setSpacing(0)
+        self.layout_box.setContentsMargins(0, 0, 0, 0)
 
         self.scroll = pyqt.QScrollArea()
         self.scroll.setVerticalScrollBarPolicy(pyqt.Qt.ScrollBarAlwaysOn)
         self.scroll.setHorizontalScrollBarPolicy(pyqt.Qt.ScrollBarAlwaysOff)
         self.scroll.setWidgetResizable(True)
-        self.scroll.setWidget(self)
-        self.scroll.setWidgetResizable(False)
-        self.scroll.setAlignment(pyqt.Qt.AlignmentFlag.AlignTop)
+        self.scroll.setWidget(pyqt.QWidget())
+        self.scroll.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
 
+        layout = pyqt.QVBoxLayout()
+        self.group.setLayout(layout)
+        layout.setSpacing(0)
+        layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(self.scroll)
-        layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignTop)
+        self.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
 
         self.layout = pyqt.QVBoxLayout()
         self.layout.addWidget(self.group)
         self.layout.setSpacing(0)
         self.layout.setContentsMargins(0, 0, 0, 0)
-
-        self.layout_box = pyqt.QVBoxLayout(self)
-        logma.info(f"Parent Size {self.parent.size().height()}")
-        logma.info(f"Size {self.size().width()}")
-        logma.info(f"Group Size {self.group.size().height()}")
-        self.set_size("auto", self.parent.size().height())
+        #self.set_size("auto", self.parent.size().height())
         return self
 
     def setTitle(self, title):
