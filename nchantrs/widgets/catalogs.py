@@ -54,10 +54,7 @@ class NchantdCatalog(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCatalog"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCatalog").override(parent.config).override(cfg))
         self.catalog = self
         self.selected_item = None
         self.all_items = None

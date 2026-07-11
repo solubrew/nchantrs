@@ -161,11 +161,8 @@ class NchantdInterfaceSettings(NchantdSettingsWidget):
     def __init__(self, parent, cfg=None):
         """"""
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdInterfaceSettingsTab"))
         self.parent = parent
-        if self.parent is not None:
-            self.config.override(self.parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdInterfaceSettingsTab").override(self.parent.config).override(cfg))
 
     def initModel(self, cfg=None):
         """"""

@@ -139,15 +139,27 @@ NchantdPantiesModel:
           idx_app_menu_active:
             cmd: >
               CREATE INDEX idx_app_menu_active ON app_menu (ACTIVE_BIT)
-          idx_app_option_delete:
+          idx_app_menu_pid_txt:
             cmd: >
-              CREATE INDEX idx_app_option_delete ON app_option (DELETE_BIT)
-          idx_app_option_archive:
-            cmd: >
-              CREATE INDEX idx_app_option_archive ON app_option (ARCHIVE_BIT)
+              CREATE INDEX idx_app_menu_pid_txt ON app_menu (pid_txt)
           idx_app_option_active:
             cmd: >
               CREATE INDEX idx_app_option_active ON app_option (ACTIVE_BIT)
+          idx_app_option_archive:
+            cmd: >
+              CREATE INDEX idx_app_option_archive ON app_option (ARCHIVE_BIT)
+          idx_app_option_delete:
+            cmd: >
+              CREATE INDEX idx_app_option_delete ON app_option (DELETE_BIT)
+          idx_app_option_key_txt:
+            cmd: >
+              CREATE INDEX idx_app_option_key_txt ON app_option (key_txt)
+          idx_app_option_label_txt:
+            cmd: >
+              CREATE INDEX idx_app_option_label_txt ON app_option (label_txt)
+          idx_app_option_table_txt:
+            cmd: >
+              CREATE INDEX idx_app_option_table_txt ON app_option (table_txt)
           idx_app_policy_delete:
             cmd: >
               CREATE INDEX idx_app_policy_delete ON app_policy (DELETE_BIT)
@@ -1557,8 +1569,16 @@ NchantdPantiesModel:
               - [ '<+(UUID)+>', 'faq3', 'Answer', 'Click Link -> ', 'faqs', "{}", "{}", '', '', 0, 0, 0, 0, 1 ]
               - [ '<+(UUID)+>', 'faq4', 'Question', 'Can I open more than one instance?', 'faqs', "{}", "{}", '', '', 0, 0, 0, 0, 1 ]
               - [ '<+(UUID)+>', 'faq4', 'Answer', 'Currently no you can only open multiple copies of the same instance, this will change in the future', 'faqs', "{}", "{}", '', '', 0, 0, 0, 0, 1 ]
-              - [ '<+(UUID)+>', 'faq5', 'Question', '', 'faqs', "{}", "{}", '', '', 0, 0, 0, 0, 1 ]
-              - [ '<+(UUID)+>', 'faq5', 'Answer', '', 'faqs', "{}", "{}", '', '', 0, 0, 0, 0, 1 ]
+#              - [ '<+(UUID)+>', 'faq5', 'Question', '', 'faqs', "{}", "{}", '', '', 0, 0, 0, 0, 1 ]
+#              - [ '<+(UUID)+>', 'faq5', 'Answer', '', 'faqs', "{}", "{}", '', '', 0, 0, 0, 0, 1 ]
+              #DataSources
+              - [ '<+(UUID)+>', 'apikey', 'paid', 'NchantdOffice', 'sources', "{}", '{"url": "https://www.nchantdoffice.com/get_api_key"}', '', '', 0, 0, 0, 0, 1 ]
+              - [ '<+(UUID)+>', 'apikey', 'free', 'CoinGecko', 'sources', "{}", '{"url": "https://www.coingecko.com/en/api/pricing"}', '', '', 0, 0, 0, 0, 1 ]
+              - [ '<+(UUID)+>', 'apikey', 'free', 'CoinMarketCap', 'sources', "{}", '{"url": ""}', '', '', 0, 0, 0, 0, 1 ]
+              - [ '<+(UUID)+>', 'apikey', 'free', 'CoinPaprika', 'sources', "{}", '{"url": ""}', '', '', 0, 0, 0, 0, 1 ]
+              - [ '<+(UUID)+>', 'apikey', 'free', 'Etherscan', 'sources', "{}", '{"url": ""}', '', '', 0, 0, 0, 0, 1 ]
+              - [ '<+(UUID)+>', 'apikey', 'free', 'Kalshi', 'sources', "{}", '{"url": ""}', '', '', 0, 0, 0, 0, 1 ]
+              - [ '<+(UUID)+>', 'apikey', 'free', 'PolyMarket', 'sources', "{}", '{"url": ""}', '', '', 0, 0, 0, 0, 1 ]
             options:
               'option': ['UUID', 'application_NCD', 'internal_password']
           'app_option_key':
@@ -2409,7 +2429,7 @@ NchantdPantiesModel:
                 SELECT
                   *
                 FROM vw_app_option vao
-                WHERE vao.table_txt = 'source'
+                WHERE vao.table_txt = 'sources' AND vao.key_txt = 'apikey'
           vw_sources_available:
             cmd: >
               CREATE VIEW vw_sources_available AS

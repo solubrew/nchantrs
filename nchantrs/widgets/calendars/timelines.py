@@ -18,7 +18,6 @@ import datetime as dt
 
 import logging
 
-logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -26,15 +25,10 @@ from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.calendars.calendars import NchantdDateSelect
 from nchantrs.widgets.calendars.days import NchantdDayCalendar
-from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.controls.buttons import NchantdButton
-from nchantrs.widgets.groups import NchantdHScrollGroupBox, NchantdVScrollGroupBox
-from nchantrs.widgets.media.editors.selectors import NchantdComboBox, NchantdDropDown
+from nchantrs.widgets.groups import NchantdVScrollGroupBox
 from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.tabsets import NchantdTab
-from nchantrs.widgets.media.media import NchantdNEWSLSummary
-
-from nchantrs.widgets.calendars.days import NchantdDayDashboard
 from kahndor.logma import Logma
 
 # ====================================================================================================================||
@@ -214,68 +208,19 @@ class NchantdTodayOverview(NchantdTab):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdTodayOverviewTab"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdTodayOverviewTab").override(cfg))
         self.tasks = None
 
-    def initModel(self):
+    def initModel(self, cfg=None):
         """"""
-        super().initModel()
+        super().initModel(cfg)
         # self.tasks = self.app.model.store.get_tasks("TODAY")
         return self
 
-    def initView(self):
+    def initView(self, cfg=None):
         """"""
-        super().initView()
-        logma.info(f"initView")
-        scroll = NchantdHScrollGroupBox()
-        scroll.setTitle("Daily Weather")
-        today = dt.datetime.now()
-        days = [today + dt.timedelta(days=x) for x in range(-3, 4)]
-        logma.info(f"Days {days}")
-        for day in days:
-            cfg = {
-                "title": day.strftime("%A %Y-%m-%d"),
-                "humidity": {"high": "80", "low": "50"},
-                "temperature": {"high": "80", "low": "50"},
-                "rain_chance": {"high": "80", "low": "50"},
-            }
-            logma.info(f"Day {day}")
-            cfg = {"day": cfg}
-            if day.strftime("%Y-%m-%d") == today.strftime("%Y-%m-%d"):
-                cfg["font_zoom"] = 1.2  # [DONE]
-            scroll.addWidget(NchantdDayDashboard(self, cfg).initWidget())
-            # scrollbar = scroll.scroll.horizontalScrollBar()
-            # scrollbar = scroll.scroll.horizontalScrollBar()
-            # scrollbar.setSliderPosition(int((scrollbar.maximum() + scrollbar.minimum())/2))
-        scroll.set_scroll_bar_position("center")
-        self.layout.addLayout(scroll.layout)
-        logma.info(f"initView END")
-        # put in a tabset here
-        if self.tasks is None:
-            self.tasks = []
-        # if len(self.tasks) > 0:
+        super().initView(cfg)
 
-        self.selected_day = NchantdDayCalendar(self, self.config).initWidget()
-        if len(self.tasks) == 0:
-            self.selected_day.setFixedHeight(75)
-        self.layout.addWidget(self.selected_day)
-
-        # have another tab that is most recent comms table
-        # instead of a tabset could have the system auto create tasks to read emails for any important emails
-        # these would then show in the todo tasks
-
-        layout = pyqt.QHBoxLayout()
-        cfg = {"filters": {}}
-        # self.news = NchantdNEWSLSummary(self, cfg).initWidget()
-        # layout.addWidget(self.news)
-        cfg = {"size": ["auto", "auto"]}
-        self.viewer = NchantdVScrollGroupBox(self, cfg)
-        self.viewer.setTitle("Quick View")
-        layout.addLayout(self.viewer.layout)
-        self.layout.addLayout(layout)
         return self
 
     def initWidget(self):

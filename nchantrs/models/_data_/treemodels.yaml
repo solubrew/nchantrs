@@ -87,7 +87,7 @@ NchantdTreeModel:
 #              - [ '067cb445-4b42-705a-8000-9b32839b09b2', '', 'Anal Focus', 'displaynode', 0, 3000, "{}" ]
               - [ '066a7cf6-5aca-79a2-8000-f4b5405a0427', '', 'Settings', 'displaynode', 0, 10000, "{'focus': 'app'}" ]
               #- [ '067d5e25-a405-7122-8000-1574a03c4522', '', 'Automation', 'sysorgnode', '066a7cf6-5aca-79a2-8000-f4b5405a0427', 0, "{'focus': 'app'}" ]
-              #- [ '066c9768-8efd-7816-8000-3bd305f0de84', '', 'Sources', 'sysorgnode', '066a7cf6-5aca-79a2-8000-f4b5405a0427', 0, "{'focus': 'app'}" ]
+              - [ '066c9768-8efd-7816-8000-3bd305f0de84', '', 'Sources', 'sysorgnode', '066a7cf6-5aca-79a2-8000-f4b5405a0427', 0, "{'focus': 'app'}" ]
               - [ '066abcfb-5af0-7027-8000-980e6c9d841b', '', 'Help', 'sysorgnode', '066a7cf6-5aca-79a2-8000-f4b5405a0427', 1, "{'focus': 'app'}" ]
             fields:
               'ntype':

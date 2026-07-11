@@ -266,8 +266,8 @@ class NchantdVScrollGroupBox(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """"""
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdVScrollGroupBox"))
         self.parent = parent
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdVScrollGroupBox"))
         if parent is not None and not isinstance(parent, pyqt.QWidget):
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -282,6 +282,8 @@ class NchantdVScrollGroupBox(NchantdWidget):
         """"""
         cfg = {}
         self.group = NchantdGroup(self, cfg)
+        if self.config.get("height", None):
+            self.setMaxiumHeight(self.config.get("height"))
         layout = pyqt.QVBoxLayout()
         self.group.setLayout(layout)
         layout.setSpacing(0)
@@ -312,7 +314,9 @@ class NchantdVScrollGroupBox(NchantdWidget):
 
     def setTitle(self, title):
         self.group.setTitle(title)
-
+    def setMaxiumHeight(self, height):
+        """"""
+        self.group.setMaximumHeight(height)
     def setMinimumHeight(self, height):
         """"""
         self.group.setMinimumHeight(height)
@@ -355,11 +359,11 @@ class NchantdHScrollGroupBox(pyqt.QWidget):
     def __init__(self, parent=None, cfg=None):
         """"""
         super().__init__(parent)
-        self.config = kahndor.Instruct(pxcfg).select("NchantdHScrollGroupBox")
         self.parent = parent
-        if parent is not None and not isinstance(parent, pyqt.QWidget):
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdHScrollGroupBox").override(cfg)
+        #if parent is not None and not isinstance(parent, pyqt.QWidget):
+        #    self.config.override(parent.config)
+        #self.config.override(cfg)
         self.group = None
         self.layout_box = None
         self.scroll = None
@@ -373,39 +377,31 @@ class NchantdHScrollGroupBox(pyqt.QWidget):
     def initLayout(self):
         """"""
         self.layout_box = pyqt.QHBoxLayout(self)
-
         self.scroll = pyqt.QScrollArea()
         self.scroll.setVerticalScrollBarPolicy(pyqt.Qt.ScrollBarAlwaysOff)
         self.scroll.setHorizontalScrollBarPolicy(pyqt.Qt.ScrollBarAlwaysOn)
         self.scroll.setWidgetResizable(True)
         self.scroll.setWidget(self)
-
         self.group = pyqt.QGroupBox()
+        if self.config.get("height", None):
+            self.setMaxiumHeight(self.config.get("height"))
         layout = pyqt.QVBoxLayout(self.group)
         layout.addWidget(self.scroll)
-
         self.layout = pyqt.QVBoxLayout()
         self.layout.addWidget(self.group)
         return self
 
-    # def initLayout(self):
-    #     """"""
-    #     self.group = pyqt.QGroupBox()
-    #     self.layout = pyqt.QHBoxLayout()
-    #     self.group.setLayout(self.layout)
-    #     self.scroll = pyqt.QScrollArea()
-    #     self.scroll.setVerticalScrollBarPolicy(pyqt.Qt.ScrollBarPolicy.ScrollBarAlwaysOn)
-    #     self.scroll.setHorizontalScrollBarPolicy(pyqt.Qt.ScrollBarPolicy.ScrollBarAlwaysOff)
-    #     self.scroll.setWidgetResizable(True)
-    #     self.scroll.setWidget(self.group)
-    #     self.layout.addWidget(self.scroll)
-
     def setTitle(self, title):
+        """"""
         self.group.setTitle(title)
 
     def setMinimumHeight(self, height):
         """"""
         self.group.setMinimumHeight(height)
+
+    def setMaxiumHeight(self, height):
+        """"""
+        self.group.setMaximumHeight(height)
 
     def set_size(self, width=None, height=None):
         """"""

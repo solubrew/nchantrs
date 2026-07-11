@@ -587,17 +587,19 @@ class NchantdStore(MicroStash):
             data = self.get_table(table, params, db)
         return data
 
-    def get_app_option(self, tags, table="ANY", page_size=None, db="db"):
+    def get_app_option(self, option_table, tags=None, page_size=None, db="db"):
         """"""
         table = "vw_app_option"
         if self.instance is not None:
             if self.instance.is_independent:
                 table = f"vwt_app_option_{self.instance.alias}"
-        if not isinstance(tags, list):
-            tags = list(tags)
-        params = {"WHERE": {"IN": {"tag_txt": tags}, "EQUAL": {"table": table}}}
-        reader = self.docs["db"].read(params)
-        return next(reader).dikt[table]["df"]
+        params = {"WHERE": {"EQUAL": {"table_txt": option_table}}}
+        if tags is not None:
+            if not isinstance(tags, list):
+                tags = list(tags)
+            params["WHERE"]["IN"] =  {"tag_txt": tags}
+        data = self.get_table(table, params, db)
+        return data
 
     def get_app_option_key(self, cfg, db="db"):
         """"""
