@@ -169,9 +169,14 @@ class NchantdNode(NchantdItem):
 
     def loadChildren(self, df):
         """ """
-        children = df[df["parentid"] == str(self.nid)]
+        # [DONE 2026-07-11 H25] Standardize on pid_txt (matches NchantdTreeNode
+        # and the actual db schema). NchantdNode was filtering on "parentid"
+        # which is not a column in the tree-node dataframe, so it always
+        # returned an empty frame and contributed zero children to any
+        # catalog that fell back to it.
+        children = df[df["pid_txt"] == str(self.nid)]
         for index, child in children.iterrows():
-            item = NchantdNode(self, child["name"], child["nid"], child, df[df["parentid"] == child["nid"]])
+            item = NchantdNode(self, child["name"], child["nid"], child, df[df["pid_txt"] == child["nid"]])
             item.initWidget()
             item.loadChildren(df)
             item.hasChildren(child["nid"])
@@ -367,6 +372,11 @@ class NchantdTreeNode(NchantdTreeItem):
         self.app_data_type = self.node["app_data_type"]
         self.set_data_focus()
         self.set_recent_tabs()
+
+        # [H29 2026-07-11] Store node dict in UserRole so the tree's
+        # _initiate_item_drag() can retrieve it via item.data(0, UserRole)
+        # and get nid_txt without depending on a non-existent .id attribute.
+        self.setData(0, self.node, pyqt.Qt.UserRole)
 
         return self
 
