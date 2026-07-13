@@ -45,7 +45,7 @@ class NchantdItem(NchantdWidgetMixin, pyqt.QStandardItem):
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
-        self.parent = parent
+        self.parent_widget = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdItem")
         self.catalog = parent.catalog
         NchantdWidgetMixin.__init__(self)
@@ -62,7 +62,7 @@ class NchantdItem(NchantdWidgetMixin, pyqt.QStandardItem):
     def initView(self) -> None:
         """ """
         super().initView()
-        self.setModel(self.parent.model)
+        self.setModel(self.parent_widget.model)
         self.initUI()
         self.initContextMenu()
         self.initTriggers()
@@ -146,9 +146,9 @@ class NchantdTreeItem(NchantdWidgetMixin, pyqt.QTreeWidgetItem):
         """ """
         NchantdWidgetMixin.__init__(self)
         pyqt.QTreeWidgetItem.__init__(self, parent)
-        self.parent = parent
+        self.parent_widget = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdTreeItem").override(cfg)
-        self.app = self.parent.app
+        self.app = self.parent_widget.app
 
     def initModel(self, cfg) -> None:
         """ """

@@ -326,7 +326,7 @@ class NchantdTreeNode(NchantdTreeItem):
 
         """
         super().__init__(parent)
-        self.parent = parent
+        self.parent_widget = parent
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdTreeNode"))
         self.item = name  # data displayed in the tree node
         self.name = node["name_txt"]
@@ -542,7 +542,7 @@ class NchantdTreeNode(NchantdTreeItem):
         data = {"table": {"doc_tree_node": {"data": {}}}}  # This will not allow for sorting of application tree nodes
         for n, child in enumerate(children):
             data["table"]["doc_tree_node"]["data"]["position_int"] = n
-            self.parent.app.model.store.update_record(data, "nid_txt", child.nid, db)
+            self.parent_widget.app.model.store.update_record(data, "nid_txt", child.nid, db)
         return self
 
     def updateTabs(self, view="center"):
@@ -563,8 +563,8 @@ class NchantdTreeNode(NchantdTreeItem):
             updates.append({"nid": child.nid, "position": position, "parent_id": self.nid})
 
         # Use batch update if available, otherwise fallback to individual updates
-        if hasattr(self.parent.app.model.store, "batch_update_positions"):
-            self.parent.app.model.store.batch_update_positions(updates, db)
+        if hasattr(self.parent_widget.app.model.store, "batch_update_positions"):
+            self.parent_widget.app.model.store.batch_update_positions(updates, db)
         else:
             # Fallback to individual updates with transaction
             self._individual_updates_with_transaction(updates, db)
@@ -575,21 +575,21 @@ class NchantdTreeNode(NchantdTreeItem):
         """
         try:
             # Start transaction if supported
-            if hasattr(self.parent.app.model.store, "begin_transaction"):
-                self.parent.app.model.store.begin_transaction(db)
+            if hasattr(self.parent_widget.app.model.store, "begin_transaction"):
+                self.parent_widget.app.model.store.begin_transaction(db)
 
             for update_data in updates:
                 data = {"table": {"doc_tree_node": {"data": {"position": update_data["position"]}}}}
-                self.parent.app.model.store.update_record(data, "nid_txt", update_data["nid"], db)
+                self.parent_widget.app.model.store.update_record(data, "nid_txt", update_data["nid"], db)
 
             # Commit transaction
-            if hasattr(self.parent.app.model.store, "commit_transaction"):
-                self.parent.app.model.store.commit_transaction(db)
+            if hasattr(self.parent_widget.app.model.store, "commit_transaction"):
+                self.parent_widget.app.model.store.commit_transaction(db)
 
         except Exception as e:
             # Rollback on error
-            if hasattr(self.parent.app.model.store, "rollback_transaction"):
-                self.parent.app.model.store.rollback_transaction(db)
+            if hasattr(self.parent_widget.app.model.store, "rollback_transaction"):
+                self.parent_widget.app.model.store.rollback_transaction(db)
             raise e
 
     def _update_tree_ui(self, sorted_children):
