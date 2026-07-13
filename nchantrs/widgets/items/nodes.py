@@ -111,7 +111,7 @@ class NchantdNode(NchantdItem):
 
         """
         super().__init__(parent, cfg)
-        self.parent = parent
+        self.parent_widget = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdNode")
         if parent:
             self.config.override(parent.config)
