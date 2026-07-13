@@ -2,16 +2,24 @@
 
 > Auto-generated on **2026-07-09** from inline source markers (`# TODO`, `# FIXME`, `# HACK`, `# XXX`, `# BUG`, `# NOTE` across `.py`/`.yaml` files).
 > Total markers found: **97** — P0: 0, P1: 7, P2: 16, P3: 59, NOTE: 15
+> Last updated: **2026-07-12** (H25/H29 resolved in commit `fa05530`)
 
-## P1 — High Priority  
+## P1 — High Priority
 
 - `PROJECT_TRACKER.yaml:3045 — [TODO] 3 fix user'`
 - `TODOs.md:249 — [TODO] fix this shouldn't reference NchantdOffice`
-- `TODOs.md:265 — [TODO] tree node failing`
+- ~~`TODOs.md:265 — [TODO] tree node failing`~~ ✅ **Resolved** in `fa05530` (H29 — drag-drop UserRole fix in `nchantrs/widgets/items/nodes.py`)
 - `nchantrs/models/applicationmodels.py:222 — [TODO] fix this shouldn't reference NchantdOffice`
 - `nchantrs/views/treeviews.py:281 — [TODO] 0 must be fixed to be the correct value for the last node`
 - `nchantrs/widgets/items/nodes.py:684 — [TODO] 3 fix user`
 - `nchantrs/widgets/tabsets.py:513 — [TODO] fix following error`
+
+## H## Tracker (nchantdoffice nomenclature — applies here as upstream library)
+
+| ID | Title | Status | Resolved in | Notes |
+|----|-------|--------|-------------|-------|
+| H25 | Catalog Tab Wrong Child Count | ✅ Completed (2026-07-12) | `fa05530` | `NchantdNode.loadChildren()` now uses `pid_txt` consistently |
+| H29 | Tree Node Drag-and-Drop Regression | ✅ Completed (2026-07-12) | `fa05530` | `NchantdNode.initModel()` stores node dict in `UserRole` |
 
 ## P2 — Medium Priority  
 

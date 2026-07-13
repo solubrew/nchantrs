@@ -17,6 +17,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Force authentication - always show password dialog
 
 ### Fixed
+- **H25 — Catalog Tab Wrong Child Count** (`commit fa05530`): `NchantdNode.loadChildren()` in
+  `widgets/items/nodes.py` now consistently uses `pid_txt` field for parent filtering instead of
+  mixing `parentid` and `pid_txt`. Fixes incorrect child counts across all node types including
+  catalogs. (nchantdoffice consumer bug H25)
+- **H29 — Tree Node Drag-and-Drop Regression** (`commit fa05530`): `NchantdNode.initModel()` in
+  `widgets/items/nodes.py` now stores the full node dict in `Qt.UserRole` for drag-drop operations.
+  Previously only stored a string, breaking `getNid()` in downstream consumers. (nchantdoffice
+  consumer bug H29)
 - Duplicate auth code removed, single auth flow implemented
 - logma.off() causing dialogs not to show (commits b5d5e92 + 1931cf5)
 - Checkable attribute bug in `toolbars.py:switch_to_toggle()` - added safety checks to prevent double-call

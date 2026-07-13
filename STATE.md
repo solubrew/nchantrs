@@ -7,27 +7,32 @@
 |-----------|-------|
 | **Name** | Nchantrs |
 | **Type** | PyQt5/PySide6 GUI Framework |
-| **Branch** | arthr-ws (development) |
-| **Location** | `/home/solubrew/.arthr/workspace/projects/nchantrs` |
+| **Branch** | gamma |
+| **Location** | `/home/solubrew/.orinbai/workspace/projects/nchantrs` |
 | **Repository** | `file:///mnt/overse/SBST01/vein/GitVein/nchantrs.git` |
-| **Last Updated** | 2026-06-22 |
+| **Last Updated** | 2026-07-12 |
+| **HEAD** | `fa05530` — "fix: H25/H29 - standardize pid_txt in loadChildren + store UserRole for drag-drop" |
 
 ### Purpose
 Nchantrs is a Python module for rapidly creating PyQt5/PySide6 applications using YAML configuration and Python widget files. Applications are built over a SQLite backend using FxSQuiRL.
 
 ---
 
-## Recent Activity (2026-06-22)
+## Recent Activity (2026-07-12)
 
 ### Latest Commits
 | Commit | Description |
 |--------|-------------|
+| `fa05530` | fix: H25/H29 - standardize pid_txt in loadChildren + store UserRole for drag-drop |
+| `6fdf3de` | prepare for group edits |
 | `c6bc679` | Add debug utilities module for data source dumps |
 | `62f84c4` | Fix: call initView() in NchantdCape.__init__ |
-| `adae9c8` | Add critical logging to trace initView and _show_password_dialog |
-| `534570f` | Force authentication - always show password dialog |
-| `e3b5a09` | Add detailed auth logging to NchantdCape.initView |
-| `298c147` | Add password dialog to NchantdCape before loading widget |
+
+### Bug Fixes (nchantdoffice consumer issues)
+| ID | Title | Fix |
+|----|-------|-----|
+| H25 | Catalog Tab Wrong Child Count | `loadChildren()` standardized on `pid_txt` (`fa05530`) |
+| H29 | Tree Node Drag-and-Drop Regression | `initModel()` stores node dict in `UserRole` (`fa05530`) |
 
 ### Latest Features
 | Feature | Status | Description |
@@ -279,10 +284,10 @@ nchantrs/
 
 | Version | Date | Status |
 |---------|------|--------|
-| **Unreleased** | 2026-06-22 | Current development |
+| **Unreleased** | 2026-07-12 | Current development — H25/H29 fixed |
 | **0.0.1** | 2026-01-15 | Initial structured release |
 | **Initial** | 2025-12-01 | Project inception |
 
 ---
 
-*Last updated: 2026-06-22*
+*Last updated: 2026-07-12*
