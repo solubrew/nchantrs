@@ -2,7 +2,7 @@
 
 > Auto-generated on **2026-07-09** from inline source markers (`# TODO`, `# FIXME`, `# HACK`, `# XXX`, `# BUG`, `# NOTE` across `.py`/`.yaml` files).
 > Total markers found: **97** — P0: 0, P1: 7, P2: 16, P3: 59, NOTE: 15
-> Last updated: **2026-07-12** (H25/H29 resolved in commit `fa05530`)
+> Last updated: **2026-07-13** (H30/H31 resolved in commits `5afde9d` + `57839d2` + `be8a582`)
 
 ## P1 — High Priority
 
@@ -20,6 +20,8 @@
 |----|-------|--------|-------------|-------|
 | H25 | Catalog Tab Wrong Child Count | ✅ Completed (2026-07-12) | `fa05530` | `NchantdNode.loadChildren()` now uses `pid_txt` consistently |
 | H29 | Tree Node Drag-and-Drop Regression | ✅ Completed (2026-07-12) | `fa05530` | `NchantdNode.initModel()` stores node dict in `UserRole` |
+| H30 | `setData()` Argument Order | ✅ Completed (2026-07-13) | `5afde9d` | `initModel()` calls `setData(0, Qt.UserRole, self.node)` — correct `(column, role, value)` order |
+| H31 | `self.parent` shadowing `QTreeWidgetItem.parent()` | ✅ Completed (2026-07-13) | `57839d2` + `be8a582` | `self.parent` → `self.parent_widget` across `NchantdItem`, `NchantdTreeItem`, `NchantdTreeNode`, `NchantdTree` |
 
 ## P2 — Medium Priority  
 

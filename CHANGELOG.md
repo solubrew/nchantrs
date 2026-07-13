@@ -25,6 +25,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   `widgets/items/nodes.py` now stores the full node dict in `Qt.UserRole` for drag-drop operations.
   Previously only stored a string, breaking `getNid()` in downstream consumers. (nchantdoffice
   consumer bug H29)
+- **H30 — `setData()` Argument Order** (`commit 5afde9d`): `NchantdNode.initModel()` in
+  `widgets/items/nodes.py:380` now calls `self.setData(0, Qt.UserRole, self.node)` — the
+  correct argument order is `(column, role, value)`. Previously the args were inverted,
+  storing the role ID in column 0, which silently failed and produced empty `UserRole` data.
+  This compounded with H29 to break drag-and-drop in nchantdoffice.
+- **H31 — `self.parent` Shadowing `QTreeWidgetItem.parent()`** (`commits 57839d2 + be8a582`):
+  All `QTreeWidgetItem` subclasses (`NchantdItem`, `NchantdTreeItem`, `NchantdTreeNode`,
+  `NchantdTree`) had `self.parent = parent` in their constructors, which shadowed Qt's built-in
+  `parent()` method. This caused `TypeError: 'NchantdOfficeTreeNode' object is not callable`
+  (and the equivalent for nchantrs node types) whenever Qt called `.parent()` on a tree item —
+  most visibly in drag-and-drop `_is_descendant()` checks. Renamed all occurrences of
+  `self.parent` → `self.parent_widget` across `widgets/items/items.py`,
+  `widgets/items/nodes.py`, and `widgets/trees.py`.
 - Duplicate auth code removed, single auth flow implemented
 - logma.off() causing dialogs not to show (commits b5d5e92 + 1931cf5)
 - Checkable attribute bug in `toolbars.py:switch_to_toggle()` - added safety checks to prevent double-call

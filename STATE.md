@@ -10,29 +10,32 @@
 | **Branch** | gamma |
 | **Location** | `/home/solubrew/.orinbai/workspace/projects/nchantrs` |
 | **Repository** | `file:///mnt/overse/SBST01/vein/GitVein/nchantrs.git` |
-| **Last Updated** | 2026-07-12 |
-| **HEAD** | `fa05530` — "fix: H25/H29 - standardize pid_txt in loadChildren + store UserRole for drag-drop" |
+| **Last Updated** | 2026-07-13 |
+| **HEAD** | `be8a582` — "fix H31: complete self.parent→self.parent_widget in nodes.py + trees.py" |
 
 ### Purpose
 Nchantrs is a Python module for rapidly creating PyQt5/PySide6 applications using YAML configuration and Python widget files. Applications are built over a SQLite backend using FxSQuiRL.
 
 ---
 
-## Recent Activity (2026-07-12)
+## Recent Activity (2026-07-13)
 
 ### Latest Commits
 | Commit | Description |
 |--------|-------------|
+| `be8a582` | fix H31: complete self.parent→self.parent_widget in nodes.py + trees.py |
+| `57839d2` | fix: rename self.parent→self.parent_widget to fix Qt.parent() shadow on all QTreeWidgetItem subclasses |
+| `5afde9d` | fix H30: correct setData arg order (column, role, value) in initModel |
+| `84da4e3` | docs: update CHANGELOG.md, STATE.md, TODOs.md — document H25/H29 fixes in fa05530, sync metadata to gamma |
 | `fa05530` | fix: H25/H29 - standardize pid_txt in loadChildren + store UserRole for drag-drop |
-| `6fdf3de` | prepare for group edits |
-| `c6bc679` | Add debug utilities module for data source dumps |
-| `62f84c4` | Fix: call initView() in NchantdCape.__init__ |
 
 ### Bug Fixes (nchantdoffice consumer issues)
 | ID | Title | Fix |
 |----|-------|-----|
 | H25 | Catalog Tab Wrong Child Count | `loadChildren()` standardized on `pid_txt` (`fa05530`) |
 | H29 | Tree Node Drag-and-Drop Regression | `initModel()` stores node dict in `UserRole` (`fa05530`) |
+| H30 | `setData()` Argument Order | `initModel()` uses `(0, Qt.UserRole, self.node)` (`5afde9d`) |
+| H31 | `self.parent` shadowing `Qt.parent()` | `self.parent` → `self.parent_widget` across all tree item classes (`57839d2` + `be8a582`) |
 
 ### Latest Features
 | Feature | Status | Description |
@@ -284,10 +287,10 @@ nchantrs/
 
 | Version | Date | Status |
 |---------|------|--------|
-| **Unreleased** | 2026-07-12 | Current development — H25/H29 fixed |
+| **Unreleased** | 2026-07-13 | Current development — H25/H29/H30/H31 fixed |
 | **0.0.1** | 2026-01-15 | Initial structured release |
 | **Initial** | 2025-12-01 | Project inception |
 
 ---
 
-*Last updated: 2026-07-12*
+*Last updated: 2026-07-13*
