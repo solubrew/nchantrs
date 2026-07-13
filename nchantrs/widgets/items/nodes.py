@@ -376,7 +376,8 @@ class NchantdTreeNode(NchantdTreeItem):
         # [H29 2026-07-11] Store node dict in UserRole so the tree's
         # _initiate_item_drag() can retrieve it via item.data(0, UserRole)
         # and get nid_txt without depending on a non-existent .id attribute.
-        self.setData(0, self.node, pyqt.Qt.UserRole)
+        # [H30 2026-07-12] Fix setData arg order: Qt expects (column, role, value)
+        self.setData(0, pyqt.Qt.UserRole, self.node)
 
         return self
 
