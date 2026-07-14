@@ -312,7 +312,7 @@ class NchantdTreeNode(NchantdTreeItem):
         :return: The updated parent node.
     """
 
-    def __init__(self, parent, name, nid, node, children=DataFrame()):
+    def __init__(self, parent, name, nid, node, children=DataFrame(), cfg=None):
         """
         :param parent: The parent node of the current node.
         :param item: The item displayed in the tree node.
@@ -326,8 +326,7 @@ class NchantdTreeNode(NchantdTreeItem):
 
         """
         super().__init__(parent)
-        self.parent_widget = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdTreeNode"))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdTreeNode").override(cfg))
         self.item = name  # data displayed in the tree node
         self.name = node["name_txt"]
         self.nid = nid

@@ -291,7 +291,7 @@ class NchantdVScrollGroupBox(NchantdWidget):
         self.scroll.setVerticalScrollBarPolicy(pyqt.Qt.ScrollBarAlwaysOn)
         self.scroll.setHorizontalScrollBarPolicy(pyqt.Qt.ScrollBarAlwaysOff)
         self.scroll.setWidgetResizable(True)
-        self.scroll.setWidget(pyqt.QWidget())
+        self.scroll.setWidget(self)
         self.scroll.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
 
         layout = pyqt.QVBoxLayout()
