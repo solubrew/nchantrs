@@ -22,11 +22,7 @@ from os.path import dirname, join
 # ===============================================================================||
 # ===============================================================================||
 from kahndor import kahndor
-
-import logging
 from nchantrs.libraries import pyqt
-
-logger = logging.getLogger(__name__)
 from nchantrs.widgets.widgets import NchantdWidgetMixin
 from typing import Optional, Dict, List, Any, Tuple
 from kahndor.logma import Logma
@@ -144,11 +140,11 @@ class NchantdTreeItem(NchantdWidgetMixin, pyqt.QTreeWidgetItem):
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
-        NchantdWidgetMixin.__init__(self)
         pyqt.QTreeWidgetItem.__init__(self, parent)
-        self.parent_widget = parent
+        self.init_variables()
+        self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdTreeItem").override(cfg)
-        self.app = self.parent_widget.app
+        self.app = self.parent.app
 
     def initModel(self, cfg) -> None:
         """ """

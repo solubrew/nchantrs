@@ -233,16 +233,12 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
         self.parent = parent
         self.name = name
         self.browser = browser
-        self.config = kahndor.Instruct(pxcfg).select("NchantdWebProfile")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdWebProfile").override(parent.config).override(cfg)
         self.init_variables()
-        logma.info(f"Initializing Web Profile {self.name}")
-        # logma.info(f"Environment Variables: {environ["QTWEBENGINE_CHROMIUM_FLAGS"]}")
-        # environ["QTWEBENGINE_CHROMIUM_FLAGS"] = " ".join(self.config.dikt["flags"].get("QTWEBENGINE_CHROMIUM_FLAGS"))
         self.type = None
         self.user = None
+        self.user_name = None
+        self.user_email = None
         self.intercept = intercept
         self.persistence = False
 

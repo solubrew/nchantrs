@@ -81,14 +81,10 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
 
     def __init__(self, parent=None, cfg={}, root=None):
         """ """
-        self.parent_widget = parent
-        self.config = kahndor.Instruct(pxcfg).override(cfg)
-        if parent:
-            self.config.override(self.parent_widget.config)
+        self.parent = parent
+        self.config = kahndor.Instruct(pxcfg).select("NchantdTree").override(cfg)
         self.init_variables()
         super().__init__()
-        # self.new_instance = self.app.model.new_instance
-        logma.info(f"Parent {self.parent_widget}")
         self.model = NchantdTreeModel(self, root)
         self.view = NchantdTreeView(self, self.config)
         self.setDragEnabled(True)  # Enable dragging

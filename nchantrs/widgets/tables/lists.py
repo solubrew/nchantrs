@@ -48,10 +48,8 @@ class NchantdList(NchantdWidgetMixin, pyqt.QListWidget):
         """ """
         super().__init__(parent)
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdList")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdList").override(parent.config).override(cfg)
+        self.init_variables()
         self.item_list = None
         self.data = None
 
@@ -92,7 +90,31 @@ class NchantdList(NchantdWidgetMixin, pyqt.QListWidget):
             self.addItem(item)  # Add files only
         return self
 
+class NchantdListWidget(NchantdWidget):
+    """"""
+    def __init__(self, parent=None, cfg=None):
+        """ """
+        super().__init__(self)
+        self.parent = parent
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdListWidget").override(parent.config).override(cfg))
+        self.list = None
 
+    def initModel(self, cfg=None):
+        """"""
+        super().initModel(cfg)
+        return self
+
+    def initView(self, cfg=None):
+        """"""
+        super().initView(cfg)
+        cfg = {}
+        self.list = NchantdList(self, cfg).initWidget()
+        self.layout.addWidget(self.list)
+    def initWidget(self):
+        """"""
+        self.initModel()
+        self.initView()
+        return self
 class NchantdListEditor(NchantdWidget):
     """"""
 

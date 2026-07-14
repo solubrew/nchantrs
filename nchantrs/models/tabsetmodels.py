@@ -310,7 +310,10 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         if from_index == to_index:
             return self
         self.tab_widgets.insert(to_index, self.tab_widgets.pop(from_index))
-        [x.update_position(i) for i, x in enumerate(self.tab_widgets)]
+        try:
+            [x.update_position(i) for i, x in enumerate(self.tab_widgets)]
+        except Exception as e:
+            logma.warning(e)
         return self
 
     def set_active_tab(self, tabset) -> None:
