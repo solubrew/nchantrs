@@ -17,7 +17,7 @@
 from os.path import abspath, dirname, join, exists, getmtime, expanduser
 from os import listdir
 import inspect
-import json as j
+import json
 import base64
 from typing import Any, Optional
 from typing import Any, Dict, List, Optional
@@ -224,6 +224,13 @@ class NchantdInstance(object):
         """"""
         self.internal = True
         return self
+
+    def to_dict(self):
+        """"""
+        return {"instance_id_txt": self.instance_id, "name_txt": self.name, "description_ltxt": self.description,
+                "is_primary_bit": self.is_primary, "application_NCD_txt": self.application_NCD,
+                "application_path_txt": self.application_path,
+                "instance_path_txt": self.instance_path, "version_txt": self.version, "meta_data_dict": json.dumps(self.meta_data)}
 
 
 class NchantdStore(MicroStash):
@@ -934,7 +941,7 @@ class NchantdStore(MicroStash):
             try:
                 from pycurity.pyhash import decode64
 
-                instance.meta_data = j.loads(decode64(instance_dict["meta_data_enc64_dict"]))
+                instance.meta_data = json.loads(decode64(instance_dict["meta_data_enc64_dict"]))
                 # logma.info(f"Loaded instance meta_data: {instance.meta_data}")
             except Exception as e:
                 logma.warning(f"Could not load instance meta_data: {e}")
@@ -1237,7 +1244,7 @@ class NchantdStore(MicroStash):
                     instance.instance_path,  # instance_path
                     instance.version,
                     encode64(
-                        j.dumps(instance.meta_data),
+                        json.dumps(instance.meta_data),
                     ),
                 ]
             ]
@@ -1248,7 +1255,7 @@ class NchantdStore(MicroStash):
                     "name": instance.name,
                     "application_path": instance.application_path,
                     "instance_path": instance.instance_path,
-                    "meta_data_enc64_dict": encode64(j.dumps(instance.meta_data)),
+                    "meta_data_enc64_dict": encode64(json.dumps(instance.meta_data)),
                 }
             ]
             column = "instance_id"
@@ -1289,7 +1296,7 @@ class NchantdStore(MicroStash):
                 # document.get("pyffice_version", "0.0.1.0.1.0"),#TODO not valid for nchantrs but still haven't seperated the underlying table config files
                 document["hash"],
                 document["policy"],
-                encode64(j.dumps(document.get("metadata", {}))),
+                encode64(json.dumps(document.get("metadata", {}))),
             ]
         ]
         self._store(table, payload, db)
@@ -1521,7 +1528,7 @@ class NchantdStore(MicroStash):
         if parameters is None:
             parameters = {"focus": "office"}
         if isinstance(parameters, dict):
-            parameters = j.dumps(parameters)
+            parameters = json.dumps(parameters)
         row = [nid, icon, name, ntype, pid, str(pos), parameters] + self.app.view.panes[tree].tree.model.nodebase
         data = {
             "app_tree_node": {
@@ -1652,7 +1659,7 @@ class NchantdStore(MicroStash):
         if "recent_tab" not in parameters.keys():
             parameters["recent_tab"] = {"center": 0, "right": 0}
         if isinstance(parameters, dict):
-            parameters = j.dumps(parameters)
+            parameters = json.dumps(parameters)
         row = [nid, icon, name, ntype, pid, str(pos), parameters] + self.app.view.panes[tree].tree.model.nodebase
         data = {
             "doc_tree_node": {

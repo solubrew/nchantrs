@@ -36,6 +36,14 @@ logma = Logma(__name__)
 pxcfg = join(here, "_data_", "config.yaml")
 
 
+class NchantdConfig(object):
+    """"""
+    def __init__(self, parent=None, cfg=None):
+        """"""
+        self.parent = parent
+        self.config = kahndor.Instruct(pxcfg).select("NchantdConfig").override(cfg)
+
+
 class NchantdConfigStoreDocument(object):
     """"""
 

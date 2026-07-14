@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 # ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
-from nchantrs.widgets.tables.tables import NchantdTable
+from nchantrs.widgets.tables.tables import NchantdTableWidget
 from nchantrs.widgets.widgets import NchantdWidget
 
 # ====================================================================================================================||
@@ -36,17 +36,13 @@ logma = Logma(__name__)
 pxcfg = join(here, "_data_", ".yaml")
 
 
-class NchantdPaletteTable(NchantdTable):
+class NchantdPaletteTable(NchantdTableWidget):
     """"""
 
     def __init__(self, parent=None, cfg=None):
         """ """
         super().__init__(parent)
-        self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdPaletteTable"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdPaletteTable").override(cfg))
 
     def initModel(self, cfg=None):
         """"""

@@ -18,8 +18,6 @@ import datetime as dt
 import logging
 # ======================================3rd Party Library Modules=====================================================||
 
-logger = logging.getLogger(__name__)
-
 # ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
@@ -32,7 +30,9 @@ from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 # ====================================================================================================================||
 here = join(dirname(__file__), '')  # ||
 logma = Logma(__name__)
-logma.off()
+log = True
+if not log:
+    logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, '_data_', 'selectors.yaml')
@@ -100,6 +100,7 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
 
     def add_option(self, option):
         """"""
+        logma.info(f"Option {option}")
         self.addItem(option)
         return self
 
