@@ -166,8 +166,15 @@ class NchantdDBUpdate(object):
 
     def reload_index(self, index, db="db") -> bool:
         """"""
-        if self.parent.app.model.store.delete_index(index, db):
-            return self.parent.app.model.store.create_index(index, db)
+        try:
+            self.parent.app.model.store.delete_index(index, db)
+        except Exception as e:
+            logma.warning(f"Index Not Deleted {e}")
+        logma.info(f"RELOAD INDEX {index}")
+        status = self.parent.app.model.store.create_index(index, db)
+        if status == []:
+            return True
+        logma.info(f"INDEX Status {status}")
         return False
 
     def reload_table(self, table, keep, map_, filters, db="db") -> bool:
