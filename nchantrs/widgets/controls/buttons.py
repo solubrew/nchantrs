@@ -17,9 +17,6 @@ from os.path import abspath, dirname, join
 import json as j
 from typing import Any, Optional, Dict
 
-import logging
-
-logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -103,7 +100,7 @@ class NchantdButton(NchantdWidgetMixin, pyqt.QPushButton):
         self.setEnabled(self.config.dikt.get("enabled", False))
         self.setAutoDefault(self.config.dikt.get("auto_default", None))
         self.button_text = self.config.dikt.get("text", None)
-        logma.warning(f"Button Text {self.button_text}")
+        logma.info(f"Button Text {self.button_text}")
         self.config.dikt.pop("width", None)
         self.config.dikt.pop("height", None)
         self.config.dikt.pop("size", None)
@@ -228,16 +225,13 @@ class NchantdLabeledButton(NchantdWidget):
 
     def __init__(self, parent=None, cfg=None):
         """"""
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg)
-        self.config.select("NchantdLabeledButton")
-        if parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
-        super().__init__(self.parent, self.config)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdLabeledButton").override(cfg))
 
-    def initModel(self):
+    def initModel(self, cfg=None):
         """"""
+        cfg = cfg or {}
+        super().initModel(cfg)
         return self
 
     def initView(self):
@@ -267,13 +261,9 @@ class NchantdSaveButton(NchantdButton):
 
     def __init__(self, parent=None, cfg={}):
         """ """
-        self.config = kahndor.Instruct(pxcfg).override(cfg)
-        self.config.select("NchantdSaveButton")
-        if parent:
-            self.config.override(parent.config)
-        self.parent = parent
+        super().__init__(parent, self.config.dikt["buttons"]["save"])
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdSaveButton").override(cfg))
         self.src = self.parent.store
-        super().__init__(self, self.config.dikt["buttons"]["save"])
 
     def initWidget(self, handler):
         """ """
@@ -295,22 +285,22 @@ class NchantdSaveButton(NchantdButton):
 class NchantdSliderButton(NchantdWidgetMixin, pyqt.QSlider):
     """ """
 
-    def __init__(self, app, cfg, parent=None):
+    def __init__(self, parent=None, cfg=None):
         """https://www.tutorialspoint.com/pyqt/pyqt_qslider_widget_signal.htm"""
-        if parent:
-            cfg = parent.config
-        self.config = kahndor.Instruct(pxcfg).override(cfg)
-        super(pyqt.QSlider, self).__init__(cfg["name"])
+        super().__init__(cfg["name"])
+        self.config = kahndor.Instruct(pxcfg).select("NchantdSliderButton").override(cfg)
+        self.parent = parent
+        self.init_variables()
         self.setMinimum(cfg["min"])
         self.setMaximum(cfg["max"])
         self.setSingleStep(cfg["step"])
         self.setValue(cfg["default_value"])
         self.setTickInterval(cfg["tickinterval"])
         self.setTickPosition(cfg["tickposition"])
-        self.valueChanged.connect(getattr(app, cfg["handlers"]["value_changed_handler"]))
-        self.sliderPressed.connect(getattr(app, cfg["handlers"]["slider_pressed_handler"]))
-        self.sliderMoved.connect(getattr(app, cfg["handlers"]["slider_moved_handler"]))
-        self.sliderReleased.connect(getattr(app, cfg["handlers"]["slider_released_handler"]))
+        # self.valueChanged.connect(getattr(app, cfg["handlers"]["value_changed_handler"]))
+        # self.sliderPressed.connect(getattr(app, cfg["handlers"]["slider_pressed_handler"]))
+        # self.sliderMoved.connect(getattr(app, cfg["handlers"]["slider_moved_handler"]))
+        # self.sliderReleased.connect(getattr(app, cfg["handlers"]["slider_released_handler"]))
 
 
 class NchantdTextButton(NchantdWidget):
@@ -318,12 +308,8 @@ class NchantdTextButton(NchantdWidget):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
-        super().__init__(self.parent, self.config)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdTextButton").override(cfg))
 
     def initModel(self):
         """"""
@@ -347,12 +333,8 @@ class NchantdDynamicTextButton(NchantdTextButton):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
-        super().__init__(self.parent, self.config)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdDynamicTextButton").override(cfg))
 
     def initModel(self):
         """"""

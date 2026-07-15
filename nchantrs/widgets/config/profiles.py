@@ -33,7 +33,7 @@ log = True
 logma = Logma(__name__)
 
 # ====================================================================================================================||
-pxcfg = join(here, "_data_", ".yaml")
+pxcfg = join(here, "_data_", "profiles.yaml")
 
 
 class NchantdProfile(NchantdWidget):
@@ -43,12 +43,8 @@ class NchantdProfile(NchantdWidget):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdProfile")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
-        super().__init__(self.parent, self.config)
+        super().__init__(parent, cfg)
+        self.config(kahndor.Instruct(pxcfg).select("NchantdProfile").override(cfg))
 
     def initModel(self):
         """"""

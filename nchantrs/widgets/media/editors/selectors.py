@@ -2,20 +2,18 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+    docid:
+    name:
+    description: >
+    version: 0.0.0.0.0.0
+    authority: filesystem
+    security: seclvl2
+    <(WT)>: -32
 """
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
-from os.path import abspath, dirname, join
-import datetime as dt
+from os.path import dirname, join
 
-import logging
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -30,7 +28,7 @@ from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 # ====================================================================================================================||
 here = join(dirname(__file__), '')  # ||
 logma = Logma(__name__)
-log = True
+log = False
 if not log:
     logma.off()
 
@@ -46,10 +44,7 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
         """ """
         super().__init__()
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdComboBox")
-        if parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdComboBox").override(parent.config).override(cfg)
         self.handler = None
         self.value = None
         self.options = []
@@ -308,12 +303,8 @@ class NchantdDropDownActivator(NchantdDropDown):
     """"""
     def __init__(self, parent=None, cfg=None):
         """ """
-        super().__init__(self)
-        self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select('NchantdDropDownActivator'))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdDropDownActivator').override(cfg))
 
     def initModel(self, cfg=None):
         """"""
@@ -334,142 +325,105 @@ class NchantdDropDownActivator(NchantdDropDown):
         self.initView()
         return self
 
-#
-# class NchantdDropDownActivator(NchantdWidget):
-# 	""""""
-# 	def __init__(self, parent=None, cfg=None):
-# 		""" """
-# 		self.parent = parent
-# 		self.config = kahndor.Instruct(pxcfg).select('Nchantd')
-# 		if self.parent:
-# 			self.config.override(parent.config)
-# 		super().__init__(self)
-# 		self.config.override(cfg)
-#
-# 	def initModel(self):
-# 		""""""
-# 		super().initModel()
-# 		return self
-#
-# 	def initView(self):
-# 		""""""
-# 		super().initView()
-# 		return self
-#
-# 	def initWidget(self):
-# 		""""""
-# 		self.initModel()
-# 		self.initView()
-# 		return self
-#
-
 class NchantdDropDownExplainer(NchantdWidget):
-	""""""
-	def __init__(self, parent=None, cfg=None):
-		""" """
-		self.parent = parent
-		self.config = kahndor.Instruct(pxcfg).select('Nchantd')
-		if self.parent:
-			self.config.override(parent.config)
-		super().__init__(self)
-		self.config.override(cfg)
-		self.explainer = None
+    """"""
+    def __init__(self, parent=None, cfg=None):
+        """ """
+        self.parent = parent
+        self.config = kahndor.Instruct(pxcfg).select('Nchantd')
+        if self.parent:
+            self.config.override(parent.config)
+        super().__init__(self)
+        self.config.override(cfg)
+        self.explainer = None
 
-	def initModel(self):
-		""""""
-		super().initModel()
-		return self
+    def initModel(self):
+        """"""
+        super().initModel()
+        return self
 
-	def initView(self):
-		""""""
-		super().initView({"layout": "vertical"})
-		cfg = self.config.override({"layout": "horizontal"}).dikt
-		self.dropdown = NchantdDropDown(self, cfg).initWidget()
-		self.layout.addWidget(self.dropdown)
-		self.update_explainer()
-		return self
+    def initView(self):
+        """"""
+        super().initView({"layout": "vertical"})
+        cfg = self.config.override({"layout": "horizontal"}).dikt
+        self.dropdown = NchantdDropDown(self, cfg).initWidget()
+        self.layout.addWidget(self.dropdown)
+        self.update_explainer()
+        return self
 
-	def initWidget(self):
-		""""""
-		self.initModel()
-		self.initView()
-		return self
+    def initWidget(self):
+        """"""
+        self.initModel()
+        self.initView()
+        return self
 
-	def update_explainer(self):
-		""""""
-		if self.explainer is not None:
-			self.layout.removeWidget(self.explainer)
-			self.explainer.setParent(None)
-		self.explainer = NchantdLabel(self, self.config.override({}).dikt).initWidget()
-		self.layout.addWidget(self.explainer)
-		return self
+    def update_explainer(self):
+        """"""
+        if self.explainer is not None:
+            self.layout.removeWidget(self.explainer)
+            self.explainer.setParent(None)
+        self.explainer = NchantdLabel(self, self.config.override({}).dikt).initWidget()
+        self.layout.addWidget(self.explainer)
+        return self
 
 
 class NchantdCheckboxCombo(NchantdWidget):
-	""""""
-	def __init__(self, parent=None, cfg=None):
-		""" """
-		self.parent = parent
-		self.config = kahndor.Instruct(pxcfg).select('Nchantd')
-		if self.parent:
-			self.config.override(parent.config)
-		super().__init__(self)
-		self.config.override(cfg)
+    """"""
+    def __init__(self, parent=None, cfg=None):
+        """ """
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdCheckboxCombo').override(cfg))
 
-	def initModel(self):
-		""""""
-		super().initModel()
-		return self
+    def initModel(self, cfg=None):
+        """"""
+        super().initModel(cfg)
+        return self
 
-	def initView(self):
-		""""""
-		super().initView()
-		cfg = {}
-		self.checkbox = NchantdCheckbox(self, cfg).initWidget()
-		self.layout.addWidget(self.checkbox)
-		cfg = {}
-		self.combobox = NchantdComboBox(self, cfg).initWidget()
-		self.layout.addWidget(self.combobox)
-		return self
+    def initView(self):
+        """"""
+        super().initView()
+        cfg = {}
+        self.checkbox = NchantdCheckbox(self, cfg).initWidget()
+        self.layout.addWidget(self.checkbox)
+        cfg = {}
+        self.combobox = NchantdComboBox(self, cfg).initWidget()
+        self.layout.addWidget(self.combobox)
+        return self
 
-	def initWidget(self):
-		""""""
-		self.initModel()
-		self.initView()
-		return self
+    def initWidget(self):
+        """"""
+        self.initModel()
+        self.initView()
+        return self
 
 
 class NchantdComboEditor(NchantdWidget):
-	""""""
-	def __init__(self, parent=None, cfg=None):
-		""" """
-		super().__init__(parent, cfg)
-		self.parent = parent
-		self.config.override(kahndor.Instruct(pxcfg).select('NchantdComboEditor'))
-		if self.parent:
-			self.config.override(parent.config)
-		self.config.override(cfg)
+    """"""
+    def __init__(self, parent=None, cfg=None):
+        """ """
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdComboEditor').override(cfg))
 
-	def initModel(self, cfg=None):
-		""""""
-		super().initModel(cfg)
-		return self
+    def initModel(self, cfg=None):
+        """"""
+        super().initModel(cfg)
+        return self
 
-	def initView(self, cfg=None):
-		""""""
-		super().initView(cfg)
-		cfgt = {}
-		self.combobox = NchantdComboBox(self, cfg).initWidget()
-		self.layout.addWidget(self.combobox)
-		self.entry = NchantdEntryBox(self, cfgt).initWidget()
-		self.layout.addWidget(self.entry)
-		return self
+    def initView(self, cfg=None):
+        """"""
+        super().initView(cfg)
+        cfgt = {}
+        self.combobox = NchantdComboBox(self, cfg).initWidget()
+        self.layout.addWidget(self.combobox)
+        self.entry = NchantdEntryBox(self, cfgt).initWidget()
+        self.layout.addWidget(self.entry)
+        return self
 
-	def initWidget(self):
-		""""""
-		self.initModel()
-		self.initView()
-		return self
+    def initWidget(self):
+        """"""
+        self.initModel()
+        self.initView()
+        return self
 
 
 # ====================================================================================================================||

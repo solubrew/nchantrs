@@ -41,20 +41,19 @@ log = False
 pxcfg = join(abspath(here), "_data_", "controls.yaml")
 
 
-class NchantdIncrementbox(pyqt.QSpinBox):
+class NchantdIncrementbox(NchantdWidgetMixin, pyqt.QSpinBox):
     """ """
 
-    def __init__(self, app, cfg, parent=None):
+    def __init__(self, parent=None, cfg=None):
         """https://www.tutorialspoint.com/pyqt/pyqt_qspinbox_self.htm"""
-        if parent:
-            cfg = parent.config
-        self.config = kahndor.Instruct(pxcfg).override(cfg)
-        super(NchantdIncrementbox, self).__init__(cfg["name"], parent)
+        super().__init__(cfg["name"])
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdIncrementbox").override(cfg))
         self.setMinimum(cfg["min"])
         self.setMaximum(cfg["max"])
         self.setRange(cfg["range"])
         self.setValue(cfg["default_value"])
-        self.valueChanged.connect(getattr(app, cfg["handlers"]["value_changed_handler"]))
+        #self.valueChanged.connect(getattr(app, cfg["handlers"]["value_changed_handler"]))
+        self.init_variables()
 
 
 class NchantdSelectionWidget(NchantdWidget):
@@ -62,12 +61,8 @@ class NchantdSelectionWidget(NchantdWidget):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
-        if self.parent:
-            self.config.override(parent.config)
-        super().__init__(self)
-        self.config.override(cfg)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdSelectionWidget").override(cfg))
         self.checkable_button = None
         self.label = None
         self.description = None
@@ -103,12 +98,8 @@ class NchantdWidgetSelector(NchantdWidget):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
-        if self.parent:
-            self.config.override(parent.config)
-        super().__init__(self)
-        self.config.override(cfg)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdWidgetSelector").override(cfg))
         self.widgets = {}
 
     def initModel(self):
@@ -140,11 +131,5 @@ class NchantdWidgetSelector(NchantdWidget):
 
 # ===========================Code Source Examples================================||
 """
-new_cmd =
-submit_cmd = "INSERT INTO {table} () VALUES ()"
-delete_cmd = "UPDATE {db}.{table} SET DELETE_BIT = 1, MODON_DTTM = '{now}' WHERE {table}_PK = {table_pk}"
-next_cmd = "SELECT * FROM {db}.{table} WHERE {table}_PK = {table_pk}" #how to know next by what filter
-jump_cmd = "SELECT * FROM {db}.{table} WHERE {table}_PK = {table_pk}"
-prev_cmd = "SELECT * FROM {db}.{table} WHERE {table}_PK = {table_pk}"
 """
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

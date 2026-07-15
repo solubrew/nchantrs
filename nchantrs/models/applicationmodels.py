@@ -59,24 +59,20 @@ class NchantdPantiesModel(object):
     :param cfg: The configuration object.
     """
 
-    def __init__(self, parent=None, cfg=None) -> None:
+    def __init__(self, parent=None, cfg=None, instance=None) -> None:
         """
         :param parent:
         :param cfg:
         """
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdPantiesModel")
-        logma.info(f"Tables {self.config.dikt['dstruct']['database']['objects']['table'].keys()}")
-        if parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdPantiesModel").override(parent.config).override(cfg)
         self.app = self.parent.app
         self.app_cfg = None
         self.application_path = None
         self.instance_path = None
         self.config_path = None
         self.library_path = None
-        self.instance = None
+        self.instance = instance
         self.instances = {}
         self.config_imported = False
         self.connections = None
@@ -129,11 +125,16 @@ class NchantdPantiesModel(object):
         self.policy = NchantdDataPolicy(self)
         self._reset_cache()
         cfg = {}
-        # Only create NchantdUser if authentication is required
-        # This prevents unnecessary password dialogs for apps like NchantdAXN
         requires_auth = self.config.dikt.get("config", {}).get("requires_auth", False)
         if requires_auth:
             self.user = NchantdUser(self, cfg)
+        self.initialize_instance()
+
+    def initialize_instance(self, instance_object=None):
+        """"""
+        if instance_object is None:
+            instance_object = NchantdInstance
+        self.instance = instance_object(self)
 
     def init_model_pre(self) -> None:
         """Initialize model pre-creation"""
@@ -934,12 +935,8 @@ class NchantdModel(object):
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
-        super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdModel"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdModel").override(cfg))
 
     def initModel(self, cfg=None) -> None:
         """Initialize the model"""

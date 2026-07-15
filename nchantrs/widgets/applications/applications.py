@@ -109,14 +109,9 @@ class NchantdPanties(pyqt.QApplication):
         :type log_file: str or None
         """
 
-        config = kahndor.Instruct(pxcfg).select("NchantdPanties").addArgs(args)
-        if self.config is None:
-            self.config = config
-        else:
-            self.config.override(config)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdPanties").addArgs(args).override(cfg)
         logma.info(f"Panties Config {self.config.dikt.get('config', None)}")
         self.parent = parent
-        self.config.override(cfg)
         self.application_name = name
         self.slug = self.application_name.lower().replace(" ", "_")
         super().__init__(argv)
@@ -124,7 +119,7 @@ class NchantdPanties(pyqt.QApplication):
         self.dialogs = {}
         self.reset = None
         self.app = pyqt.QApplication.instance()
-        self.model = NchantdPantiesModel(self)
+        self.model = NchantdPantiesModel(self, instance=instance)
         self.view = NchantdPantiesView(self)
         self.primary_focus = None
         self.is_installable = self.config.dikt.get("is_installable", False)
@@ -146,7 +141,6 @@ class NchantdPanties(pyqt.QApplication):
         self.library_manager = None
         self.has_library = None
         self.new_application = None
-        # self.new_instance = None
         self.new_account = None
         self.startup = None
         self.recent_documents = []
