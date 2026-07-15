@@ -188,14 +188,17 @@ class NchantdApplicationStartupWizard(NchantdWizard):
 
     def add_page(self, page):
         """"""
+        #TODO implement method
         return self
 
     def assign_page_sequence(self):
         """"""
+        #TODO implement method
         return self
 
     def ask_user_to_update(self):
         """"""
+        #TODO implement method
         return self
 
     def check_installed(self):
@@ -269,6 +272,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
 
     def copy_application(self):
         """"""
+        #TODO implement method
 
     def create_config_file(self, cfg=None):
         """"""
@@ -443,8 +447,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         if self.check_is_up_to_date() is False or debug is True:
             if self.ask_user_to_update() is True or debug is True:
                 self.run_application_update()
-        self.app.model.store.load_instance()
-        # [DONE] load primary instance
+        #self.app.model.store.load_instance()
         self.new_application = False
         self.is_installed = True
         # if self.app.has_services or debug is True:

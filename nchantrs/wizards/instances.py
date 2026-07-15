@@ -65,8 +65,10 @@ class NchantdNewInstanceWizard(NchantdWizard):
         super().initView()
         self.select_instance = NchantdSelectInstancePage(self).initWidget()
         self.addPage(self.select_instance)
+
+        #TODO refactor NchantdInstance usage
         # only if an instance is not selected
-        self.create_instance()
+        #self.create_instance()
         return self
 
     def initWidget(self, cfg=None):

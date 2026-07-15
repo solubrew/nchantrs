@@ -82,9 +82,10 @@ class NchantdDBUpdate(object):
             if data.empty:
                 raise Exception("No Instance Found")
             data = data.loc[0].to_dict()
-            instance = NchantdInstance(self, data)
-            logma.info(f"Instance: {instance}")
-            self.parent.app.model.set_instance_active(instance)
+            #TODO refactor NchantdInstance
+            # instance = NchantdInstance(self, data)
+            # logma.info(f"Instance: {instance}")
+            # self.parent.app.model.set_instance_active(instance)
         name = self.parent.model.store.backup_database(instance, db)
         return name
 

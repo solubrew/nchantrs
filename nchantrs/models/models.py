@@ -849,15 +849,15 @@ class NchantdStore(MicroStash):
                 table = f"vwt_supported_os_{self.instance.alias}"
         return self.get_table(table, cfg, db)
 
-    def get_view_tab(self, cfg, db="db"):
-        """"""
-        table = "vw_tab"
-        if self.instance is not None:
-            if self.instance.is_independent:
-                table = f"vwt_tab_{self.instance.alias}"
-        df = self.get_table(table, cfg, db)
-        df = df.sort_values(by=["pid_txt", "position_int"])
-        return df
+    # def get_view_tab(self, cfg, db="db"):
+    #     """"""
+    #     table = "vw_tab"
+    #     if self.instance is not None:
+    #         if self.instance.is_independent:
+    #             table = f"vwt_tab_{self.instance.alias}"
+    #     df = self.get_table(table, cfg, db)
+    #     df = df.sort_values(by=["pid_txt", "position_int"])
+    #     return df
 
     def get_view_tree_node(self, cfg, db="db"):
         """"""
@@ -928,37 +928,7 @@ class NchantdStore(MicroStash):
         # self._load_password()
         return self
 
-    def load_instance(self):
-        """"""
-        instances = self.get_app_instance()
-        instances.sort_values(by=["CREON_DTTM"], inplace=True)
-        instance_dict = instances.loc[0].to_dict()
-        # logma.info(f"Wizard: create_instance: {instance_dict}")
-        instance = NchantdInstance(self, instance_dict)
 
-        # Load meta_data from database if available (for restoring last selected node)
-        if "meta_data_enc64_dict" in instance_dict and instance_dict["meta_data_enc64_dict"]:
-            try:
-                from pycurity.pyhash import decode64
-
-                instance.meta_data = json.loads(decode64(instance_dict["meta_data_enc64_dict"]))
-                # logma.info(f"Loaded instance meta_data: {instance.meta_data}")
-            except Exception as e:
-                logma.warning(f"Could not load instance meta_data: {e}")
-                instance.meta_data = {}
-
-        self.app.model.instances = {x["instance_id_txt"]: x for x in instances.to_dict(orient="records")}
-        instance.is_install_active = False
-        logma.info(f"Install Active: {instance.is_install_active}")
-        # logma.info(f"Instance Id {instance.instance_id}")
-        self.app.model.set_instance_active(instance)
-
-        # After instance is loaded, select the appropriate node:
-        # - For new installs (first run): select Home node
-        # - For existing instances: restore last selected node or default to Home
-        self._select_initial_node(instance)
-
-        return self
 
     def _select_initial_node(self, instance):
         """"""

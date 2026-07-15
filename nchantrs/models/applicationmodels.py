@@ -109,7 +109,6 @@ class NchantdPantiesModel(object):
         """
         if getattr(self, "web_profiles", None) is None:
             from nchantrs.widgets.browsers.profiles import ProfileManager
-
             base = self.application_path or getattr(self.store, "application_path", None) or self.home
             logma.info(f"[appmodel] creating app-level web_profiles pool | storage_base={base!r}")
             self.web_profiles = ProfileManager(self.parent, storage_base=base)
@@ -135,7 +134,35 @@ class NchantdPantiesModel(object):
         if instance_object is None:
             instance_object = NchantdInstance
         self.instance = instance_object(self)
-
+    # def load_instance(self):
+    #     """"""
+    #     #TODO refactor this into model level
+    #     instances = self.get_app_instance()
+    #     instances.sort_values(by=["CREON_DTTM"], inplace=True)
+    #     instance_dict = instances.loc[0].to_dict()
+    #     # logma.info(f"Wizard: create_instance: {instance_dict}")
+    #     instance = NchantdInstance(self, instance_dict)
+    #     # Load meta_data from database if available (for restoring last selected node)
+    #     if "meta_data_enc64_dict" in instance_dict and instance_dict["meta_data_enc64_dict"]:
+    #         try:
+    #             from pycurity.pyhash import decode64
+    #
+    #             instance.meta_data = json.loads(decode64(instance_dict["meta_data_enc64_dict"]))
+    #             # logma.info(f"Loaded instance meta_data: {instance.meta_data}")
+    #         except Exception as e:
+    #             logma.warning(f"Could not load instance meta_data: {e}")
+    #             instance.meta_data = {}
+    #     self.app.model.instances = {x["instance_id_txt"]: x for x in instances.to_dict(orient="records")}
+    #     instance.is_install_active = False
+    #     logma.info(f"Install Active: {instance.is_install_active}")
+    #     # logma.info(f"Instance Id {instance.instance_id}")
+    #     self.app.model.set_instance_active(instance)
+    #     # After instance is loaded, select the appropriate node:
+    #     # - For new installs (first run): select Home node
+    #     # - For existing instances: restore last selected node or default to Home
+    #     self._select_initial_node(instance)
+    #
+    #     return self
     def init_model_pre(self) -> None:
         """Initialize model pre-creation"""
         return self
