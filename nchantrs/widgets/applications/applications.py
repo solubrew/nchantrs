@@ -35,8 +35,8 @@ import logging
 # ===============================================================================||
 from kahndor import kahndor
 from nchantrs.libraries import pyqt
+
 from nchantrs.models.applicationmodels import NchantdCloakModel, NchantdPantiesModel
-from nchantrs.services.services import NchantdServiceManager
 from nchantrs.library.nchantdlibrary import NchantdLibraryManager
 from nchantrs.updates.db import NchantdDBUpdate
 from nchantrs.utilities.comms import NchantdCommunicationsManager
@@ -298,10 +298,10 @@ class NchantdCloak(NchantdPanties):  # ||
         #     cfg = {}
         #     self.security_manager = NchantdSecurityManager()
         #     self.security_manager.initManager()
-        if self.has_services:
-            cfg = {}
-            self.service_manager = NchantdServiceManager(self, cfg)
-            # self.service_manager.initManager()
+        # if self.has_services:
+        #     cfg = {}
+        #     self.service_manager = NchantdServiceManager(self, cfg)
+        #     # self.service_manager.initManager()
         if self.has_library:
             cfg = {}
             self.library_manager = NchantdLibraryManager(self, cfg)
@@ -314,6 +314,7 @@ class NchantdCloak(NchantdPanties):  # ||
 
     def run_on_launch(self):
         """"""
+        #TODO implement method
 
     def set_initial_state(self):
         """"""
