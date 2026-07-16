@@ -40,12 +40,8 @@ class NewPasswordDialog(NchantdCape):
 
     def __init__(self, parent, cfg=None) -> None:
         """"""
-        self.config = kahndor.Instruct(pxcfg)
-        if parent is not None:
-            self.config.override(parent.config)
-        self.parent = parent
-        self.config.override(cfg)
-        super(NchantdCape, self).__init__(parent, self.config)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NewPasswordDialog").override(cfg))
 
 
 class ChangePasswordDialog(NchantdCape):
@@ -53,11 +49,8 @@ class ChangePasswordDialog(NchantdCape):
 
     def __init__(self, parent, cfg=None) -> None:
         """"""
-        self.config = kahndor.Instruct(parent)
-        if parent is not None:
-            self.config.override(parent.config)
-        self.parent = parent
-        self.config.override(cfg)
+        super()._init(parent, cfg)
+        self.config.override(kahndor.Instruct(parent).select("ChangePasswordDialog").override(cfg))
 
     def _check_current_password(self) -> None:
         """"""

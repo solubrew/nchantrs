@@ -36,7 +36,7 @@ logma = Logma(__name__)
 pxcfg = join(here, "_data_", "files.yaml")
 
 
-class NchantdFileOpenSigil(pyqt.QFileDialog):
+class NchantdFileOpenSigil(NchantdSigilMixin, pyqt.QFileDialog):
     """"""
 
     def __init__(self, name, parent=None, cfg=None) -> None:
@@ -44,10 +44,7 @@ class NchantdFileOpenSigil(pyqt.QFileDialog):
         super().__init__(parent.app.main)
         name = "open"
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdFileOpenSigil")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdFileOpenSigil").override(parent.config).override(cfg)
         self.init_variables(name)
         self.file_selected = None
 

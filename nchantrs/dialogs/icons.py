@@ -14,12 +14,7 @@
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
-import datetime as dt
-from typing import Optional, Dict, List, Any, Tuple
 
-import logging
-
-logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -41,12 +36,8 @@ class NchantdIconSelectionSigl(NchantdSigil):
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
-        super().__init__(self.parent, self.config)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdIconSelectionSigil").override(cfg))
         self.has_generator_option = False
 
     def initModel(self) -> None:

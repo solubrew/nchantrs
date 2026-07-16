@@ -13,13 +13,8 @@
 
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
-from os.path import abspath, dirname, join
-import datetime as dt
-from typing import Optional, Dict, List, Any, Tuple
+from os.path import dirname, join
 
-import logging
-
-logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -36,17 +31,14 @@ logma = Logma(__name__)
 pxcfg = join(here, "_data_", "colors.yaml")
 
 
-class NchantdColorSelectSigil(pyqt.QColorDialog):
+class NchantdColorSelectSigil(NchantdSigilMixin, pyqt.QColorDialog):
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent.app.main)
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdColorSelectSigil")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdColorSelectSigil").override(parent.config).override(cfg)
 
     def initModel(self, cfg=None) -> None:
         """"""

@@ -1,26 +1,54 @@
 # syntax.py
-import logging
-from PyQt5.QtCore import QRegExp
+#!/usr/bin/env python3
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+"""
+---
+<(META)>:
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
+"""
 
-logger = logging.getLogger(__name__)
-from PyQt5.QtGui import QColor, QTextCharFormat, QFont, QSyntaxHighlighter
-from typing import Optional
+# -*- coding: utf-8 -*
+# ======================================Standard Library Modules======================================================||
+from os.path import dirname, join
+
+# ======================================3rd Party Library Modules=====================================================||
+
+
+# ======================================Solutions Brewer Library Modules==============================================||
+from kahndor import kahndor
+from kahndor.logma import Logma
+from nchantrs.libraries import pyqt
+# ====================================================================================================================||
+HERE = join(dirname(__file__), "")  # ||
+log = True
+logma = Logma(__name__)
+if not log:
+    logma.off()
+# ====================================================================================================================||
+PXCFG = join(HERE, "_data_", ".yaml")
+
 
 
 def format(color, style='') -> None:
     '''Return a QTextCharFormat with the given attributes.
     '''
-    _color = QColor()
+    _color = pyqt.QColor()
     _color.setNamedColor(color)
-    _format = QTextCharFormat()
+    _format = pyqt.QTextCharFormat()
     _format.setForeground(_color)
     if 'bold' in style:
-        _format.setFontWeight(QFont.Bold)
+        _format.setFontWeight(pyqt.QFont.Bold)
     if 'italic' in style:
         _format.setFontItalic(True)
     if 'italicbold' in style:
         _format.setFontItalic(True)
-        _format.setFontWeight(QFont.Bold)
+        _format.setFontWeight(Qpyqt.Font.Bold)
     return _format
 
 
@@ -46,7 +74,7 @@ STYLES = {
 
 NOT_FOUND = -1
 
-class Highlighter(QSyntaxHighlighter):
+class Highlighter(pyqt.QSyntaxHighlighter):
     '''Syntax highlighter for the Python language.
     '''
 
@@ -79,12 +107,12 @@ class Highlighter(QSyntaxHighlighter):
     ]
 
     def __init__(self, document) -> None:
-        QSyntaxHighlighter.__init__(self, document)
+        pyqt.QSyntaxHighlighter.__init__(self, document)
 
         # Multi-line strings - use raw strings to properly handle triple quotes
         # Using r""" and r''' to avoid regex escaping issues
-        self.tri_single = (QRegExp(r"'''"), 1, STYLES['string2'])
-        self.tri_double = (QRegExp(r'"""'), 2, STYLES['string2'])
+        self.tri_single = (pyqt.QRegExp(r"'''"), 1, STYLES['string2'])
+        self.tri_double = (pyqt.QRegExp(r'"""'), 2, STYLES['string2'])
 
         rules = []
 
@@ -129,7 +157,7 @@ class Highlighter(QSyntaxHighlighter):
         ]
 
         # Build a QRegExp for each pattern
-        self.rules = [(QRegExp(pat), index, fmt)
+        self.rules = [(pyqt.QRegExp(pat), index, fmt)
             for (pat, index, fmt) in rules]
 
     def highlightBlock(self, text) -> None:
@@ -193,3 +221,7 @@ class Highlighter(QSyntaxHighlighter):
             return True
         else:
             return False
+
+# ====================================================================================================================||
+
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

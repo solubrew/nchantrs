@@ -44,12 +44,8 @@ class NewNchantdAPIKeyManualEntrySigil(NchantdSigil):
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdNewAPIKeyManualEntry")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
-        super().__init__(self.parent, self.config)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdNewAPIKeyManualEntry").override(cfg))
 
     def initModel(self) -> None:
         """"""
@@ -83,12 +79,8 @@ class NewNchantdNodeSigil(NchantdSigil):
 
     def __init__(self, parent=None, nid="0", cfg=None) -> None:
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NewNchantdNodeSigil")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
-        super().__init__("node", self.parent, self.config)
+        super().__init__("node", parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NewNchantdNodeSigil").override(cfg))
         self.nid = nid
         self.name = None
         self.icon = None
@@ -118,12 +110,8 @@ class NewNchantdTabSigil(NchantdSigil):
 
     def __init__(self, name="tab", parent=None, cfg=None) -> None:
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NewNchantdTabSigil")
-        if self.parent:
-            self.config.override(self.parent.config)
-        super().__init__(name, self, self.config)
-        self.config.override(cfg)
+        super().__init__(name, parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NewNchantdTabSigil").override(cfg))
         self.name = None
         self.icon = None
         self.buttons = None
@@ -174,34 +162,30 @@ class NewNchantdTabSigil(NchantdSigil):
             return None
 
 
-class EditNchantdNodeSigil(NewNchantdNodeSigil):
-    """"""
-
-    def __init__(self, parent=None, nid="0", cfg=None) -> None:
-        """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("EditNchantdNodeSigil")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
-        super().__init__("node", self.parent, self.config)
-
-    def initModel(self) -> None:
-        """"""
-        super().initModel()
-        return self
-
-    def initView(self) -> None:
-        """"""
-        super().initView()
-        return self
-
-    def initWidget(self) -> None:
-        """"""
-        self.initModel()
-        self.initView()
-        self.run()
-        return self
+# class EditNchantdNodeSigil(NewNchantdNodeSigil):
+#     """"""
+#
+#     def __init__(self, parent=None, nid="0", cfg=None) -> None:
+#         """ """
+#         super().__init__("node", parent, cfg)
+#         self.config.override(kahndor.Instruct(pxcfg).select("EditNchantdNodeSigil").override(cfg))
+#
+#     def initModel(self) -> None:
+#         """"""
+#         super().initModel()
+#         return self
+#
+#     def initView(self) -> None:
+#         """"""
+#         super().initView()
+#         return self
+#
+#     def initWidget(self) -> None:
+#         """"""
+#         self.initModel()
+#         self.initView()
+#         self.run()
+#         return self
 
 
 # ====================================================================================================================||

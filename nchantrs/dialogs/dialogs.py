@@ -423,9 +423,7 @@ class NchantdSigil(NchantdSigilMixin, pyqt.QDialog):
         :param cfg:
         """
         super().__init__(parent)
-        self.config = kahndor.Instruct(pxcfg).select("NchantdSigil")
-        if parent:
-            self.config.override(parent.config)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdSigil").override(parent.config).override(cfg)
         self.init_variables(name)
         # Initialize layout after init_variables
         if self.layout is None:
@@ -554,11 +552,7 @@ class NchantdBroach(NchantdWidget):
     def __init__(self, name, parent=None, cfg=None):
         """ """
         super().__init__(parent, cfg)
-        self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdBroach"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdBroach").override(cfg))
 
     def initModel(self, cfg=None):
         """"""

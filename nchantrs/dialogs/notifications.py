@@ -26,7 +26,8 @@ logger = logging.getLogger(__name__)
 from kahndor import kahndor
 from kahndor.logma import Logma
 from nchantrs.dialogs.dialogs import NchantdSigil
-
+from nchantrs.widgets.annotations import NchantdLabel
+from nchantrs.dialogs.dialogs import NchantdSigil
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 log = True
@@ -41,12 +42,8 @@ class NchantdNotificationSigil(NchantdSigil):
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdNotification")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
-        super().__init__(self.parent, self.config)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdNotification").override(cfg))
 
     def initModel(self) -> None:
         """"""
@@ -65,6 +62,27 @@ class NchantdNotificationSigil(NchantdSigil):
         return self
 
 
+class NchantdErrorNotifySigil(NchantdSigil):
+    """"""
+
+    def __init__(self, name, parent=None, cfg=None) -> None:
+        """ """
+        super().__init__("error", parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdErrorNotifySigil").override(cfg))
+
+    def initModel(self) -> None:
+        """"""
+        super().initModel()
+        return self
+
+    def initView(self) -> None:
+        """"""
+        super().initView()
+        self.config.override({"font": {"size": 20}})
+        self.layout.addWidget(NchantdLabel(self, self.config).initWidget())
+        self.hide_title()
+        self.add_ok_button()
+        return self
 # ====================================================================================================================||
 
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
