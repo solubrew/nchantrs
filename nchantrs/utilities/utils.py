@@ -95,7 +95,7 @@ def lookup(
     Returns:
         Dictionary containing action configuration
     """
-    pxcfg = kahndor.Instruct(join(here, "../actions", "_data_", "actions.yaml")).override(cfg).dikt
+    pxcfg = kahndor.Instruct(join(here, "_data_", "actions.yaml")).override(cfg).dikt
     if not hasattr(app, "model"):
         return {}
     refresh = True
