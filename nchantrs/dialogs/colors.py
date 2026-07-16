@@ -21,7 +21,7 @@ from os.path import dirname, join
 from kahndor import kahndor
 from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
-
+from nchantrs.dialogs.sigil import NchantdSigilMixin
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 log = True
@@ -39,6 +39,7 @@ class NchantdColorSelectSigil(NchantdSigilMixin, pyqt.QColorDialog):
         super().__init__(parent.app.main)
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdColorSelectSigil").override(parent.config).override(cfg)
+        self.init_variables()
 
     def initModel(self, cfg=None) -> None:
         """"""

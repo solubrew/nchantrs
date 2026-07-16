@@ -14,19 +14,14 @@
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
-import datetime as dt
-from typing import Optional, Dict, List, Any, Tuple
 
-import logging
-
-logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from kahndor.logma import Logma
-
+from nchantrs.dialogs.sigil import NchantdSigilMixin
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 log = True

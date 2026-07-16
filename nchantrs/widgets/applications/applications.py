@@ -39,7 +39,6 @@ from nchantrs.libraries import pyqt
 from nchantrs.models.applicationmodels import NchantdCloakModel, NchantdPantiesModel
 from nchantrs.library.nchantdlibrary import NchantdLibraryManager
 from nchantrs.updates.db import NchantdDBUpdate
-from nchantrs.utilities.comms import NchantdCommunicationsManager
 from nchantrs.views.applicationviews import NchantdCloakView, NchantdPantiesView
 from nchantrs.widgets.controls.menus import NchantdContextMenu
 from kahndor.logma import Logma
@@ -290,10 +289,10 @@ class NchantdCloak(NchantdPanties):  # ||
             cfg = {}
             self.agent_manager = NchantdSentinelManager(self, cfg)
             # self.agent_manager.initManager()
-        if self.has_comms:
-            cfg = {}
-            self.comms_manager = NchantdCommunicationsManager(self, cfg)
-            self.comms_manager.initManager()
+        # if self.has_comms:
+        #     cfg = {}
+        #     self.comms_manager = NchantdCommunicationsManager(self, cfg)
+        #     self.comms_manager.initManager()
         # if self.has_securit:
         #     cfg = {}
         #     self.security_manager = NchantdSecurityManager()
