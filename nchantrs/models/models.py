@@ -214,6 +214,8 @@ class NchantdInstance(object):
 
     def set_meta_data(self, meta_data: Optional[dict] = None) -> None:
         """"""
+        #TODO integrate instance settings storage here
+        self.meta_data = {}
 
     def set_type_external(self) -> "NchantdInstance":
         """"""
@@ -286,36 +288,6 @@ class NchantdStore(MicroStash):
         )
         return self
 
-    # def append_cache(self, df, table):
-    #     """"""
-    #     self.cache.write_table(df, table, False)
-    #     return self
-    #
-    # def archive_record(self, table, primary_key, db="db"):
-    #     """"""
-    #     payload = {"WHERE": {"EQUAL": {"UUID": primary_key}}}
-    #     self._archive(table, payload, db)
-    #     return self
-    #
-    # def archive_records(self, table, primary_key):
-    #     """"""
-    #     return self._archive(table, primary_key)
-    #
-    # def archive_table(self, table):
-    #     """"""
-    #     self._archive(table)
-    #     return self
-
-    # def attach_database(self, instance, objects, db="db"):
-    #     """"""
-    #     # attach each new database instance to the application database using the db_instance_id as alias
-    #     # create a set of views for each attached database
-    #     logma.info(f"Attach Database {instance.instance_id} to {db}")
-    #     self.docs[db].attach(instance.get_file_path(), instance.alias)
-    #     logma.info(f"Create Views {objects['view'].keys()}")
-    #     self.create_objects(objects, db, False)
-    #     return self
-    #
     def backup_database(self, instance, db="db"):
         """"""
         app_name = self.app.application_name.lower()
@@ -393,47 +365,6 @@ class NchantdStore(MicroStash):
             return True
         return False
 
-    # def create_objects(self, objects=None, dbs="db", combine=True):
-    #     """"""
-    #     if objects is None:
-    #         logma.warning(f"No Objects")
-    #         return self
-    #     if not isinstance(dbs, list):
-    #         dbs = [dbs]
-    #     dbcs = ["dbc"]
-    #     for db in dbs:
-    #         if db != "db":
-    #             dbcs.append(f"dbci_{db}")
-    #             db = f"dbi_{db}"
-    #         try:
-    #             if combine is True and objects is not None:
-    #                 objects = combine_records(objects)
-    #             if objects is not None:
-    #                 self.docs[db].write(objects)
-    #         except Exception as e:
-    #             logma.warning(e)
-    #             if debug:
-    #                 raise e
-    #     self.clear_objects_config(dbcs, objects)
-    #     self.config.override(objects)
-    #     return self
-    #
-    # def clear_objects_config(self, dbcs, objects):
-    #     """"""
-    #     if objects.get("table", None):
-    #         for table in objects.get("table", []):
-    #             objects["table"][table]["records"] = []
-    #             objects["table"][table]["system_records"] = []
-    #     self.config.override({"dstruct": {"database": {"objects": objects}}})
-    #     for dbc in dbcs:
-    #         if objects.get("table", None):
-    #             self.docs[dbc].clear(list(objects.get("table", {}).keys()))
-
-    # def create_tables(self, db="db"):
-    #     """"""
-    #     return self
-    #
-
     def create_index(self, index, db="db"):
         """"""
         # logma.info(f"Create Index {index}")
@@ -456,25 +387,25 @@ class NchantdStore(MicroStash):
         objects = self.parent.config.dikt["dstruct"]["database"]["objects"]["view"]
         return super().create_view(view, objects[view]["cmd"], db)
 
-    # def delete_record(self, table, primary_key=None, uuid=None, column=None, db="db", flip=False):
-    #     """"""
-    #     if primary_key is not None:
-    #         return self._delete_by_primary_key(table, primary_key, db, flip)
-    #     if uuid is not None:
-    #         return self._delete_by_uuid(table, uuid, column, db, flip)
-    #     return None
-    #
-    # def delete_table(self, table, db="db"):
-    #     """"""
-    #     self.docs[db].drop(table, "table", 3333)
-    #     return self
-    #
-    # def delete_views(self):
-    #     """Delete all views for upgrade purposes"""
-    #     views = self.get_views()
-    #     views.apply(self.delete_view, axis=1)
-    #     return self
-    #
+    def delete_record(self, table, primary_key=None, uuid=None, column=None, db="db", flip=False):
+        """"""
+        if primary_key is not None:
+            return self._delete_by_primary_key(table, primary_key, db, flip)
+        if uuid is not None:
+            return self._delete_by_uuid(table, uuid, column, db, flip)
+        return None
+
+    def delete_table(self, table, db="db"):
+        """"""
+        self.docs[db].drop(table, "table", 3333)
+        return self
+
+    def delete_views(self):
+        """Delete all views for upgrade purposes"""
+        views = self.get_views()
+        views.apply(self.delete_view, axis=1)
+        return self
+
 
     def find_backup(self, instance, version):
         """"""
@@ -523,30 +454,6 @@ class NchantdStore(MicroStash):
         """Refactored using generic sorted getter"""
         return self
 
-    # def get_app_action(self, cfg, db="db"):
-    #     """"""
-    #     table = "vw_app_action"
-    #     if self.instance is not None:
-    #         if self.instance.is_independent:
-    #             table = f"vwt_app_action_{self.instance.alias}"
-    #     return self.get_table(table, cfg, db)
-    #
-    # def get_app_document_type(self, cfg, db="db"):
-    #     """"""
-    #     table = "vw_app_document_type"
-    #     if self.instance is not None:
-    #         if self.instance.is_independent:
-    #             table = f"vwt_app_document_type_{self.instance.alias}"
-    #     return self.get_table(table, cfg, db)
-    #
-    # def get_app_event(self, cfg, db="db"):
-    #     """"""
-    #     table = "vw_app_event"
-    #     if self.instance is not None:
-    #         if self.instance.is_independent:
-    #             table = f"vwt_app_event_{self.instance.alias}"
-    #     return self.get_table(table, cfg, db)
-
     def get_app_instance(self, instance=None, most_recent=None, db="db"):
         """"""
         table = "vw_app_instance"
@@ -564,23 +471,6 @@ class NchantdStore(MicroStash):
         df = self.get_table(table, cfg, db)
         return df
 
-    # def get_app_menu(self, tag="app", db="db"):
-    #     """"""
-    #     table = "vw_app_menu"
-    #     if self.instance is not None:
-    #         if self.instance.is_independent:
-    #             table = f"vwt_app_menu_{self.instance.alias}"
-    #     tags = []
-    #     tag_ = ""
-    #     if "." in tag:
-    #         for tg in tag.split("."):
-    #             tag_ += f"{tg}"
-    #             tags.append(tag_)
-    #             tag_ += "."
-    #     else:
-    #         tags.append(tag)
-    #     params = {"WHERE": {"IN": {"tag_txt": tags}}}
-    #     return self.get_table(table, params, db)
     # OPTIMIZATION 3: Refactored get_app_menu - O(n) instead of O(n²)
     def get_app_menu(self, tag="app", db="db"):
         """"""
@@ -645,16 +535,6 @@ class NchantdStore(MicroStash):
             raise Exception(f"Caller is not Authorized to get data from the secure store")
         return self
 
-    # def get_app_tab(self, params, db="db"):
-    #     """"""
-    #     table = "vw_app_tab"
-    #     if self.instance is not None:
-    #         if self.instance.is_independent:
-    #             table = f"vwt_app_tab_{self.instance.alias}"
-    #     df = self.get_table(table, params, db)
-    #     df = df.sort_values(by=["pid_txt", "position_int"])
-    #     return df
-
     def get_app_tree_node(self, cfg, db="db"):
         """"""
         table = "vw_app_tree_node"
@@ -693,16 +573,6 @@ class NchantdStore(MicroStash):
             table = f"vwt_doc_media_content_{self.instance.alias}"
         return self.get_table(table, cfg, db)
 
-    # def get_doc_tab(self, params, db="db"):
-    #     """"""
-    #     table = "vw_doc_tab"
-    #     if self.instance is not None:
-    #         if self.instance.is_independent:
-    #             table = f"vwt_doc_tab_{self.instance.alias}"
-    #     df = self.get_table(table, params, db)
-    #     df = df.sort_values(by=["pid_txt", "position_int"])
-    #     return df
-
     def get_doc_tree_node(self):
         """"""
 
@@ -714,41 +584,6 @@ class NchantdStore(MicroStash):
         objects = self.parent.config.dikt["dstruct"]["database"]["objects"]["index"]
         return objects
 
-    # def get_links(self, name=None, description=None, type_=None, tag=None, url=None, db="db"):
-    #     """"""
-    #     table = "vw_link"
-    #     if self.instance is not None:
-    #         if self.instance.is_independent:
-    #             table = f"vwt_link_{self.instance.alias}"
-    #     cfg = {}
-    #     if name is not None:
-    #         if cfg.get("WHERE", None) is None:
-    #             cfg["WHERE"] = {}
-    #         cfg["WHERE"] = {"EQUAL": {"name_txt": name}}
-    #     if description is not None:
-    #         if cfg.get("WHERE", None) is None:
-    #             cfg["WHERE"] = {}
-    #         cfg["WHERE"]["LIKE"] = {"description_ltxt": description}
-    #     if type_ is not None:
-    #         if cfg.get("WHERE", None) is None:
-    #             cfg["WHERE"] = {}
-    #         if "EQUAL" not in cfg["WHERE"]:
-    #             cfg["WHERE"]["EQUAL"] = {}
-    #         cfg["WHERE"]["EQUAL"]["type_txt"] = type_
-    #     if tag is not None:
-    #         if cfg.get("WHERE", None) is None:
-    #             cfg["WHERE"] = {}
-    #         if "EQUAL" not in cfg["WHERE"]:
-    #             cfg["WHERE"]["EQUAL"] = {}
-    #         cfg["WHERE"]["EQUAL"]["tag_txt"] = tag
-    #     if url is not None:
-    #         if cfg.get("WHERE", None) is None:
-    #             cfg["WHERE"] = {}
-    #         if "LIKE" not in cfg["WHERE"]:
-    #             cfg["WHERE"]["LIKE"] = {}
-    #         cfg["WHERE"]["LIKE"]["url_ltxt"] = url
-    #     return self.get_table(table, cfg, db)
-    # OPTIMIZATION 4: Refactored get_links with DRY principle
     def get_links(self, name=None, description=None, type_=None, tag=None, url=None, db="db"):
         """"""
         table = self._table_resolver.get_table_name("link", self.instance)
@@ -764,18 +599,6 @@ class NchantdStore(MicroStash):
         )
 
         return self.get_table(table, cfg, db)
-
-    # def get_table(self, table, parameters=None, db="db"):
-    #     """"""
-    #     table_cfg = {"table": [table]}
-    #     if parameters is None:
-    #         parameters = {}
-    #     parameters["get_all_columns"] = True
-    #     if db not in self.docs.keys():
-    #         return DataFrame()
-    #     # parameters["table"] = [table]
-    #     rdr = self.docs[db].read(table_cfg, parameters)
-    #     return next(rdr).dikt[table]["df"]
 
     def get_view_border_styles(self, cfg=None, db="db"):
         """"""
@@ -849,16 +672,6 @@ class NchantdStore(MicroStash):
                 table = f"vwt_supported_os_{self.instance.alias}"
         return self.get_table(table, cfg, db)
 
-    # def get_view_tab(self, cfg, db="db"):
-    #     """"""
-    #     table = "vw_tab"
-    #     if self.instance is not None:
-    #         if self.instance.is_independent:
-    #             table = f"vwt_tab_{self.instance.alias}"
-    #     df = self.get_table(table, cfg, db)
-    #     df = df.sort_values(by=["pid_txt", "position_int"])
-    #     return df
-
     def get_view_tree_node(self, cfg, db="db"):
         """"""
         table = "vw_tree_node"
@@ -928,102 +741,6 @@ class NchantdStore(MicroStash):
         # self._load_password()
         return self
 
-
-
-    def _select_initial_node(self, instance):
-        """"""
-        # Default Home node nid (from treemodels.yaml system_records)
-        home_node_nid = "067ca837-17f6-74e7-8000-f7de9b7927f1"
-
-        # Check if there's a last selected node in meta_data
-        last_node_nid = instance.meta_data.get("last_node_nid_txt") if instance.meta_data else None
-
-        # Determine which node to select
-        if last_node_nid:
-            # Try to restore last selected node
-            target_nid = last_node_nid
-            logma.info(f"Restoring last selected node: {target_nid}")
-        else:
-            # Default to Home node for new installs
-            target_nid = home_node_nid
-            logma.info(f"Defaulting to Home node: {target_nid}")
-
-        # Get the tree and select the node
-        try:
-            tree = self.app.view.panes.get("left")
-            if tree and tree.tree and tree.tree.model:
-                # Find the node in the tree
-                root = tree.tree.model.invisibleRootItem()
-                target_node = self._find_node_by_nid(root, target_nid)
-
-                if target_node:
-                    tree.tree.view.set_current_node(target_node)
-                    logma.info(f"Selected node: {target_node.text(0)}")
-                else:
-                    # Fallback to Home if target not found
-                    logma.warning(f"Node {target_nid} not found, falling back to Home")
-                    target_node = self._find_node_by_nid(root, home_node_nid)
-                    if target_node:
-                        tree.tree.view.set_current_node(target_node)
-        except Exception as e:
-            logma.warning(f"Could not select initial node: {e}")
-
-        return self
-
-    def _find_node_by_nid(self, parent_item, target_nid):
-        """"""
-        # Recursively search for node by nid
-        for i in range(parent_item.childCount()):
-            item = parent_item.child(i)
-            item_nid = getattr(item, "nid", None)
-            if item_nid == target_nid:
-                return item
-            # Check children
-            if item.childCount() > 0:
-                found = self._find_node_by_nid(item, target_nid)
-                if found:
-                    return found
-        return None
-
-    # def map_columns(self, map, df):
-    #     """"""
-    #     for column in map.keys():
-    #         if map[column] is None:
-    #             del df[column]
-    #         else:
-    #             df[map[column]] = df[column]
-    #             del df[column]
-    #     return df
-
-    # def remove_record(self, table, column, value, db="db"):
-    #     """"""
-    #     return self
-    #
-    # def remove_records(self):
-    #     """"""
-
-    # def restore_backup(self, db, version="latest"):
-    #     """"""
-    #     path = self.find_backup(self.parent.model.instance, version)
-    #     if exists(path):
-    #         # remove live database
-    #         fonql.removePath(self.parent.model.instance.get_file_path())
-    #         # copy backup to active_instance_path
-    #         fonql.fileCopy(path, self.parent.model.instance.get_file_path())
-    #     return self
-    #
-    # def secure_write(self, key, value, db="db", how="INSERT"):
-    #     """
-    #     Store secure data
-    #
-    #     :param key:
-    #     :param value:
-    #     :return:
-    #     """
-    #     value = self._encrypt(value)
-    #     payload = {"table": {"secure_store": {"records": [key, value]}, "columns": ["key", "value"]}}
-    #     self.docs["db"].write(payload)
-    #     return self
     def store_app_action(self, data, cfg=None, db="db", how="INSERT"):
         """Refactored with centralized validation and payload building"""
         operation = self._validate_operation(how)
@@ -1082,51 +799,6 @@ class NchantdStore(MicroStash):
 
         self._store("link", payloads)
         return self
-
-    # def store_app_action(self, data, cfg=None, db="db", how="INSERT"):
-    #     """
-    #             columns: ['code_group_txt', 'lookup_code_txt', 'name_txt', 'description_ltxt', 'UUID', 'icon_txt',
-    #               'short_cut_txt', 'tip_txt', 'advanced_tip_txt', 'widget_txt', 'parameters_dict']
-    #     :return:
-    #     """
-    #     table = "app_action"
-    #     if how == "INSERT":
-    #         payload = []
-    #     elif how == "UPDATE":
-    #         payload = [{}]
-    #     elif how == "DEACTIVATE":
-    #         payload = []
-    #     elif how == "DELETE":
-    #         payload = []
-    #     elif how == "ARCHIVE":
-    #         payload = []
-    #     else:
-    #         raise Exception(f"{how} is not supported.")
-    #     self._store(table, payload, cfg)
-    #     return self
-    #
-    # def store_app_document_type(self, data, cfg=None, db="db", how="INSERT"):
-    #     """
-    #                 columns: ['UUID', 'file_type_txt', 'document_txt', 'name_txt', 'description_ltxt', 'widget_txt',
-    #                   'parameters_dict', "sequence_int", "document_types", 'local_available_bit', 'feature_plan_int',
-    #                   'google_available_bit', 'registered_bit']
-    #     :return:
-    #     """
-    #     table = "app_document_type"
-    #     if how == "INSERT":
-    #         payload = []
-    #     elif how == "UPDATE":
-    #         payload = [{}]
-    #     elif how == "DEACTIVATE":
-    #         payload = []
-    #     elif how == "DELETE":
-    #         payload = []
-    #     elif how == "ARCHIVE":
-    #         payload = []
-    #     else:
-    #         raise Exception(f"{how} is not supported.")
-    #     self._store(table, data)
-    #     return self
 
     def store_app_event(self, state, eventtype, g_command="", db="db", how="INSERT"):
         """
@@ -1739,6 +1411,21 @@ class NchantdStore(MicroStash):
             self._db_objects_cache = self.config.dikt.get("dstruct", {}).get("database", {}).get("objects", {})
         return self._db_objects_cache
 
+    def _find_node_by_nid(self, parent_item, target_nid):
+        """"""
+        # Recursively search for node by nid
+        for i in range(parent_item.childCount()):
+            item = parent_item.child(i)
+            item_nid = getattr(item, "nid", None)
+            if item_nid == target_nid:
+                return item
+            # Check children
+            if item.childCount() > 0:
+                found = self._find_node_by_nid(item, target_nid)
+                if found:
+                    return found
+        return None
+
     def _get_table_columns(self, table):
         """Get table columns from config with lazy loading"""
         tables = self._db_objects.get("table", {})
@@ -1757,182 +1444,51 @@ class NchantdStore(MicroStash):
             df = df.sort_values(by=sort_by)
         return df
 
+    def _select_initial_node(self, instance):
+        """"""
+        # Default Home node nid (from treemodels.yaml system_records)
+        home_node_nid = "067ca837-17f6-74e7-8000-f7de9b7927f1"
+
+        # Check if there's a last selected node in meta_data
+        last_node_nid = instance.meta_data.get("last_node_nid_txt") if instance.meta_data else None
+
+        # Determine which node to select
+        if last_node_nid:
+            # Try to restore last selected node
+            target_nid = last_node_nid
+            logma.info(f"Restoring last selected node: {target_nid}")
+        else:
+            # Default to Home node for new installs
+            target_nid = home_node_nid
+            logma.info(f"Defaulting to Home node: {target_nid}")
+
+        # Get the tree and select the node
+        try:
+            tree = self.app.view.panes.get("left")
+            if tree and tree.tree and tree.tree.model:
+                # Find the node in the tree
+                root = tree.tree.model.invisibleRootItem()
+                target_node = self._find_node_by_nid(root, target_nid)
+
+                if target_node:
+                    tree.tree.view.set_current_node(target_node)
+                    logma.info(f"Selected node: {target_node.text(0)}")
+                else:
+                    # Fallback to Home if target not found
+                    logma.warning(f"Node {target_nid} not found, falling back to Home")
+                    target_node = self._find_node_by_nid(root, home_node_nid)
+                    if target_node:
+                        tree.tree.view.set_current_node(target_node)
+        except Exception as e:
+            logma.warning(f"Could not select initial node: {e}")
+
+        return self
+
     # OPTIMIZATION 6: Refactored store methods with DRY principle
     def _validate_operation(self, operation):
         """Centralized operation validation"""
         return PayloadBuilder.validate_and_get_operation(operation)
 
-    # def store_records(self, table, records, db="db"):
-    #     """"""
-    #     self._store(table, records, db)
-    #     return self
-    #
-    # def update_record(self, data, column, value, db):
-    #     """"""
-    #     # logma.inspect_caller()
-    #     if not isinstance(value, list):
-    #         value = [value]
-    #     logma.info(f"Update Record {data} {column} {value} {db}")
-    #     cfg = {"WHERE": {"IN": {column: value}}}
-    #     self._write(data, cfg, "UPDATE", db)
-    #     return self
-    #
-    # def write_secure(self, user, key, value=None):
-    #     """"""
-    #     if not user.is_verified and (self.parent.is_private or self.parent.is_secure):
-    #         return False
-    #     db_objects = self.config.dikt["dstruct"]["database"]["objects"]
-    #     logma.info(f"Write Secure {db_objects["table"].keys()}")
-    #     if db_objects is None:
-    #         return
-    #     if isinstance(key, list):
-    #         payload = []
-    #         for item in key:
-    #             [k], [v] = item.keys(), item.values()
-    #             payload.append([str(uuid7()), user.uuid, k, base64.b64encode(v).decode()])
-    #     else:
-    #         payload = [[str(uuid7()), user.uuid, key, base64.b64encode(value)]]
-    #     cfg = {
-    #         "app_secure_store": {
-    #             "records": payload,
-    #             "columns": db_objects["table"]["app_secure_store"]["columns"],
-    #         }
-    #     }
-    #     self.app.model.store.docs["db"].write(cfg)
-    #
-    # def _activate(self, table, primary_keys, db="db", flip=False):
-    #     """"""
-    #     if not isinstance(primary_keys, list):
-    #         primary_keys = [primary_keys]
-    #     bit = 1
-    #     if flip is True:
-    #         bit = 0
-    #     cfg = {"WHERE": {"IN": {f"{table}_PK": primary_keys}}}
-    #     data = {"table": {table: {"ACTIVE_BIT": bit, "MODON_DTTM": self.time.store_now(), "MODBY_FK": self.user_FK}}}
-    #     self._write(data, cfg, db)
-    #     return self
-    #
-    # def _archive(self, table, primary_keys=None, db="db", flip=False):
-    #     """"""
-    #     cfg = {}
-    #     if primary_keys is None:
-    #         if not isinstance(primary_keys, list):
-    #             primary_keys = [primary_keys]
-    #         cfg = {"WHERE": {"IN": {f"{table}_PK": primary_keys}}}
-    #     bit = 1
-    #     if flip is True:
-    #         bit = 0
-    #     data = {"table": {table: {"ARCHIVE_BIT": bit, "MODON_DTTM": self.time.store_now(), "MODBY_FK": self.user_FK}}}
-    #     self._write(data, cfg, db)
-    #     return self
-    #
-    # def _decrypt(self, key, db="db"):
-    #     """"""
-    #     data = next(self.docs[db].read({"table": {"secure_store"}}))
-    #     return self
-    #
-    # def _delete_by_primary_key(self, table, primary_keys, db="db", flip=False):
-    #     """"""
-    #     if not isinstance(primary_keys, list):
-    #         primary_keys = [primary_keys]
-    #     bit = 1
-    #     if flip is True:
-    #         bit = 0
-    #     cfg = {"WHERE": {"IN": {f"{table}_PK": primary_keys}}}
-    #     data = {
-    #         "table": {
-    #             table: {
-    #                 "DELETE_BIT": bit,
-    #                 "ACTIVE_BIT": bit,
-    #                 "MODON_DTTM": self.time.store_now(),
-    #                 "MODBY_FK": self.user_FK,
-    #             }
-    #         }
-    #     }
-    #     self._write(data, cfg, db)
-    #     return self
-    #
-    # def _delete_table(self, table, db="db"):
-    #     """This could be needed for upgrades but not sure it should be here in the standard store object"""
-    #     return self
-    #
-    # def _delete_by_uuid(self, table, uuid, column="UUID", db="db", flip=False):
-    #     """"""
-    #     if not isinstance(uuid, list):
-    #         uuid = [uuid]
-    #     dbit = 1
-    #     abit = 0
-    #     if flip is True:
-    #         dbit = 0
-    #         abit = 1
-    #     cfg = {"WHERE": {"IN": {column: uuid}}}
-    #     data = {
-    #         "table": {
-    #             table: {
-    #                 "data": {
-    #                     "DELETE_BIT": dbit,
-    #                     "ACTIVE_BIT": abit,
-    #                     "MODON_DTTM": self.time.store_now(),
-    #                     "MODBY_FK": self.user_FK,
-    #                 }
-    #             }
-    #         }
-    #     }
-    #     logma.info(f"Delete {column} = {uuid} from {table} in {db}")
-    #     logma.info(f"Data: {data}")
-    #     self._write(data, cfg, "UPDATE", db)
-    #     return self
-    #
-    # def _encrypt(self, val):
-    #     """"""
-    #     return val
-    #
-    # def _remove_table(self, table, db="db"):
-    #     """"""
-    #
-    # def _remove_by_uuid(self, table, uuid, column="UUID", db="db", flip=False):
-    #     """"""
-    #
-    # def _store(self, table, payload, db="db"):
-    #     """"""
-    #     db_objects = self.config.dikt["dstruct"]["database"]["objects"]
-    #     if db_objects is None:
-    #         logma.warning("Objects is None")
-    #         return
-    #     # logma.info(f"Objects {db_objects.keys()}")
-    #     if db_objects.get("table", None):
-    #         if table in db_objects.get("table", []):
-    #             # logma.info(f"Table {table} {payload}")
-    #             cfg = {"table": {table: {"records": payload, "columns": db_objects["table"][table]["columns"]}}}
-    #             return self.docs[db].write(cfg)
-    #         else:
-    #             cfg = {"table": {table: {"records": payload}}}
-    #             # logma.warning(f"No table named {table} Objects Config")
-    #             return self.docs[db].write(cfg)
-    #     else:
-    #         logma.warning("No Table Objects")
-    #     return self
-    #
-    # def _store_cache(self, key, payload, cache="dbc"):
-    #     """"""
-    #     self.docs[cache].write({key: payload})
-    #     return self
-    #
-    # def _store_df(self, table, df, params=None, db="db"):
-    #     """"""
-    #     if params is None:
-    #         params = {}
-    #     self.docs[db].write({table: df}, params)
-    #     return self
-    #
-    # def _update(self, table, payload, cfg):
-    #     """"""
-    #     self.docs["db"].update(table, payload, cfg)
-    #     return self
-    #
-    # def _write(self, data, cfg, func="INSERT", db="db"):
-    #     """"""
-    #     return self.docs[db].write(data, cfg, func)
 
 
 def get_node_base(nodetype, treeid=0, tabfocus=0):

@@ -19,24 +19,12 @@ from os.path import dirname, join
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
-
-import logging
 from nchantrs.libraries import pyqt
-
-logger = logging.getLogger(__name__)
 from nchantrs.widgets.annotations import NchantdLabel
-from nchantrs.widgets.controls.advanced_buttons import NchantdLabeledDoubleSpinBox, NchantdLabeledSpinBox
-from nchantrs.widgets.controls.button_groups import NchantdAcceptButtons
 from nchantrs.widgets.controls.buttons import NchantdButton
-from nchantrs.widgets.controls.checkboxes import NchantdCheckbox
 from nchantrs.widgets.controls.toolbars import NchantdButtonBar
-from nchantrs.widgets.media.editors.editors import NchantdEntryEditor
-from nchantrs.widgets.media.editors.selectors import NchantdDropDown, NchantdComboBox
 from nchantrs.widgets.media.images import NchantdImage
-from nchantrs.widgets.tables.lists import NchantdList
 from nchantrs.widgets.tabsets import NchantdTab
-from nchantrs.widgets.groups import NchantdGridScrollGroupBox, NchantdVScrollGroupBox, NchantdHScrollGroupBox
-from nchantrs.widgets.groups import NchantdHGroupBox, NchantdGroup
 from nchantrs.widgets.config.config import NchantdConfigStoreDocument
 from kahndor.logma import Logma
 
@@ -53,12 +41,8 @@ class NchantdSettingsWidget(NchantdTab):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdSettingsWidget")
-        if self.parent:
-            self.config.override(parent.config)
-        super().__init__(self)
-        self.config.override(cfg)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdSettingsWidget").override(cfg))
         self.unsaved = False
         self.document = NchantdConfigStoreDocument()
 
@@ -92,13 +76,14 @@ class NchantdSettingsWidget(NchantdTab):
 
     def cmd_export_file(self):
         """"""
+        #TODO implement method
 
     def cmd_import_file(self):
         """"""
-
+        #TODO implement method
     def cmd_save(self):
         """"""
-
+        #TODO implement method
     def cmd_show_pane_left(self, event=None, *args, **kwargs):
         """"""
         # TODO flip icon
@@ -120,6 +105,7 @@ class NchantdSettingsWidget(NchantdTab):
     def export_settings(self):
         """"""
         # launch a file selection sigil
+        #TODO implement method
 
     def get_settings(self, area):
         """"""
@@ -129,10 +115,12 @@ class NchantdSettingsWidget(NchantdTab):
     def import_settings(self):
         """"""
         # launch a file selection sigil
+        #TODO implement method
 
     def launch_unsaved_dialog(self):
         """"""
         # launch a sigil that forces the user to decide on saving or not
+        #TODO implement method
 
     def on_changed(self, value):
         """"""
@@ -161,7 +149,6 @@ class NchantdInterfaceSettings(NchantdSettingsWidget):
     def __init__(self, parent, cfg=None):
         """"""
         super().__init__(parent, cfg)
-        self.parent = parent
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdInterfaceSettingsTab").override(self.parent.config).override(cfg))
 
     def initModel(self, cfg=None):
@@ -187,7 +174,6 @@ class NchantdThemeSettings(NchantdSettingsWidget):
     def __init__(self, parent, cfg=None):
         """"""
         super().__init__(parent, cfg)
-        self.parent = parent
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdThemeSettingsTab").override(self.parent.config).override(cfg))
         self._load_themes()
 
@@ -247,6 +233,7 @@ class NchantdThemeSettings(NchantdSettingsWidget):
 
     def cmd_change_theme(self, event, *args, **kwargs):
         """"""
+        #TODO implement method
 
     def save(self):
         """"""

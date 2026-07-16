@@ -183,8 +183,14 @@ class NchantdDBUpdate(object):
 
     def reload_view(self, view, db="db") -> bool:
         """"""
-        if self.parent.app.model.store.delete_view(view, db):
-            return self.parent.app.model.store.create_view(view, db)
+        try:
+            self.parent.app.model.store.delete_view(view, db)
+        except Exception as e:
+            logma.warning(f"View not Deleted {e}")
+        status = self.parent.app.model.store.create_view(view, db)
+        if status == []:
+            return True
+        logma.info(f"View Status {status}")
         return False
 
     def repair_table(self, cmd, db="db"):
@@ -291,8 +297,8 @@ class NchantdDBUpdate(object):
         else:
             views = views.get("views", {})
         for view, cmd in views.items():
-            # logma.info(f"Updating View: {view}")
-            # logma.info(f"Command: {cmd}")
+            logma.info(f"Updating View: {view}")
+            logma.info(f"Command: {cmd}")
             try:
                 # self.parent.app.model.store.update_view(view, cmd, db)
                 self._process_view_operations(view, cmd, db)
@@ -320,6 +326,7 @@ class NchantdDBUpdate(object):
         logma.info(f"Update {step_name}")
         if not step_function(step_data, db):
             logma.error(f"{step_name} failed, restoring backup")
+            logma.error(f"{step_function} failed function")
             instance = self.parent.app.model.instance
             version = None
             self.restore_backup(instance, version)
@@ -422,7 +429,7 @@ class NchantdDBUpdate(object):
 
     def _process_view_operations(self, view, params, db):
         """Process update operations for a view."""
-        # logma.info(f"Reloading View: {view}")
+        logma.info(f"Reloading View: {view}")
         if not self.reload_view(view, db):
             if debug:
                 raise Exception("Reload Failed")

@@ -963,7 +963,7 @@ class NchantdModel(object):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdModel").override(cfg))
+        self.config = kahndor.Instruct(pxcfg).select("NchantdModel").override(cfg)
 
     def initModel(self, cfg=None) -> None:
         """Initialize the model"""
