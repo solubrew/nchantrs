@@ -31,8 +31,6 @@ from nchantrs.libraries import pyqt
 here = join(dirname(__file__), "")  # ||
 logma: Logma = Logma(__name__)
 
-# Configure module logger
-logger: logging.Logger = logging.getLogger(__name__)
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "formatting.yaml")

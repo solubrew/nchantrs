@@ -36,9 +36,6 @@ here = join(dirname(__file__), "")  # ||
 log: bool = True
 logma: Logma = Logma(__name__)
 
-# Configure module logger
-logger: logging.Logger = logging.getLogger(__name__)
-
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")
 
