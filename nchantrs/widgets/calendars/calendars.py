@@ -67,37 +67,41 @@ class NchantdCalendar(NchantdWidget):
     def initView(self):
         """"""
         super().initView()
-        self.scope = self.config.dikt.get("scope", "week").lower().replace(" ", "_")
+        self.scope = self.config.dikt.get("scope", "week").lower().replace(" ", "_").replace("-", "_")
         cfg = {"size": ["auto", "auto"], "scope": self.scope}
-        if self.scope == "minute":
-            cfg = {}
-            self.calendar = NchantdMinuteCalendar(self, cfg).initWidget()
-        elif self.scope == "quarter_hour":
-            cfg = {}
-            self.calendar = NchantdQuarterHourCalendar(self, cfg).initWidget()
-        elif self.scope == "hour":
-            cfg = {}
-            self.calendar = NchantdHourCalendar(self, cfg).initWidget()
-        elif self.scope == "day":
-            cfg = {}
-            self.calendar = NchantdDayCalendar(self, cfg).initWidget()
-        elif self.scope == "week":
-            cfg = {}
-            self.calendar = NchantdWeekCalendar(self, cfg).initWidget()
-        elif self.scope == "month":
-            cfg = {}
-            self.calendar = NchantdMonthCalendar(self, cfg).initWidget()
-        elif self.scope == "quarter_year":
-            cfg = {}
-            self.calendar = NchantdQuarterYearCalendar(self, cfg).initWidget()
-        elif self.scope == "year":
-            cfg = {}
-            self.calendar = NchantdYearCalendar(self, cfg).initWidget()
-        elif self.scope == "decade":
-            cfg = {}
-            self.calendar = NchantdDecadeCalendar(self, cfg).initWidget()
-        else:
-            raise Exception(f"Unknown Calendar Scope {self.scope}")
+        match self.scope:
+            case "minutely":
+                cfg = {}
+                self.calendar = NchantdMinuteCalendar(self, cfg).initWidget()
+            case "quarter_hourly":
+                cfg = {}
+                self.calendar = NchantdQuarterHourCalendar(self, cfg).initWidget()
+            case "hourly":
+                cfg = {}
+                self.calendar = NchantdHourCalendar(self, cfg).initWidget()
+            case "daily":
+                cfg = {}
+                self.calendar = NchantdDayCalendar(self, cfg).initWidget()
+            case "weekly":
+                cfg = {}
+                self.calendar = NchantdWeekCalendar(self, cfg).initWidget()
+            case "week":
+                cfg = {}
+                self.calendar = NchantdWeekCalendar(self, cfg).initWidget()
+            case "monthly":
+                cfg = {}
+                self.calendar = NchantdMonthCalendar(self, cfg).initWidget()
+            case "quarter_yearly":
+                cfg = {}
+                self.calendar = NchantdQuarterYearCalendar(self, cfg).initWidget()
+            case "yearly":
+                cfg = {}
+                self.calendar = NchantdYearCalendar(self, cfg).initWidget()
+            case "decadely":
+                cfg = {}
+                self.calendar = NchantdDecadeCalendar(self, cfg).initWidget()
+            case _:
+                raise Exception(f"Unknown Calendar Scope {self.scope}")
         self.layout.addWidget(self.calendar)
         cfg = {"size": ["auto", 200]}
         self.detail_pane = NchantdCalendarDetailPane(self, cfg).initWidget()
