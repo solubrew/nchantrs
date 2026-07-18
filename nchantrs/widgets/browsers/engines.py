@@ -214,12 +214,14 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
 
         # Check if right-clicked on an image
         hit_test = self.page().hitTestContent(event.pos())
-        if hit_test.isContentEditable():
-            pass  # Let standard menu handle it
+        if hit_test is not None:
+            if hit_test.isContentEditable():
+                pass  # Let standard menu handle it
 
         # We can add custom actions here if needed
         # For example, a custom "Save image" if we want to bypass standard dialog
-
+        if menu is None:
+            return
         menu.exec(self.mapToGlobal(event.pos()))
 
     def _resolve_app_model(self):

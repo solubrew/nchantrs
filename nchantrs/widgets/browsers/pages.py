@@ -143,6 +143,15 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
         self.initView()
         return self
 
+    def createStandardContextMenu(self):
+        """"""
+        #TODO implement context menu need to combine any standard options built in to the QBrowser and the standards from
+        # NchantdDocument system
+
+    def hitTestContent(self, position):
+        """"""
+        #TODO implement hit test
+
     def setup_page(self):
         """Initialize page settings and connections"""
         # Connect built-in signals

@@ -52,12 +52,8 @@ class NchantdNewNodePane(NchantdPane):
     def __init__(self, parent=None, cfg=None):
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdNewNodePane"))
-        if parent:
-            self.config.override(parent.config)
-            self.parent = parent
-            self.catalog = self.parent.catalog
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdNewNodePane").override(cfg))
+        self.catalog = self.parent.catalog
         self.config.dikt["action"] = None
         self.active_item = None
         self.select_color = None

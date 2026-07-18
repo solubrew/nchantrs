@@ -280,16 +280,15 @@ class NchantdSpinBox(NchantdWidgetMixin, pyqt.QSpinBox):
         """ """
         super().__init__(parent)
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdSpinBox")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdSpinBox").override(parent.config).override(cfg)
+        self.init_variables()
 
     def initModel(self):
         """"""
         super().initModel()
-        self.setRange(0, 100)  # Set the range for the spin box
-        self.setSingleStep(1)
+        self.setRange(self.config.get("min_value", 0), self.config.get("max_value", 100))  # Set the range for the spin box
+        self.setSingleStep(self.config.get("step", 1))
+        self.setValue(self.config.get("value", 0))
         return self
 
     def initView(self):
@@ -365,16 +364,12 @@ class NchantdLabeledSpinBox(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         super().__init__(parent, cfg)
-        self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdLabeledSpinBox"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdLabeledSpinBox").override(cfg))
 
     def initModel(self, cfg=None):
         """"""
         super().initModel(cfg)
-        self.has_lock = self.config.dikt.get("has_lock", False)
+        self.has_lock = self.config.get("has_lock", False)
         return self
 
     def initView(self, cfg=None):
@@ -384,12 +379,12 @@ class NchantdLabeledSpinBox(NchantdWidget):
         cfg["layout"] = "horizontal"
         cfg["size"] = None
         super().initView(cfg)
-        cfg = {"text": self.config.dikt.get("label", "")}
+        cfg = {"text": self.config.get("label", "")}
         label = NchantdLabel(self, cfg).initWidget()
         self.layout.addWidget(label)
         # self.layout.addStretch(0)
         range_ = self.config.dikt.get("range", [0, 100])
-        cfg = {"range": range_, "value": 0, "font": {"size": 8}}
+        cfg = {"range": range_, "value": self.config.get("value", 0), "font": {"size": 8}}
         self.spinbox = NchantdSpinBox(self, cfg).initWidget()
         self.layout.addWidget(self.spinbox)
         if self.has_lock:

@@ -31,7 +31,7 @@ from nchantrs.widgets.widgets import loadWidget
 
 # ===============================================================================||
 here = join(dirname(__file__), "")
-log = True
+log = False
 debug = True
 logma = Logma(__name__)
 if not log:

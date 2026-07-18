@@ -49,13 +49,8 @@ class NchantdCatalogItem(NchantdWidget):
     def __init__(self, parent=None, cfg=None) -> None:
         """"""
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCatalogItem"))
-        self.parent = parent
-        self.catalog = None
-        if self.parent is not None:
-            self.config.override(self.parent.config)
-            self.catalog = self.parent.catalog
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCatalogItem").override(cfg))
+        self.catalog = self.parent.catalog
         self.title_txt = None
         self.subtitle_txt = None
         self.description_txt = None
@@ -70,6 +65,7 @@ class NchantdCatalogItem(NchantdWidget):
         self.icon_txt = self.config.dikt.get("icon_txt", "dot-circle")
         super().initModel()
         item_cfg = self.action.action
+        #item_cfg = {}
         self.title_txt = self.config.dikt.get("text", "Missing Title")
         if self.title_txt is None:
             self.title_txt = "Missing Title"

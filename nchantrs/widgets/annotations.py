@@ -47,14 +47,11 @@ class NchantdLabel(NchantdWidgetMixin, pyqt.QLabel):
         """ """
         super().__init__()
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdLabel")
-        if self.parent:
-            self.config.override(self.parent.config)
-        self.config.override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdLabel").override(self.parent.config).override(cfg)
 
     def initModel(self, cfg=None):
         """ """
-        self.init_variables()
+        super().initModel()
         return self
 
     def initView(self, cfg=None):
@@ -142,9 +139,8 @@ class NchantdBadgeBar(NchantdWidget):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        super().__init__(self, cfg)
-        self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdBadgeBar")).override(cfg)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdBadgeBar").override(cfg))
         self.badges = {}
 
     def initModel(self, actions=None):
@@ -206,24 +202,22 @@ class NchantdBadgeBar(NchantdWidget):
         return self
 
 
-class NchantdCurrentTimeWidget(pyqt.QWidget):
+class NchantdCurrentTimeWidget(NchantdWidget):
     """"""
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
-        super(NchantdCurrentTimeWidget, self).__init__(self.parent, self.config)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCurrentTimeWidget").override(cfg))
 
     def initModel(self):
         """"""
+        super().initModel()
         return self
 
     def initView(self):
         """"""
+        super().initView()
         return self
 
     def initWidget(self):
@@ -238,21 +232,18 @@ class NchantdDisplayBox(NchantdWidget):
 
     def __init__(self, parent=None, cfg=None):
         """ """
+        super().__init__(parent, cfg)
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdEntryBox")
-        if parent:
-            self.config.override(parent.config)
-        super().__init__()
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdEntryBox").override(cfg))
 
     def initModel(self):
         """ """
-        self.model.initModel()
+        super().initModel()
         return self
 
     def initView(self):
         """ """
-        self.view.initView()
+        super().initView()
         return self
 
     def initWidget(self):
@@ -267,12 +258,8 @@ class NchantdHighLowLabel(NchantdWidget):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdHighLowLabel")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
-        super(NchantdHighLowLabel, self).__init__(self.parent, self.config)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdHighLowLabel").override(cfg))
 
     def initModel(self):
         """"""
@@ -304,27 +291,22 @@ class NchantdHighLowLabel(NchantdWidget):
         return self
 
 
-class NchantdProgressBar(pyqt.QProgressBar):
+class NchantdProgressBar(NchantdWidgetMixin, pyqt.QProgressBar):
     def __init__(self, parent=None, cfg={}):
         """ """
+        super().__init__(parent)
         self.parent = parent
-        if parent:
-            cfg = parent.config
-        self.config = kahndor.Instruct(pxcfg).select("NchantdEntryBox")
-        self.config.override(cfg)
-        super().__init__(self)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdEntryBox").override(cfg)
         self.setValue(0)
-
-    def updateProgress(self):
-        """ """
-        return self
 
     def initModel(self):
         """ """
+        super().initModel()
         return self
 
     def initView(self):
         """ """
+        super().initView()
         return self
 
     def initWidget(self):
@@ -332,7 +314,9 @@ class NchantdProgressBar(pyqt.QProgressBar):
         self.initModel()
         self.initView()
         return self
-
+    def updateProgress(self):
+        """ """
+        return self
 
 # ====================================================================================================================||
 

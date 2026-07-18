@@ -15,19 +15,12 @@
 
 # -*- coding: utf-8 -*-#														||
 # ================================Core Modules===================================||
-from os.path import abspath, dirname, join, exists, getmtime, expanduser
-from os import chmod, environ, listdir
-import inspect
+from os.path import dirname, join, expanduser
+from os import environ
 import platform
-import base64
-from math import isnan
 import json as j
-from shutil import copyfile
 from pandas import DataFrame
 
-import logging
-
-logger = logging.getLogger(__name__)
 # ===============================================================================||
 from kahndor import kahndor
 from subtrix.subtrix import Mechanism
@@ -42,7 +35,7 @@ from pycurity.pyvice import Device
 
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
-log = True
+log = False
 logma = Logma(__name__)
 debug = True
 if not log:

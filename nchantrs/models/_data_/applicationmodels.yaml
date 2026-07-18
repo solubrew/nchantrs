@@ -1583,6 +1583,16 @@ NchantdPantiesModel:
               - [ '<+(UUID)+>', 'apikey', 'weather', 'OpenWeatherMap', 'sources', "{}", '{"url": "", "pycurity": "openweathermap-000.000.000"}', '', '', 0, 0, 0, 0, 1 ]
               - [ '<+(UUID)+>', 'apikey', 'weather', 'WeatherAPI', 'sources', "{}", '{"url": "", "pycurity": "weatherapi-000.000.000"}', '', '', 0, 0, 0, 0, 1 ]
               - [ '<+(UUID)+>', 'no-apikey', 'weather', 'Weather.gov', 'sources', "{}", '{"url": ""}', '', '', 0, 0, 0, 0, 1 ]
+              # Search Engines
+              - [ '<+(UUID)+>', 'external', 'web', 'Google Search', 'search', "{}", '{"url": "www.google.com"}', '', '', 0, 0, 0, 0, 1 ]
+              - [ '<+(UUID)+>', 'external', 'web', 'DuckDuckGo Search', 'search', "{}", '{"url": "www.duckduckgo.com"}', '', '', 0, 0, 0, 0, 1 ]
+              - [ '<+(UUID)+>', 'external', 'web', 'Bing Search', 'search', "{}", '{"url": ""}', '', '', 0, 0, 0, 0, 1 ]
+              - [ '<+(UUID)+>', 'external', 'web', 'Yahoo Search', 'search', "{}", '{"url": ""}', '', '', 0, 0, 0, 0, 1 ]
+              - [ '<+(UUID)+>', 'external', 'web', 'Yandex Search', 'search', "{}", '{"url": ""}', '', '', 0, 0, 0, 0, 1 ]
+              - [ '<+(UUID)+>', 'external', 'web', 'Baidu Search', 'search', "{}", '{"url": ""}', '', '', 0, 0, 0, 0, 1 ]
+              - [ '<+(UUID)+>', 'external', 'web', 'Naver Search', 'search', "{}", '{"url": ""}', '', '', 0, 0, 0, 0, 1 ]
+              - [ '<+(UUID)+>', 'external', 'web', 'Brave Search', 'search', "{}", '{"url": ""}', '', '', 0, 0, 0, 0, 1 ]
+              - [ '<+(UUID)+>', 'external', 'web', 'Ecosia Search', 'search', "{}", '{"url": ""}', '', '', 0, 0, 0, 0, 1 ]
             options:
               'option': ['UUID', 'application_NCD', 'internal_password']
           'app_option_key':
