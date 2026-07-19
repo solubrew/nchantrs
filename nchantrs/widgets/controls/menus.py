@@ -43,10 +43,7 @@ class NchantdMenu(pyqt.QMenu):
         """ """
         super().__init__()
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdMenu")
-        if parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdMenu").override(parent.config).override(cfg)
         self.actions = None
         self.menus = {}
 
