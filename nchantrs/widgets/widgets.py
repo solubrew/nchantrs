@@ -138,6 +138,9 @@ class NchantdWidgetMixin(object):
                         break
                 # Move up the parent chain
                 current = getattr(current, "parent", None)
+        if debug:
+            if self.app is None:
+                raise Exception(f"No Parent App {self.parent}")
         self.action = None
         self.changed = False
         self.context_menu = None

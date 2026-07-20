@@ -60,12 +60,9 @@ class NchantdButton(NchantdWidgetMixin, pyqt.QPushButton):
 
     def __init__(self, parent: Optional[Any] = None, cfg: Optional[Dict] = None) -> None:
         """Create a button widget and set default configurations"""
-        super().__init__(parent, cfg)
-        self.init_variables()
+        super().__init__(parent=parent)
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdButton").override(parent.config).override(cfg)
-
-        #self.app = pyqt.QApplication.instance()
         self.action: Optional[Any] = None
         self.button_text: Optional[str] = None
         self.data: Optional[Any] = None

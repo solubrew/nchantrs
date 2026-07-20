@@ -140,11 +140,9 @@ class NchantdTreeItem(NchantdWidgetMixin, pyqt.QTreeWidgetItem):
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
-        pyqt.QTreeWidgetItem.__init__(self, parent)
-        self.init_variables()
+        super().__init__(parent)
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdTreeItem").override(cfg)
-        self.app = self.parent.app
+        self.config = kahndor.Instruct(pxcfg).select("NchantdTreeItem").override(parent.config).override(cfg)
 
     def initModel(self, cfg) -> None:
         """ """

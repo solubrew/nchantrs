@@ -215,8 +215,11 @@ class NchantdSigil(NchantdSigilMixin, pyqt.QDialog):
         :param cfg:
         """
         super().__init__(parent)
+        self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdSigil").override(parent.config).override(cfg)
-        self.init_variables(name)
+        # self.init_variables(name)
+        # if hasattr(self.parent, "app"):
+        #     self.app = self.parent.app
         # Initialize layout after init_variables
         if self.layout is None:
             self.layout = pyqt.QVBoxLayout()
@@ -227,39 +230,11 @@ class NchantdSigil(NchantdSigilMixin, pyqt.QDialog):
         # guard is the contract — switching to NchantdClip wholesale would break
         # the Cape-hosted sigils (NchantdNodeNameEditSigil, ImportDocumentNchantdSigil,
         # etc. all rely on self.app.model). Keep the guard.
-        if hasattr(self.app, "model"):
-            self.model = self.app.model
-        self.config.override(cfg)
+        # if hasattr(self.app, "model"):
+        #     self.model = self.app.model
         # Set minimum size to 10% of screen
         self._set_minimum_size()
 
-    # def __init__(self, name, parent=None, cfg: dict = {}):
-    #     """
-    #     :param name:
-    #     :param parent:
-    #     :param cfg:
-    #     """
-    #     super().__init__(parent)
-    #     # if hasattr(parent.app, "main"):
-    #     #    super().__init__(parent.app.main)
-    #     # else:
-    #     #    super().__init__(parent)
-    #     self.config = kahndor.Instruct(pxcfg).select("NchantdSigil")
-    #     if parent:
-    #         self.config.override(parent.config)
-    #     self.init_variables(name)
-    #     self.model = self.app.model
-    #     self.config.override(cfg)
-
-    # def closeEvent(self, event):
-    #     """"""
-    #     # super().closeEvent(arg__1)
-    #     # self.close()
-    #     # return self
-    #     logma.info(f"NchantdSigil Close Event")
-    #     # Accept the event to allow the dialog to close
-    #     event.accept()
-    #     return self
     def closeEvent(self, event):
         """Handle close event and emit finished signal"""
         logma.info(f"NchantdSigil Close Event")
@@ -267,6 +242,10 @@ class NchantdSigil(NchantdSigilMixin, pyqt.QDialog):
         # Emit finished signal to notify parent application
         self.finished.emit(0)
         return self
+
+    def initModel(self, cfg=None):
+        """"""
+        super().initModel(cfg)
 
     def initView(self, cfg=None):
         """Build the dialog from the provided parameters"""

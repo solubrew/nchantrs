@@ -112,6 +112,13 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
         self.initView(initialize_rows)
         return self
 
+    def get_cell(self, row=None, column=None):
+        """"""
+        if row is None or column is None:
+            row, column = self.get_current_cell()
+        logma.info(f"Cell Value {row} {column}")
+        return self.item(int(row), int(column))
+
     def get_cell_value(self, row=None, column=None):
         """"""
         if row is None or column is None:
@@ -361,6 +368,8 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
                     continue
                 try:
                     d = data[row][col]
+                    if d == "":
+                        continue
                     logma.info(f"Row {row} Col {col} {d}")
                 except Exception as e:
                     if debug:
@@ -369,6 +378,7 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
                 if column_widget is None:
                     logma.info(f"Col {col} {d}")
                     cfg = {"text": d}
+                    #need to hold data in a dictionary?
                     self.setItem(y, x, NchantdTableCell(self, cfg).initWidget())
                     self.set_font()
                     # d_width = self._check_text_length_size(str(d))
