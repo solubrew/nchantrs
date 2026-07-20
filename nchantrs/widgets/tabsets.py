@@ -500,48 +500,32 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
     def mouseMoveEvent(self, event):
         """Handle mouse move events to start drag operation."""
         super().mouseMoveEvent(event)
-        if not (event.buttons() & pyqt.Qt.LeftButton):
-            return
-        move_distance = (event.position().toPoint() - self.drag_start_position).manhattanLength()
-        if move_distance < pyqt.QApplication.startDragDistance():
-            return
-        # if self.dragged_tab_index == -1:
-        #     return
-
-
-        # Start the drag operation
-        # TODO: fix following error
-        # Error calling Python override of QTabWidget::mouseMoveEvent(): Traceback (most recent call last):
-        # File "/mnt/iverse/SB/3_Functions/Operations/opENGRg/3_Work/jobElfSys/actvPython/tskNchantrs/1_DELTA/nchantrs/nchantrs/widgets/tabsets.py", line 511, in mouseMoveEvent
-        # self.start_drag(self.dragged_tab_index)
-        # ^^^^^^^^^^^^^^^^^^^^^^
-        # AttributeError: 'NchantdOfficeTabSet' object has no attribute 'dragged_tab_index'
-        #self.start_drag(self.dragged_tab_index)
-        #END TODO:
-
-        # Check if we should start a drag operation
-        # if tab_index >= 0:  # Ensure a valid tab is clicked
-        if self.drag_start_position is None:
-            self.drag_start_position = event.position().toPoint()
-        # logma.info(f"Mouse Move Event {event.buttons()}")
-        if not (event.buttons() & pyqt.Qt.LeftButton):
-            self.drag_start_position = None
-            # logma.info(f"Mouse Move Event {event.button()}")
-            return
-        # Calculate distance moved
-        if (
-            event.position().toPoint() - self.drag_start_position
-        ).manhattanLength() < pyqt.QApplication.startDragDistance():
-            self.drag_start_position = None
-            logma.info(f"Mouse Move Event {event.button()}")
-            return
-        # Get the tab index at the click position
-        tab_index = self.tabBar().tabAt(self.drag_start_position)
-        logma.info(f"Tab Index {tab_index}")
-        if tab_index < 0:
-            self.drag_start_position = None
-            return
-        self.start_drag(tab_index)
+        try:
+            if not (event.buttons() & pyqt.Qt.LeftButton):
+                return
+            move_distance = (event.position().toPoint() - self.drag_start_position).manhattanLength()
+            if move_distance < pyqt.QApplication.startDragDistance():
+                return
+            if self.drag_start_position is None:
+                self.drag_start_position = event.position().toPoint()
+            if not (event.buttons() & pyqt.Qt.LeftButton):
+                self.drag_start_position = None
+                return
+            # Calculate distance moved
+            if (
+                event.position().toPoint() - self.drag_start_position
+            ).manhattanLength() < pyqt.QApplication.startDragDistance():
+                self.drag_start_position = None
+                logma.info(f"Mouse Move Event {event.button()}")
+                return
+            tab_index = self.tabBar().tabAt(self.drag_start_position)
+            logma.info(f"Tab Index {tab_index}")
+            if tab_index < 0:
+                self.drag_start_position = None
+                return
+            self.start_drag(tab_index)
+        except Exception as e:
+            logma.warning(e)
 
     def on_tab_focus(self, tabn=None):
         """"""

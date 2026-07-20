@@ -47,12 +47,8 @@ class NchantdCalculator(NchantdTab):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdCalculator")
-        if self.parent:
-            self.config.override(parent.config)
         super().__init__(parent, cfg)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCalculator").override(cfg))
         self.pendingAdditiveOperator = ""
         self.pendingMultiplicativeOperator = ""
         self.sumInMemory = 0.0
@@ -525,9 +521,10 @@ class NchantdCalculator(NchantdTab):
 class NchantdAdvancedCalculator(NchantdCalculator):
     """A Calculator Widget with the ability to enter equations and an output log"""
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None, cfg=None):
         """ """
-        super(NchantdAdvancedCalculator, self).__init__(parent)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdAdvancedCalculator").override(cfg))
 
     def initUI(self):
         """ """
@@ -551,12 +548,8 @@ class NchantdFinancialCalculator(NchantdCalculator):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdFinancialCalculator")
-        if self.parent:
-            self.config.override(parent.config)
         super().__init__(parent, cfg)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdAdvancedCalculator").override(cfg))
 
     def initModel(self):
         """"""
@@ -580,12 +573,8 @@ class NchantdGraphingCalculator(NchantdAdvancedCalculator):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdGraphingCalculator")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
-        super(NchantdGraphingCalculator, self).__init__(parent)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdAdvancedCalculator").override(cfg))
 
     def initModel(self):
         """"""

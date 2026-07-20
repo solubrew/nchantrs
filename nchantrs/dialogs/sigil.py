@@ -143,21 +143,16 @@ class NchantdSigilMixin(NchantdWidgetMixin):
     def initView(self, cfg=None):
         """Build the dialog from the provided parameters"""
         super().initView(cfg)
-        # Ensure the dialog stays on top
-        self.setWindowFlags(
-            self.windowFlags() | pyqt.Qt.Dialog | pyqt.Qt.SubWindow
-        )  # | pyqt.Qt.WindowStaysOnTopHintowFlags
+        # Ensure the dialog stays on top. NOTE: only OR window *hints* here;
+        # window *types* (Dialog/SubWindow/...) are mutually exclusive low-order
+        # values and OR-ing them corrupts the type (Dialog|SubWindow -> Desktop),
+        # which yields an invisible window.
+        self.setWindowFlags(self.windowFlags() | pyqt.Qt.WindowStaysOnTopHint)
         self.setWindowTitle(self.dtop.get("title", ""))  # ||
-        # self.set_size()
-
-        tablenode = False
         self.pane = {}
         self.setAttribute(pyqt.Qt.WA_DeleteOnClose)  # ||
         theme = NchantdTheme(self)
         theme.set_theme("midnight_mist")
-        # self.layout = pyqt.QVBoxLayout()
-        # if log:
-        #     logma.info(f"Config Position {self.dtop['layout']['center']}")
         style = self.dtop["layout"]["style"]  # Gets the Pane type of the application (1Pane, 2Pane, 3Pane, 4Pane)
         if style is None:
             style = "1Pane"
@@ -171,9 +166,7 @@ class NchantdSigilMixin(NchantdWidgetMixin):
 
     def initWidget(self):
         """"""
-        # logma.info(f"Init Model")
         self.initModel()
-        # logma.info(f"Init View")
         self.initView()
         return self
 
@@ -181,9 +174,7 @@ class NchantdSigilMixin(NchantdWidgetMixin):
         """"""
         return self
 
-    def run(self, cfg=None):
-        """"""
-        self.exec_()
+
 
     def set_ok(self):
         """"""
@@ -245,6 +236,8 @@ class NchantdSigilMixin(NchantdWidgetMixin):
     def setSource(self, src):
         self.src = src
         return self
+
+
 # ====================================================================================================================||
 
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

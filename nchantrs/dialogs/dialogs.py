@@ -217,23 +217,9 @@ class NchantdSigil(NchantdSigilMixin, pyqt.QDialog):
         super().__init__(parent)
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdSigil").override(parent.config).override(cfg)
-        # self.init_variables(name)
-        # if hasattr(self.parent, "app"):
-        #     self.app = self.parent.app
-        # Initialize layout after init_variables
         if self.layout is None:
             self.layout = pyqt.QVBoxLayout()
             self.setLayout(self.layout)
-        # NOTE: hasattr guard is necessary because NchantdSigil is used both as a
-        # child of the full NchantdCape app (has self.app.model) and as a free
-        # QDialog in NchantdClip / tests (no model attribute on self.app). The
-        # guard is the contract — switching to NchantdClip wholesale would break
-        # the Cape-hosted sigils (NchantdNodeNameEditSigil, ImportDocumentNchantdSigil,
-        # etc. all rely on self.app.model). Keep the guard.
-        # if hasattr(self.app, "model"):
-        #     self.model = self.app.model
-        # Set minimum size to 10% of screen
-        self._set_minimum_size()
 
     def closeEvent(self, event):
         """Handle close event and emit finished signal"""
@@ -250,62 +236,23 @@ class NchantdSigil(NchantdSigilMixin, pyqt.QDialog):
     def initView(self, cfg=None):
         """Build the dialog from the provided parameters"""
         super().initView(cfg)
-        # Ensure the dialog stays on top
-        self.setWindowFlags(self.windowFlags() | pyqt.Qt.Dialog | pyqt.Qt.SubWindow)
-        self.setWindowTitle(self.dtop.get("title", ""))
-
-        tablenode = False
-        self.pane = {}
-        self.setAttribute(pyqt.Qt.WA_DeleteOnClose)
-        theme = NchantdTheme(self)
-        theme.set_theme("midnight_mist")
-
-        # CRITICAL: Ensure layout is set on the dialog itself BEFORE any widgets are added
-        if self.layout is None:
-            self.layout = pyqt.QVBoxLayout()
-            self.setLayout(self.layout)
-            logma.info(f"NchantdSigil.initView - created and set layout: {self.layout}")
-        else:
-            logma.info(f"NchantdSigil.initView - layout already exists: {self.layout}")
-
-        style = self.dtop["layout"]["style"]
-        if style is None:
-            style = "1Pane"
-        singlepane = False
-        if style == "1Pane":
-            singlepane = True
-
-        if self.config.dikt.get("build", None):
-            self.buildPane(style)
-
+        self.show()
         return self
 
     def initWidget(self):
         """"""
         self.initModel()
         self.initView()
+        self.run()
         return self
-
-    def _set_minimum_size(self):
-        """Set dialog minimum size to 10% of screen dimensions"""
-        # Get the primary screen geometry
-        screen = pyqt.QApplication.primaryScreen()
-        if screen:
-            screen_geometry = screen.geometry()
-            screen_width = screen_geometry.width()
-            screen_height = screen_geometry.height()
-
-            # Calculate 10% of screen dimensions
-            min_width = int(screen_width * 0.1)
-            min_height = int(screen_height * 0.1)
-
-            # Set minimum size
-            self.setMinimumWidth(min_width)
-            self.setMinimumHeight(min_height)
-
-            logma.info(f"Dialog minimum size set to {min_width}x{min_height} (10% of {screen_width}x{screen_height})")
-
-
+    def exec_(self):
+        """"""
+        self.exec()
+    def run(self, cfg=None):
+        """"""
+        logma.info(f"Run NchantdSigil")
+        self.resize(300, 150)
+        self.exec_()
 class NchantdSplashDialog(NchantdSigil):
     """ """
 

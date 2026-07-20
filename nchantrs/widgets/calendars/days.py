@@ -48,12 +48,9 @@ class NchantdDayCalendar(NchantdTab):
     """
 
     def __init__(self, parent=None, cfg=None):
+        """"""
         super().__init__(parent, cfg)
-        self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).load("NchantdDayCalendar"))
-        if parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdDayCalendar").override(cfg))
         self.journal_notes = None
         self.days_table = None
 
@@ -114,12 +111,8 @@ class NchantdDayDashboard(NchantdTab):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdDayMiniOverview")
-        if self.parent:
-            self.config.override(parent.config)
-        super().__init__(self)
-        self.config.override(cfg)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdDayMiniOverview").override(cfg))
         self.name = None  # TODO get tab name
 
     def initModel(self):
@@ -170,11 +163,7 @@ class NchantdDayJournal(NchantdTab):
     def __init__(self, parent=None, cfg=None):
         """ """
         super().__init__(parent, cfg)
-        self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdDayJournal"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdDayJournal").override(cfg))
         self.journal_group = None
 
     def initModel(self):
@@ -203,12 +192,8 @@ class NchantdDayManager(NchantdManager):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
-        if self.parent:
-            self.config.override(parent.config)
-        super().__init__(self)
-        self.config.override(cfg)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdDayManager").override(cfg))
 
     def initModel(self):
         """"""
@@ -234,12 +219,8 @@ class NchantdHourDay(NchantdTab):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdHourlyDay")
-        if self.parent:
-            self.config.override(parent.config)
-        super().__init__(self)
-        self.config.override(cfg)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdHourDay").override(cfg))
 
     def initModel(self):
         """"""
@@ -263,12 +244,8 @@ class NchantdQuarterHourDay(NchantdTab):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
-        if self.parent:
-            self.config.override(parent.config)
-        super().__init__(self)
-        self.config.override(cfg)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdQuarterHourDay").override(cfg))
 
     def initModel(self):
         """"""

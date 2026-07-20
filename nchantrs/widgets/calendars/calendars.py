@@ -19,11 +19,7 @@ from os.path import dirname, join
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
-
-import logging
 from nchantrs.libraries import pyqt
-
-logger = logging.getLogger(__name__)
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 from nchantrs.widgets.panes.calendars import NchantdCalendarDetailPane
 from kahndor.logma import Logma
@@ -48,12 +44,8 @@ class NchantdCalendar(NchantdWidget):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdCalendar")
-        if self.parent:
-            self.config.override(parent.config)
-        super().__init__(self, self.config)
-        self.config.override(cfg)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCalendar").override(cfg))
         self.button_bar = None
         self.detail_pane = None
         self.scope = None
@@ -147,12 +139,8 @@ class NchantdDateTimeGroup(NchantdWidget):
 
     def __init__(self, parent, cfg=None):
         """"""
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdDateTimeGroup")
-        if self.parent is not None:
-            self.config.override(self.parent.config)
-        super().__init__(self)
-        self.config.override(cfg)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdAdvancedCalculator").override(cfg))
 
     def initView(self):
         """"""

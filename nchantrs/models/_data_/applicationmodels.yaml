@@ -485,6 +485,7 @@ NchantdPantiesModel:
               - ['base', 'increase_font_size', 'Increase Font Size', '', '<^[UUID]^>', '', '', '', '', '', "{}"]
               - [ 'base', 'import_contacts', 'Import Contacts', '', '', 'arrow-in-circle', '', '', '', '', "{}" ]
               - ['base', 'import_document', 'Import Document', '', '066b51ba-60d5-7dda-8000-3250fed46f4b', 'arrow-in-circle', '', '', '', '', "{}"]
+              - ['base', 'import_all_file', 'Import File', '', '<^[UUID]^>', 'arrow-in-circle', 'Ctrl+i', 'Import File', '', '', "{}"]
               - ['base', 'import_file', 'Import File', '', '<^[UUID]^>', 'arrow-in-circle', 'Ctrl+i', 'Import File', '', '', "{}"]
               - ['base', 'import_filesystem', 'Import FileSystem', '', '066e49d2-fe27-7994-8000-7d3c8cf9e518', 'arrow-in-circle', '', '', '', '', "{}"]
               - ['base', 'import_instance', 'Import Instance', '', '<^[UUID]^>', 'arrow-in-circle', '', '', '', '', "{}"]

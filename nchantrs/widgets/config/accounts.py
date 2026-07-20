@@ -19,16 +19,6 @@ from os.path import dirname, join
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
-
-import logging
-from nchantrs.libraries import pyqt
-
-logger = logging.getLogger(__name__)
-from nchantrs.widgets.annotations import NchantdLabel
-from nchantrs.widgets.browsers.browsers import NchantdWebViewer
-from nchantrs.widgets.controls.buttons import NchantdButton
-from nchantrs.widgets.media.images import NchantdImage
-from nchantrs.widgets.media.editors.editors import NchantdEntryEditor
 from nchantrs.utilities.users import NchantdUser
 from kahndor.logma import Logma
 from nchantrs.widgets.config.settings import NchantdSettingsWidget
@@ -48,12 +38,8 @@ class NchantdAccountOverview(NchantdTab):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdAccountOverview")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
-        super().__init__(self.parent, self.config)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdAccountOverview").override(cfg))
         self.user = NchantdUser(self, self.config)
         self.address = None
         self.description = None

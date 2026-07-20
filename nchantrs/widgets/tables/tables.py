@@ -508,13 +508,9 @@ class NchantdDataFrameTable(NchantdWidgetMixin, qpandas.DataTableWidget):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdDataFrameTable")
-        self.init_variables()
-        if parent:
-            self.config.override(parent.config)
         super().__init__()
-        self.config.override(cfg)
+        self.parent = parent
+        self.config = kahndor.Instruct(pxcfg).select("NchantdDataFrameTable").override(parent.config).override(cfg)
         self.model = qpandas.DataFrameModel()
 
     def initModel(self, df=None):
@@ -575,9 +571,8 @@ class NchantdGrid(NchantdWidget):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        super().__init__(self)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdGrid").override(parent.config).override(cfg))
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdGrid").override(cfg))
         self.rows = None
         self.columns = None
         self.cells = []

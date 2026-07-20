@@ -16,9 +16,6 @@
 from os.path import abspath, dirname, join
 import datetime as dt
 
-import logging
-
-logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -90,11 +87,7 @@ class NchantdCanvas(NchantdWidgetMixin, pyqt.QGraphicsView):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdCanvas")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
-        self.init_variables()
+        self.config = kahndor.Instruct(pxcfg).select("NchantdCanvas").override(cfg)
         self.scene = None
         self.shapes = None
         self._display_pixmap = None
@@ -185,12 +178,8 @@ class NchantdPaintCanvas(NchantdCanvas):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdPaintCanvas")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
-        super().__init__(self)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdPaintCanvas").override(cfg))
 
     def initModel(self):
         """"""
@@ -282,12 +271,8 @@ class NchantdGameCanvas(NchantdCanvas):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdPaintCanvas")
-        if self.parent:
-            self.config.override(parent.config)
-        super().__init__(self)
-        self.config.override(cfg)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdGameCanvas").override(cfg))
 
     def initModel(self):
         """"""
@@ -325,12 +310,8 @@ class NchantdMapCanvas(NchantdCanvas):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdPaintCanvas")
-        if self.parent:
-            self.config.override(parent.config)
-        super().__init__(self)
-        self.config.override(cfg)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdMapCanvas").override(cfg))
 
     def initModel(self):
         """"""
@@ -352,12 +333,8 @@ class NchantdWireFrameCanvas(NchantdCanvas):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
-        if self.parent:
-            self.config.override(parent.config)
-        super().__init__(self)
-        self.config.override(cfg)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdWireFrameCanvas").override(cfg))
 
     def initModel(self):
         """"""
