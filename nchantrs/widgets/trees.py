@@ -216,19 +216,48 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
             self._drop_as_sibling(dragged_item, target_item, before=False)
         elif drop_mode == "root":
             self._drop_as_root(dragged_item)
-        
+
+        # We performed the move ourselves. Neutralize the drop action so Qt's own
+        # drag machinery does not ALSO remove a "source" row afterwards: our manual
+        # re-parenting has already shifted the rows, so the row at the dragged
+        # item's original index is now the drop target, and a MoveAction here would
+        # make Qt delete it (the underlying node disappears).
+        event.setDropAction(pyqt.Qt.IgnoreAction)
         event.accept()
         self.viewport().update()
 
     def _is_descendant(self, potential_parent, potential_child):
         """Check if potential_child is a descendant of potential_parent."""
-        current = potential_child
+        current = self._item_parent(potential_child)
         while current:
-            parent = current.parent()
-            if parent == potential_parent:
+            if current == potential_parent:
                 return True
-            current = parent
+            current = self._item_parent(current)
         return False
+
+    @staticmethod
+    def _item_parent(item):
+        """Return an item's parent QTreeWidgetItem.
+
+        Tree items store the owning tree widget on self.parent, which shadows
+        QTreeWidgetItem.parent(); call the base method explicitly so we walk the
+        actual item hierarchy instead of trying to call the tree widget.
+        """
+        return pyqt.QTreeWidgetItem.parent(item)
+
+    def _child_nodes(self, container):
+        """Return a container's child items in UI order. container may be a node
+        item or None, in which case the invisible root (top level) is used."""
+        if container is None:
+            container = self.invisibleRootItem()
+        return [container.child(i) for i in range(container.childCount())]
+
+    def _renormalize(self, container):
+        """Renumber a container's children to sequential, gap-free positions in
+        the store, matching their current UI order."""
+        nodes = self._child_nodes(container)
+        if nodes:
+            self.model.renormalize_positions(nodes)
 
     def _determine_drop_mode(self, target_item, pos):
         """Determine the drop mode based on target item and position.
@@ -269,48 +298,56 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         logma.info(f"Dropping {dragged_item.name} as child of {new_parent.name}")
         
         # Remove from current parent
-        old_parent = dragged_item.parent()
+        old_parent = self._item_parent(dragged_item)
         if old_parent:
             old_parent.removeChild(dragged_item)
         else:
             self.invisibleRootItem().removeChild(dragged_item)
-        
+
         # Add to new parent
         new_parent.addChild(dragged_item)
         new_parent.setExpanded(True)
-        
-        # Update database - set new parent and position at end
-        position = new_parent.childCount() - 1
-        self.model.swap_parent(dragged_item, new_parent, position)
-        
+
+        # Update database - reparent, then renormalize sibling positions in both
+        # the destination and the source container (to close the vacated gap).
+        self.model.swap_parent(dragged_item, new_parent)
+        self._renormalize(new_parent)
+        self._renormalize(old_parent)
+
         logma.info(f"Successfully moved {dragged_item.name} as child of {new_parent.name}")
 
     def _drop_as_sibling(self, dragged_item, target_item, before=True):
         """Move dragged_item to become a sibling of target_item."""
         logma.info(f"Dropping {dragged_item.name} as sibling of {target_item.name} (before={before})")
         
-        parent = target_item.parent()
+        parent = self._item_parent(target_item)
         if not parent:
             parent = self.invisibleRootItem()
-        
-        # Calculate target index
-        target_index = parent.indexOfChild(target_item)
-        if not before:
-            target_index += 1
-        
-        # Remove from current parent
-        old_parent = dragged_item.parent()
+
+        # Remove from current parent FIRST, so the target index is computed
+        # against the post-removal layout. Computing it beforehand overshoots by
+        # one whenever the dragged item preceded the target under the same parent
+        # (removeChild shifts every later sibling, including the target, down one).
+        old_parent = self._item_parent(dragged_item)
         if old_parent:
             old_parent.removeChild(dragged_item)
         else:
             self.invisibleRootItem().removeChild(dragged_item)
-        
+
+        # Calculate target index against the current (post-removal) children
+        target_index = parent.indexOfChild(target_item)
+        if not before:
+            target_index += 1
+
         # Insert at new position
         parent.insertChild(target_index, dragged_item)
-        
-        # Update database
-        self.model.move_sibling(dragged_item, parent, target_index)
-        
+
+        # Update database - reparent, then renormalize sibling positions in both
+        # the destination and the source container (to close the vacated gap).
+        self.model.move_sibling(dragged_item, parent)
+        self._renormalize(parent)
+        self._renormalize(old_parent)
+
         logma.info(f"Successfully moved {dragged_item.name} as sibling")
 
     def _drop_as_root(self, dragged_item):
@@ -318,19 +355,22 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         logma.info(f"Dropping {dragged_item.name} as root-level item")
         
         # Remove from current parent
-        old_parent = dragged_item.parent()
+        old_parent = self._item_parent(dragged_item)
         if old_parent:
             old_parent.removeChild(dragged_item)
         else:
             self.invisibleRootItem().removeChild(dragged_item)
-        
+
         # Add as root-level item at the end
         root = self.invisibleRootItem()
         root.addChild(dragged_item)
-        
-        # Update database - set as root (pid = 0 or None)
+
+        # Update database - set as root (pid = '0'), then renormalize positions
+        # at root and in the source container (to close the vacated gap).
         self.model.move_to_root(dragged_item)
-        
+        self._renormalize(root)
+        self._renormalize(old_parent)
+
         logma.info(f"Successfully moved {dragged_item.name} to root level")
 
     def goto_node(self, node):

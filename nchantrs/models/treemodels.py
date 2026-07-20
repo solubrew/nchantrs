@@ -256,11 +256,64 @@ class NchantdTreeModel(pyqt.QStandardItemModel):
     #         data["table"]["doc_tree_node"]["data"]["position"] = n
     #         self.parent.app.model.store.update_record(data, "nid_txt", child.nid, db)
 
-    def swap_parent(self, node, parent, db="db") -> None:
-        """"""
-        data = {"table": {"doc_tree_node": {"data": {}}}}
-        data["table"]["doc_tree_node"]["data"]["pid_txt"] = parent.nid
+    def _node_table(self, node) -> str:
+        """Return the DB table backing a node based on its data type."""
+        if getattr(node, "app_data_type", "doc") == "app":
+            return "app_tree_node"
+        return "doc_tree_node"
+
+    def _resolve_db(self, db=None) -> str:
+        """Resolve the target store id. Honors the active (external) instance so
+        moves land in the right store when multiple instances are open, and falls
+        back to the default 'db' to preserve single-instance behavior."""
+        if db is not None:
+            return db
+        instance = getattr(self.parent.app.model, "instance", None)
+        if instance is not None and getattr(instance, "internal", True) is False:
+            return instance.db_instance_id
+        return "db"
+
+    def _persist_move(self, node, pid, position=None, db=None) -> None:
+        """Persist a node's parent (and optional position) to the store and
+        mirror the change onto the in-memory node."""
+        db = self._resolve_db(db)
+        table = self._node_table(node)
+        fields = {"pid_txt": str(pid)}
+        if position is not None:
+            fields["position_int"] = position
+        data = {"table": {table: {"data": fields}}}
         self.parent.app.model.store.update_record(data, "nid_txt", node.nid, db)
+        node.pid = str(pid)
+        if position is not None:
+            node.position = position
+        return self
+
+    def swap_parent(self, node, parent, position=None, db=None) -> None:
+        """Reparent node under parent (child drop), optionally setting position."""
+        self._persist_move(node, parent.nid, position, db)
+        return self
+
+    def move_sibling(self, node, parent, position=None, db=None) -> None:
+        """Reparent node as a sibling under parent. parent may be the tree's
+        invisible root item (which has no nid) -> treated as root."""
+        pid = getattr(parent, "nid", "0")
+        self._persist_move(node, pid, position, db)
+        return self
+
+    def move_to_root(self, node, position=None, db=None) -> None:
+        """Move node to the root level (pid = '0')."""
+        self._persist_move(node, "0", position, db)
+        return self
+
+    def renormalize_positions(self, nodes, db=None) -> None:
+        """Persist sequential position_int (0..n-1) for the given ordered nodes,
+        so sibling positions stay gap-free after a move."""
+        db = self._resolve_db(db)
+        for position, node in enumerate(nodes):
+            table = self._node_table(node)
+            data = {"table": {table: {"data": {"position_int": position}}}}
+            self.parent.app.model.store.update_record(data, "nid_txt", node.nid, db)
+            node.position = position
         return self
 
     def updateStatus(self, status) -> None:
