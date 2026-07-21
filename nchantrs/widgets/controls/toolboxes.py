@@ -162,7 +162,12 @@ class NchantdToolBox(NchantdTab):
         self.box.currentChanged.connect(self.on_drawer_changed)
         if current_document is not None:
             logma.info(f"Config Toolbox {self.config.dikt.get("toolbox", {})}")  # [0]["items"]}")
-            cfg = kahndor.Instruct(cfg).override({"toolbox": current_document.toolbox_config})
+            try:
+                cfg = {"toolbox": current_document.toolbox_config}
+            except Exception as e:
+                logma.warning(e)
+                cfg = {}
+            cfg = kahndor.Instruct(cfg).override(cfg)
             cfg.override(self.config.dikt)
             cfg = cfg.dikt["toolbox"]
             default_cfg = self.config.dikt.get("default", {})

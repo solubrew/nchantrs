@@ -105,6 +105,7 @@ class NchantdWidgetMixin(object):
     def init_variables(self):
         """"""
         self.app = None
+        self.context_menu_name = "widget"
         # First, try to get app from parent directly (most reliable)
         if self.parent is not None and hasattr(self.parent, "app"):
             self.app = self.parent.app
@@ -901,11 +902,9 @@ class NchantdWidget(NchantdWidgetMixin, pyqt.QWidget):
         # Explicitly call QWidget.__init__ to ensure proper Qt initialization
         # This fixes: RuntimeError: libshiboken: 'init' method of object's base class not called
         pyqt.QWidget.__init__(self)
-        self.config = kahndor.Instruct(pxcfg).select("NchantdWidget")
+        self.config = kahndor.Instruct(pxcfg).select("NchantdWidget").override(cfg)
         # logma.info(f"Init NchantdWidget Config {self.config}")
         self.parent = parent
-        self.init_variables()
-        self.config.override(cfg)
         self.layout = None
 
     def initModel(self, cfg=None):

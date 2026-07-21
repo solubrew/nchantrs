@@ -50,6 +50,7 @@ class NchantdTreeView(NchantdWidget):
 
     def initView(self) -> None:
         """"""
+        self.init_variables()
         super().initView()
         self.parent.setColumnCount(1)
         self.parent.setHeaderLabel("Navigation")

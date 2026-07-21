@@ -51,6 +51,7 @@ NchantdTabSetModel:
               #App Settings
               - ['Nchantd Account', 'nchantdoffice.widgets.config.accounts.NchantdOfficeAccountSettings', "{}", '066a7cf6-5aca-79a2-8000-f4b5405a0427', "c919cbf9-2c85-4256-b645-2287346749c2", 0, 'custom_widget', 'center']
               - ['Interface', 'nchantdoffice.widgets.config.settings.NchantdOfficeInterfaceSettings', "{}", '066a7cf6-5aca-79a2-8000-f4b5405a0427', "999d42e6-c678-4f6b-81e2-ff7ca6451564", 1, 'custom_widget', 'center']
+              - ['Affiliate Manager', 'nchantdoffice.widgets.config.settings.NchantdOfficeAffiliateManager', "{}", '066a7cf6-5aca-79a2-8000-f4b5405a0427', "024694d6-f14b-435b-a130-f86a7e4e447f", 2, 'custom_widget', 'center']
               #- ['Theme', 'nchantdoffice.widgets.config.settings.NchantdOfficeThemeSettings', "{}", '066a7cf6-5aca-79a2-8000-f4b5405a0427', "b8f6d482-d62a-4ad1-96ed-6ebe1b652141", 2, 'custom_widget', 'center']
               #- ['Packages', 'nchantdoffice.widgets.config.packages.NchantdPackageSettings', "{}", '066a7cf6-5aca-79a2-8000-f4b5405a0427', "03762344-3d2e-45f6-a642-f9a489af1b43", 3, 'custom_widget', 'center']
               #- ['Storage', 'nchantdoffice.widgets.config.storage.NchantdOfficeStorageSettings', "{}", '066a7cf6-5aca-79a2-8000-f4b5405a0427', "629cadba-bb23-47c2-8c32-a7f050b6680b", 4, 'custom_widget', 'center']
