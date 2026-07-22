@@ -10,16 +10,10 @@
     security: seclvl2
     <(WT)>: -32
 """
-
-import base64
-
-import logging
-
-logger = logging.getLogger(__name__)
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import dirname, join, exists
-
+import base64
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -47,11 +41,7 @@ class NchantdImage(NchantdWidget):
 
     def __init__(self, parent=None, cfg=None):
         super().__init__(parent, cfg)
-        self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdImage"))
-        if parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdImage").override(cfg))
         self.default_path = join(here, "../../themes", "_data_", "img", "defaulty.jpg")
         self.file_path = None
         self.label = pyqt.QLabel(self)
@@ -72,7 +62,6 @@ class NchantdImage(NchantdWidget):
         super().initModel()
         # Set default image size
         self.is_scaled = self.config.dikt.get("scaled", False)
-
         icon_path_text = self.config.dikt.get("icon", self.config.dikt.get("icon_txt", None))
         if icon_path_text is None:
             logma.info(f"Icon path is None")

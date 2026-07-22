@@ -26,9 +26,10 @@ from nchantrs.widgets.widgets import NchantdWidget
 
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
-log = True
+log = False
 logma = Logma(__name__)
-# logma.off()
+if not log:
+    logma.off()
 
 # ===============================================================================||
 pxcfg = join(abspath(here), "_data_", "treeviews.yaml")
