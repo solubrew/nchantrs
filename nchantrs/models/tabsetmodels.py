@@ -31,7 +31,7 @@ from nchantrs.widgets.widgets import loadWidget
 
 # ===============================================================================||
 here = join(dirname(__file__), "")
-log = False
+log = True
 debug = True
 logma = Logma(__name__)
 if not log:
@@ -199,31 +199,7 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         
         return self
     
-    def _get_active_tab_position(self, node, default=0):
-        """Get the active tab position from node parameters.
-        
-        Subclasses can override to customize how the active tab is determined.
-        
-        Args:
-            node: Node object containing tab configuration
-            default: Default position if not found
-            
-        Returns:
-            Integer tab position (0-indexed)
-        """
-        if hasattr(node, 'parameters') and node.parameters:
-            active_pos = node.parameters.get("active_tab_position", default)
-            try:
-                active_pos = int(active_pos)
-                # Ensure within bounds
-                if active_pos < 0:
-                    active_pos = 0
-                elif self.tabsdata and active_pos >= len(self.tabsdata):
-                    active_pos = 0
-                return active_pos
-            except (ValueError, TypeError):
-                return default
-        return default
+
 
     def create_toolbox(self, parent=None, cfg=None) -> None:
         """"""
@@ -301,9 +277,6 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         """ """
         return 0
 
-    def save_tab(self) -> None:
-        """"""
-
     def update_position(self, from_index, to_index) -> None:
         """"""
         logma.info(f"From Index {from_index} To Index {to_index}")
@@ -328,7 +301,31 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         self.parent.setCurrentIndex(tabn)
         return self
 
+    def _get_active_tab_position(self, node, default=0):
+        """Get the active tab position from node parameters.
 
+        Subclasses can override to customize how the active tab is determined.
+
+        Args:
+            node: Node object containing tab configuration
+            default: Default position if not found
+
+        Returns:
+            Integer tab position (0-indexed)
+        """
+        if hasattr(node, 'parameters') and node.parameters:
+            active_pos = node.parameters.get("active_tab_position", default)
+            try:
+                active_pos = int(active_pos)
+                # Ensure within bounds
+                if active_pos < 0:
+                    active_pos = 0
+                elif self.tabsdata and active_pos >= len(self.tabsdata):
+                    active_pos = 0
+                return active_pos
+            except (ValueError, TypeError):
+                return default
+        return default
 # ===========================Code Source Examples================================||
 """
 """

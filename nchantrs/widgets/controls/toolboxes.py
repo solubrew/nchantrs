@@ -164,15 +164,12 @@ class NchantdToolBox(NchantdTab):
             logma.info(f"Config Toolbox {self.config.dikt.get("toolbox", {})}")  # [0]["items"]}")
             try:
                 cfg = {"toolbox": current_document.toolbox_config}
+                cfg = kahndor.Instruct(cfg).override(cfg).override(self.config.dikt).get("toolbox", {})
             except Exception as e:
                 logma.warning(e)
                 cfg = {}
-            cfg = kahndor.Instruct(cfg).override(cfg)
-            cfg.override(self.config.dikt)
-            cfg = cfg.dikt["toolbox"]
             default_cfg = self.config.dikt.get("default", {})
-            if cfg is None:
-                cfg = default_cfg
+            cfg = cfg or default_cfg
             cfg = dict(sorted(cfg.items()))
             self.drawers = {}
             for drawer, items in cfg.items():

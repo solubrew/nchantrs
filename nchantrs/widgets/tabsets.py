@@ -531,8 +531,8 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         """"""
         # logma.inspect_caller()
         # self.save()
-        if self.model.current_tab is not None:
-            self.model.current_tab.save()
+        #if self.model.current_tab is not None:
+        #    self.model.current_tab.save()
         self.set_focus(tabn)
         return self
 
