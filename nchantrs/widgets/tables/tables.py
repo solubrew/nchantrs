@@ -22,14 +22,9 @@ from pandas import DataFrame
 # ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from nchantrs.libraries import pyqt, qpandas
-from nchantrs.utilities import utils
-from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.items.cells import NchantdCell, NchantdTableCell
-from nchantrs.widgets.media.editors.selectors import NchantdComboBox
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
-from nchantrs.widgets.controls.toolbars import NchantdButtonBar
 from kahndor.logma import Logma
-from pycurity.pytime import PyTime
 from thingery.numbers.numerals import calcExtendedRomanNumerals, calcArabicNumerals
 
 # ====================================================================================================================||
@@ -143,41 +138,41 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
 
     def on_cell_changed(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Cell Changed {event} {row} {column}")
+        #logma.info(f"Cell Changed {event} {row} {column}")
         return self
 
     def on_cell_activated(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Cell Activated {event} {row} {column}")
+        #logma.info(f"Cell Activated {event} {row} {column}")
         return self
 
     def on_cell_clicked(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Cell Clicked {event} {row} {column}")
+        #logma.info(f"Cell Clicked {event} {row} {column}")
 
         return self
 
     def on_cell_clicked_double(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Cell Clicked Double {event} {row} {column}")
+        #logma.info(f"Cell Clicked Double {event} {row} {column}")
         return self
 
     def on_cell_clicked_right(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Cell Clicked Right {event} {row} {column}")
+        #logma.info(f"Cell Clicked Right {event} {row} {column}")
         self.set_current_cell(row, column)
         return self
 
     def on_cell_entered(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Cell Entered {event} {row} {column}")
+        #logma.info(f"Cell Entered {event} {row} {column}")
         return self
 
     def on_cell_pressed(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Cell Pressed {event} {row} {column}")
+        #logma.info(f"Cell Pressed {event} {row} {column}")
         self.set_current_cell(row, column)
-        logma.info(f"Column Handlers {self.column_handlers}")
+        #logma.info(f"Column Handlers {self.column_handlers}")
         if column in self.column_handlers.keys():
             if self.column_handlers[column] is not None:
                 if callable(self.column_handlers[column]):
@@ -190,88 +185,88 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
 
     def on_column_activated(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Column Activated {event} {row} {column}")
+        #logma.info(f"Column Activated {event} {row} {column}")
         return self
 
     def on_column_changed(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Column Changed {event} {row} {column}")
+        #logma.info(f"Column Changed {event} {row} {column}")
         return self
 
     def on_column_clicked(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Column Clicked {event} {row} {column}")
+        #logma.info(f"Column Clicked {event} {row} {column}")
         return self
 
     def on_column_selected(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Column Selected {event} {row} {column}")
+        #logma.info(f"Column Selected {event} {row} {column}")
         return self
 
     def on_item_activated(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Item Activated {event} {row} {column}")
+        #logma.info(f"Item Activated {event} {row} {column}")
         return self
 
     def on_item_changed(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Item Changed {event} {row} {column}")
+        #logma.info(f"Item Changed {event} {row} {column}")
         return self
 
     def on_item_clicked(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Item Clicked {event} {row} {column}")
+        #logma.info(f"Item Clicked {event} {row} {column}")
 
         return self
 
     def on_item_clicked_double(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Item Clicked Double {event} {row} {column}")
+        #logma.info(f"Item Clicked Double {event} {row} {column}")
         return self
 
     def on_item_clicked_left(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Item Clicked Left {event} {row} {column}")
+        #logma.info(f"Item Clicked Left {event} {row} {column}")
         return self
 
     def on_item_clicked_middle(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Item Clicked Middle {event} {row} {column}")
+        #logma.info(f"Item Clicked Middle {event} {row} {column}")
         return self
 
     def on_item_clicked_right(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Item Clicked Right {event} {row} {column}")
+        #logma.info(f"Item Clicked Right {event} {row} {column}")
         return self
 
     def on_item_entered(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Item Entered {event} {row} {column}")
+        #logma.info(f"Item Entered {event} {row} {column}")
         return self
 
     def on_item_pressed(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Item Pressed {event} {row} {column}")
+        #logma.info(f"Item Pressed {event} {row} {column}")
         return self
 
     def on_item_selection_changed(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Item Selection Changed {event} {row} {column}")
+        #logma.info(f"Item Selection Changed {event} {row} {column}")
         return self
 
     def on_row_activated(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Row Activated {event} {row} {column}")
+        #logma.info(f"Row Activated {event} {row} {column}")
         return self
 
     def on_row_clicked(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Row Clicked {event} {row} {column}")
+        #logma.info(f"Row Clicked {event} {row} {column}")
         return self
 
     def on_row_selected(self, row=None, column=None, event=None, *args, **kwargs):
         """"""
-        logma.info(f"Row Selected {event} {row} {column}")
+        #logma.info(f"Row Selected {event} {row} {column}")
         return self
 
     def reset_column_widths(self):
@@ -344,9 +339,12 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
         self.setRowCount(self.config.dikt.get("num_rows", 3))
         self.set_column_numbers(self.config.dikt.get("num_columns", 3))
         logma.info(f"Data {data}")
+        #for sheet in data:
+        #
         if data is None or data == []:
             return self
         self.setRowCount(len(data) if len(data) > 0 else self.config.dikt.get("num_rows", 3))
+        
         self.set_column_numbers(len(data[0]) if data else self.config.dikt.get("num_columns", 3))
         x = 0
         width = {}
@@ -357,7 +355,7 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
                 column_name = self.columns[col]
             if column_name in self.config.dikt.get("column_widgets", {}):
                 column_widget = self.config.dikt["column_widgets"][column_name]
-            logma.info(f"Column Widget {column_widget}")
+            #logma.info(f"Column Widget {column_widget}")
             y = 0
             width[col] = self.min_column_width
             for row in range(self.rowCount()):
@@ -370,13 +368,13 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
                     d = data[row][col]
                     if d == "":
                         continue
-                    logma.info(f"Row {row} Col {col} {d}")
+                    #logma.info(f"Row {row} Col {col} {d}")
                 except Exception as e:
                     if debug:
                         logma.warning(e)
                         raise e
                 if column_widget is None:
-                    logma.info(f"Col {col} {d}")
+                    #logma.info(f"Col {col} {d}")
                     cfg = {"text": d}
                     #need to hold data in a dictionary?
                     self.setItem(y, x, NchantdTableCell(self, cfg).initWidget())
@@ -385,47 +383,7 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
                     # if self.config.dikt["column_widths"] is None:
                     #     width[col] = d_width if width[col] < d_width <= self.max_column_width else width[col]
                 else:
-                    if self.config.dikt["column_widgets"][column_name] == "label":
-                        self.setCellWidget(y, x, NchantdLabel(self, d))
-                    elif self.config.dikt["column_widgets"][column_name] == "datetime":
-                        logma.info(f"Date Time {d}")
-                        date_time_widget = pyqt.QDateTimeEdit()
-                        date_time_widget.setCalendarPopup(True)  # Enable calendar popup for easy selection
-                        date_time_widget.setDateTime(
-                            PyTime({"datetime": d}).get_datetime()
-                        )  # Set current date and time
-                        self.setCellWidget(x, y, date_time_widget)
-                    elif self.config.dikt["column_widgets"][column_name] == "date":
-                        date_widget = pyqt.QDateEdit()
-                        date_widget.setCalendarPopup(True)
-                        date_widget.setDateTime(d)
-                        self.setCellWidget(x, y, date_widget)
-                    elif self.config.dikt["column_widgets"][column_name] == "time":
-                        time_widget = pyqt.QTimeEdit()
-                        time_widget.setCalendarPopup(True)
-                        time_widget.setDateTime(d)
-                        self.setCellWidget(x, y, time_widget)
-                    elif self.config.dikt["column_widgets"][column_name] == "combobox":
-                        cfg = {"text": d}
-                        combobox = NchantdComboBox(self, cfg).initWidget()
-                        self.setCellWidget(x, y, combobox)
-                    elif self.config.dikt["column_widgets"][column_name] == "checkbox":
-                        cfg = {}
-                        checkbox = pyqt.QCheckBox(d)
-                        checkbox.setChecked(True)
-                        self.setCellWidget(x, y, checkbox)
-                    elif self.config.dikt["column_widgets"][column_name] == "spinbox":
-                        cfg = {}
-                        spinbox = pyqt.QSpinBox()
-                        spinbox.setRange(0, 100)
-                        spinbox.setValue(0)
-                        self.setCellWidget(x, y, spinbox)
-                    elif self.config.dikt["column_widgets"][column_name] == "buttonbar":
-                        cfg = {}
-                        buttonbar = NchantdButtonBar(self, cfg).initWidget()
-                        self.setCellWidget(x, y, buttonbar)
-                    else:
-                        raise Exception(f"Unknown Widget {column_widget}")
+                    self.assign_widget(column_name, x, y, d)
                 y += 1
             x += 1
         self.set_column_numbers()
@@ -439,6 +397,10 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
         #         # logma.info(f"Col {col} {width[col]}")
         #         self.setColumnWidth(col, width[col])
         return self
+
+    def assign_widget(self, column_name, x, y):
+        """"""
+        return NotImplemented
 
     def set_font(self):
         """"""
@@ -491,6 +453,20 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
             data = data_
         self.set_data(data)
         self.repaint()
+
+        # self.table.clearContents()
+        # with open(file_path, "r", encoding="utf-8") as f:
+        #     reader = csv.reader(f)
+    #     for row_idx, row in enumerate(reader):
+    #         for col_idx, value in enumerate(row):
+    #             if col_idx >= self.table.columnCount():
+    #                 self.table.insertColumn(col_idx)
+    #                 self.table.setHorizontalHeaderItem(col_idx, pyqt.QTableWidgetItem(chr(65 + col_idx)))
+    #             item = pyqt.QTableWidgetItem(value)
+    #             self.table.setItem(row_idx, col_idx, item)
+    #         if row_idx >= self.table.rowCount() - 1:
+    #             self.table.insertRow(row_idx + 1)
+
         return self
 
     def _check_text_length_size(self, text):

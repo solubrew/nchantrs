@@ -260,6 +260,8 @@ class NchantdDropDown(NchantdWidget):
 
     def get_value(self):
         """"""
+        if self.combobox is None:
+            return None
         return self.combobox.get_value()
 
     def on_return_pressed(self, method):

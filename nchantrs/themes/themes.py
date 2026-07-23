@@ -14,25 +14,21 @@
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join, exists
-from typing import Optional, Dict, List, Any, Tuple
 
-import logging
-
-logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
 from squirl.objnql import txtonql
-
 from nchantrs.libraries import pyqt
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 log = False
 logma = Logma(__name__)
-
+if not log:
+    logma.off()
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "themes.yaml")
 
@@ -45,9 +41,7 @@ class NchantdTheme:
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdTheme")
         self.themes = kahndor.Instruct(pxcfg).select("Themes").dikt
-        self.config.override(self.themes)
-        self.config.override(cfg)
-        super(NchantdTheme, self).__init__()
+        self.config.override(self.themes).override(cfg)
         self.accent_iconset = "mist_icons"
         self.accent = None
         self.app = self.parent

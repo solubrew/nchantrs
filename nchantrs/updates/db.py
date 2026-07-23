@@ -29,7 +29,7 @@ from nchantrs.models.models import NchantdInstance
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
-log = True
+log = False
 logma = Logma(__name__)
 debug = True
 if not log:

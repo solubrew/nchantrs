@@ -53,10 +53,7 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         substitute for PySide2"""
         super().__init__()
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdDocEditor")
-        if parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdDocEditor").override(parent.config).override(cfg)
         self.embeded_links = None
 
     def initModel(self):
@@ -208,42 +205,52 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
 
     def cmd_change_color(self):
         """"""
+        #TODO: implement method
         return self
 
     def cmd_change_color_background(self):
         """"""
+        #TODO: implement method
         return self
 
     def cmd_change_color_highlight(self):
         """"""
+        #TODO: implement method
         return self
 
     def cmd_change_bold(self):
         """"""
+        #TODO: implement method
         return self
 
     def cmd_change_italic(self):
         """"""
+        #TODO: implement method
         return self
 
     def cmd_change_underline(self):
         """"""
+        #TODO: implement method
         return self
 
     def cmd_change_underline_double(self):
         """"""
+        #TODO: implement method
         return self
 
     def cmd_change_strike(self):
         """"""
+        #TODO: implement method
         return self
 
     def cmd_change_subscript(self):
         """"""
+        #TODO: implement method
         return self
 
     def cmd_change_superscript(self):
         """"""
+        #TODO: implement method
         return self
 
     def create_bulleted_list(self):
@@ -295,10 +302,12 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
 
     def insert_bullet(self):
         """"""
+        #TODO: implement method
         return self
 
     def insert_code(self):
         """"""
+        #TODO: implement method
         return self
 
     def insert_datetime(self, format_=None, prefix="", suffix=""):
@@ -380,7 +389,6 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         """"""
         return self.verticalAlignment() == pyqt.QTextCharFormat.AlignSubScript
 
-    ## --- Helper Methods --- ##
     def merge_format_on_selection(self, fmt):
         """
         Merge the provided text format with the current selection.

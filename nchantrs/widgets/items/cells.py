@@ -46,17 +46,14 @@ logma.off()
 pxcfg = join(here, "_data_", "cells.yaml")
 
 
-class NchantdCell(NchantdWidgetMixin, pyqt.QWidget):
+class NchantdCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__()
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdCell")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdCell").override(parent.config).override(cfg)
         self.auto_calculate = None
         self.label = None
         self.formula = None

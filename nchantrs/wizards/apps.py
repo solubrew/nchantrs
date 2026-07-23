@@ -19,9 +19,7 @@ import sys
 import platform
 import psutil
 import yaml
-import logging
 
-logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
@@ -39,7 +37,7 @@ from subtrix.subtrix import Mechanism
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
-log = True
+log = False
 debug = True
 logma = Logma(__name__)
 if not log:

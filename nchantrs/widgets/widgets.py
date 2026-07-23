@@ -1046,9 +1046,9 @@ def loadWidget(parent, cfg=None):  # , panestyle=None):
                         if widget:
                             break
                     except Exception as e:
-                        logma.warning(f"{app}.{cfg['widget']}")
-                        logma.warning(e)
-
+                        if log:
+                            logma.warning(f"{app}.{cfg['widget']}")
+                            logma.warning(e)
             if widget is None:
                 # No fallback apps or all failed, re-raise the original exception
                 logma.warning(f"Failed to load widget: {cfg['widget']}")
