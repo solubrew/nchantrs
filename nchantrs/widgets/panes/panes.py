@@ -43,11 +43,7 @@ class NchantdPane(NchantdWidget):
     def __init__(self, parent=None, cfg=None):
         """ """
         super().__init__(parent, cfg)
-        self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdPane"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdPane").override(cfg))
         self.left_side_layout = None
         self.center_layout = None
         self.right_side_layout = None
@@ -59,8 +55,7 @@ class NchantdPane(NchantdWidget):
 
     def initView(self, cfg=None):
         """"""
-        if cfg is None:
-            cfg = {}
+        cfg = cfg or {}
         if cfg.get("layout", None) is None:
             cfg = {"layout": "horizontal"}
         super().initView(cfg)

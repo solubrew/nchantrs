@@ -625,12 +625,8 @@ class NchantdWebBrowser(NchantdWebViewer):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdWebBrowser")
-        if parent:
-            self.config.override(parent.config)
-        super().__init__(self.parent, self.config)
-        self.config.override(cfg)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdWebBrowser").override(cfg))
         self.back_button = None
         self.url_select_entry = None
         self.forward_button = None
