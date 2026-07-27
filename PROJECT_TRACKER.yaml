@@ -1,3171 +1,2102 @@
-agent: arthr
+agent: m3rl1n
 analysis:
   counts:
-    directories: 91
-    file_sizes:
-      nchantrs/__init__.py: 488
-      nchantrs/__main__.py: 243
-      nchantrs/actions/__init__.py: 285
-      nchantrs/actions/actions.py: 9217
-      nchantrs/actions/charts.py: 1691
-      nchantrs/actions/files.py: 6917
-      nchantrs/actions/format.py: 1187
-      nchantrs/actions/tables.py: 37415
-      nchantrs/actions/text.py: 5977
-      nchantrs/actions/tree.py: 5889
-      nchantrs/agent_awareness.py: 3269
-      nchantrs/cli.py: 9984
-      nchantrs/dialogs/__init__.py: 371
-      nchantrs/dialogs/about.py: 5090
-      nchantrs/dialogs/authentication.py: 2980
-      nchantrs/dialogs/colors.py: 2720
-      nchantrs/dialogs/dialogs.py: 19950
-      nchantrs/dialogs/editors.py: 3030
-      nchantrs/dialogs/errors.py: 2364
-      nchantrs/dialogs/extensions.py: 2246
-      nchantrs/dialogs/files.py: 5729
-      nchantrs/dialogs/icons.py: 2314
-      nchantrs/dialogs/new.py: 6299
-      nchantrs/dialogs/notifications.py: 2221
-      nchantrs/dialogs/passwords.py: 2270
-      nchantrs/dialogs/save.py: 1430
-      nchantrs/dialogs/search.py: 2212
-      nchantrs/dialogs/settings.py: 2407
-      nchantrs/events/__init__.py: 294
-      nchantrs/events/alerts.py: 1772
-      nchantrs/events/events.py: 7878
-      nchantrs/events/keyboard_events.py: 14320
-      nchantrs/events/mouse_events.py: 5592
-      nchantrs/events/tabsets.py: 14264
-      nchantrs/events/trees.py: 11373
-      nchantrs/extensions/__init__.py: 35
-      nchantrs/extensions/apis.py: 8120
-      nchantrs/extensions/extensions.py: 3703
-      nchantrs/extensions/install.py: 4354
-      nchantrs/extensions/integrations.py: 1430
-      nchantrs/extensions/packages/__init__.py: 44
-      nchantrs/extensions/packages/nchantdlibrary/__init__.py: 0
-      nchantrs/extensions/packages/nchantdlibrary/bibliography_reference.py: 1378
-      nchantrs/extensions/packages/nchantdlibrary/dictionary.py: 1378
-      nchantrs/extensions/packages/nchantdlibrary/engineering/__init__.py: 0
-      nchantrs/extensions/packages/nchantdlibrary/games/__init__.py: 65
-      nchantrs/extensions/packages/nchantdlibrary/games/gameoflife.py: 3691
-      nchantrs/extensions/packages/nchantdlibrary/nchantdlibrary.py: 1629
-      nchantrs/extensions/packages/nchantdlibrary/physician/__init__.py: 0
-      nchantrs/extensions/packages/nchantdlibrary/physician/physicians_reference.py: 1378
-      nchantrs/extensions/packages/nchantdlibrary/style_guide.py: 1378
-      nchantrs/extensions/packages/nchantdlibrary/thesaurus.py: 1378
-      nchantrs/extensions/plugins.py: 2924
-      nchantrs/extensions/sources.py: 1430
-      nchantrs/libraries/__init__.py: 34
-      nchantrs/libraries/orange.py: 1498
-      nchantrs/libraries/pyqt.py: 5362
-      nchantrs/libraries/qpandas.py: 1751
-      nchantrs/libraries/syntax.py: 6730
-      nchantrs/library/__init__.py: 32
-      nchantrs/library/library.py: 1632
-      nchantrs/logging/__init__.py: 1962
-      nchantrs/models/__init__.py: 284
-      nchantrs/models/applicationmodels.py: 32995
-      nchantrs/models/models.py: 70744
-      nchantrs/models/tabsetmodels.py: 12623
-      nchantrs/models/treemodels.py: 16917
-      nchantrs/nchantrs.py: 6771
-      nchantrs/services/__init__.py: 333
-      nchantrs/services/bonds.py: 2537
-      nchantrs/services/connections.py: 2284
-      nchantrs/services/directories.py: 1830
-      nchantrs/services/integrity.py: 3536
-      nchantrs/services/license.py: 2130
-      nchantrs/services/links.py: 2206
-      nchantrs/services/nchantrs.py: 2579
-      nchantrs/services/services.py: 3490
-      nchantrs/services/tags.py: 2343
-      nchantrs/services/telemetry.py: 1774
-      nchantrs/services/upgrades.py: 10279
-      nchantrs/themes/__init__.py: 31
-      nchantrs/themes/colors.py: 12847
-      nchantrs/themes/images.py: 1648
-      nchantrs/themes/themes.py: 6818
-      nchantrs/updates/__init__.py: 32
-      nchantrs/updates/db.py: 17189
-      nchantrs/utilities/__init__.py: 409
-      nchantrs/utilities/analytics.py: 2347
-      nchantrs/utilities/books.py: 2570
-      nchantrs/utilities/comms.py: 4147
-      nchantrs/utilities/constants.py: 2157
-      nchantrs/utilities/debug.py: 7907
-      nchantrs/utilities/files.py: 2211
-      nchantrs/utilities/formatting.py: 3269
-      nchantrs/utilities/formulas.py: 2117
-      nchantrs/utilities/graphics/__init__.py: 0
-      nchantrs/utilities/graphics/animations/__init__.py: 0
-      nchantrs/utilities/graphics/animations/turtle.py: 3357
-      nchantrs/utilities/graphics/logos.py: 2466
-      nchantrs/utilities/graphics/pixelart.py: 3126
-      nchantrs/utilities/identification.py: 2033
-      nchantrs/utilities/models.py: 2521
-      nchantrs/utilities/policies.py: 5244
-      nchantrs/utilities/tools/__init__.py: 40
-      nchantrs/utilities/tools/search.py: 2391
-      nchantrs/utilities/tools/tools.py: 1378
-      nchantrs/utilities/users.py: 14325
-      nchantrs/utilities/utils.py: 6848
-      nchantrs/views/__init__.py: 30
-      nchantrs/views/applicationviews.py: 10542
-      nchantrs/views/treeviews.py: 11081
-      nchantrs/views/views.py: 1396
-      nchantrs/widgets/__init__.py: 436
-      nchantrs/widgets/agents/__init__.py: 39
-      nchantrs/widgets/agents/agents.py: 4406
-      nchantrs/widgets/annotations.py: 11256
-      nchantrs/widgets/applications/__init__.py: 0
-      nchantrs/widgets/applications/applications.py: 30893
-      nchantrs/widgets/applications/managers.py: 2738
-      nchantrs/widgets/browsers/__init__.py: 0
-      nchantrs/widgets/browsers/browsers.py: 23649
-      nchantrs/widgets/browsers/codecs/__init__.py: 48
-      nchantrs/widgets/browsers/codecs/h264.py: 18354
-      nchantrs/widgets/browsers/downloads.py: 29024
-      nchantrs/widgets/browsers/engines.py: 19974
-      nchantrs/widgets/browsers/graphics.py: 4488
-      nchantrs/widgets/browsers/history.py: 1869
-      nchantrs/widgets/browsers/initialize.py: 2300
-      nchantrs/widgets/browsers/javascript/__init__.py: 52
-      nchantrs/widgets/browsers/javascript/scripts.py: 10549
-      nchantrs/widgets/browsers/network.py: 1430
-      nchantrs/widgets/browsers/pages.py: 38490
-      nchantrs/widgets/browsers/profiles.py: 31060
-      nchantrs/widgets/browsers/requests.py: 19678
-      nchantrs/widgets/browsers/security/__init__.py: 50
-      nchantrs/widgets/browsers/security/authentication.py: 14445
-      nchantrs/widgets/browsers/security/environment.py: 27979
-      nchantrs/widgets/browsers/security/google.py: 3495
-      nchantrs/widgets/browsers/services.py: 6732
-      nchantrs/widgets/browsers/utilities.py: 7711
-      nchantrs/widgets/calculators/__init__.py: 44
-      nchantrs/widgets/calculators/calculators.py: 17640
-      nchantrs/widgets/calendars/__init__.py: 0
-      nchantrs/widgets/calendars/calendars.py: 8987
-      nchantrs/widgets/calendars/centuries.py: 2119
-      nchantrs/widgets/calendars/days.py: 8917
-      nchantrs/widgets/calendars/decades.py: 2121
-      nchantrs/widgets/calendars/months.py: 10431
-      nchantrs/widgets/calendars/timelines.py: 17243
-      nchantrs/widgets/calendars/weeks.py: 3713
-      nchantrs/widgets/calendars/years.py: 5400
-      nchantrs/widgets/canvases/__init__.py: 0
-      nchantrs/widgets/canvases/canvases.py: 8994
-      nchantrs/widgets/canvases/multipages.py: 3474
-      nchantrs/widgets/canvases/scenes.py: 7490
-      nchantrs/widgets/catalogs.py: 8616
-      nchantrs/widgets/config/__init__.py: 39
-      nchantrs/widgets/config/accounts.py: 3889
-      nchantrs/widgets/config/config.py: 10160
-      nchantrs/widgets/config/extensions.py: 3444
-      nchantrs/widgets/config/help.py: 5257
-      nchantrs/widgets/config/integrations.py: 2917
-      nchantrs/widgets/config/packages.py: 6266
-      nchantrs/widgets/config/profiles.py: 2511
-      nchantrs/widgets/config/security.py: 11026
-      nchantrs/widgets/config/services.py: 2124
-      nchantrs/widgets/config/settings.py: 9285
-      nchantrs/widgets/config/storage.py: 11648
-      nchantrs/widgets/config/uninstall.py: 10080
-      nchantrs/widgets/controls/__init__.py: 41
-      nchantrs/widgets/controls/advanced_buttons.py: 15686
-      nchantrs/widgets/controls/button_groups.py: 26873
-      nchantrs/widgets/controls/buttons.py: 12340
-      nchantrs/widgets/controls/checkboxes.py: 6829
-      nchantrs/widgets/controls/connectors.py: 5209
-      nchantrs/widgets/controls/controls.py: 4953
-      nchantrs/widgets/controls/menus.py: 5754
-      nchantrs/widgets/controls/navigation.py: 2980
-      nchantrs/widgets/controls/radios.py: 3847
-      nchantrs/widgets/controls/search.py: 2132
-      nchantrs/widgets/controls/toolbars.py: 14978
-      nchantrs/widgets/controls/toolboxes.py: 10079
-      nchantrs/widgets/controls/tooltips.py: 2123
-      nchantrs/widgets/embeds.py: 4028
-      nchantrs/widgets/forms/__init__.py: 38
-      nchantrs/widgets/forms/forms.py: 9371
-      nchantrs/widgets/groups.py: 18541
-      nchantrs/widgets/items/__init__.py: 0
-      nchantrs/widgets/items/catalogs.py: 8960
-      nchantrs/widgets/items/cells.py: 8687
-      nchantrs/widgets/items/items.py: 5325
-      nchantrs/widgets/items/nodes.py: 33125
-      nchantrs/widgets/items/subtrees.py: 3636
-      nchantrs/widgets/launch.py: 2598
-      nchantrs/widgets/managers.py: 6119
-      nchantrs/widgets/managers/__init__.py: 204
-      nchantrs/widgets/managers/managers.py: 9702
-      nchantrs/widgets/media/__init__.py: 38
-      nchantrs/widgets/media/charts/__init__.py: 45
-      nchantrs/widgets/media/charts/charts.py: 42260
-      nchantrs/widgets/media/editors/__init__.py: 46
-      nchantrs/widgets/media/editors/code.py: 9389
-      nchantrs/widgets/media/editors/editors.py: 29749
-      nchantrs/widgets/media/editors/entries.py: 5338
-      nchantrs/widgets/media/editors/selectors.py: 14249
-      nchantrs/widgets/media/games/__init__.py: 44
-      nchantrs/widgets/media/games/boards.py: 12067
-      nchantrs/widgets/media/games/games.py: 2131
-      nchantrs/widgets/media/images.py: 12750
-      nchantrs/widgets/media/maps.py: 2941
-      nchantrs/widgets/media/marquees.py: 3495
-      nchantrs/widgets/media/media.py: 9769
-      nchantrs/widgets/media/notes.py: 4734
-      nchantrs/widgets/media/palettes.py: 3866
-      nchantrs/widgets/media/shapes.py: 7141
-      nchantrs/widgets/media/utilities.py: 2948
-      nchantrs/widgets/media/video.py: 4513
-      nchantrs/widgets/panes/__init__.py: 38
-      nchantrs/widgets/panes/calendars.py: 2571
-      nchantrs/widgets/panes/catalogs.py: 11468
-      nchantrs/widgets/panes/files.py: 2136
-      nchantrs/widgets/panes/numbers.py: 3449
-      nchantrs/widgets/panes/panes.py: 3030
-      nchantrs/widgets/tables/__init__.py: 0
-      nchantrs/widgets/tables/lists.py: 9447
-      nchantrs/widgets/tables/tables.py: 24688
-      nchantrs/widgets/tabsets.py: 27541
-      nchantrs/widgets/trees.py: 16492
-      nchantrs/widgets/widgets.py: 35838
-      nchantrs/wizards/__init__.py: 0
-      nchantrs/wizards/accounts.py: 3319
-      nchantrs/wizards/apps.py: 27126
-      nchantrs/wizards/instances.py: 4724
-      nchantrs/wizards/pages.py: 4179
-      nchantrs/wizards/users.py: 11247
-      nchantrs/wizards/wizards.py: 2662
-      tests/__init__.py: 25
-    files_by_type:
-      .iml: 1
-      .jpg: 2
-      .json: 1
-      .kra: 2
-      .md: 8
-      .png: 30
-      .py: 238
-      .qss: 9
-      .rst: 1
-      .sh: 1
-      .svg: 990
-      .toml: 1
-      .txt: 1
-      .webp: 2
-      .xml: 5
-      .yaml: 67
-      .yml: 1
-    per_file:
-      nchantrs/__init__.py:
-        class_count: 0
-        file_size: 488
-        function_count: 0
-        import_count: 2
-        word_count: 46
-      nchantrs/__main__.py:
-        class_count: 0
-        file_size: 243
-        function_count: 0
-        import_count: 3
-        word_count: 25
-      nchantrs/actions/__init__.py:
-        class_count: 0
-        file_size: 285
-        function_count: 0
-        import_count: 2
-        word_count: 36
-      nchantrs/actions/actions.py:
-        class_count: 1
-        file_size: 9217
-        function_count: 46
-        import_count: 6
-        word_count: 923
-      nchantrs/actions/charts.py:
-        class_count: 0
-        file_size: 1691
-        function_count: 10
-        import_count: 1
-        word_count: 202
-      nchantrs/actions/files.py:
-        class_count: 0
-        file_size: 6917
-        function_count: 15
-        import_count: 6
-        word_count: 598
-      nchantrs/actions/format.py:
-        class_count: 0
-        file_size: 1187
-        function_count: 10
-        import_count: 1
-        word_count: 115
-      nchantrs/actions/tables.py:
-        class_count: 4
-        file_size: 37415
-        function_count: 39
-        import_count: 4
-        word_count: 2421
-      nchantrs/actions/text.py:
-        class_count: 0
-        file_size: 5977
-        function_count: 44
-        import_count: 6
-        word_count: 633
-      nchantrs/actions/tree.py:
-        class_count: 0
-        file_size: 5889
-        function_count: 0
-        import_count: 7
-        word_count: 555
-      nchantrs/agent_awareness.py:
-        class_count: 0
-        file_size: 3269
-        function_count: 5
-        import_count: 4
-        word_count: 327
-      nchantrs/cli.py:
-        class_count: 0
-        file_size: 9984
-        function_count: 26
-        import_count: 4
-        word_count: 1074
-      nchantrs/dialogs/__init__.py:
-        class_count: 0
-        file_size: 371
-        function_count: 0
-        import_count: 2
-        word_count: 44
-      nchantrs/dialogs/about.py:
-        class_count: 1
-        file_size: 5090
-        function_count: 0
-        import_count: 11
-        word_count: 365
-      nchantrs/dialogs/authentication.py:
-        class_count: 1
-        file_size: 2980
-        function_count: 0
-        import_count: 6
-        word_count: 230
-      nchantrs/dialogs/colors.py:
-        class_count: 1
-        file_size: 2720
-        function_count: 0
-        import_count: 7
-        word_count: 193
-      nchantrs/dialogs/dialogs.py:
-        class_count: 6
-        file_size: 19950
-        function_count: 0
-        import_count: 13
-        word_count: 1600
-      nchantrs/dialogs/editors.py:
-        class_count: 1
-        file_size: 3030
-        function_count: 0
-        import_count: 8
-        word_count: 210
-      nchantrs/dialogs/errors.py:
-        class_count: 1
-        file_size: 2364
-        function_count: 0
-        import_count: 8
-        word_count: 149
-      nchantrs/dialogs/extensions.py:
-        class_count: 1
-        file_size: 2246
-        function_count: 0
-        import_count: 7
-        word_count: 145
-      nchantrs/dialogs/files.py:
-        class_count: 4
-        file_size: 5729
-        function_count: 0
-        import_count: 7
-        word_count: 459
-      nchantrs/dialogs/icons.py:
-        class_count: 1
-        file_size: 2314
-        function_count: 0
-        import_count: 7
-        word_count: 152
-      nchantrs/dialogs/new.py:
-        class_count: 4
-        file_size: 6299
-        function_count: 0
-        import_count: 9
-        word_count: 440
-      nchantrs/dialogs/notifications.py:
-        class_count: 1
-        file_size: 2221
-        function_count: 0
-        import_count: 7
-        word_count: 145
-      nchantrs/dialogs/passwords.py:
-        class_count: 2
-        file_size: 2270
-        function_count: 0
-        import_count: 6
-        word_count: 148
-      nchantrs/dialogs/save.py:
-        class_count: 0
-        file_size: 1430
-        function_count: 0
-        import_count: 6
-        word_count: 90
-      nchantrs/dialogs/search.py:
-        class_count: 1
-        file_size: 2212
-        function_count: 0
-        import_count: 7
-        word_count: 145
-      nchantrs/dialogs/settings.py:
-        class_count: 1
-        file_size: 2407
-        function_count: 0
-        import_count: 8
-        word_count: 160
-      nchantrs/events/__init__.py:
-        class_count: 0
-        file_size: 294
-        function_count: 0
-        import_count: 2
-        word_count: 35
-      nchantrs/events/alerts.py:
-        class_count: 0
-        file_size: 1772
-        function_count: 0
-        import_count: 7
-        word_count: 124
-      nchantrs/events/events.py:
-        class_count: 2
-        file_size: 7878
-        function_count: 0
-        import_count: 5
-        word_count: 616
-      nchantrs/events/keyboard_events.py:
-        class_count: 0
-        file_size: 14320
-        function_count: 101
-        import_count: 5
-        word_count: 1923
-      nchantrs/events/mouse_events.py:
-        class_count: 0
-        file_size: 5592
-        function_count: 0
-        import_count: 5
-        word_count: 639
-      nchantrs/events/tabsets.py:
-        class_count: 0
-        file_size: 14264
-        function_count: 3
-        import_count: 1
-        word_count: 1270
-      nchantrs/events/trees.py:
-        class_count: 0
-        file_size: 11373
-        function_count: 2
-        import_count: 6
-        word_count: 671
-      nchantrs/extensions/__init__.py:
-        class_count: 0
-        file_size: 35
-        function_count: 0
-        import_count: 0
-        word_count: 3
-      nchantrs/extensions/apis.py:
-        class_count: 8
-        file_size: 8120
-        function_count: 0
-        import_count: 8
-        word_count: 652
-      nchantrs/extensions/extensions.py:
-        class_count: 1
-        file_size: 3703
-        function_count: 0
-        import_count: 10
-        word_count: 260
-      nchantrs/extensions/install.py:
-        class_count: 1
-        file_size: 4354
-        function_count: 0
-        import_count: 10
-        word_count: 338
-      nchantrs/extensions/integrations.py:
-        class_count: 0
-        file_size: 1430
-        function_count: 0
-        import_count: 6
-        word_count: 90
-      nchantrs/extensions/packages/__init__.py:
-        class_count: 0
-        file_size: 44
-        function_count: 0
-        import_count: 0
-        word_count: 4
-      nchantrs/extensions/packages/nchantdlibrary/__init__.py:
-        class_count: 0
-        file_size: 0
-        function_count: 0
-        import_count: 0
-        word_count: 0
-      nchantrs/extensions/packages/nchantdlibrary/bibliography_reference.py:
-        class_count: 0
-        file_size: 1378
-        function_count: 0
-        import_count: 5
-        word_count: 82
-      nchantrs/extensions/packages/nchantdlibrary/dictionary.py:
-        class_count: 0
-        file_size: 1378
-        function_count: 0
-        import_count: 5
-        word_count: 82
-      nchantrs/extensions/packages/nchantdlibrary/engineering/__init__.py:
-        class_count: 0
-        file_size: 0
-        function_count: 0
-        import_count: 0
-        word_count: 0
-      nchantrs/extensions/packages/nchantdlibrary/games/__init__.py:
-        class_count: 0
-        file_size: 65
-        function_count: 0
-        import_count: 0
-        word_count: 6
-      nchantrs/extensions/packages/nchantdlibrary/games/gameoflife.py:
-        class_count: 1
-        file_size: 3691
-        function_count: 0
-        import_count: 6
-        word_count: 333
-      nchantrs/extensions/packages/nchantdlibrary/nchantdlibrary.py:
-        class_count: 1
-        file_size: 1629
-        function_count: 0
-        import_count: 5
-        word_count: 96
-      nchantrs/extensions/packages/nchantdlibrary/physician/__init__.py:
-        class_count: 0
-        file_size: 0
-        function_count: 0
-        import_count: 0
-        word_count: 0
-      nchantrs/extensions/packages/nchantdlibrary/physician/physicians_reference.py:
-        class_count: 0
-        file_size: 1378
-        function_count: 0
-        import_count: 5
-        word_count: 82
-      nchantrs/extensions/packages/nchantdlibrary/style_guide.py:
-        class_count: 0
-        file_size: 1378
-        function_count: 0
-        import_count: 5
-        word_count: 82
-      nchantrs/extensions/packages/nchantdlibrary/thesaurus.py:
-        class_count: 0
-        file_size: 1378
-        function_count: 0
-        import_count: 5
-        word_count: 82
-      nchantrs/extensions/plugins.py:
-        class_count: 2
-        file_size: 2924
-        function_count: 0
-        import_count: 7
-        word_count: 193
-      nchantrs/extensions/sources.py:
-        class_count: 0
-        file_size: 1430
-        function_count: 0
-        import_count: 6
-        word_count: 90
-      nchantrs/libraries/__init__.py:
-        class_count: 0
-        file_size: 34
-        function_count: 0
-        import_count: 0
-        word_count: 3
-      nchantrs/libraries/orange.py:
-        class_count: 0
-        file_size: 1498
-        function_count: 0
-        import_count: 4
-        word_count: 92
-      nchantrs/libraries/pyqt.py:
-        class_count: 0
-        file_size: 5362
-        function_count: 0
-        import_count: 45
-        word_count: 417
-      nchantrs/libraries/qpandas.py:
-        class_count: 0
-        file_size: 1751
-        function_count: 0
-        import_count: 11
-        word_count: 157
-      nchantrs/libraries/syntax.py:
-        class_count: 1
-        file_size: 6730
-        function_count: 1
-        import_count: 4
-        word_count: 678
-      nchantrs/library/__init__.py:
-        class_count: 0
-        file_size: 32
-        function_count: 0
-        import_count: 0
-        word_count: 3
-      nchantrs/library/library.py:
-        class_count: 1
-        file_size: 1632
-        function_count: 0
-        import_count: 5
-        word_count: 99
-      nchantrs/logging/__init__.py:
-        class_count: 0
-        file_size: 1962
-        function_count: 2
-        import_count: 4
-        word_count: 189
-      nchantrs/models/__init__.py:
-        class_count: 0
-        file_size: 284
-        function_count: 0
-        import_count: 2
-        word_count: 33
-      nchantrs/models/applicationmodels.py:
-        class_count: 6
-        file_size: 32995
-        function_count: 0
-        import_count: 20
-        word_count: 2734
-      nchantrs/models/models.py:
-        class_count: 5
-        file_size: 70744
-        function_count: 1
-        import_count: 19
-        word_count: 6426
-      nchantrs/models/tabsetmodels.py:
-        class_count: 1
-        file_size: 12623
-        function_count: 0
-        import_count: 14
-        word_count: 1164
-      nchantrs/models/treemodels.py:
-        class_count: 4
-        file_size: 16917
-        function_count: 0
-        import_count: 14
-        word_count: 1465
-      nchantrs/nchantrs.py:
-        class_count: 0
-        file_size: 6771
-        function_count: 7
-        import_count: 10
-        word_count: 596
-      nchantrs/services/__init__.py:
-        class_count: 0
-        file_size: 333
-        function_count: 0
-        import_count: 2
-        word_count: 39
-      nchantrs/services/bonds.py:
-        class_count: 2
-        file_size: 2537
-        function_count: 0
-        import_count: 6
-        word_count: 191
-      nchantrs/services/connections.py:
-        class_count: 1
-        file_size: 2284
-        function_count: 0
-        import_count: 4
-        word_count: 175
-      nchantrs/services/directories.py:
-        class_count: 4
-        file_size: 1830
-        function_count: 0
-        import_count: 5
-        word_count: 128
-      nchantrs/services/integrity.py:
-        class_count: 1
-        file_size: 3536
-        function_count: 1
-        import_count: 7
-        word_count: 303
-      nchantrs/services/license.py:
-        class_count: 2
-        file_size: 2130
-        function_count: 0
-        import_count: 5
-        word_count: 185
-      nchantrs/services/links.py:
-        class_count: 1
-        file_size: 2206
-        function_count: 0
-        import_count: 6
-        word_count: 191
-      nchantrs/services/nchantrs.py:
-        class_count: 1
-        file_size: 2579
-        function_count: 0
-        import_count: 6
-        word_count: 169
-      nchantrs/services/services.py:
-        class_count: 3
-        file_size: 3490
-        function_count: 0
-        import_count: 5
-        word_count: 251
-      nchantrs/services/tags.py:
-        class_count: 2
-        file_size: 2343
-        function_count: 0
-        import_count: 6
-        word_count: 202
-      nchantrs/services/telemetry.py:
-        class_count: 1
-        file_size: 1774
-        function_count: 0
-        import_count: 4
-        word_count: 113
-      nchantrs/services/upgrades.py:
-        class_count: 9
-        file_size: 10279
-        function_count: 1
-        import_count: 6
-        word_count: 853
-      nchantrs/themes/__init__.py:
-        class_count: 0
-        file_size: 31
-        function_count: 0
-        import_count: 0
-        word_count: 3
-      nchantrs/themes/colors.py:
-        class_count: 1
-        file_size: 12847
-        function_count: 0
-        import_count: 8
-        word_count: 1384
-      nchantrs/themes/images.py:
-        class_count: 1
-        file_size: 1648
-        function_count: 0
-        import_count: 5
-        word_count: 101
-      nchantrs/themes/themes.py:
-        class_count: 1
-        file_size: 6818
-        function_count: 1
-        import_count: 7
-        word_count: 514
-      nchantrs/updates/__init__.py:
-        class_count: 0
-        file_size: 32
-        function_count: 0
-        import_count: 0
-        word_count: 3
-      nchantrs/updates/db.py:
-        class_count: 1
-        file_size: 17189
-        function_count: 0
-        import_count: 7
-        word_count: 1430
-      nchantrs/utilities/__init__.py:
-        class_count: 0
-        file_size: 409
-        function_count: 0
-        import_count: 3
-        word_count: 38
-      nchantrs/utilities/analytics.py:
-        class_count: 1
-        file_size: 2347
-        function_count: 0
-        import_count: 6
-        word_count: 164
-      nchantrs/utilities/books.py:
-        class_count: 0
-        file_size: 2570
-        function_count: 4
-        import_count: 10
-        word_count: 181
-      nchantrs/utilities/comms.py:
-        class_count: 1
-        file_size: 4147
-        function_count: 0
-        import_count: 7
-        word_count: 324
-      nchantrs/utilities/constants.py:
-        class_count: 0
-        file_size: 2157
-        function_count: 0
-        import_count: 0
-        word_count: 165
-      nchantrs/utilities/debug.py:
-        class_count: 1
-        file_size: 7907
-        function_count: 3
-        import_count: 2
-        word_count: 670
-      nchantrs/utilities/files.py:
-        class_count: 0
-        file_size: 2211
-        function_count: 1
-        import_count: 9
-        word_count: 170
-      nchantrs/utilities/formatting.py:
-        class_count: 1
-        file_size: 3269
-        function_count: 1
-        import_count: 7
-        word_count: 229
-      nchantrs/utilities/formulas.py:
-        class_count: 1
-        file_size: 2117
-        function_count: 0
-        import_count: 6
-        word_count: 169
-      nchantrs/utilities/graphics/__init__.py:
-        class_count: 0
-        file_size: 0
-        function_count: 0
-        import_count: 0
-        word_count: 0
-      nchantrs/utilities/graphics/animations/__init__.py:
-        class_count: 0
-        file_size: 0
-        function_count: 0
-        import_count: 0
-        word_count: 0
-      nchantrs/utilities/graphics/animations/turtle.py:
-        class_count: 0
-        file_size: 3357
-        function_count: 3
-        import_count: 4
-        word_count: 273
-      nchantrs/utilities/graphics/logos.py:
-        class_count: 1
-        file_size: 2466
-        function_count: 0
-        import_count: 7
-        word_count: 153
-      nchantrs/utilities/graphics/pixelart.py:
-        class_count: 1
-        file_size: 3126
-        function_count: 0
-        import_count: 8
-        word_count: 224
-      nchantrs/utilities/identification.py:
-        class_count: 0
-        file_size: 2033
-        function_count: 1
-        import_count: 7
-        word_count: 163
-      nchantrs/utilities/models.py:
-        class_count: 0
-        file_size: 2521
-        function_count: 1
-        import_count: 7
-        word_count: 211
-      nchantrs/utilities/policies.py:
-        class_count: 1
-        file_size: 5244
-        function_count: 0
-        import_count: 8
-        word_count: 353
-      nchantrs/utilities/tools/__init__.py:
-        class_count: 0
-        file_size: 40
-        function_count: 0
-        import_count: 0
-        word_count: 4
-      nchantrs/utilities/tools/search.py:
-        class_count: 5
-        file_size: 2391
-        function_count: 0
-        import_count: 5
-        word_count: 144
-      nchantrs/utilities/tools/tools.py:
-        class_count: 0
-        file_size: 1378
-        function_count: 0
-        import_count: 5
-        word_count: 82
-      nchantrs/utilities/users.py:
-        class_count: 1
-        file_size: 14325
-        function_count: 2
-        import_count: 13
-        word_count: 1101
-      nchantrs/utilities/utils.py:
-        class_count: 0
-        file_size: 6848
-        function_count: 5
-        import_count: 7
-        word_count: 602
-      nchantrs/views/__init__.py:
-        class_count: 0
-        file_size: 30
-        function_count: 0
-        import_count: 0
-        word_count: 3
-      nchantrs/views/applicationviews.py:
-        class_count: 3
-        file_size: 10542
-        function_count: 0
-        import_count: 11
-        word_count: 751
-      nchantrs/views/treeviews.py:
-        class_count: 1
-        file_size: 11081
-        function_count: 0
-        import_count: 8
-        word_count: 849
-      nchantrs/views/views.py:
-        class_count: 0
-        file_size: 1396
-        function_count: 0
-        import_count: 5
-        word_count: 83
-      nchantrs/widgets/__init__.py:
-        class_count: 0
-        file_size: 436
-        function_count: 0
-        import_count: 2
-        word_count: 51
-      nchantrs/widgets/agents/__init__.py:
-        class_count: 0
-        file_size: 39
-        function_count: 0
-        import_count: 0
-        word_count: 4
-      nchantrs/widgets/agents/agents.py:
-        class_count: 3
-        file_size: 4406
-        function_count: 0
-        import_count: 6
-        word_count: 297
-      nchantrs/widgets/annotations.py:
-        class_count: 6
-        file_size: 11256
-        function_count: 0
-        import_count: 10
-        word_count: 766
-      nchantrs/widgets/applications/__init__.py:
-        class_count: 0
-        file_size: 0
-        function_count: 0
-        import_count: 0
-        word_count: 0
-      nchantrs/widgets/applications/applications.py:
-        class_count: 3
-        file_size: 30893
-        function_count: 2
-        import_count: 18
-        word_count: 2343
-      nchantrs/widgets/applications/managers.py:
-        class_count: 1
-        file_size: 2738
-        function_count: 0
-        import_count: 9
-        word_count: 192
-      nchantrs/widgets/browsers/__init__.py:
-        class_count: 0
-        file_size: 0
-        function_count: 0
-        import_count: 0
-        word_count: 0
-      nchantrs/widgets/browsers/browsers.py:
-        class_count: 3
-        file_size: 23649
-        function_count: 0
-        import_count: 25
-        word_count: 1828
-      nchantrs/widgets/browsers/codecs/__init__.py:
-        class_count: 0
-        file_size: 48
-        function_count: 0
-        import_count: 0
-        word_count: 5
-      nchantrs/widgets/browsers/codecs/h264.py:
-        class_count: 3
-        file_size: 18354
-        function_count: 3
-        import_count: 22
-        word_count: 1479
-      nchantrs/widgets/browsers/downloads.py:
-        class_count: 9
-        file_size: 29024
-        function_count: 0
-        import_count: 19
-        word_count: 1826
-      nchantrs/widgets/browsers/engines.py:
-        class_count: 2
-        file_size: 19974
-        function_count: 1
-        import_count: 12
-        word_count: 1461
-      nchantrs/widgets/browsers/graphics.py:
-        class_count: 0
-        file_size: 4488
-        function_count: 3
-        import_count: 9
-        word_count: 331
-      nchantrs/widgets/browsers/history.py:
-        class_count: 1
-        file_size: 1869
-        function_count: 0
-        import_count: 6
-        word_count: 126
-      nchantrs/widgets/browsers/initialize.py:
-        class_count: 0
-        file_size: 2300
-        function_count: 1
-        import_count: 8
-        word_count: 172
-      nchantrs/widgets/browsers/javascript/__init__.py:
-        class_count: 0
-        file_size: 52
-        function_count: 0
-        import_count: 0
-        word_count: 5
-      nchantrs/widgets/browsers/javascript/scripts.py:
-        class_count: 0
-        file_size: 10549
-        function_count: 21
-        import_count: 5
-        word_count: 1011
-      nchantrs/widgets/browsers/network.py:
-        class_count: 0
-        file_size: 1430
-        function_count: 0
-        import_count: 6
-        word_count: 90
-      nchantrs/widgets/browsers/pages.py:
-        class_count: 4
-        file_size: 38490
-        function_count: 0
-        import_count: 15
-        word_count: 3039
-      nchantrs/widgets/browsers/profiles.py:
-        class_count: 4
-        file_size: 31060
-        function_count: 0
-        import_count: 14
-        word_count: 1888
-      nchantrs/widgets/browsers/requests.py:
-        class_count: 6
-        file_size: 19678
-        function_count: 0
-        import_count: 11
-        word_count: 1631
-      nchantrs/widgets/browsers/security/__init__.py:
-        class_count: 0
-        file_size: 50
-        function_count: 0
-        import_count: 0
-        word_count: 5
-      nchantrs/widgets/browsers/security/authentication.py:
-        class_count: 3
-        file_size: 14445
-        function_count: 0
-        import_count: 12
-        word_count: 1022
-      nchantrs/widgets/browsers/security/environment.py:
-        class_count: 10
-        file_size: 27979
-        function_count: 0
-        import_count: 17
-        word_count: 1961
-      nchantrs/widgets/browsers/security/google.py:
-        class_count: 1
-        file_size: 3495
-        function_count: 0
-        import_count: 9
-        word_count: 236
-      nchantrs/widgets/browsers/services.py:
-        class_count: 3
-        file_size: 6732
-        function_count: 0
-        import_count: 15
-        word_count: 551
-      nchantrs/widgets/browsers/utilities.py:
-        class_count: 4
-        file_size: 7711
-        function_count: 2
-        import_count: 8
-        word_count: 633
-      nchantrs/widgets/calculators/__init__.py:
-        class_count: 0
-        file_size: 44
-        function_count: 0
-        import_count: 0
-        word_count: 4
-      nchantrs/widgets/calculators/calculators.py:
-        class_count: 4
-        file_size: 17640
-        function_count: 0
-        import_count: 11
-        word_count: 1200
-      nchantrs/widgets/calendars/__init__.py:
-        class_count: 0
-        file_size: 0
-        function_count: 0
-        import_count: 0
-        word_count: 0
-      nchantrs/widgets/calendars/calendars.py:
-        class_count: 7
-        file_size: 8987
-        function_count: 0
-        import_count: 12
-        word_count: 571
-      nchantrs/widgets/calendars/centuries.py:
-        class_count: 1
-        file_size: 2119
-        function_count: 0
-        import_count: 6
-        word_count: 131
-      nchantrs/widgets/calendars/days.py:
-        class_count: 6
-        file_size: 8917
-        function_count: 0
-        import_count: 13
-        word_count: 607
-      nchantrs/widgets/calendars/decades.py:
-        class_count: 1
-        file_size: 2121
-        function_count: 0
-        import_count: 6
-        word_count: 131
-      nchantrs/widgets/calendars/months.py:
-        class_count: 3
-        file_size: 10431
-        function_count: 0
-        import_count: 13
-        word_count: 617
-      nchantrs/widgets/calendars/timelines.py:
-        class_count: 6
-        file_size: 17243
-        function_count: 0
-        import_count: 16
-        word_count: 1260
-      nchantrs/widgets/calendars/weeks.py:
-        class_count: 1
-        file_size: 3713
-        function_count: 0
-        import_count: 8
-        word_count: 280
-      nchantrs/widgets/calendars/years.py:
-        class_count: 3
-        file_size: 5400
-        function_count: 0
-        import_count: 12
-        word_count: 392
-      nchantrs/widgets/canvases/__init__.py:
-        class_count: 0
-        file_size: 0
-        function_count: 0
-        import_count: 0
-        word_count: 0
-      nchantrs/widgets/canvases/canvases.py:
-        class_count: 7
-        file_size: 8994
-        function_count: 0
-        import_count: 8
-        word_count: 657
-      nchantrs/widgets/canvases/multipages.py:
-        class_count: 1
-        file_size: 3474
-        function_count: 0
-        import_count: 6
-        word_count: 251
-      nchantrs/widgets/canvases/scenes.py:
-        class_count: 2
-        file_size: 7490
-        function_count: 0
-        import_count: 7
-        word_count: 550
-      nchantrs/widgets/catalogs.py:
-        class_count: 2
-        file_size: 8616
-        function_count: 0
-        import_count: 18
-        word_count: 601
-      nchantrs/widgets/config/__init__.py:
-        class_count: 0
-        file_size: 39
-        function_count: 0
-        import_count: 0
-        word_count: 4
-      nchantrs/widgets/config/accounts.py:
-        class_count: 2
-        file_size: 3889
-        function_count: 0
-        import_count: 13
-        word_count: 269
-      nchantrs/widgets/config/config.py:
-        class_count: 1
-        file_size: 10160
-        function_count: 0
-        import_count: 7
-        word_count: 722
-      nchantrs/widgets/config/extensions.py:
-        class_count: 2
-        file_size: 3444
-        function_count: 0
-        import_count: 8
-        word_count: 198
-      nchantrs/widgets/config/help.py:
-        class_count: 3
-        file_size: 5257
-        function_count: 0
-        import_count: 11
-        word_count: 321
-      nchantrs/widgets/config/integrations.py:
-        class_count: 2
-        file_size: 2917
-        function_count: 0
-        import_count: 7
-        word_count: 176
-      nchantrs/widgets/config/packages.py:
-        class_count: 1
-        file_size: 6266
-        function_count: 0
-        import_count: 13
-        word_count: 370
-      nchantrs/widgets/config/profiles.py:
-        class_count: 1
-        file_size: 2511
-        function_count: 0
-        import_count: 7
-        word_count: 185
-      nchantrs/widgets/config/security.py:
-        class_count: 1
-        file_size: 11026
-        function_count: 0
-        import_count: 15
-        word_count: 736
-      nchantrs/widgets/config/services.py:
-        class_count: 1
-        file_size: 2124
-        function_count: 0
-        import_count: 6
-        word_count: 131
-      nchantrs/widgets/config/settings.py:
-        class_count: 3
-        file_size: 9285
-        function_count: 0
-        import_count: 19
-        word_count: 576
-      nchantrs/widgets/config/storage.py:
-        class_count: 1
-        file_size: 11648
-        function_count: 0
-        import_count: 11
-        word_count: 892
-      nchantrs/widgets/config/uninstall.py:
-        class_count: 1
-        file_size: 10080
-        function_count: 0
-        import_count: 6
-        word_count: 666
-      nchantrs/widgets/controls/__init__.py:
-        class_count: 0
-        file_size: 41
-        function_count: 0
-        import_count: 0
-        word_count: 4
-      nchantrs/widgets/controls/advanced_buttons.py:
-        class_count: 9
-        file_size: 15686
-        function_count: 0
-        import_count: 12
-        word_count: 1124
-      nchantrs/widgets/controls/button_groups.py:
-        class_count: 10
-        file_size: 26873
-        function_count: 0
-        import_count: 14
-        word_count: 1700
-      nchantrs/widgets/controls/buttons.py:
-        class_count: 6
-        file_size: 12340
-        function_count: 0
-        import_count: 10
-        word_count: 853
-      nchantrs/widgets/controls/checkboxes.py:
-        class_count: 3
-        file_size: 6829
-        function_count: 0
-        import_count: 9
-        word_count: 493
-      nchantrs/widgets/controls/connectors.py:
-        class_count: 6
-        file_size: 5209
-        function_count: 0
-        import_count: 6
-        word_count: 337
-      nchantrs/widgets/controls/controls.py:
-        class_count: 3
-        file_size: 4953
-        function_count: 0
-        import_count: 9
-        word_count: 365
-      nchantrs/widgets/controls/menus.py:
-        class_count: 2
-        file_size: 5754
-        function_count: 0
-        import_count: 7
-        word_count: 398
-      nchantrs/widgets/controls/navigation.py:
-        class_count: 1
-        file_size: 2980
-        function_count: 0
-        import_count: 6
-        word_count: 165
-      nchantrs/widgets/controls/radios.py:
-        class_count: 2
-        file_size: 3847
-        function_count: 0
-        import_count: 9
-        word_count: 259
-      nchantrs/widgets/controls/search.py:
-        class_count: 1
-        file_size: 2132
-        function_count: 0
-        import_count: 6
-        word_count: 131
-      nchantrs/widgets/controls/toolbars.py:
-        class_count: 6
-        file_size: 14978
-        function_count: 0
-        import_count: 10
-        word_count: 940
-      nchantrs/widgets/controls/toolboxes.py:
-        class_count: 2
-        file_size: 10079
-        function_count: 0
-        import_count: 9
-        word_count: 761
-      nchantrs/widgets/controls/tooltips.py:
-        class_count: 1
-        file_size: 2123
-        function_count: 0
-        import_count: 6
-        word_count: 138
-      nchantrs/widgets/embeds.py:
-        class_count: 4
-        file_size: 4028
-        function_count: 0
-        import_count: 5
-        word_count: 312
-      nchantrs/widgets/forms/__init__.py:
-        class_count: 0
-        file_size: 38
-        function_count: 0
-        import_count: 0
-        word_count: 4
-      nchantrs/widgets/forms/forms.py:
-        class_count: 3
-        file_size: 9371
-        function_count: 0
-        import_count: 7
-        word_count: 721
-      nchantrs/widgets/groups.py:
-        class_count: 7
-        file_size: 18541
-        function_count: 0
-        import_count: 8
-        word_count: 1086
-      nchantrs/widgets/items/__init__.py:
-        class_count: 0
-        file_size: 0
-        function_count: 0
-        import_count: 0
-        word_count: 0
-      nchantrs/widgets/items/catalogs.py:
-        class_count: 4
-        file_size: 8960
-        function_count: 0
-        import_count: 12
-        word_count: 644
-      nchantrs/widgets/items/cells.py:
-        class_count: 2
-        file_size: 8687
-        function_count: 0
-        import_count: 10
-        word_count: 728
-      nchantrs/widgets/items/items.py:
-        class_count: 2
-        file_size: 5325
-        function_count: 0
-        import_count: 7
-        word_count: 456
-      nchantrs/widgets/items/nodes.py:
-        class_count: 14
-        file_size: 33125
-        function_count: 0
-        import_count: 11
-        word_count: 2622
-      nchantrs/widgets/items/subtrees.py:
-        class_count: 3
-        file_size: 3636
-        function_count: 0
-        import_count: 6
-        word_count: 243
-      nchantrs/widgets/launch.py:
-        class_count: 0
-        file_size: 2598
-        function_count: 0
-        import_count: 6
-        word_count: 182
-      nchantrs/widgets/managers.py:
-        class_count: 5
-        file_size: 6119
-        function_count: 0
-        import_count: 6
-        word_count: 393
-      nchantrs/widgets/managers/__init__.py:
-        class_count: 0
-        file_size: 204
-        function_count: 0
-        import_count: 1
-        word_count: 11
-      nchantrs/widgets/managers/managers.py:
-        class_count: 6
-        file_size: 9702
-        function_count: 0
-        import_count: 6
-        word_count: 724
-      nchantrs/widgets/media/__init__.py:
-        class_count: 0
-        file_size: 38
-        function_count: 0
-        import_count: 0
-        word_count: 4
-      nchantrs/widgets/media/charts/__init__.py:
-        class_count: 0
-        file_size: 45
-        function_count: 0
-        import_count: 0
-        word_count: 5
-      nchantrs/widgets/media/charts/charts.py:
-        class_count: 3
-        file_size: 42260
-        function_count: 0
-        import_count: 18
-        word_count: 3794
-      nchantrs/widgets/media/editors/__init__.py:
-        class_count: 0
-        file_size: 46
-        function_count: 0
-        import_count: 0
-        word_count: 5
-      nchantrs/widgets/media/editors/code.py:
-        class_count: 0
-        file_size: 9389
-        function_count: 0
-        import_count: 0
-        word_count: 914
-      nchantrs/widgets/media/editors/editors.py:
-        class_count: 9
-        file_size: 29749
-        function_count: 0
-        import_count: 15
-        word_count: 2196
-      nchantrs/widgets/media/editors/entries.py:
-        class_count: 3
-        file_size: 5338
-        function_count: 0
-        import_count: 10
-        word_count: 333
-      nchantrs/widgets/media/editors/selectors.py:
-        class_count: 6
-        file_size: 14249
-        function_count: 0
-        import_count: 11
-        word_count: 1049
-      nchantrs/widgets/media/games/__init__.py:
-        class_count: 0
-        file_size: 44
-        function_count: 0
-        import_count: 0
-        word_count: 5
-      nchantrs/widgets/media/games/boards.py:
-        class_count: 1
-        file_size: 12067
-        function_count: 0
-        import_count: 6
-        word_count: 915
-      nchantrs/widgets/media/games/games.py:
-        class_count: 1
-        file_size: 2131
-        function_count: 0
-        import_count: 6
-        word_count: 132
-      nchantrs/widgets/media/images.py:
-        class_count: 2
-        file_size: 12750
-        function_count: 0
-        import_count: 8
-        word_count: 903
-      nchantrs/widgets/media/maps.py:
-        class_count: 2
-        file_size: 2941
-        function_count: 0
-        import_count: 4
-        word_count: 234
-      nchantrs/widgets/media/marquees.py:
-        class_count: 2
-        file_size: 3495
-        function_count: 0
-        import_count: 7
-        word_count: 225
-      nchantrs/widgets/media/media.py:
-        class_count: 4
-        file_size: 9769
-        function_count: 0
-        import_count: 14
-        word_count: 686
-      nchantrs/widgets/media/notes.py:
-        class_count: 3
-        file_size: 4734
-        function_count: 0
-        import_count: 8
-        word_count: 299
-      nchantrs/widgets/media/palettes.py:
-        class_count: 2
-        file_size: 3866
-        function_count: 0
-        import_count: 7
-        word_count: 252
-      nchantrs/widgets/media/shapes.py:
-        class_count: 4
-        file_size: 7141
-        function_count: 0
-        import_count: 6
-        word_count: 519
-      nchantrs/widgets/media/utilities.py:
-        class_count: 1
-        file_size: 2948
-        function_count: 1
-        import_count: 6
-        word_count: 226
-      nchantrs/widgets/media/video.py:
-        class_count: 4
-        file_size: 4513
-        function_count: 0
-        import_count: 6
-        word_count: 306
-      nchantrs/widgets/panes/__init__.py:
-        class_count: 0
-        file_size: 38
-        function_count: 0
-        import_count: 0
-        word_count: 4
-      nchantrs/widgets/panes/calendars.py:
-        class_count: 1
-        file_size: 2571
-        function_count: 0
-        import_count: 7
-        word_count: 158
-      nchantrs/widgets/panes/catalogs.py:
-        class_count: 1
-        file_size: 11468
-        function_count: 0
-        import_count: 16
-        word_count: 776
-      nchantrs/widgets/panes/files.py:
-        class_count: 1
-        file_size: 2136
-        function_count: 0
-        import_count: 6
-        word_count: 131
-      nchantrs/widgets/panes/numbers.py:
-        class_count: 1
-        file_size: 3449
-        function_count: 0
-        import_count: 7
-        word_count: 269
-      nchantrs/widgets/panes/panes.py:
-        class_count: 1
-        file_size: 3030
-        function_count: 0
-        import_count: 7
-        word_count: 193
-      nchantrs/widgets/tables/__init__.py:
-        class_count: 0
-        file_size: 0
-        function_count: 0
-        import_count: 0
-        word_count: 0
-      nchantrs/widgets/tables/lists.py:
-        class_count: 5
-        file_size: 9447
-        function_count: 0
-        import_count: 12
-        word_count: 674
-      nchantrs/widgets/tables/tables.py:
-        class_count: 3
-        file_size: 24688
-        function_count: 0
-        import_count: 15
-        word_count: 1667
-      nchantrs/widgets/tabsets.py:
-        class_count: 3
-        file_size: 27541
-        function_count: 0
-        import_count: 10
-        word_count: 2260
-      nchantrs/widgets/trees.py:
-        class_count: 4
-        file_size: 16492
-        function_count: 0
-        import_count: 9
-        word_count: 1341
-      nchantrs/widgets/widgets.py:
-        class_count: 4
-        file_size: 35838
-        function_count: 6
-        import_count: 11
-        word_count: 2908
-      nchantrs/wizards/__init__.py:
-        class_count: 0
-        file_size: 0
-        function_count: 0
-        import_count: 0
-        word_count: 0
-      nchantrs/wizards/accounts.py:
-        class_count: 2
-        file_size: 3319
-        function_count: 0
-        import_count: 10
-        word_count: 243
-      nchantrs/wizards/apps.py:
-        class_count: 5
-        file_size: 27126
-        function_count: 0
-        import_count: 19
-        word_count: 1886
-      nchantrs/wizards/instances.py:
-        class_count: 1
-        file_size: 4724
-        function_count: 0
-        import_count: 8
-        word_count: 281
-      nchantrs/wizards/pages.py:
-        class_count: 2
-        file_size: 4179
-        function_count: 0
-        import_count: 7
-        word_count: 281
-      nchantrs/wizards/users.py:
-        class_count: 5
-        file_size: 11247
-        function_count: 0
-        import_count: 13
-        word_count: 739
-      nchantrs/wizards/wizards.py:
-        class_count: 1
-        file_size: 2662
-        function_count: 0
-        import_count: 7
-        word_count: 170
-      tests/__init__.py:
-        class_count: 0
-        file_size: 25
-        function_count: 0
-        import_count: 0
-        word_count: 4
-audit_date: '1774557804.5151763'
-coverage_penalty:
-  applied: true
-  message: -10% penalty (file-level coverage 0.0% < 60%)
+    files: 1472
+    python_files: 356
+    python_lines: 62486
+    test_files: 28
+audit_date: '1785192358.1384346'
 dimensions:
-  agent_awareness:
+  base_class_duplication:
     details:
+      details:
+        issues: []
+        score: 100
       score: 100
       status: pass
     score: 100
     status: pass
-  base_class_duplication:
+  changelog_tracking:
     details:
-      base_class_duplication_count: 40
-      issues:
-      - fix: Consider creating a shared base class or mixin for common methods
-        patterns:
-        - arg_count: 3
-          base: object
-          classes:
-          - NchantdServiceManager
-          - NchantdService
-          - UpgradeManager
-          - NchantdLibraryManager
-          - NchantdFormula
-          - NchantdDataPolicy
-          - NchantdUser
-          - NchantdCommunicationsManager
-          - DBUpdate
-          - NchantdWebRequestAPI
-          - NchantdPantiesModel
-          - NchantdModel
-          - NchantdInstance
-          - NchantdPantiesView
-          - NchantdSentinelManager
-          method: __init__
-        - arg_count: 1
-          base: object
-          classes:
-          - NchantdConnections
-          - UpgradeCode
-          - UpgradeDatabaseData
-          - UpgradeDatabase
-          - UpgradeFile
-          - UpgradeIndex
-          - UpgradeKey
-          - UpgradeDatabaseView
-          - DataFilter
-          method: __init__
-        - arg_count: 2
-          base: object
-          classes:
-          - UpgradeDatabaseTable
-          - Ownership
-          - NchantdEventAPI
-          - NchantdNodesAPI
-          - NchantdRuntimeAPI
-          - NchantdSourceAPI
-          - NchantdStorageAPI
-          - NchantdColor
-          - NchantdWebHistory
-          - NchantdConfigStoreDocument
-          method: __init__
-        - arg_count: 3
-          base: NchantdWizardPage
-          classes:
-          - NchantdSelectInstancePage
-          - NchantdAddExtensionWizard
-          - NchantdRemoveExtensionWizard
-          - NchantdApplicationSetupDetailsPage
-          - NchantdApplicationConfigurationPage
-          - NchantdTOSSignOffPage
-          - NchantdNewUserDetailsPage
-          - NchantdUserNameSelectorPage
-          method: __init__
-        - arg_count: 1
-          base: NchantdWizardPage
-          classes:
-          - NchantdSelectInstancePage
-          - NchantdAddExtensionWizard
-          - NchantdRemoveExtensionWizard
-          - NchantdApplicationSetupDetailsPage
-          - NchantdTOSSignOffPage
-          - NchantdNewUserDetailsPage
-          - NchantdUserNameSelectorPage
-          method: initModel
-        - arg_count: 1
-          base: NchantdWizardPage
-          classes:
-          - NchantdSelectInstancePage
-          - NchantdAddExtensionWizard
-          - NchantdRemoveExtensionWizard
-          - NchantdApplicationSetupDetailsPage
-          - NchantdTOSSignOffPage
-          - NchantdNewUserDetailsPage
-          - NchantdUserNameSelectorPage
-          method: initView
-        - arg_count: 1
-          base: NchantdWizardPage
-          classes:
-          - NchantdSelectInstancePage
-          - NchantdAddExtensionWizard
-          - NchantdRemoveExtensionWizard
-          - NchantdApplicationSetupDetailsPage
-          - NchantdApplicationConfigurationPage
-          - NchantdTOSSignOffPage
-          - NchantdNewUserDetailsPage
-          - NchantdUserNameSelectorPage
-          method: initWidget
-        - arg_count: 3
-          base: NchantdWizard
-          classes:
-          - NchantdApplicationStartupWizard
-          - NchantdNewInstanceWizard
-          - NchantdAddAPIWizard
-          - NchantdNewAccountWizard
-          - NchantdNewUserWizard
-          method: __init__
-        - arg_count: 3
-          base: NchantdWidget
-          classes:
-          - NchantdBrowserPluginBase
-          - NchantdApplicationPluginBase
-          - NchantdExtensionsManager
-          - NchantdAuthenticationWindow
-          - NchantdFindSigil
-          - NchantdTab
-          - NchantdCatalog
-          - NchantdBadgeBar
-          - NchantdDisplayBox
-          - NchantdHighLowLabel
-          - NchantdSideBar
-          - NchantdCollapsableGroup
-          - NchantdVScrollGroupBox
-          - NchantdManager
-          - NchantdBasket
-          - NchantdBasketManager
-          - NchantdTreeView
-          - NchantdDownload
-          - NchantdDownloadsManagerSigil
-          - NchantdDownloadNew
-          - NchantdWebViewer
-          - NchantdProfileManager
-          - NchantdCatalogItem
-          - NchantdGrid
-          - NchantdListEditor
-          - NchantdBulletedList
-          - NchantdTextList
-          - NchantdSecurityManager
-          - NchantdDecadeCalendar
-          - NchantdCalendar
-          - NchantdDateTimeGroup
-          - NchantdEventsList
-          - NchantdHistory
-          - NchantdRecentChanges
-          - NchantdTODOCalendar
-          - NchantdYearSummaryTab
-          - NchantdPane
-          - NchantdFileDetailsPane
-          - NchantdForm
-          - NchantdProfile
-          - NchantdIntegrationSettings
-          - NchantdIntegrationCatalog
-          - NchantdExtensionsSettings
-          - NchantdExtensionsCatalog
-          - NchantdCheckboxGroup
-          - NchantdCheckboxCombo
-          - NchantdLabeledButton
-          - NchantdTextButton
-          - NchantdNumberWheelButton
-          - NchantdEnableSpinBox
-          - NchantdEnableSequencer
-          - NchantdActivateSpinBox
-          - NchantdLabeledSpinBox
-          - NchantdLabeledDoubleSpinBox
-          - NchantdColorSelectButton
-          - NchantdDrawer
-          - NchantdButtonBar
-          - NchantdMenuBar
-          - NchantdRadioButtonGroup
-          - NchantdSelectionWidget
-          - NchantdWidgetSelector
-          - NchantdButtonGrid
-          - NchantdAcceptButtons
-          - NchantdOkButtons
-          - NchantdSaveButtons
-          - NchantdTabSideButtons
-          - NchantdMathPad
-          - NchantdFontConfigBar
-          - NchantdBorderConfigBar
-          - NchantdImage
-          - NchantdScreenShot
-          - NchantdPalette
-          - NchantdNEWSLArticle
-          - NchantdFileIcon
-          - NchantdFileViewer
-          - NchantdStickyNoteManager
-          - NchantdTextMarquee
-          - NchantdVideo
-          - NchantdScreenCapture
-          - NchantdDualVideoPlayer
-          - NchantdPaletteShifter
-          - NchantdEntryEditorExplainer
-          - NchantdActivateEntry
-          - NchantdCheckboxEditor
-          - NchantdDropDown
-          - NchantdDropDownExplainer
-          - NchantdComboEditor
-          - NchantdLabeledEntry
-          - NchantdEntryListEditor
-          - NchantdScratchEditor
-          - NchantdGameBoard
-          - NchantdGameWidget
-          method: __init__
-        - arg_count: 1
-          base: NchantdWidget
-          classes:
-          - NchantdBrowserPluginBase
-          - NchantdApplicationPluginBase
-          - NchantdExtensionsManager
-          - NchantdFindSigil
-          - NchantdDisplayBox
-          - NchantdHighLowLabel
-          - NchantdSideBar
-          - NchantdBasket
-          - NchantdBasketManager
-          - NchantdDownload
-          - NchantdDownloadNew
-          - NchantdProfileManager
-          - NchantdGrid
-          - NchantdBulletedList
-          - NchantdTextList
-          - NchantdDecadeCalendar
-          - NchantdCalendar
-          - NchantdEventsList
-          - NchantdHistory
-          - NchantdRecentChanges
-          - NchantdTODOCalendar
-          - NchantdTimeTrackerForm
-          - NchantdTimeTrackerFormFast
-          - NchantdYearSummaryTab
-          - NchantdFileDetailsPane
-          - NchantdForm
-          - NchantdProfile
-          - NchantdIntegrationSettings
-          - NchantdIntegrationCatalog
-          - NchantdExtensionsSettings
-          - NchantdExtensionsCatalog
-          - NchantdCheckboxGroup
-          - NchantdCheckboxCombo
-          - NchantdLabeledButton
-          - NchantdTextButton
-          - NchantdNumberWheelButton
-          - NchantdDrawer
-          - NchantdMenuBar
-          - NchantdRadioButtonGroup
-          - NchantdSelectionWidget
-          - NchantdWidgetSelector
-          - NchantdButtonGrid
-          - NchantdAcceptButtons
-          - NchantdOkButtons
-          - NchantdSaveButtons
-          - NchantdTabSideButtons
-          - NchantdMathPad
-          - NchantdImage
-          - NchantdScreenShot
-          - NchantdPalette
-          - NchantdNEWSLArticle
-          - NchantdFileIcon
-          - NchantdFileViewer
-          - NchantdStickyNoteManager
-          - NchantdTextMarquee
-          - NchantdScreenCapture
-          - NchantdDualVideoPlayer
-          - NchantdPaletteShifter
-          - NchantdEntryEditorExplainer
-          - NchantdActivateEntry
-          - NchantdCheckboxEditor
-          - NchantdDropDownExplainer
-          - NchantdEntryListEditor
-          - NchantdScratchEditor
-          - NchantdGameBoard
-          - NchantdGameWidget
-          method: initModel
-        rule: 'Base class duplication detected: 40 patterns'
-        severity: medium
+      details:
+        issues:
+        - fix: Create CHANGES.md
+          rule: Missing CHANGES.md
+          severity: medium
+        score: 0
+        status: fail
       score: 0
       status: fail
     score: 0
     status: fail
-  changelog_tracking:
-    details:
-      issues:
-      - fix: Add entries to CHANGES.md for recent changes
-        rule: 'Low changelog coverage: 0%'
-        severity: high
-        unmatched_commits:
-        - 1507b48 debug
-        - f01c08e Merge remote-tracking branch 'local/gamma' into gamm
-        - '229406e Fix init chain: call QWidget.__init__ directly to fi'
-        - '8fff83a Fix init chain: add init() to mixin, simplify Nchant'
-        - '3f16b6c Fix: Remove QObject from NchantdWidgetMixin to avoid'
-      score: 20
-      status: partial
-    score: 20
-    status: partial
   ci_cd_config:
     details:
-      ci_cd_found:
-      - GitHub Actions
-      issues: []
+      details:
+        branch: gamma
+        ci_files_found:
+        - .github/workflows
+        has_commits: true
+        is_git_repo: true
+        score: 100
+        status: pass
       score: 100
       status: pass
     score: 100
     status: pass
   ci_cd_documentation:
     details:
-      ci_cd_docs_found:
-      - CONTRIBUTING.md
-      issues: []
-      score: 100
-      status: pass
-    score: 100
-    status: pass
+      details:
+        ci_cd_docs_found: 0
+        issues:
+        - rule: Missing CI/CD documentation
+          severity: low
+        score: 0
+        status: fail
+      score: 0
+      status: fail
+    score: 0
+    status: fail
   circular_dependencies:
     details:
-      cycles: []
-      import_cycle_count: 0
-      issues: []
+      details:
+        cycles: []
+        score: 100
+        status: pass
       score: 100
       status: pass
     score: 100
     status: pass
   cli_documentation:
     details:
-      exists: true
-      score: 100
-      sections_found:
-      - Usage
-      - Arguments
-      - Examples
-      sections_missing: []
-      status: pass
-    score: 100
-    status: pass
-  code_quality_pylint:
-    details:
-      issues: []
-      score: 100
-      status: pass
-    score: 100
-    status: pass
+      details:
+        file: CLI.md
+        issues:
+        - details: 'Missing: Purpose'
+          fix: 'Add sections: Purpose'
+          rule: Missing sections
+          severity: medium
+        score: 66
+        status: partial
+      score: 66
+      status: partial
+    score: 66
+    status: partial
   configuration:
     details:
-      config_file: config.yaml
+      details:
+        config_file: pyproject.toml
+        score: 100
+        status: pass
       score: 100
       status: pass
     score: 100
     status: pass
   data_clumps:
     details:
-      data_clump_count: 7
-      issues:
-      - clumps:
-        - locations: 291
-          params:
-          - cfg
-          - parent
-          - self
-        - locations: 6
-          params:
-          - cfg
-          - name
-          - parent
-          - self
-        - locations: 20
-          params:
-          - cfg
-          - db
-          - self
-        - locations: 6
-          params:
-          - db
-          - how
-          - self
-        - locations: 6
-          params:
-          - app
-          - cfg
-          - parent
-          - self
-        fix: Consider creating a class or dataclass to group these parameters
-        rule: 'Data clumps detected: 7 parameter combinations'
-        severity: medium
-      score: 0
-      status: fail
-    score: 0
-    status: fail
-  dead_code:
-    details:
-      issues:
-      - fix: Remove unused imports
-        items:
-        - file: nchantrs/nchantrs.py
-          name: from __future__ import annotations
-          type: import_from
-        - file: nchantrs/libraries/pyqt.py
-          name: from PySide6.QtWidgets import QApplication
-          type: import_from
-        - file: nchantrs/libraries/pyqt.py
-          name: from PySide6.QtWidgets import QMainWindow
-          type: import_from
-        - file: nchantrs/libraries/pyqt.py
-          name: from PySide6.QtWidgets import QToolBar
-          type: import_from
-        - file: nchantrs/libraries/pyqt.py
-          name: from PySide6.QtWidgets import QToolButton
-          type: import_from
-        - file: nchantrs/libraries/pyqt.py
-          name: from PySide6.QtCore import Signal
-          type: import_from
-        - file: nchantrs/libraries/pyqt.py
-          name: from PySide6.QtCore import Slot
-          type: import_from
-        - file: nchantrs/libraries/pyqt.py
-          name: from PySide6.QtCore import QObject
-          type: import_from
-        - file: nchantrs/libraries/pyqt.py
-          name: from PySide6.QtCore import QMetaObject
-          type: import_from
-        - file: nchantrs/libraries/pyqt.py
-          name: from PySide6.QtCore import QEvent
-          type: import_from
-        rule: 'Unused imports: 521'
-        severity: medium
-      - fix: Remove or export unused functions
-        items:
-        - file: nchantrs/nchantrs.py
-          name: aberration
-          type: function
-        - file: nchantrs/nchantrs.py
-          name: distortion
-          type: function
-        - file: nchantrs/nchantrs.py
-          name: nchantment
-          type: function
-        - file: nchantrs/nchantrs.py
-          name: flection
-          type: function
-        - file: nchantrs/services/upgrades.py
-          name: version_check
-          type: function
-        - file: nchantrs/events/tabsets.py
-          name: TabSetClass
-          type: function
-        - file: nchantrs/events/tabsets.py
-          name: leftClickSignalLog
-          type: function
-        - file: nchantrs/events/tabsets.py
-          name: mousePressEventLog
-          type: function
-        - file: nchantrs/events/trees.py
-          name: leftClickSignalLog
-          type: function
-        - file: nchantrs/events/trees.py
-          name: mousePressEventLog
-          type: function
-        rule: 'Unused functions: 309'
-        severity: medium
-      - fix: Remove or export unused classes
-        items:
-        - file: nchantrs/services/services.py
-          name: NchantdServiceManager
-          type: class
-        - file: nchantrs/services/services.py
-          name: NchantrsService
-          type: class
-        - file: nchantrs/services/links.py
-          name: LinkService
-          type: class
-        - file: nchantrs/services/connections.py
-          name: NchantdConnections
-          type: class
-        - file: nchantrs/services/tags.py
-          name: TagGroup
-          type: class
-        - file: nchantrs/services/tags.py
-          name: Tag
-          type: class
-        - file: nchantrs/services/upgrades.py
-          name: UpgradeManager
-          type: class
-        - file: nchantrs/services/upgrades.py
-          name: UpgradeIndex
-          type: class
-        - file: nchantrs/services/upgrades.py
-          name: UpgradeKey
-          type: class
-        - file: nchantrs/services/license.py
-          name: Ownership
-          type: class
-        rule: 'Unused classes: 283'
-        severity: medium
-      score: 40
+      details:
+        data_clump_count: 7
+        issues:
+        - clumps:
+          - locations: 319
+            params:
+            - cfg
+            - parent
+            - self
+          - locations: 7
+            params:
+            - self
+            - x
+            - y
+          - locations: 16
+            params:
+            - fx
+            - mod
+            - self
+          - locations: 7
+            params:
+            - cfg
+            - name
+            - parent
+            - self
+          - locations: 19
+            params:
+            - cfg
+            - db
+            - self
+          fix: Consider creating a dataclass to group these parameters
+          rule: 'Data clumps detected: 7 combinations'
+          severity: medium
+        score: 30
+        status: partial
+      score: 30
       status: partial
-      total_unused: 1113
-      unused_class_count: 283
-      unused_function_count: 309
-      unused_import_count: 521
-    score: 40
+    score: 30
     status: partial
   dependency_strategy:
     details:
-      error: cannot import name 'CodeSearcher' from 'sasquatch' (/home/solubrew/ENVs/shieldface/lib/python3.12/site-packages/sasquatch/__init__.py)
-      score: 0
-      status: error
-    score: 0
-    status: error
-  documentation:
-    details:
-      missing: []
-      present:
-      - README.md
-      - CHANGES.md
-      - STATE.md
-      - CONTRIBUTING.md
+      details:
+        external_imports: 1303
+        info: 'Hint: 25 GitVein projects available but not used: condor, eaglis, glain,
+          goalt, knightsort...'
+        internal_import_details:
+        - file: zz-tomb_/books.py
+          module: kahndor
+          project: kahndor
+        - file: zz-tomb_/books.py
+          module: kahndor
+          project: kahndor
+        - file: zz-tomb_/books.py
+          module: kahndor
+          project: kahndor
+        - file: zz-tomb_/books.py
+          module: kahndor
+          project: kahndor
+        - file: zz-tomb_/books.py
+          module: kahndor
+          project: kahndor
+        - file: zz-tomb_/analytics.py
+          module: kahndor
+          project: kahndor
+        - file: zz-tomb_/analytics.py
+          module: kahndor
+          project: kahndor
+        - file: zz-tomb_/analytics.py
+          module: kahndor
+          project: kahndor
+        - file: zz-tomb_/analytics.py
+          module: kahndor
+          project: kahndor
+        - file: zz-tomb_/analytics.py
+          module: kahndor
+          project: kahndor
+        internal_imports: 451
+        internal_projects_used:
+        - kahndor
+        - nchantrs
+        leverage_score: 25.71
+        score: 100
+        status: pass
+        total_imports: 1754
       score: 100
       status: pass
     score: 100
     status: pass
-  duplicate_files:
+  documentation:
     details:
-      duplicate_count: 24
-      duplicates:
-        accounts.py:
-        - nchantrs/wizards/accounts.py
-        - nchantrs/widgets/config/accounts.py
-        authentication.py:
-        - nchantrs/dialogs/authentication.py
-        - nchantrs/widgets/browsers/security/authentication.py
-        calendars.py:
-        - nchantrs/widgets/calendars/calendars.py
-        - nchantrs/widgets/panes/calendars.py
-        catalogs.py:
-        - nchantrs/widgets/catalogs.py
-        - nchantrs/widgets/items/catalogs.py
-        - nchantrs/widgets/panes/catalogs.py
-        charts.py:
-        - nchantrs/actions/charts.py
-        - nchantrs/widgets/media/charts/charts.py
-        colors.py:
-        - nchantrs/dialogs/colors.py
-        - nchantrs/themes/colors.py
-        editors.py:
-        - nchantrs/dialogs/editors.py
-        - nchantrs/widgets/media/editors/editors.py
-        extensions.py:
-        - nchantrs/extensions/extensions.py
-        - nchantrs/dialogs/extensions.py
-        - nchantrs/widgets/config/extensions.py
-        files.py:
-        - nchantrs/utilities/files.py
-        - nchantrs/actions/files.py
-        - nchantrs/dialogs/files.py
-        - nchantrs/widgets/panes/files.py
-        images.py:
-        - nchantrs/themes/images.py
-        - nchantrs/widgets/media/images.py
-        integrations.py:
-        - nchantrs/extensions/integrations.py
-        - nchantrs/widgets/config/integrations.py
-        managers.py:
-        - nchantrs/widgets/managers.py
-        - nchantrs/widgets/applications/managers.py
-        - nchantrs/widgets/managers/managers.py
-        models.py:
-        - nchantrs/utilities/models.py
-        - nchantrs/models/models.py
-        nchantrs.py:
-        - nchantrs/nchantrs.py
-        - nchantrs/services/nchantrs.py
-        pages.py:
-        - nchantrs/wizards/pages.py
-        - nchantrs/widgets/browsers/pages.py
-        profiles.py:
-        - nchantrs/widgets/browsers/profiles.py
-        - nchantrs/widgets/config/profiles.py
-        search.py:
-        - nchantrs/dialogs/search.py
-        - nchantrs/utilities/tools/search.py
-        - nchantrs/widgets/controls/search.py
-        services.py:
-        - nchantrs/services/services.py
-        - nchantrs/widgets/browsers/services.py
-        - nchantrs/widgets/config/services.py
-        settings.py:
-        - nchantrs/dialogs/settings.py
-        - nchantrs/widgets/config/settings.py
-        tables.py:
-        - nchantrs/actions/tables.py
-        - nchantrs/widgets/tables/tables.py
-        tabsets.py:
-        - nchantrs/events/tabsets.py
-        - nchantrs/widgets/tabsets.py
-        trees.py:
-        - nchantrs/events/trees.py
-        - nchantrs/widgets/trees.py
-        users.py:
-        - nchantrs/utilities/users.py
-        - nchantrs/wizards/users.py
-        utilities.py:
-        - nchantrs/widgets/browsers/utilities.py
-        - nchantrs/widgets/media/utilities.py
-      issues:
-      - filename: accounts.py
-        fix: 'Review files for potential code duplication or rename: accounts.py'
-        location_count: 2
-        locations:
-        - nchantrs/wizards/accounts.py
-        - nchantrs/widgets/config/accounts.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: authentication.py
-        fix: 'Review files for potential code duplication or rename: authentication.py'
-        location_count: 2
-        locations:
-        - nchantrs/dialogs/authentication.py
-        - nchantrs/widgets/browsers/security/authentication.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: calendars.py
-        fix: 'Review files for potential code duplication or rename: calendars.py'
-        location_count: 2
-        locations:
-        - nchantrs/widgets/calendars/calendars.py
-        - nchantrs/widgets/panes/calendars.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: catalogs.py
-        fix: 'Review files for potential code duplication or rename: catalogs.py'
-        location_count: 3
-        locations:
-        - nchantrs/widgets/catalogs.py
-        - nchantrs/widgets/items/catalogs.py
-        - nchantrs/widgets/panes/catalogs.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: charts.py
-        fix: 'Review files for potential code duplication or rename: charts.py'
-        location_count: 2
-        locations:
-        - nchantrs/actions/charts.py
-        - nchantrs/widgets/media/charts/charts.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: colors.py
-        fix: 'Review files for potential code duplication or rename: colors.py'
-        location_count: 2
-        locations:
-        - nchantrs/dialogs/colors.py
-        - nchantrs/themes/colors.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: editors.py
-        fix: 'Review files for potential code duplication or rename: editors.py'
-        location_count: 2
-        locations:
-        - nchantrs/dialogs/editors.py
-        - nchantrs/widgets/media/editors/editors.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: extensions.py
-        fix: 'Review files for potential code duplication or rename: extensions.py'
-        location_count: 3
-        locations:
-        - nchantrs/extensions/extensions.py
-        - nchantrs/dialogs/extensions.py
-        - nchantrs/widgets/config/extensions.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: files.py
-        fix: 'Review files for potential code duplication or rename: files.py'
-        location_count: 4
-        locations:
-        - nchantrs/utilities/files.py
-        - nchantrs/actions/files.py
-        - nchantrs/dialogs/files.py
-        - nchantrs/widgets/panes/files.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: images.py
-        fix: 'Review files for potential code duplication or rename: images.py'
-        location_count: 2
-        locations:
-        - nchantrs/themes/images.py
-        - nchantrs/widgets/media/images.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: integrations.py
-        fix: 'Review files for potential code duplication or rename: integrations.py'
-        location_count: 2
-        locations:
-        - nchantrs/extensions/integrations.py
-        - nchantrs/widgets/config/integrations.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: managers.py
-        fix: 'Review files for potential code duplication or rename: managers.py'
-        location_count: 3
-        locations:
-        - nchantrs/widgets/managers.py
-        - nchantrs/widgets/applications/managers.py
-        - nchantrs/widgets/managers/managers.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: models.py
-        fix: 'Review files for potential code duplication or rename: models.py'
-        location_count: 2
-        locations:
-        - nchantrs/utilities/models.py
-        - nchantrs/models/models.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: nchantrs.py
-        fix: 'Review files for potential code duplication or rename: nchantrs.py'
-        location_count: 2
-        locations:
-        - nchantrs/nchantrs.py
-        - nchantrs/services/nchantrs.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: pages.py
-        fix: 'Review files for potential code duplication or rename: pages.py'
-        location_count: 2
-        locations:
-        - nchantrs/wizards/pages.py
-        - nchantrs/widgets/browsers/pages.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: profiles.py
-        fix: 'Review files for potential code duplication or rename: profiles.py'
-        location_count: 2
-        locations:
-        - nchantrs/widgets/browsers/profiles.py
-        - nchantrs/widgets/config/profiles.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: search.py
-        fix: 'Review files for potential code duplication or rename: search.py'
-        location_count: 3
-        locations:
-        - nchantrs/dialogs/search.py
-        - nchantrs/utilities/tools/search.py
-        - nchantrs/widgets/controls/search.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: services.py
-        fix: 'Review files for potential code duplication or rename: services.py'
-        location_count: 3
-        locations:
-        - nchantrs/services/services.py
-        - nchantrs/widgets/browsers/services.py
-        - nchantrs/widgets/config/services.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: settings.py
-        fix: 'Review files for potential code duplication or rename: settings.py'
-        location_count: 2
-        locations:
-        - nchantrs/dialogs/settings.py
-        - nchantrs/widgets/config/settings.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: tables.py
-        fix: 'Review files for potential code duplication or rename: tables.py'
-        location_count: 2
-        locations:
-        - nchantrs/actions/tables.py
-        - nchantrs/widgets/tables/tables.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: tabsets.py
-        fix: 'Review files for potential code duplication or rename: tabsets.py'
-        location_count: 2
-        locations:
-        - nchantrs/events/tabsets.py
-        - nchantrs/widgets/tabsets.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: trees.py
-        fix: 'Review files for potential code duplication or rename: trees.py'
-        location_count: 2
-        locations:
-        - nchantrs/events/trees.py
-        - nchantrs/widgets/trees.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: users.py
-        fix: 'Review files for potential code duplication or rename: users.py'
-        location_count: 2
-        locations:
-        - nchantrs/utilities/users.py
-        - nchantrs/wizards/users.py
-        rule: Duplicate filename found
-        severity: high
-      - filename: utilities.py
-        fix: 'Review files for potential code duplication or rename: utilities.py'
-        location_count: 2
-        locations:
-        - nchantrs/widgets/browsers/utilities.py
-        - nchantrs/widgets/media/utilities.py
-        rule: Duplicate filename found
-        severity: high
+      details:
+        issues:
+        - fix: Create docs/ directory
+          rule: Missing docs/ directory
+          severity: low
+        score: 85
+        status: pass
+      score: 85
+      status: pass
+    score: 85
+    status: pass
+  duplicate_filenames:
+    details:
+      details:
+        duplicate_count: 67
+        issues:
+        - paths:
+          - zz-tomb_/books.py
+          - nchantrs/utilities/books.py
+          rule: 'Duplicate filename: books.py'
+          severity: medium
+        - paths:
+          - zz-tomb_/debug.py
+          - nchantrs/utilities/debug.py
+          rule: 'Duplicate filename: debug.py'
+          severity: medium
+        - paths:
+          - zz-tomb_/analytics.py
+          - nchantrs/utilities/analytics.py
+          rule: 'Duplicate filename: analytics.py'
+          severity: medium
+        - paths:
+          - zz-tomb_/identification.py
+          - nchantrs/utilities/identification.py
+          rule: 'Duplicate filename: identification.py'
+          severity: medium
+        - paths:
+          - zz-tomb_/comms.py
+          - nchantrs/utilities/comms.py
+          rule: 'Duplicate filename: comms.py'
+          severity: medium
+        - paths:
+          - dev/video.py
+          - nchantrs/widgets/media/video.py
+          rule: 'Duplicate filename: video.py'
+          severity: medium
+        - paths:
+          - dev/run.py
+          - cmds/run.py
+          rule: 'Duplicate filename: run.py'
+          severity: medium
+        - paths:
+          - zz-work_/extensions.py
+          - zz-work_/extensions/extensions.py
+          - nchantrs/extensions/extensions.py
+          - nchantrs/dialogs/extensions.py
+          - nchantrs/widgets/config/extensions.py
+          rule: 'Duplicate filename: extensions.py'
+          severity: medium
+        - paths:
+          - nchantrs/nchantrs.py
+          - zz-work_/services/nchantrs.py
+          - nchantrs/services/nchantrs.py
+          rule: 'Duplicate filename: nchantrs.py'
+          severity: medium
+        - paths:
+          - zz-work_/services/bonds.py
+          - nchantrs/services/bonds.py
+          rule: 'Duplicate filename: bonds.py'
+          severity: medium
+        - paths:
+          - zz-work_/services/connections.py
+          - nchantrs/services/connections.py
+          rule: 'Duplicate filename: connections.py'
+          severity: medium
+        - paths:
+          - zz-work_/services/integrity.py
+          - nchantrs/services/integrity.py
+          rule: 'Duplicate filename: integrity.py'
+          severity: medium
+        - paths:
+          - zz-work_/services/services.py
+          - nchantrs/services/services.py
+          - nchantrs/widgets/browsers/services.py
+          - nchantrs/widgets/config/services.py
+          rule: 'Duplicate filename: services.py'
+          severity: medium
+        - paths:
+          - zz-work_/services/directories.py
+          - nchantrs/services/directories.py
+          rule: 'Duplicate filename: directories.py'
+          severity: medium
+        - paths:
+          - zz-work_/services/telemetry.py
+          - nchantrs/services/telemetry.py
+          rule: 'Duplicate filename: telemetry.py'
+          severity: medium
+        - paths:
+          - zz-work_/services/license.py
+          - nchantrs/services/license.py
+          rule: 'Duplicate filename: license.py'
+          severity: medium
+        - paths:
+          - zz-work_/services/tags.py
+          - nchantrs/services/tags.py
+          rule: 'Duplicate filename: tags.py'
+          severity: medium
+        - paths:
+          - zz-work_/events/keyboard_events.py
+          - nchantrs/events/keyboard_events.py
+          rule: 'Duplicate filename: keyboard_events.py'
+          severity: medium
+        - paths:
+          - zz-work_/events/trees.py
+          - nchantrs/events/trees.py
+          - nchantrs/widgets/trees.py
+          rule: 'Duplicate filename: trees.py'
+          severity: medium
+        - paths:
+          - zz-work_/events/mouse_events.py
+          - nchantrs/events/mouse_events.py
+          rule: 'Duplicate filename: mouse_events.py'
+          severity: medium
+        - paths:
+          - zz-work_/events/tabsets.py
+          - nchantrs/events/tabsets.py
+          - nchantrs/widgets/tabsets.py
+          rule: 'Duplicate filename: tabsets.py'
+          severity: medium
+        - paths:
+          - zz-work_/events/alerts.py
+          - nchantrs/events/alerts.py
+          rule: 'Duplicate filename: alerts.py'
+          severity: medium
+        - paths:
+          - zz-work_/events/events.py
+          - nchantrs/events/events.py
+          rule: 'Duplicate filename: events.py'
+          severity: medium
+        - paths:
+          - zz-work_/games/games.py
+          - nchantrs/widgets/media/games/games.py
+          rule: 'Duplicate filename: games.py'
+          severity: medium
+        - paths:
+          - zz-work_/games/boards.py
+          - nchantrs/widgets/media/games/boards.py
+          rule: 'Duplicate filename: boards.py'
+          severity: medium
+        - paths:
+          - zz-work_/extensions/install.py
+          - nchantrs/extensions/install.py
+          rule: 'Duplicate filename: install.py'
+          severity: medium
+        - paths:
+          - zz-work_/extensions/apis.py
+          - nchantrs/extensions/apis.py
+          rule: 'Duplicate filename: apis.py'
+          severity: medium
+        - paths:
+          - zz-work_/extensions/plugins.py
+          - nchantrs/extensions/plugins.py
+          rule: 'Duplicate filename: plugins.py'
+          severity: medium
+        - paths:
+          - zz-work_/extensions/integrations.py
+          - nchantrs/extensions/integrations.py
+          - nchantrs/widgets/config/integrations.py
+          rule: 'Duplicate filename: integrations.py'
+          severity: medium
+        - paths:
+          - zz-work_/extensions/sources.py
+          - nchantrs/extensions/sources.py
+          rule: 'Duplicate filename: sources.py'
+          severity: medium
+        - paths:
+          - zz-work_/actions/files.py
+          - nchantrs/actions/files.py
+          - nchantrs/utilities/files.py
+          - nchantrs/dialogs/files.py
+          - nchantrs/widgets/panes/files.py
+          rule: 'Duplicate filename: files.py'
+          severity: medium
+        - paths:
+          - zz-work_/actions/text.py
+          - nchantrs/actions/text.py
+          rule: 'Duplicate filename: text.py'
+          severity: medium
+        - paths:
+          - zz-work_/actions/tree.py
+          - nchantrs/actions/tree.py
+          rule: 'Duplicate filename: tree.py'
+          severity: medium
+        - paths:
+          - zz-work_/actions/tables.py
+          - nchantrs/actions/tables.py
+          - nchantrs/widgets/tables/tables.py
+          rule: 'Duplicate filename: tables.py'
+          severity: medium
+        - paths:
+          - zz-work_/actions/format.py
+          - nchantrs/actions/format.py
+          rule: 'Duplicate filename: format.py'
+          severity: medium
+        - paths:
+          - zz-work_/actions/charts.py
+          - nchantrs/actions/charts.py
+          - nchantrs/widgets/media/charts/charts.py
+          rule: 'Duplicate filename: charts.py'
+          severity: medium
+        - paths:
+          - zz-work_/actions/actions.py
+          - nchantrs/actions/actions.py
+          rule: 'Duplicate filename: actions.py'
+          severity: medium
+        - paths:
+          - zz-work_/agents/agents.py
+          - nchantrs/widgets/agents/agents.py
+          rule: 'Duplicate filename: agents.py'
+          severity: medium
+        - paths:
+          - zz-work_/services/protocols/mq.py
+          - nchantrs/services/protocols/mq.py
+          rule: 'Duplicate filename: mq.py'
+          severity: medium
+        - paths:
+          - zz-work_/services/protocols/http.py
+          - nchantrs/services/protocols/http.py
+          rule: 'Duplicate filename: http.py'
+          severity: medium
+        - paths:
+          - zz-work_/extensions/packages/nchantdlibrary/bibliography_reference.py
+          - nchantrs/extensions/packages/nchantdlibrary/bibliography_reference.py
+          rule: 'Duplicate filename: bibliography_reference.py'
+          severity: medium
+        - paths:
+          - zz-work_/extensions/packages/nchantdlibrary/dictionary.py
+          - nchantrs/extensions/packages/nchantdlibrary/dictionary.py
+          rule: 'Duplicate filename: dictionary.py'
+          severity: medium
+        - paths:
+          - zz-work_/extensions/packages/nchantdlibrary/style_guide.py
+          - nchantrs/extensions/packages/nchantdlibrary/style_guide.py
+          rule: 'Duplicate filename: style_guide.py'
+          severity: medium
+        - paths:
+          - zz-work_/extensions/packages/nchantdlibrary/thesaurus.py
+          - nchantrs/extensions/packages/nchantdlibrary/thesaurus.py
+          rule: 'Duplicate filename: thesaurus.py'
+          severity: medium
+        - paths:
+          - zz-work_/extensions/packages/nchantdlibrary/games/gameoflife.py
+          - nchantrs/extensions/packages/nchantdlibrary/games/gameoflife.py
+          rule: 'Duplicate filename: gameoflife.py'
+          severity: medium
+        - paths:
+          - zz-work_/extensions/packages/nchantdlibrary/physician/physicians_reference.py
+          - nchantrs/extensions/packages/nchantdlibrary/physician/physicians_reference.py
+          rule: 'Duplicate filename: physicians_reference.py'
+          severity: medium
+        - paths:
+          - nchantrs/wizards/users.py
+          - nchantrs/utilities/users.py
+          rule: 'Duplicate filename: users.py'
+          severity: medium
+        - paths:
+          - nchantrs/wizards/accounts.py
+          - nchantrs/widgets/config/accounts.py
+          rule: 'Duplicate filename: accounts.py'
+          severity: medium
+        - paths:
+          - nchantrs/wizards/pages.py
+          - nchantrs/widgets/browsers/pages.py
+          rule: 'Duplicate filename: pages.py'
+          severity: medium
+        - paths:
+          - nchantrs/widgets/catalogs.py
+          - nchantrs/widgets/items/catalogs.py
+          - nchantrs/widgets/panes/catalogs.py
+          rule: 'Duplicate filename: catalogs.py'
+          severity: medium
+        - paths:
+          - nchantrs/widgets/managers.py
+          - nchantrs/widgets/managers/managers.py
+          - nchantrs/widgets/applications/managers.py
+          rule: 'Duplicate filename: managers.py'
+          severity: medium
+        - paths:
+          - nchantrs/library/nchantdlibrary.py
+          - nchantrs/extensions/packages/nchantdlibrary/nchantdlibrary.py
+          rule: 'Duplicate filename: nchantdlibrary.py'
+          severity: medium
+        - paths:
+          - nchantrs/themes/colors.py
+          - nchantrs/dialogs/colors.py
+          rule: 'Duplicate filename: colors.py'
+          severity: medium
+        - paths:
+          - nchantrs/themes/images.py
+          - nchantrs/widgets/media/images.py
+          rule: 'Duplicate filename: images.py'
+          severity: medium
+        - paths:
+          - nchantrs/utilities/search.py
+          - nchantrs/dialogs/search.py
+          - nchantrs/widgets/controls/search.py
+          - nchantrs/utilities/tools/search.py
+          rule: 'Duplicate filename: search.py'
+          severity: medium
+        - paths:
+          - nchantrs/utilities/formulas.py
+          - nchantrs/widgets/items/formulas.py
+          rule: 'Duplicate filename: formulas.py'
+          severity: medium
+        - paths:
+          - nchantrs/utilities/config.py
+          - nchantrs/widgets/config/config.py
+          rule: 'Duplicate filename: config.py'
+          severity: medium
+        - paths:
+          - nchantrs/utilities/models.py
+          - nchantrs/models/models.py
+          rule: 'Duplicate filename: models.py'
+          severity: medium
+        - paths:
+          - nchantrs/dialogs/settings.py
+          - nchantrs/widgets/config/settings.py
+          rule: 'Duplicate filename: settings.py'
+          severity: medium
+        - paths:
+          - nchantrs/dialogs/editors.py
+          - nchantrs/widgets/media/editors/editors.py
+          rule: 'Duplicate filename: editors.py'
+          severity: medium
+        - paths:
+          - nchantrs/dialogs/authentication.py
+          - nchantrs/widgets/browsers/security/authentication.py
+          rule: 'Duplicate filename: authentication.py'
+          severity: medium
+        - paths:
+          - nchantrs/widgets/panes/calendars.py
+          - nchantrs/widgets/calendars/calendars.py
+          rule: 'Duplicate filename: calendars.py'
+          severity: medium
+        - paths:
+          - nchantrs/widgets/browsers/utilities.py
+          - nchantrs/widgets/media/utilities.py
+          rule: 'Duplicate filename: utilities.py'
+          severity: medium
+        - paths:
+          - nchantrs/widgets/browsers/profiles.py
+          - nchantrs/widgets/config/profiles.py
+          rule: 'Duplicate filename: profiles.py'
+          severity: medium
+        - paths:
+          - nchantrs/widgets/media/pixelart.py
+          - nchantrs/utilities/graphics/pixelart.py
+          rule: 'Duplicate filename: pixelart.py'
+          severity: medium
+        - paths:
+          - nchantrs/widgets/media/logos.py
+          - nchantrs/utilities/graphics/logos.py
+          rule: 'Duplicate filename: logos.py'
+          severity: medium
+        - paths:
+          - nchantrs/widgets/media/editors/turtle.py
+          - nchantrs/utilities/graphics/animations/turtle.py
+          rule: 'Duplicate filename: turtle.py'
+          severity: medium
+        score: 0
+        status: fail
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  embedded_todos:
+    details:
+      details:
+        count: 87
+        examples:
+        - file: zz-tomb_/comms.py
+          line: 111
+          text: '# # TODO: need to check to see if server is running'
+        - file: nchantrs/wizards/users.py
+          line: 215
+          text: '# TODO PRO: implement once Pro level software is ready'
+        - file: nchantrs/wizards/instances.py
+          line: 69
+          text: '#TODO refactor NchantdInstance usage'
+        - file: nchantrs/wizards/apps.py
+          line: 189
+          text: '#TODO implement method'
+        - file: nchantrs/wizards/apps.py
+          line: 194
+          text: '#TODO implement method'
+        - file: nchantrs/wizards/apps.py
+          line: 199
+          text: '#TODO implement method'
+        - file: nchantrs/wizards/apps.py
+          line: 273
+          text: '#TODO implement method'
+        - file: nchantrs/widgets/trees.py
+          line: 628
+          text: '# TODO implement read depth to allow for flattening files'
+        - file: nchantrs/widgets/groups.py
+          line: 421
+          text: 'max_ = self.scroll.viewport().size().width() * 2  # TODO HACK:'
+        - file: nchantrs/widgets/groups.py
+          line: 422
+          text: 'self.scroll.horizontalScrollBar().setMaximum(max_)  # TODO HACK:'
+        issues:
+        - dimension: embedded_todos
+          rule: Inline TODOs need tracking
+          severity: medium
+        score: 0
+        status: fail
       score: 0
       status: fail
     score: 0
     status: fail
   error_handling:
     details:
-      bare_excepts: 0
-      generic_excepts: 19
-      issues:
-      - fix: Use specific exception types instead of Exception
-        rule: 'Generic Exception excepts found: 19'
-        severity: medium
-      proper_try_except: 53
-      score: 80
-      status: pass
-    score: 80
-    status: pass
+      details:
+        bare_except_count: 7
+        broad_except_count: 0
+        issues:
+        - count: 7
+          rule: bare_except
+          severity: high
+        score: 65
+        status: partial
+      score: 65
+      status: partial
+    score: 65
+    status: partial
   external_dependencies_declared:
     details:
-      declared_count: 0
-      declared_internal: []
-      issues: []
+      details:
+        issues: []
+        score: 100
+        status: pass
       score: 100
       status: pass
-      undeclared_external: []
-      used_external_count: 0
     score: 100
     status: pass
   feature_envy:
     details:
-      feature_envy_count: 3
-      issues: []
-      score: 100
-      status: pass
-    score: 100
-    status: pass
+      details:
+        feature_envy_count: 7
+        issues:
+        - fix: Move method to the class it uses most
+          items:
+          - class: GeneralTab
+            envy_of: mainLayout
+            file: dev/z-work_.py
+            foreign_calls: 11
+            method: __init__
+            own_calls: 1
+          - class: NchantdTerminalView
+            envy_of: pyqt
+            file: nchantrs/widgets/embeds.py
+            foreign_calls: 9
+            method: keyPressEvent
+            own_calls: 1
+          - class: NchantdTreeModel
+            envy_of: node
+            file: nchantrs/models/treemodels.py
+            foreign_calls: 12
+            method: save_state
+            own_calls: 1
+          - class: NchantdStore
+            envy_of: instance
+            file: nchantrs/models/models.py
+            foreign_calls: 14
+            method: store_app_instance
+            own_calls: 2
+          - class: NchantdWebEnginePage
+            envy_of: pyqt
+            file: nchantrs/widgets/browsers/pages.py
+            foreign_calls: 11
+            method: handle_feature_permission
+            own_calls: 1
+          rule: 'Feature envy detected: 7 methods'
+          severity: medium
+        score: 30
+        status: partial
+      score: 30
+      status: partial
+    score: 30
+    status: partial
   file_sizes:
     details:
-      large_file_count: 0
+      details:
+        issues: []
+        large_file_count: 0
+        score: 100
+        status: pass
       score: 100
-      small_file_count: 0
       status: pass
     score: 100
     status: pass
   git_workflow:
     details:
-      error: cannot import name 'GitAnalyzer' from 'sasquatch' (/home/solubrew/ENVs/shieldface/lib/python3.12/site-packages/sasquatch/__init__.py)
-      score: 0
-      status: error
-    score: 0
-    status: error
+      details:
+        details:
+          branch: gamma
+          branches:
+            local: []
+            remote: []
+          commit_count: 312
+          commits: []
+          contributors: []
+          is_repo: true
+          remotes: {}
+          root: /mnt/iverse/SB/3_Functions/Operations/opENGRg/3_Work/jobElfSys/actvPython/tskNchantrs/1_DELTA/nchantrs
+          status: {}
+          tags: []
+        issues:
+        - file: null
+          line: null
+          message: No git remote configured
+          type: low
+        score: 85
+        status: pass
+      score: 85
+      status: pass
+    score: 85
+    status: pass
   god_class:
     details:
-      god_class_count: 5
-      issues:
-      - fix: Split into smaller, focused classes using SRP
-        items:
-        - class: NchantdStore
-          file: nchantrs/models/models.py
-          line_count: 1497
-          method_count: 79
-          severity: critical
-        - class: NchantdTabSet
-          file: nchantrs/widgets/tabsets.py
-          line_count: 554
-          method_count: 41
+      details:
+        god_class_count: 3
+        issues:
+        - fix: Split into smaller, focused classes using SRP
+          items:
+          - class: NchantdWidgetMixin
+            file: nchantrs/widgets/widgets.py
+            line_count: 788
+            method_count: 65
+          - class: NchantdCloakModel
+            file: nchantrs/models/applicationmodels.py
+            line_count: 730
+            method_count: 64
+          - class: NchantdStore
+            file: nchantrs/models/models.py
+            line_count: 1252
+            method_count: 90
+          rule: 'God classes detected: 3'
           severity: high
-        - class: NchantdWidgetMixin
-          file: nchantrs/widgets/widgets.py
-          line_count: 738
-          method_count: 63
-          severity: critical
-        - class: NchantdTable
-          file: nchantrs/widgets/tables/tables.py
-          line_count: 448
-          method_count: 49
-          severity: high
-        - class: NchantdDocEditor
-          file: nchantrs/widgets/media/editors/editors.py
-          line_count: 407
-          method_count: 52
-          severity: critical
-        rule: 'God classes detected: 5'
-        severity: high
-      score: 0
-      status: fail
-    score: 0
-    status: fail
+        score: 55
+        status: partial
+      score: 55
+      status: partial
+    score: 55
+    status: partial
   import_cycle:
     details:
-      cycles: []
-      import_cycle_count: 0
-      issues: []
-      score: 100
+      details:
+        bad_import_files: 11
+        issues: []
+        score: 80
+      score: 80
       status: pass
-    score: 100
+    score: 80
     status: pass
   import_organization:
     details:
-      has_isort_config: true
-      issues: []
-      potential_misordered: 3
+      details:
+        issues: []
+        score: 100
+        status: pass
       score: 100
       status: pass
     score: 100
     status: pass
-  kiss_dry:
+  internal_project_paths:
     details:
-      error: cannot import name 'CodeSearcher' from 'sasquatch' (/home/solubrew/ENVs/shieldface/lib/python3.12/site-packages/sasquatch/__init__.py)
-      score: 0
-      status: error
-    score: 0
-    status: error
+      details:
+        issues: []
+        score: 100
+        status: pass
+        violations: 0
+      score: 100
+      status: pass
+    score: 100
+    status: pass
   lambda_antipattern:
     details:
-      antipattern_count: 5
-      issues:
-      - antipatterns:
-        - file: nchantrs/widgets/trees.py
-          line: 355
-        - file: nchantrs/widgets/trees.py
-          line: 407
-        - file: nchantrs/widgets/browsers/downloads.py
-          line: 185
-        - file: nchantrs/widgets/browsers/downloads.py
-          line: 187
-        - file: nchantrs/widgets/browsers/downloads.py
-          line: 188
-        fix: Consider refactoring lambda anti-patterns
-        rule: 'Some lambda anti-patterns found: 5/35'
-        severity: medium
-      score: 80
-      status: pass
-      total_lambdas: 35
-    score: 80
-    status: pass
+      details:
+        issues:
+        - fix: Use named functions instead of complex lambdas
+          items:
+          - file: zz-work_/events/events.py
+            line: 41
+          - file: zz-work_/events/events.py
+            line: 42
+          - file: zz-work_/actions/actions.py
+            line: 126
+          - file: nchantrs/events/events.py
+            line: 41
+          - file: nchantrs/events/events.py
+            line: 42
+          - file: nchantrs/widgets/widgets.py
+            line: 295
+          - file: nchantrs/widgets/widgets.py
+            line: 297
+          - file: nchantrs/actions/actions.py
+            line: 126
+          - file: nchantrs/updates/db.py
+            line: 228
+          - file: nchantrs/models/models.py
+            line: 285
+          rule: 'Lambda anti-patterns detected: 37 instances'
+          severity: medium
+        lambda_count: 37
+        score: 26
+        status: partial
+      score: 26
+      status: partial
+    score: 26
+    status: partial
   license_dependencies:
     details:
-      issues:
-      - fix: Replace with MIT-licensed alternatives
-        packages:
-        - Babel (BSD License)
-        - Flask (BSD-3-Clause)
-        - GitPython (BSD-3-Clause)
-        - ImageIO (BSD-2-Clause)
-        - Jinja2 (BSD License)
-        rule: 'Non-MIT licenses: 327/605'
-        severity: medium
-      - fix: Verify license manually or remove dependency
-        packages:
-        - PyAudio
-        - apturl
-        - command-not-found
-        - cupshelpers
-        - distro-info
-        rule: 'Unknown licenses: 16/605'
-        severity: medium
-      mit_percentage: 43.3
-      score: 80
+      details:
+        issues: []
+        score: 100
+        status: pass
+      score: 100
       status: pass
-      tools_available:
-      - pip-licenses
-      tools_checked:
-      - fossa
-      - safety
-      - pip-licenses
-      - dependency-check
-    score: 80
+    score: 100
     status: pass
   licenses:
     details:
-      issues:
-      - Missing LICENSE file
-      score: 75
-      status: partial
-    score: 75
-    status: partial
-  logging:
-    details:
-      error: cannot import name 'CodeSearcher' from 'sasquatch' (/home/solubrew/ENVs/shieldface/lib/python3.12/site-packages/sasquatch/__init__.py)
-      score: 0
-      status: error
-    score: 0
-    status: error
-  long_method:
-    details:
-      issues: []
-      long_method_count: 0
+      details:
+        issues: []
+        score: 100
+        status: pass
       score: 100
       status: pass
     score: 100
     status: pass
-  magic_numbers:
+  logging:
     details:
-      issues:
-      - fix: Replace magic numbers with named constants
-        items:
-        - file: nchantrs/events/events.py
-          line: 65
-          type: float
-          value: 999.0
-        - file: nchantrs/events/events.py
-          line: 64
-          type: float
-          value: 999.0
-        - file: nchantrs/utilities/users.py
-          line: 38
-          type: int
-          value: 100000
-        - file: nchantrs/utilities/comms.py
+      details:
+        detection_criteria:
+          files_checked: All .py files in project
+          pass_condition: Must have kahndor.logma import (standard logging or print()
+            = fail)
+          pattern: from\s+kahndor\.logma\s+import|import\s+kahndor\.logma
+        issues:
+        - count: 17
+          fix: Consider replacing 17 print() with logma calls
+          rule: print() statements found but kahndor.logma is also used
+          severity: low
+        print_locations:
+        - content: 'print(f"Data at row 1: Name = {name}, Value = {value}")'
+          file: dev/Entryapp.py
+          line: 39
+        - content: print(audioOutput.__dir__())
+          file: dev/video.py
+          line: 69
+        - content: print(audioOutput.device().__dir__())
+          file: dev/video.py
+          line: 70
+        - content: print(devices)
+          file: dev/video.py
+          line: 72
+        - content: print("Selected Date:", new_date.toString(Qt.ISODate))
+          file: dev/dateapp.py
+          line: 35
+        - content: 'print(f"Selected files: {'', ''.join(selected_files)}")'
+          file: dev/openFile.py
+          line: 17
+        - content: print("User cancelled the dialog")
+          file: dev/openFile.py
+          line: 21
+        - content: print(type(signal))
+          file: dev/run.py
+          line: 91
+        - content: print(signal.__dir__())
+          file: dev/run.py
+          line: 92
+        - content: print(signal.text(0))
+          file: dev/run.py
           line: 93
-          type: int
-          value: 5000
-        - file: nchantrs/actions/text.py
-          line: 34
-          type: int
-          value: 3000
-        - file: nchantrs/actions/files.py
-          line: 60
-          type: int
-          value: 3000
-        - file: nchantrs/actions/files.py
-          line: 128
-          type: int
-          value: 3000
-        - file: nchantrs/actions/files.py
-          line: 104
-          type: int
-          value: 3000
-        - file: nchantrs/actions/files.py
-          line: 140
-          type: int
-          value: 3000
-        - file: nchantrs/widgets/widgets.py
-          line: 578
-          type: float
-          value: 1.5
-        rule: 'Magic numbers detected: 58'
-        severity: medium
-      magic_number_count: 58
+        - content: print('Start', start)
+          file: cmds/runDevelopment.py
+          line: 41
+        - content: print('End', end)
+          file: cmds/runDevelopment.py
+          line: 44
+        - content: print("Start", start)
+          file: cmds/runApplication.py
+          line: 43
+        - content: print("End", end)
+          file: cmds/runApplication.py
+          line: 46
+        - content: print(type(signal))
+          file: cmds/run.py
+          line: 86
+        - content: print(signal.__dir__())
+          file: cmds/run.py
+          line: 87
+        - content: print(signal.text(0))
+          file: cmds/run.py
+          line: 88
+        print_statements: 17
+        score: 83
+        status: pass
+        uses_logma: true
+      score: 83
+      status: pass
+    score: 83
+    status: pass
+  logging_coverage:
+    details:
+      details:
+        examples:
+          silent_classes:
+          - class: DataSourceDumper
+            file: zz-tomb_/debug.py
+            method_count: 8
+          - class: CustomProxy
+            file: dev/z-work_.py
+            method_count: 11
+          - class: EmbeddedDialog
+            file: dev/z-work_.py
+            method_count: 6
+          - class: MediaPlayer
+            file: dev/nchantdvlc2.py
+            method_count: 8
+          - class: NchantdApplicationService
+            file: zz-work_/services/nchantrs.py
+            method_count: 11
+          unused_logma:
+          - file: zz-tomb_/books.py
+            logma_imported: true
+          - file: zz-tomb_/analytics.py
+            logma_imported: true
+          - file: zz-tomb_/identification.py
+            logma_imported: true
+          - file: zz-work_/extensions.py
+            logma_imported: true
+          - file: zz-work_/services/nchantrs.py
+            logma_imported: true
+        issues:
+        - dimension: logging_coverage
+          rule: Add logging to silent modules/classes
+          severity: medium
+        score: 0
+        silent_classes: 87
+        status: fail
+        unused_logma_files: 146
       score: 0
       status: fail
     score: 0
     status: fail
+  long_method:
+    details:
+      details:
+        issues: []
+        long_method_count: 0
+        score: 100
+        status: pass
+      score: 100
+      status: pass
+    score: 100
+    status: pass
+  memory:
+    details:
+      details:
+        checks:
+          efficiency_issues: 0
+          large_objects: 0
+          potential_leaks: 0
+          resource_management: 0
+        issues: []
+        score: 100
+        status: pass
+      score: 100
+      status: pass
+    score: 100
+    status: pass
   message_chains:
     details:
-      chain_count: 0
-      issues: []
+      details:
+        chain_count: 0
+        issues: []
+        score: 100
+        status: pass
       score: 100
       status: pass
     score: 100
     status: pass
   mkdocs_mkdocstrings:
     details:
-      coverage_percentage: 0
-      covered_modules: 0
-      docs_directory: false
-      has_index_md: false
-      has_mkdocstrings: true
-      issues:
-      - fix: 'Set up MkDocs with mkdocstrings: create mkdocs.yml and docs/index.md'
-        rule: No MkDocs documentation setup found
-        severity: high
-      mkdocs_config: mkdocs.yml
-      score: 0
-      status: fail
-      total_modules: 0
-      uncovered_modules: []
-    score: 0
-    status: fail
-  module_cli_coverage:
-    details:
-      cli_commands:
-      - actions
-      - cli
-      - config
-      - dialogs
-      - events
-      - extensions
-      - help
-      - install
-      - libraries
-      - library
-      - logging
-      - models
-      - nchantrs
-      - run
-      - services
-      - test
-      - themes
-      - uninstall
-      - updates
-      - utilities
-      - version
-      - views
-      - widgets
-      - wizards
-      context:
-        actual: 17/18 modules have CLI commands (94%)
-        description: Ensures every module has a corresponding CLI command for accessibility
-        dimension: module_cli_coverage
-        expected: All modules should have CLI commands (100% coverage at 80% threshold)
-        fix_guidance: 'Add CLI commands for: agent_awareness. Map each module to a
-          CLI command in cli.py using subparsers.add_parser(''agent_awareness'').'
-        what_it_tests: Whether each Python module in the package has a matching CLI
-          command entry point
-        why_partial_or_fail: 'Modules missing CLI commands: agent_awareness. Available
-          CLI commands found: actions, cli, config, dialogs, events, extensions, help,
-          install, libraries, library, logging, models, nchantrs, run, services, test,
-          themes, uninstall, updates, utilities, version, views, widgets, wizards.
-          Each module should have either: (1) a matching @cli.command()/@app.command()
-          decorator, (2) a subparsers.add_parser() call matching the module name,
-          or (3) a cmd_XXX function in cli.py that maps to the module.'
-      covered_modules: 17
-      issues:
-      - available_cli_commands:
-        - extensions
-        - wizards
-        - run
-        - utilities
-        - help
-        - logging
-        - views
-        - models
-        - dialogs
-        - config
-        - install
-        - services
-        - version
-        - libraries
-        - cli
-        - actions
-        - events
-        - uninstall
-        - widgets
-        - updates
-        - test
-        - library
-        - themes
-        - nchantrs
-        covered_modules:
-        - logging
-        - cli
-        - views
-        - actions
-        - models
-        - dialogs
-        - extensions
-        - wizards
-        - widgets
-        - events
-        - updates
-        - utilities
-        - library
-        - themes
-        - nchantrs
-        - services
-        - libraries
-        fix: 'Add CLI commands for: agent_awareness'
-        rule: 'CLI coverage: 17/18 modules'
-        severity: medium
-        uncovered_modules:
-        - agent_awareness
-      module_list:
-      - actions
-      - agent_awareness
-      - cli
-      - dialogs
-      - events
-      - extensions
-      - libraries
-      - library
-      - logging
-      - models
-      - nchantrs
-      - services
-      - themes
-      - updates
-      - utilities
-      - views
-      - widgets
-      - wizards
-      score: 94
-      status: pass
-      total_modules: 18
-      uncovered_modules: 1
-    score: 94
-    status: pass
-  parallel_inheritance:
-    details:
-      issues: []
-      parallel_inheritance_count: 0
+      details:
+        issues: []
+        score: 100
+        status: pass
       score: 100
       status: pass
     score: 100
     status: pass
+  module_cli_coverage:
+    details:
+      details:
+        issues:
+        - message: Module __main__ has no corresponding CLI command
+          module: __main__
+          type: no_cli
+        score: 85
+        status: pass
+      score: 85
+      status: pass
+    score: 85
+    status: pass
+  not_implemented:
+    details:
+      details:
+        count: 0
+        examples: []
+        issues: []
+        score: 100
+        status: pass
+      score: 100
+      status: pass
+    score: 100
+    status: pass
+  note_comments:
+    details:
+      details:
+        count: 5
+        examples:
+        - file: nchantrs/nchantrs.py
+          line: 103
+          text: '# NOTE: Pyularity integration - requires pyularity package to be
+            installed'
+        - file: nchantrs/widgets/widgets.py
+          line: 896
+          text: '# NOTE: Mixin comes before QWidget in MRO, but we must call QWidget.__init__
+            directly'
+        - file: nchantrs/dialogs/dialogs.py
+          line: 50
+          text: '# NOTE: We do NOT call super().__init__() here because NchantdPanties'
+        - file: nchantrs/widgets/browsers/engines.py
+          line: 273
+          text: "# NOTE: do NOT parent/interceptor here \u2014 the pool owns lifetime"
+        - file: nchantrs/widgets/media/editors/code.py
+          line: 152
+          text: '#         # NOTE: Add paths to language-specific linters.'
+        issues: []
+        score: 100
+        status: pass
+      score: 100
+      status: pass
+    score: 100
+    status: pass
+  parallel_inheritance:
+    details:
+      details:
+        issues:
+        - fix: Consider merging hierarchies or using composition
+          items:
+          - class: DataSourceDumper
+            locations:
+            - zz-tomb_/debug.py
+            - nchantrs/utilities/debug.py
+          - class: MainWindow
+            locations:
+            - dev/canvas.py
+            - dev/openFile.py
+            - dev/run.py
+            - cmds/run.py
+          - class: NchantdServiceManager
+            locations:
+            - zz-work_/services/services.py
+            - nchantrs/services/services.py
+          - class: NchantdService
+            locations:
+            - zz-work_/services/services.py
+            - nchantrs/services/services.py
+          - class: NchantrsService
+            locations:
+            - zz-work_/services/services.py
+            - nchantrs/services/services.py
+          - class: NchantdEventSet
+            locations:
+            - zz-work_/events/events.py
+            - nchantrs/events/events.py
+          - class: NchantdEvent
+            locations:
+            - zz-work_/events/events.py
+            - nchantrs/events/events.py
+          - class: NchantdGameBoard
+            locations:
+            - zz-work_/games/boards.py
+            - nchantrs/widgets/media/games/boards.py
+          - class: NchantdExtensionLoader
+            locations:
+            - zz-work_/extensions/install.py
+            - nchantrs/extensions/install.py
+          - class: NchantdExtensionsManager
+            locations:
+            - zz-work_/extensions/extensions.py
+            - nchantrs/extensions/extensions.py
+          - class: NchantdEventAPI
+            locations:
+            - zz-work_/extensions/apis.py
+            - nchantrs/extensions/apis.py
+          - class: NchantdNetworkAPI
+            locations:
+            - zz-work_/extensions/apis.py
+            - nchantrs/extensions/apis.py
+          - class: NchantdNodesAPI
+            locations:
+            - zz-work_/extensions/apis.py
+            - nchantrs/extensions/apis.py
+          - class: NchantdRuntimeAPI
+            locations:
+            - zz-work_/extensions/apis.py
+            - nchantrs/extensions/apis.py
+          - class: NchantdSourceAPI
+            locations:
+            - zz-work_/extensions/apis.py
+            - nchantrs/extensions/apis.py
+          - class: NchantdStorageAPI
+            locations:
+            - zz-work_/extensions/apis.py
+            - nchantrs/extensions/apis.py
+          - class: NchantdWebRequestAPI
+            locations:
+            - zz-work_/extensions/apis.py
+            - nchantrs/extensions/apis.py
+          - class: NchantdExtensionAPI
+            locations:
+            - zz-work_/extensions/apis.py
+            - nchantrs/extensions/apis.py
+          - class: NchantdBrowserPluginBase
+            locations:
+            - zz-work_/extensions/plugins.py
+            - nchantrs/extensions/plugins.py
+          - class: NchantdApplicationPluginBase
+            locations:
+            - zz-work_/extensions/plugins.py
+            - nchantrs/extensions/plugins.py
+          - class: ActionBuilder
+            locations:
+            - zz-work_/actions/actions.py
+            - nchantrs/actions/actions.py
+          - class: NchantdGameOfLife
+            locations:
+            - zz-work_/extensions/packages/nchantdlibrary/games/gameoflife.py
+            - nchantrs/extensions/packages/nchantdlibrary/games/gameoflife.py
+          - class: NchantdManager
+            locations:
+            - nchantrs/widgets/managers.py
+            - nchantrs/widgets/managers/managers.py
+          - class: NchantdBasket
+            locations:
+            - nchantrs/widgets/managers.py
+            - nchantrs/widgets/managers/managers.py
+          - class: NchantdBasketManager
+            locations:
+            - nchantrs/widgets/managers.py
+            - nchantrs/widgets/managers/managers.py
+          - class: NchantdExtensionManager
+            locations:
+            - nchantrs/widgets/managers.py
+            - nchantrs/widgets/managers/managers.py
+          - class: NchantdFileSystemsManager
+            locations:
+            - nchantrs/widgets/managers.py
+            - nchantrs/widgets/managers/managers.py
+          - class: NchantdSecuritySettings
+            locations:
+            - nchantrs/widgets/config/security.py
+            - nchantrs/widgets/config/uninstall.py
+          - class: PersistentGoogleSession
+            locations:
+            - nchantrs/widgets/browsers/security/google.py
+            - nchantrs/widgets/browsers/security/authentication.py
+          rule: 'Parallel inheritance detected: 29 classes'
+          severity: medium
+        parallel_inheritance_count: 29
+        score: 0
+        status: fail
+      score: 0
+      status: fail
+    score: 0
+    status: fail
   pii_secrets:
     details:
-      files_with_secrets: 0
-      findings: []
+      details:
+        details:
+          files_with_secrets: 0
+          findings: []
+          score: 100
+          secrets_found: 0
+          status: pass
+        score: 100
+        status: pass
       score: 100
-      secrets_found: 0
+      status: pass
+    score: 100
+    status: pass
+  platform_conditionals:
+    details:
+      details:
+        details:
+          conditionals:
+          - check_count: 6
+            file: nchantrs/widgets/applications/applications.py
+          - check_count: 4
+            file: nchantrs/widgets/browsers/profiles.py
+          - check_count: 15
+            file: nchantrs/widgets/browsers/codecs/h264.py
+          files_with_excessive_checks: 3
+          issues:
+          - file: nchantrs/widgets/applications/applications.py
+            fix: Create platform-specific adapter or strategy pattern
+            line: null
+            message: Excessive platform conditionals (6 checks) - consider abstraction
+            severity: medium
+          - file: nchantrs/widgets/browsers/profiles.py
+            fix: Create platform-specific adapter or strategy pattern
+            line: null
+            message: Excessive platform conditionals (4 checks) - consider abstraction
+            severity: medium
+          - file: nchantrs/widgets/browsers/codecs/h264.py
+            fix: Create platform-specific adapter or strategy pattern
+            line: null
+            message: Excessive platform conditionals (15 checks) - consider abstraction
+            severity: medium
+          score: 55
+          status: partial
+        score: 55
+        status: partial
+      score: 55
+      status: partial
+    score: 55
+    status: partial
+  platform_specific_imports:
+    details:
+      details:
+        details:
+          issues: []
+          score: 100
+          status: pass
+          violation_count: 0
+          violations: []
+        score: 100
+        status: pass
+      score: 100
       status: pass
     score: 100
     status: pass
   private_leak:
     details:
-      issues: []
-      private_leak_count: 0
+      details:
+        issues: []
+        private_leak_count: 0
+        score: 100
+        status: pass
+      score: 100
+      status: pass
+    score: 100
+    status: pass
+  python_version_floor:
+    details:
+      details:
+        details:
+          issues: []
+          requires_python: '>=3.10'
+          score: 100
+          status: pass
+        score: 100
+        status: pass
       score: 100
       status: pass
     score: 100
     status: pass
   readme_quality:
     details:
-      issues: []
-      score: 100
-      sections_found:
-      - installation
-      - usage
-      - features
-      sections_required:
-      - installation
-      - usage
-      - features
+      details:
+        issues:
+        - rule: 'Missing section: Project overview'
+          severity: medium
+        - rule: 'Missing section: Development'
+          severity: medium
+        score: 80
+        status: pass
+      score: 80
       status: pass
-      word_count: 683
-    score: 100
+    score: 80
     status: pass
   security_bandit:
     details:
       details:
-        files_scanned: 238
-        high: 4
-        low: 80
-        medium: 16
-        total: 100
-      issues: []
-      score: 80
+        issues:
+        - file: /mnt/iverse/SB/3_Functions/Operations/opENGRg/3_Work/jobElfSys/actvPython/tskNchantrs/1_DELTA/nchantrs/nchantrs/extensions/install.py
+          line: 78
+          rule: 'Bandit: Use of exec detected.'
+          severity: medium
+        - file: /mnt/iverse/SB/3_Functions/Operations/opENGRg/3_Work/jobElfSys/actvPython/tskNchantrs/1_DELTA/nchantrs/nchantrs/widgets/browsers/codecs/h264.py
+          line: 141
+          rule: 'Bandit: Chmod setting a permissive mask 0o755 on file (extracted_path).'
+          severity: medium
+        - file: /mnt/iverse/SB/3_Functions/Operations/opENGRg/3_Work/jobElfSys/actvPython/tskNchantrs/1_DELTA/nchantrs/nchantrs/widgets/browsers/codecs/h264.py
+          line: 261
+          rule: 'Bandit: Chmod setting a permissive mask 0o755 on file (final_path).'
+          severity: medium
+        - file: /mnt/iverse/SB/3_Functions/Operations/opENGRg/3_Work/jobElfSys/actvPython/tskNchantrs/1_DELTA/nchantrs/nchantrs/widgets/browsers/pages.py
+          line: 376
+          rule: 'Bandit: Possible binding to all interfaces.'
+          severity: medium
+        - file: /mnt/iverse/SB/3_Functions/Operations/opENGRg/3_Work/jobElfSys/actvPython/tskNchantrs/1_DELTA/nchantrs/nchantrs/widgets/browsers/requests.py
+          line: 105
+          rule: 'Bandit: Possible binding to all interfaces.'
+          severity: medium
+        - file: /mnt/iverse/SB/3_Functions/Operations/opENGRg/3_Work/jobElfSys/actvPython/tskNchantrs/1_DELTA/nchantrs/nchantrs/wizards/apps.py
+          line: 388
+          rule: 'Bandit: Chmod setting a permissive mask 0o755 on file (shortcut_path).'
+          severity: medium
+        score: 100
+        status: pass
+      score: 100
       status: pass
-    score: 80
+    score: 100
     status: pass
+  security_internal:
+    details:
+      details:
+        findings:
+        - category: getattr_dynamic
+          content: '"name": getattr(inst, ''name'', None),'
+          file: zz-tomb_/debug.py
+          line: 93
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: '"id": getattr(inst, ''id'', None),'
+          file: zz-tomb_/debug.py
+          line: 94
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: '{"id": str(i), "name": getattr(i, ''name'', ''unknown'')}'
+          file: zz-tomb_/debug.py
+          line: 113
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: store = getattr(dialog, 'model', None)
+          file: zz-tomb_/debug.py
+          line: 221
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: store = getattr(store, 'store', None)
+          file: zz-tomb_/debug.py
+          line: 223
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: model = getattr(dialog, 'model', None)
+          file: zz-tomb_/debug.py
+          line: 225
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: exec_calls
+          content: app.exec()
+          file: dev/Entryapp.py
+          line: 45
+          pattern: \bexec\(
+          severity: 100
+        - category: exec_calls
+          content: sys.exit(app.exec())
+          file: dev/video.py
+          line: 92
+          pattern: \bexec\(
+          severity: 100
+        - category: exec_calls
+          content: sys.exit(app.exec())
+          file: dev/nchantdvlc.py
+          line: 83
+          pattern: \bexec\(
+          severity: 100
+        - category: exec_calls
+          content: app.exec()
+          file: dev/dateapp.py
+          line: 40
+          pattern: \bexec\(
+          severity: 100
+        - category: exec_calls
+          content: sys.exit(app.exec())
+          file: dev/nchantdvlc2.py
+          line: 145
+          pattern: \bexec\(
+          severity: 100
+        - category: exec_calls
+          content: exec(js_code, globals())
+          file: zz-work_/extensions/install.py
+          line: 78
+          pattern: \bexec\(
+          severity: 100
+        - category: exec_calls_ast
+          content: exec(...)
+          file: zz-work_/extensions/install.py
+          line: 78
+          pattern: ast_call
+          severity: 100
+        - category: exec_calls
+          content: exec(js_code, globals())
+          file: nchantrs/extensions/install.py
+          line: 78
+          pattern: \bexec\(
+          severity: 100
+        - category: exec_calls_ast
+          content: exec(...)
+          file: nchantrs/extensions/install.py
+          line: 78
+          pattern: ast_call
+          severity: 100
+        - category: exec_calls
+          content: drop_action = drag.exec(pyqt.Qt.MoveAction | pyqt.Qt.CopyAction,
+            pyqt.Qt.MoveAction)
+          file: nchantrs/widgets/tabsets.py
+          line: 590
+          pattern: \bexec\(
+          severity: 100
+        - category: exec_calls
+          content: drop_action = drag.exec(pyqt.Qt.MoveAction)
+          file: nchantrs/widgets/tabsets.py
+          line: 710
+          pattern: \bexec\(
+          severity: 100
+        - category: unicode_escape
+          content: ansi_regex = re.compile(r"(\x1B\[[0-?]*[ -/]*[@-~])")
+          file: nchantrs/widgets/embeds.py
+          line: 128
+          pattern: \\x[0-9a-fA-F]{2}
+          severity: 40
+        - category: unicode_escape
+          content: 'if part.lower().startswith("\x1b["):'
+          file: nchantrs/widgets/embeds.py
+          line: 134
+          pattern: \\x[0-9a-fA-F]{2}
+          severity: 40
+        - category: unicode_escape
+          content: text = "\x1b"
+          file: nchantrs/widgets/embeds.py
+          line: 257
+          pattern: \\x[0-9a-fA-F]{2}
+          severity: 40
+        - category: unicode_escape
+          content: text = "\x1b[A"
+          file: nchantrs/widgets/embeds.py
+          line: 260
+          pattern: \\x[0-9a-fA-F]{2}
+          severity: 40
+        - category: unicode_escape
+          content: text = "\x1b[B"
+          file: nchantrs/widgets/embeds.py
+          line: 262
+          pattern: \\x[0-9a-fA-F]{2}
+          severity: 40
+        - category: unicode_escape
+          content: text = "\x1b[C"
+          file: nchantrs/widgets/embeds.py
+          line: 264
+          pattern: \\x[0-9a-fA-F]{2}
+          severity: 40
+        - category: unicode_escape
+          content: text = "\x1b[D"
+          file: nchantrs/widgets/embeds.py
+          line: 266
+          pattern: \\x[0-9a-fA-F]{2}
+          severity: 40
+        - category: unicode_escape
+          content: dev = menu.addMenu("\U0001F6E0 Developer")
+          file: nchantrs/widgets/widgets.py
+          line: 289
+          pattern: \\U[0-9a-fA-F]{8}
+          severity: 40
+        - category: exec_calls
+          content: self.context_menu.exec(event.globalPos())
+          file: nchantrs/widgets/widgets.py
+          line: 263
+          pattern: \bexec\(
+          severity: 100
+        - category: getattr_dynamic
+          content: current = getattr(current, "parent", None)
+          file: nchantrs/widgets/widgets.py
+          line: 141
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: 'if getattr(self, "context_menu", None) is not None:'
+          file: nchantrs/widgets/widgets.py
+          line: 166
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: '"name": getattr(self, "name", None),'
+          file: nchantrs/widgets/widgets.py
+          line: 276
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: '"file_path": getattr(self, "file_path", None),'
+          file: nchantrs/widgets/widgets.py
+          line: 278
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: '"context_menu": getattr(self, "context_menu_name", None),'
+          file: nchantrs/widgets/widgets.py
+          line: 279
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: '"parent": type(self.parent).__name__ if getattr(self, "parent",
+            None) else None,'
+          file: nchantrs/widgets/widgets.py
+          line: 280
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: '"name": getattr(inst, ''name'', None),'
+          file: nchantrs/utilities/debug.py
+          line: 93
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: '"id": getattr(inst, ''id'', None),'
+          file: nchantrs/utilities/debug.py
+          line: 94
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: '{"id": str(i), "name": getattr(i, ''name'', ''unknown'')}'
+          file: nchantrs/utilities/debug.py
+          line: 113
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: store = getattr(dialog, 'model', None)
+          file: nchantrs/utilities/debug.py
+          line: 221
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: store = getattr(store, 'store', None)
+          file: nchantrs/utilities/debug.py
+          line: 223
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: model = getattr(dialog, 'model', None)
+          file: nchantrs/utilities/debug.py
+          line: 225
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: base64_decode
+          content: self.hash = base64.b64decode(user["password_txt"]).decode()
+          file: nchantrs/utilities/users.py
+          line: 185
+          pattern: base64\.b64decode\(
+          severity: 70
+        - category: base64_decode
+          content: self.salt = base64.b64decode(user["saltUUID"]).decode()
+          file: nchantrs/utilities/users.py
+          line: 186
+          pattern: base64\.b64decode\(
+          severity: 70
+        - category: base64_decode
+          content: self.iters = base64.b64decode(user["iterations_txt"]).decode()
+          file: nchantrs/utilities/users.py
+          line: 187
+          pattern: base64\.b64decode\(
+          severity: 70
+        - category: input_usage
+          content: pword = input(message)
+          file: nchantrs/utilities/users.py
+          line: 114
+          pattern: \binput\(
+          severity: 20
+        - category: exec_calls
+          content: self.exec()
+          file: nchantrs/dialogs/files.py
+          line: 102
+          pattern: \bexec\(
+          severity: 100
+        - category: exec_calls
+          content: '# Run Qt event loop - use the QApplication instance''s exec()
+            method'
+          file: nchantrs/dialogs/dialogs.py
+          line: 160
+          pattern: \bexec\(
+          severity: 100
+        - category: exec_calls
+          content: pyqt.QApplication.instance().exec()
+          file: nchantrs/dialogs/dialogs.py
+          line: 162
+          pattern: \bexec\(
+          severity: 100
+        - category: exec_calls
+          content: self.exec()
+          file: nchantrs/dialogs/dialogs.py
+          line: 200
+          pattern: \bexec\(
+          severity: 100
+        - category: exec_calls
+          content: self.app.exec()
+          file: nchantrs/dialogs/dialogs.py
+          line: 201
+          pattern: \bexec\(
+          severity: 100
+        - category: exec_calls
+          content: self.exec()
+          file: nchantrs/dialogs/dialogs.py
+          line: 250
+          pattern: \bexec\(
+          severity: 100
+        - category: exec_calls
+          content: self.exec()
+          file: nchantrs/dialogs/colors.py
+          line: 83
+          pattern: \bexec\(
+          severity: 100
+        - category: getattr_dynamic
+          content: 'if getattr(node, "app_data_type", "doc") == "app":'
+          file: nchantrs/models/treemodels.py
+          line: 261
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: instance = getattr(self.parent.app.model, "instance", None)
+          file: nchantrs/models/treemodels.py
+          line: 271
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: 'if instance is not None and getattr(instance, "internal", True)
+            is False:'
+          file: nchantrs/models/treemodels.py
+          line: 272
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: pid = getattr(parent, "nid", "0")
+          file: nchantrs/models/treemodels.py
+          line: 299
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: 'if getattr(self, "web_profiles", None) is None:'
+          file: nchantrs/models/applicationmodels.py
+          line: 103
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: base = self.application_path or getattr(self.store, "application_path",
+            None) or self.home
+          file: nchantrs/models/applicationmodels.py
+          line: 105
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: cache_key = (base_name, getattr(instance, "alias", None) if instance
+            else None)
+          file: nchantrs/models/models.py
+          line: 74
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: item_nid = getattr(item, "nid", None)
+          file: nchantrs/models/models.py
+          line: 1419
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: '#             node_nid = getattr(node, "nid", None) or getattr(node,
+            "data", {}).get("nid_txt", None)'
+          file: nchantrs/views/treeviews.py
+          line: 289
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: '#             node_nid = getattr(node, "nid", None) or getattr(node,
+            "data", {}).get("nid_txt", None)'
+          file: nchantrs/views/treeviews.py
+          line: 289
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: '"date_created": lambda x: getattr(x, "date_created", ""),'
+          file: nchantrs/widgets/items/nodes.py
+          line: 490
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: '"position": lambda x: getattr(x, "position", 0),'
+          file: nchantrs/widgets/items/nodes.py
+          line: 491
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: '"type": lambda x: getattr(x, "node_type", ""),'
+          file: nchantrs/widgets/items/nodes.py
+          line: 492
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: return getattr(self, "debug_mode", False) or self.config.dikt.get("debug",
+            False)
+          file: nchantrs/widgets/applications/applications.py
+          line: 539
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: f"| did_initial_load={getattr(self, '_did_initial_load', None)}
+            "
+          file: nchantrs/widgets/browsers/browsers.py
+          line: 248
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: f"| active_url={getattr(self.active_url, 'url', None)}"
+          file: nchantrs/widgets/browsers/browsers.py
+          line: 249
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: 'if not getattr(self, "_did_initial_load", False):'
+          file: nchantrs/widgets/browsers/browsers.py
+          line: 253
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: nxt = getattr(node, "parent", None)
+          file: nchantrs/widgets/browsers/pages.py
+          line: 270
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: cfg = getattr(view, "config", None)
+          file: nchantrs/widgets/browsers/pages.py
+          line: 298
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: dikt = getattr(cfg, "dikt", {}) if cfg is not None else {}
+          file: nchantrs/widgets/browsers/pages.py
+          line: 299
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: exec_calls
+          content: menu.exec(self.mapToGlobal(event.pos()))
+          file: nchantrs/widgets/browsers/engines.py
+          line: 225
+          pattern: \bexec\(
+          severity: 100
+        - category: exec_calls
+          content: action = menu.exec(self.mapToGlobal(event.pos()))
+          file: nchantrs/widgets/browsers/engines.py
+          line: 505
+          pattern: \bexec\(
+          severity: 100
+        - category: dynamic_import
+          content: data = __import__("json").loads(result_json or "{}")
+          file: nchantrs/widgets/browsers/engines.py
+          line: 595
+          pattern: __import__\(
+          severity: 80
+        - category: getattr_dynamic
+          content: 'for owner in (self, getattr(self, "parent", None)):'
+          file: nchantrs/widgets/browsers/engines.py
+          line: 233
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: app = getattr(owner, "app", None) if owner is not None else None
+          file: nchantrs/widgets/browsers/engines.py
+          line: 234
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: model = getattr(app, "model", None) if app is not None else None
+          file: nchantrs/widgets/browsers/engines.py
+          line: 235
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: dynamic_import_ast
+          content: __import__(...)
+          file: nchantrs/widgets/browsers/engines.py
+          line: 595
+          pattern: ast_call
+          severity: 80
+        - category: getattr_dynamic
+          content: fn = getattr(pyqt, "qWebEngineChromiumVersion", None)
+          file: nchantrs/widgets/browsers/profiles.py
+          line: 70
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: getattr_dynamic
+          content: storage_base = getattr(self.app.model.store, "application_path",
+            ".")
+          file: nchantrs/widgets/browsers/profiles.py
+          line: 360
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        - category: base64_decode
+          content: self.image.loadFromData(base64.b64decode(data))
+          file: nchantrs/widgets/media/images.py
+          line: 166
+          pattern: base64\.b64decode\(
+          severity: 70
+        - category: url_open
+          content: response = requests.get(url, stream=True, timeout=DOWNLOAD_TIMEOUT_SECONDS)
+          file: nchantrs/widgets/browsers/codecs/h264.py
+          line: 129
+          pattern: requests\.get\(
+          severity: 50
+        - category: url_open
+          content: response = requests.get(url, stream=True, timeout=DOWNLOAD_TIMEOUT_SECONDS)
+          file: nchantrs/widgets/browsers/codecs/h264.py
+          line: 236
+          pattern: requests\.get\(
+          severity: 50
+        - category: getattr_dynamic
+          content: '"os_version": getattr(self, "os_version", "unknown"),'
+          file: nchantrs/widgets/browsers/security/environment.py
+          line: 428
+          pattern: getattr\([^,]+,\s*['\"][\w]+['\"]
+          severity: 60
+        score: 83.5
+        status: pass
+      score: 83.5
+      status: pass
+    score: 83.5
+    status: pass
+  security_oidc:
+    details:
+      details:
+        findings: []
+        score: 100
+        status: pass
+      score: 100
+      status: pass
+    score: 100
+    status: pass
+  security_post_install:
+    details:
+      details:
+        findings:
+        - category: post_install_native_backend
+          content: 'Native build backend dependency: setuptools_scm'
+          file: pyproject.toml
+          line: 0
+          recommendation: setuptools_scm may compile native code during install. Ensure
+            build environment is controlled.
+          severity: 60
+        - category: post_install_main_module
+          content: "__main__.py present \u2014 auto-executes on 'python -m nchantrs'"
+          file: nchantrs/__main__.py
+          line: 0
+          recommendation: __main__.py auto-executes when invoked via python -m. Standard
+            for CLIs. Review for unintended side effects.
+          severity: 15
+        - category: post_install_dist_entry_points
+          content: '[console_scripts] found in entry_points.txt'
+          file: .venv/lib/python3.12/site-packages/pip-24.0.dist-info/entry_points.txt
+          line: 0
+          recommendation: console_scripts create executable entry points. Verify targets.
+          severity: 40
+        score: 40
+        status: partial
+      score: 40
+      status: partial
+    score: 40
+    status: partial
   security_ruff:
     details:
-      issues: []
-      score: 80
+      details:
+        issues:
+        - fix: 'Install ruff: pip install ruff'
+          rule: Ruff not installed
+          severity: high
+        score: 0
+        status: fail
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  speed:
+    details:
+      details:
+        checks:
+          builtin_optimizations: 0
+          efficiency_issues: 0
+          inefficient_loops: 0
+          string_concatenation: 0
+        issues: []
+        score: 100
+        status: pass
+      score: 100
       status: pass
-    score: 80
+    score: 100
     status: pass
   structure:
     details:
-      missing_dirs:
-      - docs
-      missing_files: []
-      present_dirs:
-      - nchantrs
-      - tests
-      - config
-      present_files:
-      - CLI.md
-      - pyproject.toml
-      - STATE.md
-      - CHANGELOG.rst
-      - fix_and_push.sh
-      - CONTRIBUTING.md
-      - config.yaml
-      - IMPLEMENTATION.md
-      - LICENSE_DEPENDENCIES.json
-      - requirements.txt
-      - nchantrs.yaml
-      - README.md
-      - LICENSE.md
-      - mkdocs.yml
-      - CHANGES_sasquatch.md
-      - CHANGES.md
-      - PROJECT_TRACKER.yaml
+      details:
+        issues:
+        - fix: Create docs/ directory
+          rule: Missing docs/ directory
+          severity: low
+        score: 85
+        status: pass
       score: 85
       status: pass
     score: 85
     status: pass
   switch_abuse:
     details:
-      issues:
-      - fix: Consider using a dictionary or strategy pattern instead of repeated conditionals
-        patterns:
-        - checks: 4
-          file: nchantrs/widgets/config/storage.py
-          function: if/elif chain
-          variable: previous_value
-        - checks: 4
-          file: nchantrs/widgets/browsers/profiles.py
-          function: if/elif chain
-          variable: policy_code
-        - checks: 26
-          file: nchantrs/widgets/media/charts/charts.py
-          function: match statement
-          variable: chart_type
-        - checks: 13
-          file: nchantrs/widgets/widgets.py
-          function: if/elif chain
-          variable: justify
-        - checks: 4
-          file: nchantrs/actions/tables.py
-          function: if/elif chain
-          variable: keyname
-        - checks: 8
-          file: nchantrs/events/mouse_events.py
-          function: if/elif chain
-          variable: shift
-        - checks: 11
-          file: nchantrs/themes/colors.py
-          function: if/elif chain
-          variable: style
-        - checks: 82
-          file: nchantrs/models/models.py
-          function: if/elif chain
-          variable: how
-        - checks: 7
-          file: nchantrs/widgets/browsers/codecs/h264.py
-          function: if/elif chain
-          variable: system
-        - checks: 4
-          file: nchantrs/widgets/calendars/timelines.py
-          function: if/elif chain
-          variable: threshold
-        rule: 'Switch abuse detected: 17 patterns'
-        severity: medium
+      details:
+        issues:
+        - fix: Use polymorphism or a mapping instead of complex if-else
+          items:
+          - count: 6
+            file: zz-work_/games/boards.py
+            function: keyPressEvent
+            var: key
+          - count: 5
+            file: nchantrs/widgets/embeds.py
+            function: _handle_sgr
+            var: p
+          - count: 7
+            file: nchantrs/widgets/embeds.py
+            function: keyPressEvent
+            var: key
+          - count: 6
+            file: nchantrs/widgets/widgets.py
+            function: getAlignment
+            var: justify
+          - count: 8
+            file: nchantrs/widgets/widgets.py
+            function: _set_alignment
+            var: justify
+          rule: 'Switch abuse detected: 28 instances'
+          severity: medium
+        score: 0
+        status: fail
+        switch_abuse_count: 28
       score: 0
       status: fail
-      switch_abuse_count: 17
     score: 0
     status: fail
   testing:
     details:
-      coverage: 0.0
-      files_with_tests: 0
-      score: 15
-      status: partial
-      test_dir: tests
-      test_file_count: 0
-      total_source_files: 163
-    score: 15
-    status: partial
+      details:
+        coverage: 4.761904761904762
+        files_with_tests: 8
+        score: 90
+        status: pass
+        test_dir: tests
+        test_file_count: 27
+        total_source_files: 168
+      score: 90
+      status: pass
+    score: 90
+    status: pass
   todo_tracking:
     details:
-      issues:
-      - critical_todos:
-        - &id001
-          content: '# TODO:3 fix user'
-          file: nchantrs/widgets/items/nodes.py
-          has_priority: true
-          line: 687
-          priority: 3
-        fix: Resolve all TODO comments, especially TODO:0 items
-        rule: 'TODO/FIXME comments found: 8 (penalty: -2)'
-        severity: high
-        todos:
-        - *id001
-        - &id002
-          content: '# NOTE: Pyularity integration - requires pyularity package to
-            be installed'
-          file: nchantrs/nchantrs.py
-          has_priority: false
-          line: 103
-          priority: 999
-        - &id003
-          content: '# # TODO: need to check to see if server is running'
-          file: nchantrs/utilities/comms.py
-          has_priority: false
-          line: 111
-          priority: 999
-        - &id004
-          content: '# NOTE: We do NOT call super().__init__() here because NchantdPanties'
-          file: nchantrs/dialogs/dialogs.py
-          has_priority: false
-          line: 49
-          priority: 999
-        - &id005
-          content: '# NOTE: Mixin comes before QWidget in MRO, but we must call QWidget.__init__
-            directly'
-          file: nchantrs/widgets/widgets.py
-          has_priority: false
-          line: 845
-          priority: 999
-        - &id006
-          content: '# Note: setCheckable(True) is now handled by NchantdButton.initView()
-            via config'
-          file: nchantrs/widgets/media/editors/entries.py
-          has_priority: false
-          line: 104
-          priority: 999
-        - &id007
-          content: '#         # NOTE: Add paths to language-specific linters.'
-          file: nchantrs/widgets/media/editors/code.py
-          has_priority: false
-          line: 152
-          priority: 999
-        - &id008
-          content: '#TODO: should always be sorted in some positive manner either
-            by the values or a given sequence'
+      details:
+        files_with_todos: 35
+        issues:
+        - dimension: todo_tracking
+          rule: Embedded TODOs require resolution
+          severity: high
+        score: 13
+        status: partial
+        total_todos: 87
+        worst_offenders:
+        - count: 13
+          file: nchantrs/widgets/media/editors/editors.py
+        - count: 10
+          file: nchantrs/widgets/config/settings.py
+        - count: 8
+          file: nchantrs/models/applicationmodels.py
+        - count: 8
+          file: nchantrs/widgets/media/charts/charts.py
+        - count: 4
+          file: nchantrs/wizards/apps.py
+        - count: 3
+          file: nchantrs/widgets/groups.py
+        - count: 3
+          file: nchantrs/models/models.py
+        - count: 3
           file: nchantrs/widgets/media/editors/selectors.py
-          has_priority: false
-          line: 210
-          priority: 999
-      penalty: 2
-      score: 58
-      sorted_todos:
-      - *id001
-      - *id002
-      - *id003
-      - *id004
-      - *id005
-      - *id006
-      - *id007
-      - *id008
+        - count: 2
+          file: nchantrs/widgets/tabsets.py
+        - count: 2
+          file: nchantrs/models/tabsetmodels.py
+      score: 13
       status: partial
-      todo_count: 8
-    score: 58
+    score: 13
     status: partial
-  try_except_imports:
-    details:
-      issues:
-      - fix: Move required imports to top of file
-        rule: 'Required imports in try/except: 1'
-        severity: high
-        violations:
-        - file: nchantrs/dialogs/dialogs.py
-          import: import traceback
-          line: 144
-      score: 80
-      status: pass
-      violation_count: 1
-    score: 80
-    status: pass
   type_annotations:
     details:
-      annotated_functions: 904
-      annotation_percentage: 25.7
-      issues:
-      - fix: Add type hints to function signatures and return types
-        rule: 'Type annotation coverage: 25.7%'
-        severity: medium
-      score: 60
+      details:
+        issues:
+        - rule: low_coverage
+          severity: medium
+          total: 4093
+          typed: 1212
+        score: 29
+        status: partial
+        total_functions: 4093
+        typed_functions: 1212
+        untyped_functions: 2881
+      score: 29
       status: partial
-      total_functions: 3518
-    score: 60
+    score: 29
     status: partial
-  type_check_pyright:
+  unfinished_code:
     details:
-      issues: []
-      score: 100
-      status: pass
-    score: 100
-    status: pass
+      details:
+        empty_methods: 130
+        examples:
+        - class: null
+          file: zz-tomb_/books.py
+          line: 68
+          method: convert_excel_2_nchantdmatrix
+        - class: null
+          file: zz-tomb_/books.py
+          line: 72
+          method: convert_word_2_nchantdscript
+        - class: NchantdCommunicationsManager
+          file: zz-tomb_/comms.py
+          line: 78
+          method: request_restart_instance
+        - class: NchantdConnections
+          file: zz-work_/services/connections.py
+          line: 51
+          method: connect_to_google
+        - class: NchantdConnections
+          file: zz-work_/services/connections.py
+          line: 54
+          method: connect_to_wikipedia
+        - class: Tag
+          file: zz-work_/services/tags.py
+          line: 64
+          method: rename
+        - class: null
+          file: zz-work_/events/trees.py
+          line: 36
+          method: leftClickSignalLog
+        - class: null
+          file: zz-work_/events/tabsets.py
+          line: 422
+          method: leftClickSignalLog
+        - class: NchantdExtensionLoader
+          file: zz-work_/extensions/install.py
+          line: 112
+          method: verify_extension
+        - class: null
+          file: zz-work_/extensions/extensions.py
+          line: 99
+          method: load_extension
+        issues:
+        - dimension: unfinished_code
+          rule: Empty methods need implementation
+          severity: high
+        score: 0
+        status: fail
+      score: 0
+      status: fail
+    score: 0
+    status: fail
   wrapper_antipattern:
     details:
-      issues: []
+      details:
+        issues: []
+        score: 100
+        status: pass
+        wrapper_count: 8
       score: 100
       status: pass
-      total_functions: 3187
-      wrapper_count: 0
     score: 100
     status: pass
-overall_score: 62.28
+overall_score: 70.03
 project: nchantrs
+rubric:
+  audit_overall: 70.03
+  categories: []
+  max_points: 0
+  percentage: 0.0
+  rubric_name: 06a67efe-a869-718e-8000-e7b9f78e7ae1
+  rubric_score: 0
+  rubric_version: '1.0'
+  score_difference: -70.03
+  total_points: 0
+  weighted_score: 0
 summary:
-  failing: 7
-  gitvein_projects_available: 68
-  passing: 29
-  total_dimensions: 46
+  failing: 9
+  partial: 10
+  passing: 34
+  tasks_created: 19
+  total_auditors: 11
+  total_dimensions: 53
 versions:
-  project: 1507b48
+  project: f30a61e
   project_status: clean
   project_uncommitted_changes: 0
   sasquatch: unknown
