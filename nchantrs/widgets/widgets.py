@@ -1022,126 +1022,42 @@ def loadWidget(parent, cfg=None):  # , panestyle=None):
     """Load the defined widget from its parameters or from a list of registered
     widgets
     Load Source for Daynamically building the tabset for the pane"""
-    # H62 DIAGNOSTIC-INSTRUMENTATION: trace every step of the dynamic
-    # widget loader. Tagged [FOCUS] for grep-friendly filtering.
-    logma.info(
-        f"[FOCUS] loadWidget ENTER parent={type(parent).__name__} "
-        f"cfg_keys={list(cfg.keys()) if isinstance(cfg, dict) else 'NOT_DICT'}"
-    )
     if cfg is None:
-        logma.info("[FOCUS] loadWidget cfg was None; substituting empty dict")
         cfg = {}
-    try:
-        cfg = kahndor.Instruct(pxcfg).override(cfg).dikt
-        logma.info(f"Load Widget Config {cfg}")
-        if cfg.get("widget", None):
-            try:
-                # app = cfg.get("app", "nchantrs")
-                # logma.info(f"{app}.{cfg['widget']}")
-                # widget = thingify(f"{app}.{cfg['widget']}", None, None, True)(parent, cfg)
-                logma.info(
-                    f"[FOCUS] loadWidget attempting thingify({cfg['widget']!r}) "
-                    f"with cfg keys: {list(cfg.keys())}"
-                )
-                widget_cls = thingify(f"{cfg['widget']}", None, None, True)
-                logma.info(
-                    f"[FOCUS] loadWidget thingify resolved class={widget_cls!r}"
-                )
-                widget = widget_cls(parent, cfg)
-                logma.info(
-                    f"[FOCUS] loadWidget widget instantiated "
-                    f"type={type(widget).__name__}"
-                )
-                # Some widgets may not have initWidget; tolerate either.
-                if hasattr(widget, "initWidget"):
-                    logma.info(
-                        f"[FOCUS] loadWidget calling widget.initWidget() "
-                        f"on {type(widget).__name__}"
-                    )
+    cfg = kahndor.Instruct(pxcfg).override(cfg).dikt
+    logma.info(f"Load Widget Config {cfg}")
+    if cfg.get("widget", None):
+        try:
+            # app = cfg.get("app", "nchantrs")
+            # logma.info(f"{app}.{cfg['widget']}")
+            # widget = thingify(f"{app}.{cfg['widget']}", None, None, True)(parent, cfg)
+            logma.info(f"{cfg['widget']}")
+            widget = thingify(f"{cfg['widget']}", None, None, True)(parent, cfg)
+        except Exception as e:
+            logma.info(f"Load Widget Exception {e}")
+            # Try fallback apps if specified
+            apps = cfg.get("apps", [])
+            widget = None
+            if apps:  # TODO: not sure if we should keep this process long term
+                for app in set(apps):
                     try:
-                        widget.initWidget()
-                        logma.info(
-                            f"[FOCUS] loadWidget widget.initWidget() returned "
-                            f"on {type(widget).__name__}"
-                        )
-                    except Exception as init_exc:
-                        import traceback
-                        logma.error(
-                            f"[FOCUS] loadWidget initWidget EXCEPTION on "
-                            f"{type(widget).__name__}: type={type(init_exc).__name__} "
-                            f"message={init_exc!r}"
-                        )
-                        logma.error(
-                            f"[FOCUS] loadWidget initWidget traceback:\n{traceback.format_exc()}"
-                        )
-                        raise
-                else:
-                    logma.info(
-                        f"[FOCUS] loadWidget widget {type(widget).__name__} "
-                        f"has no initWidget method; skipping"
-                    )
-            except Exception as e:
-                logma.info(f"Load Widget Exception {e}")
-                logma.error(
-                    f"[FOCUS] loadWidget primary EXCEPTION type={type(e).__name__} "
-                    f"message={e!r}"
-                )
-                import traceback
-                logma.error(f"[FOCUS] loadWidget traceback:\n{traceback.format_exc()}")
-                # Try fallback apps if specified
-                apps = cfg.get("apps", [])
-                widget = None
-                if apps:  # TODO: not sure if we should keep this process long term
-                    for app in set(apps):
-                        try:
-                            logma.info(f"[FOCUS] loadWidget fallback trying app={app!r} widget={cfg['widget']!r}")
-                            logma.info(f"{app}.{cfg['widget']}")
-                            widget = thingify(f"{app}.{cfg['widget']}", None, None, True)(parent, cfg)
-                            if widget:
-                                logma.info(
-                                    f"[FOCUS] loadWidget fallback SUCCESS for "
-                                    f"app={app!r} widget type={type(widget).__name__}"
-                                )
-                                break
-                        except Exception as e:
-                            if log:
-                                logma.warning(f"[FOCUS] loadWidget fallback FAIL app={app!r} widget={cfg['widget']!r}")
-                                logma.warning(f"{app}.{cfg['widget']}")
-                                logma.warning(e)
-                if widget is None:
-                    # No fallback apps or all failed, re-raise the original exception
-                    logma.warning(f"Failed to load widget: {cfg['widget']}")
-                    logma.error(
-                        f"[FOCUS] loadWidget all fallbacks exhausted for widget={cfg['widget']!r}"
-                    )
-                    raise
-        else:
-            logma.info(
-                f"[FOCUS] loadWidget no cfg.widget — falling back to "
-                f"lookupWidget path (first cfg key: {list(cfg.keys())[:1]})"
-            )
-            registered_widget = lookupWidget(list(cfg.keys())[0])
-            logma.info(
-                f"[FOCUS] loadWidget lookupWidget resolved {registered_widget!r}"
-            )
-            widget = kahndor.Factory.object(registered_widget, parent.app.model.parents)(parent, cfg)
-            logma.info(
-                f"[FOCUS] loadWidget Factory.object instantiated "
-                f"type={type(widget).__name__}"
-            )
-            widget.initWidget(parent.newInstance)
-            logma.info(f"[FOCUS] loadWidget widget.initWidget returned")
-        logma.info(
-            f"[FOCUS] loadWidget EXIT returning widget={widget!r} type={type(widget).__name__}"
-        )
-        return widget
-    except Exception as exc:
-        import traceback
-        logma.error(
-            f"[FOCUS] loadWidget OUTER EXCEPTION type={type(exc).__name__} message={exc!r}"
-        )
-        logma.error(f"[FOCUS] loadWidget OUTER traceback:\n{traceback.format_exc()}")
-        raise
+                        logma.info(f"{app}.{cfg['widget']}")
+                        widget = thingify(f"{app}.{cfg['widget']}", None, None, True)(parent, cfg)
+                        if widget:
+                            break
+                    except Exception as e:
+                        if log:
+                            logma.warning(f"{app}.{cfg['widget']}")
+                            logma.warning(e)
+            if widget is None:
+                # No fallback apps or all failed, re-raise the original exception
+                logma.warning(f"Failed to load widget: {cfg['widget']}")
+                raise
+    else:
+        registered_widget = lookupWidget(list(cfg.keys())[0])
+        widget = kahndor.Factory.object(registered_widget, parent.app.model.parents)(parent, cfg)
+        widget.initWidget(parent.newInstance)
+    return widget
 
 
 def lookupWidget(key):
