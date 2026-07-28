@@ -30,8 +30,8 @@ import matplotlib as mat
 import plotly.graph_objects as go
 import matplotlib.pyplot as plt
 
-mat.use("Qt5Agg")
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
+mat.use("QtAgg")
+from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from matplotlib.sankey import Sankey
 from wordcloud import WordCloud
