@@ -57,7 +57,36 @@ class LinkService:
 
     def store_link(self, name: str, path: str, tags: str) -> None:
         """"""
-        self.app.model.store_link(name=name, url=path, tag=tags)
+        # FIX P9 (store_link kwarg mismatch):
+        # LinkService.store_link() used to call
+        # ``self.app.model.store_link(name=name, url=path, tag=tags)``.
+        # ``NchantdOfficeCloakModel.store_link`` is the
+        # ``NchantdCloakModel.store_link(name, url=None, tags=None)``
+        # stub, which accepts ``tags`` (plural) — NOT ``tag``.
+        # Passing ``tag=tags`` therefore raised::
+        #
+        #     TypeError: NchantdCloakModel.store_link() got an
+        #         unexpected keyword argument 'tag'
+        #
+        # We keep the public kwarg ``tags=`` (singular-from-our-side
+        # accepts a scalar string the way the rest of the codebase
+        # treats it) and delegate to the underlying store_link
+        # without renaming so any future signature change doesn't
+        # silently break link tracking.
+        try:
+            self.app.model.store_link(name=name, url=path, tags=tags)
+        except TypeError as e:
+            # Defensive fallback: try both kwarg shapes. The
+            # underlying store historically used ``tag=`` (singular)
+            # for the NchantdStore base class; some deployments
+            # still expose that name.
+            if "tags" in str(e):
+                try:
+                    self.app.model.store_link(name=name, url=path, tag=tags)
+                    return
+                except TypeError:
+                    pass
+            raise
 
 
 # ====================================================================================================================||
