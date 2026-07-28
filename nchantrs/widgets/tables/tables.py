@@ -398,8 +398,13 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
         #         self.setColumnWidth(col, width[col])
         return self
 
-    def assign_widget(self, column_name, x, y):
-        """"""
+    def assign_widget(self, column_name, x, y, d=None):
+        """Override in subclasses to render a non-text cell (buttonbar, datetime, etc.).
+
+        ``d`` is the cell's data value (kept for subclass overrides that
+        need it). The base class returns ``NotImplemented`` so the
+        caller can fall through to a text-cell render.
+        """
         return NotImplemented
 
     def set_font(self):
