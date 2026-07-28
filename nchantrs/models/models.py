@@ -966,7 +966,7 @@ class NchantdStore(MicroStash):
                 content["pUUID"],
                 content["page"],
                 content["entry"],
-                content["version"] + 1,
+                _coerce_doc_version(content.get("version")) + 1,
                 content["hash"],
                 content["content"],
                 content["context"],
@@ -976,6 +976,31 @@ class NchantdStore(MicroStash):
         self._store(table, payload, db)
         # self._archive_versions(table, content["pUUID"], "pUUID", "UUID", 3)
         return content["uuid"]
+
+    @staticmethod
+    def _coerce_doc_version(raw) -> int:  # noqa: N805
+        """Best-effort integer document-version coercion.
+
+        The desktop app historically stored ``content["version"]`` as an
+        int, but a few legacy record formats (e.g. older PDF/Sketch saves,
+        hand-edited YAML records) carry version strings like ``"1.0.1.0"``
+        or floats like ``0.0``. Treating those as integers raised::
+
+            ValueError: invalid literal for int() with base 10: '1.0.1.0'
+            TypeError: unsupported operand type(s) for +: 'float' and 'int'
+
+        We keep the legacy behaviour (integer version) for new writes, but
+        accept legacy / partial values by falling back to a hash-derived
+        integer so the document still saves.
+        """
+        try:
+            if raw is None or raw == "":
+                return 0
+            return int(raw)
+        except (TypeError, ValueError):
+            import hashlib
+            digest = hashlib.md5(str(raw).encode("utf-8")).hexdigest()
+            return int(digest[:8], 16) & 0x7FFFFFFF  # keep it positive int32
 
     def store_app_menu(self, db="db", how="INSERT"):
         """
