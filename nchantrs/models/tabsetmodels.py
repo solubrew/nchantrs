@@ -235,9 +235,26 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         if tabn == tabn:  # using the dummy widget in tabs is problematic not sure how to make it work properly
             logma.info(f"Loading Tab {tab}")
             self.tab_widgets.insert(tabn, self.load_widget(self.parse_widget_data(tab), tabset, tab))
+            # T-NEW-021 (live crash): when tabn exceeds the current
+            # tab_widgets length (e.g. multi-instance inheritance or
+            # off-by-one parent delegation), ``insert`` appends but
+            # the subsequent indexing threw ``IndexError: list
+            # index out of range``. Guard with a length check; if
+            # the widget didn't land at ``tabn``, log and bail.
+            if len(self.tab_widgets) <= tabn:
+                logma.error(
+                    f"[tabsetmodels] load_tab: insert failed to populate index {tabn}; skipping dummy reset"
+                )
+                return
             self.tab_widgets[tabn].dummy = False
         else:
             self.tab_widgets.insert(tabn, pyqt.QWidget(self.parent))
+            # Same guard for the dummy-insert path.
+            if len(self.tab_widgets) <= tabn:
+                logma.error(
+                    f"[tabsetmodels] load_tab: dummy-insert failed to populate index {tabn}"
+                )
+                return
             self.tab_widgets[tabn].dummy = True
         self.tab_widgets[tabn].position = tabn  # TODO move into tab
         self.tab_widgets[tabn].name = tab.get("name", tab.get("name_txt", None))

@@ -906,6 +906,16 @@ class NchantdWidget(NchantdWidgetMixin, pyqt.QWidget):
         # logma.info(f"Init NchantdWidget Config {self.config}")
         self.parent = parent
         self.layout = None
+        # T-NEW-015 (live crash): NchantdWidgetMixin.init_variables
+        # sets self.context_menu_name = "widget", but that method
+        # is not on the calendar subclasses' init chain (they go
+        # through NchantdTab -> NchantdWidget). Without this default,
+        # initialize_context_menu (called from initView via
+        # widgets.py:206) raised AttributeError on
+        # ``self.context_menu_name``. Default-initialise here so
+        # subclasses inherit a valid value.
+        if not hasattr(self, "context_menu_name"):
+            self.context_menu_name = "widget"
 
     def initModel(self, cfg=None):
         """"""
