@@ -470,10 +470,7 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
         """ """
         super().__init__()
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdEntryBox")
-        if parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdEntryBox").override(parent.config).override(cfg)
         self.can_save = False
         self.user_editted = None
         self.entry_data = None
@@ -596,11 +593,7 @@ class NchantdLabeledEntry(NchantdWidget):
     def __init__(self, parent=None, cfg={}):
         """ """
         super().__init__(parent, cfg)
-        self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdLabeledEntry"))
-        if parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdLabeledEntry").override(cfg))
         self.model = pyqt.QStandardItemModel(self)
         self.style = None
         self.label = None
@@ -682,11 +675,7 @@ class NchantdEntryEditor(NchantdLabeledEntry):
     def __init__(self, parent=None, cfg=None):
         """ """
         super().__init__(parent, cfg)
-        self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select('NchantdEntryEditor'))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdEntryEditor').override(cfg))
 
     def initModel(self, cfg=None):
         """"""
@@ -711,12 +700,8 @@ class NchantdEntryEditorActivator(NchantdEntryEditor):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdEntryEditorActivator")
-        if self.parent:
-            self.config.override(parent.config)
-        super().__init__(self.parent, self.config)
-        self.config.override(cfg)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdEntryEditorActivator").override(cfg))
 
     def initModel(self):
         """"""
@@ -741,12 +726,8 @@ class NchantdEntryListEditor(NchantdWidget):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdEntryListEditor")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
-        super(NchantdEntryListEditor, self).__init__(self.parent)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdEntryListEditor").override(cfg))
 
     def initModel(self):
         """"""
@@ -777,11 +758,7 @@ class NchantdAppendOnlyEditor(NchantdDocEditor):
     def __init__(self, parent=None, cfg=None):
         """ """
         super().__init__(parent, cfg)
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdAppendOnlyEditor")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdAppendOnlyEditor").override(cfg))
         self.setPlaceholderText("Type here... Text will only be appended.\n")
         text_cursor = self.textCursor()
         text_cursor.movePosition(pyqt.QTextCursor.End)
@@ -824,12 +801,8 @@ class NchantdScratchEditor(NchantdWidget):
 
     def __init__(self, parent=None, cfg={}):
         """ """
-        self.parent = parent
-        if parent:
-            cfg = self.parent.config
-        self.config = kahndor.Instruct(pxcfg).select("NchantdScratchEditor")
-        self.config.override(cfg)
-        super().__init__(parent)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdScratchEditor").override(cfg))
         self.editor = None
         self.button_export = None
         self.button_maketab = None
@@ -891,11 +864,7 @@ class NchantdDocEditorView(pyqt.QListView):
     def __init__(self, parent=None, cfg={}):
         """ """
         super().__init__(parent, cfg)
-        self.parent = parent
-        if parent:
-            cfg = parent.config
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdEditorView"))
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdDocEditorView").override(cfg))
 
     def initView(self):
         """ """
