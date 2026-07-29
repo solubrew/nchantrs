@@ -157,6 +157,10 @@ class NchantdImage(NchantdWidget):
         # self.set_size(size_x, size_y)
 
         self.label.setPixmap(self.image)
+        # Preserve the un-scaled source so resizeEvent can re-scale
+        # from the original instead of compounding blur on each
+        # resize (the live DB-load blur bug).
+        self.original_pixmap = self.image
         # self.resizeEvent(None)
         return self
 
@@ -165,6 +169,7 @@ class NchantdImage(NchantdWidget):
         self.image = pyqt.QPixmap()
         self.image.loadFromData(base64.b64decode(data))
         self.label.setPixmap(self.image)
+        self.original_pixmap = self.image
         return self
 
     def refresh(self):
@@ -176,9 +181,12 @@ class NchantdImage(NchantdWidget):
         self.rgb = color.rgb()
 
     def resizeEvent(self, event):
-        # When the window is resized, scale the image again
+        # When the window is resized, scale the ORIGINAL image (not
+        # the already-scaled label pixmap) so sharpness does not
+        # compound with each resize (the live DB-load blur bug).
         if self.label.pixmap():
-            scaled = self.label.pixmap().scaled(
+            source = getattr(self, "original_pixmap", None) or self.label.pixmap()
+            scaled = source.scaled(
                 self.label.size(),
                 pyqt.Qt.AspectRatioMode.KeepAspectRatio,
                 pyqt.Qt.TransformationMode.SmoothTransformation,
