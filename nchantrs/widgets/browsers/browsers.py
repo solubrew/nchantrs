@@ -341,9 +341,19 @@ class NchantdWebViewer(NchantdWidget):
         self.set_url_path(url_str)
 
         # Track URL change in links table
+        # T-NEW-022 (live crash): the original call used ``tags=`` /
+        # ``path=`` / ``name=`` kwargs but link_service resolves to
+        # ``NchantdCloakModel.store_link`` in some installations, which
+        # has signature ``(url, name="", type_="", description="",
+        # tag="", db="db", how="INSERT")`` - so the kwargs raised
+        # ``TypeError: ...unexpected keyword argument 'tag'``.
+        # Switched to positional args that work for both signatures
+        # (``LinkService.store_link(name, path, tags)`` and
+        # ``NchantdCloakModel.store_link(url, name="", tag="")``).
         try:
             title = self.browser.title() or url_str
-            self.link_service.store_link(name=title, path=url_str, tags="'type': 'history'")
+            # LinkService signature is (name, path, tags).
+            self.link_service.store_link(title, url_str, "'type': 'history'")
         except Exception as e:
             logma.error(f"Failed to track link: {e}")
 
