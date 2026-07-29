@@ -606,6 +606,8 @@ NchantdPantiesModel:
               - ['base', 'run_eda', 'Exploratory Data Analysis', '', '<^[UUID]^>', 'eda', '', 'Peform Exploratory Analysis', '', '', "{}"]
               - ['base', 'run_web_app_locally', '', '', '<^[UUID]^>', '', 'save', '', '', '', "{}"]
               - ['base', 'save', 'Save', '', '066ef8a9-21f5-75c9-8000-3287aa0beab0', 'save', '', '', '', '', "{}"]
+              - ['base', 'save_database', 'Save Database', '', '', 'database-save', '', '', '', '', "{}"]
+              - ['base', 'save_cloud', 'Save Cloud', '', '', 'cloud-save', '', '', '', '', "{}"]
               - ['base', 'save_as', 'Save As...', '', '066d3a45-262b-75f9-8000-09d2bb834639', 'save', '', '', '', '', "{}"]
               - ['base', 'save_browser_page', 'Save', '', '066d5f7a-d20d-7fb0-8000-0a304b8dc28e', '', '', '', '', '', "{}"]
               - ['base', 'save_browser_page_wo_history', 'Save Without History...', '', '066ef8a9-21f5-782c-8000-48c26a22c78e', 'save', '', '', '', '', "{}"]
