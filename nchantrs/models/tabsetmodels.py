@@ -23,7 +23,6 @@ import json as j
 # ===============================================================================||
 from kahndor import kahndor
 from nchantrs.libraries import pyqt
-from nchantrs.widgets.controls.toolboxes import NchantdToolBox
 from kahndor.logma import Logma
 from subtrix.utilities import uuid
 from nchantrs.utilities.models import combine_records
@@ -203,6 +202,14 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
 
     def create_toolbox(self, parent=None, cfg=None) -> None:
         """"""
+        # T-NEW-024 (sibling agent) P0: deferred import breaks the
+        # nchantrs.widgets.tabsets -> nchantrs.models.tabsetmodels ->
+        # nchantrs.widgets.controls.toolboxes -> nchantrs.widgets.tabsets
+        # circular import. The cycle previously blocked importing
+        # NchantdOfficeScript (which pulls in tabsets) for tests
+        # that need to run under the sasquatch headless env.
+        from nchantrs.widgets.controls.toolboxes import NchantdToolBox
+
         toolbox = NchantdToolBox(parent, cfg)
         return toolbox
 
