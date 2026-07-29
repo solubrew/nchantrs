@@ -588,8 +588,29 @@ class NchantdGrid(NchantdWidget):
                         if self.config.dikt.get("start_one", None) is not None:
                             cfg["label"] += 1
                 cell = NchantdCell(self, cfg).initWidget()
-                self.cells.append(cell)
-                grid_layout.addWidget(cell, row, col)
+                # T-NEW-016 (live crash): NchantdCell is a
+                # QTableWidgetItem, not a QWidget, so
+                # ``grid_layout.addWidget(cell, ...)`` failed with
+                # ``TypeError: 'PySide6.QtWidgets.QGridLayout.addWidget'
+                # called with wrong argument types``. Wrap each
+                # cell in a QWidget container so the layout can
+                # host it. The cell itself still behaves as a
+                # model item via ``initWidget()`` populating the
+                # surrounding widget.
+                if not isinstance(cell, pyqt.QWidget):
+                    container = pyqt.QWidget(self)
+                    layout = pyqt.QVBoxLayout(container)
+                    layout.setContentsMargins(0, 0, 0, 0)
+                    if isinstance(cell, pyqt.QTableWidgetItem):
+                        label = pyqt.QLabel(container)
+                        label.setText(str(getattr(cell, "text", lambda: "")()) or "")
+                        layout.addWidget(label)
+                    container.setLayout(layout)
+                    self.cells.append(container)
+                    grid_layout.addWidget(container, row, col)
+                else:
+                    self.cells.append(cell)
+                    grid_layout.addWidget(cell, row, col)
                 grid_layout.setContentsMargins(0, 0, 0, 0)
                 cnt += 1
         # Set the grid layout to the QGroupBox
