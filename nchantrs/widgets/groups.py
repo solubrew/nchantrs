@@ -43,7 +43,7 @@ class NchantdGroup(NchantdWidgetMixin, pyqt.QGroupBox):
         super().__init__()
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdGroup").override(parent.config).override(cfg)
-        self.init_variables()
+        #self.init_variables()
         self.collapsible = None
         self.fixed_height = None
         self.set_collapsible(self.config.dikt.get("collapsible", False))
@@ -279,11 +279,12 @@ class NchantdVScrollGroupBox(NchantdWidget):
         """"""
         cfg = {}
         self.group = NchantdGroup(self, cfg)
-        self.group.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
+        #self.group.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
         if self.config.get("height", None):
             self.setMaxiumHeight(self.config.get("height"))
 
         self.layout_box = pyqt.QVBoxLayout(self)
+        self.layout_box.addStretch()
         self.layout_box.setSpacing(0)
         self.layout_box.setContentsMargins(0, 0, 0, 0)
 
@@ -292,19 +293,20 @@ class NchantdVScrollGroupBox(NchantdWidget):
         self.scroll.setHorizontalScrollBarPolicy(pyqt.Qt.ScrollBarAlwaysOff)
         self.scroll.setWidgetResizable(True)
         self.scroll.setWidget(self)
-        self.scroll.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
+        #self.scroll.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
 
         layout = pyqt.QVBoxLayout()
         self.group.setLayout(layout)
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(self.scroll)
-        self.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
+        #self.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
 
         self.layout = pyqt.QVBoxLayout()
         self.layout.addWidget(self.group)
         self.layout.setSpacing(0)
         self.layout.setContentsMargins(0, 0, 0, 0)
+
         #self.set_size("auto", self.parent.size().height())
         return self
 
