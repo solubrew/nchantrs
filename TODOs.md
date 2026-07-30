@@ -127,3 +127,60 @@
 | 🚧    | In progress |
 
 *Last auto-scan: 2026-07-13 — HEAD `acad000`.*
+
+
+---
+
+# Session handoff — Sprint 28 (2026-07-30)
+
+> **This is a fresh snapshot of recent nchantrs work.
+> The auto-generated marker scan above predates this
+> session (2026-07-13).** The next session should re-run
+> the marker scan or trust this handoff section.
+
+## Recent upstream commits (Squirl/nchantrs push):
+
+**db5d457** (2026-07-29, user) — `remove _file_admin_cols for
+UPDATE and UPSERT write methods as it is not needed`. Fix
+the silent binding-count mismatch on the canonical tab/node
+UPDATE data shape:
+
+    data = {"table": {<tbl>: {"records": [[<v>]],
+                     "columns": [<col>]}}}
+    store.update_record(data, "<where_col>", "<id>", "db")
+
+**f0c10c2** (Sprint 18) — `fix(nchantrs): break circular
+import via deferred NchantdToolBox import`. nchantrs.models
+.tabsetmodels deferred its ``NchantdToolBox`` import from
+module-top to inside ``create_toolbox()`` to break the
+widgets.tabsets -> models.tabsetmodels -> widgets.controls
+.toolboxes -> widgets.tabsets cycle.
+
+## Architectural facts to remember:
+
+- All NchantdDialogs live in ``nchantrs.dialogs`` (Sprint
+  19 directive).
+- The NchantdTreeView wrapper at
+  ``nchantrs/views/treeviews.py:38`` owns
+  ``set_current_node(node)`` (line 266). The wrapper
+  exposes ``itemPressed`` (line 95) ->
+  ``onLeftClick`` (line 181) -> ``set_current_node(signal)``
+  -> ``updateTabs('center')`` (line 275). It's reached
+  as ``pane.tree.view`` on the live app — pane.tree is
+  the inner ``NchantdApplicationTree`` (a QTreeWidget
+  subclass) which does NOT define set_current_node.
+- ``NchantdTree.handle_selection_change`` (line 123) only
+  stores ``previous_index``; it does NOT drive
+  navigation. The actual navigation flow is
+  ``itemPressed`` -> ``onLeftClick``.
+
+## Open items left after session Sprint 28:
+
+- T-NEW-005 item 3 UI browse dialog was wired in Sprint
+  19; verify the implementation still works against the
+  live `cmd_browse_app_instances` -> view flow.
+- NchantdApplicationTreeModel may need user_tab /
+  settings_tab attributes populated by the live app —
+  when missing, ``self.app.view.switch_to_account_tab``
+  silently no-ops. This affects every Sprint 20+ helper
+  that wraps ``set_current_node`` style navigation.
