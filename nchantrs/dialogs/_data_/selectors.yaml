@@ -1,0 +1,6 @@
+NchantdSelectionDialog:
+    title: 'Select'
+    width: 500
+    height: 400
+    ok: 'OK'
+    cancel: 'Cancel'
