@@ -47,9 +47,12 @@ class NchantdSigilMixin(NchantdWidgetMixin):
         self.buttons = None
         self.new = True
         self.open = False
-        self.dtop = self.config.dikt["gui"]["dialogs"].get(name, None)
+        gui = self.config.dikt.get("gui", None)
+        if gui is None:
+            raise
+        self.dtop = gui.get("dialogs", {}).get(name, None)
         if self.dtop is None:
-            self.dtop = self.config.dikt["gui"]["dialogs"].get("base", None)
+            self.dtop = gui.get("dialogs", {}).get("base", None)
         # logma.info(f"Parent {self.parent}")
         # self.model = self.parent.model
         self.new_form_field = None
