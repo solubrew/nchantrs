@@ -76,14 +76,16 @@ class NchantdSettingsWidget(NchantdTab):
 
     def cmd_export_file(self):
         """"""
-        #TODO implement method
+        # TODO implement method
 
     def cmd_import_file(self):
         """"""
-        #TODO implement method
+        # TODO implement method
+
     def cmd_save(self):
         """"""
-        #TODO implement method
+        # TODO implement method
+
     def cmd_show_pane_left(self, event=None, *args, **kwargs):
         """"""
         # TODO flip icon
@@ -105,7 +107,7 @@ class NchantdSettingsWidget(NchantdTab):
     def export_settings(self):
         """"""
         # launch a file selection sigil
-        #TODO implement method
+        # TODO implement method
 
     def get_settings(self, area):
         """"""
@@ -115,12 +117,12 @@ class NchantdSettingsWidget(NchantdTab):
     def import_settings(self):
         """"""
         # launch a file selection sigil
-        #TODO implement method
+        # TODO implement method
 
     def launch_unsaved_dialog(self):
         """"""
         # launch a sigil that forces the user to decide on saving or not
-        #TODO implement method
+        # TODO implement method
 
     def on_changed(self, value):
         """"""
@@ -149,7 +151,7 @@ class NchantdInterfaceSettings(NchantdSettingsWidget):
     def __init__(self, parent, cfg=None):
         """"""
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdInterfaceSettingsTab").override(self.parent.config).override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdInterfaceSettingsTab").override(cfg))
 
     def initModel(self, cfg=None):
         """"""
@@ -174,7 +176,9 @@ class NchantdThemeSettings(NchantdSettingsWidget):
     def __init__(self, parent, cfg=None):
         """"""
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdThemeSettingsTab").override(self.parent.config).override(cfg))
+        self.config.override(
+            kahndor.Instruct(pxcfg).select("NchantdThemeSettingsTab").override(self.parent.config).override(cfg)
+        )
         self._load_themes()
 
     def initModel(self, cfg=None):
@@ -189,7 +193,7 @@ class NchantdThemeSettings(NchantdSettingsWidget):
         self.config.dikt.pop("width", None)
         # logma.info(f"Themes {self.themes}")
         darks = [x for x in self.themes.keys() if "midnight" in x]
-        lights = [x for x in self.themes.keys() if "midday" in x]#TODO implement light themes
+        lights = [x for x in self.themes.keys() if "midday" in x]  # TODO implement light themes
         if len(self.themes.keys()) != 0:
             # logma.info(f"Load Dark Themes{darks}")
             cfg = {"size": ["auto", "auto"]}
@@ -233,7 +237,7 @@ class NchantdThemeSettings(NchantdSettingsWidget):
 
     def cmd_change_theme(self, event, *args, **kwargs):
         """"""
-        #TODO implement method
+        # TODO implement method
 
     def save(self):
         """"""

@@ -179,6 +179,7 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
                 min_width_min = max_width
             # self.setFixedWidth(min_width_min + 40)
             # self.setMinimumHeight(min_height_min)
+        self.setMaximumWidth(150)#TODO refactor for better overal cascading/dynamic control
         super().set_size(min_width_min, min_height_min, None, 30)
 
     def set_value(self, text):
