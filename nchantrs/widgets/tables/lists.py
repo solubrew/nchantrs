@@ -16,19 +16,14 @@
 from os.path import abspath, dirname, join
 import datetime as dt
 
-import logging
-
-logger = logging.getLogger(__name__)
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from nchantrs.libraries import pyqt
-from nchantrs.utilities import utils
-from nchantrs.utilities.formatting import getAlignment
 from nchantrs.widgets.annotations import NchantdLabel
+from nchantrs.widgets.media.editors.editors import NchantdDocEditor
 from nchantrs.widgets.groups import NchantdVScrollGroupBox, NchantdCollapsableGroup
-from nchantrs.widgets.items.cells import NchantdCell
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 from kahndor.logma import Logma
 
@@ -36,7 +31,8 @@ from kahndor.logma import Logma
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
-logma.off()
+if not log:
+    logma.off()
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "lists.yaml")
 
@@ -90,8 +86,10 @@ class NchantdList(NchantdWidgetMixin, pyqt.QListWidget):
             self.addItem(item)  # Add files only
         return self
 
+
 class NchantdListWidget(NchantdWidget):
     """"""
+
     def __init__(self, parent=None, cfg=None):
         """ """
         super().__init__(self)
@@ -110,11 +108,14 @@ class NchantdListWidget(NchantdWidget):
         cfg = {}
         self.list = NchantdList(self, cfg).initWidget()
         self.layout.addWidget(self.list)
+
     def initWidget(self):
         """"""
         self.initModel()
         self.initView()
         return self
+
+
 class NchantdListEditor(NchantdWidget):
     """"""
 
@@ -155,13 +156,8 @@ class NchantdBulletedList(NchantdWidget):
 
     def __init__(self, parent=None, cfg=None):
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdBulletedList")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
-        super(NchantdBulletedList, self).__init__()
-        self.document = NchantdDocEditor(self, self.config).initWidget()
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdBulletedList").override(cfg))
 
     def initModel(self):
         """"""
@@ -172,8 +168,34 @@ class NchantdBulletedList(NchantdWidget):
         """"""
         super().initView()
         self.layout = pyqt.QVBoxLayout()
-        self.layout.addWidget(self.document)
+        # TODO build out builted list widget with configurable bullet marker, font, color that is non-interactive
+        self.setLayout(self.layout)
+        return self
 
+    def initWidget(self):
+        """"""
+        self.initModel()
+        self.initView()
+        return self
+
+
+class NchantdInteractiveBulletedList(NchantdBulletedList):
+    """"""
+
+    def __init__(self, parent=None, cfg=None):
+        """ """
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdBulletedList").override(cfg))
+
+    def initModel(self):
+        """"""
+        super().initModel()
+        return self
+
+    def initView(self):
+        """"""
+        super().initView()
+        self.document = NchantdDocEditor(self, self.config).initWidget()
         layout = pyqt.QHBoxLayout()
         cfg = {"label": "Add Bullet", "layout": "horizontal"}
         self.entry_bar = NchantdEntryEditor(self, cfg).initWidget()
