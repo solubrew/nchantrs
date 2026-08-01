@@ -5,24 +5,25 @@
         docid:
         name:
         description: >
-        version: 0.0.0.0.0.0
-        authority: filesystem
+                NchantdColor — nchantrs-native color device, drop-in for
+                PyfficeColor. Lives in nchantrs so the framework does not
+                depend on pyffice (pyffice is a downstream consumer concern).
+        version: 0.0.1.0.1.0
+        authority: document|this
         security: seclvl2
         <(WT)>: -32
 """
 
-# -*- coding: utf-8 -*
+# -*- coding: utf-8 -*-
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
-import datetime as dt
+from collections import OrderedDict
 
 # ======================================3rd Party Library Modules=====================================================||
 import colorsys
-from colormath.color_objects import sRGBColor, LabColor, XYZColor
-from colormath.color_conversions import convert_color
 from matplotlib.colors import CSS4_COLORS
 
-# ======================================Solutions Brewer Library Modules==============================================||
+# ======================================Solutions Brewer Library Modules=============================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
 
@@ -30,9 +31,53 @@ from kahndor.logma import Logma
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
-pxcfg = join(here, "_data_", ".yaml")
+pxcfg = join(abspath(here), "_data_", "themes.yaml")
+
+
+def _xyz_to_rgb_pure(xyz):
+    """Convert CIE XYZ to sRGB (0-255) using the standard sRGB matrix.
+
+    Pure-stdlib replacement for colormath's XYZColor.convert_srgb. The
+    inverse D65 Bradford transform is intentionally avoided here — the
+    embedded sRGB matrix is the canonical path and matches what callers
+    expect from a color picker.
+    """
+    x, y, z = xyz
+    # sRGB matrix (D65)
+    r_lin = 3.2406 * x - 1.5372 * y - 0.4986 * z
+    g_lin = -0.9689 * x + 1.8758 * y + 0.0415 * z
+    b_lin = 0.0557 * x - 0.2040 * y + 1.0570 * z
+    # Linear -> gamma-corrected sRGB
+    def _to_srgb(c):
+        if c <= 0.0031308:
+            return 12.92 * c
+        return 1.055 * (c ** (1.0 / 2.4)) - 0.055
+    r, g, b = (_to_srgb(max(0.0, min(1.0, c))) for c in (r_lin, g_lin, b_lin))
+    return (int(round(r * 255)), int(round(g * 255)), int(round(b * 255)))
+
+
+def _xyz_to_lab_pure(xyz):
+    """Convert CIE XYZ to CIELAB using the standard D65 reference white.
+
+    Pure-stdlib replacement for colormath. Reference white is X=0.95047,
+    Y=1.00000, Z=1.08883 (D65 / 2° observer).
+    """
+    x, y, z = xyz
+    x_n, y_n, z_n = 0.95047, 1.00000, 1.08883
+    def _f(t):
+        if t > 0.008856:
+            return t ** (1.0 / 3.0)
+        return (7.787 * t) + (16.0 / 116.0)
+    fx = _f(x / x_n)
+    fy = _f(y / y_n)
+    fz = _f(z / z_n)
+    l = (116.0 * fy) - 16.0
+    a = 500.0 * (fx - fy)
+    b = 200.0 * (fy - fz)
+    return (l, a, b)
 
 
 class NchantdColor(object):
@@ -58,14 +103,14 @@ class NchantdColor(object):
 
     def __init__(self, cfg=None):
         """
-        Initialize the PyfficeColor object.
+        Initialize the NchantdColor object.
 
         Args:
-            color (str | tuple): Initial color input in one of the supported formats.
-            style (str): The format of the input color. Default is "rgb".
-            cfg (dict, optional): Configuration object.
+            cfg (dict, optional): Configuration object. May contain a
+                ``unit`` dict with ``color`` and ``style`` keys used by
+                ``load_unit()``.
         """
-        self.config = kahndor.Instruct(pxcfg).select("PyfficeColor").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdColor").override(cfg)
         self.rgb = None
         self.hex = None
         self.rgba = None
@@ -78,14 +123,11 @@ class NchantdColor(object):
         self.lch = None
         self.xyz = None
         self.lms = None
-        self.color_name = self.config.dikt.get("color_name", None)  # Optional name for the color
+        self.color_name = self.config.dikt.get("color_name", None)
 
     def calculate_complementary_color(self):
         """
         Calculate the opposite (or complementary) color by inverting the RGB components.
-
-        Args:
-            r, g, b: The red, green, and blue components of the original color (0-255).
 
         Returns:
             Tuple containing the RGB of the opposite color.
@@ -94,20 +136,18 @@ class NchantdColor(object):
         return (255 - r, 255 - g, 255 - b)
 
     def calculate_text_color(self):
-        """Given the color of this object calculate an appropriate text color to place on top of it.
-        Determine whether text should be black or white based on the luminance of the background color.
-        Args:
-            r, g, b: The red, green, and blue components of the background color (0-255).
+        """
+        Determine whether text should be black or white based on the
+        luminance of the background color (per W3C formula).
+
         Returns:
             "black" or "white" depending on contrast requirements.
         """
-        # Calculate luminance (per W3C formula)
         rgb = self.get_rgb()
         if rgb is None:
             return "black"
         r, g, b = rgb
         luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b
-        # If luminance is greater than 128, use black text; otherwise, use white text
         return "black" if luminance > 128 else "white"
 
     def get_cmyk(self):
@@ -122,7 +162,6 @@ class NchantdColor(object):
 
     def get_hls(self):
         """Return the color in HLS format."""
-
         return self.hls
 
     def get_hsl(self):
@@ -167,13 +206,37 @@ class NchantdColor(object):
         return self.yiq
 
     def load_unit(self, unit=None):
-        """"""
-        logma.info(f"Load Unit {unit}")
+        """
+        Load a unit dict into this color object.
+
+        Args:
+            unit: dict with ``color`` and ``style`` keys. If None, falls
+                back to ``self.config.dikt['unit']``.
+
+        Returns:
+            Self for chaining.
+        """
         if unit is None:
             unit = self.config.dikt.get("unit", {})
-        # Initialize the color based on the input style
         self.set_color(unit.get("color", "black"), unit.get("style", "name"))
         return self
+
+    # Format dispatch — adding a new color space means adding one
+    # ``set_<format>`` method and registering it here, rather than
+    # editing the ``set_color`` dispatcher.
+    _COLOR_FORMATS = OrderedDict([
+        ("rgb", "set_rgb"),
+        ("rgba", "set_rgba"),
+        ("hex", "set_hex"),
+        ("name", "set_color_name"),
+        ("hsv", "set_hsv"),
+        ("hsl", "set_hsl"),
+        ("cmyk", "set_cmyk"),
+        ("yiq", "set_yiq"),
+        ("xyz", "set_xyz"),
+        ("lab", "set_lab"),
+        ("lms", "set_lms"),
+    ])
 
     def set_color(self, color, style):
         """
@@ -183,30 +246,10 @@ class NchantdColor(object):
             color (str | tuple): The color value (e.g., HEX string or RGB tuple).
             style (str): The format of the color (e.g., "rgb", "hex", etc.).
         """
-        if style == "rgb":
-            self.set_rgb(color)
-        elif style == "hex":
-            self.set_hex(color)
-        elif style == "name":
-            self.set_color_name(color)
-        elif style == "rgba":
-            self.set_rgba(color)
-        elif style == "hsv":
-            self.set_hsv(color)
-        elif style == "hsl":
-            self.set_hsl(color)
-        elif style == "cmyk":
-            self.set_cmyk(color)
-        elif style == "yiq":
-            self.set_yiq(color)
-        elif style == "xyz":
-            self.set_xyz(color)
-        elif style == "lab":
-            self.set_lab(color)
-        elif style == "lms":
-            self.set_lms(color)
-        else:
+        method_name = self._COLOR_FORMATS.get(style)
+        if method_name is None:
             raise ValueError(f"Unsupported color style: {style}")
+        getattr(self, method_name)(color)
 
     def set_cmyk(self, value):
         """
@@ -230,7 +273,11 @@ class NchantdColor(object):
         self.set_rgb(self.hex_to_rgb(value))
 
     def set_hsl(self, value):
-        """"""
+        """Set the hsl and update derived formats.
+
+        Args:
+            value: HSL tuple.
+        """
         self.hsl = value
         self.set_rgb(self.hsl_to_rgb(value))
         self.set_hex(self.rgb_to_hex(self.get_rgb()))
@@ -268,7 +315,14 @@ class NchantdColor(object):
         # LMS is typically derived from XYZ; no direct conversion provided here.
 
     def set_color_name(self, value):
-        """"""
+        """Set the color name and resolve via CSS4_COLORS if known.
+
+        Args:
+            value: Color name (e.g., "red", "midnightblue").
+
+        Returns:
+            Self for chaining.
+        """
         self.color_name = value
         if self.color_name in CSS4_COLORS:
             self.set_hex(CSS4_COLORS[self.color_name])
@@ -276,7 +330,7 @@ class NchantdColor(object):
 
     def set_rgb(self, value):
         """
-        Set the RGB value and update other formats.
+        Set the RGB value.
 
         Args:
             value (tuple): RGB tuple (R, G, B) with values in range [0, 255].
@@ -286,7 +340,7 @@ class NchantdColor(object):
 
     def set_rgba(self, value):
         """
-        Set the RGBA value and update other formats.
+        Set the RGBA value.
 
         Args:
             value (tuple): RGBA tuple (R, G, B, A) with values in range [0, 255].
@@ -321,6 +375,7 @@ class NchantdColor(object):
 
     @staticmethod
     def rgb_to_cmyk(rgb):
+        """Convert RGB (0-255) to CMYK (0-1)."""
         r, g, b = [v / 255.0 for v in rgb]
         k = 1 - max(r, g, b)
         if k == 1:
@@ -332,27 +387,32 @@ class NchantdColor(object):
 
     @staticmethod
     def rgb_to_hex(rgb):
+        """Convert RGB (0-255) to HEX string (e.g. '#FF8800')."""
         if rgb is None:
             return None
         return "#{:02X}{:02X}{:02X}".format(*rgb)
 
     @staticmethod
     def hex_to_rgb(hex_color):
+        """Convert a HEX color string to an RGB tuple (0-255 per channel)."""
         hex_color = hex_color.lstrip("#")
         return tuple(int(hex_color[i : i + 2], 16) for i in (0, 2, 4))
 
     @staticmethod
     def rgb_to_hsl(rgb):
+        """Convert RGB (0-255) to HSL (h, l, s) on 0-1 scale."""
         return colorsys.rgb_to_hls(*[v / 255.0 for v in rgb])
 
     @staticmethod
     def hsl_to_rgb(h, s, l):
         """
         Convert HSL to RGB.
+
         Args:
             h (float): Hue (0-1 range).
             s (float): Saturation (0-1 range).
             l (float): Lightness (0-1 range).
+
         Returns:
             tuple: RGB values (0-255 scale).
         """
@@ -384,45 +444,51 @@ class NchantdColor(object):
 
     @staticmethod
     def hsv_to_rgb(hsv):
+        """Convert HSV (0-1) to RGB (0-255)."""
         r, g, b = colorsys.hsv_to_rgb(*hsv)
         return int(r * 255), int(g * 255), int(b * 255)
 
     @staticmethod
+    def rgb_to_xyz(rgb):
+        """Convert sRGB (0-255) to CIE XYZ (D65)."""
+        def _to_linear(c):
+            c = c / 255.0
+            if c <= 0.04045:
+                return c / 12.92
+            return ((c + 0.055) / 1.055) ** 2.4
+        r, g, b = (_to_linear(c) for c in rgb)
+        x = 0.4124 * r + 0.3576 * g + 0.1805 * b
+        y = 0.2126 * r + 0.7152 * g + 0.0722 * b
+        z = 0.0193 * r + 0.1192 * g + 0.9505 * b
+        return (x, y, z)
+
+    @staticmethod
     def xyz_to_lab(xyz):
-        xyz_color = XYZColor(*xyz)
-        lab_color = convert_color(xyz_color, LabColor)
-        return lab_color.lab_l, lab_color.lab_a, lab_color.lab_b
+        """Convert CIE XYZ (D65) to CIELAB."""
+        return _xyz_to_lab_pure(xyz)
 
     @staticmethod
     def xyz_to_rgb(xyz):
-        # Use colormath to convert XYZ → sRGB
-        xyz_color = XYZColor(*xyz)
-        srgb_color = convert_color(xyz_color, sRGBColor)
-        return tuple(
-            int(c * 255)
-            for c in (
-                srgb_color.clamped_rgb_r,
-                srgb_color.clamped_rgb_g,
-                srgb_color.clamped_rgb_b,
-            )
-        )
+        """Convert CIE XYZ (D65) to sRGB (0-255)."""
+        return _xyz_to_rgb_pure(xyz)
 
-    def to_dict(self):
-        """"""
-        doc = {
-            "unit": {
-                "color_name": self.color_name,
-                "hex": self.hex,
-                "rgb": self.rgb,
-                "rgba": self.rgba,
-                "xyz": self.xyz,
-            }
-        }
-        return doc
-
-    def to_html(self):
-        """"""
-        return self.html
+    @staticmethod
+    def lab_to_xyz(lab):
+        """Convert CIELAB to CIE XYZ (D65)."""
+        l, a, b = lab
+        # Inverse of the f(t) used in _xyz_to_lab_pure
+        fy = (l + 16.0) / 116.0
+        fx = a / 500.0 + fy
+        fz = fy - b / 200.0
+        def _finv(t):
+            t3 = t ** 3
+            if t3 > 0.008856:
+                return t3
+            return (t - 16.0 / 116.0) / 7.787
+        x = 0.95047 * _finv(fx)
+        y = 1.00000 * _finv(fy)
+        z = 1.08883 * _finv(fz)
+        return (x, y, z)
 
 
 # ====================================================================================================================||

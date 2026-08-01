@@ -309,3 +309,12 @@ Themes:
       primary:
         accent: 'howl_icons'
         base: 'midnight_icons'
+NchantdColor:
+  description: >
+    NchantdColor — nchantrs-native color device. Mirrors the PyfficeColor
+    surface used by NchantdWidget.set_background; not a drop-in for every
+    PyfficeColor feature (image/SVG/video color extraction lives in pyffice
+    because it requires cv2/PIL).
+  unit:
+    color: 'black'
+    style: 'name'

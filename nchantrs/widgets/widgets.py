@@ -25,9 +25,9 @@ from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from kahndor.logma import Logma
 from kahndor.utils import thingify
+from nchantrs.themes.colors import NchantdColor
 from nchantrs.utilities.utils import lookup
 from nchantrs.widgets.controls.menus import NchantdMenu, NchantdContextMenu
-from pyffice.items.colors import PyfficeColor
 
 # ====================================================================================================================||
 here = join(dirname(__file__), "")
@@ -526,11 +526,11 @@ class NchantdWidgetMixin(object):
         """"""
         logma.info(f"Set Background {color} {hex}")
         if color is not None:
-            cfg = {"unit": {"color": color}}
-            color = PyfficeColor(cfg).load_unit()
+            cfg = {"unit": {"color": color, "style": "name"}}
+            color = NchantdColor(cfg).load_unit()
         if hex is not None:
-            cfg = {"unit": {"hex": hex}}
-            color = PyfficeColor(cfg).load_unit()
+            cfg = {"unit": {"color": hex, "style": "hex"}}
+            color = NchantdColor(cfg).load_unit()
 
         logma.info(f"Set Background {color.get_hex()}")
         self.setStyleSheet(f"background-color: {color.get_hex()}; color: {color.calculate_text_color()}")

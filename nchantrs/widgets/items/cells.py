@@ -1,23 +1,23 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-"""#																			||
----  #																			||
-<(META)>:  #																	||
-    docid:   #																	||
-    name:	#																	||
-    description: >  #															||
+"""#                                          ||
+---  #                                          ||
+<(META)>:  #                                          ||
+    docid:   #                                          ||
+    name:   #                                          ||
+    description: >  #                                          ||
         Extendes the basic_js Item widget into the Nchantd Framework for cells
         with in a table...this will need to account for both data and metadata
         for the cell
-    expirary: <[expiration]>  #													||
-    version: <[version]>  #														||
-    path: <[LEXIvrs]>  #														||
-    outline: <[outline]>  #														||
-    authority: document|this  #													||
-    security: sec|lvl2  #														||
-    <(WT)>: -32  #																||
+    expirary: <[expiration]>  #                                          ||
+    version: <[version]>  #                                          ||
+    path: <[LEXIvrs]>  #                                          ||
+    outline: <[outline]>  #                                          ||
+    authority: document|this  #                                          ||
+    security: sec|lvl2  #                                          ||
+    <(WT)>: -32  #                                          ||
 """  # ||
 
-# -*- coding: utf-8 -*-#														||
+# -*- coding: utf-8 -*-#                                          ||
 # ================================Core Modules===================================||
 from os.path import abspath, dirname, join
 from typing import Optional, Dict, List, Any, Tuple
@@ -33,8 +33,13 @@ from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.widgets import NchantdWidgetMixin
-from pyffice.items.cells import PyfficeCell
-from pyffice.workflows.formulas import PyfficeFormula
+
+# Note: this module previously imported PyfficeCell / PyfficeFormula from
+# pyffice for document-roundtripping. nchantrs does not depend on
+# pyffice — that integration lives in nchantdoffice. The cell classes
+# here keep their non-pyffice paths (rendering, cell state, color
+# toggling) and the pyffice-only paths are placeholders that raise
+# NotImplementedError with a clear migration note.
 
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
@@ -44,6 +49,14 @@ logma.off()
 
 # ===============================================================================||
 pxcfg = join(here, "_data_", "cells.yaml")
+
+
+def _pyffice_required(op_name):
+    raise NotImplementedError(
+        f"{op_name} requires pyffice — the integration lives in "
+        "nchantdoffice (nchantrs + pyffice). nchantrs does not depend "
+        "on pyffice."
+    )
 
 
 class NchantdCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
@@ -72,9 +85,8 @@ class NchantdCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
         """"""
         super().initModel()
         self.auto_calculate = self.config.dikt.get("auto_calculate", True)
-        logma.info(f"Pyffice Cell Init:")
-        cfg = {}
-        self.document = PyfficeCell(cfg)
+        # pyffice-backed document initialization lives in nchantdoffice.
+        self.document = None
         return self
 
     def initView(self) -> None:
@@ -90,11 +102,13 @@ class NchantdCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
         return self
 
     def calculate_formula(self, text) -> None:
-        """"""
-        cfg = {"text": text}
-        self.formula = PyfficeFormula(cfg)
+        """Compile a formula.
 
-        return self
+        PyfficeFormula parsing lives in nchantdoffice. The nchantrs-side
+        cell just records the textual formula; the actual evaluation
+        pipeline is wired in nchantdoffice.
+        """
+        _pyffice_required("NchantdCell.calculate_formula")
 
     def cmd_on_cell_edit(self) -> None:
         """"""
@@ -188,9 +202,8 @@ class NchantdTableCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
         """"""
         super().initModel()
         self.auto_calculate = self.config.dikt.get("auto_calculate", True)
-        logma.info(f"Pyffice Cell Init:")
-        cfg = {}
-        self.document = PyfficeCell(cfg)
+        # pyffice-backed document initialization lives in nchantdoffice.
+        self.document = None
         return self
 
     def initView(self) -> None:
@@ -206,11 +219,11 @@ class NchantdTableCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
         return self
 
     def calculate_formula(self, text) -> None:
-        """"""
-        cfg = {"text": text}
-        self.formula = PyfficeFormula(cfg)
+        """Compile a formula.
 
-        return self
+        PyfficeFormula parsing lives in nchantdoffice.
+        """
+        _pyffice_required("NchantdTableCell.calculate_formula")
 
     def cmd_on_cell_edit(self) -> None:
         """"""
