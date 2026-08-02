@@ -437,19 +437,8 @@ class NchantdWidgetMixin(object):
 
     def getAlignment(self, justify) -> Any:
         """"""
-        justify = justify.lower()
-        if justify == 'left':
-            return pyqt.Qt.AlignmentFlag.AlignLeft
-        elif justify == 'center':
-            return pyqt.Qt.AlignmentFlag.AlignCenter
-        elif justify == 'right':
-            return pyqt.Qt.AlignmentFlag.AlignRight
-        elif justify == 'top':
-            return pyqt.Qt.AlignmentFlag.AlignTop
-        elif justify == 'bottom':
-            return pyqt.Qt.AlignmentFlag.AlignBottom
-        elif justify == 'top_left':
-            return pyqt.Qt.AlignmentFlag.AlignTop | pyqt.Qt.AlignmentFlag.AlignLeft
+        # Preserve original semantics: unknown justify -> implicit None.
+        return self._ALIGNMENT_FLAGS.get(justify.lower())
 
     def get_viewport_size(self) -> Any:
         """Return the viewport size as (width, height) for layout calculations.
@@ -627,51 +616,48 @@ class NchantdWidgetMixin(object):
         """Change style of button"""
         button.setStyleSheet('background-color: lightblue; border: 2px solid blue;')
 
+    _ALIGNMENT_FLAGS = {
+        'left':        pyqt.Qt.AlignmentFlag.AlignLeft,
+        'center':      pyqt.Qt.AlignmentFlag.AlignCenter,
+        'right':       pyqt.Qt.AlignmentFlag.AlignRight,
+        'top':         pyqt.Qt.AlignmentFlag.AlignTop,
+        'bottom':      pyqt.Qt.AlignmentFlag.AlignBottom,
+        'top_left':    pyqt.Qt.AlignmentFlag.AlignTop    | pyqt.Qt.AlignmentFlag.AlignLeft,
+        'top_right':   pyqt.Qt.AlignmentFlag.AlignRight   | pyqt.Qt.AlignmentFlag.AlignTop,
+        'bottom_left': pyqt.Qt.AlignmentFlag.AlignBottom | pyqt.Qt.AlignmentFlag.AlignLeft,
+        'bottom_right':pyqt.Qt.AlignmentFlag.AlignBottom | pyqt.Qt.AlignmentFlag.AlignRight,
+    }
+    # Lookup table mapping justify string -> Qt alignment flag combo.
+
     def _set_alignment(self) -> Any:
         """"""
-        if self.config.dikt.get('justify', None) is not None:
-            justify = self.config.dikt.get('justify')
-            if justify == 'left':
-                self.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignLeft)
-            elif justify == 'right':
-                self.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignRight)
-            elif justify == 'top':
-                self.layout.setAlignmnet(pyqt.Qt.AlignmentFlag.AlignTop)
-            elif justify == 'bottom':
-                self.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignBottom)
-            elif justify == 'top_left':
-                self.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignTop | pyqt.Qt.AlignmentFlag.AlignLeft)
-            elif justify == 'top_right':
-                self.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignRight | pyqt.Qt.AlignmentFlag.AlignTop)
-            elif justify == 'bottom_left':
-                self.layout.setAlignmnet(pyqt.Qt.AlignmentFlag.AlignBottom | pyqt.Qt.AlignmentFlag.AlignLeft)
-            elif justify == 'bottom_right':
-                self.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignBottom | pyqt.Qt.AlignmentFlag.AlignRight)
+        justify = self.config.dikt.get('justify', None)
+        flag = self._ALIGNMENT_FLAGS.get(justify)
+        if flag is not None:
+            self.layout.setAlignment(flag)
         return self
 
     def _set_width(self, set_width=None, min_width=None, max_width=None) -> Any:
         """"""
-        if set_width == 'auto':
-            return self
-        if min_width is None:
-            min_width = 10
-        min_width = int(min_width)
-        if min_width < 15:
-            min_width = 15
+        # Resolve set_width: 'auto' short-circuits; otherwise pick from size or fallback.
         if set_width is None:
             size = self.config.dikt.get('size', None)
             if isinstance(size, list):
                 set_width = size[0]
-            if set_width == 'auto':
-                return self
-            if set_width is None:
-                set_width = min_width
-        if set_width != min_width:
+        if set_width == 'auto':
+            return self
+        # Coalesce min_width: default to 10, floor at 15.
+        if min_width is None:
+            min_width = 10
+        min_width = max(int(min_width), 15)
+        # If caller still didn't pick a width, mirror min_width.
+        if set_width is None:
+            set_width = min_width
+        elif set_width != min_width:
             min_width = set_width
+        # Compute max_width default.
         if max_width is None:
             max_width = set_width
-        if max_width is None:
-            max_width = min_width * 1.5
         self.min_width = min_width
         self.max_width = max_width
         if isinstance(self.max_width, str):
