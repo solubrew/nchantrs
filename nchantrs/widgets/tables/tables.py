@@ -478,7 +478,7 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
 
 class NchantdDataFrameTable(NchantdWidgetMixin, qpandas.DataTableWidget):
     """ """
-
+# TODO need to find any \n values and split to check the longest section of text
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__()

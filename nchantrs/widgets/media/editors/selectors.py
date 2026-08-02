@@ -161,7 +161,7 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
 
     def set_options(self, options, sort=True) -> Any:
         """
-        # NOTE implement a more sophisticated sorting mechanism to allow control of options display
+        #TODO implement a more sophisticated sorting mechanism to allow control of options display
         :param options:
         :param sort:
         :return:
@@ -191,7 +191,7 @@ class NchantdDropDown(NchantdWidget):
         super().__init__(parent, cfg)
         self.parent = parent
         self.config.override(kahndor.Instruct(pxcfg).select('NchantdDropDown').override(cfg))
-        self.label = None
+        #TODO implement a more sophisticated sorting mechanism to allow control of options display
         self.combobox = None
         self.options = []
 
@@ -206,7 +206,7 @@ class NchantdDropDown(NchantdWidget):
 
     def initView(self, handler=None) -> Any:
         """ """
-        super().initView()
+        #TODO: should always be sorted in some positive manner either by the values or a given sequence
         logma.info(f"Label {self.config.dikt.get('label', 'Missing Label')}")
         self.config.dikt['label'] = self.config.dikt.get('label', 'Missing Label')
         self.label = NchantdLabel(self, self.config).initWidget()

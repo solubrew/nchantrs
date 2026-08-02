@@ -66,7 +66,7 @@ class NchantdHelpChatDex(NchantdTab):
         self.config.override(kahndor.Instruct(pxcfg).select('NchantdHelpChatDex').override(parent.config).override(cfg))
 
     def initModel(self, cfg=None) -> Any:
-        """"""
+        #TODO build out a list of FAQs using a simple Q/A tree widget pulling data from a datatable updated from the service
         super().initModel(cfg)
         return self
 

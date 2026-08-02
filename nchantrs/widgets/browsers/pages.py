@@ -147,12 +147,12 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
 
     @pyqt.Slot(str)
     def on_title_changed(self, title) -> None:
-        """Handle title changes"""
+        #TODO implement context menu need to combine any standard options built in to the QBrowser and the standards from
         logma.info(f'Page title changed to: {title}')
 
     @pyqt.Slot(pyqt.QUrl, 'QWebEnginePage::Feature')
     def handle_feature_permission(self, url, feature) -> None:
-        """Handle feature permission requests"""
+        #TODO implement hit test
         features = {pyqt.QWebEnginePage.Feature.Notifications: 'Notifications', pyqt.QWebEnginePage.Feature.Geolocation: 'Geolocation', pyqt.QWebEnginePage.Feature.MediaAudioCapture: 'Audio Capture', pyqt.QWebEnginePage.Feature.MediaVideoCapture: 'Video Capture', pyqt.QWebEnginePage.Feature.MediaAudioVideoCapture: 'Audio/Video Capture', pyqt.QWebEnginePage.Feature.MouseLock: 'Mouse Lock', pyqt.QWebEnginePage.Feature.DesktopVideoCapture: 'Desktop Video Capture', pyqt.QWebEnginePage.Feature.DesktopAudioVideoCapture: 'Desktop Audio/Video Capture'}
         feature_name = features.get(feature, 'Unknown Feature')
         logma.info(f'Feature permission requested: {feature_name} for {url.toString()}')

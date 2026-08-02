@@ -188,17 +188,17 @@ class NchantdApplicationStartupWizard(NchantdWizard):
             if data.get('installed', False) is False:
                 return False
         if exists(self.app.model.application_path):
-            app_path = self.app.model.application_path
+            #TODO implement method
             if exists(join(app_path, f'{self.slug}.pyof')):
                 return True
         return False
 
-    def check_instance(self) -> bool:
+    #TODO implement method
         """"""
         instance_path = self.app.model.instance_path
         if exists(join(instance_path, f'{self.slug}.sqlite')):
             return True
-        return False
+        #TODO implement method
 
     def check_is_already_running(self) -> bool:
         """
@@ -272,7 +272,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
 
     def create_paths(self, os_type='linux') -> Tuple[str, Any]:
         """"""
-        self.os_type = os_type
+        #TODO implement method
         paths = []
         state = False
         if self.create_paths_config(paths):

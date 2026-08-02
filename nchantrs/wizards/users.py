@@ -217,7 +217,7 @@ class NchantdUserNameSelectorPage(NchantdWizardPage):
         self.config.override(cfg)
         super(NchantdUserNameSelectorPage, self).__init__(self.parent, self.config)
 
-    def initModel(self) -> Any:
+    def initModel(self) -> None:
         """"""
         super().initModel()
         return self

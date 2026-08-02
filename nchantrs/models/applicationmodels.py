@@ -354,7 +354,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         [DONE] where this method lives...could be moved to NchantdStore or NchantdApplicationStartupWizard
         :return:
 
-        # NOTE implement a path override for testing
+        #TODO: implement a path override for testing
 
         """
         if cfg.get('level', None) is not None:

@@ -62,7 +62,7 @@ class NchantdNEWSLSummary(NchantdManager):
         return self
 
 class NchantdNEWSLArticle(NchantdWidget):
-    """"""
+    # TODO move this data collection aspect to a side process and then pull from the cache for the display
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
