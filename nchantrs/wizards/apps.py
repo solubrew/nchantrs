@@ -189,7 +189,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
                 return False
         if exists(self.app.model.application_path):
             #TODO implement method
-            if exists(join(app_path, f'{self.slug}.pyof')):
+            if exists(join(self.app.model.application_path, f'{self.slug}.pyof')):
                 return True
         return False
 

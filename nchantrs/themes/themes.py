@@ -63,7 +63,7 @@ class NchantdTheme:
         """ """
         logma.info(f'[THEME] Loading theme: {named_style}')
         if name is None:
-            name = generate_theme_name(palette)
+            name = self.generate_theme_name(palette)
         qss = join(here, '_data_', 'themes', f'{named_style}.qss')
         logma.info(f'[THEME] QSS file path: {qss}')
         logma.info(f'[THEME] File exists: {exists(qss)}')
@@ -141,6 +141,6 @@ class NchantdTheme:
         self.set_fonts()
         return self
 
-def generate_theme_name(palette) -> None:
-    logma.info(f'generate_theme_name called')
-    return self
+    def generate_theme_name(self, palette) -> None:
+        logma.info(f'generate_theme_name called')
+        return self
