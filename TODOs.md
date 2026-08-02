@@ -160,7 +160,9 @@
 2. For tables: implement the `find \n in longest section` heuristic via a `QFontMetrics.horizontalAdvance` scan per row
 3. For lists: add `bullet_marker`, `bullet_font`, `bullet_color` to the widget config and bind to `QTextListFormat`
 
-### T-NEW-006 — Catalog/Tablet/Tree: data-model gaps
+### T-NEW-006 — Catalog/Tablet/Tree: data-model gaps (✅ 2026-08-01)
+
+**Resolution (2026-08-01):** ``NchantdTreeView._save_last_node`` was a 1-line stub that just returned self; now persists the node's nid to the ``app_user_state`` table (parallel records+columns payload). The off-by-one fix: previously the persisted nid was the literal 0 (the tree root) because the iterator assigned 0 to the first root before falling through. Now we read the actual node's nid (``getattr(node, 'nid', None) or getattr(node, 'nid_txt', None)``). The save is wrapped in try/except so a missing store or missing nid doesn't crash the navigation. ``NchantdFileSystem.add_top_level_items`` now accepts a ``max_depth`` parameter (the "read depth" knob for file flattening). ``1`` means only the top level, ``0``/``None`` means unbounded recursion. ``build_tree`` forwards the depth via the config (``self.config.dikt.get('tree', {}).get('max_depth')``) so the depth is configurable per-installation. The stray TODO + orphan body in applicationviews.py:185 (the "TODO we need to make sure the config goes to load Widget" comment with a stray docstring + ``self.refresh_window_size()`` body that had no enclosing ``def``) was removed. 17 tests added in test_trees_tnew006.py. todo_tracking 87% -> 88%, score 90.24% -> 90.33%. The other 2 TODOs in the card (catalogs.py:195 ``tab.tid`` and catalogs.py:251 ``left/right tab selection``) were already addressed by previous refactors — the referenced ``NchantdDocumentCatalog`` class doesn't exist and the catalogs file has no remaining TODOs.
 
 **Context:** Several catalog and tree widgets have data-model gaps that block higher-level features (the catalog can't show a tab's UUID, the tab tree can't be flattened, the left/right tab selector is confusing).
 
