@@ -29,6 +29,7 @@ from kahndor.logma import Logma
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "search.yaml")
@@ -37,7 +38,7 @@ pxcfg = join(here, "_data_", "search.yaml")
 class Search:
     """"""
 
-    def __init__(self, cfg=None):
+    def __init__(self, cfg=None) -> None:
         """"""
         self.config = kahndor.Instruct(pxcfg).select("").override(cfg)
 
@@ -45,7 +46,7 @@ class Search:
 class TreeSearch(Search):
     """"""
 
-    def __init__(self, cfg=None):
+    def __init__(self, cfg=None) -> None:
         """"""
         self.config = kahndor.Instruct(pxcfg).select("").override(cfg)
         super().__init__(cfg)
@@ -54,7 +55,7 @@ class TreeSearch(Search):
 class LocalFileSystemSearch(Search):
     """"""
 
-    def __init__(self, cfg=None):
+    def __init__(self, cfg=None) -> None:
         """"""
         self.config = kahndor.Instruct(pxcfg).select("").override(cfg)
         super().__init__(cfg)
@@ -63,7 +64,7 @@ class LocalFileSystemSearch(Search):
 class RemoteFileSystemSearch(Search):
     """Search all Connected Cloud File Systems"""
 
-    def __init__(self, cfg=None):
+    def __init__(self, cfg=None) -> None:
         """"""
         self.config = kahndor.Instruct(pxcfg).select("").override(cfg)
         super().__init__(cfg)
@@ -72,7 +73,7 @@ class RemoteFileSystemSearch(Search):
 class InternetSearch(Search):
     """"""
 
-    def __init__(self, cfg=None):
+    def __init__(self, cfg=None) -> None:
         """"""
         self.config = kahndor.Instruct(pxcfg).select("").override(cfg)
         super().__init__(cfg)

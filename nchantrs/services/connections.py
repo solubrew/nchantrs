@@ -30,6 +30,7 @@ logger = logging.getLogger(__name__)
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")
@@ -41,6 +42,8 @@ class NchantdConnections(object):
     def __init__(self) -> None:
         """"""
         self.connections = {}
+        logma.info(f"NchantdConnections initialized")
+
 
     def connect_to_database(self, name: str = None) -> "NchantdConnections":
         """Allow for adhoc connecting to multiple databases"""

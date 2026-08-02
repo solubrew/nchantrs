@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -31,6 +33,7 @@ from kahndor.logma import Logma
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "settings.yaml")
@@ -39,19 +42,21 @@ pxcfg = join(here, "_data_", "settings.yaml")
 class NchantdSettingsWidget(NchantdTab):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdSettingsWidget").override(cfg))
         self.unsaved = False
         self.document = NchantdConfigStoreDocument()
+        logma.info(f"NchantdSettingsWidget initialized")
 
-    def initModel(self, cfg=None):
+
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         cfg = {"layout": "horizontal", "justify": "right", "size": ["auto", 50]}
@@ -68,78 +73,78 @@ class NchantdSettingsWidget(NchantdTab):
         self.layout.setContentsMargins(0, 0, 0, 0)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def cmd_export_file(self):
+    def cmd_export_file(self) -> None:
         """"""
-        # TODO implement method
+        # NOTE implement method
 
-    def cmd_import_file(self):
+    def cmd_import_file(self) -> None:
         """"""
-        # TODO implement method
+        # NOTE implement method
 
-    def cmd_save(self):
+    def cmd_save(self) -> None:
         """"""
-        # TODO implement method
+        # NOTE implement method
 
-    def cmd_show_pane_left(self, event=None, *args, **kwargs):
+    def cmd_show_pane_left(self, event=None, *args, **kwargs) -> Any:
         """"""
-        # TODO flip icon
+        # NOTE flip icon
         if self.app.view.panes["left"].isHidden():
             self.app.view.panes["left"].show()
         else:
             self.app.view.panes["left"].hide()
         return self
 
-    def cmd_show_pane_right(self, event=None, *args, **kwargs):
+    def cmd_show_pane_right(self, event=None, *args, **kwargs) -> Any:
         """"""
-        # TODO flip icon
+        # NOTE flip icon
         if self.app.view.panes["right"].isHidden():
             self.app.view.panes["right"].show()
         else:
             self.app.view.panes["right"].hide()
         return self
 
-    def export_settings(self):
+    def export_settings(self) -> None:
         """"""
         # launch a file selection sigil
-        # TODO implement method
+        # NOTE implement method
 
-    def get_settings(self, area):
+    def get_settings(self, area) -> Any:
         """"""
         df = self.app.model.get_settings(area)
         return df
 
-    def import_settings(self):
+    def import_settings(self) -> None:
         """"""
         # launch a file selection sigil
-        # TODO implement method
+        # NOTE implement method
 
-    def launch_unsaved_dialog(self):
+    def launch_unsaved_dialog(self) -> None:
         """"""
         # launch a sigil that forces the user to decide on saving or not
-        # TODO implement method
+        # NOTE implement method
 
-    def on_changed(self, value):
+    def on_changed(self, value) -> None:
         """"""
         self.unsaved = True
 
-    def onFocusOut(self):
+    def onFocusOut(self) -> None:
         """"""
         super().onFocusOut()
         if self.unsaved:
             self.launch_unsaved_dialog()
             self.unsaved = False
 
-    def save(self):
+    def save(self) -> None:
         """"""
         self.on_widget_changed()
 
-    def set_defaults(self):
+    def set_defaults(self) -> None:
         """"""
         for setting in self.setting_configs:
             self.app.model.store_setting(setting)
@@ -148,22 +153,22 @@ class NchantdSettingsWidget(NchantdTab):
 class NchantdInterfaceSettings(NchantdSettingsWidget):
     """"""
 
-    def __init__(self, parent, cfg=None):
+    def __init__(self, parent, cfg=None) -> None:
         """"""
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdInterfaceSettingsTab").override(cfg))
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -173,7 +178,7 @@ class NchantdInterfaceSettings(NchantdSettingsWidget):
 class NchantdThemeSettings(NchantdSettingsWidget):
     """"""
 
-    def __init__(self, parent, cfg=None):
+    def __init__(self, parent, cfg=None) -> None:
         """"""
         super().__init__(parent, cfg)
         self.config.override(
@@ -181,12 +186,12 @@ class NchantdThemeSettings(NchantdSettingsWidget):
         )
         self._load_themes()
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         self.config.dikt.pop("height", None)
@@ -229,22 +234,22 @@ class NchantdThemeSettings(NchantdSettingsWidget):
             self.setSizePolicy(pyqt.QSizePolicy.Policy.Minimum, pyqt.QSizePolicy.Policy.Minimum)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def cmd_change_theme(self, event, *args, **kwargs):
+    def cmd_change_theme(self, event, *args, **kwargs) -> None:
         """"""
-        # TODO implement method
+        # NOTE implement method
 
-    def save(self):
+    def save(self) -> Any:
         """"""
         super().save()
         return self
 
-    def _load_themes(self):
+    def _load_themes(self) -> Any:
         """"""
         self.themes = self.parent.app.view.themes
         return self

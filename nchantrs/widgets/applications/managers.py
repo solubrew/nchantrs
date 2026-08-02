@@ -34,6 +34,7 @@ from subtrix.subtrix import uuid
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "managers.yaml")
@@ -51,6 +52,8 @@ class NchantdProfileManager(NchantdWidget):
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
         self.profiles = {}
+        logma.info(f"NchantdProfileManager initialized")
+
 
     def create_new_profile(self, name=None, profile_type=None) -> None:
         """"""

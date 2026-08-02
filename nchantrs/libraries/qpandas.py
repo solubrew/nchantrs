@@ -16,7 +16,7 @@
 # -*- coding: utf-8 -*-#														||
 # ================================Core Modules===================================||
 from os.path import dirname, join
-from typing import Optional, Dict, List
+from typing import Any, Dict, List, Optional
 
 import logging
 
@@ -39,7 +39,7 @@ from pandas import DataFrame
 # This keeps the rest of nchantrs (the tab / tree / menu / button
 # widgets) importable in environments where pyside6pandas is
 # missing or stubbed.
-def _import_or_stub(module_path, attr, stub_factory):
+def _import_or_stub(module_path, attr, stub_factory) -> Any:
     """Import ``module_path.attr`` or install a stand-in ``stub_factory()``."""
     import importlib
 
@@ -56,34 +56,34 @@ def _import_or_stub(module_path, attr, stub_factory):
 class _DataFrameModel:
     """Stand-in for pyside6pandas.models.DataFrameModel.DataFrameModel."""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         self._df = None
 
-    def setDataFrame(self, df, *args, **kwargs):
+    def setDataFrame(self, df, *args, **kwargs) -> None:
         self._df = df
 
-    def getDataFrame(self):
+    def getDataFrame(self) -> Any:
         return self._df
 
 
 class _DataSearch:
     """Stand-in for pyside6pandas.models.DataSearch."""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         pass
 
 
 class _DataTableWidget:
     """Stand-in for pyside6pandas.views.DataTableView.DataTableWidget."""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         pass
 
 
 class _CSVDialog:
     """Stand-in for CSVImportDialog / CSVExportDialog."""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         pass
 
 
@@ -96,21 +96,21 @@ class _IconsRC:
 class _DtypeComboDelegate:
     """Stand-in for pyside6pandas.views.CustomDelegates.DtypeComboDelegate."""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         pass
 
 
 class _PandasCellMimeType:
     """Stand-in for pyside6pandas.models.mime.PandasCellMimeType."""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         pass
 
 
 class _PandasCellPayload:
     """Stand-in for pyside6pandas.models.mime.PandasCellPayload."""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         pass
 
 

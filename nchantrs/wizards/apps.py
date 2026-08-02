@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any, Tuple, Union
+
 """
 ---
 <(META)>:
@@ -51,7 +53,7 @@ REMOVE_PATH_FLAGS = 3213  # Flag for fonql.removePath()
 class NchantdApplicationStartupWizard(NchantdWizard):
     """"""
 
-    def __init__(self, app=None, cfg=None):
+    def __init__(self, app=None, cfg=None) -> None:
         """ """
         super().__init__(app, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdApplicationStartupWizard"))
@@ -104,7 +106,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         self.device = None
         self.install_doc = None
 
-    def initModel(self, args=None):
+    def initModel(self, args=None) -> Any:
         """"""
         logma.info(f"Init Model {args}")
         if args is None:
@@ -134,7 +136,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         super().initModel()
         return self
 
-    def initView(self, cfg):
+    def initView(self, cfg) -> Any:
         """"""
         logma.info(f"Init View {cfg}")
         super().initView(cfg)
@@ -174,7 +176,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         # self.currentIdChanged.connect(self.on_next_clicked)
         return self
 
-    def initWizard(self, cfg=None):
+    def initWizard(self, cfg=None) -> Any:
         """"""
         self.initModel(cfg)
         self.initView(cfg)
@@ -184,22 +186,22 @@ class NchantdApplicationStartupWizard(NchantdWizard):
 
         return self
 
-    def add_page(self, page):
+    def add_page(self, page) -> Any:
         """"""
-        #TODO implement method
+        # NOTE implement method
         return self
 
-    def assign_page_sequence(self):
+    def assign_page_sequence(self) -> Any:
         """"""
-        #TODO implement method
+        # NOTE implement method
         return self
 
-    def ask_user_to_update(self):
+    def ask_user_to_update(self) -> Any:
         """"""
-        #TODO implement method
+        # NOTE implement method
         return self
 
-    def check_installed(self):
+    def check_installed(self) -> bool:
         """"""
         if exists(self.app.model.config_path):
             if isinstance(self.app.model.config_path, dict):
@@ -222,14 +224,14 @@ class NchantdApplicationStartupWizard(NchantdWizard):
                 return True
         return False
 
-    def check_instance(self):
+    def check_instance(self) -> bool:
         """"""
         instance_path = self.app.model.instance_path
         if exists(join(instance_path, f"{self.slug}.sqlite")):
             return True
         return False
 
-    def check_is_already_running(self):
+    def check_is_already_running(self) -> bool:
         """
         Check if a program with the given name is running.
         :param program_name: The name (or part of the name) of the program to check.
@@ -243,14 +245,14 @@ class NchantdApplicationStartupWizard(NchantdWizard):
                 pass
         return False
 
-    def check_is_os_supported(self):
+    def check_is_os_supported(self) -> bool:
         """"""
         os_list = self.app.store.get_supported_os()
         if self.os_type in os_list:
             return True
         return False
 
-    def check_is_up_to_date(self):
+    def check_is_up_to_date(self) -> Union[Any, bool]:
         """
         Check to see if an update is available.
         :return:
@@ -260,7 +262,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         self.app.service_manager.check_for_updates()
         return self.app.service_manager.is_update_available
 
-    def check_run_method(self):
+    def check_run_method(self) -> Any:
         """"""
         if hasattr(sys, "_MEIPASS"):
             self.ran_by_binary = True
@@ -268,17 +270,17 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         logma.info(f"Execution Method is Binary: {self.ran_by_binary}")
         return self
 
-    def copy_application(self):
+    def copy_application(self) -> None:
         """"""
-        #TODO implement method
+        # NOTE implement method
 
-    def create_config_file(self, cfg=None):
+    def create_config_file(self, cfg=None) -> None:
         """"""
         if cfg is None:
             cfg = {}
         self.config_file.write(cfg)
 
-    def create_database_application(self):
+    def create_database_application(self) -> bool:
         """"""
         logma.info(f"Initialize Application Database")
         self.app.model.store.init_database_application()
@@ -289,7 +291,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         self.app.model.store.cache_app_install("installed", ["create_database"])
         return True
 
-    def create_icon(self):
+    def create_icon(self) -> bool:
         """"""
         path = join(self.app.startup.install_from_path, "nchantrs", "themes", "_data_", "icons", "launch_icon.svg")
         if exists(path):
@@ -300,7 +302,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
             raise Exception(f"Path {path} does not exist")
         return False
 
-    def create_paths(self, os_type="linux"):
+    def create_paths(self, os_type="linux") -> Tuple[str, Any]:
         """"""
         self.os_type = os_type
         paths = []
@@ -320,7 +322,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         state = True
         return paths, state
 
-    def create_paths_application(self, paths):
+    def create_paths_application(self, paths) -> bool:
         """"""
         verified = self.app.model.store.create_directories(self.application_path)
         paths += [self.application_path]
@@ -328,7 +330,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
             return False
         return True
 
-    def create_paths_config(self, paths):
+    def create_paths_config(self, paths) -> bool:
         """"""
         verified = self.app.model.store.create_directories(self.config_path)
         paths += [self.config_path]
@@ -336,7 +338,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
             return False
         return True
 
-    def create_paths_instance(self, paths):
+    def create_paths_instance(self, paths) -> bool:
         """"""
         data = {}
         path = self.config.dikt["os_types"][self.os_type].get("instance", "")
@@ -347,7 +349,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
             return False
         return True
 
-    def create_paths_library(self, paths):
+    def create_paths_library(self, paths) -> bool:
         """"""
         verified = self.app.model.store.create_directories(self.library_path)
         paths += [self.library_path]
@@ -355,7 +357,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
             return False
         return True
 
-    def create_paths_shortcut(self, paths):
+    def create_paths_shortcut(self, paths) -> bool:
         """"""
         verified = self.app.model.store.create_directories(self.shortcut_path)
         paths += [self.library_path]
@@ -374,7 +376,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
             return False
         return True
 
-    def create_shortcut(self):
+    def create_shortcut(self) -> Any:
         """"""
         if self.os_type == "linux":
             entry = self.config.dikt["os_types"].get(self.os_type, "").get("shortcut", "").get("text", "")
@@ -405,7 +407,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         logma.info(f"Icon created at {self.icon_path}")
         return self
 
-    def reject(self):
+    def reject(self) -> None:
         """"""
         # Optionally, confirm with the user before exiting
         reply = pyqt.QMessageBox.question(
@@ -424,7 +426,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
             logma.info("Cancel aborted")
         return
 
-    def remove_directories(self, paths, db="db"):
+    def remove_directories(self, paths, db="db") -> None:
         """"""
         if not isinstance(paths, list):
             paths = [paths]
@@ -436,7 +438,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
                 self.app.model.store.cache_app_install("uninstalled", ["remove_directory", {"path": path}])
         return
 
-    def run_application(self):
+    def run_application(self) -> Any:
         """"""
         self.app.model.initialize_application()
         cfg = {}
@@ -454,7 +456,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         #             self.run_application_update()
         return self
 
-    def run_application_install(self, paths):
+    def run_application_install(self, paths) -> Any:
         """"""
         self.run_install_application_prep(paths)
         self.app.model.initialize_application()  # Sets up the Data Policy and the User
@@ -470,7 +472,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
             self.run_uninstall_application(paths)
         return self
 
-    def run_application_update(self):
+    def run_application_update(self) -> Any:
         """
         Get updated application
         Get updated hashes
@@ -492,12 +494,12 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         self.app.model.update_version("db", self.version, True, "db")
         return self
 
-    def run_install_application_prep(self, paths):
+    def run_install_application_prep(self, paths) -> Any:
         """"""
         self.run_uninstall_application("preinstall", paths)
         return self
 
-    def run_install_complete(self):
+    def run_install_complete(self) -> Any:
         """Write config path with install configuration settings"""
         if self.install_doc is None:
             self.install_doc = yonql.Doc(self.app.model.config_path)
@@ -509,7 +511,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         self.install_doc.write(self.install_doc.dikt)
         return self
 
-    def run_uninstall_application(self, reason="debug", paths=None):
+    def run_uninstall_application(self, reason="debug", paths=None) -> Any:
         """"""
         if paths is None:
             paths = []
@@ -526,7 +528,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         # self.app.model.store.cache_app_install("uninstall", ["uninstalled", "uninstall", reason])
         return self
 
-    def set_library_status(self):
+    def set_library_status(self) -> Any:
         """
         TODO controls for allowing the user to turn the library on but only for paid versions
         :return:
@@ -538,7 +540,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
                 fonql.touch(self.library_path)
         return self
 
-    def _load_profile(self, profile):
+    def _load_profile(self, profile) -> Any:
         """"""
         self.accept_default = profile.get("accept_default", None)
         if self.accept_default:
@@ -560,7 +562,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
 class NchantdAddExtensionWizard(NchantdWizardPage):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdFundAccountsTab")
@@ -568,20 +570,20 @@ class NchantdAddExtensionWizard(NchantdWizardPage):
             self.config.override(parent.config)
         self.config.override(cfg)
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
 
 
 class NchantdRemoveExtensionWizard(NchantdWizardPage):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdFundAccountsTab")
@@ -590,20 +592,20 @@ class NchantdRemoveExtensionWizard(NchantdWizardPage):
         self.config.override(cfg)
         super(NchantdRemoveExtensionWizard, self).__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
 
 
 class NchantdApplicationSetupDetailsPage(NchantdWizardPage):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdApplicationSetupDetailsPage")
@@ -614,12 +616,12 @@ class NchantdApplicationSetupDetailsPage(NchantdWizardPage):
         self.privacy_level = None
         self.security_level = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         self.setTitle("New Application Setup")
@@ -643,7 +645,7 @@ class NchantdApplicationSetupDetailsPage(NchantdWizardPage):
 
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -653,7 +655,7 @@ class NchantdApplicationSetupDetailsPage(NchantdWizardPage):
 class NchantdApplicationConfigurationPage(NchantdWizardPage):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -662,12 +664,12 @@ class NchantdApplicationConfigurationPage(NchantdWizardPage):
             self.config.override(parent.config)
         self.config.override(cfg)
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         cfg = {"text": "Select Security Level", "options": ["Medium", "High"]}
@@ -709,7 +711,7 @@ class NchantdApplicationConfigurationPage(NchantdWizardPage):
 
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

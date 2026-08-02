@@ -19,7 +19,7 @@ import datetime as dt
 import json as j
 import platform as _platform
 from enum import Enum
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 import uuid
 
 import logging
@@ -51,7 +51,7 @@ pxcfg = join(here, "_data_", "profiles.yaml")
 _FALLBACK_CHROME_MAJOR = "138"
 
 
-def _default_platform_token():
+def _default_platform_token() -> str:
     """Return a UA platform token matching the host OS."""
     system = _platform.system()
     if system == "Windows":
@@ -61,7 +61,7 @@ def _default_platform_token():
     return "X11; Linux x86_64"
 
 
-def chromium_major_version():
+def chromium_major_version() -> Any:
     """Major version of the Chromium that QtWebEngine is actually built on.
 
     Falls back to _FALLBACK_CHROME_MAJOR when the version API is unavailable
@@ -78,7 +78,7 @@ def chromium_major_version():
     return _FALLBACK_CHROME_MAJOR
 
 
-def modern_user_agent(platform_token=None):
+def modern_user_agent(platform_token=None) -> str:
     """Build a modern Chrome-compatible User-Agent string.
 
     The Chrome token tracks the real engine version so sites doing browser
@@ -102,7 +102,7 @@ def modern_user_agent(platform_token=None):
 _FIREFOX_VERSION = "140.0"
 
 
-def firefox_user_agent(platform_token=None):
+def firefox_user_agent(platform_token=None) -> str:
     """Build a current Firefox User-Agent string.
 
     Firefox is a *supported* Google browser, so it clears both the "unsupported
@@ -137,7 +137,7 @@ def firefox_user_agent(platform_token=None):
 DEFAULT_USER_AGENT = firefox_user_agent()
 
 
-def install_google_login_ua_script(profile):
+def install_google_login_ua_script(profile) -> None:
     """Make ``navigator`` report Firefox on Google sign-in hosts.
 
     NchantdRequestInterceptor already rewrites the *request* User-Agent header to
@@ -227,7 +227,7 @@ class ProfileType(Enum):
 class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
     """"""
 
-    def __init__(self, name, browser=None, intercept=False, parent=None, cfg=None):
+    def __init__(self, name, browser=None, intercept=False, parent=None, cfg=None) -> None:
         """ """
         super().__init__(name, browser)
         self.parent = parent
@@ -242,7 +242,7 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
         self.intercept = intercept
         self.persistence = False
 
-    def initProfile(self):
+    def initProfile(self) -> Any:
         """"""
         if self.intercept:
             self.initialize_interceptor()
@@ -269,13 +269,13 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
         self.check_connection_security()
         return self
 
-    def check_connection_security(self):
+    def check_connection_security(self) -> Any:
         """"""
         if not pyqt.QSslSocket.supportsSsl():
             raise RuntimeError("SSL support is required for secure communication.")
         return self
 
-    def initialize_settings(self):
+    def initialize_settings(self) -> Any:
         """"""
         # settings = pyqt.QWebEngineSettings.globalSettings()
         settings = self.settings()
@@ -310,12 +310,12 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
         self.initialize_settings_drm(settings)
         return self
 
-    def initialize_gpu(self, settings):
+    def initialize_gpu(self, settings) -> Any:
         """"""
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.WebGLEnabled, True)
         return self
 
-    def initialize_high_security(self, settings):
+    def initialize_high_security(self, settings) -> Any:
         """"""
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.HyperlinkAuditingEnabled, True)
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.JavascriptCanAccessClipboard, False)
@@ -325,35 +325,35 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.LocalContentCanAccessRemoteUrls, False)
         return self
 
-    def initialize_media(self, settings):
+    def initialize_media(self, settings) -> Any:
         """"""
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.AutoLoadMedia, False)
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.PlaybackRequiresUserGesture, True)
         return self
 
-    def initialize_settings_drm(self, settings):
+    def initialize_settings_drm(self, settings) -> Any:
         """"""
         # ENABLE Protected Content using QWebEngineSettings
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.PlaybackRequiresUserGesture, True)
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.AllowRunningInsecureContent, True)
         return self
 
-    def initialize_interceptor(self):
+    def initialize_interceptor(self) -> Any:
         """"""
         logma.info(f"Initializing Interceptor {self.name}")
         interceptor = NchantdRequestInterceptor()
         self.defaultProfile().setUrlRequestInterceptor(interceptor)
         return self
 
-    def load_local_storage(self):
+    def load_local_storage(self) -> Any:
         """"""
         return self
 
-    def load_cache(self):
+    def load_cache(self) -> Any:
         """"""
         return self
 
-    def set_persistence(self):
+    def set_persistence(self) -> Any:
         """"""
         logma.info(f"Set Persistence {self.name}")
         # Use application path for storage
@@ -374,17 +374,17 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
         self.persistence = True
         return self
 
-    def set_persistent_storage_db(self, path):
+    def set_persistent_storage_db(self, path) -> Any:
         """"""
         return self
 
-    def set_persistent_storage_path(self, path):
+    def set_persistent_storage_path(self, path) -> Any:
         """"""
         logma.info(f"Setting Persistent Storage Path: {path}")
         self.setPersistentStoragePath(path)
         return self
 
-    def set_persistent_storage_type(self, type_="file"):
+    def set_persistent_storage_type(self, type_="file") -> Any:
         """"""
         if type_ == "file":
             self.set_persistent_storage_path(self.app.model.path)
@@ -392,31 +392,31 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
             self.set_persistent_storage_db(self.app.model.path)
         return self
 
-    def set_application_cache_storage(self):
+    def set_application_cache_storage(self) -> Any:
         """"""
         return self
 
-    def set_cache_storage(self):
+    def set_cache_storage(self) -> Any:
         """"""
         return self
 
-    def set_cookie_storage(self):
+    def set_cookie_storage(self) -> Any:
         """"""
         return self
 
-    def set_file_system_api_storage(self):
+    def set_file_system_api_storage(self) -> Any:
         """"""
         return self
 
-    def set_indexed_db_storage(self):
+    def set_indexed_db_storage(self) -> Any:
         """"""
         return self
 
-    def set_local_storage(self):
+    def set_local_storage(self) -> Any:
         """"""
         return self
 
-    def set_security_policy(self, policy_code="safe"):
+    def set_security_policy(self, policy_code="safe") -> Any:
         """"""
         # settings = pyqt.QWebEngineSettings.globalSettings()
         settings = self.settings()
@@ -453,25 +453,25 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
 
         return self
 
-    def set_service_worker_storage(self):
+    def set_service_worker_storage(self) -> Any:
         """"""
         return self
 
-    def set_session_storage(self):
+    def set_session_storage(self) -> Any:
         """"""
         return self
 
-    def set_web_sql_storage(self):
+    def set_web_sql_storage(self) -> Any:
         """"""
         return self
 
-    def store_cache(self):
+    def store_cache(self) -> Any:
         """"""
         data = {"id": cache.id, "url": cache.url, "data": cache.data, "timestamp": cache.timestamp}
         payload = [Thing().uuid, self.user.app_profile_FK, "cache", j.dumps(data)]
         return self
 
-    def store_cookie(self):
+    def store_cookie(self) -> Any:
         """"""
         data = {
             "id": cookie.id,
@@ -484,24 +484,24 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
         payload = [Thing().uuid, self.user.app_profile_FK, "cookie", j.dumps(data)]
         return self
 
-    def store_indexed_db(self):
+    def store_indexed_db(self) -> Any:
         """"""
         data = {"id": idb.id, "key": idb.key, "value": idb.value}
         payload = [Thing().uuid, self.user.app_profile_FK, "indexed_db", j.dumps(data)]
         return self
 
-    def store_local_file(self):
+    def store_local_file(self) -> Any:
         """"""
         data = {"id": local_file.id, "key": local_file.key, "value": local_file.value}
         payload = [Thing().uuid, self.user.app_profile_FK, "local_file", j.dumps(data)]
         return self
 
-    def store_service_worker(self):
+    def store_service_worker(self) -> Any:
         data = {"id": service_worker.id, "scope": service_worker.scope, "script_url": service_worker.script_url}
         payload = [Thing().uuid, self.user.app_profile_FK, "service_worker", j.dumps(data)]
         return self
 
-    def store_address(self):
+    def store_address(self) -> Any:
         data = {"id": address.id, "chain_id": address.chain_id, "address": address.address}
         payload = [Thing().uuid, self.user.app_profile_FK, "address", j.dumps(data)]
         return self
@@ -510,7 +510,7 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
 class ProfileConfiguration:
     """Configuration class for web engine profiles"""
 
-    def __init__(self, name: str, profile_type: ProfileType = ProfileType.DEFAULT):
+    def __init__(self, name: str, profile_type: ProfileType = ProfileType.DEFAULT) -> None:
         self.name = name
         self.profile_type = profile_type
         # Baseline non-Chrome UA — yields Google's soft "unsupported" banner but
@@ -528,7 +528,7 @@ class ProfileConfiguration:
         # Apply type-specific defaults
         self._apply_type_defaults()
 
-    def _apply_type_defaults(self):
+    def _apply_type_defaults(self) -> None:
         """Apply default settings based on profile type"""
         if self.profile_type == ProfileType.SECURE:
             self.interceptor_rules = {
@@ -560,7 +560,7 @@ class ProfileManager(pyqt.QObject):
     profileRemoved = pyqt.Signal(str)  # profile_name
     defaultProfileChanged = pyqt.Signal(str)  # profile_name
 
-    def __init__(self, parent=None, storage_base=None):
+    def __init__(self, parent=None, storage_base=None) -> None:
         super().__init__(parent)
         self.profiles: Dict[str, pyqt.QWebEngineProfile] = {}
         self.configurations: Dict[str, ProfileConfiguration] = {}
@@ -627,7 +627,7 @@ class ProfileManager(pyqt.QObject):
         logma.info(f"Created profile '{name}' of type {profile_type.value}")
         return profile
 
-    def _configure_profile(self, profile: pyqt.QWebEngineProfile, config: ProfileConfiguration):
+    def _configure_profile(self, profile: pyqt.QWebEngineProfile, config: ProfileConfiguration) -> None:
         """Configure a profile with the given configuration"""
         from os import makedirs
 
@@ -707,7 +707,7 @@ class ProfileManager(pyqt.QObject):
         """Get the default profile"""
         return self.profiles[self.default_profile_name]
 
-    def set_default_profile(self, name: str):
+    def set_default_profile(self, name: str) -> None:
         """Set a profile as default"""
         if name in self.profiles:
             old_default = self.default_profile_name
@@ -721,7 +721,7 @@ class ProfileManager(pyqt.QObject):
             self.defaultProfileChanged.emit(name)
             logma.warning(f"Default profile changed to '{name}'")
 
-    def remove_profile(self, name: str):
+    def remove_profile(self, name: str) -> None:
         """Remove a profile"""
         if name == self.default_profile_name:
             logma.warning(f"Cannot remove default profile '{name}'")

@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -28,6 +30,7 @@ from nchantrs.widgets.tabsets import NchantdTab
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "accounts.yaml")
@@ -36,7 +39,7 @@ pxcfg = join(here, "_data_", "accounts.yaml")
 class NchantdAccountOverview(NchantdTab):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdAccountOverview").override(cfg))
@@ -49,12 +52,12 @@ class NchantdAccountOverview(NchantdTab):
         self.username = None
         self.uuid = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         self.user.select_user()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """
         Here we can implement a high security area of no view of secure information without a password
         or have it viewable and only change with password
@@ -68,7 +71,7 @@ class NchantdAccountOverview(NchantdTab):
         #
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -78,23 +81,23 @@ class NchantdAccountOverview(NchantdTab):
 class NchantdAccountSettings(NchantdSettingsWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdAccountSettings").override(parent.config).override(cfg))
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

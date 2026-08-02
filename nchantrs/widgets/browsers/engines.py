@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any, Optional, Union
+
 """
 ---
 <(META)>:
@@ -44,7 +46,7 @@ pxcfg = join(here, "_data_", ".yaml")
 
 
 # Set Qt environment variables before QApplication creation
-def setup_qt_environment():
+def setup_qt_environment() -> None:
     """Configure Qt environment for better graphics compatibility"""
     # Force software rendering if hardware acceleration fails
     # environ["QT_QUICK_BACKEND"] = "software"
@@ -104,7 +106,7 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
     backAvailable = pyqt.Signal(bool)
     forwardAvailable = pyqt.Signal(bool)
 
-    def __init__(self, profile=None, parent=None, cfg=None):
+    def __init__(self, profile=None, parent=None, cfg=None) -> None:
         super().__init__(parent)
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdWebEngineView")
@@ -129,7 +131,7 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
 
         self.setup_view()
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         try:
@@ -142,24 +144,24 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
         self.loadFinished.connect(self.init_listeners)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def init_listeners(self):
+    def init_listeners(self) -> Any:
         """"""
         script = event_listener_middle_click()
         self.page().runJavaScript(script)
         return self
 
-    def _geo(self):
+    def _geo(self) -> Union[Any, str]:
         """Compact geometry/visibility string for diagnostic logging."""
         try:
             s = self.size()
@@ -176,7 +178,7 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
         except Exception as e:
             return f"<geo error: {e}>"
 
-    def showEvent(self, event):
+    def showEvent(self, event) -> None:
         """Reactivate the page lifecycle and repaint when re-shown (Fix C).
 
         QWebEngineView drops its rendered frame when its page is hidden (e.g.
@@ -194,7 +196,7 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
                 logma.error(f"[webengine] setLifecycleState failed: {e}")
         self.update()
 
-    def resizeEvent(self, event):
+    def resizeEvent(self, event) -> None:
         """Log resizes so we can see whether the view ever gets real geometry."""
         super().resizeEvent(event)
         try:
@@ -203,12 +205,12 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
         except Exception as e:
             logma.error(f"[webengine] resizeEvent log failed: {e}")
 
-    def hideEvent(self, event):
+    def hideEvent(self, event) -> None:
         """Log hides (tab switch / rebuild) to correlate with blank-on-reshow."""
         super().hideEvent(event)
         logma.info(f"[webengine] hideEvent | {self._geo()}")
 
-    def contextMenuEvent(self, event):
+    def contextMenuEvent(self, event) -> None:
         """Handle right-click context menu"""
         menu = self.page().createStandardContextMenu()
 
@@ -224,7 +226,7 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
             return
         menu.exec(self.mapToGlobal(event.pos()))
 
-    def _resolve_app_model(self):
+    def _resolve_app_model(self) -> Optional[Any]:
         """Reach the app model from a web view during __init__.
 
         self.app may not be wired yet this early, so fall back to the parent
@@ -237,7 +239,7 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
                 return model
         return None
 
-    def create_custom_profile(self):
+    def create_custom_profile(self) -> Union[Any, str]:
         """Return the web engine profile this view should use.
 
         Preferred: a shared profile from the app-level pool
@@ -318,7 +320,7 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
     #     profile.setUrlRequestInterceptor(self.interceptor)
     #     return profile
 
-    def go_back_in_history(self):
+    def go_back_in_history(self) -> None:
         """Go back in navigation history"""
         if self.page().history().canGoBack():
             logma.info("Going back in history")
@@ -326,7 +328,7 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
         else:
             logma.info("Cannot go back - no history available")
 
-    def go_forward_in_history(self):
+    def go_forward_in_history(self) -> None:
         """Go forward in navigation history"""
         if self.page().history().canGoForward():
             logma.info("Going forward in history")
@@ -335,14 +337,14 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
             logma.info("Cannot go forward - no forward history available")
 
     @pyqt.Slot(pyqt.QWebEngineDownloadRequest)
-    def handle_download_request(self, download_request: pyqt.QWebEngineDownloadRequest):
+    def handle_download_request(self, download_request: pyqt.QWebEngineDownloadRequest) -> None:
         """Handle download requests"""
         # Let download manager handle it
         download_id = self.download_manager.handle_download_request(download_request)
         if download_id:
             logma.info(f"Download started with ID: {download_id}")
 
-    def navigate_to_url(self, url_string):
+    def navigate_to_url(self, url_string) -> None:
         """Navigate to a specific URL"""
         if not url_string.startswith(("http://", "https://", "file://")):
             url_string = f"https://{url_string}"
@@ -354,14 +356,14 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
             logma.info(f"Invalid URL: {url_string}")
 
     @pyqt.Slot()
-    def on_history_changed(self):
+    def on_history_changed(self) -> None:
         """Handle navigation history changes"""
         self.backAvailable.emit(self.history().canGoBack())
         self.forwardAvailable.emit(self.history().canGoForward())
         self.update_navigation_states()
 
     @pyqt.Slot(bool)
-    def on_load_finished(self, success):
+    def on_load_finished(self, success) -> None:
         """Handle page load completion - this is when history is updated"""
         logma.info(f"Page load finished - Success: {success}")
         self.backAvailable.emit(self.history().canGoBack())
@@ -369,17 +371,17 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
         self.update_navigation_states()
 
     @pyqt.Slot(pyqt.QUrl, str)
-    def on_navigation_requested(self, url, nav_type):
+    def on_navigation_requested(self, url, nav_type) -> None:
         """Handle navigation requests from custom page"""
         logma.info(f"View received navigation request: {url.toString()} ({nav_type})")
 
     @pyqt.Slot(pyqt.QUrl)
-    def on_page_load_started(self, url):
+    def on_page_load_started(self, url) -> None:
         """Handle page load start"""
         logma.info(f"View: Page load started for {url.toString()}")
 
     @pyqt.Slot(pyqt.QUrl, bool)
-    def on_page_load_finished(self, url, success):
+    def on_page_load_finished(self, url, success) -> None:
         """Handle page load completion"""
         logma.info(f"View: Page load finished for {url.toString()} - Success: {success}")
 
@@ -387,19 +389,19 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
         self.update_navigation_states()
 
     @pyqt.Slot(pyqt.QUrl)
-    def on_url_changed(self, url):
+    def on_url_changed(self, url) -> None:
         """Handle URL changes in the view"""
         logma.info(f"View URL changed: {url.toString()}")
         self.urlNavigated.emit(url)
         self.update_navigation_states()
 
-    def setup_download_handling(self):
+    def setup_download_handling(self) -> None:
         """Setup download request handling"""
         # Connect to profile's download signal
         profile = self.page().profile()
         profile.downloadRequested.connect(self.handle_download_request)
 
-    def setup_view(self):
+    def setup_view(self) -> None:
         """Initialize view connections and settings"""
         # Connect to signals that indicate navigation/history changes
         self.urlChanged.connect(self.on_url_changed)
@@ -410,13 +412,13 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
         # self.custom_page.pageLoadStarted.connect(self.on_page_load_started)
         # self.custom_page.pageLoadFinished.connect(self.on_page_load_finished)
 
-    def reload_page(self):
+    def reload_page(self) -> None:
         """Reload current page"""
         current_url = self.url()
         logma.info(f"Reloading page: {current_url.toString()}")
         self.reload()
 
-    def update_navigation_states(self):
+    def update_navigation_states(self) -> None:
         """Update the state of navigation buttons"""
         history = self.page().history()
         can_go_back = history.canGoBack()
@@ -425,7 +427,7 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
         self.backAvailable.emit(can_go_back)
         self.forwardAvailable.emit(can_go_forward)
 
-    def closeEvent(self, event):
+    def closeEvent(self, event) -> None:
         """Handle cleanup before destruction to avoid profile release warnings"""
         # Set page to None to decouple it from the profile before the view is destroyed
         # This helps ensuring the page is destroyed before the profile
@@ -440,7 +442,7 @@ class NchantdWebEngineView(NchantdWidgetMixin, pyqt.QWebEngineView):
 class NchantdWebEngineViewH264(NchantdWidgetMixin, pyqt.QWebEngineView):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent)
         self.parent = parent
@@ -468,30 +470,30 @@ class NchantdWebEngineViewH264(NchantdWidgetMixin, pyqt.QWebEngineView):
     #             return True  # Consume the event
     #     return super().eventFilter(source, event)
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         self.loadFinished.connect(self.init_listeners)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def init_listeners(self):
+    def init_listeners(self) -> Any:
         """"""
         script = event_listener_middle_click()
         self.page().runJavaScript(script)
         return self
 
-    def closeEvent(self, event):
+    def closeEvent(self, event) -> Any:
         """"""
         page = self.page()
         page.deleteLater()
@@ -499,14 +501,14 @@ class NchantdWebEngineViewH264(NchantdWidgetMixin, pyqt.QWebEngineView):
         super().closeEvent(event)
         return self
 
-    def contextMenuEvent(self, event):
+    def contextMenuEvent(self, event) -> None:
         menu = pyqt.QMenu(self)
         download_action = menu.addAction("Download video")
         action = menu.exec(self.mapToGlobal(event.pos()))
         if action == download_action:
             self.download_current_video()
 
-    def download_current_video(self):
+    def download_current_video(self) -> None:
         js = """
         (function(){
             const v = document.querySelector('video');
@@ -517,7 +519,7 @@ class NchantdWebEngineViewH264(NchantdWidgetMixin, pyqt.QWebEngineView):
         """
         self.page().runJavaScript(js, self._handle_video_src)
 
-    def setup_codec(self):
+    def setup_codec(self) -> None:
         """Initial codec setup."""
         if self.downloader.is_available():
             library_path = self.downloader.get_library_path()
@@ -528,7 +530,7 @@ class NchantdWebEngineViewH264(NchantdWidgetMixin, pyqt.QWebEngineView):
         else:
             self.status_label.setText("OpenH264 not available - download required")
 
-    def setup_webengine_settings(self):
+    def setup_webengine_settings(self) -> None:
         """Configure WebEngine settings for media playback."""
         settings = self.web_view.settings()
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.PlaybackRequiresUserGesture, False)
@@ -539,7 +541,7 @@ class NchantdWebEngineViewH264(NchantdWidgetMixin, pyqt.QWebEngineView):
             library_path = self.downloader.get_library_path()
             # Set codec path via environment (must be done before QApplication creation ideally)
 
-    def download_codec(self):
+    def download_codec(self) -> None:
         """Download OpenH264 codec in background thread."""
         self.download_button.setEnabled(False)
         self.status_label.setText("Starting download...")
@@ -549,7 +551,7 @@ class NchantdWebEngineViewH264(NchantdWidgetMixin, pyqt.QWebEngineView):
         self.download_thread.finished.connect(self.on_download_finished)
         self.download_thread.start()
 
-    def on_download_finished(self, success: bool, message: str):
+    def on_download_finished(self, success: bool, message: str) -> None:
         """Handle download completion."""
         self.status_label.setText(message)
 
@@ -560,7 +562,7 @@ class NchantdWebEngineViewH264(NchantdWidgetMixin, pyqt.QWebEngineView):
             self.download_button.setEnabled(True)
             self.download_button.setText("Retry Download")
 
-    def test_h264_video(self):
+    def test_h264_video(self) -> None:
         """Load a test page with H.264 video."""
         test_html = """
         <!DOCTYPE html>
@@ -590,7 +592,7 @@ class NchantdWebEngineViewH264(NchantdWidgetMixin, pyqt.QWebEngineView):
 
         self.web_view.setHtml(test_html)
 
-    def _handle_video_src(self, result_json):
+    def _handle_video_src(self, result_json) -> None:
         try:
             data = __import__("json").loads(result_json or "{}")
         except Exception:

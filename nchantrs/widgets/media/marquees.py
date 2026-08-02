@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -31,6 +33,7 @@ from kahndor.logma import Logma
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "marquees.yaml")
@@ -39,7 +42,7 @@ pxcfg = join(here, "_data_", "marquees.yaml")
 class NchantdTextMarquee(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -52,32 +55,34 @@ class NchantdTextMarquee(NchantdWidget):
         self.timer = pyqt.QTimer(self)
         self.timer.timeout.connect(self.advance_offset)
         self.timer.start(1000 / 30)  # 30 fps
+        logma.info(f"NchantdTextMarquee initialized")
 
-    def advance_offset(self):
+
+    def advance_offset(self) -> None:
         self.offset += 1
         self.update()
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def setText(self, text):
+    def setText(self, text) -> Any:
         self.text = text
         return self
 
-    def paintEvent(self, event):
+    def paintEvent(self, event) -> None:
         painter = pyqt.QPainter(self)
         painter.setFont(pyqt.QFont("Arial", 30))
         width = painter.fontMetrics().width(self.text)
@@ -89,7 +94,7 @@ class NchantdTextMarquee(NchantdWidget):
 class NchantdImageMarquee(NchantdTextMarquee):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -98,17 +103,17 @@ class NchantdImageMarquee(NchantdTextMarquee):
             self.config.override(parent.config)
         self.config.override(cfg)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

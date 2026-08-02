@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """#																			||
 ---  #																			||
 <(META)>: #								||
@@ -41,7 +43,7 @@ pxcfg = join(abspath(here), "_data_", "forms.yaml")
 class NchantdForm(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -50,17 +52,17 @@ class NchantdForm(NchantdWidget):
             self.config.override(parent.config)
         self.config.override(cfg)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -71,7 +73,7 @@ class NchantdDynamicEntryForm(NchantdForm):
     """A single pane widget for building a simple top down entry form with a
     submission button at the end of the form"""
 
-    def __init__(self, parent=None, cfg={}):
+    def __init__(self, parent=None, cfg={}) -> None:
         """
 
         :param parent:
@@ -85,7 +87,7 @@ class NchantdDynamicEntryForm(NchantdForm):
         self.controlWDGTs = {}
         self.handlers = {}
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel()
         for control in self.config.dikt.get("controls", {}).keys():
@@ -101,7 +103,7 @@ class NchantdDynamicEntryForm(NchantdForm):
         self.rid = None
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """The pane is built with fields not sure how to abstract this
 
         TODO: need to get max columns grid in order to span other fields
@@ -114,7 +116,7 @@ class NchantdDynamicEntryForm(NchantdForm):
         # self.setLayout(layout)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """ """
         # not to create a dialog model to replace this and mimic application models
         self.reset = None
@@ -122,42 +124,42 @@ class NchantdDynamicEntryForm(NchantdForm):
         self.initView()
         return self
 
-    def add_entry(self):
+    def add_entry(self) -> Any:
         """ """
         self.rid = self.app.model.store.add(self.values)
         return self
 
-    def delete_entry(self, record):
+    def delete_entry(self, record) -> Any:
         """ """
         self.model.deleteRecord(record)
         return self
 
-    def jump_entry(self, record):
+    def jump_entry(self, record) -> Any:
         """ """
         self.model.getRecord(record)
         return self
 
-    def next_entry(self):
+    def next_entry(self) -> None:
         """ """
         self.rid = self.app.model.store.next(self.rid)
 
-    def previous_entry(self):
+    def previous_entry(self) -> None:
         """ """
         self.rid = self.app.model.store.prev(self.rid)
 
-    def cancel_entry(self):
+    def cancel_entry(self) -> None:
         """ """
         self.rid = None
 
-    def save_entry(self):
+    def save_entry(self) -> None:
         """"""
 
-    def entryFieldModels(self):
+    def entryFieldModels(self) -> Any:
         """Combine and connect to the dynamic entry fields and controls in
         the form"""
         return self
 
-    def handler(self, key, val: dict):
+    def handler(self, key, val: dict) -> Any:
         """
         Provide data from form items via the handler in a key value pair
         :param data:
@@ -169,7 +171,7 @@ class NchantdDynamicEntryForm(NchantdForm):
         self.values[key][now] = val
         return self
 
-    def createRecord(self):
+    def createRecord(self) -> Any:
         """"""
         fields = []
         self.record = []
@@ -177,7 +179,7 @@ class NchantdDynamicEntryForm(NchantdForm):
             self.record.append(field[data])
         return self
 
-    def loadControls(self):
+    def loadControls(self) -> Any:
         """ """
         logma.info(f"New Button\n {self.entryBTNs.newbutton.__dir__()}")
         if self.entryBTNs.newbutton.isEnabled:
@@ -194,7 +196,7 @@ class NchantdDynamicEntryForm(NchantdForm):
             self.navBTNs.nextbutton.clicked.connect(self.nextEntry)
         return self
 
-    def _build_controls(self, y=0, x=0):
+    def _build_controls(self, y=0, x=0) -> Any:
         """"""
         # [DONE]
         max_grid_x = self.config.dikt.get("max_x", x)
@@ -206,7 +208,7 @@ class NchantdDynamicEntryForm(NchantdForm):
         #    y += i
         return y
 
-    def _build_fields(self, y=0, x=0, max_grid_x=1):
+    def _build_fields(self, y=0, x=0, max_grid_x=1) -> Any:
         """"""
         for i, field in enumerate(self.config.dikt.get("fields", {}).keys()):
             logma.info(f"Field {field}")
@@ -247,7 +249,7 @@ class NchantdDynamicEntryForm(NchantdForm):
 class NchantdAPIEntryForm(NchantdDynamicEntryForm):
     """ """
 
-    def __init__(self, parent=None, cfg={}):
+    def __init__(self, parent=None, cfg={}) -> None:
         """ """
         self.config = kahndor.Instruct(pxcfg).select("NchantdAPIEntryForm")
         self.config.override(cfg)

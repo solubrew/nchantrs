@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any, Iterator
+
 """
 ---
 <(META)>:
@@ -40,19 +42,20 @@ TURTLE_COLOR_MODES = {
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")
 
 
-def get_number(max_n):
+def get_number(max_n) -> Iterator[Any]:
     """"""
     while True:
         n = randint(int(max_n * 0.05), max_n)
         yield n
 
 
-def turn(t, cnt, direction):
+def turn(t, cnt, direction) -> str:
     """Turn the turtle and return new direction"""
     t[cnt].right(90)
     if direction == DIRECTION_HORIZONTAL:
@@ -62,7 +65,7 @@ def turn(t, cnt, direction):
     return direction
 
 
-def animation_panel(background, accent):
+def animation_panel(background, accent) -> None:
     """"""
     # Set up the screen
     win = turtle.Screen()

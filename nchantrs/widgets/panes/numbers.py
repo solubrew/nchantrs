@@ -31,6 +31,7 @@ from nchantrs.widgets.widgets import NchantdWidget
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "numbers.yaml")
@@ -39,11 +40,11 @@ pxcfg = join(here, "_data_", "numbers.yaml")
 class NchantdLineNumberBar(NchantdWidget):
     """A custom widget to display line numbers for a QTextEdit."""
 
-    def __init__(self, editor):
+    def __init__(self, editor) -> None:
         super().__init__(editor)
         self.editor = editor
 
-    def paintEvent(self, event):
+    def paintEvent(self, event) -> None:
         """Override the paint event to draw line numbers."""
         painter = pyqt.QPainter(self)
         painter.fillRect(event.rect(), pyqt.QColor(240, 240, 240))  # Light gray background
@@ -65,13 +66,13 @@ class NchantdLineNumberBar(NchantdWidget):
             bottom = top + self.editor.blockBoundingRect(block).height()
             block_number += 1
 
-    def update_width(self):
+    def update_width(self) -> None:
         """Update the width of the line number bar based on the number of digits."""
         digits = len(str(self.editor.blockCount()))
         space = self.fontMetrics().horizontalAdvance("9") * digits + 10
         self.setFixedWidth(space)
 
-    def update_area(self, rect, dy):
+    def update_area(self, rect, dy) -> None:
         """Update the line number bar when the editor's visible area changes."""
         if dy:
             self.scroll(0, dy)

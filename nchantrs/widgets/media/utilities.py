@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -33,12 +35,13 @@ from kahndor.logma import Logma
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")
 
 
-def render_svg_to_pixmap(svg_file_path, width, height):
+def render_svg_to_pixmap(svg_file_path, width, height) -> Any:
     # Create a QPixmap with the desired size
     pixmap = pyqt.QPixmap(width * 1.01, height * 1.01)
     pixmap.fill()  # Clear the pixmap
@@ -57,7 +60,7 @@ class NchantdPaletteShifter(NchantdWidget):
     """Nchantd Palette Shifter allows for editing an image by shifting each color in the image palette to a newly
     selected color, with the ability to look an offset threshold and apply to each color."""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdPaletteShifter")
@@ -66,17 +69,17 @@ class NchantdPaletteShifter(NchantdWidget):
         super().__init__(self)
         self.config.override(cfg)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

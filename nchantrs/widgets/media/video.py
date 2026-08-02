@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """#																			||
 ---  #																			||
 <(META)>:  #																	||
@@ -33,6 +35,7 @@ from kahndor.logma import Logma
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ===============================================================================||
 pxcfg = join(here, "_data_", "video.yaml")
@@ -41,16 +44,18 @@ pxcfg = join(here, "_data_", "video.yaml")
 class NchantdVideo(NchantdWidget):
     """ """
 
-    def __init__(self, parent=None, cfg={}):
+    def __init__(self, parent=None, cfg={}) -> None:
         """'"""
         self.config = kahndor.Instruct(pxcfg).select("NchantdVideo").override(cfg)
         super().__init__(parent, self.config)
+        logma.info(f"NchantdVideo initialized")
 
-    def initModel(self, path=None):
+
+    def initModel(self, path=None) -> Any:
         """ """
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         """ """
         self.player = pyqt.QMediaPlayer(None, pyqt.QMediaPlayer.VideoSurface)
         self.video = pyqt.QVideoWidget()
@@ -65,11 +70,11 @@ class NchantdVideo(NchantdWidget):
         self.player.audioOutput().setVolume(50)
         self.player.audioOutput().setMuted(False)
 
-    def play_video(self):
+    def play_video(self) -> Any:
         self.mediaPlayer.play()
         return self
 
-    def initWidget(self, path=None):
+    def initWidget(self, path=None) -> Any:
         """ """
         self.initModel(path)
         self.initView()
@@ -79,20 +84,20 @@ class NchantdVideo(NchantdWidget):
 class NchantdVideoPlayer(NchantdVideo):
     """add controls etc to vidoe player"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """"""
 
-    def initModel(self, path=None):
+    def initModel(self, path=None) -> Any:
         """ """
         super().initModel(path)
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """ """
         super().initView()
         return self
 
-    def initWidget(self, path):
+    def initWidget(self, path) -> Any:
         """ """
         self.initModel(path)
         self.initView()
@@ -102,7 +107,7 @@ class NchantdVideoPlayer(NchantdVideo):
 class NchantdScreenCapture(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("Nchantd")
@@ -111,17 +116,17 @@ class NchantdScreenCapture(NchantdWidget):
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -131,7 +136,7 @@ class NchantdScreenCapture(NchantdWidget):
 class NchantdDualVideoPlayer(NchantdWidget):
     """A Widget that allows for watching two videos side by side"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdDualVideoPlayer")
@@ -140,17 +145,17 @@ class NchantdDualVideoPlayer(NchantdWidget):
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

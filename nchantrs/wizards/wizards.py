@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -39,7 +41,7 @@ pxcfg = join(here, "_data_", "wizards.yaml")
 class NchantdWizard(pyqt.QWizard):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdWizard")
@@ -50,31 +52,31 @@ class NchantdWizard(pyqt.QWizard):
         self.theme = NchantdTheme(self)
         self.set_theme(self.config.dikt["gui"]["desktop"]["theme"])
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         cancel_button = self.button(pyqt.QWizard.CancelButton)
         if cancel_button:
             cancel_button.clicked.connect(self.cmd_on_cancel)
         return self
 
-    def initWizard(self):
+    def initWizard(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
     @pyqt.Slot()
-    def cmd_on_cancel(self):
+    def cmd_on_cancel(self) -> Any:
         # Code to execute when Cancel is clicked
         logma.critical("Cancel button clicked!")
         self.reject()  # To close the wizard
         return self
 
-    def set_theme(self, theme="midnight_mist"):
+    def set_theme(self, theme="midnight_mist") -> None:
         """"""
         self.theme.set_theme(theme)
 

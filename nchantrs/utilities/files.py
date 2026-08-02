@@ -35,6 +35,7 @@ from nchantrs.libraries import pyqt
 here = join(dirname(__file__), "")  # ||
 log: bool = True
 logma: Logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")

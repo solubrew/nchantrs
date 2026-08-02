@@ -21,7 +21,7 @@ import os
 import json
 import time
 from pathlib import Path
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 from dataclasses import dataclass, asdict
 from enum import Enum
 
@@ -82,6 +82,9 @@ class NchantdDownloadInfo:
     suggested_filename: str = ""
     error_message: str = ""
 
+    def __post_init__(self) -> None:
+        logma.info(f"NchantdDownloadInfo created: {self.id}")
+
     @property
     def progress_percentage(self) -> float:
         """Get download progress as percentage"""
@@ -135,7 +138,7 @@ class NchantdDownloadManager(pyqt.QObject):
     downloadFinished = pyqt.Signal(str, bool)  # download_id, success
     downloadStatusChanged = pyqt.Signal(str, NchantdDownloadStatus)  # download_id, status
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.downloads: Dict[str, NchantdDownloadInfo] = {}
         self.active_downloads: Dict[str, pyqt.QWebEngineDownloadRequest] = {}
@@ -214,7 +217,7 @@ class NchantdDownloadManager(pyqt.QObject):
         return save_path
 
     @pyqt.Slot(str, int, int)
-    def _on_download_progress(self, download_id: str, received: int, total: int):
+    def _on_download_progress(self, download_id: str, received: int, total: int) -> None:
         """Handle download progress updates"""
         if download_id in self.downloads:
             download_info = self.downloads[download_id]
@@ -224,7 +227,7 @@ class NchantdDownloadManager(pyqt.QObject):
             self.downloadProgress.emit(download_id, received, total)
 
     @pyqt.Slot(str)
-    def _on_download_finished(self, download_id: str):
+    def _on_download_finished(self, download_id: str) -> None:
         """Handle download completion"""
         if download_id in self.downloads:
             download_info = self.downloads[download_id]
@@ -253,7 +256,7 @@ class NchantdDownloadManager(pyqt.QObject):
                 self.save_download_history()
 
     @pyqt.Slot(str, "pyqt.QWebEngineDownloadRequest::DownloadState")
-    def _on_download_state_changed(self, download_id: str, state):
+    def _on_download_state_changed(self, download_id: str, state) -> None:
         """Handle download state changes"""
         if download_id not in self.downloads:
             return
@@ -269,14 +272,14 @@ class NchantdDownloadManager(pyqt.QObject):
 
         self.downloadStatusChanged.emit(download_id, download_info.status)
 
-    def cancel_download(self, download_id: str):
+    def cancel_download(self, download_id: str) -> None:
         """Cancel an active download"""
         if download_id in self.active_downloads:
             download_request = self.active_downloads[download_id]
             download_request.cancel()
             logma.info(f"Cancelled download: {download_id}")
 
-    def pause_download(self, download_id: str):
+    def pause_download(self, download_id: str) -> None:
         """Pause an active download"""
         if download_id in self.active_downloads:
             download_request = self.active_downloads[download_id]
@@ -286,7 +289,7 @@ class NchantdDownloadManager(pyqt.QObject):
                 self.downloads[download_id].status = NchantdDownloadStatus.PAUSED
                 self.downloadStatusChanged.emit(download_id, NchantdDownloadStatus.PAUSED)
 
-    def resume_download(self, download_id: str):
+    def resume_download(self, download_id: str) -> None:
         """Resume a paused download"""
         if download_id in self.active_downloads:
             download_request = self.active_downloads[download_id]
@@ -308,7 +311,7 @@ class NchantdDownloadManager(pyqt.QObject):
         """Get currently active downloads"""
         return [info for info in self.downloads.values() if info.status == NchantdDownloadStatus.IN_PROGRESS]
 
-    def clear_completed_downloads(self):
+    def clear_completed_downloads(self) -> None:
         """Clear completed downloads from history"""
         completed_ids = [
             download_id
@@ -323,7 +326,7 @@ class NchantdDownloadManager(pyqt.QObject):
         self.save_download_history()
         logma.info(f"Cleared {len(completed_ids)} completed downloads")
 
-    def save_download_history(self):
+    def save_download_history(self) -> None:
         """Save download history to file"""
         try:
             history_data = []
@@ -339,7 +342,7 @@ class NchantdDownloadManager(pyqt.QObject):
         except Exception as e:
             logma.info(f"Error saving download history: {e}")
 
-    def load_download_history(self):
+    def load_download_history(self) -> None:
         """Load download history from file"""
         try:
             with open("download_history.json", "r") as f:
@@ -356,7 +359,7 @@ class NchantdDownloadManager(pyqt.QObject):
         except Exception as e:
             logma.info(f"Error loading download history: {e}")
 
-    def set_default_download_path(self, path: str):
+    def set_default_download_path(self, path: str) -> None:
         """Set default download directory"""
         if os.path.isdir(path):
             self.default_download_path = path
@@ -374,12 +377,14 @@ class DownloadItemWidget(pyqt.QWidget):
     openFileRequested = pyqt.Signal(str)  # download_id
     openFolderRequested = pyqt.Signal(str)  # download_id
 
-    def __init__(self, download_info: NchantdDownloadInfo, parent=None):
+    def __init__(self, download_info: NchantdDownloadInfo, parent=None) -> None:
         super().__init__(parent)
         self.download_info = download_info
         self.setup_ui()
+        logma.info(f"DownloadItemWidget initialized")
 
-    def setup_ui(self):
+
+    def setup_ui(self) -> None:
         """Setup the download item UI"""
         layout = pyqt.QVBoxLayout(self)
 
@@ -448,7 +453,7 @@ class DownloadItemWidget(pyqt.QWidget):
         else:
             return f"{self.download_info.formatted_received} / {self.download_info.formatted_size}"
 
-    def update_progress(self, received: int, total: int):
+    def update_progress(self, received: int, total: int) -> None:
         """Update progress display"""
         self.download_info.received_bytes = received
         self.download_info.total_bytes = total
@@ -457,7 +462,7 @@ class DownloadItemWidget(pyqt.QWidget):
         self.progress_bar.setValue(progress)
         self.info_label.setText(self._get_info_text())
 
-    def update_status(self, status: NchantdDownloadStatus):
+    def update_status(self, status: NchantdDownloadStatus) -> None:
         """Update download status"""
         self.download_info.status = status
         self.status_label.setText(status.value.title())
@@ -469,15 +474,17 @@ class DownloadItemWidget(pyqt.QWidget):
 class DownloadsDialog(pyqt.QDialog):
     """Dialog showing all downloads"""
 
-    def __init__(self, download_manager: NchantdDownloadManager, parent=None):
+    def __init__(self, download_manager: NchantdDownloadManager, parent=None) -> None:
         super().__init__(parent)
         self.download_manager = download_manager
         self.download_widgets: Dict[str, DownloadItemWidget] = {}
         self.setup_ui()
         self.setup_connections()
         self.load_downloads()
+        logma.info(f"DownloadsDialog initialized")
 
-    def setup_ui(self):
+
+    def setup_ui(self) -> None:
         """Setup downloads dialog UI"""
         self.setWindowTitle("Downloads")
         self.setModal(False)
@@ -515,7 +522,7 @@ class DownloadsDialog(pyqt.QDialog):
         scroll_area.setWidget(self.downloads_widget)
         layout.addWidget(scroll_area, 1)
 
-    def setup_connections(self):
+    def setup_connections(self) -> None:
         """Setup signal connections"""
         # Download manager signals
         self.download_manager.downloadStarted.connect(self.add_download)
@@ -528,13 +535,13 @@ class DownloadsDialog(pyqt.QDialog):
         self.resume_all_button.clicked.connect(self.resume_all_downloads)
         self.settings_button.clicked.connect(self.show_settings)
 
-    def load_downloads(self):
+    def load_downloads(self) -> None:
         """Load existing downloads"""
         for download_info in self.download_manager.get_all_downloads():
             self.add_download(download_info)
 
     @pyqt.Slot(NchantdDownloadInfo)
-    def add_download(self, download_info: NchantdDownloadInfo):
+    def add_download(self, download_info: NchantdDownloadInfo) -> None:
         """Add a new download to the UI"""
         if download_info.id in self.download_widgets:
             return
@@ -553,19 +560,19 @@ class DownloadsDialog(pyqt.QDialog):
         self.download_widgets[download_info.id] = download_widget
 
     @pyqt.Slot(str, int, int)
-    def update_download_progress(self, download_id: str, received: int, total: int):
+    def update_download_progress(self, download_id: str, received: int, total: int) -> None:
         """Update download progress in UI"""
         if download_id in self.download_widgets:
             self.download_widgets[download_id].update_progress(received, total)
 
     @pyqt.Slot(str, NchantdDownloadStatus)
-    def update_download_status(self, download_id: str, status: NchantdDownloadStatus):
+    def update_download_status(self, download_id: str, status: NchantdDownloadStatus) -> None:
         """Update download status in UI"""
         if download_id in self.download_widgets:
             self.download_widgets[download_id].update_status(status)
 
     @pyqt.Slot(str)
-    def open_file(self, download_id: str):
+    def open_file(self, download_id: str) -> None:
         """Open downloaded file"""
         download_info = self.download_manager.get_download_info(download_id)
         if download_info and os.path.exists(download_info.save_path):
@@ -573,7 +580,7 @@ class DownloadsDialog(pyqt.QDialog):
             # For Linux/Mac: subprocess.run(['xdg-open', download_info.save_path])
 
     @pyqt.Slot(str)
-    def open_folder(self, download_id: str):
+    def open_folder(self, download_id: str) -> None:
         """Open folder containing downloaded file"""
         download_info = self.download_manager.get_download_info(download_id)
         if download_info:
@@ -582,7 +589,7 @@ class DownloadsDialog(pyqt.QDialog):
             # For Linux/Mac: subprocess.run(['xdg-open', folder_path])
 
     @pyqt.Slot()
-    def clear_completed_downloads(self):
+    def clear_completed_downloads(self) -> None:
         """Clear completed downloads"""
         # Remove widgets for completed downloads
         for download_id, download_info in list(self.download_manager.downloads.items()):
@@ -601,21 +608,21 @@ class DownloadsDialog(pyqt.QDialog):
         self.download_manager.clear_completed_downloads()
 
     @pyqt.Slot()
-    def pause_all_downloads(self):
+    def pause_all_downloads(self) -> None:
         """Pause all active downloads"""
         for download_id, download_info in self.download_manager.downloads.items():
             if download_info.status == NchantdDownloadStatus.IN_PROGRESS:
                 self.download_manager.pause_download(download_id)
 
     @pyqt.Slot()
-    def resume_all_downloads(self):
+    def resume_all_downloads(self) -> None:
         """Resume all paused downloads"""
         for download_id, download_info in self.download_manager.downloads.items():
             if download_info.status == NchantdDownloadStatus.PAUSED:
                 self.download_manager.resume_download(download_id)
 
     @pyqt.Slot()
-    def show_settings(self):
+    def show_settings(self) -> None:
         """Show download settings"""
         # Could implement settings dialog here
         path = pyqt.QFileDialog.getExistingDirectory(
@@ -631,11 +638,11 @@ class CodecDownloadThread(pyqt.QThread):
     finished = pyqt.Signal(bool, str)  # success, message
     progress = pyqt.Signal(str)  # status message
 
-    def __init__(self, downloader: OpenH264Downloader):
+    def __init__(self, downloader: OpenH264Downloader) -> None:
         super().__init__()
         self.downloader = downloader
 
-    def run(self):
+    def run(self) -> None:
         try:
             self.progress.emit("Downloading OpenH264 codec...")
             library_path = self.downloader.download_and_extract()
@@ -649,7 +656,7 @@ class CodecDownloadThread(pyqt.QThread):
 class NchantdDownload(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("Nchantd")
@@ -658,17 +665,17 @@ class NchantdDownload(NchantdWidget):
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -678,7 +685,7 @@ class NchantdDownload(NchantdWidget):
 class NchantdDownloadsManagerSigil(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdDownloadsManager")
@@ -688,19 +695,21 @@ class NchantdDownloadsManagerSigil(NchantdWidget):
         super().__init__(self.parent, self.config)
         self.download_list = None
         self.clear_button = None
+        logma.info(f"NchantdDownloadsManagerSigil initialized")
 
-    def add_download(self, download):
+
+    def add_download(self, download) -> Any:
         """"""
         self.download_list.append(download)
         return self
 
-    def initModel(self, days_of_history=10):
+    def initModel(self, days_of_history=10) -> Any:
         """"""
         super().initModel()
         [self.add_download(x) for x in self.app.model.downloads.history(days_of_history)]
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         self.download_list = NchantdListWidget(self, self.config)
@@ -711,7 +720,7 @@ class NchantdDownloadsManagerSigil(NchantdWidget):
         self.layout.addWidget(self.clear_button)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -721,7 +730,7 @@ class NchantdDownloadsManagerSigil(NchantdWidget):
 class NchantdDownloadNew(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("Nchantd")
@@ -730,17 +739,17 @@ class NchantdDownloadNew(NchantdWidget):
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

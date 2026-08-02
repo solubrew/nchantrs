@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -42,7 +44,7 @@ pxcfg = join(here, "_data_", "timelines.yaml")
 class NchantdHistory(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdHistory")
@@ -54,13 +56,15 @@ class NchantdHistory(NchantdWidget):
         self.start_date_selector = None
         self.end_date_selector = None
         self.populate_history = None
+        logma.info(f"NchantdHistory initialized")
 
-    def initModel(self):
+
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """Show an overview of the history within this Nchantd Fapplication"""
         super().initView()
         cfg = {}
@@ -77,21 +81,21 @@ class NchantdHistory(NchantdWidget):
         self.update_history_table()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def run_populate_history(self):
+    def run_populate_history(self) -> Any:
         """"""
         return self
 
-    def update_history_table(self):
+    def update_history_table(self) -> Any:
         """"""
         return self
 
-    def on_focus(self):
+    def on_focus(self) -> Any:
         """"""
         # add a datetime stamp
         self.editor.setText(dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S"))
@@ -136,7 +140,7 @@ class NchantdHistory(NchantdWidget):
     #         notes = data[data["file_name_txt"] == f"{datetime.strptime('%Y%m%d')}-journal"]
     #     return notes
     #
-    def store_journal(self):
+    def store_journal(self) -> Any:
         """"""
         return self
         today = dt.datetime.now().strftime("%Y%m%d")
@@ -171,7 +175,7 @@ class NchantdHistory(NchantdWidget):
 class NchantdRecentChanges(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdRecentChanges")
@@ -181,12 +185,12 @@ class NchantdRecentChanges(NchantdWidget):
         self.config.override(cfg)
         self.change_group = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         self.change_group = NchantdVScrollGroupBox()
@@ -194,7 +198,7 @@ class NchantdRecentChanges(NchantdWidget):
         self.layout.addLayout(self.change_group.layout)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -204,26 +208,26 @@ class NchantdRecentChanges(NchantdWidget):
 class NchantdTodayOverview(NchantdTab):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdTodayOverviewTab").override(cfg))
         self.tasks = None
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         # self.tasks = self.app.model.store.get_tasks("TODAY")
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
 
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -233,7 +237,7 @@ class NchantdTodayOverview(NchantdTab):
 class NchantdTODOCalendar(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("Nchantd")
@@ -242,12 +246,12 @@ class NchantdTODOCalendar(NchantdWidget):
         super().__init__(self)
         self.config.override(cfg)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         self.day_calendar = NchantdDayCalendar().initWidget()
@@ -256,7 +260,7 @@ class NchantdTODOCalendar(NchantdWidget):
         self.layout.addWidget(self.task_entry)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -266,7 +270,7 @@ class NchantdTODOCalendar(NchantdWidget):
 class NchantdTimeTrackerForm(NchantdWidget):
     """ """
 
-    def __init__(self, parent=None, cfg={}, panestyle=None):
+    def __init__(self, parent=None, cfg={}, panestyle=None) -> None:
         """ """
         self.parent = parent
         logma.info("CFG", cfg)
@@ -277,20 +281,20 @@ class NchantdTimeTrackerForm(NchantdWidget):
         logma.info(f"Config {self.config.dikt}")
         super(NchantdTimeTrackerForm, self).__init__(parent, self.config, panestyle)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """ """
         logma.info(f"CONFIG {self.config.dikt}")
         # self.name = self.config.dikt['tab']['name']
         # self.data = j.loads(self.config.dikt['tab']['widgdata'])
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """ """
         self.buildPane()
         # self.setText(self.data['text'])
         return self
 
-    def buildPane(self, minutes=5, hour_inc=1, start_tm="08:00", sections=10):
+    def buildPane(self, minutes=5, hour_inc=1, start_tm="08:00", sections=10) -> Any:
         """ """
         start_tm = time.strptime(start_tm, "%H:%M")
         logma.info(f"Start TM {start_tm} {type(start_tm)}")
@@ -342,10 +346,10 @@ class NchantdTimeTrackerForm(NchantdWidget):
         self.setLayout(layout)
         return self
 
-    def onEnterEvent(self):
+    def onEnterEvent(self) -> None:
         """Run a save of the doc editor data to the database"""
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event) -> Any:
         """ """
         editor.mousePressEventLog(event)
         super().mousePressEvent(event)
@@ -355,7 +359,7 @@ class NchantdTimeTrackerForm(NchantdWidget):
 class NchantdTimeTrackerFormFast(NchantdWidget):
     """ """
 
-    def __init__(self, parent=None, cfg={}, panestyle=None):
+    def __init__(self, parent=None, cfg={}, panestyle=None) -> None:
         """ """
         super().__init__(parent, cfg, panestyle)
         self.parent = parent
@@ -366,20 +370,20 @@ class NchantdTimeTrackerFormFast(NchantdWidget):
         self.config.override(cfg)
         logma.info(f"Config {self.config.dikt}")
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """ """
         logma.info(f"CONFIG {self.config.dikt}")
         # self.name = self.config.dikt['tab']['name']
         # self.data = j.loads(self.config.dikt['tab']['widgdata'])
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """ """
         self.buildPane()
         # self.setText(self.data['text'])
         return self
 
-    def addTimeBox(self, hour, minute):
+    def addTimeBox(self, hour, minute) -> Any:
         """"""
         hour = str(hour)
         if len(str(hour)) == 1:
@@ -389,12 +393,12 @@ class NchantdTimeTrackerFormFast(NchantdWidget):
         l1.addWidget(editors.NchantdEntryBox(self).initWidget(None))
         return l1
 
-    def calculateTime(self, section, rows, hour_inc):
+    def calculateTime(self, section, rows, hour_inc) -> Any:
         """"""
 
         return tm
 
-    def buildPane(self, minutes=5, hour_inc=1, start_tm="08:00", sections=10):
+    def buildPane(self, minutes=5, hour_inc=1, start_tm="08:00", sections=10) -> Any:
         """ """
         start_tm = time.strptime(start_tm, "%H:%M")
         logma.info(f"Start TM {start_tm} {type(start_tm)}")

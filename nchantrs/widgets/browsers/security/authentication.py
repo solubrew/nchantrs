@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -48,12 +50,12 @@ import os
 class CloudflareAwareWebEnginePage(QWebEnginePage):
     """Enhanced page that handles Cloudflare challenges"""
 
-    def __init__(self, profile, parent=None):
+    def __init__(self, profile, parent=None) -> None:
         super().__init__(profile, parent)
         self.challenge_timer = QTimer()
         self.challenge_timer.timeout.connect(self.check_for_challenges)
 
-    def javaScriptConsoleMessage(self, level, message, line_number, source_id):
+    def javaScriptConsoleMessage(self, level, message, line_number, source_id) -> None:
         """Override to handle Cloudflare-specific console messages"""
         # Filter out the preload warnings but log Cloudflare-specific issues
         if "challenge-platform" in message or "turnstile" in message.lower():
@@ -68,7 +70,7 @@ class CloudflareAwareWebEnginePage(QWebEnginePage):
             elif level == QWebEnginePage.JavaScriptConsoleMessageLevel.WarningMessageLevel:
                 logma.warning(f"JavaScript Warning: {message} (Line: {line_number}, Source: {source_id})")
 
-    def check_for_challenges(self):
+    def check_for_challenges(self) -> None:
         """Check for and handle Cloudflare challenges"""
         js_code = """
         (function() {
@@ -95,12 +97,12 @@ class CloudflareAwareWebEnginePage(QWebEnginePage):
 class PersistentGoogleSession:
     """Manage persistent Google login sessions with Cloudflare handling."""
 
-    def __init__(self, app_name="your_app"):
+    def __init__(self, app_name="your_app") -> None:
         self.app_name = app_name
         self.profile = None
         self.setup_persistent_profile()
 
-    def setup_persistent_profile(self):
+    def setup_persistent_profile(self) -> Any:
         """Create a persistent web profile for storing login data."""
         # Get app data directory
         data_path = QStandardPaths.writableLocation(QStandardPaths.StandardLocation.AppDataLocation)
@@ -129,7 +131,7 @@ class PersistentGoogleSession:
 
         return self.profile
 
-    def create_web_view(self, parent=None):
+    def create_web_view(self, parent=None) -> Any:
         """Create a QWebEngineView with persistent session and Cloudflare handling."""
         from PySide6.QtWebEngineWidgets import QWebEngineView
 
@@ -145,7 +147,7 @@ class PersistentGoogleSession:
 
         return web_view
 
-    def _handle_page_load(self, page, success):
+    def _handle_page_load(self, page, success) -> None:
         """Handle page load and check for Cloudflare challenges"""
         if success:
             # Start monitoring for challenges
@@ -230,7 +232,7 @@ class NchantdGoogleDriveWidget(QWidget):
     file_selected = pyqtSignal(str)  # Signal for file selection
     login_status_changed = pyqtSignal(bool)  # Signal for login status
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         super().__init__(parent)
         self.parent = parent
         self.config = cfg or {}
@@ -240,8 +242,10 @@ class NchantdGoogleDriveWidget(QWidget):
 
         self.setup_ui()
         self.setup_login_detection()
+        logma.info(f"NchantdGoogleDriveWidget initialized")
 
-    def setup_ui(self):
+
+    def setup_ui(self) -> None:
         """Setup the user interface."""
         layout = QVBoxLayout(self)
 
@@ -255,7 +259,7 @@ class NchantdGoogleDriveWidget(QWidget):
         # Load Google Drive
         self.load_google_drive()
 
-    def setup_google_specific_settings(self):
+    def setup_google_specific_settings(self) -> None:
         """Configure settings specifically for Google services."""
         profile = self.web_view.page().profile()
 
@@ -271,7 +275,7 @@ class NchantdGoogleDriveWidget(QWidget):
         # Handle new window requests (for OAuth popups)
         self.web_view.page().newWindowRequested.connect(self.handle_new_window)
 
-    def check_auth_completion(self, url, popup_dialog):
+    def check_auth_completion(self, url, popup_dialog) -> None:
         """Check if authentication is complete."""
         url_string = url.toString()
 
@@ -281,13 +285,13 @@ class NchantdGoogleDriveWidget(QWidget):
             # Refresh main view
             self.web_view.reload()
 
-    def setup_login_detection(self):
+    def setup_login_detection(self) -> None:
         """Setup automatic login status detection."""
         self.login_check_timer = QTimer()
         self.login_check_timer.timeout.connect(self.check_login_status)
         self.login_check_timer.start(5000)  # Check every 5 seconds
 
-    def check_login_status(self):
+    def check_login_status(self) -> None:
         """Check if user is logged into Google."""
         js_code = """
         (function() {
@@ -308,7 +312,7 @@ class NchantdGoogleDriveWidget(QWidget):
 
         self.web_view.page().runJavaScript(js_code, self.handle_login_status)
 
-    def handle_login_status(self, result):
+    def handle_login_status(self, result) -> None:
         """Handle login status check result."""
         if result and isinstance(result, dict):
             is_logged_in = result.get("logged_in", False)
@@ -319,17 +323,17 @@ class NchantdGoogleDriveWidget(QWidget):
             else:
                 logger.info("User not logged in to Google")
 
-    def load_google_drive(self):
+    def load_google_drive(self) -> None:
         """Load Google Drive."""
         drive_url = "https://drive.google.com"
         self.web_view.load(QUrl(drive_url))
 
-    def force_login(self):
+    def force_login(self) -> None:
         """Force Google login page."""
         login_url = "https://accounts.google.com/signin"
         self.web_view.load(QUrl(login_url))
 
-    def clear_session(self):
+    def clear_session(self) -> None:
         """Clear stored session data."""
         profile = self.web_view.page().profile()
         profile.clearHttpCache()
@@ -340,12 +344,12 @@ class NchantdGoogleDriveWidget(QWidget):
 
         logger.info("Session data cleared")
 
-    def get_cookies(self):
+    def get_cookies(self) -> None:
         """Get current cookies (for debugging)."""
         profile = self.web_view.page().profile()
         cookie_store = profile.cookieStore()
 
-        def cookie_added(cookie):
+        def cookie_added(cookie) -> None:
             logger.debug("Cookie: %s = %s", cookie.name(), cookie.value())
 
         cookie_store.cookieAdded.connect(cookie_added)

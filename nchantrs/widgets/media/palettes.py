@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -31,6 +33,7 @@ from nchantrs.widgets.widgets import NchantdWidget
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")
@@ -39,22 +42,22 @@ pxcfg = join(here, "_data_", ".yaml")
 class NchantdPaletteTable(NchantdTableWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdPaletteTable").override(cfg))
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -64,7 +67,7 @@ class NchantdPaletteTable(NchantdTableWidget):
 class NchantdPalette(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdPalette")
@@ -77,11 +80,11 @@ class NchantdPalette(NchantdWidget):
         self.image = None
         self.color_table = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         cfg = {"size": ["auto", 600]}
@@ -107,7 +110,7 @@ class NchantdPalette(NchantdWidget):
         self.layout.addLayout(bottom_layout)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

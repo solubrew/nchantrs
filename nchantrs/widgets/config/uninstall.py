@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -30,6 +32,7 @@ from nchantrs.widgets.config.settings import NchantdSettingsWidget
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")
@@ -38,7 +41,7 @@ pxcfg = join(here, "_data_", ".yaml")
 class NchantdSecuritySettings(NchantdSettingsWidget):
     """"""
 
-    def __init__(self, parent, cfg=None):
+    def __init__(self, parent, cfg=None) -> None:
         """"""
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdSecuritySettingsTab"))
@@ -57,13 +60,15 @@ class NchantdSecuritySettings(NchantdSettingsWidget):
         self.password_group = None
         self.old_password = None
         self.new_password = None
+        logma.info(f"NchantdSecuritySettings initialized")
 
-    def initModel(self, cfg=None):
+
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         if cfg is None:
             cfg = {}
@@ -199,49 +204,49 @@ class NchantdSecuritySettings(NchantdSettingsWidget):
         self.set_size()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def cmd_on_change_user_select(self, event=None, *args, **kwargs):
+    def cmd_on_change_user_select(self, event=None, *args, **kwargs) -> Any:
         """"""
         return self
 
-    def cmd_on_change_enable_lock_screen(self, event=None, *args, **kwargs):
+    def cmd_on_change_enable_lock_screen(self, event=None, *args, **kwargs) -> Any:
         """"""
         return self
 
-    def cmd_on_change_enable_lock_screen_pin(self, event=None, *args, **kwargs):
+    def cmd_on_change_enable_lock_screen_pin(self, event=None, *args, **kwargs) -> Any:
         """"""
         return self
 
-    def cmd_on_change_lock_screen_timeout(self, event=None, *args, **kwargs):
+    def cmd_on_change_lock_screen_timeout(self, event=None, *args, **kwargs) -> Any:
         """"""
         return self
 
-    def cmd_on_change_lock_screen_pin_edit(self, event=None, *args, **kwargs):
+    def cmd_on_change_lock_screen_pin_edit(self, event=None, *args, **kwargs) -> Any:
         """"""
         return self
 
-    def cmd_on_old_password_edit(self, event=None, *args, **kwargs):
+    def cmd_on_old_password_edit(self, event=None, *args, **kwargs) -> Any:
         """"""
         return self
 
-    def cmd_on_new_password_edit(self, event=None, *args, **kwargs):
+    def cmd_on_new_password_edit(self, event=None, *args, **kwargs) -> Any:
         """"""
         return self
 
-    def cmd_on_new_password_cofirm_edit(self, event=None, *args, **kwargs):
+    def cmd_on_new_password_cofirm_edit(self, event=None, *args, **kwargs) -> Any:
         """"""
         return self
 
-    def get_settings(self):
+    def get_settings(self) -> Any:
         """"""
         return super().get_settings("security")
 
-    def save(self):
+    def save(self) -> Any:
         """"""
         super().save()
         if self.old_password is not None:

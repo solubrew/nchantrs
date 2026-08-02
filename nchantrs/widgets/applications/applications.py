@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any, List, Tuple, Union
+
 """#																			||
 ---  #																			||
 <(META)>: '3a0f63bb-96be-4c2f-bd5b-31fc64fd00b3' #								||
@@ -91,7 +93,7 @@ class NchantdPanties(pyqt.QApplication):
 
     config = None
 
-    def __init__(self, name, instance=None, parent=None, cfg=None, args=None, log_file=None):
+    def __init__(self, name, instance=None, parent=None, cfg=None, args=None, log_file=None) -> None:
         """
         Initializes an instance of the NchantdPanties class.
 
@@ -143,13 +145,13 @@ class NchantdPanties(pyqt.QApplication):
         self.version = None
         self.context_menu = None
 
-    def initApp(self, cfg=None):
+    def initApp(self, cfg=None) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def initModel(self, reset=None):
+    def initModel(self, reset=None) -> Any:
         """
         :return:
         """
@@ -158,7 +160,7 @@ class NchantdPanties(pyqt.QApplication):
         self.model.initModel(self.reset)  # ||
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """
         :return:
         """
@@ -167,18 +169,18 @@ class NchantdPanties(pyqt.QApplication):
         self.model.store.store_app_event("initialized", "application view initialized")
         return self
 
-    def initialize_configuration(self):
+    def initialize_configuration(self) -> None:
         """Top level Applications will implement this method in order to preemptively modify any base configurations
         this will also be the code used to establisht the application bootstrapping configs
         """
 
-    def initialize_context_menu(self):
+    def initialize_context_menu(self) -> Any:
         """"""
         cfg = {"actions": self.config.dikt.get("menus", {}).get("actions", [{"action": "No Context", "handler": None}])}
         self.context_menu = NchantdContextMenu(self, cfg).initWidget()
         return self
 
-    def launch_dialog(self, dialog_name, name_override=None):
+    def launch_dialog(self, dialog_name, name_override=None) -> Any:
         """"""
         name = dialog_name
         if name_override is not None:
@@ -188,7 +190,7 @@ class NchantdPanties(pyqt.QApplication):
         self.dialogs[name].initWidget()
         return self
 
-    def __getstate__(self):
+    def __getstate__(self) -> Any:
         """"""
         state = self.__dict__.copy()
         # Remove the unpicklable entries.
@@ -196,7 +198,7 @@ class NchantdPanties(pyqt.QApplication):
             del state["unpicklable_attribute"]
         return state
 
-    def __setstate__(self, state):
+    def __setstate__(self, state) -> None:
         """"""
 
 
@@ -216,7 +218,7 @@ class NchantdCloak(NchantdPanties):  # ||
         dialogs (dict): The dictionary of dialogs.
     """
 
-    def __init__(self, name, instance=None, parent=None, cfg=None, args=None):
+    def __init__(self, name, instance=None, parent=None, cfg=None, args=None) -> None:
         """Initialize the application and the database then update all sink
         data tables from the established source endpoints"""
         super().__init__(name, instance, parent)
@@ -226,7 +228,7 @@ class NchantdCloak(NchantdPanties):  # ||
         self.view = NchantdCloakView(self)
         self.dbupdate = NchantdDBUpdate(self)
 
-    def initApp(self, cfg=None):  # ||
+    def initApp(self, cfg=None) -> Any:  # ||
         """Initialize UI setting the main application layout and building
         landing widgets
         Load Pane based on the selection in the navigation tree"""
@@ -263,7 +265,7 @@ class NchantdCloak(NchantdPanties):  # ||
                     self.comms_manager.request_restart()
         return self
 
-    def initModel(self, reset=None):
+    def initModel(self, reset=None) -> Any:
         """"""
         super().initModel(reset)
         # TRY NOT TO USE ENVIRONMENT VARIABLES FOR ANYTHING THAT IS NOT A CONFIGURATION FILE
@@ -271,7 +273,7 @@ class NchantdCloak(NchantdPanties):  # ||
         # self.set_environment_variables(join(expanduser("~"), ".local", "share", "nchantdoffice"))
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """
         Initializes the view.
 
@@ -281,7 +283,7 @@ class NchantdCloak(NchantdPanties):  # ||
         self.main.setup_shortcuts()
         return self
 
-    def init_managers(self):
+    def init_managers(self) -> Any:
         """"""
         self.has_agents = False
         if self.has_agents:
@@ -306,15 +308,15 @@ class NchantdCloak(NchantdPanties):  # ||
             # self.library_manager.initManager()
         return self
 
-    def get_current_version(self):
+    def get_current_version(self) -> Any:
         """"""
         return self.model.get_current_version()
 
-    def run_on_launch(self):
+    def run_on_launch(self) -> None:
         """"""
-        #TODO implement method
+        # NOTE implement method
 
-    def set_initial_state(self):
+    def set_initial_state(self) -> Any:
         """"""
         # logma.info(f"Application Initial Action")
         self.run_on_launch()
@@ -328,14 +330,14 @@ class NchantdCloak(NchantdPanties):  # ||
 
 
 
-    def set_version(self, version):
+    def set_version(self, version) -> Any:
         """"""
         if version is None:
             version = "0.0.1.0.1.0"
         self.version = version
         return self
 
-    def set_environment_variables(self, library_path):
+    def set_environment_variables(self, library_path) -> None:
         """Set environment variables for Chromium WebEngine."""
         if isinstance(library_path, str):
             library_path = Path(library_path)
@@ -350,7 +352,7 @@ class NchantdCloak(NchantdPanties):  # ||
         logma.info(f"ozone_platform: {ozone_platform}")
         # logma.info(f"Library Parent {library_path.parent}")
 
-    def _build_chromium_flags(self, library_path):
+    def _build_chromium_flags(self, library_path) -> List[Any]:
         """Build Chromium flags based on platform and configuration."""
         codec_path_drm, codec_path_h264 = self._get_codec_paths()
         cache_name = "cache"  # Extract variable for cache directory name
@@ -444,7 +446,7 @@ class NchantdCloak(NchantdPanties):  # ||
         # Remove any empty flags and duplicates
         return list(filter(None, list(dict.fromkeys(base_flags))))
 
-    def _detect_display_system(self):
+    def _detect_display_system(self) -> Any:
         """Detect the appropriate display system for Linux."""
         if hasattr(self, "_display_system"):
             return self._display_system
@@ -474,12 +476,12 @@ class NchantdCloak(NchantdPanties):  # ||
 
         return self._display_system
 
-    def _should_use_ozone(self):
+    def _should_use_ozone(self) -> bool:
         """Determine if Ozone platform should be used."""
         display_system = self._detect_display_system()
         return display_system == "wayland"
 
-    def _needs_sandbox_relaxation(self):
+    def _needs_sandbox_relaxation(self) -> Union[Any, bool]:
         """Check if sandbox needs to be relaxed for codec access."""
         # Only relax sandbox if absolutely necessary
         # This could check for specific system configurations that require it
@@ -490,7 +492,7 @@ class NchantdCloak(NchantdPanties):  # ||
         except Exception:
             return True  # If we can't check, err on the side of relaxation
 
-    def _get_codec_paths(self):
+    def _get_codec_paths(self) -> Tuple[str, str]:
         """Get platform-specific codec paths for runtime-downloaded OpenH264."""
 
         if self.system == "linux":
@@ -534,11 +536,11 @@ class NchantdCloak(NchantdPanties):  # ||
 
         return codec_path_drm, codec_path_h264
 
-    def _is_debug_mode(self):
+    def _is_debug_mode(self) -> Any:
         """Check if application is in debug mode."""
         return getattr(self, "debug_mode", False) or self.config.dikt.get("debug", False)
 
-    def _configure_application_security(self):
+    def _configure_application_security(self) -> None:
         """Configure application-level security settings"""
         # Set application attributes for security
         if self.security_manager.os_type == OSType.WINDOWS:
@@ -547,7 +549,7 @@ class NchantdCloak(NchantdPanties):  # ||
         # Log security configuration
         self._log_security_status()
 
-    def _log_security_status(self):
+    def _log_security_status(self) -> None:
         """Log the current security configuration"""
         config = self.security_manager.security_config
 
@@ -564,7 +566,7 @@ class NchantdCloak(NchantdPanties):  # ||
         logma.critical(f"Process Isolation: {capabilities['process_isolation']}")
         logma.critical(f"Memory Protection: {capabilities['memory_protection']}")
         logma.critical(f"Network Sandbox: {capabilities['network_sandbox']}")
-    def _select_home_node(self):
+    def _select_home_node(self) -> Any:
         """Select the Home node after startup is complete"""
         logma.info("=== Selecting Home node after startup ===")
         try:
@@ -587,7 +589,7 @@ class NchantdCloak(NchantdPanties):  # ||
 class NchantdMainWindow(pyqt.QMainWindow):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         super().__init__()
@@ -596,32 +598,32 @@ class NchantdMainWindow(pyqt.QMainWindow):
             self.config.override(parent.config)
         self.config.override(cfg)
 
-    def closeEvent(self, event):
+    def closeEvent(self, event) -> Any:
         """"""
         logma.info(f"Close {event}")
         # self.parent.model.auto_save()
         self.parent.model.maintain_application()
         return self
 
-    def enterEvent(self, event):
+    def enterEvent(self, event) -> Any:
         """"""
         # logma.info(f"Enter Event {event}")
         super().enterEvent(event)
         return self
 
-    def focusInEvent(self, event):
+    def focusInEvent(self, event) -> Any:
         """"""
         logma.info(f"Focus In Event {event}")
         super().focusInEvent(event)
         return self
 
-    def focusOutEvent(self, event):
+    def focusOutEvent(self, event) -> Any:
         """"""
         logma.info(f"Focus Out Event {event}")
         super().focusOutEvent(event)
         return self
 
-    def eventFilter(self, watched, event):
+    def eventFilter(self, watched, event) -> Any:
         """"""
         logma.info(f"Watched {watched} Event {event}")
         # Check if the application loses or gains focus
@@ -648,85 +650,85 @@ class NchantdMainWindow(pyqt.QMainWindow):
                 action()
         return super().eventFilter(watched, event)
 
-    def hideEvent(self, event):
+    def hideEvent(self, event) -> Any:
         """"""
         logma.info(f"Hide Event {event}")
         super().hideEvent(event)
         return self
 
-    def keyPressEvent(self, event):
+    def keyPressEvent(self, event) -> Any:
         """"""
         logma.info(f"Key Press Event {event}")
         super().keyPressEvent(event)
         return self
 
-    def keyReleaseEvent(self, event):
+    def keyReleaseEvent(self, event) -> Any:
         """"""
         logma.info(f"Key Release Event {event}")
         super().keyReleaseEvent(event)
         return self
 
-    def leaveEvent(self, event):
+    def leaveEvent(self, event) -> Any:
         """"""
         # logma.info(f"Leave Event {event}")
         super().leaveEvent(event)
         return self
 
-    def mouseDoubleClickEvent(self, event):
+    def mouseDoubleClickEvent(self, event) -> Any:
         """"""
         logma.info(f"Mouse Double Click Event {event}")
         super().mouseDoubleClickEvent(event)
         return self
 
-    def mouseMoveEvent(self, event):
+    def mouseMoveEvent(self, event) -> Any:
         """"""
         # logma.info(f"Mouse Move Event {event}")
         super().mouseMoveEvent(event)
         return self
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event) -> Any:
         """"""
         logma.info(f"Mouse Press Event {event}")
         super().mousePressEvent(event)
         return self
 
-    def mouseReleaseEvent(self, event):
+    def mouseReleaseEvent(self, event) -> Any:
         """"""
         logma.info(f"Mouse Release Event {event}")
         super().mouseReleaseEvent(event)
         return self
 
-    def moveEvent(self, event: pyqt.QMoveEvent):
+    def moveEvent(self, event: pyqt.QMoveEvent) -> Any:
         """"""
         logma.info(f"Application Moved  {event.pos()}")
         self.parent.view.on_window_move(event)
         return self
 
-    def paintEvent(self, event):
+    def paintEvent(self, event) -> Any:
         """"""
         # logma.info(f"Paint Event {event}")
         super().paintEvent(event)
         return self
 
-    def resizeEvent(self, event: pyqt.QResizeEvent):
+    def resizeEvent(self, event: pyqt.QResizeEvent) -> Any:
         """"""
         logma.info(f"Application Resized  {event.size()}")
         super().resizeEvent(event)
         return self
 
-    def cmd_help(self):
+    def cmd_help(self) -> None:
         """"""
         pyqt.QMessageBox.information(self, "Help", "This is a help dialog displayed using Ctrl+H.")
 
-    def cmd_save(self):
+    def cmd_save(self) -> None:
         """"""
         self.parent.model.save()
 
-    def cmd_quit(self):
+    def cmd_quit(self) -> None:
         """"""
         pyqt.QApplication.quit()
 
-    def setup_shortcuts(self):
+    def setup_shortcuts(self) -> None:
         """"""
         # Save shortcut
         save_shortcut = pyqt.QShortcut(pyqt.QKeySequence("Ctrl+S"), self)
@@ -740,11 +742,11 @@ class NchantdMainWindow(pyqt.QMainWindow):
         help_shortcut = pyqt.QShortcut(pyqt.QKeySequence("Ctrl+H"), self)
         help_shortcut.activated.connect(self.cmd_help)
 
-    def showEvent(self, event):
+    def showEvent(self, event) -> None:
         """"""
 
 
-def detect_linux_display_system():
+def detect_linux_display_system() -> str:
     """Detect the appropriate display system for Linux."""
     # Check environment variables first
     if environ.get("WAYLAND_DISPLAY"):
@@ -772,7 +774,7 @@ def detect_linux_display_system():
     return "x11"
 
 
-def diagnose_display_system():
+def diagnose_display_system() -> None:
     """Diagnose the current display system."""
     logma.critical("=== Display System Diagnostic ===")
 

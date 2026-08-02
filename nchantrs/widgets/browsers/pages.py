@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any, Optional
+
 """
 ---
 <(META)>:
@@ -62,11 +64,11 @@ class _RedirectCapturePage(pyqt.QWebEnginePage):
     net effect is a single in-place navigation.
     """
 
-    def __init__(self, target_page):
+    def __init__(self, target_page) -> None:
         super().__init__(target_page.profile(), target_page)
         self._target_page = target_page
 
-    def acceptNavigationRequest(self, url, _type, _is_main_frame):
+    def acceptNavigationRequest(self, url, _type, _is_main_frame) -> bool:
         try:
             logma.info(f"[webpage] redirect-capture -> loading {url.toString()} in current view")
             self._target_page.setUrl(url)
@@ -88,11 +90,11 @@ class _NewWindowCapturePage(pyqt.QWebEnginePage):
     do with the URL.
     """
 
-    def __init__(self, source_page, on_url):
+    def __init__(self, source_page, on_url) -> None:
         super().__init__(source_page.profile(), source_page)
         self._on_url = on_url
 
-    def acceptNavigationRequest(self, url, _type, _is_main_frame):
+    def acceptNavigationRequest(self, url, _type, _is_main_frame) -> bool:
         try:
             logma.info(f"[webpage] new-window capture -> {url.toString()}")
             self._on_url(url)
@@ -120,10 +122,10 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
     pageLoadFinished = pyqt.Signal(pyqt.QUrl, bool)  # url, success
     create_certificate_error_dialog = pyqt.Signal(pyqt.QWebEngineCertificateError)
 
-    def __init__(self, profile=None, parent=None):
+    def __init__(self, profile=None, parent=None) -> None:
         super().__init__(profile, parent)
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """Initialize the model with audio and fullscreen settings."""
         super().initModel(cfg)
         # self.setAudioMuted(True)
@@ -131,28 +133,28 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
         # self.featurePermissionRequested.connect(self._on_feature_permission)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """Initialize view-specific connections."""
         # self.profile.downloadRequested.connect(self.handle_download)
         self.setup_page()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """Initialize the complete widget by setting up model and view."""
         self.initModel()
         self.initView()
         return self
 
-    def createStandardContextMenu(self):
+    def createStandardContextMenu(self) -> None:
         """"""
-        #TODO implement context menu need to combine any standard options built in to the QBrowser and the standards from
+        # NOTE implement context menu need to combine any standard options built in to the QBrowser and the standards from
         # NchantdDocument system
 
-    def hitTestContent(self, position):
+    def hitTestContent(self, position) -> None:
         """"""
-        #TODO implement hit test
+        # NOTE implement hit test
 
-    def setup_page(self):
+    def setup_page(self) -> None:
         """Initialize page settings and connections"""
         # Connect built-in signals
         self.loadStarted.connect(self.on_load_started)
@@ -163,7 +165,7 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
         # Handle feature permissions
         self.featurePermissionRequested.connect(self.handle_feature_permission)
 
-    def acceptNavigationRequest(self, url, navigation_type, is_main_frame):
+    def acceptNavigationRequest(self, url, navigation_type, is_main_frame) -> Any:
         """Override to handle navigation requests"""
         self._log_navigation_details(url, navigation_type, is_main_frame)
         # if request_type == self.NAVIGATION_TYPE_LINK_CLICKED:
@@ -188,14 +190,14 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
         return super().acceptNavigationRequest(url, navigation_type, is_main_frame)
 
     @pyqt.Slot()
-    def on_load_started(self):
+    def on_load_started(self) -> None:
         """Handle page load start"""
         current_url = self.url()
         logma.info(f"Page load started: {current_url.toString()}")
         self.pageLoadStarted.emit(current_url)
 
     @pyqt.Slot(bool)
-    def on_load_finished(self, success):
+    def on_load_finished(self, success) -> None:
         """Handle page load completion"""
         current_url = self.url()
         status = "successfully" if success else "with errors"
@@ -203,17 +205,17 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
         self.pageLoadFinished.emit(current_url, success)
 
     @pyqt.Slot(pyqt.QUrl)
-    def on_url_changed(self, url):
+    def on_url_changed(self, url) -> None:
         """Handle URL changes"""
         logma.info(f"URL changed to: {url.toString()}")
 
     @pyqt.Slot(str)
-    def on_title_changed(self, title):
+    def on_title_changed(self, title) -> None:
         """Handle title changes"""
         logma.info(f"Page title changed to: {title}")
 
     @pyqt.Slot(pyqt.QUrl, "QWebEnginePage::Feature")
-    def handle_feature_permission(self, url, feature):
+    def handle_feature_permission(self, url, feature) -> None:
         """Handle feature permission requests"""
         features = {
             pyqt.QWebEnginePage.Feature.Notifications: "Notifications",
@@ -230,13 +232,13 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
         # Grant or deny permission (customize as needed)
         self.setFeaturePermission(url, feature, pyqt.QWebEnginePage.PermissionPolicy.PermissionDeniedByUser)
 
-    def _log_navigation_details(self, url, request_type, is_main_frame):
+    def _log_navigation_details(self, url, request_type, is_main_frame) -> None:
         """Log navigation request details for debugging."""
         logma.info(f"Navigate to {url}")
         logma.info(f"Request Type: {request_type}")
         logma.info(f"Is Main Frame: {is_main_frame}")
 
-    def javaScriptConsoleMessage(self, level, message, line_number, source_id):
+    def javaScriptConsoleMessage(self, level, message, line_number, source_id) -> None:
         """Handle console messages from JavaScript"""
         if message.startswith("middleClick:"):
             url = message[len("middleClick:") :]
@@ -253,7 +255,7 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
         # logma.debug(f"JS Console message: {message}")
         super().javaScriptConsoleMessage(level, message, line_number, source_id)
 
-    def _resolve_new_window_target(self):
+    def _resolve_new_window_target(self) -> Optional[Any]:
         """Walk the owning view/widget chain for an object exposing
         ``open_new_window(url)``.
 
@@ -276,7 +278,7 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
             node = nxt
         return None
 
-    def createWindow(self, type_):
+    def createWindow(self, type_) -> Any:
         """Handle requests to create new windows (e.g. target="_blank").
 
         For app-style single-view embeds (the Jupyter notebook view), Jupyter
@@ -328,7 +330,7 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
         logma.info(f"[webpage] createWindow type={type_} in_place=False -> default handling")
         return super().createWindow(type_)
 
-    def _update_frame_state(self, is_main_frame):
+    def _update_frame_state(self, is_main_frame) -> None:
         """Update internal frame state based on navigation context."""
         if not is_main_frame:
             self.is_main_frame = False
@@ -337,11 +339,11 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
 class NchantdLocalServiceWebPage(NchantdWidgetMixin, pyqt.QWebEnginePage):
     """Custom web page optimized for local development"""
 
-    def __init__(self, profile=None, parent=None):
+    def __init__(self, profile=None, parent=None) -> None:
         super().__init__(profile, parent)
         self.setup_page()
 
-    def setup_page(self):
+    def setup_page(self) -> None:
         """Initialize page for local development"""
         # Enable development features
         self.settings().setAttribute(self.settings().WebAttribute.LocalContentCanAccessRemoteUrls, True)
@@ -353,7 +355,7 @@ class NchantdLocalServiceWebPage(NchantdWidgetMixin, pyqt.QWebEnginePage):
         self.featurePermissionRequested.connect(self.handle_feature_permission)
 
     @pyqt.Slot(bool)
-    def on_load_finished(self, success):
+    def on_load_finished(self, success) -> None:
         """Handle page load completion for local services"""
         if not success:
             current_url = self.url()
@@ -362,7 +364,7 @@ class NchantdLocalServiceWebPage(NchantdWidgetMixin, pyqt.QWebEnginePage):
                 # Could inject custom error page or retry logic
 
     @pyqt.Slot(pyqt.QUrl, "QWebEnginePage::Feature")
-    def handle_feature_permission(self, url, feature):
+    def handle_feature_permission(self, url, feature) -> None:
         """Handle feature permissions for local development"""
         if self._is_local_url(url):
             # Be more permissive with local services for development
@@ -382,11 +384,11 @@ from PySide6.QtCore import QUrl
 
 
 class CloudflareCompatiblePage(QWebEnginePage):
-    def __init__(self, profile=None, parent=None):
+    def __init__(self, profile=None, parent=None) -> None:
         super().__init__(profile, parent)
         self.setup_cloudflare_compatibility()
 
-    def setup_cloudflare_compatibility(self):
+    def setup_cloudflare_compatibility(self) -> None:
         """Configure page settings to better handle Cloudflare challenges"""
         settings = self.settings()
 
@@ -407,7 +409,7 @@ class CloudflareCompatiblePage(QWebEnginePage):
 
 
 class CloudflareCompatibleView(QWebEngineView):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         super().__init__(parent)
 
         # Create enhanced profile
@@ -420,7 +422,7 @@ class CloudflareCompatibleView(QWebEngineView):
         # Inject JavaScript to help with challenge detection
         self.page().loadFinished.connect(self.inject_cloudflare_helpers)
 
-    def create_enhanced_profile(self):
+    def create_enhanced_profile(self) -> str:
         """Create a profile that mimics a real browser more closely"""
         profile = QWebEngineProfile.defaultProfile()
 
@@ -435,7 +437,7 @@ class CloudflareCompatibleView(QWebEngineView):
 
         return profile
 
-    def inject_cloudflare_helpers(self, success):
+    def inject_cloudflare_helpers(self, success) -> None:
         """Inject JavaScript to help with Cloudflare challenge rendering"""
         if not success:
             return

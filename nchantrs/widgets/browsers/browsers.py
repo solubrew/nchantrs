@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Nchantrs@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """#																			||
 ---  #																			||
 <(META)>:  #																	||
@@ -58,7 +60,7 @@ class NchantdWebManager(NchantdWidgetMixin, pyqt.QObject):
     TODO: Proper implementation of engine reuse and background loading.
     """
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdWebManager")
@@ -69,26 +71,28 @@ class NchantdWebManager(NchantdWidgetMixin, pyqt.QObject):
         self.available_engines = deque([])
         self.active_engines = deque([])
         cfg = {}
+        logma.info(f"NchantdWebManager initialized")
+
         # self.link_library = PyfficeURLLibrary(cfg) TODO must be implemented in the NchatndOffice layer
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         self.create_engines()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def create_engines(self):
+    def create_engines(self) -> None:
         """"""
         wip_engine_size = 3
         while len(self.available_engines) < wip_engine_size:
@@ -97,7 +101,7 @@ class NchantdWebManager(NchantdWidgetMixin, pyqt.QObject):
             viewer.browser.setHtml("<html><body><h1>Loading Complete</h1></body></html>")
             self.available_engines.append(viewer)
 
-    def get_available_engine(self):
+    def get_available_engine(self) -> Any:
         """"""
         if not self.available_engines:
             self.create_engines()
@@ -106,10 +110,10 @@ class NchantdWebManager(NchantdWidgetMixin, pyqt.QObject):
         self.create_engines()
         return viewer
 
-    def kill_engine(self):
+    def kill_engine(self) -> None:
         """"""
 
-    def switch_to_web_app(self, engine):
+    def switch_to_web_app(self, engine) -> None:
         """
         TODO: change from browser/viewer to web app use the same engine but place it in a new Viewer Subclas
         :param engine:
@@ -129,7 +133,7 @@ class NchantdWebViewer(NchantdWidget):
     # dev_tools_requested = pyqt.Signal(pyqt.QWebEnginePage)
     # find_text_finished = pyqt.Signal(pyqt.QWebEngineFindTextResult)
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -166,19 +170,19 @@ class NchantdWebViewer(NchantdWidget):
         # Link tracking service
         self.link_service = LinkService(self)
 
-    def on_back_available(self, available):
+    def on_back_available(self, available) -> None:
         """Handle back availability change"""
         # Update the toolbar button state if it exists
         if hasattr(self, "toolbar") and hasattr(self.toolbar, "buttons"):
             # Logic to find and disable/enable the back button
             pass
 
-    def on_forward_available(self, available):
+    def on_forward_available(self, available) -> None:
         """Handle forward availability change"""
         # Update the toolbar button state if it exists
         pass
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         self.config.override(cfg)
         super().initModel()
@@ -190,7 +194,7 @@ class NchantdWebViewer(NchantdWidget):
         self.set_url_path(self.config.dikt.get("url", None))
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         # The web view is the single expanding document this container hosts,
         # so opt out of the base class' global AlignTop|AlignLeft (Fix A2).
@@ -227,7 +231,7 @@ class NchantdWebViewer(NchantdWidget):
         self._did_initial_load = False
         return self
 
-    def showEvent(self, event):
+    def showEvent(self, event) -> None:
         """Load on first show, once we have a surface (Fix B).
 
         Prefer the active URL over the configured default: an earlier
@@ -236,7 +240,7 @@ class NchantdWebViewer(NchantdWidget):
         clobber it back to about:blank.
         """
         super().showEvent(event)
-        #TODO this is not working correctly with the populate document function which connects to the historical
+        # NOTE this is not working correctly with the populate document function which connects to the historical
         # document saved for the browser
         # this doesn't seem to be having any impact
         try:
@@ -259,7 +263,7 @@ class NchantdWebViewer(NchantdWidget):
                 logma.info("[webviewer] first show -> no active_url, loading configured default")
                 self.cmd_goto_page()
 
-    def resizeEvent(self, event):
+    def resizeEvent(self, event) -> None:
         """Log resizes so a collapsed (zero-height) viewer is visible in the log."""
         super().resizeEvent(event)
         try:
@@ -272,16 +276,16 @@ class NchantdWebViewer(NchantdWidget):
         except Exception as e:
             logma.error(f"[webviewer] resizeEvent log failed: {e}")
 
-    def initWidget(self, url=None):
+    def initWidget(self, url=None) -> Any:
         """ """
         self.initModel(url)
         self.initView()
         return self
 
-    def add_profile(self, profile_name):
+    def add_profile(self, profile_name) -> Any:
         """"""
         if not self.has_pro:
-            # TODO create user warning system and tell them that only pro users can have multiple profiles
+            # NOTE create user warning system and tell them that only pro users can have multiple profiles
             cfg = {}
             pro_user_warning = NchantdNotificationSigil(self, cfg)
             pro_user_warning.initWidget()
@@ -289,7 +293,7 @@ class NchantdWebViewer(NchantdWidget):
         self.profiles[profile_name] = {"default": False, "profile": NchantdWebProfile(profile_name)}
         return self
 
-    def build_toolbar(self):
+    def build_toolbar(self) -> Any:
         """"""
         buttons = {}
 
@@ -315,7 +319,7 @@ class NchantdWebViewer(NchantdWidget):
         buttons[200] = "_skip"
         return buttons
 
-    def close_tab(self):
+    def close_tab(self) -> None:
         """"""
         super().close_tab()
 
@@ -331,7 +335,7 @@ class NchantdWebViewer(NchantdWidget):
     #     """Update URL input field when navigation occurs"""
     #     self.url_input.setText(url.toString())
 
-    def cmd_url_changed_handler(self, url, *args, **kwargs):
+    def cmd_url_changed_handler(self, url, *args, **kwargs) -> Any:
         """"""
         logma.info(f"URL Changed: {url}")
         if self.lock is True:
@@ -360,7 +364,7 @@ class NchantdWebViewer(NchantdWidget):
         self.save()
         return self
 
-    def cmd_goto_page(self, url=None, *args, **kwargs):
+    def cmd_goto_page(self, url=None, *args, **kwargs) -> Any:
         """"""
         logma.info(f"Goto Page {url}")
         if not isinstance(url, pyqt.QUrl) and not isinstance(url, str):
@@ -368,36 +372,36 @@ class NchantdWebViewer(NchantdWidget):
         self.goto_page(url)
         return self
 
-    def cmd_next_page(self, signal=None, *args, **kwargs):
+    def cmd_next_page(self, signal=None, *args, **kwargs) -> Any:
         """"""
         if self.browser.history().canGoForward():
             self.browser.forward()
         return self
 
-    def cmd_make_webapp(self, signal, *args, **kwargs):
+    def cmd_make_webapp(self, signal, *args, **kwargs) -> Any:
         """"""
         self.lock = True
         self.active_url.set_lock()
         # self.parent.switch_to_WebApp(self)
         return self
 
-    def cmd_refresh_page(self, signal=None, *args, **kwargs):
+    def cmd_refresh_page(self, signal=None, *args, **kwargs) -> Any:
         """"""
         self.cmd_goto_page()
         return self
 
-    def cmd_previous_page(self, signal=None, *args, **kwargs):
+    def cmd_previous_page(self, signal=None, *args, **kwargs) -> Any:
         """"""
         if self.browser.history().canGoBack():
             self.browser.back()
         return self
 
-    def enable_dark_mode(self):
+    def enable_dark_mode(self) -> None:
         """"""
         self.settings().setAttribute(pyqt.QWebEngineSettings.JavascriptEnabled, True)
         self.run_js_script(self.config.dikt["javascript"]["code"]["dark_mode"]["text"])
 
-    def enterFullscreenMode(self, request):
+    def enterFullscreenMode(self, request) -> None:
         """Enter fullscreen mode when requested by the web page."""
         if request.toggleOn():
             # Detach browser and enter fullscreen
@@ -409,7 +413,7 @@ class NchantdWebViewer(NchantdWidget):
             # Exit fullscreen
             self.exitFullscreen(request)
 
-    def exitFullscreen(self, request=None):
+    def exitFullscreen(self, request=None) -> None:
         """Exit fullscreen and reattach browser."""
         self.browser.setParent(self.centralWidget())
         self.browser.showNormal()
@@ -417,7 +421,7 @@ class NchantdWebViewer(NchantdWidget):
         if request:
             request.accept()
 
-    def get_url_history(self):
+    def get_url_history(self) -> Any:
         """
         get a datafraome of the historically visited urls with a smart system showing a combination of recent
         and most visited urls
@@ -426,7 +430,7 @@ class NchantdWebViewer(NchantdWidget):
         urls = []
         return urls
 
-    def get_important_urls(self):
+    def get_important_urls(self) -> Any:
         """"""
         urls = []
         if self.active_url is not None:
@@ -436,19 +440,19 @@ class NchantdWebViewer(NchantdWidget):
         urls = list(set(urls))
         return urls
 
-    def get_recent_urls(self):
+    def get_recent_urls(self) -> Any:
         """"""
         urls = []
         return urls
 
-    def get_current_url(self):
+    def get_current_url(self) -> Any:
         """"""
         if self.active_url is None:
             return self.default_url
         url = self.active_url.path
         return url
 
-    def goto_page(self, url):
+    def goto_page(self, url) -> Any:
         """"""
         logma.info(f"Goto Page {url}")
         if url is None:
@@ -462,7 +466,7 @@ class NchantdWebViewer(NchantdWidget):
         self.populate_document(self.active_url)
         return self
 
-    def handle_console_message(self, level, message, line_number, source_id):
+    def handle_console_message(self, level, message, line_number, source_id) -> None:
         """
         Handles JavaScript console messages and outputs them to Python console.
 
@@ -484,7 +488,7 @@ class NchantdWebViewer(NchantdWidget):
         # Print the message in Python console
         logma.info(f"[{log_level}] Line {line_number} in {source_id}: {message}")
 
-    def handle_download_request(self, download):
+    def handle_download_request(self, download) -> None:
         """"""
         download.accept()
         logma.info("A Download was requested and accepted")
@@ -493,18 +497,18 @@ class NchantdWebViewer(NchantdWidget):
         download.finished.connect(lambda: logma.info(f"Download finished. File saved to: {download.path()}"))
         self.model.store.store_download()
 
-    def handle_full_screen_request(self, request):
+    def handle_full_screen_request(self, request) -> None:
         fullscreen_element = self.page().mainFrame()
         if fullscreen_element:  # Check the requested element
             logma.info("Fullscreen requested by element type!")
         # Continue request handling as implemented above
 
-    def inject_custom_js(self, cmd):
+    def inject_custom_js(self, cmd) -> Any:
         """"""
         self.browser.loadFinished.connect(self.run_js_scripts)
         return self
 
-    def inject_javascript_bridge(self):
+    def inject_javascript_bridge(self) -> Any:
         """
         This function injects JavaScript that binds the Python API to the `window` object.
         """
@@ -520,24 +524,24 @@ class NchantdWebViewer(NchantdWidget):
         # """
         # self.runJavaScript(theme_script)
 
-    def load_url(self, url):
+    def load_url(self, url) -> Any:
         """"""
         self.populate_document(url)
         return self
 
-    def open_new_tab(self):
+    def open_new_tab(self) -> Any:
         """Placeholder for opening a new tab."""
         return self
 
-    def on_tab_changed(self, index: int):
+    def on_tab_changed(self, index: int) -> Any:
         """Placeholder for tab change logic if this viewer is used within a tabbed environment."""
         return self
 
-    def on_tab_close_requested(self, index: int):
+    def on_tab_close_requested(self, index: int) -> Any:
         """Placeholder for tab close logic if this viewer is used within a tabbed environment."""
         return self
 
-    def populate_document(self, url):
+    def populate_document(self, url) -> Any:
         """"""
         if isinstance(url, NchantdURL):
             url = url.url
@@ -548,7 +552,7 @@ class NchantdWebViewer(NchantdWidget):
         self.save()
         return self
 
-    def run_js_script(self, script):
+    def run_js_script(self, script) -> Any:
         """"""
         if script not in self.known_scripts:
             return self
@@ -556,11 +560,11 @@ class NchantdWebViewer(NchantdWidget):
         page.runJavaScript(script)
         return self
 
-    def save(self):
+    def save(self) -> Any:
         """"""
         return self
 
-    def set_channel(self):
+    def set_channel(self) -> Any:
         """"""
         self.channel = NchantdWebChannel(self)
         self.backend = NchantdSafeFunction()
@@ -568,7 +572,7 @@ class NchantdWebViewer(NchantdWidget):
         self.browser.page().setWebChannel(self.channel)
         return self
 
-    def set_interceptor(self):
+    def set_interceptor(self) -> None:
         """"""
         interceptor = NchantdRequestInterceptor()
         # Note: default_profile doesn't exist on self, but on QWebEngineProfile
@@ -584,13 +588,13 @@ class NchantdWebViewer(NchantdWidget):
     #     self.browser.setPage(self.page)
     #     return self
 
-    def set_persistence(self):
+    def set_persistence(self) -> Any:
         """"""
         if hasattr(self.browser.page().profile(), "set_persistence"):
             self.browser.page().profile().set_persistence()
         return self
 
-    def set_url_path(self, url=None):
+    def set_url_path(self, url=None) -> Any:
         """"""
         self.default_url = self.config.dikt.get("default_url", "https://www.duckduckgo.com/")
         self.home_url = self.config.dikt.get("home_url", self.default_url)
@@ -605,7 +609,7 @@ class NchantdWebViewer(NchantdWidget):
         self.save()
         return self
 
-    def store_browse_history(self, content, page=0, entry=0):
+    def store_browse_history(self, content, page=0, entry=0) -> None:
         """"""
         today = dt.datetime.now().strftime("%Y%m%d")
         file_name = f"{today}-browse-history"
@@ -621,7 +625,7 @@ class NchantdWebViewer(NchantdWidget):
         ]
         self._store_media(payload, page, entry, content)
 
-    def take_screenshot(self):
+    def take_screenshot(self) -> Any:
         """Create a Static image of the active url web page"""
         return self
 
@@ -633,7 +637,7 @@ class NchantdWebBrowser(NchantdWebViewer):
     to the all ready logged in page
     """
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdWebBrowser").override(cfg))
@@ -648,7 +652,7 @@ class NchantdWebBrowser(NchantdWebViewer):
         self.system_browser_launch_button = None
         self.web_settings_button = None
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         if isinstance(cfg, str):
             url = cfg
@@ -662,24 +666,24 @@ class NchantdWebBrowser(NchantdWebViewer):
         self.url_options = self.get_important_urls()
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
 
         super().initView(cfg)
         return self
 
-    def initWidget(self, url=None):
+    def initWidget(self, url=None) -> Any:
         """ """
         self.initModel(url)
         self.initView()
         return self
 
-    def populate_document(self, url):
+    def populate_document(self, url) -> Any:
         """"""
         super().populate_document(url)
         return self
 
-    def set_url_path(self, url=None):
+    def set_url_path(self, url=None) -> Any:
         """"""
         super().set_url_path(url)
         if url is not None and self.url_select_entry is not None:

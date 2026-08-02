@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """#																			||
 ---  #																			||
 <(META)>:  #																	||
@@ -45,7 +47,7 @@ class NchantdTerminalView(pyqt.QPlainTextEdit):
     A simple terminal emulator widget using QPlainTextEdit and pty.
     """
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         super(NchantdTerminalView, self).__init__(parent)
         self.setReadOnly(False)
         self.setLineWrapMode(pyqt.QPlainTextEdit.NoWrap)
@@ -68,13 +70,15 @@ class NchantdTerminalView(pyqt.QPlainTextEdit):
         self.notifier.activated.connect(self.handle_read)
 
         self.process.finished.connect(self.on_finished)
+        logma.info(f"NchantdTerminalView initialized")
 
-    def _set_default_format(self):
+
+    def _set_default_format(self) -> None:
         self.current_format = pyqt.QTextCharFormat()
         self.current_format.setForeground(pyqt.QColor("white"))
         self.current_format.setBackground(pyqt.QColor("black"))
 
-    def start_shell(self, shell="/bin/bash"):
+    def start_shell(self, shell="/bin/bash") -> None:
         """Starts the terminal shell."""
         env = pyqt.QProcessEnvironment.systemEnvironment()
         env.insert("TERM", "xterm-256color")  # Enable color support
@@ -87,7 +91,7 @@ class NchantdTerminalView(pyqt.QPlainTextEdit):
         # self.process.setChildProcessModifier(self._setup_pty)
         self.process.start()
 
-    def _setup_pty(self):
+    def _setup_pty(self) -> None:
         os.setsid()
         os.dup2(self.slave_fd, 0)
         os.dup2(self.slave_fd, 1)
@@ -108,7 +112,7 @@ class NchantdTerminalView(pyqt.QPlainTextEdit):
         # Set the controlling terminal
         fcntl.ioctl(0, termios.TIOCSCTTY, 0)
 
-    def handle_read(self):
+    def handle_read(self) -> None:
         """Reads from pty and displays in the widget."""
         try:
             data = os.read(self.master_fd, 4096)
@@ -118,7 +122,7 @@ class NchantdTerminalView(pyqt.QPlainTextEdit):
         except OSError:
             pass
 
-    def _process_text(self, text):
+    def _process_text(self, text) -> None:
         cursor = self.textCursor()
         cursor.movePosition(pyqt.QTextCursor.End)
 
@@ -139,7 +143,7 @@ class NchantdTerminalView(pyqt.QPlainTextEdit):
         self.setTextCursor(cursor)
         self.ensureCursorVisible()
 
-    def _insert_text(self, text, cursor):
+    def _insert_text(self, text, cursor) -> None:
         if "\b" in text:
             for char in text:
                 if char == "\b":
@@ -157,7 +161,7 @@ class NchantdTerminalView(pyqt.QPlainTextEdit):
         else:
             cursor.insertText(text, self.current_format)
 
-    def _handle_ansi_sequence(self, seq, cursor):
+    def _handle_ansi_sequence(self, seq, cursor) -> None:
         """Handles basic ANSI escape sequences."""
         if not seq.endswith("m") and not seq.endswith("J") and not seq.endswith("K") and not seq[2:-1].isdigit():
             # For now, only focus on SGR (m), Clear (J, K)
@@ -179,7 +183,7 @@ class NchantdTerminalView(pyqt.QPlainTextEdit):
                 cursor.movePosition(pyqt.QTextCursor.EndOfBlock, pyqt.QTextCursor.KeepAnchor)
                 cursor.removeSelectedText()
 
-    def _handle_sgr(self, params):
+    def _handle_sgr(self, params) -> None:
         """Handles SGR (Select Graphic Rendition) parameters."""
         if not params:
             params = [0]
@@ -214,7 +218,7 @@ class NchantdTerminalView(pyqt.QPlainTextEdit):
                     i += 2
             i += 1
 
-    def _get_color(self, index, bright=False):
+    def _get_color(self, index, bright=False) -> Any:
         colors = [
             "black",
             "red",
@@ -232,7 +236,7 @@ class NchantdTerminalView(pyqt.QPlainTextEdit):
             return pyqt.QColor(f"light{color_name}")
         return pyqt.QColor(color_name)
 
-    def _get_256_color(self, n):
+    def _get_256_color(self, n) -> Any:
         # Simplified 256 color mapping
         if n < 8:
             return self._get_color(n, bright=False)
@@ -241,7 +245,7 @@ class NchantdTerminalView(pyqt.QPlainTextEdit):
         # Add more if needed, otherwise fallback
         return pyqt.QColor("white")
 
-    def keyPressEvent(self, event):
+    def keyPressEvent(self, event) -> None:
         """Captures key events and writes to pty."""
         text = event.text()
         if not text:
@@ -268,16 +272,16 @@ class NchantdTerminalView(pyqt.QPlainTextEdit):
         if text:
             os.write(self.master_fd, text.encode("utf-8"))
 
-    def on_finished(self):
+    def on_finished(self) -> None:
         self.insertPlainText("\n[Process finished]\n")
         self.setReadOnly(True)
 
-    def resizeEvent(self, event):
+    def resizeEvent(self, event) -> None:
         """Handle terminal resizing."""
         super(NchantdTerminalView, self).resizeEvent(event)
         self._update_pty_size()
 
-    def _update_pty_size(self):
+    def _update_pty_size(self) -> None:
         # Calculate rows and cols based on widget size and font metrics
         metrics = self.fontMetrics()
         width = self.viewport().width()
@@ -296,21 +300,21 @@ class NchantdTerminalView(pyqt.QPlainTextEdit):
 class NchantdTerminalEmbed(NchantdWidget):
     """ """
 
-    def __init__(self, app, cfg, parent=None):
+    def __init__(self, app, cfg, parent=None) -> None:
         """'"""
         super(NchantdTerminalEmbed, self).__init__(parent, cfg)
         self.app = app
         self.initWidget()
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """ """
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """ """
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """ """
         self.layout = pyqt.QVBoxLayout()
         self.terminal = NchantdTerminalView(self)

@@ -24,6 +24,7 @@ from nchantrs.widgets.widgets import NchantdWidget
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")

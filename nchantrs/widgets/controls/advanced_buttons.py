@@ -31,6 +31,7 @@ from nchantrs.widgets.controls.buttons import NchantdButton
 here = join(dirname(__file__), "")
 log = True
 logma = Logma(__name__)
+logma.off()
 
 
 # ====================================================================================================================||
@@ -67,6 +68,8 @@ class NchantdNumberWheelButton(NchantdWidget):
         self.down_button: Optional[Any] = None
         self.number_display: Optional[Any] = None
         self.label: Optional[Any] = None
+        logma.info(f"NchantdNumberWheelButton initialized")
+
 
     def initModel(self) -> "NchantdNumberWheelButton":
         """"""
@@ -160,21 +163,21 @@ class NchantdNumberWheelButton(NchantdWidget):
 class NchantdShareButton(NchantdWidgetMixin, pyqt.QPushButton):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdLinkIcon")).override(cfg)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -184,7 +187,7 @@ class NchantdShareButton(NchantdWidgetMixin, pyqt.QPushButton):
 class NchantdEnableSpinBox(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdEnableSpinBox").override(cfg))
@@ -192,12 +195,12 @@ class NchantdEnableSpinBox(NchantdWidget):
             self.config.override(parent.config)
         self.config.override(cfg)
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         if cfg is None:
             cfg = {}
@@ -212,7 +215,7 @@ class NchantdEnableSpinBox(NchantdWidget):
         self.layout.addWidget(self.spinbox)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -222,19 +225,21 @@ class NchantdEnableSpinBox(NchantdWidget):
 class NchantdEnableSequencer(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdEnableSequencer").override(cfg))
+        logma.info(f"NchantdEnableSequencer initialized")
 
-    def initModel(self, cfg=None):
+
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         self.sequence = {i: None for i in range(len(self.config.dikt.get("items", [])))}
         self.items = {}
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         for i, item in enumerate(self.config.dikt.get("items", [])):
@@ -243,13 +248,13 @@ class NchantdEnableSequencer(NchantdWidget):
             self.layout.addWidget(self.items[i])
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def on_spin_box_change(self, signal=None, *args, **kwargs):
+    def on_spin_box_change(self, signal=None, *args, **kwargs) -> None:
         """"""
         # update each page below that is set to enabled
         for i, widget in self.items:
@@ -264,14 +269,14 @@ class NchantdEnableSequencer(NchantdWidget):
 class NchantdSpinBox(NchantdWidgetMixin, pyqt.QSpinBox):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent)
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdSpinBox").override(parent.config).override(cfg)
         self.init_variables()
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         self.setRange(int(self.config.get("min_value", 0) or 0), int(self.config.get("max_value", 100) or 0)) # Set the range for the spin box
@@ -279,12 +284,12 @@ class NchantdSpinBox(NchantdWidgetMixin, pyqt.QSpinBox):
         self.setValue(int(self.config.get("value", 0) or 0))
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -308,17 +313,17 @@ class NchantdSpinBox(NchantdWidgetMixin, pyqt.QSpinBox):
 class NchantdActivateSpinBox(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdActivateSpinBox").override(cfg))
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         if cfg is None:
             cfg = {}
@@ -335,7 +340,7 @@ class NchantdActivateSpinBox(NchantdWidget):
         self.layout.addWidget(self.spinbox)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -345,18 +350,18 @@ class NchantdActivateSpinBox(NchantdWidget):
 class NchantdLabeledSpinBox(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdLabeledSpinBox").override(cfg))
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         self.has_lock = self.config.get("has_lock", False)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         if cfg is None:
             cfg = {}
@@ -377,7 +382,7 @@ class NchantdLabeledSpinBox(NchantdWidget):
         self.layout.addStretch(0)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -387,17 +392,17 @@ class NchantdLabeledSpinBox(NchantdWidget):
 class NchantdLabeledDoubleSpinBox(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdLabeledDoubleSpinBox").override(cfg))
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         if cfg is None:
             cfg = {}
@@ -413,7 +418,7 @@ class NchantdLabeledDoubleSpinBox(NchantdWidget):
         self.layout.addWidget(self.right_spinbox)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -423,7 +428,7 @@ class NchantdLabeledDoubleSpinBox(NchantdWidget):
 class NchantdColorSelectButton(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdColorSelectButton").override(cfg))
@@ -431,13 +436,13 @@ class NchantdColorSelectButton(NchantdWidget):
         self.button = None
         self.color_sample = None
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         self.color = self.config.dikt.get("color", "#000000")
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         cfg = {}
@@ -448,7 +453,7 @@ class NchantdColorSelectButton(NchantdWidget):
         self.layout.addWidget(self.color_sample)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

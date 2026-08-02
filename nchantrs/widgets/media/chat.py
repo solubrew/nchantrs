@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -28,6 +30,7 @@ from nchantrs.libraries import pyqt
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "chat.yaml")
@@ -36,7 +39,7 @@ pxcfg = join(here, "_data_", "chat.yaml")
 class NchantdChat(NchantdPane):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -46,13 +49,15 @@ class NchantdChat(NchantdPane):
         self.text_input = None
         self.submit_button = None
         self.input = None
+        logma.info(f"NchantdChat initialized")
 
-    def initModel(self, cfg=None):
+
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView({"layout": "grid"})
         self.setDisplay()
@@ -61,13 +66,13 @@ class NchantdChat(NchantdPane):
         self.layout.addWidget(self.input)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def build_input(self):
+    def build_input(self) -> None:
         """Build the input widget for user messages"""
         layout = pyqt.QHBoxLayout()
         self.text_input = pyqt.QLineEdit(self)
@@ -78,10 +83,10 @@ class NchantdChat(NchantdPane):
         self.input = pyqt.QWidget(self)
         self.input.setLayout(layout)
 
-    def create_connection(self, connection):
+    def create_connection(self, connection) -> None:
         """make a connection to the server/service"""
 
-    def setDisplay(self):
+    def setDisplay(self) -> Any:
         """Initialize the display widget as a multiline text area"""
         cfg = {"text": "0"}
         self.config.dikt["width"] = None
@@ -110,17 +115,17 @@ class NchantdChat(NchantdPane):
 
         return self
 
-    def set_protocol(self, protocol):
+    def set_protocol(self, protocol) -> None:
         """set the communication protocol"""
         self.protocol = protocol
 
-    async def send_message(self):
+    async def send_message(self) -> None:
         """"""
         message = self.text_input.text()
         self.text_input.setText("")
         self.protocol.send_message(message)
 
-    async def receive_message(self):
+    async def receive_message(self) -> None:
         """"""
         await self.protocol.receive_message()
         return

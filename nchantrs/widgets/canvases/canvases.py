@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -29,6 +31,7 @@ from nchantrs.widgets.canvases.scenes import NchantdScene
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "canvases.yaml")
@@ -39,14 +42,14 @@ class ThreeJSWidget(pyqt.QWebEngineView):
     This widget renders a `pythreejs` 3D visualization inside a QWebEngineView.
     """
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         super().__init__(parent)
 
         # Generate and load the 3D visualization
         html_content = self.generate_html()
         self.setHtml(html_content)  # Load the HTML directly into the QWebEngineView
 
-    def generate_html(self):
+    def generate_html(self) -> str:
         """
         Generate a pythreejs 3D scene as an HTML string.
         """
@@ -83,7 +86,7 @@ class ThreeJSWidget(pyqt.QWebEngineView):
 class NchantdCanvas(NchantdWidgetMixin, pyqt.QGraphicsView):
     """NchantdCanvas is a Generic Canvas Widget"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -91,15 +94,17 @@ class NchantdCanvas(NchantdWidgetMixin, pyqt.QGraphicsView):
         self.scene = None
         self.shapes = None
         self._display_pixmap = None
+        logma.info(f"NchantdCanvas initialized")
 
-    def initModel(self, cfg=None):
+
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         self.context_menu = self.parent.context_menu
         # self.shapes = self.app.model.store.get_shapes()
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         cfg = {}
@@ -122,18 +127,18 @@ class NchantdCanvas(NchantdWidgetMixin, pyqt.QGraphicsView):
         self.set_size()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def add_item(self, item, position=[0, 0]):
+    def add_item(self, item, position=[0, 0]) -> None:
         """"""
         # self.scene.addItem(item)
         self.scene.add_proxy_widget(item, position)
 
-    def setDisplayPixmap(self, pixmap):
+    def setDisplayPixmap(self, pixmap) -> None:
         """
         Set a pixmap to be displayed as an overlay on this canvas.
         This allows external code to render graphics and display them on the canvas.
@@ -144,7 +149,7 @@ class NchantdCanvas(NchantdWidgetMixin, pyqt.QGraphicsView):
         self._display_pixmap = pixmap
         self.viewport().update()
 
-    def getDrawingSurface(self):
+    def getDrawingSurface(self) -> Any:
         """
         Return the actual widget that can be painted on.
         For QGraphicsView, this is the viewport.
@@ -154,7 +159,7 @@ class NchantdCanvas(NchantdWidgetMixin, pyqt.QGraphicsView):
         """
         return self.viewport()
 
-    def drawForeground(self, painter, rect):
+    def drawForeground(self, painter, rect) -> None:
         """
         Override drawForeground to draw the display pixmap over the scene.
         This is called after the scene is drawn.
@@ -176,17 +181,19 @@ class NchantdCanvas(NchantdWidgetMixin, pyqt.QGraphicsView):
 class NchantdPaintCanvas(NchantdCanvas):
     """A canvas widget specifically designed for direct painting/drawing operations."""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdPaintCanvas").override(cfg))
+        logma.info(f"NchantdPaintCanvas initialized")
 
-    def initModel(self):
+
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         self.last_point = pyqt.QPoint()
@@ -199,13 +206,13 @@ class NchantdPaintCanvas(NchantdCanvas):
 
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def resizeEvent(self, event):
+    def resizeEvent(self, event) -> None:
         """Handle resize events to maintain canvas size."""
         super().resizeEvent(event)
         if hasattr(self, "canvas"):
@@ -218,7 +225,7 @@ class NchantdPaintCanvas(NchantdCanvas):
             painter.end()
             self.canvas = new_pixmap
 
-    def drawForeground(self, painter, rect):
+    def drawForeground(self, painter, rect) -> None:
         """Draw the paint canvas pixmap."""
         super().drawForeground(painter, rect)
 
@@ -228,12 +235,12 @@ class NchantdPaintCanvas(NchantdCanvas):
             painter.drawPixmap(0, 0, self.canvas)
             painter.restore()
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event) -> None:
         """Handle mouse press for drawing."""
         if event.button() == pyqt.Qt.LeftButton:
             self.last_point = event.pos()
 
-    def mouseMoveEvent(self, event):
+    def mouseMoveEvent(self, event) -> None:
         """Handle mouse move for drawing."""
         if event.buttons() & pyqt.Qt.LeftButton and hasattr(self, "canvas"):
             painter = pyqt.QPainter(self.canvas)
@@ -246,19 +253,19 @@ class NchantdPaintCanvas(NchantdCanvas):
             self.last_point = event.pos()
             self.viewport().update()
 
-    def clear(self):
+    def clear(self) -> None:
         """Clear the canvas."""
         if hasattr(self, "canvas"):
             self.canvas.fill(pyqt.Qt.white)
             self.viewport().update()
 
-    def select_pen_color(self):
+    def select_pen_color(self) -> None:
         """Open color dialog to select pen color."""
         color = pyqt.QColorDialog.getColor()
         if color.isValid():
             self.pen_color = color
 
-    def select_pen_width(self):
+    def select_pen_width(self) -> None:
         """Open dialog to select pen width."""
         i, okPressed = pyqt.QInputDialog.getInt(self, "Pen Width", "Value:", self.pen_width, 1, 50, 1)
         if okPressed:
@@ -269,38 +276,40 @@ class NchantdGameCanvas(NchantdCanvas):
     """NchantdGame is a Canvas Widget sandbox for running a game inside an
     Nchantd application using the PyGame game engine"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdGameCanvas").override(cfg))
+        logma.info(f"NchantdGameCanvas initialized")
 
-    def initModel(self):
+
+    def initModel(self) -> Any:
         """"""
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def startGame(self):
+    def startGame(self) -> Any:
         """ """
         return self
 
-    def pauseGame(self):
+    def pauseGame(self) -> Any:
         """ """
         return self
 
-    def exitGame(self):
+    def exitGame(self) -> Any:
         """ """
         return self
 
-    def resetGame(self):
+    def resetGame(self) -> Any:
         """ """
         return self
 
@@ -308,20 +317,20 @@ class NchantdGameCanvas(NchantdCanvas):
 class NchantdMapCanvas(NchantdCanvas):
     """ """
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdMapCanvas").override(cfg))
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -331,22 +340,22 @@ class NchantdMapCanvas(NchantdCanvas):
 class NchantdWireFrameCanvas(NchantdCanvas):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdWireFrameCanvas").override(cfg))
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -356,7 +365,7 @@ class NchantdWireFrameCanvas(NchantdCanvas):
 class NchantdSpace(NchantdCanvas):
     """An Nchantd Space is a 3D Canvas Widget"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdSpace")
@@ -365,17 +374,17 @@ class NchantdSpace(NchantdCanvas):
         super().__init__(self.parent, self.config)
         self.config.override(cfg)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -46,7 +48,7 @@ pxcfg = join(here, "_data_", "media.yaml")
 class NchantdNEWSLSummary(NchantdManager):
     """Nchantd Notable Events Weather Sports and"""
 
-    def __init__(self, parent=None, cfg={}):
+    def __init__(self, parent=None, cfg={}) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdNEWSLSummaryTab")
@@ -57,17 +59,17 @@ class NchantdNEWSLSummary(NchantdManager):
         self.articles = []
         self.newsl = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
-        # TODO move this data collection aspect to a side process and then pull from the cache for the display
+        # NOTE move this data collection aspect to a side process and then pull from the cache for the display
         # Integrate Video uploads from Rumble, and Youtube
         # moving feeds to worldbridge
         self.newsl = self.app.model.get_rss_entries()
         logma.info(f"newsl {self.newsl}")
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """ """
         super().initView()
         cfg = {"size": ["auto", "auto"]}
@@ -81,7 +83,7 @@ class NchantdNEWSLSummary(NchantdManager):
         self.layout.addLayout(scroll.layout)
         return self
 
-    def initWidget(self, pos=0):
+    def initWidget(self, pos=0) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -91,7 +93,7 @@ class NchantdNEWSLSummary(NchantdManager):
 class NchantdNEWSLArticle(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("Nchantd")
@@ -103,12 +105,12 @@ class NchantdNEWSLArticle(NchantdWidget):
         self.summary = None
         self.title = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         logma.info("break down the article")
@@ -166,7 +168,7 @@ class NchantdNEWSLArticle(NchantdWidget):
     # label_layout.addSpacing(20)
     # layout.layout.addLayout(label_layout)
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -176,7 +178,7 @@ class NchantdNEWSLArticle(NchantdWidget):
 class NchantdFileIcon(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("Nchantd")
@@ -185,17 +187,17 @@ class NchantdFileIcon(NchantdWidget):
         super().__init__(self)
         self.config.override(cfg)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -205,7 +207,7 @@ class NchantdFileIcon(NchantdWidget):
 class NchantdFileViewer(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdFileViewer")
@@ -216,13 +218,15 @@ class NchantdFileViewer(NchantdWidget):
         self.details_pane = None
         self.files = []
         self.viewer_item = None
+        logma.info(f"NchantdFileViewer initialized")
 
-    def initModel(self):
+
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
 
@@ -243,20 +247,20 @@ class NchantdFileViewer(NchantdWidget):
 
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def find_duplicate(self):
+    def find_duplicate(self) -> None:
         """
         find duplicate files by name, size, and hash with options to use any or all of them
         :return:
         """
         return
 
-    def lazy_load_visible_items(self, scroll_position):
+    def lazy_load_visible_items(self, scroll_position) -> None:
         """"""
         visible_region = pyqt.QSize(self.width(), self.parent().viewport().height())  # Visible region size
         viewport_top = scroll_position
@@ -268,11 +272,11 @@ class NchantdFileViewer(NchantdWidget):
                 if thumb.pixmap() is None:
                     thumb.lazy_load_image()
 
-    def on_scroll(self):
+    def on_scroll(self) -> None:
         scroll_position = self.centralWidget().verticalScrollBar().value()
         self.thumbnail_widget.lazy_load_visible_items(scroll_position)
 
-    def set_viewer_item(self):
+    def set_viewer_item(self) -> Any:
         """"""
         self.viewer_item = NchantdFileIcon
         return self

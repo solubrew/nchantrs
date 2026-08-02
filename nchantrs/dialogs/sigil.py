@@ -16,7 +16,7 @@
 # ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 # ======================================3rd Party Library Modules=====================================================||
 
@@ -38,7 +38,7 @@ PXCFG = join(HERE, "_data_", ".yaml")
 class NchantdSigilMixin(NchantdWidgetMixin):
     """"""
 
-    def init_variables(self, name="generic"):
+    def init_variables(self, name="generic") -> Any:
         """"""
         super().init_variables()
         self.layout = None
@@ -60,11 +60,11 @@ class NchantdSigilMixin(NchantdWidgetMixin):
         self.add_field_button = None
         return self
 
-    def validate(self):
+    def validate(self) -> Any:
         """"""
         return self
 
-    def accept_(self, *args, **kwargs):
+    def accept_(self, *args, **kwargs) -> Any:
         """"""
         logma.info(f"Accept")
         self.validate()
@@ -72,12 +72,12 @@ class NchantdSigilMixin(NchantdWidgetMixin):
         self.set_ok()
         return self
 
-    def add_field(self, field_wdgt):
+    def add_field(self, field_wdgt) -> Any:
         """"""
         self.layout.addWidget(field_wdgt)
         return self
 
-    #TODO need to refactor these methods
+    # NOTE need to refactor these methods
     # def add_accept_buttons(self, cfg=None):
     #     """"""
     #     if cfg is None:
@@ -97,7 +97,7 @@ class NchantdSigilMixin(NchantdWidgetMixin):
     #     layout.setAlignment(self.getAlignment("right"))
     #     self.layout.addLayout(layout)
 
-    def buildPane(self, style="1pane"):
+    def buildPane(self, style="1pane") -> None:
         """"""
         cnt = 0
         for position in self.config.dikt["styles"][style]["positions"]:
@@ -108,19 +108,19 @@ class NchantdSigilMixin(NchantdWidgetMixin):
             self.layout.addWidget(self.pane[position], cnt)
             cnt += 1
 
-    def getData(self):
+    def getData(self) -> Any:
         if self.records == None:
             return self.defaults
         return self.records
 
-    def hide_title(self):
+    def hide_title(self) -> None:
         """"""
         self.setWindowFlags(pyqt.Qt.FramelessWindowHint)
 
-    def increase_font_size(self, value):
+    def increase_font_size(self, value) -> None:
         """"""
 
-    def increase_height(self, value):
+    def increase_height(self, value) -> None:
         """"""
         if "%" in value:
             height = self.height() * (1 + int(value.replace("%", "")) / 100)
@@ -129,7 +129,7 @@ class NchantdSigilMixin(NchantdWidgetMixin):
             height = self.height() + int(value)
             self.resize(self.width(), height)
 
-    def increase_width(self, value):
+    def increase_width(self, value) -> None:
         """"""
         if "%" in value:
             width = self.width() * (1 + int(value.replace("%", "")) / 100)
@@ -138,12 +138,12 @@ class NchantdSigilMixin(NchantdWidgetMixin):
             width = self.width() + int(value)
             self.resize(width, self.height())
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """Build the dialog from the provided parameters"""
         super().initView(cfg)
         # Ensure the dialog stays on top. NOTE: only OR window *hints* here;
@@ -167,32 +167,32 @@ class NchantdSigilMixin(NchantdWidgetMixin):
             self.buildPane(style)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def reject_(self, signal=None, *args, **kwargs):
+    def reject_(self, signal=None, *args, **kwargs) -> Any:
         """"""
         return self
 
 
 
-    def set_ok(self):
+    def set_ok(self) -> Any:
         """"""
         self.ok = True
         return self
 
-    def setDefaults(self, defaults):
+    def setDefaults(self, defaults) -> Any:
         """ """
         self.defaults = defaults
         return self
 
-    def set_font_size(self, size):
+    def set_font_size(self, size) -> None:
         """"""
 
-    def set_position(self, where="center"):
+    def set_position(self, where="center") -> Tuple[Any, Any]:
         """"""
         match where:
             case "center":
@@ -201,21 +201,21 @@ class NchantdSigilMixin(NchantdWidgetMixin):
                 x, y = self.set_position_right()
         return x, y
 
-    def set_position_center(self):
+    def set_position_center(self) -> Tuple[Any, Any]:
         """"""
         x = self.app.view.gui.geometry().center().x() - self.geometry().width() // 2
         y = self.app.view.gui.geometry().center().y() - self.geometry().height() // 2
         self.move(x, y)
         return x, y
 
-    def set_position_right(self):
+    def set_position_right(self) -> Tuple[Any, Any]:
         """"""
         x = self.app.view.gui.geometry().center().x() - self.geometry().width() * 0.8
         y = self.app.view.gui.geometry().center().y() - self.geometry().height() // 2
         self.move(x, y)
         return x, y
 
-    def set_size(self, width=400, height=200, left=150, top=250):
+    def set_size(self, width=400, height=200, left=150, top=250) -> None:
         """"""
         left_ = None
         top_ = None
@@ -236,7 +236,7 @@ class NchantdSigilMixin(NchantdWidgetMixin):
             height = height_
         self.setGeometry(left, top, width, height)
 
-    def setSource(self, src):
+    def setSource(self, src) -> Any:
         self.src = src
         return self
 

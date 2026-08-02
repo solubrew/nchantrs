@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -37,6 +39,7 @@ from nchantrs.widgets.config.settings import NchantdSettingsWidget
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "packages.yaml")
@@ -45,7 +48,7 @@ pxcfg = join(here, "_data_", "packages.yaml")
 class NchantdPackageSettings(NchantdSettingsWidget):
     """"""
 
-    def __init__(self, parent, cfg=None):
+    def __init__(self, parent, cfg=None) -> None:
         """"""
         self.config = kahndor.Instruct(pxcfg).select("NchantdPackageSettings")
         self.parent = parent
@@ -55,13 +58,15 @@ class NchantdPackageSettings(NchantdSettingsWidget):
         super().__init__(parent, self.config)
         self.levels = self.config.dikt.get("levels", [])
         self.primary_settings_group = None
+        logma.info(f"NchantdPackageSettings initialized")
 
-    def initModel(self):
+
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         self.primary_settings_group = NchantdGridScrollGroupBox()
@@ -115,17 +120,17 @@ class NchantdPackageSettings(NchantdSettingsWidget):
         self.layout.addLayout(self.primary_settings_group.layout)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def get_settings(self):
+    def get_settings(self) -> Any:
         """"""
         return super().get_settings("packages")
 
-    def save(self):
+    def save(self) -> Any:
         """"""
         super().save()
         for package in self.packages:

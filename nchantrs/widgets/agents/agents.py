@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -30,6 +32,7 @@ from sentinel.sentinel import Sentinel, Automaton
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "agents.yaml")
@@ -38,12 +41,12 @@ pxcfg = join(here, "_data_", "agents.yaml")
 class NchantdSentinelManager(object):
     """What should I do?"""
 
-    def __init__(self, parent, cfg=None):
+    def __init__(self, parent, cfg=None) -> None:
         """"""
         self.config = kahndor.Instruct(pxcfg).select("NchantdSentinelManager").override(cfg)
         self.agents = []
 
-    def initAgents(self):
+    def initAgents(self) -> Any:
         """"""  # start agents to handle background functions
         self.agent.initWidget()
         if self.model.are_mini_games_active:
@@ -55,7 +58,7 @@ class NchantdSentinelManager(object):
         self.model.store.store_app_event("initialized", "application agents initialized")
         return self
 
-    def assign_agent(self, focus):
+    def assign_agent(self, focus) -> Any:
         """"""
         agent = NchantdAgent().set_focus(focus)
         self.agents.append(agent)
@@ -65,7 +68,7 @@ class NchantdSentinelManager(object):
 class NchantdSentinel(Sentinel):
     """"""
 
-    def __init__(self, parent, cfg=None):
+    def __init__(self, parent, cfg=None) -> None:
         """"""
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg)
@@ -75,7 +78,7 @@ class NchantdSentinel(Sentinel):
         super().__init__(self.parent.application_name, self.config)
         self.tasks = {}
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """
         setup recuring system tasks that need to be ran like sending telemetry data to the server
 
@@ -95,14 +98,14 @@ class NchantdSentinel(Sentinel):
 
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """
         TODO: 20240723 create a dialog to monitor the status of the Sentinel
         :return:
         """
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -112,7 +115,7 @@ class NchantdSentinel(Sentinel):
 class NchantdAgent(Automaton):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("Nchantd")
@@ -121,11 +124,11 @@ class NchantdAgent(Automaton):
         super().__init__(self)
         self.config.override(cfg)
 
-    def init(self):
+    def init(self) -> None:
         """"""
         self.on()
 
-    def set_focus(self, object):
+    def set_focus(self, object) -> Any:
         """"""
         super().set_focus(object)
         return self

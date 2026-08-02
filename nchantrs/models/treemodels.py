@@ -207,14 +207,14 @@ class NchantdTreeModel(pyqt.QStandardItemModel):
             node = self.home_node
         return node
 
-    def insertColumns(self, position, columns, parent=pyqt.QModelIndex()):
+    def insertColumns(self, position, columns, parent=pyqt.QModelIndex()) -> Any:
         """ """
         self.beginInsertColumns(parent, position, position + columns - 1)
         success = self.root.insertColumns(position, columns)
         self.endInsertColumns()
         return success
 
-    def insertRows(self, position, rows, parent=pyqt.QModelIndex()):
+    def insertRows(self, position, rows, parent=pyqt.QModelIndex()) -> Any:
         """ """
         parentItem = self.getItem(parent)
         self.beginInsertRows(parent, position, position + rows - 1)

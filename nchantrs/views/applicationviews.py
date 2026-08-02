@@ -140,7 +140,7 @@ class NchantdCloakView(NchantdPantiesView):
         self.status_message = f"{self.parent.app.application_name} - version: {version} || {_time}  "
         self.new_account_wizard = None
 
-    def initView(self, cfg=None):  # ||
+    def initView(self, cfg=None) -> Any:  # ||
         """Initialize UI setting the main application layout and building
         landing widgets"""
         super().initView(cfg)
@@ -182,7 +182,7 @@ class NchantdCloakView(NchantdPantiesView):
 
             logma.info(f"Widget {widget} load")
             # Loads Main Panes for 1, 2, or 3 Pane Applications
-            # TODO we need to make sure the config goes to load Widget
+            # NOTE we need to make sure the config goes to load Widget
             logma.info(f"Parent {self.parent}")
             self.panes[pos] = loadWidget(self.parent, widget)
             if self.panes[pos] is None:

@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Nchantrs@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any, Optional
+
 """#																			||
 ---  #																			||
 <(META)>:  #																	||
@@ -92,7 +94,7 @@ class NchantdPantiesModel(object):
         # storage paths are resolved only when a web view actually needs them.
         self.web_profiles = None
 
-    def get_web_profiles(self):
+    def get_web_profiles(self) -> Any:
         """Return the app-level web profile pool, creating it on first use.
 
         A single shared pool owns the profiles so they outlive individual web
@@ -122,7 +124,7 @@ class NchantdPantiesModel(object):
             self.user = NchantdUser(self, cfg)
         self.initialize_instance()
 
-    def initialize_instance(self, instance_object=None):
+    def initialize_instance(self, instance_object=None) -> None:
         """"""
         if instance_object is None:
             instance_object = NchantdInstance
@@ -440,7 +442,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         [DONE] where this method lives...could be moved to NchantdStore or NchantdApplicationStartupWizard
         :return:
 
-        #TODO: implement a path override for testing
+        # NOTE implement a path override for testing
 
         """
         if cfg.get("level", None) is not None:
@@ -464,7 +466,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.icon_path = Mechanism(path, data).run()
         return [self.application_path, self.config_path, self.library_path, self.shortcut_path, self.icon_path]
 
-    def get_current_instance(self):
+    def get_current_instance(self) -> Any:
         """"""
         instances = self.store.get_app_instance()
         if instances.empty:
@@ -549,7 +551,7 @@ class NchantdCloakModel(NchantdPantiesModel):
             self.menu_cache.pop(name, None)
         return self
 
-    def find_node_in_tree(self, nid, tree_widget=None):
+    def find_node_in_tree(self, nid, tree_widget=None) -> Optional[Any]:
         """Find an existing node widget in the tree by its nid."""
         if tree_widget is None:
             tree_widget = self.app.view.panes["left"].tree
@@ -565,7 +567,7 @@ class NchantdCloakModel(NchantdPantiesModel):
                 return found
         return None
 
-    def _find_node_recursive(self, parent_item, nid):
+    def _find_node_recursive(self, parent_item, nid) -> Optional[Any]:
         """Recursively search for a node in the tree."""
         for i in range(parent_item.childCount()):
             child = parent_item.child(i)
@@ -667,7 +669,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.registered_actions.append(action)
         return self
 
-    def reload_index(self, index):
+    def reload_index(self, index) -> None:
         """"""
 
     def reload_table(self, table, keep, map_, filters={}, db="db") -> None:
@@ -725,7 +727,7 @@ class NchantdCloakModel(NchantdPantiesModel):
             return False
         return True
 
-    def reload_view(self, view):
+    def reload_view(self, view) -> None:
         """"""
 
     def remove_affiliate_links(self) -> None:
@@ -760,9 +762,9 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.is_saved = saved
         return self
 
-    def save(self):
+    def save(self) -> Any:
         """"""
-        # TODO: need to implement application level save logic
+        # NOTE need to implement application level save logic
         return self
 
     def set_instance_active(self, instance) -> None:
@@ -786,9 +788,9 @@ class NchantdCloakModel(NchantdPantiesModel):
         """"""
         self.store.store_app_instance(instance)
         return self
-    def store_link(self, name, url=None, tags=None):
+    def store_link(self, name, url=None, tags=None) -> None:
         """"""
-        # TODO: implement method
+        # NOTE implement method
     def store_records(self, table, data, db="db") -> None:
         """"""
         self.store.store_records(table, data, db)
@@ -971,6 +973,8 @@ class DataFilter(object):
         self.includes = []
         self.excludes = []
         self.merge_on_columns = []
+        logma.info(f"DataFilter initialized")
+
 
     def add_exclude(self, column, values) -> None:
         """Add column/value pairs to exclude filter"""
@@ -990,7 +994,7 @@ class DataFilter(object):
             data = data[data[column].isin(values)]
         return data
 
-    def merge_on(self, columns):
+    def merge_on(self, columns) -> Any:
         """Merge on columns"""
         self.merge_on_columns = columns
         return self

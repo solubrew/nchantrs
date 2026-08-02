@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -30,6 +32,7 @@ from nchantrs.widgets.config.settings import NchantdSettingsWidget
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")
@@ -38,7 +41,7 @@ pxcfg = join(here, "_data_", ".yaml")
 class NchantdAddService(pyqt.QWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdAddService")
@@ -47,15 +50,15 @@ class NchantdAddService(pyqt.QWidget):
         self.config.override(cfg)
         super(NchantdAddService, self).__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

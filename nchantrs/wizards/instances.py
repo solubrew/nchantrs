@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -41,7 +43,7 @@ pxcfg = join(here, "_data_", "instances.yaml")
 class NchantdNewInstanceWizard(NchantdWizard):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent)
         self.parent = parent
@@ -55,29 +57,29 @@ class NchantdNewInstanceWizard(NchantdWizard):
         self.is_install_active = self.parent.is_install_active
         self.select_instance = None
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView()
         self.select_instance = NchantdSelectInstancePage(self).initWidget()
         self.addPage(self.select_instance)
 
-        #TODO refactor NchantdInstance usage
+        # NOTE refactor NchantdInstance usage
         # only if an instance is not selected
         #self.create_instance()
         return self
 
-    def initWidget(self, cfg=None):
+    def initWidget(self, cfg=None) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def initWizard(self, cfg=None):
+    def initWizard(self, cfg=None) -> Any:
         """"""
         self.initModel(cfg)
         self.initView(cfg)
@@ -85,7 +87,7 @@ class NchantdNewInstanceWizard(NchantdWizard):
         self.exec_()
         return self
 
-    def create_database_instance(self, instance):
+    def create_database_instance(self, instance) -> bool:
         """"""
         self.app.model.store.init_database_instance(instance, attach=True)
         objects = self.config.dikt["dstruct"]["database"]["attach"]
@@ -101,7 +103,7 @@ class NchantdNewInstanceWizard(NchantdWizard):
         # self.app.model.store.cache_app_install("installed", ["create_database"])
         return True
 
-    def create_instance(self, instance=None):
+    def create_instance(self, instance=None) -> Any:
         """"""
         logma.info(f"Wizard: create_instance: {instance}")
         instance = NchantdInstance(self, instance)

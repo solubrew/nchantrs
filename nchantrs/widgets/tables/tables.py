@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any, List, Tuple
+
 """
 ---
 <(META)>:
@@ -41,7 +43,7 @@ pxcfg = join(abspath(here), "_data_", "tables.yaml")
 class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
     """ """
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(10, 10, parent)
         self.parent = parent
@@ -54,12 +56,12 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
         self.rows = None
         self.row_handlers = {}
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, initialize_rows=False):
+    def initView(self, initialize_rows=False) -> Any:
         """ """
         super().initView()
         self.set_handler_cell(self.config.dikt.get("cell_handler", None))
@@ -101,74 +103,74 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
         self.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
         return self
 
-    def initWidget(self, initialize_rows=False):
+    def initWidget(self, initialize_rows=False) -> Any:
         """ """
         self.initModel()
         self.initView(initialize_rows)
         return self
 
-    def get_cell(self, row=None, column=None):
+    def get_cell(self, row=None, column=None) -> Any:
         """"""
         if row is None or column is None:
             row, column = self.get_current_cell()
         logma.info(f"Cell Value {row} {column}")
         return self.item(int(row), int(column))
 
-    def get_cell_value(self, row=None, column=None):
+    def get_cell_value(self, row=None, column=None) -> Any:
         """"""
         if row is None or column is None:
             row, column = self.get_current_cell()
         logma.info(f"Cell Value {row} {column}")
         return self.item(int(row), int(column)).text()
 
-    def get_current_cell(self):
+    def get_current_cell(self) -> Tuple[int, int]:
         """"""
         column, row = self.current_cell.split("|")
         return int(row), int(self.lookup_column(column))
 
-    def get_roman_numeral_headers(self):
+    def get_roman_numeral_headers(self) -> List[Any]:
         """"""
         logma.warning(f"calc roman numerals")
         return [calcExtendedRomanNumerals(x) for x in range(1, self.columnCount() + 1)]
 
-    def lookup_column(self, column):
+    def lookup_column(self, column) -> Any:
         """"""
         column = calcArabicNumerals(column)
         return column
 
-    def on_cell_changed(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_cell_changed(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Cell Changed {event} {row} {column}")
         return self
 
-    def on_cell_activated(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_cell_activated(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Cell Activated {event} {row} {column}")
         return self
 
-    def on_cell_clicked(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_cell_clicked(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Cell Clicked {event} {row} {column}")
 
         return self
 
-    def on_cell_clicked_double(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_cell_clicked_double(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Cell Clicked Double {event} {row} {column}")
         return self
 
-    def on_cell_clicked_right(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_cell_clicked_right(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Cell Clicked Right {event} {row} {column}")
         self.set_current_cell(row, column)
         return self
 
-    def on_cell_entered(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_cell_entered(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Cell Entered {event} {row} {column}")
         return self
 
-    def on_cell_pressed(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_cell_pressed(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Cell Pressed {event} {row} {column}")
         self.set_current_cell(row, column)
@@ -183,97 +185,97 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
         # check all handlers for that row
         return self
 
-    def on_column_activated(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_column_activated(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Column Activated {event} {row} {column}")
         return self
 
-    def on_column_changed(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_column_changed(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Column Changed {event} {row} {column}")
         return self
 
-    def on_column_clicked(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_column_clicked(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Column Clicked {event} {row} {column}")
         return self
 
-    def on_column_selected(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_column_selected(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Column Selected {event} {row} {column}")
         return self
 
-    def on_item_activated(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_item_activated(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Item Activated {event} {row} {column}")
         return self
 
-    def on_item_changed(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_item_changed(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Item Changed {event} {row} {column}")
         return self
 
-    def on_item_clicked(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_item_clicked(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Item Clicked {event} {row} {column}")
 
         return self
 
-    def on_item_clicked_double(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_item_clicked_double(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Item Clicked Double {event} {row} {column}")
         return self
 
-    def on_item_clicked_left(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_item_clicked_left(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Item Clicked Left {event} {row} {column}")
         return self
 
-    def on_item_clicked_middle(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_item_clicked_middle(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Item Clicked Middle {event} {row} {column}")
         return self
 
-    def on_item_clicked_right(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_item_clicked_right(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Item Clicked Right {event} {row} {column}")
         return self
 
-    def on_item_entered(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_item_entered(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Item Entered {event} {row} {column}")
         return self
 
-    def on_item_pressed(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_item_pressed(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Item Pressed {event} {row} {column}")
         return self
 
-    def on_item_selection_changed(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_item_selection_changed(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Item Selection Changed {event} {row} {column}")
         return self
 
-    def on_row_activated(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_row_activated(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Row Activated {event} {row} {column}")
         return self
 
-    def on_row_clicked(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_row_clicked(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Row Clicked {event} {row} {column}")
         return self
 
-    def on_row_selected(self, row=None, column=None, event=None, *args, **kwargs):
+    def on_row_selected(self, row=None, column=None, event=None, *args, **kwargs) -> Any:
         """"""
         #logma.info(f"Row Selected {event} {row} {column}")
         return self
 
-    def reset_column_widths(self):
+    def reset_column_widths(self) -> None:
         """"""
         self.horizontalHeader().setSectionResizeMode(pyqt.QHeaderView.Stretch)
 
-    def set_columns(self, columns):
+    def set_columns(self, columns) -> Any:
         """"""
         if isinstance(columns, dict):
             for column, details in columns.items():
@@ -285,7 +287,7 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
         self.columns = columns
         return self
 
-    def set_column_numbers(self, data=None):
+    def set_column_numbers(self, data=None) -> None:
         """"""
         num_columns = self.config.dikt.get("num_columns", 3)
         if self.columns is not None:
@@ -300,7 +302,7 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
         logma.info(f"Columns {self.columns}")
         self.setHorizontalHeaderLabels(self.get_roman_numeral_headers() if self.columns is None else self.columns)
 
-    def set_column_widths(self):
+    def set_column_widths(self) -> Any:
         """"""
         self.default_column_width = self.config.dikt.get("column_width", None)
         self.max_column_width = self.config.dikt.get("max_column_width", None)
@@ -311,7 +313,7 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
             self.min_column_width = 20
         return self
 
-    def set_current_cell(self, row, column):
+    def set_current_cell(self, row, column) -> Any:
         """"""
         logma.info(f"Set Current Cell {row} {column}")
         logma.info(f"calc roman numerals")
@@ -319,7 +321,7 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
         self.current_cell = f"{column}|{row}"
         return self
 
-    def set_row_numbers(self, data=None):
+    def set_row_numbers(self, data=None) -> None:
         """"""
         num_rows = self.config.dikt.get("num_rows", 3)
         self.rows = self.config.dikt.get("rows", [])
@@ -334,7 +336,7 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
         logma.info(f"Num Rows {num_rows}")
         self.setRowCount(num_rows)
 
-    def set_data(self, data):
+    def set_data(self, data) -> Any:
         """"""
         self.setRowCount(self.config.dikt.get("num_rows", 3))
         self.set_column_numbers(self.config.dikt.get("num_columns", 3))
@@ -398,7 +400,7 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
         #         self.setColumnWidth(col, width[col])
         return self
 
-    def assign_widget(self, column_name, x, y, d=None):
+    def assign_widget(self, column_name, x, y, d=None) -> Any:
         """Override in subclasses to render a non-text cell (buttonbar, datetime, etc.).
 
         ``d`` is the cell's data value (kept for subclass overrides that
@@ -407,31 +409,31 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
         """
         return NotImplemented
 
-    def set_font(self):
+    def set_font(self) -> Any:
         """"""
         self.font = pyqt.QFont("Arial", 10)
         return self
 
-    def set_font_size(self):
+    def set_font_size(self) -> Any:
         """"""
         return self
 
-    def set_handler_cell(self, handler):
+    def set_handler_cell(self, handler) -> Any:
         """"""
         return self
 
-    def set_handler_row(self, handler):
+    def set_handler_row(self, handler) -> Any:
         """"""
         return self
 
-    def set_handler_column(self, handler, column=0):
+    def set_handler_column(self, handler, column=0) -> Any:
         """"""
         logma.info(f"Set Handler Column {handler} {column}")
         self.column_handlers[column] = handler
         logma.info(f"Column Handlers {self.column_handlers}")
         return self
 
-    def setHorizontalHeaderLabels(self, labels):
+    def setHorizontalHeaderLabels(self, labels) -> None:
         super().setHorizontalHeaderLabels(labels)
         for col in range(self.columnCount()):
             if len(labels) > col:
@@ -439,15 +441,15 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
                 if self.columnWidth(col) < header_length * 1.1:
                     self.setColumnWidth(col, int(header_length * 1.1))
 
-    def set_row_select(self):
+    def set_row_select(self) -> Any:
         """"""
         self.setSelectionBehavior(pyqt.QAbstractItemView.SelectRows)
         return self
 
-    def setSelectionBehavior(self, behavior):
+    def setSelectionBehavior(self, behavior) -> None:
         """"""
 
-    def update_data(self, data):
+    def update_data(self, data) -> Any:
         """"""
         self.clear()
         self.clearContents()
@@ -474,9 +476,9 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
 
         return self
 
-    def _check_text_length_size(self, text):
+    def _check_text_length_size(self, text) -> Any:
         """"""
-        # TODO need to find any \n values and split to check the longest section of text
+        # NOTE need to find any \n values and split to check the longest section of text
         self.set_font()
         # logma.info(f"Font {self.font}")
         if self.font is not None:
@@ -487,14 +489,16 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
 class NchantdDataFrameTable(NchantdWidgetMixin, qpandas.DataTableWidget):
     """ """
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__()
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdDataFrameTable").override(parent.config).override(cfg)
         self.model = qpandas.DataFrameModel()
+        logma.info(f"NchantdDataFrameTable initialized")
 
-    def initModel(self, df=None):
+
+    def initModel(self, df=None) -> Any:
         """ """
         super().initModel()
         if df is None:
@@ -502,7 +506,7 @@ class NchantdDataFrameTable(NchantdWidgetMixin, qpandas.DataTableWidget):
         self.model.setDataFrame(df)
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """ """
         super().initView()
         self.setFrameShape(pyqt.QTableWidget.NoFrame)
@@ -510,13 +514,13 @@ class NchantdDataFrameTable(NchantdWidgetMixin, qpandas.DataTableWidget):
         self.setViewModel(self.model)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """ """
         self.initModel()
         self.initView()
         return self
 
-    def set_dataframe(self, df, copy=False):
+    def set_dataframe(self, df, copy=False) -> Any:
         """"""
         self.model.setDataFrame(df, copy)
         return self
@@ -524,23 +528,23 @@ class NchantdDataFrameTable(NchantdWidgetMixin, qpandas.DataTableWidget):
 
 class NchantdTableWidget(NchantdWidget):
     """"""
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdTableWidget").override(cfg))
         self.table = None
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> None:
         """"""
         super().initModel(cfg)
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> None:
         """"""
         super().initView(cfg)
         self.table = NchantdTable(self, cfg).initWidget()
         self.layout.addWidget(self.table)
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         self.initModel()
         self.initView()
@@ -550,7 +554,7 @@ class NchantdTableWidget(NchantdWidget):
 class NchantdGrid(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdGrid").override(cfg))
@@ -558,14 +562,14 @@ class NchantdGrid(NchantdWidget):
         self.columns = None
         self.cells = []
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         self.rows = self.config.dikt.get("rows", 3)
         self.columns = self.config.dikt.get("columns", 11)
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         # self.setWindowTitle("Grid of Cells")
@@ -619,18 +623,18 @@ class NchantdGrid(NchantdWidget):
         self.layout.setContentsMargins(0, 0, 0, 0)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def setTitle(self, title):
+    def setTitle(self, title) -> Any:
         """"""
         self.grid_group.setTitle(title)
         return self
 
-    def update_number(self, number):
+    def update_number(self, number) -> Any:
         """"""
         if number > len(self.cells):
             pass

@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any, Optional, Tuple
+
 """  #																			||
 ---  #																			||
 <(META)>:  #																	||
@@ -47,7 +49,7 @@ pxcfg = join(abspath(here), "_data_", "editors.yaml")  # ||assign default config
 
 class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintillaBase):
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """Document editor widget built on top of QsciScintilla widget
         I believe this requires PyQt5, not sure what is available as a
         substitute for PySide2"""
@@ -56,7 +58,7 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         self.config = kahndor.Instruct(pxcfg).select("NchantdDocEditor").override(parent.config).override(cfg)
         self.embeded_links = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """ """
         super().initModel()
         self.embeded_links = []
@@ -65,7 +67,7 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         # self.setText(self.data.get('text'))
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         text = self.config.dikt.get("text", None)
@@ -80,13 +82,13 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         # self.set_size()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """ """
         self.initModel()
         self.initView()
         return self
 
-    def add_action(self, name, func, shortcut=None):
+    def add_action(self, name, func, shortcut=None) -> Any:
         action = pyqt.QAction(name, self)
         action.triggered.connect(func)
         if shortcut:
@@ -94,7 +96,7 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         self.toolbar.addAction(action)
         return self
 
-    def apply_format_to_selected_text(self, format_to_apply):
+    def apply_format_to_selected_text(self, format_to_apply) -> Any:
         """Apply a `QTextCharFormat` modification to the currently selected text."""
         cursor = self.textCursor()
         if cursor.hasSelection():
@@ -105,7 +107,7 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         # Advertise that we can handle image pastes, plus the default types
         return source.hasImage() or super().canInsertFromMimeData(source)
 
-    def remove_leading_empty_block(self, text_edit):
+    def remove_leading_empty_block(self, text_edit) -> None:
         """Remove the first paragraph separator from the document."""
         doc = text_edit.document()
         block = doc.firstBlock()
@@ -161,7 +163,7 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         super().insertFromMimeData(source)
         return self
 
-    def _insert_image(self, img: pyqt.QImage):
+    def _insert_image(self, img: pyqt.QImage) -> Any:
         # Optional scaling before embedding to keep HTML compact or fit layout.
         if self.max_width and img.width() > self.max_width:
             img = img.scaledToWidth(self.max_width, Qt.SmoothTransformation)
@@ -178,14 +180,14 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         cursor.insertHtml(html)
         return self
 
-    def change_font_size(self, size):
+    def change_font_size(self, size) -> Any:
         """Change font size of selected text."""
         format_to_apply = pyqt.QTextCharFormat()
         format_to_apply.setFontPointSize(size)
         self.apply_format_to_selected_text(format_to_apply)
         return self
 
-    def change_font_color(self):
+    def change_font_color(self) -> Any:
         """Change font color of selected text."""
         color = pyqt.QColorDialog.getColor()
         if color.isValid():
@@ -194,7 +196,7 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
             self.apply_format_to_selected_text(format_to_apply)
         return self
 
-    def change_highlight(self):
+    def change_highlight(self) -> Any:
         """Change highlight color of selected text."""
         color = pyqt.QColorDialog.getColor()
         if color.isValid():
@@ -203,57 +205,57 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
             self.apply_format_to_selected_text(format_to_apply)
         return self
 
-    def cmd_change_color(self):
+    def cmd_change_color(self) -> Any:
         """"""
-        #TODO: implement method
+        # NOTE implement method
         return self
 
-    def cmd_change_color_background(self):
+    def cmd_change_color_background(self) -> Any:
         """"""
-        #TODO: implement method
+        # NOTE implement method
         return self
 
-    def cmd_change_color_highlight(self):
+    def cmd_change_color_highlight(self) -> Any:
         """"""
-        #TODO: implement method
+        # NOTE implement method
         return self
 
-    def cmd_change_bold(self):
+    def cmd_change_bold(self) -> Any:
         """"""
-        #TODO: implement method
+        # NOTE implement method
         return self
 
-    def cmd_change_italic(self):
+    def cmd_change_italic(self) -> Any:
         """"""
-        #TODO: implement method
+        # NOTE implement method
         return self
 
-    def cmd_change_underline(self):
+    def cmd_change_underline(self) -> Any:
         """"""
-        #TODO: implement method
+        # NOTE implement method
         return self
 
-    def cmd_change_underline_double(self):
+    def cmd_change_underline_double(self) -> Any:
         """"""
-        #TODO: implement method
+        # NOTE implement method
         return self
 
-    def cmd_change_strike(self):
+    def cmd_change_strike(self) -> Any:
         """"""
-        #TODO: implement method
+        # NOTE implement method
         return self
 
-    def cmd_change_subscript(self):
+    def cmd_change_subscript(self) -> Any:
         """"""
-        #TODO: implement method
+        # NOTE implement method
         return self
 
-    def cmd_change_superscript(self):
+    def cmd_change_superscript(self) -> Any:
         """"""
-        #TODO: implement method
+        # NOTE implement method
         return self
 
-    def create_bulleted_list(self):
+    def create_bulleted_list(self) -> Any:
         """"""
         cursor = self.textCursor()
         list_format = pyqt.QTextListFormat()
@@ -263,7 +265,7 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         cursor.insertList(list_format)
         return self
 
-    def convert_urls_to_links(self, text):
+    def convert_urls_to_links(self, text) -> Any:
         """"""
         # Regular expression for finding URLs
         url_pattern = r"(https?://\S+)"
@@ -271,13 +273,13 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         self.embeded_links.append(re.sub(url_pattern, r'<a href="\1">\1</a>', text))
         return self
 
-    def focusInEvent(self, event):
+    def focusInEvent(self, event) -> Any:
         """ """
         super().focusInEvent(event)
         logma.info(f"Focus In Event")
         return self
 
-    def focusOutEvent(self, event):
+    def focusOutEvent(self, event) -> Any:
         """ """
         # Check if the current text cursor position equals the timestamp's position
         current_text = self.toPlainText()
@@ -286,12 +288,12 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         logma.info(f"Focus Out Event")
         return self
 
-    def get_text(self):
+    def get_text(self) -> str:
         """"""
         text = self.toPlainText()
         return text
 
-    def handle_link_click(self, url):
+    def handle_link_click(self, url) -> Any:
         """"""
         #super().handle_link_click(url)
         if "http?://" in url:
@@ -300,23 +302,23 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
             self.add_new_script_tab(url)
         return self
 
-    def insert_bullet(self):
+    def insert_bullet(self) -> Any:
         """"""
-        #TODO: implement method
+        # NOTE implement method
         return self
 
-    def insert_code(self):
+    def insert_code(self) -> Any:
         """"""
-        #TODO: implement method
+        # NOTE implement method
         return self
 
-    def insert_datetime(self, format_=None, prefix="", suffix=""):
+    def insert_datetime(self, format_=None, prefix="", suffix="") -> Any:
         """"""
         if format_ is None:
             format_ = "%Y-%m-%d %H:%M:%S"
         timestamp = dt.datetime.now().strftime(format_)
         cursor = self.textCursor()
-        #TODO check previous text for number of newline characters
+        # NOTE check previous text for number of newline characters
         # at the top of the document keep no new lines
         # between each entry ensure 2 blank lines...3 new lines
         if self.toPlainText() == "":
@@ -325,7 +327,7 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
             cursor.insertText(f"\n\n{prefix}{timestamp}{suffix}\n")
         return self
 
-    def insert_image(self):
+    def insert_image(self) -> Any:
         """
         Insert an image into the document.
         """
@@ -337,7 +339,7 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
             cursor.insertImage(file_path)
         return self
 
-    def insert_link(self, text):
+    def insert_link(self, text) -> Any:
         """"""
         #set text blue
         #set text underline
@@ -345,11 +347,11 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         cursor.insertText(text)
         return self
 
-    def insert_shape(self):
+    def insert_shape(self) -> Any:
         """"""
         return self
 
-    def insert_table(self, rows=2, columns=2):
+    def insert_table(self, rows=2, columns=2) -> Any:
         """
         Insert a table into the document at the cursor position.
         """
@@ -361,35 +363,35 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         cursor.insertTable(rows, columns, table_format)
         return self
 
-    def insert_webpage(self):
+    def insert_webpage(self) -> Any:
         """"""
         return self
 
-    def is_bold(self):
+    def is_bold(self) -> bool:
         """"""
         return self.fontWeight() == pyqt.QFont.Weight.Bold
 
-    def is_italic(self):
+    def is_italic(self) -> Any:
         """"""
         return self.fontItalic()
 
-    def is_underlined(self):
+    def is_underlined(self) -> Any:
         """"""
         return self.fontUnderline()
 
-    def is_strike(self):
+    def is_strike(self) -> Any:
         """"""
         return self.fontStrikeOut()
 
-    def is_superscript(self):
+    def is_superscript(self) -> bool:
         """"""
         return self.verticalAlignment() == pyqt.QTextCharFormat.AlignSuperScript
 
-    def is_subscript(self):
+    def is_subscript(self) -> bool:
         """"""
         return self.verticalAlignment() == pyqt.QTextCharFormat.AlignSubScript
 
-    def merge_format_on_selection(self, fmt):
+    def merge_format_on_selection(self, fmt) -> Any:
         """
         Merge the provided text format with the current selection.
         """
@@ -399,7 +401,7 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         cursor.mergeCharFormat(fmt)
         return self
 
-    def modify_format(self, modify_fn):
+    def modify_format(self, modify_fn) -> Any:
         """Modify the format of the selected text based on a function."""
         cursor = self.textCursor()
         if cursor.hasSelection():
@@ -408,11 +410,11 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
             cursor.mergeCharFormat(current_format)
         return self
 
-    def onEnterEvent(self):
+    def onEnterEvent(self) -> Any:
         """Run a save of the doc editor data to the database"""
         return self
 
-    def set_cursor_position(self, to=None):
+    def set_cursor_position(self, to=None) -> Any:
         """"""
         cursor = self.textCursor()
         if to is None:
@@ -421,13 +423,13 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         self.setTextCursor(cursor)
         return self
 
-    def set_background(self, color=None, hex=None):
+    def set_background(self, color=None, hex=None) -> Any:
         """"""
         super().set_background(color, hex)
         return self
 
     ## --- Editor Actions --- ##
-    def set_font(self, font):
+    def set_font(self, font) -> Any:
         """
         Set the font family for the selected text.
         """
@@ -436,7 +438,7 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         self.merge_format_on_selection(fmt)
         return self
 
-    def set_font_size(self, size):
+    def set_font_size(self, size) -> None:
         """
         Set the font size for the selected text.
         """
@@ -444,7 +446,7 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         fmt.setFontPointSize(float(size))
         self.merge_format_on_selection(fmt)
 
-    def set_text_color(self):
+    def set_text_color(self) -> Any:
         """
         Open a color picker dialog and set the selected text color.
         """
@@ -455,7 +457,7 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
             self.merge_format_on_selection(fmt)
         return self
 
-    def set_alignment(self, alignment):
+    def set_alignment(self, alignment) -> Any:
         """
         Set the alignment for the current paragraph.
         """
@@ -466,7 +468,7 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
 class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
     """Standard Nchantd Entry Box"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__()
         self.parent = parent
@@ -477,7 +479,7 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
         self.text_changed = False
         self.value = None
 
-    def initModel(self, handler):
+    def initModel(self, handler) -> Any:
         """"""
         super().initModel()
         self.textChanged.connect(self.on_text_changed)
@@ -491,7 +493,7 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
             self.value = self.config.dikt["get_value"]()
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """ """
         super().initView()
         if cfg is None:
@@ -506,16 +508,16 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
         self.set_size()
         return self
 
-    def refresh_view(self, cfg):
+    def refresh_view(self, cfg) -> None:
         """"""
 
-    def initWidget(self, handler=None):
+    def initWidget(self, handler=None) -> Any:
         """"""
         self.initModel(handler)
         self.initView()
         return self
 
-    def on_text_changed(self, text):
+    def on_text_changed(self, text) -> Any:
         """"""
         logma.info(f"Text Changed {text}")
         self.user_editted = dt.datetime.now()
@@ -526,7 +528,7 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
         logma.info(f"Parent {self.parent}")
         return self
 
-    def on_text_edited(self, text):
+    def on_text_edited(self, text) -> Any:
         """on text entered it needs to be added to a data structure for
         assemblying an update record
         manually it would be easy wire the returnPressed event to an in
@@ -539,7 +541,7 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
         logma.info(f"Text Changed {self.value} {self.entry_data}")
         return self
 
-    def on_return_pressed(self, text):
+    def on_return_pressed(self, text) -> Any:
         """enter pressed"""
         logger.debug(f"Enter Pressed")
         self.user_editted = dt.datetime.now()
@@ -547,12 +549,12 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
         self.value = text
         return self
 
-    def focusOutEvent(self, event=None):
+    def focusOutEvent(self, event=None) -> None:
         """Change in focus"""
         # super().focusOutEvent(event)
         # self.on_editing_finished()
 
-    def on_editing_finished(self):
+    def on_editing_finished(self) -> Any:
         """"""
         logma.info(f"Editing Finished {self.text()}")
         if self.text() != self.entry_data:
@@ -561,13 +563,13 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
         logma.info(f"Entry Data {self.entry_data}")
         return self
 
-    def on_selection_changed(self, val=True):
+    def on_selection_changed(self, val=True) -> None:
         """User selecting"""
 
-    def on_cursor_position_changed(self, position: int):
+    def on_cursor_position_changed(self, position: int) -> None:
         """cursor movement"""
 
-    def set_size(self, set_width=None, set_height=None, min_width=10, min_height=10, max_width=None, max_height=None):
+    def set_size(self, set_width=None, set_height=None, min_width=10, min_height=10, max_width=None, max_height=None) -> Any:
         """"""
         super().set_size(set_width, set_height, min_width, min_height, max_width, max_height)
         if self.minimumWidth() < 100:
@@ -576,7 +578,7 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
             self.setMinimumHeight(25)
         return self
 
-    def set_value(self, value):
+    def set_value(self, value) -> Any:
         """"""
         logma.info(f"Set Value{value}")
         if isinstance(value, MethodType):
@@ -590,7 +592,7 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
 class NchantdLabeledEntry(NchantdWidget):
     """ """
 
-    def __init__(self, parent=None, cfg={}):
+    def __init__(self, parent=None, cfg={}) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdLabeledEntry").override(cfg))
@@ -600,13 +602,13 @@ class NchantdLabeledEntry(NchantdWidget):
         self.textbox = None
         self.entry_data = ""
 
-    def initModel(self, handler):
+    def initModel(self, handler) -> Any:
         """"""
         super().initModel()
         self.entry_data = ""
         return self
 
-    def initView(self, handler=None, size=None):
+    def initView(self, handler=None, size=None) -> Any:
         """ """
         super().initView()
         if self.config.dikt.get("icon"):
@@ -625,13 +627,13 @@ class NchantdLabeledEntry(NchantdWidget):
         # self.setMaximumWidth((self.label.size().width() + self.textbox.size().width()) * 1.01)
         return self
 
-    def initWidget(self, handler=None, size=None):
+    def initWidget(self, handler=None, size=None) -> Any:
         """ """
         self.initModel(handler)
         self.initView(handler, size)
         return self
 
-    def getEntry(self, row):
+    def getEntry(self, row) -> Tuple[Any, Any]:
         """"""
         self.name, value = None, None
         try:
@@ -644,12 +646,12 @@ class NchantdLabeledEntry(NchantdWidget):
             pass
         return self.name, self.value
 
-    def set_label(self, text):
+    def set_label(self, text) -> Any:
         """"""
         self.label.setText(text)
         return self
 
-    def setText(self, text):
+    def setText(self, text) -> Any:
         """"""
         logma.info(f"Set Text {text}")
         if self.textbox:
@@ -657,13 +659,13 @@ class NchantdLabeledEntry(NchantdWidget):
         self.entry_data = text
         return self
 
-    def setPlaceholderText(self, text):
+    def setPlaceholderText(self, text) -> Any:
         self.textbox.setPlaceholderText(text)
         self.textbox.set_value(text)
         self.config.dikt["default_text"] = text
         return self
 
-    def refresh_text_box(self):
+    def refresh_text_box(self) -> None:
         """"""
         logma.info("Refresh Text Box")
         self.textbox.initView()
@@ -672,22 +674,22 @@ class NchantdLabeledEntry(NchantdWidget):
 class NchantdEntryEditor(NchantdLabeledEntry):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select('NchantdEntryEditor').override(cfg))
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         logma.deprecate("NchantdEntryEditor is deprecated. Use NchantdLabledEntry instead.")
         self.initModel()
@@ -698,23 +700,23 @@ class NchantdEntryEditor(NchantdLabeledEntry):
 class NchantdEntryEditorActivator(NchantdEntryEditor):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdEntryEditorActivator").override(cfg))
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         self.button = NchantdButton(self, self.config).initWidget()
         self.layout.addWidget(self.button)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -724,16 +726,16 @@ class NchantdEntryEditorActivator(NchantdEntryEditor):
 class NchantdEntryListEditor(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdEntryListEditor").override(cfg))
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         self.layout = pyqt.QVBoxLayout()
         group = pyqt.QGroupBox()
@@ -745,7 +747,7 @@ class NchantdEntryListEditor(NchantdWidget):
         self.setLayout(self.layout)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -755,7 +757,7 @@ class NchantdEntryListEditor(NchantdWidget):
 class NchantdAppendOnlyEditor(NchantdDocEditor):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdAppendOnlyEditor").override(cfg))
@@ -764,24 +766,26 @@ class NchantdAppendOnlyEditor(NchantdDocEditor):
         text_cursor.movePosition(pyqt.QTextCursor.End)
         self.setTextCursor(text_cursor)  # Force cursor to the end
         self.user_input_locked = False  # Prevent backspaces and deletions
+        logma.info(f"NchantdAppendOnlyEditor initialized")
 
-    def initModel(self):
+
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def keyPressEvent(self, event):
+    def keyPressEvent(self, event) -> Optional[Any]:
         """
         Allow input only at the end of the editor, preventing deletions or editing.
         """
@@ -799,23 +803,25 @@ class NchantdScratchEditor(NchantdWidget):
     """Continous text editor that autosaves and restores has a clear button and
     a save tab which allows you to save a seperate document or as a tab"""
 
-    def __init__(self, parent=None, cfg={}):
+    def __init__(self, parent=None, cfg={}) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdScratchEditor").override(cfg))
         self.editor = None
         self.button_export = None
         self.button_maketab = None
+        logma.info(f"NchantdScratchEditor initialized")
+
         # self.model = editormodels.NchantdScratchEditorModel(self)
         # #self.view = editorviews.NchantdScratchEditorView(self)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """ """
         super().initModel()
         # self.model.initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """ """
         super().initView({"layout": "grid"})
         self.createExportButton()
@@ -826,58 +832,58 @@ class NchantdScratchEditor(NchantdWidget):
         self.layout.addWidget(self.editor, 2, 1, 1, 2)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """ """
         self.initModel()
         self.initView()
         return self
 
-    def createEditor(self):
+    def createEditor(self) -> Any:
         """ """
         self.editor = pyqt.QTextEdit(self)
         self.editor.setHorizontalScrollBarPolicy(pyqt.Qt.ScrollBarAlwaysOff)
         return self
 
-    def createExportButton(self):
+    def createExportButton(self) -> Any:
         """ """
         self.button_export = NchantdButton(self, {"name": "Export"}).initWidget()
         return self
 
-    def createMakeTabButton(self):
+    def createMakeTabButton(self) -> Any:
         """ """
         self.button_maketab = NchantdButton(self, {"name": "Clear"}).initWidget()
         return self
 
-    def clear(self):
+    def clear(self) -> None:
         """ """
 
-    def export(self):
+    def export(self) -> None:
         """ """
 
-    def setTheme(self):
+    def setTheme(self) -> None:
         """ """
 
 
 class NchantdDocEditorView(pyqt.QListView):
     """ """
 
-    def __init__(self, parent=None, cfg={}):
+    def __init__(self, parent=None, cfg={}) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdDocEditorView").override(cfg))
 
-    def initView(self):
+    def initView(self) -> Any:
         """ """
         # self.layout = pyqt.QVBoxLayout()
         # self.layout.addWidget(self)
         self.buildEditor()
         return self
 
-    def buildEditor(self):
+    def buildEditor(self) -> Any:
         """ """
         return self
 
-    def setTheme(self, theme):
+    def setTheme(self, theme) -> None:
         """ """
         self.setMarginsForegroundColor()
         self.setMarginsBackgroundColor()

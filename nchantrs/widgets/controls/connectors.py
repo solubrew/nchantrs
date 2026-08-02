@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -30,6 +32,7 @@ from kahndor.logma import Logma
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")
@@ -38,7 +41,7 @@ pxcfg = join(here, "_data_", ".yaml")
 class NchantdCalendlyConnectTab:
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
         self.confg = kahndor.Instruct(pxcfg).select("NchantdCalendlyConnectTab")
         self.parent = parent
@@ -47,15 +50,15 @@ class NchantdCalendlyConnectTab:
         self.config.override(cfg)
         super(NchantdCalendlyConnectTab, self).__init__()
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
         pass
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
         pass
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         pass
 
@@ -63,7 +66,7 @@ class NchantdCalendlyConnectTab:
 class NchantdConnectTab(NchantdTab):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
         self.confg = kahndor.Instruct(pxcfg).select("NchantdConnectTab")
         self.parent = parent
@@ -72,15 +75,15 @@ class NchantdConnectTab(NchantdTab):
         self.config.override(cfg)
         super(NchantdConnectTab, self).__init__()
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
         pass
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
         pass
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         pass
 
@@ -88,7 +91,7 @@ class NchantdConnectTab(NchantdTab):
 class NchantdFacebookConnectTab:
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
         self.confg = kahndor.Instruct(pxcfg).select("NchantdFacebookConnectTab")
         self.parent = parent
@@ -97,15 +100,15 @@ class NchantdFacebookConnectTab:
         self.config.override(cfg)
         super(NchantdFacebookConnectTab, self).__init__()
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
         pass
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
         pass
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         pass
 
@@ -117,7 +120,7 @@ class NchantdFacebookConnectTab:
 class NchantdGoogleConnectTab(NchantdConnectTab):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
         self.confg = kahndor.Instruct(pxcfg).select("NchantdGoogleConnectTab")
         self.parent = parent
@@ -126,16 +129,16 @@ class NchantdGoogleConnectTab(NchantdConnectTab):
         self.config.override(cfg)
         super(NchantdGoogleConnectTab, self).__init__()
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
         # [DONE]
         pass
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
         self.layout = pyqt.VBoxLayout()
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.state_details = ""  # Show connected status, when connected, when authenticated?
         self.browser = NchantdWebBrowser(self).initWidget()
@@ -145,7 +148,7 @@ class NchantdGoogleConnectTab(NchantdConnectTab):
 class NchantdOutlookConnectTab:
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
         self.confg = kahndor.Instruct(pxcfg).select("NchantdOutlookConnectTab")
         self.parent = parent
@@ -154,15 +157,15 @@ class NchantdOutlookConnectTab:
         self.config.override(cfg)
         super(NchantdOutlookConnectTab, self).__init__()
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
         pass
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
         pass
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         pass
 
@@ -170,7 +173,7 @@ class NchantdOutlookConnectTab:
 class NchantdXConnectTab:
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
         self.confg = kahndor.Instruct(pxcfg).select("NchantdCalendlyConnectTab")
         self.parent = parent
@@ -179,15 +182,15 @@ class NchantdXConnectTab:
         self.config.override(cfg)
         super(NchantdXConnectTab, self).__init__()
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
         pass
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
         pass
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         pass
 

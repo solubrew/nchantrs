@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any, Optional
+
 """
 ---
 <(META)>:
@@ -97,7 +99,7 @@ class NchantdNode(NchantdItem):
         :return: The updated parent node.
     """
 
-    def __init__(self, parent, item, nid, node, children, df=DataFrame(), cfg=None):
+    def __init__(self, parent, item, nid, node, children, df=DataFrame(), cfg=None) -> None:
         """
         :param parent: The parent node of the current node.
         :param item: The item displayed in the tree node.
@@ -128,12 +130,12 @@ class NchantdNode(NchantdItem):
         # self.model = NchantdNodeModel(self, self.config)
         # self.view = NchantdNodeView(self)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """ """
         self.model.initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         self.layout = pyqt.QVBoxLayout()
 
         self.setModel(self.parent.model)
@@ -142,32 +144,32 @@ class NchantdNode(NchantdItem):
         self.initContextMenu()
         self.initTriggers()
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """ """
         self.initModel()
         self.initView()
         return self
 
-    def addChildNode(self):
+    def addChildNode(self) -> Any:
         """ """
         return self
 
-    def addSibilingNode(self):
+    def addSibilingNode(self) -> Any:
         """ """
         return self
 
-    def deleteChildren(self, pid):
+    def deleteChildren(self, pid) -> Any:
         """"""
 
         return self
 
-    def data(self, column):
+    def data(self, column) -> Optional[Any]:
         try:
             return self.itemData[column]
         except IndexError:
             return None
 
-    def loadChildren(self, df):
+    def loadChildren(self, df) -> Any:
         """ """
         # [DONE 2026-07-11 H25] Standardize on pid_txt (matches NchantdTreeNode
         # and the actual db schema). NchantdNode was filtering on "parentid"
@@ -184,71 +186,71 @@ class NchantdNode(NchantdItem):
         self.is_loaded = True
         return self
 
-    def hasChildren(self, nid):
+    def hasChildren(self, nid) -> Any:
         """ """
         self.is_expandable = True
         return self
 
-    def initContextMenu(self):
+    def initContextMenu(self) -> Any:
         """ """
         self.setContextMenuPolicy(pyqt.Qt.CustomContextMenu)
         self.customContextMenuRequested.connect(self.onRightClick)
         return self
 
-    def initTriggers(self):
+    def initTriggers(self) -> Any:
         """ """
         self.doubleClicked.connect(self.onLeftDoubleClick)
         self.expanded.connect(self.onExpand)
         self.clicked.connect(self.onLeftClick)
         return self
 
-    def initUI(self):
+    def initUI(self) -> Any:
         """ """
         return self
 
-    def onExpand(self):
+    def onExpand(self) -> Any:
         """ """
         return self
 
-    def onRightClick(self):
+    def onRightClick(self) -> None:
         """ """
 
-    def onLeftDoubleClick(self, signal):
+    def onLeftDoubleClick(self, signal) -> Any:
         return self
 
-    def onLeftClick(self, signal):
+    def onLeftClick(self, signal) -> Any:
         return self
 
-    def onMiddleClick(self):
+    def onMiddleClick(self) -> Any:
         """ """
         return self
 
-    def onSelection(self, fx, mod=None):
+    def onSelection(self, fx, mod=None) -> None:
         """On selection of tree node load data for tabs in center widget"""
         event.on_clickleft_press(fx)
 
         return
 
-    def onDeselection(self, fx, mod=None):
+    def onDeselection(self, fx, mod=None) -> None:
         """On deslection of tree node save any changes to node options"""
         event.on_clickleft_release(fx)
         return
 
-    def onEnter(self, fx, mod=None):
+    def onEnter(self, fx, mod=None) -> None:
         """Need to build if a node was selected an enter create a new sibling
         node. shift-enter creates a new child node, ctrl-enter creates
         a new tab in the node"""
         event.on_enter_kp(fx, mod)
         return
 
-    def onDelete(self, fx, mod=None):
+    def onDelete(self, fx, mod=None) -> None:
         """Launch Dialog to confirm deletion of node, which marks as deleted in database
         and is not removed until a database cleanup is run"""
 
-    def update_position(self):
+    def update_position(self) -> None:
         """"""
 
-    def _set_font(self):
+    def _set_font(self) -> None:
         """"""
         font = self.font()
         font.setPointSize(20)
@@ -312,7 +314,7 @@ class NchantdTreeNode(NchantdTreeItem):
         :return: The updated parent node.
     """
 
-    def __init__(self, parent, name, nid, node, children=DataFrame(), cfg=None):
+    def __init__(self, parent, name, nid, node, children=DataFrame(), cfg=None) -> None:
         """
         :param parent: The parent node of the current node.
         :param item: The item displayed in the tree node.
@@ -347,7 +349,7 @@ class NchantdTreeNode(NchantdTreeItem):
         self.tabs = []
         self.place_holder = None
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """ """
         super().initModel(cfg)
         self.tab_focus = self.node.get("tabfocus_txt", 0)
@@ -380,36 +382,36 @@ class NchantdTreeNode(NchantdTreeItem):
 
         return self
 
-    def initView(self, path=None):
+    def initView(self, path=None) -> Any:
         """"""
         self.set_expanded(self.expanded)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """ """
         self.initModel()
         self.initView()
         return self
 
-    def addChildNode(self):
+    def addChildNode(self) -> Any:
         """ """
         return self
 
-    def addSibilingNode(self):
+    def addSibilingNode(self) -> Any:
         """ """
         return self
 
-    def deleteChildren(self, pid):
+    def deleteChildren(self, pid) -> Any:
         """"""
 
         return self
 
-    def hasChildren(self, nid):
+    def hasChildren(self, nid) -> Any:
         """ """
         self.is_expandable = True
         return self
 
-    def get_children(self):
+    def get_children(self) -> Any:
         """
         Get all child nodes of this tree item.
         """
@@ -420,7 +422,7 @@ class NchantdTreeNode(NchantdTreeItem):
                 children.append(child)
         return children
 
-    def loadChildren(self, df):
+    def loadChildren(self, df) -> Any:
         """ """
         df.sort_values(by=["position_int", "name_txt"], inplace=True)
         children = df[df["pid_txt"] == str(self.nid)]
@@ -439,12 +441,12 @@ class NchantdTreeNode(NchantdTreeItem):
         self.is_loaded = True
         return self
 
-    def set_expanded(self, expand=True):
+    def set_expanded(self, expand=True) -> Any:
         """"""
         self.setExpanded(expand)
         return self
 
-    def set_data_focus(self):
+    def set_data_focus(self) -> Any:
         """"""
         self.focus = self.parameters.get("focus", "office")
         # [DONE]
@@ -452,7 +454,7 @@ class NchantdTreeNode(NchantdTreeItem):
         #    self.app.view.theme.refocus_theme(self.focus)
         return self
 
-    def set_recent_tabs(self):
+    def set_recent_tabs(self) -> Any:
         """"""
         self.recent_center_tab = self.parameters.get("recent_tab", {}).get("center", {})
         self.recent_right_tab = self.parameters.get("recent_tab", {}).get("right", {})
@@ -468,12 +470,12 @@ class NchantdTreeNode(NchantdTreeItem):
     #             tree.setFocus()
     #     return self
 
-    def setText(self, column, text, store=True):
+    def setText(self, column, text, store=True) -> Any:
         """"""
         super().setText(column, text)
         return self
 
-    def sort_by_criteria(self, criteria="name", order="ascending", update_db=True):
+    def sort_by_criteria(self, criteria="name", order="ascending", update_db=True) -> Any:
         """
         Sort children by various criteria.
 
@@ -509,7 +511,7 @@ class NchantdTreeNode(NchantdTreeItem):
 
         return self
 
-    def sortChildren(self, column=0, order="ascending", db="db", sort_key=None):
+    def sortChildren(self, column=0, order="ascending", db="db", sort_key=None) -> Any:
         """
         Sort children of the tree node and update database positions efficiently.
 
@@ -544,7 +546,7 @@ class NchantdTreeNode(NchantdTreeItem):
             self.parent_widget.app.model.store.update_record(data, "nid_txt", child.nid, db)
         return self
 
-    def updateTabs(self, view="center"):
+    def updateTabs(self, view="center") -> Any:
         """ """
         # logma.inspect_caller()
         self.app.view.panes[view].clear()
@@ -552,7 +554,7 @@ class NchantdTreeNode(NchantdTreeItem):
         self.app.view.refresh_window_size()
         return self
 
-    def _batch_update_positions(self, children, db="db"):
+    def _batch_update_positions(self, children, db="db") -> None:
         """
         Efficiently update positions in database using batch operations.
         """
@@ -568,7 +570,7 @@ class NchantdTreeNode(NchantdTreeItem):
             # Fallback to individual updates with transaction
             self._individual_updates_with_transaction(updates, db)
 
-    def _individual_updates_with_transaction(self, updates, db):
+    def _individual_updates_with_transaction(self, updates, db) -> None:
         """
         Perform individual updates within a transaction for better performance.
         """
@@ -591,7 +593,7 @@ class NchantdTreeNode(NchantdTreeItem):
                 self.parent_widget.app.model.store.rollback_transaction(db)
             raise e
 
-    def _update_tree_ui(self, sorted_children):
+    def _update_tree_ui(self, sorted_children) -> None:
         """Update the tree widget UI with sorted children."""
         # Remove all children from UI
         for i in range(self.childCount()):
@@ -601,7 +603,7 @@ class NchantdTreeNode(NchantdTreeItem):
         for child in sorted_children:
             self.addChild(child)
 
-    def sort_with_lazy_loading(self):
+    def sort_with_lazy_loading(self) -> Any:
         """Sort considering lazy loading of children."""
         if not self.is_loaded:
             # Sort will happen when children are loaded
@@ -610,7 +612,7 @@ class NchantdTreeNode(NchantdTreeItem):
 
         return self.sortChildren()
 
-    def debounced_sort(self, delay=0.5):
+    def debounced_sort(self, delay=0.5) -> None:
         """Debounce sort operations to avoid excessive database updates."""
         if hasattr(self, "_sort_timer"):
             self._sort_timer.cancel()
@@ -618,11 +620,11 @@ class NchantdTreeNode(NchantdTreeItem):
         self._sort_timer = threading.Timer(delay, self._perform_sort)
         self._sort_timer.start()
 
-    def _perform_sort(self):
+    def _perform_sort(self) -> None:
         """Actually perform the sort operation."""
         self.sortChildren()
 
-    def _set_font(self):
+    def _set_font(self) -> Any:
         """"""
         font = self.font(0)
         node_types = self.config.dikt["node_types"]
@@ -635,7 +637,7 @@ class NchantdTreeNode(NchantdTreeItem):
         self.setFont(0, font)
         return self
 
-    def _set_font_color(self):
+    def _set_font_color(self) -> Any:
         """"""
         node_types = self.config.dikt["node_types"]
         if self.node_type not in node_types:
@@ -678,7 +680,7 @@ class NchantdTreeNode(NchantdTreeItem):
         # self.setForeground(0, pyqt.QColor("white"))
         return self
 
-    def _set_icon(self, icon_type="accent"):
+    def _set_icon(self, icon_type="accent") -> Any:
         """
         #need to get the correct icon based on the parameters focus
 
@@ -691,7 +693,7 @@ class NchantdTreeNode(NchantdTreeItem):
         except KeyError:
             raise Exception(f"Unknown node type {self.node_type}")
         logma.info(f"App Model {self.app.model}")
-        # TODO:3 fix user
+        # NOTE:3 fix user
         # if self.app.model.user.easter_egg:
         #    icon = "mist_easter_egg_a0001"
         self.setIcon(0, pyqt.QIcon(self.app.view.theme.get_icon_path(icon, icon_type)))
@@ -701,30 +703,30 @@ class NchantdTreeNode(NchantdTreeItem):
 class NchantdCanvasNodeMixin(NchantdWidgetMixin):
     """"""
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def launch_update_sigil(self):
+    def launch_update_sigil(self) -> None:
         """"""
 
 
 class NchantdRectangleNode(NchantdCanvasNodeMixin, pyqt.QGraphicsRectItem):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("Nchantd")
@@ -733,12 +735,12 @@ class NchantdRectangleNode(NchantdCanvasNodeMixin, pyqt.QGraphicsRectItem):
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         self.setBrush(pyqt.QBrush(pyqt.QColor(100, 100, 250, 100)))  # Set a light blue color
@@ -755,7 +757,7 @@ class NchantdRectangleNode(NchantdCanvasNodeMixin, pyqt.QGraphicsRectItem):
         self.setFlags(pyqt.QGraphicsItem.ItemIsSelectable | pyqt.QGraphicsItem.ItemIsMovable)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -765,7 +767,7 @@ class NchantdRectangleNode(NchantdCanvasNodeMixin, pyqt.QGraphicsRectItem):
 class NchantdEllipseNode(NchantdCanvasNodeMixin, pyqt.QGraphicsEllipseItem):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("Nchantd")
@@ -774,17 +776,17 @@ class NchantdEllipseNode(NchantdCanvasNodeMixin, pyqt.QGraphicsEllipseItem):
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -794,7 +796,7 @@ class NchantdEllipseNode(NchantdCanvasNodeMixin, pyqt.QGraphicsEllipseItem):
 class NchantdCircleNode(NchantdEllipseNode):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdCircleItem")
@@ -803,17 +805,17 @@ class NchantdCircleNode(NchantdEllipseNode):
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -823,7 +825,7 @@ class NchantdCircleNode(NchantdEllipseNode):
 class NchantdLineNode(NchantdCanvasNodeMixin, pyqt.QGraphicsLineItem):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdLineItem")
@@ -832,17 +834,17 @@ class NchantdLineNode(NchantdCanvasNodeMixin, pyqt.QGraphicsLineItem):
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -852,7 +854,7 @@ class NchantdLineNode(NchantdCanvasNodeMixin, pyqt.QGraphicsLineItem):
 class NchantdLineArrowNode(NchantdLineNode):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdLineNode")
@@ -861,17 +863,17 @@ class NchantdLineArrowNode(NchantdLineNode):
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -881,7 +883,7 @@ class NchantdLineArrowNode(NchantdLineNode):
 class NchantdLineDoubleArrowNode(NchantdLineArrowNode):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdLineNode")
@@ -890,17 +892,17 @@ class NchantdLineDoubleArrowNode(NchantdLineArrowNode):
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -910,7 +912,7 @@ class NchantdLineDoubleArrowNode(NchantdLineArrowNode):
 class NchantdImageNode(NchantdCanvasNodeMixin, pyqt.QGraphicsPixmapItem):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdImageItem")
@@ -919,17 +921,17 @@ class NchantdImageNode(NchantdCanvasNodeMixin, pyqt.QGraphicsPixmapItem):
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -939,7 +941,7 @@ class NchantdImageNode(NchantdCanvasNodeMixin, pyqt.QGraphicsPixmapItem):
 class NchantdTextNode(NchantdCanvasNodeMixin, pyqt.QGraphicsTextItem):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdTextItem")
@@ -948,17 +950,17 @@ class NchantdTextNode(NchantdCanvasNodeMixin, pyqt.QGraphicsTextItem):
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -968,7 +970,7 @@ class NchantdTextNode(NchantdCanvasNodeMixin, pyqt.QGraphicsTextItem):
 class NchantdIrregularShapeNode(NchantdCanvasNodeMixin, pyqt.QGraphicsPathItem):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdIrregularShapeItem")
@@ -977,17 +979,17 @@ class NchantdIrregularShapeNode(NchantdCanvasNodeMixin, pyqt.QGraphicsPathItem):
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -997,7 +999,7 @@ class NchantdIrregularShapeNode(NchantdCanvasNodeMixin, pyqt.QGraphicsPathItem):
 class NchantdPolygonNode(NchantdCanvasNodeMixin, pyqt.QGraphicsPolygonItem):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdPolygonItem")
@@ -1006,17 +1008,17 @@ class NchantdPolygonNode(NchantdCanvasNodeMixin, pyqt.QGraphicsPolygonItem):
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -1026,7 +1028,7 @@ class NchantdPolygonNode(NchantdCanvasNodeMixin, pyqt.QGraphicsPolygonItem):
 class NchantdTriangleNode(NchantdPolygonNode):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("Nchantd")
@@ -1035,17 +1037,17 @@ class NchantdTriangleNode(NchantdPolygonNode):
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

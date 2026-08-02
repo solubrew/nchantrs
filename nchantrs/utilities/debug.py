@@ -22,6 +22,8 @@ class DataSourceDumper:
         """
         self.store = store
         self.model = model
+        logma.info(f"DataSourceDumper initialized")
+
     
     def get_table_names(self) -> List[str]:
         """Get list of all available table names."""

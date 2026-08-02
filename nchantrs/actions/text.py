@@ -31,6 +31,7 @@ from kahndor.logma import Logma
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # Constants for magic number replacement
 DEFAULT_STATUS_MESSAGE_TIMEOUT = 3000  # milliseconds

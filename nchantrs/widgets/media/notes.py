@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -33,6 +35,7 @@ from kahndor.logma import Logma
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "notes.yaml")
@@ -42,7 +45,7 @@ class NchantdStickyNoteEditor(NchantdSigil):
     """A Draggable always ontop note that can be minimized to a dot or hidden entirely but then turned
     back on with correct on screen placement"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdStickyNoteEditor")
@@ -55,12 +58,12 @@ class NchantdStickyNoteEditor(NchantdSigil):
         self.toolbox_config = None
         self.editor = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         cfg = {}
@@ -80,7 +83,7 @@ class NchantdStickyNoteEditor(NchantdSigil):
         self.setMaximumWidth(300)
         return self
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event) -> None:
         """"""
         if event.button() == pyqt.Qt.LeftButton and not self.is_pinned:
             self.drag_start_position = event.globalPosition().toPoint()
@@ -90,7 +93,7 @@ class NchantdStickyNoteEditor(NchantdSigil):
 class NchantdStickyNoteManager(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("Nchantd")
@@ -99,15 +102,15 @@ class NchantdStickyNoteManager(NchantdWidget):
         self.config.override(cfg)
         super(NchantdStickyNoteManager, self).__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -117,7 +120,7 @@ class NchantdStickyNoteManager(NchantdWidget):
 class NchantdRateCard(pyqt.QWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("Nchantd")
@@ -126,15 +129,15 @@ class NchantdRateCard(pyqt.QWidget):
         self.config.override(cfg)
         super(NchantdRateCard, self).__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

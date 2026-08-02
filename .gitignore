@@ -30,3 +30,7 @@ botpy.log
 
 # Duplicate test artifacts
 
+
+# Sasquatch audit test reports
+FALCON_TEST.yaml
+test_reports/

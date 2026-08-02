@@ -33,6 +33,7 @@ from nchantrs.widgets.controls.checkboxes import NchantdCheckboxGroup
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")
@@ -45,6 +46,8 @@ class NchantdSettingsSigil(NchantdSigil):
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdSettingsSigil").override(cfg))
+        logma.info(f"NchantdSettingsSigil initialized")
+
 
     def initModel(self) -> None:
         """"""

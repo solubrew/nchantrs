@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -31,6 +33,7 @@ from nchantrs.widgets.controls.radios import NchantdRadioButtonGroup
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")
@@ -39,7 +42,7 @@ pxcfg = join(here, "_data_", ".yaml")
 class NchantdWizardPage(pyqt.QWizardPage):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__()
         self.parent = parent
@@ -49,10 +52,10 @@ class NchantdWizardPage(pyqt.QWizardPage):
         self.config.override(cfg)
         self.app = self.parent.app
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
 
-    def initView(self):
+    def initView(self) -> Any:
         """
         A stackable page of widgets with a bottom configured navigation buttons
 
@@ -61,7 +64,7 @@ class NchantdWizardPage(pyqt.QWizardPage):
         self.setLayout(self.layout)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -71,7 +74,7 @@ class NchantdWizardPage(pyqt.QWizardPage):
 class NchantdSelectInstancePage(NchantdWizardPage):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdSelectInstancePage")
@@ -81,12 +84,12 @@ class NchantdSelectInstancePage(NchantdWizardPage):
         self.config.override(cfg)
         self.app = self.parent.app
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         if self.app.recent_documents:
@@ -118,7 +121,7 @@ class NchantdSelectInstancePage(NchantdWizardPage):
         self.registerField("focus_check", self.checks)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

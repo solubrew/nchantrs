@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -34,6 +36,7 @@ from nchantrs.widgets.calendars.years import NchantdYearCalendar
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "calendars.yaml")
@@ -42,7 +45,7 @@ pxcfg = join(here, "_data_", "calendars.yaml")
 class NchantdCalendar(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdCalendar").override(cfg))
@@ -51,12 +54,12 @@ class NchantdCalendar(NchantdWidget):
         self.scope = None
         self.calendar = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         self.scope = self.config.dikt.get("scope", "week").lower().replace(" ", "_").replace("-", "_")
@@ -102,7 +105,7 @@ class NchantdCalendar(NchantdWidget):
         self.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignTop)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -112,19 +115,19 @@ class NchantdCalendar(NchantdWidget):
 class NchantdDateTimeSelect(NchantdWidgetMixin, pyqt.QDateTimeEdit):
     """"""
 
-    def __init__(self, parent, cfg=None, *args, **kwargs):
+    def __init__(self, parent, cfg=None, *args, **kwargs) -> None:
         """"""
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).override(cfg)
         super().__init__(*args, **kwargs)
 
-    def initModel(self, objects=None, get_actions=True):
+    def initModel(self, objects=None, get_actions=True) -> None:
         """"""
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
 
-    def initWidget(self, handler=None):
+    def initWidget(self, handler=None) -> Any:
         """
 
         :param handler:
@@ -137,12 +140,12 @@ class NchantdDateTimeSelect(NchantdWidgetMixin, pyqt.QDateTimeEdit):
 class NchantdDateTimeGroup(NchantdWidget):
     """"""
 
-    def __init__(self, parent, cfg=None):
+    def __init__(self, parent, cfg=None) -> None:
         """"""
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdAdvancedCalculator").override(cfg))
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         layout = pyqt.QVBoxLayout()
         gb = pyqt.QGroupBox()
@@ -166,7 +169,7 @@ class NchantdDateTimeGroup(NchantdWidget):
         self.setLayout(layout)
         return self
 
-    def initWidget(self, handler=None):
+    def initWidget(self, handler=None) -> Any:
         """
 
         :param handler:
@@ -180,7 +183,7 @@ class NchantdDateTimeGroup(NchantdWidget):
 class NchantdDateSelect(NchantdWidgetMixin, pyqt.QCalendarWidget):
     """"""
 
-    def __init__(self, parent, cfg=None, *args, **kwargs):
+    def __init__(self, parent, cfg=None, *args, **kwargs) -> None:
         """"""
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg)
@@ -189,14 +192,14 @@ class NchantdDateSelect(NchantdWidgetMixin, pyqt.QCalendarWidget):
         super().__init__(*args, **kwargs)
         self.config.override(cfg)
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         self.set_size()
         # self.setMinimumSize(100, 100)
         # self.setMaximumSize(500, 400)
         return self
 
-    def initWidget(self, handler=None):
+    def initWidget(self, handler=None) -> Any:
         """
 
         :param handler:
@@ -207,7 +210,7 @@ class NchantdDateSelect(NchantdWidgetMixin, pyqt.QCalendarWidget):
         self.selectionChanged.connect(self.on_date_selected)
         return self
 
-    def on_date_selected(self):
+    def on_date_selected(self) -> Any:
         """"""
         date = self.selectedDate()
         self.handler("date", date)
@@ -217,7 +220,7 @@ class NchantdDateSelect(NchantdWidgetMixin, pyqt.QCalendarWidget):
 class NchantdDateIterate(NchantdWidgetMixin, pyqt.QDateEdit):
     """"""
 
-    def __init__(self, parent, cfg=None):
+    def __init__(self, parent, cfg=None) -> None:
         """"""
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).override(cfg)
@@ -228,7 +231,7 @@ class NchantdDateIterate(NchantdWidgetMixin, pyqt.QDateEdit):
 class NchantdEventsList(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("Nchantd")
@@ -237,15 +240,15 @@ class NchantdEventsList(NchantdWidget):
         super().__init__(self.parent, self.config)
         self.config.override(cfg)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -255,14 +258,14 @@ class NchantdEventsList(NchantdWidget):
 class NchantdTimeSelect(NchantdWidgetMixin, pyqt.QTimeEdit):
     """"""
 
-    def __init__(self, parent, cfg=None, *args, **kwargs):
+    def __init__(self, parent, cfg=None, *args, **kwargs) -> None:
         """"""
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdTimeSelect")
         super().__init__(*args, **kwargs)
         self.config.override(cfg)
 
-    def initWidget(self, handler=None):
+    def initWidget(self, handler=None) -> Any:
         """
 
         :param handler:

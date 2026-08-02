@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -34,6 +36,7 @@ from nchantrs.widgets.controls.buttons import NchantdButton
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "entries.yaml")
@@ -41,7 +44,7 @@ pxcfg = join(here, "_data_", "entries.yaml")
 
 class NchantdEntryEditorExplainer(NchantdWidget):
     """"""
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select('NchantdEntryEditorExplainer')
@@ -50,13 +53,15 @@ class NchantdEntryEditorExplainer(NchantdWidget):
         super().__init__(self)
         self.config.override(cfg)
         self.explainer = None
+        logma.info(f"NchantdEntryEditorExplainer initialized")
 
-    def initModel(self):
+
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         cfg = self.config.override({}).dikt
@@ -65,13 +70,13 @@ class NchantdEntryEditorExplainer(NchantdWidget):
         self.update_explainer()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def update_explainer(self):
+    def update_explainer(self) -> Any:
         """"""
         if self.explainer is not None:
             self.layout.removeWidget(self.explainer)
@@ -82,7 +87,7 @@ class NchantdEntryEditorExplainer(NchantdWidget):
 
 class NchantdActivateEntry(NchantdWidget):
     """"""
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select('Nchantd')
@@ -91,12 +96,12 @@ class NchantdActivateEntry(NchantdWidget):
         super().__init__(self)
         self.config.override(cfg)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """Initialize the view with checkable button via config only"""
         super().initView()
         cfg = self.config.override({"checkable": True}).dikt
@@ -109,7 +114,7 @@ class NchantdActivateEntry(NchantdWidget):
         self.layout.addWidget(self.editor)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -117,7 +122,7 @@ class NchantdActivateEntry(NchantdWidget):
 
 class NchantdCheckboxEditor(NchantdWidget):
     """"""
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -126,12 +131,12 @@ class NchantdCheckboxEditor(NchantdWidget):
             self.config.override(parent.config)
         self.config.override(cfg)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         cfg = {"layout": "horizontal"}
         super().initView(cfg)
@@ -145,7 +150,7 @@ class NchantdCheckboxEditor(NchantdWidget):
         self.layout.addWidget(self.entrybox)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

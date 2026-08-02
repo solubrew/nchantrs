@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -30,6 +32,7 @@ from kahndor.logma import Logma
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "managers.yaml")
@@ -38,22 +41,22 @@ pxcfg = join(here, "_data_", "managers.yaml")
 class NchantdManager(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdManager").override(cfg))
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -64,22 +67,22 @@ class NchantdBasket(NchantdWidget):
     """A Group with configuration drop in actions like moving, or copying a file, exporting, importing, tagging
     etc"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdBasket").override(cfg))
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -89,19 +92,19 @@ class NchantdBasket(NchantdWidget):
 class NchantdBasketManager(NchantdManager):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdBasketManager").override(cfg))
         super(NchantdBasketManager, self).__init__(self.parent, self.config)
         self.baskets = ["Memes", "InfoGraphics", "Photos"]
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         for basket in self.baskets:
@@ -115,7 +118,7 @@ class NchantdBasketManager(NchantdManager):
             self.layout.addWidget(group)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -125,16 +128,18 @@ class NchantdBasketManager(NchantdManager):
 class NchantdExtensionManager(NchantdManager):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdExtensionManager").override(cfg))
+        logma.info(f"NchantdExtensionManager initialized")
 
-    def initModel(self):
+
+    def initModel(self) -> Any:
         """"""
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         header_layout = pyqt.QVBoxLayout()
         cfg = {}
@@ -145,13 +150,13 @@ class NchantdExtensionManager(NchantdManager):
         self.layout.addWidget(self.extension_catalog)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def add_extension(self):
+    def add_extension(self) -> None:
         """
         need a method for injecting tabs into tabsets for specific nodes
         those nodes could be
@@ -163,23 +168,23 @@ class NchantdExtensionManager(NchantdManager):
         :return:
         """
 
-    def remove_extension(self):
+    def remove_extension(self) -> None:
         """"""
 
 
 class NchantdFileSystemsManager(NchantdManager):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdFileSystemsManager").override(cfg))
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         layout = pyqt.QHBoxLayout()
         cfg = {}
@@ -187,7 +192,7 @@ class NchantdFileSystemsManager(NchantdManager):
         layout.addWidget(table)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -197,22 +202,22 @@ class NchantdFileSystemsManager(NchantdManager):
 class NchantdSecurityManager(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdSecurityManager").override(cfg))
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -38,7 +40,7 @@ pxcfg = join(here, "_data_", ".yaml")
 class NchantdNavigationButtons(pyqt.QWidget):
     """ """
 
-    def __init__(self, parent=None, cfg={}):
+    def __init__(self, parent=None, cfg={}) -> None:
         """ """
         self.config = kahndor.Instruct(pxcfg).override(cfg)
         self.config.select("NchantdNavigationButtons")
@@ -67,7 +69,7 @@ class NchantdNavigationButtons(pyqt.QWidget):
         self.layout.addWidget(self.nextbutton)
         self.setLayout(self.layout)
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """ """
         return self
 

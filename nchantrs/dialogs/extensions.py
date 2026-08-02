@@ -31,6 +31,7 @@ from nchantrs.dialogs.dialogs import NchantdSigil
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "extensions.yaml")

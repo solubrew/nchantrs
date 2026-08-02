@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -26,6 +28,7 @@ from nchantrs.libraries import pyqt
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "multipages.yaml")
@@ -34,17 +37,19 @@ pxcfg = join(here, "_data_", "multipages.yaml")
 class NchantdGraphicsView(pyqt.QGrpahicsView):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdGraphicsView").override(cfg))
+        logma.info(f"NchantdGraphicsView initialized")
 
-    def initModel(self):
+
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         # Create a QGraphicsScene
@@ -64,13 +69,13 @@ class NchantdGraphicsView(pyqt.QGrpahicsView):
         self.setFocus()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def create_page(self, text):
+    def create_page(self, text) -> Any:
         """
         Create a single page as a QGraphicsItemGroup with a background and title text.
         """
@@ -86,7 +91,7 @@ class NchantdGraphicsView(pyqt.QGrpahicsView):
         group.addToGroup(title)
         return group
 
-    def switch_page(self, direction):
+    def switch_page(self, direction) -> None:
         """
         Switch between pages.
         """

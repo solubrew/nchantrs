@@ -15,123 +15,123 @@
 '''
 # -*- coding: utf-8 -*-
 #===============================================================================||
-def addtable():
+def addtable() -> None:
 	'''Add a new table sheet to application '''
 	return
-def cellclear():
+def cellclear() -> None:
 	'''Delete content from table cell while preserving formats'''
 	return
-def cellbackgroundcolorset():
+def cellbackgroundcolorset() -> None:
 	'''Set the color of the cell background'''
 	return
-def cellbordercolorset():
+def cellbordercolorset() -> None:
 	'''Set the color of the cell border'''
 	return
-def cellcommentadd():
+def cellcommentadd() -> None:
 	'''Add comment flag to selected cell'''
 	return
-def cellcommentdelete():
+def cellcommentdelete() -> None:
 	'''Delete commment flag from selected cell'''
 	return
-def celldelete():
+def celldelete() -> None:
 	'''Delete content and formatting from table cell and move cells in either
 		the X or Y direction based on selection in dialog'''
 	return
-def celledit():
+def celledit() -> None:
 	'''Launch dialog to edit all aspects of cell'''
 	return
-def cellfontcolorset():
+def cellfontcolorset() -> None:
 	'''Set the color of the cell font'''
 	return
-def cellinsert():
+def cellinsert() -> None:
 	'''Add a new cell at selected location moving rows in the column down or
 	 	moving columns in the row to the right'''
 	return
-def celllockcontent():
+def celllockcontent() -> None:
 	'''Lock cell so that content cannot be changed'''
 	return
-def celllockformat():
+def celllockformat() -> None:
 	'''Lock cell so that content cannot be changed'''
 	return
-def celllocklocation():
+def celllocklocation() -> None:
 	'''Lock cell so that content cannot be changed'''
 	return
-def celllockall():
+def celllockall() -> None:
 	'''Lock all of the cells attributes'''
 	return
-def cellunlockcontent():
+def cellunlockcontent() -> None:
 	'''Unlock cell so that content cannot be changed'''
 	return
-def cellunlockformat():
+def cellunlockformat() -> None:
 	'''Unlock cell so that content cannot be changed'''
 	return
-def cellunlocklocation():
+def cellunlocklocation() -> None:
 	'''Unlock cell so that content cannot be changed'''
 	return
-def cellunlockall():
+def cellunlockall() -> None:
 	'''Unlock all of the cells attributes'''
 	return
-def cellupdate():
+def cellupdate() -> None:
 	'''Update selected cell value'''
 	return
-def columnadd():
+def columnadd() -> None:
 	'''Add a column to the active table'''
 	return
-def columndelete():
+def columndelete() -> None:
 	'''Remove a column from the active table'''
 	return
-def columnupdate():
+def columnupdate() -> None:
 	'''Update selected column values'''
 	return
-def columninsert():
+def columninsert() -> None:
 	''' '''
 	return
-def columnlockcontent():
+def columnlockcontent() -> None:
 	''' '''
 	return
-def columnlockformat():
+def columnlockformat() -> None:
 	''' '''
 	return
-def columnlockabslocation():
+def columnlockabslocation() -> None:
 	'''Lock Absolute Location of Column '''
 	return
-def columnlockrellocation():
+def columnlockrellocation() -> None:
 	'''Lock Relative Location of Column '''
 	return
-def columnlockall():
+def columnlockall() -> None:
 	'''Lock all aspects of Column '''
 	return
-def rowadd():
+def rowadd() -> None:
 	'''Add a row to the active table'''
 	return
-def rowdelete():
+def rowdelete() -> None:
 	'''Remove a row from the active table'''
 	return
-def rowinsert():
+def rowinsert() -> None:
 	'''Insert Row into Table '''
 	return
-def rowlockcontent():
+def rowlockcontent() -> None:
 	'''Lock Content of Row '''
 	return
-def rowlockformat():
+def rowlockformat() -> None:
 	'''Lock Format of Row '''
 	return
-def rowlockabslocation():
+def rowlockabslocation() -> None:
 	'''Lock Absolute Location of Row '''
 	return
-def rowlockrellocation():
+def rowlockrellocation() -> None:
 	'''Lock Relative Location of Row'''
 	return
-def rowlockall():
+def rowlockall() -> None:
 	'''Lock All Aspects of Row '''
 	return
-def rowupdate():
+def rowupdate() -> None:
 	'''Update selected row values'''
 	return
-def tableadd():
+def tableadd() -> None:
 	'''Add a new table sheet to application '''
 	return
-def tabledelete():
+def tabledelete() -> None:
 	'''Remove the active table'''
 	return
 

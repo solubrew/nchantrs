@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -39,7 +41,7 @@ pxcfg = join(here, "_data_", ".yaml")
 class NchantdCommunicationsManager(object):
     """"""
 
-    def __init__(self, parent, cfg=None):
+    def __init__(self, parent, cfg=None) -> None:
         """"""
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdCommunicationsManager").override(cfg)
@@ -47,38 +49,38 @@ class NchantdCommunicationsManager(object):
         self.reply = None
         # self.supervisor = Pyularity()
 
-    def initManager(self):
+    def initManager(self) -> Any:
         """"""
         self.connect()
         return self
 
-    def connect(self, server="tcp://127.0.0.1", port="5555"):
+    def connect(self, server="tcp://127.0.0.1", port="5555") -> Any:
         """"""
         self.context = zmq.Context()  # Create a ZeroMQ context
         self.socket = self.context.socket(zmq.REQ)  # Create a REQ (Request) socket
         self.socket.connect(f"{server}:{port}")  # Connect to the server's socket
         return self
 
-    def notice_app_failed(self, e):
+    def notice_app_failed(self, e) -> Any:
         """"""
         logma.info(f"App Failed: {e}")
         message = f"APPFAILED:{self.parent.instance.instance_id}"
         return self.send_request(message)
 
-    def start_supervisor(self):
+    def start_supervisor(self) -> Any:
         """"""
         self.supervisor.launch_independent()
         return self
 
-    def request_new_instance(self):
+    def request_new_instance(self) -> Any:
         """"""
         message = f"NEWINSTANCE:{self.parent.instance.instance_id}"
         return self.send_request(message)
 
-    def request_restart_instance(self, instance):
+    def request_restart_instance(self, instance) -> None:
         """"""
 
-    def send_request(self, message):
+    def send_request(self, message) -> Any:
         """"""
         logma.info(f"Send Message: {message}")
         # try:

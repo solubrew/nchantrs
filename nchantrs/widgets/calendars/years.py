@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -44,7 +46,7 @@ pxcfg = join(here, "_data_", "years.yaml")
 class NchantdYearCalendar(NchantdTab):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -55,12 +57,12 @@ class NchantdYearCalendar(NchantdTab):
         self.year_overview_group = None
         self.months = []
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """
 
         1 to 3 major items that happened each week...in the news events or personal life events.
@@ -99,7 +101,7 @@ class NchantdYearCalendar(NchantdTab):
         self.layout.addLayout(layout)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -109,7 +111,7 @@ class NchantdYearCalendar(NchantdTab):
 class NchantdYearlyJournal(NchantdTab):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -119,12 +121,12 @@ class NchantdYearlyJournal(NchantdTab):
         self.config.override(cfg)
         self.journal_group = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         cfg = {"size": ["auto", "auto"]}
@@ -133,7 +135,7 @@ class NchantdYearlyJournal(NchantdTab):
         self.layout.addLayout(self.journal_group.layout)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -143,7 +145,7 @@ class NchantdYearlyJournal(NchantdTab):
 class NchantdYearSummaryTab(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -152,17 +154,17 @@ class NchantdYearSummaryTab(NchantdWidget):
             self.config.override(parent.config)
         self.config.override(cfg)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

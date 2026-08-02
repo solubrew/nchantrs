@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -39,7 +41,7 @@ class NchantdImage(NchantdWidget):
     controls and alignment within the container.
     """
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdImage").override(cfg))
         self.default_path = join(here, "../../themes", "_data_", "img", "defaulty.jpg")
@@ -57,7 +59,7 @@ class NchantdImage(NchantdWidget):
         self.min_width = None
         self.min_height = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """Initialize the model with image size and container logic."""
         super().initModel()
         # Set default image size
@@ -78,7 +80,7 @@ class NchantdImage(NchantdWidget):
             raise Exception(f"Unknown File Handling {icon_path_text} {self.config.dikt.get('icon_txt', None)}")
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """Initialize the view of the widget."""
         super().initView()
 
@@ -103,19 +105,19 @@ class NchantdImage(NchantdWidget):
         self.layout.addWidget(self.label)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """Initialize the widget, including model and view setup."""
         self.initModel()
         self.initView()
         return self
 
-    def loadImage(self, path=None, size_x=None, size_y=None):
+    def loadImage(self, path=None, size_x=None, size_y=None) -> Any:
         """"""
         logma.depricate(f"Change self.loadImage() method to self.load_image()")
         self.load_image(path, size_x, size_y)
         return self
 
-    def load_image(self, path=None, size_x=None, size_y=None):
+    def load_image(self, path=None, size_x=None, size_y=None) -> Any:
         """Load and resize an image from the specified path."""
         if path is not None:
             self.set_file_path(path)
@@ -164,7 +166,7 @@ class NchantdImage(NchantdWidget):
         # self.resizeEvent(None)
         return self
 
-    def load_image_from_data(self, data):
+    def load_image_from_data(self, data) -> Any:
         """"""
         self.image = pyqt.QPixmap()
         self.image.loadFromData(base64.b64decode(data))
@@ -172,7 +174,7 @@ class NchantdImage(NchantdWidget):
         self.original_pixmap = self.image
         return self
 
-    def refresh(self):
+    def refresh(self) -> None:
         """"""
         image, cursor_pos = self.app.view.take_screen_shot()
         color = image.toImage().pixelColor(cursor_pos)
@@ -180,7 +182,7 @@ class NchantdImage(NchantdWidget):
         self.hex = color.hex()
         self.rgb = color.rgb()
 
-    def resizeEvent(self, event):
+    def resizeEvent(self, event) -> None:
         # When the window is resized, scale the ORIGINAL image (not
         # the already-scaled label pixmap) so sharpness does not
         # compound with each resize (the live DB-load blur bug).
@@ -194,7 +196,7 @@ class NchantdImage(NchantdWidget):
             self.label.setPixmap(scaled)
         super().resizeEvent(event)
 
-    def set_file_path(self, path=None):
+    def set_file_path(self, path=None) -> Any:
         """Set the file path for the image."""
         logma.info(f"Path {path}")
         if path is None:
@@ -206,7 +208,7 @@ class NchantdImage(NchantdWidget):
         self.file_path = path
         return self
 
-    def set_size(self, width=None, height=None):
+    def set_size(self, width=None, height=None) -> None:
         """"""
         super().set_size(width, height)
         size_0, size_1 = 100, 100  # Default image size
@@ -233,11 +235,11 @@ class NchantdImage(NchantdWidget):
                     pyqt.Qt.TransformationMode.SmoothTransformation,
                 )
 
-    def create_pencil_sketch(self):
+    def create_pencil_sketch(self) -> None:
         """Implement pencil sketch creation (placeholder)."""
         pass
 
-    def get_color_palette(self):
+    def get_color_palette(self) -> None:
         """Implement color palette extraction (placeholder)."""
         pass
 
@@ -245,7 +247,7 @@ class NchantdImage(NchantdWidget):
 class NchantdScreenShot(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("Nchantd")
@@ -262,36 +264,38 @@ class NchantdScreenShot(NchantdWidget):
         self.end_point = None
         self.is_selecting = False
         self.setGeometry(0, 0, self.app.primaryScreen().size().width(), self.app.primaryScreen().size().height())
+        logma.info(f"NchantdScreenShot initialized")
 
-    def initModel(self):
+
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event) -> None:
         """Start selection on mouse press."""
         if event.button() == pyqt.Qt.LeftButton:
             self.start_point = event.pos()
             self.is_selecting = True
 
-    def mouseMoveEvent(self, event):
+    def mouseMoveEvent(self, event) -> None:
         """Update selection as the mouse moves."""
         if self.is_selecting:
             self.end_point = event.pos()
             self.update()  # Trigger repaint
 
-    def mouseReleaseEvent(self, event):
+    def mouseReleaseEvent(self, event) -> None:
         """Finish selection and take a screenshot."""
         if event.button() == pyqt.Qt.LeftButton:
             self.end_point = event.pos()
@@ -299,7 +303,7 @@ class NchantdScreenShot(NchantdWidget):
             self.take_screenshot()
             self.close()
 
-    def paintEvent(self, event):
+    def paintEvent(self, event) -> None:
         """Draw the selection rectangle."""
         if self.start_point and self.end_point:
             painter = pyqt.QPainter(self)
@@ -310,7 +314,7 @@ class NchantdScreenShot(NchantdWidget):
             rect = pyqt.QRect(self.start_point, self.end_point)
             painter.drawRect(rect)
 
-    def take_screenshot(self):
+    def take_screenshot(self) -> None:
         """Capture the selected region."""
         if not self.start_point or not self.end_point:
             return

@@ -119,23 +119,23 @@ class NchantdCheckbox(NchantdWidgetMixin, pyqt.QCheckBox):
 
 class NchantdCheckboxWidget(NchantdWidget):
     """"""
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdCheckboxWidget").override(cfg))
         self.checkbox = None
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> None:
         """"""
         super().initModel(cfg)
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> None:
         """"""
         super().initView(cfg)
         self.checkbox = NchantdCheckbox(self, cfg).initWidget()
         self.layout.addWidget(self.checkbox)
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         self.initModel()
         self.initView()
@@ -143,19 +143,19 @@ class NchantdCheckboxWidget(NchantdWidget):
 class NchantdCheckboxGroup(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdCheckboxGroup").override(cfg))
         self.checks = {}
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView({"layout": "grid"})
         cnt = 0
@@ -176,7 +176,7 @@ class NchantdCheckboxGroup(NchantdWidget):
                 col = 0
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

@@ -54,7 +54,7 @@ pxcfg = join(here, "_data_", "button_groups.yaml")
 class NchantdButtonGrid(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("Nchantd")
@@ -63,12 +63,12 @@ class NchantdButtonGrid(NchantdWidget):
         super().__init__(self)
         self.config.override(cfg)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView({"layout": "grid"})
         row, col = 0, 0
@@ -82,7 +82,7 @@ class NchantdButtonGrid(NchantdWidget):
                 row += 1
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -92,7 +92,7 @@ class NchantdButtonGrid(NchantdWidget):
 class NchantdAcceptButtons(NchantdWidget):
     """ """
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdOkButtons")
@@ -103,12 +103,12 @@ class NchantdAcceptButtons(NchantdWidget):
         self.ok_button = None
         self.cancel_button = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView({"layout": "horizontal"})
 
@@ -131,7 +131,7 @@ class NchantdAcceptButtons(NchantdWidget):
 class NchantdOkButtons(NchantdWidget):
     """ """
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -142,12 +142,12 @@ class NchantdOkButtons(NchantdWidget):
         self.ok_button = None
         self.cancel_button = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView({"layout": "horizontal"})
         self.config.override({"buttons": {"ok": lookup(self.app, "ok")}})
@@ -163,7 +163,7 @@ class NchantdOkButtons(NchantdWidget):
 class NchantdSaveButtons(NchantdWidget):
     """ """
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdSaveButtons")
@@ -174,12 +174,12 @@ class NchantdSaveButtons(NchantdWidget):
         self.newbutton = None
         self.savebutton = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         layout = pyqt.QHBoxLayout()
@@ -197,7 +197,7 @@ class NchantdSaveButtons(NchantdWidget):
         self.layout.addLayout(layout)
         return self
 
-    def initWidget(self, handler):
+    def initWidget(self, handler) -> Any:
         """ """
         self.handler = handler
         self.initModel()
@@ -208,7 +208,7 @@ class NchantdSaveButtons(NchantdWidget):
 class NchantdSubmissionButtons(pyqt.QWidget):
     """A single pane widget with a button set for submitting a form"""
 
-    def __init__(self, parent=None, cfg={}):
+    def __init__(self, parent=None, cfg={}) -> None:
         """ """
         self.config = kahndor.Instruct(pxcfg).override(cfg)
         self.config.select("NchantdSubmissionButtons")
@@ -233,7 +233,7 @@ class NchantdSubmissionButtons(pyqt.QWidget):
         self.layout.addWidget(self.deletebutton)
         self.setLayout(self.layout)
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """ """
         return self
 
@@ -241,7 +241,7 @@ class NchantdSubmissionButtons(pyqt.QWidget):
 class NchantdTabSideButtons(NchantdWidget):
     """ """
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdOkButtons")
@@ -252,12 +252,12 @@ class NchantdTabSideButtons(NchantdWidget):
         self.centertab_button = None
         self.righttab_button = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """
         TODO: make this a checkable group? or maybe switch to a radio button?
         :return:
@@ -285,7 +285,7 @@ class NchantdTabSideButtons(NchantdWidget):
 class NchantdMathPad(NchantdWidget):
     """ """
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdMathPad")
@@ -294,12 +294,12 @@ class NchantdMathPad(NchantdWidget):
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
         super().initView()
         self.layout = pyqt.QGridLayout()
@@ -317,7 +317,7 @@ class NchantdMathPad(NchantdWidget):
         self.layout.addWidget(self.btn_decimal, 0, 6, 0, 0)
         self.setLayout(self.layout)
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -327,7 +327,7 @@ class NchantdMathPad(NchantdWidget):
 class NchantdNumberPad(pyqt.QWidget):
     """ """
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdNumberPad")
@@ -336,10 +336,10 @@ class NchantdNumberPad(pyqt.QWidget):
         self.config.override(cfg)
         pyqt.QWidget.__init__(self)
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
 
-    def initView(self):
+    def initView(self) -> Any:
         """ """
         self.layout = pyqt.QGridLayout()
 
@@ -373,7 +373,7 @@ class NchantdNumberPad(pyqt.QWidget):
         self.setLayout(self.layout)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -383,7 +383,7 @@ class NchantdNumberPad(pyqt.QWidget):
 class NchantdFontConfigBar(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -402,8 +402,10 @@ class NchantdFontConfigBar(NchantdWidget):
         self.bold_button = None
         self.italic_button = None
         self.underline_button = None
+        logma.info(f"NchantdFontConfigBar initialized")
 
-    def initModel(self, cfg=None):
+
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         self.can_highlight = self.config.dikt.get("highlight", True)
@@ -413,7 +415,7 @@ class NchantdFontConfigBar(NchantdWidget):
         self.editor = self.config.dikt.get("editor", None)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         if cfg is None:
             cfg = {}
@@ -479,13 +481,13 @@ class NchantdFontConfigBar(NchantdWidget):
             layout.addWidget(self.subscript_button)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def cmd_on_change_color(self, event, *args, **kwargs):
+    def cmd_on_change_color(self, event, *args, **kwargs) -> Any:
         """"""
         self.font_color_select_sigil = NchantdColorSelectSigil(self).initWidget()
         self.set_font_color(self.font_color_select_sigil.get_color())
@@ -495,7 +497,7 @@ class NchantdFontConfigBar(NchantdWidget):
             self.editor.apply_format_to_selected_text(format_to_apply)
         return self
 
-    def cmd_on_change_highlight_color(self, event, *args, **kwargs):
+    def cmd_on_change_highlight_color(self, event, *args, **kwargs) -> Any:
         """"""
         self.font_highlight_color_sigil = NchantdColorSelectSigil(self).initWidget()
         color = self.font_highlight_color_sigil.get_color()
@@ -509,7 +511,7 @@ class NchantdFontConfigBar(NchantdWidget):
         # handler(self.font_color_highlight)
         return self
 
-    def cmd_on_change_background_color(self, event, *args, **kwargs):
+    def cmd_on_change_background_color(self, event, *args, **kwargs) -> Any:
         """"""
         self.font_background_color_sigil = NchantdColorSelectSigil(self).initWidget()
         color = self.font_background_color_sigil.get_color()
@@ -522,17 +524,17 @@ class NchantdFontConfigBar(NchantdWidget):
         self.set_font_background_color(color)
         return self
 
-    def cmd_on_change_style(self, event, *args, **kwargs):
+    def cmd_on_change_style(self, event, *args, **kwargs) -> Any:
         """"""
         self.editor.setFontFamily(self.font_style.currentText())
         return self
 
-    def cmd_on_change_size(self, event, *args, **kwargs):
+    def cmd_on_change_size(self, event, *args, **kwargs) -> Any:
         """"""
         self.editor.setFontPointSize(self.font_size.value())
         return self
 
-    def cmd_on_change_bold(self, event, *args, **kwargs):
+    def cmd_on_change_bold(self, event, *args, **kwargs) -> Any:
         """"""
         if self.editor.is_bold():
             self.editor.setFontWeight(pyqt.QFont.Weight.Normal)
@@ -541,7 +543,7 @@ class NchantdFontConfigBar(NchantdWidget):
         # self.editor.modify_format(self.editor.setFontWeight(pyqt.QFont.Weight.Bold))
         return self
 
-    def cmd_on_change_italic(self, event, *args, **kwargs):
+    def cmd_on_change_italic(self, event, *args, **kwargs) -> Any:
         """"""
         if self.editor.is_italic():
             self.editor.setFontItalic(False)
@@ -549,7 +551,7 @@ class NchantdFontConfigBar(NchantdWidget):
         self.editor.setFontItalic(True)
         return self
 
-    def cmd_on_change_underline(self, event, *args, **kwargs):
+    def cmd_on_change_underline(self, event, *args, **kwargs) -> Any:
         """"""
         if self.editor.is_underlined():
             self.editor.setFontUnderline(False)
@@ -557,11 +559,11 @@ class NchantdFontConfigBar(NchantdWidget):
         self.editor.setFontUnderline(True)
         return self
 
-    def cmd_on_change_underline_double(self, event, *args, **kwargs):
+    def cmd_on_change_underline_double(self, event, *args, **kwargs) -> Any:
         """"""
         return self
 
-    def cmd_on_change_strike(self, event, *args, **kwargs):
+    def cmd_on_change_strike(self, event, *args, **kwargs) -> Any:
         """"""
         cursor = self.editor.textCursor()
         # Check if there's any selection
@@ -578,32 +580,32 @@ class NchantdFontConfigBar(NchantdWidget):
         cursor.mergeCharFormat(fmt)
         return self
 
-    def cmd_on_change_superscript(self, event, *args, **kwargs):
+    def cmd_on_change_superscript(self, event, *args, **kwargs) -> Any:
         """"""
         self.set_vertical_alignment(pyqt.QTextCharFormat.AlignSuperScript)
         return self
 
-    def cmd_on_change_subscript(self, event, *args, **kwargs):
+    def cmd_on_change_subscript(self, event, *args, **kwargs) -> Any:
         """"""
         self.set_vertical_alignment(pyqt.QTextCharFormat.AlignSubScript)
         return self
 
-    def get_font_color_selected(self):
+    def get_font_color_selected(self) -> Any:
         """"""
         color = "Black"
         return color
 
-    def get_font_size_selected(self):
+    def get_font_size_selected(self) -> int:
         """"""
         size = "12"
         return size
 
-    def get_font_style_selected(self):
+    def get_font_style_selected(self) -> Any:
         """"""
         style = "Arial"
         return style
 
-    def get_font_style_options(self):
+    def get_font_style_options(self) -> Any:
         """
 
         :return:
@@ -611,44 +613,44 @@ class NchantdFontConfigBar(NchantdWidget):
         styles = ["Arial", "San Serif"]
         return styles
 
-    def get_text_background_color_options(self):
+    def get_text_background_color_options(self) -> Any:
         """"""
         colors = ["White", "Black"]
         return colors
 
-    def get_text_background_color_selected(self):
+    def get_text_background_color_selected(self) -> Any:
         """"""
         color = "White"
         return color
 
-    def get_font_styles(self):
+    def get_font_styles(self) -> Any:
         """"""
         fonts = []
         return fonts
 
-    def get_font_style(self):
+    def get_font_style(self) -> Any:
         """"""
         # font = self.font_style.currentText()
         font = "Arial"
         return font
 
-    def set_font_color(self, color):
+    def set_font_color(self, color) -> Any:
         """"""
         self.font_color = color
         return self
 
-    def set_font_color_background(self, color):
+    def set_font_color_background(self, color) -> Any:
         """"""
         self.font_color_background = color
         return self
 
-    def set_font_color_color(self, color):
+    def set_font_color_color(self, color) -> Any:
         """"""
         self.font_color_color = color
         # self.highlight_color.set_text_highlight_color(color)
         return self
 
-    def set_vertical_alignment(self, alignment):
+    def set_vertical_alignment(self, alignment) -> Any:
         """"""
         # Get the QTextCursor representing the current selection in QTextEdit
         cursor = self.editor.textCursor()
@@ -673,7 +675,7 @@ class NchantdFontConfigBar(NchantdWidget):
 class NchantdBorderConfigBar(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -682,14 +684,16 @@ class NchantdBorderConfigBar(NchantdWidget):
             self.config.override(parent.config)
         self.config.override(cfg)
         self.can_highlight = None
+        logma.info(f"NchantdBorderConfigBar initialized")
 
-    def initModel(self, cfg=None):
+
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         self.can_highlight = self.config.dikt.get("highlight", True)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         cfg = {"text": self.config.dikt.get("label", "Border Style: ")}
@@ -711,31 +715,31 @@ class NchantdBorderConfigBar(NchantdWidget):
         self.layout.addWidget(self.border_color)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def cmd_on_change_border_color(self, event, *args, **kwargs):
+    def cmd_on_change_border_color(self, event, *args, **kwargs) -> Any:
         """"""
         self.border_color_select_sigil = NchantdColorSelectSigil(self).initWidget()
         return self
 
-    def cmd_on_change_border_style(self, event, *args, **kwargs):
+    def cmd_on_change_border_style(self, event, *args, **kwargs) -> Any:
         """"""
         return self
 
-    def cmd_on_size_change(self, event, *args, **kwargs):
+    def cmd_on_size_change(self, event, *args, **kwargs) -> Any:
         """"""
         return self
 
-    def get_border_styles(self):
+    def get_border_styles(self) -> Any:
         """"""
         borders = []
         return borders
 
-    def get_border_style(self):
+    def get_border_style(self) -> Any:
         """"""
         # font = self.font_style.currentText()
         border = "Arial"

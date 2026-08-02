@@ -26,7 +26,7 @@ import requests
 import bz2
 import hashlib
 from pathlib import Path
-from typing import Optional, Tuple
+from typing import Any, Optional, Tuple
 import ctypes
 import platform
 from typing import Optional
@@ -62,7 +62,7 @@ class OpenH264Downloader:
     BASE_URL = "http://ciscobinary.openh264.org/"
     VERSION = "2.5.1"
 
-    def __init__(self, app_data_dir: Optional[str] = None):
+    def __init__(self, app_data_dir: Optional[str] = None) -> None:
         """Initialize OpenH264Downloader."""
         self.app_name = "nchantdoffice"  # None
         self.app_data_dir = Path(app_data_dir or self._get_app_data_dir())
@@ -159,7 +159,7 @@ class OpenH264Downloader:
             return str(self.codec_dir / filename)
         return None
 
-    def test(self):
+    def test(self) -> bool:
         """"""
         if self.is_available():
             logma.info("OpenH264 is available locally")
@@ -172,7 +172,7 @@ class OpenH264Downloader:
 class OpenH264Loader:
     """Manual OpenH264 library loader for advanced usage."""
 
-    def __init__(self, library_path: str):
+    def __init__(self, library_path: str) -> None:
         self.library_path = library_path
         self.library: Optional[ctypes.CDLL] = None
 
@@ -215,7 +215,7 @@ class OpenH264Manager:
     BASE_URL = "http://ciscobinary.openh264.org/"
     VERSION = "2.5.1"
 
-    def __init__(self, app_instance):
+    def __init__(self, app_instance) -> None:
         self.app = app_instance
         self.app_data_dir = self._get_app_data_dir()
         self.codec_dir = self.app_data_dir / "codecs" / "openh264"
@@ -344,7 +344,7 @@ class OpenH264Manager:
 
         return arch, ext
 
-    def _setup_linux_integration(self, library_path: str):
+    def _setup_linux_integration(self, library_path: str) -> None:
         """Setup Linux-specific codec integration."""
         try:
             # Create GStreamer plugin cache entry if directory exists
@@ -413,7 +413,7 @@ class OpenH264Manager:
 
 
 # Usage in your application:
-def setup_advanced_codec(downloader: OpenH264Downloader):
+def setup_advanced_codec(downloader: OpenH264Downloader) -> bool:
     """Setup codec with manual loading verification."""
     if not downloader.is_available():
         library_path = downloader.download_and_extract()
@@ -428,7 +428,7 @@ def setup_advanced_codec(downloader: OpenH264Downloader):
         return False
 
 
-def test_h264_playback():
+def test_h264_playback() -> Any:
     """Test H.264 video playback with a simple test page."""
     test_html = """
     <!DOCTYPE html>
@@ -473,7 +473,7 @@ def test_h264_playback():
     return test_html
 
 
-def main():
+def main() -> None:
     """Main application entry point."""
     # Set environment variables before creating QApplication
     setup_advanced_codec(OpenH264Downloader())

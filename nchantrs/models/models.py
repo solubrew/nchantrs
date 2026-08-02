@@ -214,7 +214,7 @@ class NchantdInstance(object):
 
     def set_meta_data(self, meta_data: Optional[dict] = None) -> None:
         """"""
-        #TODO integrate instance settings storage here
+        # NOTE integrate instance settings storage here
         self.meta_data = {}
 
     def set_type_external(self) -> "NchantdInstance":
@@ -1149,7 +1149,7 @@ class NchantdStore(MicroStash):
         # self.store_app_event("system_interaction", "store_app_tab", "".join(str(x) for x in row))
         return self
 
-    # TODO edit name
+    # NOTE edit name
     def store_app_tree_nodes(self, data, db="db", how="INSERT"):
         """
                     columns: ['nid', 'icon', 'name', 'ntype', 'parentid', 'position', 'parameters', 'source',
@@ -1595,6 +1595,8 @@ class GlainNchantdStore:
         # Override table names if prefix is set
         if table_prefix:
             self._apply_prefixes()
+        logma.info(f"GlainNchantdStore initialized")
+
 
     def _apply_prefixes(self):
         """Apply table prefix to internal database."""

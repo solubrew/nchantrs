@@ -25,6 +25,7 @@ from kahndor.logma import Logma
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "nchantdlibrary.yaml")
@@ -33,7 +34,7 @@ pxcfg = join(here, "_data_", "nchantdlibrary.yaml")
 class NchantdLibraryManager(object):
     """"""
 
-    def __init__(self, parent, cfg=None):
+    def __init__(self, parent, cfg=None) -> None:
         """"""
         self.config = kahndor.Instruct(pxcfg).select("NchantdLibraryManager").override(cfg)
 

@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -35,6 +37,7 @@ from nchantrs.widgets.trees import NchantdTree
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "help.yaml")
@@ -43,7 +46,7 @@ pxcfg = join(here, "_data_", "help.yaml")
 class NchantdFAQs(NchantdTab):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -51,19 +54,19 @@ class NchantdFAQs(NchantdTab):
         self.primary_settings_group = None
         self.faqs = None
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         self.faqs = self.app.model.get_view_options_faqs()
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         cfg = {"size": ["auto", "auto"]}
         self.primary_settings_group = NchantdVScrollGroupBox(self, cfg)
         self.primary_settings_group.setTitle("Frequently Asked Questions")
-        #TODO build out a list of FAQs using a simple Q/A tree widget pulling data from a datatable updated from the service
+        # NOTE build out a list of FAQs using a simple Q/A tree widget pulling data from a datatable updated from the service
         #
         cfg = {}
         faqtree = NchantdTree(self, cfg)
@@ -73,7 +76,7 @@ class NchantdFAQs(NchantdTab):
         self.layout.addLayout(self.primary_settings_group.layout)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -83,18 +86,18 @@ class NchantdFAQs(NchantdTab):
 class NchantdHelpChatDex(NchantdTab):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdHelpChatDex").override(parent.config).override(cfg))
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         cfg = {"size": ["auto", "auto"]}
@@ -124,7 +127,7 @@ class NchantdHelpChatDex(NchantdTab):
 
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -134,18 +137,18 @@ class NchantdHelpChatDex(NchantdTab):
 class NchantdHelpDocs(NchantdTab):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdHelpDocs").override(parent.config).override(cfg))
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         cfg = cfg or {}
         super().initView(cfg)
@@ -156,7 +159,7 @@ class NchantdHelpDocs(NchantdTab):
 
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

@@ -1,6 +1,6 @@
 # Nchantrs CLI Documentation
 
-## Overview
+## Purpose
 
 Nchantrs provides a command-line interface for managing your applications, dialogs, widgets, and extensions.
 

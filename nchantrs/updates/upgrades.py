@@ -65,7 +65,7 @@ def version_check() -> None:
 class UpgradeManager(object):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
         self.config = kahndor.Instruct(pxcfg).select("").override(cfg)
         self.parent = parent
@@ -212,34 +212,36 @@ class UpgradeManager(object):
 class UpgradeCode(object):
     """Upgrade code need to investigate general upgrade process of python"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """"""
         pass
+        logma.info(f"UpgradeCode initialized")
 
-    def run(self, code):
+
+    def run(self, code) -> bool:
         """Execute upgrade code"""
         return True
 
-    def download_new_code(self):
+    def download_new_code(self) -> None:
         """"""
         pass
 
-    def unzip_downloaded_code(self):
+    def unzip_downloaded_code(self) -> None:
         """"""
         pass
 
-    def run_unzipped_executable(self):
+    def run_unzipped_executable(self) -> None:
         """"""
 
-    def move_old_code(self):
-        """"""
-        pass
-
-    def verify_new_code(self):
+    def move_old_code(self) -> None:
         """"""
         pass
 
-    def remove_old_code(self):
+    def verify_new_code(self) -> None:
+        """"""
+        pass
+
+    def remove_old_code(self) -> None:
         """"""
         pass
 
@@ -247,41 +249,43 @@ class UpgradeCode(object):
 class UpgradeDatabaseData(object):
     """"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """"""
         self.appnodes = []
         self.usernodes = []
         self.virtualnodes = []
+        logma.info(f"UpgradeDatabaseData initialized")
 
-    def add_appnode(self, appnode):
+
+    def add_appnode(self, appnode) -> None:
         """"""
         pass
 
-    def add_tab(self, tab):
+    def add_tab(self, tab) -> None:
         """"""
         pass
 
-    def add_usernode(self, usernode):
+    def add_usernode(self, usernode) -> None:
         """"""
         pass
 
-    def add_virtualnode(self, virtualnode):
+    def add_virtualnode(self, virtualnode) -> None:
         """"""
         pass
 
-    def remove_appnode(self, appnode):
+    def remove_appnode(self, appnode) -> None:
         """"""
         pass
 
-    def remove_tab(self, tab):
+    def remove_tab(self, tab) -> None:
         """"""
         pass
 
-    def remove_usernode(self, usernode):
+    def remove_usernode(self, usernode) -> None:
         """"""
         pass
 
-    def remove_virtualnode(self, virtualnode):
+    def remove_virtualnode(self, virtualnode) -> None:
         """"""
         pass
 
@@ -289,31 +293,33 @@ class UpgradeDatabaseData(object):
 class UpgradeDatabase(object):
     """Upgrade database allowing for replacement of the sqlite db file and/or upgrading to a different database"""
 
-    def __init__(self):
+    def __init__(self) -> None:
+        """"""
+        pass
+        logma.info(f"UpgradeDatabase initialized")
+
+
+    def backup_database(self) -> None:
         """"""
         pass
 
-    def backup_database(self):
+    def collect_table_structure(self) -> None:
         """"""
         pass
 
-    def collect_table_structure(self):
+    def replicate_table_structure(self) -> None:
         """"""
         pass
 
-    def replicate_table_structure(self):
+    def copy_data(self) -> None:
         """"""
         pass
 
-    def copy_data(self):
+    def verify_data(self) -> None:
         """"""
         pass
 
-    def verify_data(self):
-        """"""
-        pass
-
-    def remove_backup(self):
+    def remove_backup(self) -> None:
         """"""
         pass
 
@@ -321,7 +327,7 @@ class UpgradeDatabase(object):
 class UpgradeFile(object):
     """Change the location on disk and/or contents of static files used in the Nchantrs application"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """"""
         pass
 
@@ -329,7 +335,7 @@ class UpgradeFile(object):
 class UpgradeIndex(object):
     """Add and/or Remove an Index from the database/s used by the Nchantrs application"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """"""
         pass
 
@@ -337,7 +343,7 @@ class UpgradeIndex(object):
 class UpgradeKey(object):
     """"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """"""
         pass
 
@@ -345,27 +351,29 @@ class UpgradeKey(object):
 class UpgradeDatabaseTable(object):
     """Add, Remove and/or Modify a Table from the database/s used by the Nchantrs application."""
 
-    def __init__(self, name=None):
+    def __init__(self, name=None) -> None:
         """"""
         self.name = name
+        logma.info(f"UpgradeDatabaseTable initialized")
 
-    def run(self, data):
+
+    def run(self, data) -> bool:
         """Execute table upgrade"""
         return True
 
-    def add_column(self):
+    def add_column(self) -> None:
         """"""
         pass
 
-    def remove_column(self):
+    def remove_column(self) -> None:
         """"""
         pass
 
-    def rename_column(self):
+    def rename_column(self) -> None:
         """"""
         pass
 
-    def rename_table(self):
+    def rename_table(self) -> None:
         """"""
         pass
 
@@ -373,26 +381,28 @@ class UpgradeDatabaseTable(object):
 class UpgradeDatabaseView(object):
     """Add and/or Remove a View from the database/s used by the Nchantrs application"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """"""
+        logma.info(f"UpgradeDatabaseView initialized")
 
-    def copy_view_statement(self):
-        """"""
-        pass
 
-    def delete_view(self):
+    def copy_view_statement(self) -> None:
         """"""
         pass
 
-    def create_view(self):
+    def delete_view(self) -> None:
         """"""
         pass
 
-    def verify_view(self):
+    def create_view(self) -> None:
         """"""
         pass
 
-    def remove_view_statement(self):
+    def verify_view(self) -> None:
+        """"""
+        pass
+
+    def remove_view_statement(self) -> None:
         """"""
         pass
 

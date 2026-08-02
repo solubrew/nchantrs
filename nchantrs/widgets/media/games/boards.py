@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -30,6 +32,7 @@ from nchantrs.widgets.widgets import NchantdWidget
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")
@@ -44,7 +47,7 @@ class NchantdGameBoard(NchantdWidget):
     level_changed = Signal(int)
     lines_removed_changed = Signal(int)
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("Nchantd")
@@ -73,53 +76,55 @@ class NchantdGameBoard(NchantdWidget):
         self.clear_board()
 
         self._next_piece.set_random_shape()
+        logma.info(f"NchantdGameBoard initialized")
 
-    def initModel(self):
+
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def shape_at(self, x, y):
+    def shape_at(self, x, y) -> Any:
         return self.board[(y * TetrixBoard.board_width) + x]
 
-    def set_shape_at(self, x, y, shape):
+    def set_shape_at(self, x, y, shape) -> None:
         self.board[(y * TetrixBoard.board_width) + x] = shape
 
-    def timeout_time(self):
+    def timeout_time(self) -> int:
         return 1000 / (1 + self.level)
 
-    def square_width(self):
+    def square_width(self) -> Any:
         return self.contentsRect().width() / TetrixBoard.board_width
 
-    def square_height(self):
+    def square_height(self) -> Any:
         return self.contentsRect().height() / TetrixBoard.board_height
 
-    def set_next_piece_label(self, label):
+    def set_next_piece_label(self, label) -> None:
         self.nextPieceLabel = label
 
-    def sizeHint(self):
+    def sizeHint(self) -> Any:
         return QSize(
             TetrixBoard.board_width * 15 + self.frameWidth() * 2, TetrixBoard.board_height * 15 + self.frameWidth() * 2
         )
 
-    def minimum_size_hint(self):
+    def minimum_size_hint(self) -> Any:
         return QSize(
             TetrixBoard.board_width * 5 + self.frameWidth() * 2, TetrixBoard.board_height * 5 + self.frameWidth() * 2
         )
 
     @Slot()
-    def start(self):
+    def start(self) -> None:
         if self._is_paused:
             return
 
@@ -139,7 +144,7 @@ class NchantdGameBoard(NchantdWidget):
         self.timer.start(self.timeout_time(), self)
 
     @Slot()
-    def pause(self):
+    def pause(self) -> None:
         if not self._is_started:
             return
 
@@ -151,7 +156,7 @@ class NchantdGameBoard(NchantdWidget):
 
         self.update()
 
-    def paintEvent(self, event):
+    def paintEvent(self, event) -> None:
         super(TetrixBoard, self).paintEvent(event)
 
         with QPainter(self) as painter:
@@ -182,7 +187,7 @@ class NchantdGameBoard(NchantdWidget):
                         self._cur_piece.shape(),
                     )
 
-    def keyPressEvent(self, event):
+    def keyPressEvent(self, event) -> None:
         if not self._is_started or self._is_paused or self._cur_piece.shape() == Piece.NoShape:
             super(TetrixBoard, self).keyPressEvent(event)
             return
@@ -203,7 +208,7 @@ class NchantdGameBoard(NchantdWidget):
         else:
             super(TetrixBoard, self).keyPressEvent(event)
 
-    def timerEvent(self, event):
+    def timerEvent(self, event) -> None:
         if event.timerId() == self.timer.timerId():
             if self._is_waiting_after_line:
                 self._is_waiting_after_line = False
@@ -214,10 +219,10 @@ class NchantdGameBoard(NchantdWidget):
         else:
             super(TetrixBoard, self).timerEvent(event)
 
-    def clear_board(self):
+    def clear_board(self) -> None:
         self.board = [Piece.NoShape for _ in range(TetrixBoard.board_height * TetrixBoard.board_width)]
 
-    def drop_down(self):
+    def drop_down(self) -> None:
         drop_height = 0
         new_y = self._cur_y
         while new_y > 0:
@@ -228,11 +233,11 @@ class NchantdGameBoard(NchantdWidget):
 
         self.piece_dropped(drop_height)
 
-    def one_line_down(self):
+    def one_line_down(self) -> None:
         if not self.try_move(self._cur_piece, self._cur_x, self._cur_y - 1):
             self.piece_dropped(0)
 
-    def piece_dropped(self, dropHeight):
+    def piece_dropped(self, dropHeight) -> None:
         for i in range(4):
             x = self._cur_x + self._cur_piece.x(i)
             y = self._cur_y - self._cur_piece.y(i)
@@ -251,7 +256,7 @@ class NchantdGameBoard(NchantdWidget):
         if not self._is_waiting_after_line:
             self.new_piece()
 
-    def remove_full_lines(self):
+    def remove_full_lines(self) -> None:
         num_full_lines = 0
 
         for i in range(TetrixBoard.board_height - 1, -1, -1):
@@ -282,7 +287,7 @@ class NchantdGameBoard(NchantdWidget):
             self._cur_piece.set_shape(Piece.NoShape)
             self.update()
 
-    def new_piece(self):
+    def new_piece(self) -> None:
         self._cur_piece = self._next_piece
         self._next_piece.set_random_shape()
         self.show_next_piece()
@@ -294,7 +299,7 @@ class NchantdGameBoard(NchantdWidget):
             self.timer.stop()
             self._is_started = False
 
-    def show_next_piece(self):
+    def show_next_piece(self) -> None:
         if self.nextPieceLabel is not None:
             return
 
@@ -312,7 +317,7 @@ class NchantdGameBoard(NchantdWidget):
 
         self.nextPieceLabel.setPixmap(pixmap)
 
-    def try_move(self, newPiece, newX, newY):
+    def try_move(self, newPiece, newX, newY) -> bool:
         for i in range(4):
             x = newX + newPiece.x(i)
             y = newY - newPiece.y(i)
@@ -327,7 +332,7 @@ class NchantdGameBoard(NchantdWidget):
         self.update()
         return True
 
-    def draw_square(self, painter, x, y, shape):
+    def draw_square(self, painter, x, y, shape) -> None:
         color_table = [0x000000, 0xCC6666, 0x66CC66, 0x6666CC, 0xCCCC66, 0xCC66CC, 0x66CCCC, 0xDAAA00]
 
         color = QColor(color_table[shape])

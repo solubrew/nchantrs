@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -40,7 +42,7 @@ pxcfg = join(here, "_data_", "panes.yaml")
 class NchantdPane(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdPane").override(cfg))
@@ -48,12 +50,12 @@ class NchantdPane(NchantdWidget):
         self.center_layout = None
         self.right_side_layout = None
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         cfg = cfg or {}
         if cfg.get("layout", None) is None:
@@ -70,17 +72,17 @@ class NchantdPane(NchantdWidget):
         # self.set_size()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def accept(self):
+    def accept(self) -> Any:
         super().accpet()
         return self
 
-    def update_pane(self):
+    def update_pane(self) -> Any:
         """"""
         return self
 

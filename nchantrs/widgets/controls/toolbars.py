@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -43,7 +45,7 @@ pxcfg = join(here, "_data_", "toolbars.yaml")
 class NchantdButtonBar(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -52,7 +54,7 @@ class NchantdButtonBar(NchantdWidget):
         self.actions = {}
         self.layout = None
 
-    def initModel(self, actions=None):
+    def initModel(self, actions=None) -> Any:
         """"""
         super().initModel()
         if actions is None:
@@ -61,7 +63,7 @@ class NchantdButtonBar(NchantdWidget):
             self.set_actions(actions)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         logma.info(f"Action Items {self.actions}")
@@ -118,20 +120,20 @@ class NchantdButtonBar(NchantdWidget):
         self.setSizePolicy(pyqt.QSizePolicy.Policy.MinimumExpanding, pyqt.QSizePolicy.Policy.MinimumExpanding)
         return self
 
-    def initWidget(self, buttons=None):
+    def initWidget(self, buttons=None) -> Any:
         """"""
         self.initModel(buttons)
         self.initView()
         return self
 
-    def set_actions(self, actions=None):
+    def set_actions(self, actions=None) -> Any:
         """"""
         if actions is None:
             actions = self.config.dikt.get("actions", {})
         self.actions = actions
         return self
 
-    def switch_to_toggle(self):
+    def switch_to_toggle(self) -> None:
         """
         switch all buttons to toggle type
         allow for a block on buttons that is defined specifically
@@ -152,7 +154,7 @@ class NchantdButtonBar(NchantdWidget):
 class NchantdMenuBar(NchantdWidget):
     """ """
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdMenuBar")
@@ -162,7 +164,7 @@ class NchantdMenuBar(NchantdWidget):
         self.config.override(cfg)
         self.menus = {}
 
-    def buildMenu(self, menubar=None, menus=None):
+    def buildMenu(self, menubar=None, menus=None) -> Any:
         """Build menu from menu configuration tree"""
         if log:
             logma.info(f"Menus {menus}")
@@ -179,12 +181,12 @@ class NchantdMenuBar(NchantdWidget):
                     self.buildMenu(menu_, menus[menu])
         return self
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """ """
         self.menus_data = self.app.model.store.get_app_menu()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """ """
         self.mainMenu = self.app.main.menuBar()
         # self.mainMenu.setNativeMenuBar(True)
@@ -196,7 +198,7 @@ class NchantdMenuBar(NchantdWidget):
         self.buildMenu(self.mainMenu, tree)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """ """
         self.initModel()
         self.initView()
@@ -206,7 +208,7 @@ class NchantdMenuBar(NchantdWidget):
 class NchantdToolBar(pyqt.QToolBar):
     """Standard Nchantd Toolbar"""
 
-    def __init__(self, parent, cfg: dict = None):
+    def __init__(self, parent, cfg: dict = None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdToolBar")
@@ -219,7 +221,7 @@ class NchantdToolBar(pyqt.QToolBar):
         logma.info(f"Tool Bar Parent {self.parent}")
         self.theme = None
 
-    def buildToolbar(self):
+    def buildToolbar(self) -> Any:
         """Build toolbar from toolbar configuration tree.
         
         H24 fix: Reuse self (the QToolBar instance from pyqt.QToolBar base class)
@@ -250,13 +252,13 @@ class NchantdToolBar(pyqt.QToolBar):
             self.addWidget(btn)
         return self
 
-    def initModel(self, actions=None):
+    def initModel(self, actions=None) -> Any:
         """"""
         if actions is not None:
             self.set_actions(actions)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """ """
         self.config.override(cfg)
         self.theme = self.app.view.theme
@@ -272,13 +274,13 @@ class NchantdToolBar(pyqt.QToolBar):
         # 			self.addAction(action_W)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """ """
         self.initModel()
         self.initView()
         return self
 
-    def set_actions(self, actions=None):
+    def set_actions(self, actions=None) -> Any:
         """"""
 
         logma.info(f"Toolbar Config {self.config.dikt.keys()}")
@@ -291,7 +293,7 @@ class NchantdToolBar(pyqt.QToolBar):
 class NchantdApplicationToolBar(NchantdToolBar):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         super().__init__(self.parent, cfg)
@@ -300,12 +302,12 @@ class NchantdApplicationToolBar(NchantdToolBar):
             self.config.override(parent.config)
         self.config.override(cfg)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
 
@@ -325,7 +327,7 @@ class NchantdApplicationToolBar(NchantdToolBar):
         #self.toolbar.addWidget(search_button)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -335,7 +337,7 @@ class NchantdApplicationToolBar(NchantdToolBar):
 class NchantdRecordNavigationToolbar(NchantdToolBar):
     """Standard Nchantd Record Navigation Toolbar"""
 
-    def __init__(self, cfg: dict = {}):
+    def __init__(self, cfg: dict = {}) -> None:
         """ """
         self.config = kahndor.Instruct(pxcfg)
         self.config.select("nchantdrecordnavigationtoolbar").override(cfg)
@@ -358,15 +360,15 @@ class NchantdRecordNavigationToolbar(NchantdToolBar):
         self.layout.addWidget(self.foreBTN)
         self.setLayout(self.layout)
 
-    def nextRecord(self):
+    def nextRecord(self) -> Any:
         """ """
         return self
 
-    def prevRecord(self):
+    def prevRecord(self) -> Any:
         """ """
         return self
 
-    def findRecord(self):
+    def findRecord(self) -> Any:
         """ """
         return self
 
@@ -374,7 +376,7 @@ class NchantdRecordNavigationToolbar(NchantdToolBar):
 class NchantdSettingsToolBar(NchantdToolBar):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdSettingsToolBar")
@@ -383,12 +385,12 @@ class NchantdSettingsToolBar(NchantdToolBar):
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
 
@@ -408,7 +410,7 @@ class NchantdSettingsToolBar(NchantdToolBar):
         self.toolbar.addWidget(search_button)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

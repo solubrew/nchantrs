@@ -173,6 +173,8 @@ class NchantdStorageAPI(object):
         self.config = kahndor.Instruct(pxcfg).select("NchantdStorageAPI").override(cfg)
         self.storage_file = "storage.json"  # connect to database storage
         self.load_storage()
+        logma.info(f"NchantdStorageAPI initialized")
+
 
     def load_storage(self) -> None:
         try:

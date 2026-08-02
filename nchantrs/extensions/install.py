@@ -34,6 +34,7 @@ from squirl.orgnql import yonql
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "install.yaml")
@@ -48,6 +49,8 @@ class NchantdExtensionLoader(pyqt.QObject):
         if self.extensions_path is None:
             self.extensions_path = ""
         self.manifest = None
+        logma.info(f"NchantdExtensionLoader initialized")
+
 
     def load_extension(self, name) -> None:
         """

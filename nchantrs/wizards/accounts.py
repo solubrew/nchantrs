@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -34,6 +36,7 @@ from kahndor.logma import Logma
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "accounts.yaml")
@@ -49,7 +52,7 @@ class NchantdAddAPIWizard(NchantdWizard):
     6. load account display widget
     """
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdFundAccountsTab")
@@ -58,20 +61,20 @@ class NchantdAddAPIWizard(NchantdWizard):
         self.config.override(cfg)
         super().__init__(self.parent)
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
 
 
 class NchantdNewAccountWizard(NchantdWizard):
     """A Wizard for setting up a new account with a dynamic set of questions that can be provided to the wizard"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdNewAccountWizard")
@@ -80,15 +83,15 @@ class NchantdNewAccountWizard(NchantdWizard):
         self.config.override(cfg)
         super(NchantdNewAccountWizard, self).__init__(self.parent)
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
         self.name_page = NchantdNewAccountNamePage(self, self.config).initWidget()
         self.addPage(self.name_page)
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -37,6 +39,7 @@ from kahndor.logma import Logma
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "users.yaml")
@@ -45,7 +48,7 @@ pxcfg = join(here, "_data_", "users.yaml")
 class NchantdNewUserWizard(NchantdWizard):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -56,12 +59,12 @@ class NchantdNewUserWizard(NchantdWizard):
         self.app = self.parent.app
         self.new_application = self.parent.new_application
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
 
@@ -86,7 +89,7 @@ class NchantdNewUserWizard(NchantdWizard):
         # self.currentIdChanged.connect(self.on_next_clicked)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -96,7 +99,7 @@ class NchantdNewUserWizard(NchantdWizard):
 class NchantdTOSSignOffPage(NchantdWizardPage):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -106,13 +109,15 @@ class NchantdTOSSignOffPage(NchantdWizardPage):
         self.config.override(cfg)
         self.document = None
         self.tos_check = None
+        logma.info(f"NchantdTOSSignOffPage initialized")
 
-    def initModel(self):
+
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         text = self.config.dikt["TOS"]
@@ -128,13 +133,13 @@ class NchantdTOSSignOffPage(NchantdWizardPage):
         self.registerField("tos_check", self.tos_check)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def validatePage(self):
+    def validatePage(self) -> bool:
         """"""
         if not self.tos_check.isChecked():
             # Show a warning message to the user
@@ -151,7 +156,7 @@ class NchantdTOSSignOffPage(NchantdWizardPage):
 class NchantdNewUserDetailsPage(NchantdWizardPage):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdFundAccountsTab")
@@ -163,10 +168,10 @@ class NchantdNewUserDetailsPage(NchantdWizardPage):
         self.app = self.parent.app
         self.newUser = False
 
-    def initModel(self):
+    def initModel(self) -> None:
         """"""
 
-    def initView(self):
+    def initView(self) -> None:
         """"""
         super().initView()
         self.setTitle("New User Account")
@@ -212,7 +217,7 @@ class NchantdNewUserDetailsPage(NchantdWizardPage):
         self.layout.addWidget(self.color)
         self.registerField("color", self.color)
 
-        # TODO PRO: implement once Pro level software is ready
+        # NOTE PRO: implement once Pro level software is ready
         # cfg = {'text': 'Select Security Level', 'options': ['Medium', 'High']}
         # self.security_level = NchantdRadioButtonGroup(self, cfg).initWidget()
         # self.layout.addWidget(self.security_level)
@@ -240,7 +245,7 @@ class NchantdNewUserDetailsPage(NchantdWizardPage):
             self.layout.addWidget(self.role)
             self.registerField("role", self.role)
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -250,7 +255,7 @@ class NchantdNewUserDetailsPage(NchantdWizardPage):
 class NchantdNewUserSignupPage(NchantdWebBrowser):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdNewUserSignupPage")
@@ -259,17 +264,17 @@ class NchantdNewUserSignupPage(NchantdWebBrowser):
         self.config.override(cfg)
         super(NchantdNewUserSignupPage, self).__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -279,7 +284,7 @@ class NchantdNewUserSignupPage(NchantdWebBrowser):
 class NchantdUserNameSelectorPage(NchantdWizardPage):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdUserNameSelectorPage")
@@ -288,12 +293,12 @@ class NchantdUserNameSelectorPage(NchantdWizardPage):
         self.config.override(cfg)
         super(NchantdUserNameSelectorPage, self).__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
 
@@ -304,7 +309,7 @@ class NchantdUserNameSelectorPage(NchantdWizardPage):
 
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

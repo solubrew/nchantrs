@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any, Iterator, Union
+
 """
 ---
 <(META)>:
@@ -50,7 +52,7 @@ pxcfg = join(here, "_data_", "users.yaml")
 class NchantdUser(object):
     """"""
 
-    def __init__(self, parent, cfg=None):
+    def __init__(self, parent, cfg=None) -> None:
         """"""
         self.config = kahndor.Instruct(pxcfg).select("NchantdUser").override(cfg)
         self.parent = parent
@@ -77,23 +79,23 @@ class NchantdUser(object):
         self.easter_egg = None
         self.pword = self.get_password()
 
-    def check_has_api(self, service):
+    def check_has_api(self, service) -> Any:
         """"""
         return self.check_secure_store("apikey", service)
 
-    def check_secure_store(self, label, key):
+    def check_secure_store(self, label, key) -> bool:
         """"""
         response = self.read_secure(label, key)
         if response is None:
             return False
         return True
 
-    def create_user(self):
+    def create_user(self) -> Any:
         """"""
         self._create_user()
         return self
 
-    def get_password(self, message="Enter credentials: "):
+    def get_password(self, message="Enter credentials: ") -> Iterator[Any]:
         """
         Generate or retrieve password for authentication.
 
@@ -137,19 +139,19 @@ class NchantdUser(object):
                 else:
                     raise Exception("User name has changed during operation of the application")
 
-    def decrypt(self, data):
+    def decrypt(self, data) -> Any:
         """"""
         message = data
         decrypted_message = decrypt_aes(message, self._get_aes_key())
         return decrypted_message
 
-    def encrypt(self, data):
+    def encrypt(self, data) -> Any:
         """"""
         message = data
         encrypted_message = encrypt_aes(message, self._get_aes_key())
         return encrypted_message
 
-    def select_user(self, data):
+    def select_user(self, data) -> Any:
         """"""
         user = False
         logma.info(f"Data {data}")
@@ -189,7 +191,7 @@ class NchantdUser(object):
             self._verify_user(next(self.pword))
         return self
 
-    def read_secure(self, key, label=None):
+    def read_secure(self, key, label=None) -> Any:
         """"""
         table = "app_secure_store"
         if not self.is_verified and (self.app.model.is_private or self.app.model.is_secure):
@@ -197,7 +199,7 @@ class NchantdUser(object):
         cfg = {"WHERE": {"EQUAL": {"key_txt": key, "UUID": self.uuid}}}
         return next(self.parent.store.docs["db"].read({"table": table}, cfg)).dikt[table]["df"]
 
-    def verify_pword(self, pword):
+    def verify_pword(self, pword) -> bool:
         """
         Verify password against stored hash.
 
@@ -234,14 +236,14 @@ class NchantdUser(object):
     #     }
     #     self.app.model.store.docs["db"].write(cfg)
 
-    def _check_password_rules(self, password):
+    def _check_password_rules(self, password) -> Any:
         """"""
         specials = "/.,|:;][><()@#$%^&*-_=+!?'" + '"'
         policy = {"special_chars": specials, "min_length": 8, "max_length": 128}
         finding = validate_password_strength(password, policy)
         return finding
 
-    def _create_user(self):
+    def _create_user(self) -> Any:
         """
         [DONE] implement RSA key pair so that encryption can be handled by the public key and
                 collecting data can be secured without wide distribution of the password or private keys to the application
@@ -271,7 +273,7 @@ class NchantdUser(object):
         user["FK"] = user_FK
         return user
 
-    def _create_user_password(self):
+    def _create_user_password(self) -> bool:
         """"""
         message = ""
         while True:
@@ -286,7 +288,7 @@ class NchantdUser(object):
             else:
                 break
 
-    def _get_rsa_key(self):
+    def _get_rsa_key(self) -> Any:
         """
         # [DONE] whitelist functions of functions that can call this
         function list:
@@ -301,7 +303,7 @@ class NchantdUser(object):
         rsa_key = decrypt_pword(rsa_key_stored, next(self.pword), self.address.encode())
         return rsa_key
 
-    def _get_aes_key(self):
+    def _get_aes_key(self) -> Any:
         """
                         # [DONE] whitelist functions of functions that can call this
         function list:
@@ -315,19 +317,19 @@ class NchantdUser(object):
         aes_key = decrypt_rsa(aes_key_stored, self._get_rsa_key())
         return aes_key
 
-    def _hash_password(self, password):
+    def _hash_password(self, password) -> Any:
         """"""
         logma.info(f"Hash HMAC Password: {password}")
         return create_hash(password, self.salt, self.iters)
 
-    def _select_user(self, data):
+    def _select_user(self, data) -> Any:
         """"""
         user = self.parent.parent.launch_select_user_dialog(data)
         if user is False:
             user = self._create_user()
         return user
 
-    def _verify_user(self, password):
+    def _verify_user(self, password) -> Union[Any, bool]:
         """"""
         address = self.read_secure(self.address)
         if address.empty:
@@ -340,14 +342,14 @@ class NchantdUser(object):
         return False
 
 
-def ask_user_for_account():
+def ask_user_for_account() -> None:
     """
     Need to launch a dialog for the user
     :return:
     """
 
 
-def check_for_account():
+def check_for_account() -> None:
     """
     need to send request to Nchantrs Server
     :return:

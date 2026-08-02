@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any, Optional, Union
+
 """#																			||
 ---  #																			||
 <(META)>:  #																	||
@@ -48,7 +50,7 @@ pxcfg = join(abspath(here), "_data_", "tabsets.yaml")
 class NchantdTab(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -92,7 +94,7 @@ class NchantdTab(NchantdWidget):
         self.has_toolbox = None
         self.dummy = None
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         self.app_data_type = self.config.dikt.get("app_data_type", "doc")
@@ -100,87 +102,87 @@ class NchantdTab(NchantdWidget):
         self.tid = self.config.dikt.get("tid", None)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def connect_toolbox(self):
+    def connect_toolbox(self) -> None:
         """should we connect each tab to a toolbox? this seems to be how it would functionally work but elevates one right tab over the others
         which may also need to be connected to the tab in some way
         """
 
-    def delete_tab(self, tab):
+    def delete_tab(self, tab) -> Any:
         """"""
         self.app.model.delete_tab(tab)
         logma.info(f"Parent {self.parent}")
         self.parent.set_focus(tab.position - 1)
         return self
 
-    def cmd_delete_tab(self, event=None, *args, **kwargs):
+    def cmd_delete_tab(self, event=None, *args, **kwargs) -> Any:
         """"""
         logma.info(f"Close Tab {event}")
         # need to check if it is the only tab in the tabset and delete node as well
         self.delete_tab(self.app.active_tab)
         return self
 
-    def cmd_save_tab(self, event=None, *args, **kwargs):
+    def cmd_save_tab(self, event=None, *args, **kwargs) -> Any:
         """"""
         # self.parent.save()
         self.save()
         return self
 
-    def cmd_tab_edit(self, event=None, *args, **kwargs):
+    def cmd_tab_edit(self, event=None, *args, **kwargs) -> Any:
         """"""
         return self
 
-    def focusInEvent(self, event):
+    def focusInEvent(self, event) -> Any:
         super().focusInEvent(event)
         logma.info(f"Focus In")
         return self
 
-    def focusOutEvent(self, event):
+    def focusOutEvent(self, event) -> Any:
         super().focusOutEvent(event)
         logma.info(f"Focus Out")
         return self
 
-    def on_window_move(self, x, y):
+    def on_window_move(self, x, y) -> Any:
         """"""
         if len(self.notes) > 0:
             for note in self.notes:
                 note.move(x, y)
         return self
 
-    def organize_notes(self):
+    def organize_notes(self) -> Any:
         """"""
         pos = self.geometry().topRight()
         for i, note in enumerate(self.notes):
             note.move(pos.x() - 250, pos.y() + i * 25)
         return self
 
-    def save(self):
+    def save(self) -> Any:
         """"""
         return self
 
-    def set_position(self, position):
+    def set_position(self, position) -> Any:
         """"""
         self.position = position
         return self
 
-    def set_tid(self, tid=None):
+    def set_tid(self, tid=None) -> Any:
         """"""
         if tid is None:
             tid = uuid()
         self.tid = tid
         return self
 
-    def update_position(self, position, db="db"):
+    def update_position(self, position, db="db") -> Any:
         """"""
         self.set_position(position)
         data = {"table": {"doc_tab": {"data": {"position_int": self.position}}}}
@@ -191,20 +193,22 @@ class NchantdTab(NchantdWidget):
 class NchantdApplicationControlTab(NchantdTab):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdApplicationControl").override(cfg)
         super().__init__(self.parent, self.config)
         self.tree = None
         self.note = None
+        logma.info(f"NchantdApplicationControlTab initialized")
 
-    def initModel(self):
+
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         self.tree = NchantdApplicationTree(self.parent, self.config).initWidget()
@@ -213,13 +217,13 @@ class NchantdApplicationControlTab(NchantdTab):
         self.layout.addWidget(self.note)
         return self
 
-    def initWidget(self, pos=None):
+    def initWidget(self, pos=None) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def __getstate__(self):
+    def __getstate__(self) -> Any:
         """"""
         state = self.__dict__.copy()
         # Remove the unpicklable entries.
@@ -227,7 +231,7 @@ class NchantdApplicationControlTab(NchantdTab):
             del state["unpicklable_attribute"]
         return state
 
-    def __setstate__(self, state):
+    def __setstate__(self, state) -> None:
         """"""
 
 
@@ -246,7 +250,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
     TEXT_MARGIN = 10
     TEXT_Y_OFFSET = 20
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """'"""
         super().__init__()
         self.parent = parent
@@ -265,7 +269,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         self.has_toolbox = None
         self.active_tab = None
 
-    def initModel(self, create_objects=True):
+    def initModel(self, create_objects=True) -> Any:
         """ """
         super().initModel()
         self.model.initModel(create_objects)
@@ -276,7 +280,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
             self.initialize_context_menu()
         return self
 
-    def initTriggers(self):
+    def initTriggers(self) -> Any:
         """"""
         # logma.info("Initialize Triggers")
         self.currentChanged.connect(self.on_tab_focus)
@@ -284,7 +288,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         # self.tabBarDoubleClicked.connect(self.tabBarDoubleClicked)
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         self.setTabPosition(pyqt.QTabWidget.South)
         self.setAcceptDrops(True)
@@ -294,18 +298,18 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         self.set_focus(0)
         return self
 
-    def initWidget(self, cfg=None):
+    def initWidget(self, cfg=None) -> Any:
         """ """
         self.initModel(cfg.get("create_objects", True))
         self.initView()
         return self
 
-    def changeEvent(self, event):
+    def changeEvent(self, event) -> Any:
         """ """
         # logma.info("Change Event")
         return self
 
-    def create_drag_pixmap(self, text, icon):
+    def create_drag_pixmap(self, text, icon) -> Any:
         """Create a pixmap representation of the dragged tab"""
         pixmap = pyqt.QPixmap(self.DRAG_PIXMAP_WIDTH, self.DRAG_PIXMAP_HEIGHT)
         pixmap.fill(pyqt.Qt.transparent)
@@ -329,11 +333,11 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         painter.end()
         return pixmap
 
-    def create_toolbox(self, parent, cfg):
+    def create_toolbox(self, parent, cfg) -> Any:
         """"""
         return self
 
-    def defocus(self):
+    def defocus(self) -> Any:
         """"""
         # logma.inspect_caller()
         # self.model.current_tab.defocus()
@@ -343,7 +347,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         #     [note.close() for note in self.model.current_tab.notes]
         return self
 
-    def dragEnterEvent(self, event):
+    def dragEnterEvent(self, event) -> None:
         """Handle drag enter events."""
         if event.mimeData().hasText():
             try:
@@ -356,14 +360,14 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
                 pass
         event.ignore()
 
-    def dragMoveEvent(self, event):
+    def dragMoveEvent(self, event) -> None:
         """Handle drag move events."""
         if event.mimeData().hasText():
             event.acceptProposedAction()
         else:
             event.ignore()
 
-    def dropEvent(self, event):
+    def dropEvent(self, event) -> None:
         """Handle drop events."""
         if not event.mimeData().hasText():
             event.ignore()
@@ -407,7 +411,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
             logger.error(f"Drop error: {e}")
             event.ignore()
 
-    def find_widget_by_id(self, widget_id):
+    def find_widget_by_id(self, widget_id) -> Optional[Any]:
         """Find a widget by its ID in the application."""
         # Look through all widgets in the main window
         main_window = self.window()
@@ -417,19 +421,19 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
                     return tab_widget
         return None
 
-    def focusInEvent(self, event):
+    def focusInEvent(self, event) -> Any:
         """ """
         logma.info("Tab has Focus")
         super().focusInEvent(event)
         return self
 
-    def focusOutEvent(self, event):
+    def focusOutEvent(self, event) -> Any:
         """ """
         logma.info("Tab lost Focus")
         super().focusOutEvent(event)
         return self
 
-    def get_drop_position(self, pos):
+    def get_drop_position(self, pos) -> Union[Any, int]:
         """Calculate the drop position based on mouse position."""
         # Get the tab at the drop position
         tab_index = self.tabBar().tabAt(pos)
@@ -443,26 +447,26 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         else:
             return tab_index + 1
 
-    def get_tab_widget(self, tabn):
+    def get_tab_widget(self, tabn) -> Any:
         """"""
         tabW = next(self.app.model.store.docs["dbc"].read(tabn))
         # tabW = self.app.model.store.get_tab_widget(tabn)
         return tabW
 
-    def handle_successful_drag(self):
+    def handle_successful_drag(self) -> None:
         """Handle cleanup after successful drag operation."""
         # This will be called by the drop handler
         pass
 
-    def load_journal(self):
+    def load_journal(self) -> None:
         """"""
         # clear journal and reload if journal is set to context
         # if journal is set to chronological then there is no need to do anything
 
-    def load_toolbox(self):
+    def load_toolbox(self) -> Any:
         """"""
 
-        # TODO need to determine when to update the toolbox
+        # NOTE need to determine when to update the toolbox
 
         position = 0
         if self.app.toolbox is not None:
@@ -482,7 +486,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         self.app.view.panes["right"].setCurrentIndex(self.app.toolbox.position if self.app.toolbox else 0)
         return self
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event) -> Any:
         """ """
         # controls.tabsets.mousePressEventLog(event, 1)
         logma.info(f"Mouse Press Event {event.button()}")
@@ -497,7 +501,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         super().mousePressEvent(event)
         return self
 
-    def mouseMoveEvent(self, event):
+    def mouseMoveEvent(self, event) -> None:
         """Handle mouse move events to start drag operation."""
         super().mouseMoveEvent(event)
         try:
@@ -527,7 +531,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         except Exception as e:
             logma.warning(e)
 
-    def on_tab_focus(self, tabn=None):
+    def on_tab_focus(self, tabn=None) -> Any:
         """"""
         # logma.inspect_caller()
         # self.save()
@@ -536,17 +540,17 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         self.set_focus(tabn)
         return self
 
-    def on_tab_bar_clicked(self, event):
+    def on_tab_bar_clicked(self, event) -> Any:
         """ """
         # logma.info("Tab Bar Clicked")
         return self
 
-    def on_tab_bar_clicked_double(self, event):
+    def on_tab_bar_clicked_double(self, event) -> Any:
         """ """
         # logma.info("Tab Bar Double Clicked")
         return self
 
-    def on_tab_changed(self, index):
+    def on_tab_changed(self, index) -> Any:
         """Ensure proper size and position updates when tab is changed."""
         # save data changes from last tab
         if self.model.current_tab_has_changed is True:
@@ -556,7 +560,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         self.setFixedSize(self.size())
         return self
 
-    def start_drag(self):
+    def start_drag(self) -> None:
         """Initialize and execute the drag operation."""
         if self.dragged_tab_index == -1:
             return
@@ -593,14 +597,14 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
             # Remove tab from source widget if it was moved
             self.handle_successful_drag()
 
-    def reconnect_tabs(self):
+    def reconnect_tabs(self) -> Any:
         """"""
         self.currentChanged.disconnect(self.on_tab_focus)
         # self.parent.clear()
         self.currentChanged.connect(self.on_tab_focus)
         return self
 
-    def refreshTabSet(self):
+    def refreshTabSet(self) -> Any:
         """Get data from the model via the chunker by passing it various
         configurations given the selected node and tabset position
         ex. nodeid: 2, position: center -> tabset
@@ -608,7 +612,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         self.model.src.load()
         return self
 
-    def remove_tab(self, tabn):
+    def remove_tab(self, tabn) -> Any:
         """"""
         self.removeTab(tabn)
         del self.model.tab_widgets[tabn]
@@ -616,24 +620,24 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         self.app.view.refresh_window_size()
         return self
 
-    def removeTab(self, index):
+    def removeTab(self, index) -> Any:
         """"""
         self.blockSignals(True)
         super().removeTab(index)
         self.blockSignals(False)
         return self
 
-    def save(self):
+    def save(self) -> Any:
         """"""
         return self
 
-    def set_active_tab(self, tabset):
+    def set_active_tab(self, tabset) -> Any:
         """"""
         # close any open tag notes
         # open any tag notes connected to the new tab
         return self
 
-    def set_focus(self, tabn=None):
+    def set_focus(self, tabn=None) -> Any:
         """
         :param tabn: Tab Number to show when a tab gets selected for focus
         :return:
@@ -672,7 +676,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
             self.app.active_tab = self.model.current_tab  # need to clarify usage and naming
             logma.info(f"Load Journal")
             self.load_journal()
-            # TODO load Toolbox for the active tab type
+            # NOTE load Toolbox for the active tab type
             logma.info(f"Load Toolbox")
             # self.load_toolbox()
             # [DONE]
@@ -680,12 +684,12 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         logma.info(f"Finish Tab Focus")
         return self
 
-    def showEvent(self, event):
+    def showEvent(self, event) -> Any:
         """ """
         # logma.info("Show Event")
         return self
 
-    def start_drag(self, index):
+    def start_drag(self, index) -> Any:
         """Start dragging the tab."""
         logma.info(f"Start Drag {index}")
         # Get tab information
@@ -713,7 +717,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         #     pass
         return self
 
-    def dragEnterEvent(self, event):
+    def dragEnterEvent(self, event) -> Any:
         # Accept the drag if it contains our custom tab data
         if event.mimeData().hasFormat("application/x-tab-index"):
             event.acceptProposedAction()
@@ -721,7 +725,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
             super().dragEnterEvent(event)
         return self
 
-    def dragMoveEvent(self, event):
+    def dragMoveEvent(self, event) -> Any:
         """"""
         if event.mimeData().hasFormat("application/x-tab-index"):
             event.acceptProposedAction()
@@ -729,7 +733,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
             super().dragMoveEvent(event)
         return self
 
-    def dropEvent(self, event):
+    def dropEvent(self, event) -> Any:
         """"""
         self.drag_start_position = None
         logma.info(f"Drop Event {event}")
@@ -752,7 +756,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         event.acceptProposedAction()
         return self
 
-    def move_tab(self, from_index, to_index):
+    def move_tab(self, from_index, to_index) -> Any:
         """Move a tab from one position to another."""
         logma.info(f"Move Tab {from_index} to {to_index}")
         if from_index == to_index:
@@ -775,7 +779,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         self.setCurrentIndex(new_index)
         return self
 
-    def update(self):
+    def update(self) -> Any:
         """"""
         super().update()
         self.app.view.refresh_window_size()

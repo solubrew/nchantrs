@@ -28,6 +28,7 @@ from kahndor.logma import Logma
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "license.yaml")
@@ -36,7 +37,7 @@ pxcfg = join(here, "_data_", "license.yaml")
 class Ownership(object):
     """"""
 
-    def __init__(self, cfg=None):
+    def __init__(self, cfg=None) -> None:
         """"""
         self.config = kahndor.Instruct(pxcfg).select("Ownership").override(cfg)
         # [DONE] find NFT contracts
@@ -51,7 +52,7 @@ class Ownership(object):
 class TOS:
     """"""
 
-    def __init__(self, cfg=None):
+    def __init__(self, cfg=None) -> None:
         """"""
         self.config = kahndor.Instruct(pxcfg).select("TOS").override(cfg)
 

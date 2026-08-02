@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any, Iterator, List
+
 """#																			||
 ---  #																			||
 <(META)>:  #																	||
@@ -79,7 +81,7 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         tree.initWidget()
     """
 
-    def __init__(self, parent=None, cfg={}, root=None):
+    def __init__(self, parent=None, cfg={}, root=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdTree").override(cfg)
@@ -98,13 +100,13 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         self.context_menu = None
         self.initialize_context_menu()
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """ """
         super().initModel()
         self.model.initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """ """
         self.view.initView()
         # Adjust header size policy to allow horizontal scrolling
@@ -116,25 +118,25 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         self.setAutoScroll(False)
         return self
 
-    def initWidget(self, pos=None, initialize_database_objects=True):
+    def initWidget(self, pos=None, initialize_database_objects=True) -> Any:
         """ """
         self.initModel()
         self.initView()
         return self
 
-    def closeEvent(self, event):
+    def closeEvent(self, event) -> None:
         """Handle window close event to save the tree state."""
         self.save_tree_expansion_state()
         super().closeEvent(event)
 
-    def dragEnterEvent(self, event):
+    def dragEnterEvent(self, event) -> None:
         """Handle drag enter event with validation."""
         if event.mimeData().hasFormat("application/x-qabstractitemmodeldatalist"):
             event.acceptProposedAction()
         else:
             event.ignore()
 
-    def dragMoveEvent(self, event):
+    def dragMoveEvent(self, event) -> None:
         """Allow drag move inside the tree with visual feedback."""
         item = self.itemAt(event.pos())
         
@@ -150,11 +152,11 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
             # Allow drops on empty tree area (becomes root-level)
             event.acceptProposedAction()
 
-    def dragLeaveEvent(self, event):
+    def dragLeaveEvent(self, event) -> None:
         """Handle drag leave event for cleanup."""
         event.accept()
 
-    def dropEvent(self, event):
+    def dropEvent(self, event) -> None:
         """Handle the drop event to reparent dragged nodes with position awareness.
         
         Drop behavior:
@@ -226,7 +228,7 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         event.accept()
         self.viewport().update()
 
-    def _is_descendant(self, potential_parent, potential_child):
+    def _is_descendant(self, potential_parent, potential_child) -> bool:
         """Check if potential_child is a descendant of potential_parent."""
         current = self._item_parent(potential_child)
         while current:
@@ -236,7 +238,7 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         return False
 
     @staticmethod
-    def _item_parent(item):
+    def _item_parent(item) -> Any:
         """Return an item's parent QTreeWidgetItem.
 
         Tree items store the owning tree widget on self.parent, which shadows
@@ -245,21 +247,21 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         """
         return pyqt.QTreeWidgetItem.parent(item)
 
-    def _child_nodes(self, container):
+    def _child_nodes(self, container) -> List[Any]:
         """Return a container's child items in UI order. container may be a node
         item or None, in which case the invisible root (top level) is used."""
         if container is None:
             container = self.invisibleRootItem()
         return [container.child(i) for i in range(container.childCount())]
 
-    def _renormalize(self, container):
+    def _renormalize(self, container) -> None:
         """Renumber a container's children to sequential, gap-free positions in
         the store, matching their current UI order."""
         nodes = self._child_nodes(container)
         if nodes:
             self.model.renormalize_positions(nodes)
 
-    def _determine_drop_mode(self, target_item, pos):
+    def _determine_drop_mode(self, target_item, pos) -> str:
         """Determine the drop mode based on target item and position.
         
         Returns:
@@ -293,7 +295,7 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         
         return "sibling_before"
 
-    def _drop_as_child(self, dragged_item, new_parent):
+    def _drop_as_child(self, dragged_item, new_parent) -> None:
         """Move dragged_item to become the last child of new_parent."""
         logma.info(f"Dropping {dragged_item.name} as child of {new_parent.name}")
         
@@ -316,7 +318,7 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
 
         logma.info(f"Successfully moved {dragged_item.name} as child of {new_parent.name}")
 
-    def _drop_as_sibling(self, dragged_item, target_item, before=True):
+    def _drop_as_sibling(self, dragged_item, target_item, before=True) -> None:
         """Move dragged_item to become a sibling of target_item."""
         logma.info(f"Dropping {dragged_item.name} as sibling of {target_item.name} (before={before})")
         
@@ -350,7 +352,7 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
 
         logma.info(f"Successfully moved {dragged_item.name} as sibling")
 
-    def _drop_as_root(self, dragged_item):
+    def _drop_as_root(self, dragged_item) -> None:
         """Move dragged_item to become a root-level item."""
         logma.info(f"Dropping {dragged_item.name} as root-level item")
         
@@ -373,12 +375,12 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
 
         logma.info(f"Successfully moved {dragged_item.name} to root level")
 
-    def goto_node(self, node):
+    def goto_node(self, node) -> Any:
         """"""
         self.view.set_current_node(node)
         return self
 
-    def refresh(self):
+    def refresh(self) -> Any:
         """"""
         h_scroll = self.horizontalScrollBar().value()
         # self.cached_splitter_size = self.app.view.splitter.sizes()
@@ -387,20 +389,20 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         # self.app.view.splitter.setSizes(self.cached_splitter_size)
         return self
 
-    def reset_expansion_state(self):
+    def reset_expansion_state(self) -> Any:
         """Reset the saved expansion state to the tree."""
         if not self.expansion_state:
             return
         self._reset_tree_state(self.invisibleRootItem())
         return self
 
-    def save_expansion_state(self):
+    def save_expansion_state(self) -> Any:
         """Save the expansion state of the tree."""
         self.expansion_state = {}
         self._save_tree_state(self.invisibleRootItem())
         return self
 
-    def scrollTo(self, index, hint=None):
+    def scrollTo(self, index, hint=None) -> Any:
         # Store current horizontal scroll position
         h_scroll = self.horizontalScrollBar().value()
         # Call parent scrollTo (this will handle vertical scrolling)
@@ -409,14 +411,14 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         self.horizontalScrollBar().setValue(h_scroll)
         return self
 
-    def sort_tree(self, column=0):
+    def sort_tree(self, column=0) -> None:
         """Sort the tree items based on the specified column."""
         self.model.sort(column)
 
-    def sort_children(self, pid, column=0):
+    def sort_children(self, pid, column=0) -> None:
         """"""
 
-    def _reset_tree_state(self, item):
+    def _reset_tree_state(self, item) -> Any:
         """Recursive helper to reset state of each item."""
         for i in range(item.childCount()):
             child = item.child(i)
@@ -425,7 +427,7 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
             self._reset_tree_state(child)
         return self
 
-    def _save_tree_state(self, item):
+    def _save_tree_state(self, item) -> Any:
         """Recursive helper to save state of each item."""
         for i in range(item.childCount()):
             child = item.child(i)
@@ -437,7 +439,7 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
 class NchantdGroupTree(NchantdTree):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("Nchantd")
@@ -446,17 +448,17 @@ class NchantdGroupTree(NchantdTree):
         super().__init__(self)
         self.config.override(cfg)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -466,7 +468,7 @@ class NchantdGroupTree(NchantdTree):
 class NchantdApplicationTree(NchantdTree):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -476,31 +478,33 @@ class NchantdApplicationTree(NchantdTree):
         self.config.override(cfg)
         self.model = NchantdApplicationTreeModel(self, None, self.config)
         self.note = None
+        logma.info(f"NchantdApplicationTree initialized")
 
-    def initModel(self):
+
+    def initModel(self) -> Any:
         """"""
         super().initModel()
 
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self, pos=None, initialize_database_objects=True):
+    def initWidget(self, pos=None, initialize_database_objects=True) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def on_node_changed(self):
+    def on_node_changed(self) -> Any:
         """"""
         # if self.model.current_tab_has_changed is True:
         #     self.model.save_tab()  # store the current tab data to the database
         return self
 
-    def __getstate__(self):
+    def __getstate__(self) -> Any:
         """"""
         state = self.__dict__.copy()
         # Remove the unpicklable entries.
@@ -508,14 +512,14 @@ class NchantdApplicationTree(NchantdTree):
             del state["unpicklable_attribute"]
         return state
 
-    def __setstate__(self, state):
+    def __setstate__(self, state) -> None:
         """"""
 
 
 class NchantdFileSystem(pyqt.QTreeWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent)
         self.parent = parent
@@ -533,7 +537,7 @@ class NchantdFileSystem(pyqt.QTreeWidget):
         self.setHeaderLabel("File System")
         self.setSortingEnabled(True)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         # super().initModel()
         logma.info(f"Root Path: {self.config.dikt.get('root', None)}")
@@ -543,7 +547,7 @@ class NchantdFileSystem(pyqt.QTreeWidget):
         # self.context_menu = self.parent.context_menu
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         # super().initView()#causes some looping issues
         # Initial population of the directory structure
@@ -551,13 +555,13 @@ class NchantdFileSystem(pyqt.QTreeWidget):
         self.itemPressed.connect(self.on_item_expanded)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def build_tree(self):
+    def build_tree(self) -> None:
         """
         Build the entire tree structure from the root directory.
         """
@@ -568,7 +572,7 @@ class NchantdFileSystem(pyqt.QTreeWidget):
         root_item.setExpanded(True)  # Expand the root node
         self.add_top_level_items(self.root_dir, root_item)
 
-    def add_root_item(self):
+    def add_root_item(self) -> None:
         """
         Add the root directory node and lazily load its children.
         """
@@ -579,7 +583,7 @@ class NchantdFileSystem(pyqt.QTreeWidget):
         root_item.setChildIndicatorPolicy(pyqt.QTreeWidgetItem.ShowIndicator)  # Show "+" for expandable
         self.addTopLevelItem(root_item)
 
-    def add_top_level_items(self, path, parent_item):
+    def add_top_level_items(self, path, parent_item) -> None:
         """
         Recursively add items to the tree structure.
         :param path: Current directory path.
@@ -593,7 +597,7 @@ class NchantdFileSystem(pyqt.QTreeWidget):
         except PermissionError:  # Handle directories the user does not have permission to access
             pass
 
-    def get_children(self, tree_item, location="local"):
+    def get_children(self, tree_item, location="local") -> Iterator[Any]:
         """"""
         if location == "local":
             directory = tree_item.data(0, pyqt.Qt.UserRole)
@@ -606,17 +610,17 @@ class NchantdFileSystem(pyqt.QTreeWidget):
         else:
             pass
 
-    def get_current_level_files(self):
+    def get_current_level_files(self) -> Any:
         """"""
         logma.info(f"Current Level Files: {self.current_level_files}")
         return self.current_level_files
 
-    def get_current_level_directories(self):
+    def get_current_level_directories(self) -> Any:
         """"""
         logma.info(f"Current Level Files: {self.current_level_directories}")
         return self.current_level_directories
 
-    def lazy_load_children(self, tree_item):
+    def lazy_load_children(self, tree_item) -> Any:
         """
         Load and append the children of the given directory item.
         :param tree_item: The QTreeWidgetItem representing a directory.
@@ -625,7 +629,7 @@ class NchantdFileSystem(pyqt.QTreeWidget):
         self.current_level_files = []
         self.current_level_directories = []
         directory = tree_item.data(0, pyqt.Qt.UserRole)  # Get the directory path stored in the item's data
-        # TODO implement read depth to allow for flattening files
+        # NOTE implement read depth to allow for flattening files
         logma.info(f"Directory {directory}")
         if directory is None:
             return
@@ -654,7 +658,7 @@ class NchantdFileSystem(pyqt.QTreeWidget):
         logma.info(f"Current Level Path: {self.current_level_path}")
         return self
 
-    def on_item_expanded(self, item):
+    def on_item_expanded(self, item) -> Any:
         """
         Handle the expansion of an item to lazily load its children.
         :param item: The QTreeWidgetItem that was expanded.
@@ -667,7 +671,7 @@ class NchantdFileSystem(pyqt.QTreeWidget):
         # need to fill out file list
         return self
 
-    def set_root(self, path=None):
+    def set_root(self, path=None) -> Any:
         """"""
         self.root_path = path
         if self.root_path is None:
@@ -678,7 +682,7 @@ class NchantdFileSystem(pyqt.QTreeWidget):
         self.add_root_item()
         return self
 
-    def sync_filesystem(self):
+    def sync_filesystem(self) -> None:
         """
         Synchronize the tree with the current state of the filesystem.
         """

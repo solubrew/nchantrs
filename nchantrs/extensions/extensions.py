@@ -34,6 +34,7 @@ from nchantrs.widgets.groups import NchantdHScrollGroupBox, NchantdVScrollGroupB
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "extensions.yaml")
@@ -96,11 +97,11 @@ class NchantdExtensionsManager(NchantdWidget):
         self.extension_loader.load_extension(ext_name)
 
 
-def load_extension():
+def load_extension() -> None:
     """use the wizard class"""
 
 
-def load_extensions(dir_):
+def load_extensions(dir_) -> Any:
     """"""
     plugins = []
     for filename in listdir(dir_):
@@ -112,15 +113,15 @@ def load_extensions(dir_):
     return plugins
 
 
-def decompress_extension():
+def decompress_extension() -> None:
     """"""
 
 
-def register_extension():
+def register_extension() -> None:
     """register the extension"""
 
 
-def remove_extension():
+def remove_extension() -> None:
     """use the wizard class"""
 
 

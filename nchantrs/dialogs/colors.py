@@ -26,6 +26,7 @@ from nchantrs.dialogs.sigil import NchantdSigilMixin
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "colors.yaml")
@@ -40,6 +41,8 @@ class NchantdColorSelectSigil(NchantdSigilMixin, pyqt.QColorDialog):
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdColorSelectSigil").override(parent.config).override(cfg)
         self.init_variables()
+        logma.info(f"NchantdColorSelectSigil initialized")
+
 
     def initModel(self, cfg=None) -> None:
         """"""

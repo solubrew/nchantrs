@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """#																			||
 ---  #																			||
 <(META)>:  #																	||
@@ -325,7 +327,7 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         self.parent.setCurrentIndex(tabn)
         return self
 
-    def _get_active_tab_position(self, node, default=0):
+    def _get_active_tab_position(self, node, default=0) -> Any:
         """Get the active tab position from node parameters.
 
         Subclasses can override to customize how the active tab is determined.

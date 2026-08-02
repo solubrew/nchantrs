@@ -20,7 +20,7 @@ import sys
 import os
 from enum import Enum
 from dataclasses import dataclass
-from typing import Dict, List, Optional
+from typing import Any, Dict, List, Optional
 import subprocess
 import shutil
 from pathlib import Path
@@ -41,6 +41,7 @@ from kahndor.logma import Logma
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 # Constants for magic number replacement
@@ -79,11 +80,13 @@ class SecurityCapabilities:
 class CrossPlatformSecurityManager:
     """Manages security across all supported platforms and environments"""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.os_type = self.detect_os()
         self.environment = self.detect_environment()
         self.capabilities = self.assess_security_capabilities()
         self.security_config = self.build_security_configuration()
+        logma.info(f"CrossPlatformSecurityManager initialized")
+
 
     def detect_environment(self) -> EnvironmentType:
         """Detect the runtime environment type"""
@@ -590,7 +593,7 @@ class PlatformOptimizedSecurity:
 class CrossPlatformSecurityValidator:
     """Validates security across all platforms"""
 
-    def __init__(self, os_type: OSType):
+    def __init__(self, os_type: OSType) -> None:
         self.os_type = os_type
         self.validation_methods = {
             OSType.WINDOWS: self.validate_windows_security,
@@ -623,7 +626,7 @@ class CrossPlatformSecurityValidator:
 class MacOSSecurityManager:
     """macOS-specific security management"""
 
-    def configure_macos_security(self):
+    def configure_macos_security(self) -> Any:
         """Configure macOS-specific security features"""
         flags = ["--enable-sandbox-logging", "--enable-features=MacSyscallSandbox", "--use-system-default-printer"]
 
@@ -640,7 +643,7 @@ class MacOSSecurityManager:
 class SecureUpdateManager:
     """Manages secure updates across all platforms"""
 
-    def __init__(self, os_type: OSType):
+    def __init__(self, os_type: OSType) -> None:
         self.os_type = os_type
         self.update_mechanisms = {
             OSType.WINDOWS: "windows_update_service",
@@ -648,7 +651,7 @@ class SecureUpdateManager:
             OSType.LINUX: "package_manager",
         }
 
-    def configure_secure_updates(self):
+    def configure_secure_updates(self) -> Dict[str, Any]:
         """Configure platform-appropriate secure updates"""
         config = {
             "signature_verification": True,
@@ -693,7 +696,7 @@ class UniversalSecurityProfile:
         },
     }
 
-    def get_security_configuration(self, os_type: OSType, requested_level: str):
+    def get_security_configuration(self, os_type: OSType, requested_level: str) -> Dict[str, Any]:
         """Get security configuration for specific OS and level"""
         if requested_level not in self.SECURITY_MATRIX:
             requested_level = "standard"
@@ -708,7 +711,7 @@ class UniversalSecurityProfile:
 class WindowsSecurityManager:
     """Windows-specific security management"""
 
-    def configure_windows_security(self):
+    def configure_windows_security(self) -> Any:
         """Configure Windows-specific security features"""
         flags = [
             "--enable-win32k-lockdown",  # Restrict Win32k syscalls
@@ -726,7 +729,7 @@ class WindowsSecurityManager:
 
         return flags
 
-    def setup_app_container(self):
+    def setup_app_container(self) -> None:
         """Setup Windows App Container for isolation"""
         # Implementation for App Container setup
         pass

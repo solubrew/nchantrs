@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -37,7 +39,7 @@ pxcfg = join(here, "_data_", "menus.yaml")
 class NchantdMenu(pyqt.QMenu):
     """ """
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__()
         self.parent = parent
@@ -45,13 +47,13 @@ class NchantdMenu(pyqt.QMenu):
         self.actions = None
         self.menus = {}
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """ """
         # need to lookup the action
         self.actions = self.config.dikt.get("actions", [])
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """ """
         for action in self.actions:
             # logma.info(f"Action {action}")
@@ -64,11 +66,11 @@ class NchantdMenu(pyqt.QMenu):
             self.add_action(action.get("name_txt", None), action.get("handler", None))
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """ """
         return self
 
-    def add_action(self, title, handler):
+    def add_action(self, title, handler) -> Any:
         """"""
         action = pyqt.QAction(title, self)
         if handler is not None and handler != "":
@@ -77,7 +79,7 @@ class NchantdMenu(pyqt.QMenu):
         self.addAction(action)
         return self
 
-    def buildMenu(self, menu=None, menus=None):
+    def buildMenu(self, menu=None, menus=None) -> Any:
         """Build menu from menu configuration tree"""
         if menus is None:
             return self
@@ -107,7 +109,7 @@ class NchantdMenu(pyqt.QMenu):
 class NchantdContextMenu(NchantdMenu):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -116,25 +118,25 @@ class NchantdContextMenu(NchantdMenu):
         self.name = None
         self.menu_df = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         self.name = self.config.dikt.get("name", None)
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         self.buildMenu(self.name, self.menu_data)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def get_menu(self, name=None):
+    def get_menu(self, name=None) -> Any:
         """"""
         logma.info(f"Name {name}")
         if name:
@@ -152,7 +154,7 @@ class NchantdContextMenu(NchantdMenu):
         self.buildMenu(self.name, self.menu_data)
         return self
 
-    def invalidate_cache(self, name=None):
+    def invalidate_cache(self, name=None) -> Any:
         """Invalidate the application-wide menu cache.
 
         Delegates to the model so every menu/widget sees the refresh. Pass a

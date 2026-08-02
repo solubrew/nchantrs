@@ -32,6 +32,7 @@ from typing import Optional, Dict, List, Any, Tuple
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "policies.yaml")
@@ -46,6 +47,8 @@ class NchantdDataPolicy(object):
         self.config = kahndor.Instruct(pxcfg).select("NchantdDataPolicy").override(cfg)
         self.policies = None
         self.retention_polices = None
+        logma.info(f"NchantdDataPolicy initialized")
+
 
     def check_policies(self) -> None:
         """"""

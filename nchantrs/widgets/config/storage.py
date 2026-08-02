@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -36,6 +38,7 @@ from nchantrs.widgets.config.settings import NchantdSettingsWidget
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "storage.yaml")
@@ -44,7 +47,7 @@ pxcfg = join(here, "_data_", "storage.yaml")
 class NchantdStorageSettings(NchantdSettingsWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -53,13 +56,15 @@ class NchantdStorageSettings(NchantdSettingsWidget):
             self.config.override(parent.config)
         self.config.override(cfg)
         self.primary_settings_group = None
+        logma.info(f"NchantdStorageSettings initialized")
 
-    def initModel(self):
+
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         cfg = {"size": ["auto", "auto"]}
@@ -170,17 +175,17 @@ class NchantdStorageSettings(NchantdSettingsWidget):
         self.layout.addWidget(self.primary_settings_group)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def get_settings(self):
+    def get_settings(self) -> Any:
         """"""
         return super().get_settings("storage")
 
-    def save(self):
+    def save(self) -> None:
         """"""
         super().save()
         # if self.auto_save_activator.changed:

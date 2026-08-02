@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -40,7 +42,7 @@ pxcfg = join(here, "_data_", "toolboxes.yaml")
 class NchantdDrawer(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent)
         self.parent = parent
@@ -48,13 +50,13 @@ class NchantdDrawer(NchantdWidget):
         self.group = None
         self.items = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         self.items = {}
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         self.layout.setContentsMargins(0, 0, 0, 0)
@@ -86,7 +88,7 @@ class NchantdDrawer(NchantdWidget):
         self.layout.addLayout(drawer_group.layout)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -96,7 +98,7 @@ class NchantdDrawer(NchantdWidget):
 class NchantdToolBox(NchantdTab):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -108,12 +110,12 @@ class NchantdToolBox(NchantdTab):
         self.toolbox_config = None
         self.current_document = None
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         self.build_toolbox(cfg)
@@ -121,20 +123,20 @@ class NchantdToolBox(NchantdTab):
         self.box.currentChanged.connect(self.on_drawer_changed)
         return self
 
-    def initWidget(self, cfg=None):
+    def initWidget(self, cfg=None) -> Any:
         """"""
         self.initModel(cfg)
         self.initView(cfg)
         return self
 
-    def add_drawer(self, drawer, items=None):
+    def add_drawer(self, drawer, items=None) -> Any:
         """"""
         cfg = {"items": items.get("items", {})}
         # self.drawers[drawer] = NchantdDrawer(self, cfg).initWidget()
         self.box.addItem(NchantdDrawer(self, cfg).initWidget(), items.get("title", "Mystery Drawer"))
         return self
 
-    def add_drawer_lazy(self, drawer, items=None):
+    def add_drawer_lazy(self, drawer, items=None) -> Any:
         """"""
         if items is None:
             items = {}
@@ -146,7 +148,7 @@ class NchantdToolBox(NchantdTab):
         self.drawers[drawer]["cfg"] = {"items": items.get("items", {})}
         return self
 
-    def add_dummy_widget(self):
+    def add_dummy_widget(self) -> Any:
         """"""
         widget = pyqt.QWidget()
         layout = pyqt.QVBoxLayout()
@@ -154,7 +156,7 @@ class NchantdToolBox(NchantdTab):
         widget.setLayout(layout)
         return widget
 
-    def build_toolbox(self, cfg=None):
+    def build_toolbox(self, cfg=None) -> Any:
         """"""
         # logma.inspect_caller()
         current_document = self.app.view.panes["center"].currentWidget()
@@ -181,7 +183,7 @@ class NchantdToolBox(NchantdTab):
             self.layout.addWidget(self.box)
         return self
 
-    def clear(self):
+    def clear(self) -> None:
         """Manually remove all items in the QToolBox."""
         if self.drawers is not None:
             logma.info(f"Clear Toolbox {self.drawers.keys()}")
@@ -194,12 +196,12 @@ class NchantdToolBox(NchantdTab):
                 self.box.removeItem(index)
             self.layout.removeWidget(self.box)
 
-    def init_toolbox(self):
+    def init_toolbox(self) -> Any:
         """"""
         return self
 
     @pyqt.Slot(int)
-    def load_drawer(self, idx: int):
+    def load_drawer(self, idx: int) -> Any:
         """"""
         logma.info(f"load_drawer called for index {idx}")
         # Find drawer key by matching index
@@ -262,7 +264,7 @@ class NchantdToolBox(NchantdTab):
             self.box.blockSignals(False)
         return self
 
-    def on_drawer_changed(self, index):
+    def on_drawer_changed(self, index) -> Any:
         """"""
         # self.drawers[list(self.drawers.keys())[index]].initWidget()
         logma.info(f"Current Drawer {index}")
@@ -270,7 +272,7 @@ class NchantdToolBox(NchantdTab):
         # self.box.layout().update()
         return self
 
-    def on_drawer_selected(self, index):
+    def on_drawer_selected(self, index) -> None:
         """
         Handle drawer selection and lazily load its contents when accessed.
         """
@@ -296,7 +298,7 @@ class NchantdToolBox(NchantdTab):
         # self.toolbox.setItem(index, drawer_widget)
         # print(f"Content for Drawer {index + 1} loaded successfully.")
 
-    def setItem(self, index, widget):
+    def setItem(self, index, widget) -> None:
         """
         Replace a drawer's placeholder widget with its actual content.
         """

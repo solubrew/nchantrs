@@ -91,6 +91,8 @@ class NchantdEventSet:
         if not parent.newInstance:
             self.restoreEventSet()
         self.lastEvent = self.getLastEvent()
+        logma.info(f"NchantdEventSet initialized")
+
 
     def store(self, event) -> None:
         """ """
@@ -114,6 +116,8 @@ class NchantdEvent:
 
     def __init__(self) -> None:
         """ """
+        logma.info(f"NchantdEvent initialized")
+
 
     def store(self, event) -> None:
         """ """

@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -40,7 +42,7 @@ pxcfg = join(here, "_data_", "lists.yaml")
 class NchantdList(NchantdWidgetMixin, pyqt.QListWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent)
         self.parent = parent
@@ -49,27 +51,27 @@ class NchantdList(NchantdWidgetMixin, pyqt.QListWidget):
         self.item_list = None
         self.data = None
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         self.data = self.config.dikt.get("data", [])
         logma.info(f"Items {self.data}")
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         self.set_data()
         return self
 
-    def initWidget(self, cfg=None):
+    def initWidget(self, cfg=None) -> Any:
         """"""
         self.config.override(cfg)
         self.initModel()
         self.initView()
         return self
 
-    def set_data(self, data=None):
+    def set_data(self, data=None) -> Any:
         """
         Populate the QListWidget with files from the given directory.
         :param directory: The directory path to scan for files.
@@ -90,26 +92,26 @@ class NchantdList(NchantdWidgetMixin, pyqt.QListWidget):
 class NchantdListWidget(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(self)
         self.parent = parent
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdListWidget").override(parent.config).override(cfg))
         self.list = None
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> None:
         """"""
         super().initView(cfg)
         cfg = {}
         self.list = NchantdList(self, cfg).initWidget()
         self.layout.addWidget(self.list)
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -119,7 +121,7 @@ class NchantdListWidget(NchantdWidget):
 class NchantdListEditor(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(self)
         self.parent = parent
@@ -128,12 +130,12 @@ class NchantdListEditor(NchantdWidget):
             self.config.override(parent.config)
         self.config.override(cfg)
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         cfg = {}
@@ -144,7 +146,7 @@ class NchantdListEditor(NchantdWidget):
         self.layout.addWidget(self.list)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -154,25 +156,25 @@ class NchantdListEditor(NchantdWidget):
 class NchantdBulletedList(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdBulletedList").override(cfg))
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         self.layout = pyqt.QVBoxLayout()
-        # TODO build out builted list widget with configurable bullet marker, font, color that is non-interactive
+        # NOTE build out builted list widget with configurable bullet marker, font, color that is non-interactive
         self.setLayout(self.layout)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -182,17 +184,17 @@ class NchantdBulletedList(NchantdWidget):
 class NchantdInteractiveBulletedList(NchantdBulletedList):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdBulletedList").override(cfg))
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         self.document = NchantdDocEditor(self, self.config).initWidget()
@@ -206,7 +208,7 @@ class NchantdInteractiveBulletedList(NchantdBulletedList):
         self.setLayout(self.layout)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -216,7 +218,7 @@ class NchantdInteractiveBulletedList(NchantdBulletedList):
 class NchantdCollapsableList(NchantdCollapsableGroup):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -225,12 +227,12 @@ class NchantdCollapsableList(NchantdCollapsableGroup):
             self.config.override(parent.config)
         self.config.override(cfg)
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         self.data = self.config.dikt.get("data", [])
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         cfg = {"data": self.data}
@@ -238,7 +240,7 @@ class NchantdCollapsableList(NchantdCollapsableGroup):
         self.addWidget(self.list)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -248,7 +250,7 @@ class NchantdCollapsableList(NchantdCollapsableGroup):
 class NchantdTextList(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("Nchantd")
@@ -256,13 +258,15 @@ class NchantdTextList(NchantdWidget):
             self.config.override(parent.config)
         super().__init__(self)
         self.config.override(cfg)
+        logma.info(f"NchantdTextList initialized")
 
-    def initModel(self):
+
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
 
@@ -289,13 +293,13 @@ class NchantdTextList(NchantdWidget):
         self.layout.addLayout(self.list_group.layout)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def add_bullet(self):
+    def add_bullet(self) -> None:
         """
         Adds text from the input field to the bulleted list in the QTextEdit.
         """
@@ -324,7 +328,7 @@ class NchantdTextList(NchantdWidget):
         # Clear the input field after adding to the list
         self.input_field.clear()
 
-    def create_bulleted_list(self):
+    def create_bulleted_list(self) -> None:
         cursor = self.textedit.textCursor()
         list_format = pyqt.QTextListFormat()
 
@@ -334,7 +338,7 @@ class NchantdTextList(NchantdWidget):
         list_format.setStyle(pyqt.QTextListFormat.ListDisc)
         cursor.insertList(list_format)
 
-    def setTitle(self, title):
+    def setTitle(self, title) -> Any:
         """"""
         self.list_group.setTitle(title)
         return self

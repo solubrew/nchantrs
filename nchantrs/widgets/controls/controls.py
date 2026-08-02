@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """#																			||
 ---  #																			||
 <(META)>:  #																	||
@@ -35,6 +37,7 @@ from kahndor.logma import Logma
 # ===============================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
+logma.off()
 log = False
 
 # ===============================================================================||
@@ -44,7 +47,7 @@ pxcfg = join(abspath(here), "_data_", "controls.yaml")
 class NchantdIncrementbox(NchantdWidgetMixin, pyqt.QSpinBox):
     """ """
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """https://www.tutorialspoint.com/pyqt/pyqt_qspinbox_self.htm"""
         super().__init__(cfg["name"])
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdIncrementbox").override(cfg))
@@ -59,7 +62,7 @@ class NchantdIncrementbox(NchantdWidgetMixin, pyqt.QSpinBox):
 class NchantdSelectionWidget(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdSelectionWidget").override(cfg))
@@ -67,12 +70,12 @@ class NchantdSelectionWidget(NchantdWidget):
         self.label = None
         self.description = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         cfg = {}
@@ -86,7 +89,7 @@ class NchantdSelectionWidget(NchantdWidget):
         self.layout.addWidget(self.description)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -96,19 +99,21 @@ class NchantdSelectionWidget(NchantdWidget):
 class NchantdWidgetSelector(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdWidgetSelector").override(cfg))
         self.widgets = {}
+        logma.info(f"NchantdWidgetSelector initialized")
 
-    def initModel(self):
+
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         [self.add_widget(sequence, widget) for sequence, widget in self.config.dikt.get("selector", {}).items()]
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         group = NchantdVScrollGroupBox()
@@ -117,13 +122,13 @@ class NchantdWidgetSelector(NchantdWidget):
         self.layout.addLayout(group.layout)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def add_widget(self, sequence, widget):
+    def add_widget(self, sequence, widget) -> Any:
         """"""
         self.widgets[sequence] = widget
         return self

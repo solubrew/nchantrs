@@ -194,23 +194,23 @@ class NchantdButton(NchantdWidgetMixin, pyqt.QPushButton):
 
 class NchantdButtonWidget(NchantdWidget):
     """"""
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdButtonWidget").override(cfg))
         self.button = None
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> None:
         """"""
         super().initModel(cfg)
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> None:
         """"""
         super().initView(cfg)
         self.button = NchantdButton(self, cfg).initWidget()
         self.layout.addWidget(self.button)
 
-    def initWidget(self):
+    def initWidget(self) -> None:
         """"""
         self.initModel()
         self.initView()
@@ -220,18 +220,18 @@ class NchantdButtonWidget(NchantdWidget):
 class NchantdLabeledButton(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdLabeledButton").override(cfg))
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         cfg = cfg or {}
         super().initModel(cfg)
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         label = NchantdLabel(self, {"text": self.config.dikt["text"]}).initWidget()
         button = NchantdButton(self, {"text": self.config.dikt["label"]}).initWidget()
@@ -246,7 +246,7 @@ class NchantdLabeledButton(NchantdWidget):
         self.setLayout(layout)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -256,18 +256,18 @@ class NchantdLabeledButton(NchantdWidget):
 class NchantdSaveButton(NchantdButton):
     """A single pane widget with a button set for submitting a form"""
 
-    def __init__(self, parent=None, cfg={}):
+    def __init__(self, parent=None, cfg={}) -> None:
         """ """
         super().__init__(parent, self.config.dikt["buttons"]["save"])
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdSaveButton").override(cfg))
         self.src = self.parent.store
 
-    def initWidget(self, handler):
+    def initWidget(self, handler) -> Any:
         """ """
         super().initWidget(handler)
         return self
 
-    def save(self, input_value):
+    def save(self, input_value) -> None:
         """
         Need to collect all data from active widgets
 
@@ -282,7 +282,7 @@ class NchantdSaveButton(NchantdButton):
 class NchantdSliderButton(NchantdWidgetMixin, pyqt.QSlider):
     """ """
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """https://www.tutorialspoint.com/pyqt/pyqt_qslider_widget_signal.htm"""
         super().__init__(cfg["name"])
         self.config = kahndor.Instruct(pxcfg).select("NchantdSliderButton").override(cfg)
@@ -303,22 +303,22 @@ class NchantdSliderButton(NchantdWidgetMixin, pyqt.QSlider):
 class NchantdTextButton(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdTextButton").override(cfg))
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -328,22 +328,22 @@ class NchantdTextButton(NchantdWidget):
 class NchantdDynamicTextButton(NchantdTextButton):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdDynamicTextButton").override(cfg))
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

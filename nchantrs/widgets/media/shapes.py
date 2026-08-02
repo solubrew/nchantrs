@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -30,6 +32,7 @@ from kahndor.logma import Logma
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")
@@ -38,7 +41,7 @@ pxcfg = join(here, "_data_", ".yaml")
 class NchantdShape(pyqt.QWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdShape")
@@ -47,44 +50,46 @@ class NchantdShape(pyqt.QWidget):
         self.config.override(cfg)
         super(NchantdShape, self).__init__(self.parent, self.config)
         self.qp = None
+        logma.info(f"NchantdShape initialized")
 
-    def initModel(self):
+
+    def initModel(self) -> Any:
         """"""
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def move_shape(self, x, y):
+    def move_shape(self, x, y) -> None:
         """"""
 
-    def paintEvent(self, event):
+    def paintEvent(self, event) -> Any:
         """"""
         self.qp = pyqt.QPainter(self)
         self.qp.setBrush(pyqt.QBrush(pyqt.QColor(self.background_color)))
         return self
 
-    def set_anchor(self):
+    def set_anchor(self) -> None:
         """"""
 
-    def set_background_color(self, color):
+    def set_background_color(self, color) -> None:
         """"""
 
-    def set_border_color(self, color):
+    def set_border_color(self, color) -> None:
         """"""
 
 
 class NchantdEllipse(NchantdShape):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdEllipse")
@@ -94,48 +99,50 @@ class NchantdEllipse(NchantdShape):
         super(NchantdEllipse, self).__init__(self.parent, self.config)
         self.dragging = False
         self.drag_offset = None
+        logma.info(f"NchantdEllipse initialized")
 
-    def initModel(self):
+
+    def initModel(self) -> Any:
         """"""
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def paintEvent(self, event):
+    def paintEvent(self, event) -> None:
         qp = pyqt.QPainter(self)
         qp.setBrush(pyqt.QBrush(pyqt.QColor(self.background_color)))
         rect = pyqt.QRectF(0, 0, self.width(), self.height())
         qp.drawEllipse(rect)
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event) -> None:
         self.dragging = True
         self.drag_offset = event.posF()
 
-    def mouseMoveEvent(self, event):
+    def mouseMoveEvent(self, event) -> None:
         if self.dragging:
             dx = event.posF().x() - self.drag_offset.x()
             dy = event.posF().y() - self.drag_offset.y()
             self.setGeometry(self.x() + dx, self.y() + dy, self.width(), self.height())
 
-    def mouseReleaseEvent(self, event):
+    def mouseReleaseEvent(self, event) -> None:
         self.dragging = False
 
-    def mouseDoubleClickEvent(self, event):
+    def mouseDoubleClickEvent(self, event) -> None:
         self.setGeometry(self.x(), self.y(), self.width() + 50, self.height() + 50)
 
 
 class NchantdCircle(NchantdEllipse):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdCircle")
@@ -144,15 +151,15 @@ class NchantdCircle(NchantdEllipse):
         self.config.override(cfg)
         super(NchantdCircle, self).__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -162,7 +169,7 @@ class NchantdCircle(NchantdEllipse):
 class NchantdPolygon(NchantdShape):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdPolygon")
@@ -174,22 +181,24 @@ class NchantdPolygon(NchantdShape):
         self.border_color = None
         self.foreground_color = None
         self.set_vertices({0: {"x": 0, "y": 0}, 1: {"x": 1, "y": 2}, 2: {"x": 2, "y": 0}})
+        logma.info(f"NchantdPolygon initialized")
 
-    def initModel(self):
+
+    def initModel(self) -> Any:
         """"""
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def paintEvent(self, event):
+    def paintEvent(self, event) -> Any:
         """"""
         super().paintEvent(event)
         pointWs = []
@@ -200,7 +209,7 @@ class NchantdPolygon(NchantdShape):
         self.qp = None
         return self
 
-    def get_shape(self):
+    def get_shape(self) -> Any:
         """"""
         if self.vertices_count == 3:
             self.shape = "triangle"
@@ -220,23 +229,23 @@ class NchantdPolygon(NchantdShape):
             self.shape = "decagon"
         return self.shape
 
-    def add_vertex(self, x, y):
+    def add_vertex(self, x, y) -> None:
         """"""
         self.vertices[self.vertices_count]["x"] = x
         self.vertices[self.vertices_count]["y"] = y
         self.set_vertices()
 
-    def move_vertex(self, vertex, x, y, x1=None, y1=None):
+    def move_vertex(self, vertex, x, y, x1=None, y1=None) -> None:
         """"""
 
-    def remove_vertex(self, x, y, pos=None):
+    def remove_vertex(self, x, y, pos=None) -> None:
         """"""
         if pos is None:
             pos = [i for i in range(len(self.vertices)) if self.vertices[i]["x"] == x and self.vertices[i]["y"] == y][0]
         self.vertices.pop(pos)
         self.set_vertices()
 
-    def set_vertices(self, vertices=None):
+    def set_vertices(self, vertices=None) -> Any:
         """"""
         if vertices is not None:
             self.vertices = vertices

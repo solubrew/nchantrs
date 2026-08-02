@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any, Union
+
 """
 ---
 <(META)>:
@@ -49,7 +51,7 @@ pxcfg = join(here, "_data_", "catalogs.yaml")
 class NchantdNewNodePane(NchantdPane):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdNewNodePane").override(cfg))
@@ -73,7 +75,7 @@ class NchantdNewNodePane(NchantdPane):
         self.add_feature = None
         self.node_radio_buttons = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         logma.info(f"Init Model{self.config.dikt.get('action')}")
         self.config.dikt.pop("action")
@@ -84,7 +86,7 @@ class NchantdNewNodePane(NchantdPane):
         logma.info(f"Model Initd")
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         logma.info(f"Init View")
         if cfg is None:
@@ -148,24 +150,24 @@ class NchantdNewNodePane(NchantdPane):
         self.layout.setSpacing(3)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def accept(self, action=None, app=None, params=None):
+    def accept(self, action=None, app=None, params=None) -> None:
         """
         :return:
         """
         super().accept()
         self.add_feature("center")
 
-    def add_field(self, field_widget):
+    def add_field(self, field_widget) -> Any:
         """"""
         return self
 
-    def add_node(self, tree="left", widgdata=None):
+    def add_node(self, tree="left", widgdata=None) -> Any:
         """"""
         tree = "left"
         if widgdata is None:
@@ -188,7 +190,7 @@ class NchantdNewNodePane(NchantdPane):
             parameters = {
                 "focus": "user",
                 "recent_tab": {
-                    # TODO add tab.tid to NchantdDocumentCatalog
+                    # NOTE add tab.tid to NchantdDocumentCatalog
                     # "center": self.app.view.panes["center"].model.current_tab.tid,
                     # "right": self.app.view.panes["right"].model.current_tab.tid,
                 },
@@ -196,7 +198,7 @@ class NchantdNewNodePane(NchantdPane):
             self.app.model.add_node(name, ntype, pid, pos, parameters, None, True)
         return self
 
-    def get_focus_packages(self):
+    def get_focus_packages(self) -> Any:
         """"""
         df = self.app.model.store.get_focus_packages()
         packages = dict(zip(df["sequence_int"].values.list(), df["package_name_txt"].values.list()))
@@ -205,7 +207,7 @@ class NchantdNewNodePane(NchantdPane):
             packages[key] = NchantdSelectionWidget(self, cfg)
         return packages
 
-    def get_new_tab_name(self):
+    def get_new_tab_name(self) -> Union[Any, str]:
         """
         set the name as an document_type and uuid
         :return:
@@ -218,18 +220,18 @@ class NchantdNewNodePane(NchantdPane):
         name = f"{code[-len(code) + code.rfind("_") + 1 :].lower().replace(' ', '')} {self.active_item.did[-5:]}"
         return name
 
-    def set_active_item(self, item):
+    def set_active_item(self, item) -> Any:
         """"""
         self.active_item = item
         return self
 
-    def show_first_tab_options(self):
+    def show_first_tab_options(self) -> None:
         """"""
         # [DONE]
         # allow it to be set as a default and then automatically create the tab document with each newly created node
         #
 
-    def update_pane(self):
+    def update_pane(self) -> Any:
         """ """
         super().update_pane()
         if self.catalog is not None:
@@ -244,7 +246,7 @@ class NchantdNewNodePane(NchantdPane):
                     self.center_options_layout.removeWidget(self.node_radio_buttons)
                     self.node_radio_buttons.deleteLater()
                     self.node_radio_buttons = None
-                # TODO rewrite the left right tab selection
+                # NOTE rewrite the left right tab selection
                 self.show_first_tab_options()
             elif self.active_item.file_type == "note":
                 pass

@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -29,12 +31,13 @@ from kahndor.logma import Logma
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")
 
 
-def alert(text=None):
+def alert(text=None) -> Any:
     """"""
     script = """alert("<[text]>")"""
     if text is not None:
@@ -42,7 +45,7 @@ def alert(text=None):
     return script
 
 
-def background(color):
+def background(color) -> Any:
     """"""
     script = """
         document.body.style.backgroundColor = "<[color]>";  
@@ -52,7 +55,7 @@ def background(color):
     return script
 
 
-def button_submit(element=None):
+def button_submit(element=None) -> Any:
     """"""
     script = """
     try {
@@ -76,7 +79,7 @@ def button_submit(element=None):
     return script
 
 
-def event_listener_middle_click():
+def event_listener_middle_click() -> Any:
     """"""
     script = """
     document.body.addEventListener("mousedown", function(event) {
@@ -92,28 +95,28 @@ def event_listener_middle_click():
     return script
 
 
-def extract_images():
+def extract_images() -> Any:
     """"""
     script = """"""
     script = script.replace("<[text]>", text)
     return script
 
 
-def extract_table():
+def extract_table() -> Any:
     """"""
     script = """"""
     script = script.replace("<[text]>", text)
     return script
 
 
-def extract_text():
+def extract_text() -> Any:
     """"""
     script = """"""
     script = script.replace("<[text]>", text)
     return script
 
 
-def find(field):
+def find(field) -> Any:
     """"""
     script = """
         try {
@@ -126,7 +129,7 @@ def find(field):
     return script
 
 
-def find_all(field):
+def find_all(field) -> Any:
     """"""
     script = """
         try {
@@ -139,7 +142,7 @@ def find_all(field):
     return script
 
 
-def find_name():
+def find_name() -> Any:
     """"""
     script = """
     try {
@@ -151,7 +154,7 @@ def find_name():
     return script
 
 
-def find_phone():
+def find_phone() -> Any:
     """"""
     script = """
     try {
@@ -163,7 +166,7 @@ def find_phone():
     return script
 
 
-def find_street():
+def find_street() -> Any:
     """"""
     script = """
     try {
@@ -175,7 +178,7 @@ def find_street():
     return script
 
 
-def find_state():
+def find_state() -> Any:
     """"""
     script = """
     try {
@@ -187,7 +190,7 @@ def find_state():
     return script
 
 
-def find_zipcode():
+def find_zipcode() -> Any:
     """"""
     script = """
     try {
@@ -199,7 +202,7 @@ def find_zipcode():
     return script
 
 
-def inject_script():
+def inject_script() -> Any:
     """"""
     script = """
     const script = document.createElement("script");
@@ -210,7 +213,7 @@ def inject_script():
     return script
 
 
-def rich_text_area_insert(element=None, text=None):
+def rich_text_area_insert(element=None, text=None) -> Any:
     """"""
     script = """
     try {
@@ -250,7 +253,7 @@ def rich_text_area_insert(element=None, text=None):
     return script
 
 
-def scroll_page():
+def scroll_page() -> Any:
     """"""
     script = """
     try {
@@ -268,7 +271,7 @@ def scroll_page():
     return script
 
 
-def text_area_insert(element=None, text=None):
+def text_area_insert(element=None, text=None) -> Any:
     """"""
     script = """
     var xpath = '<[element]>';
@@ -293,7 +296,7 @@ def text_area_insert(element=None, text=None):
     return script
 
 
-def media_pause():
+def media_pause() -> Any:
     """"""
     script = """
     (() => {
@@ -314,7 +317,7 @@ def media_pause():
     return script
 
 
-def media_play():
+def media_play() -> Any:
     """"""
     script = """
     (() => {
@@ -333,7 +336,7 @@ def media_play():
     return script
 
 
-def media_mark_intent_to_play():
+def media_mark_intent_to_play() -> Any:
     """"""
     script = """
     (() => {

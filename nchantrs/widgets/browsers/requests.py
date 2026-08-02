@@ -73,7 +73,7 @@ GOOGLE_LOGIN_HOSTS = (
 )
 
 
-def _quirk_platform_token():
+def _quirk_platform_token() -> str:
     """UA platform token for the host OS, in Firefox's format."""
     system = _platform.system()
     if system == "Windows":
@@ -83,7 +83,7 @@ def _quirk_platform_token():
     return "X11; Linux x86_64"
 
 
-def google_login_user_agent():
+def google_login_user_agent() -> str:
     """Firefox User-Agent used on Google sign-in hosts (F2 quirk)."""
     return (
         f"Mozilla/5.0 ({_quirk_platform_token()}; rv:{_FIREFOX_VERSION}) "
@@ -91,7 +91,7 @@ def google_login_user_agent():
     )
 
 
-def is_google_login_host(host):
+def is_google_login_host(host) -> bool:
     """True if host is (or is under) a Google sign-in host."""
     host = (host or "").lower()
     return any(host == h or host.endswith("." + h) for h in GOOGLE_LOGIN_HOSTS)
@@ -100,11 +100,11 @@ def is_google_login_host(host):
 class NchantdLocalServiceRequestInterceptor(pyqt.QWebEngineUrlRequestInterceptor):
     """Request interceptor optimized for local services"""
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.local_hosts = {"localhost", "127.0.0.1", "0.0.0.0"}
 
-    def interceptRequest(self, info):
+    def interceptRequest(self, info) -> None:
         """Intercept requests and handle local service specifics"""
         url = info.requestUrl()
         host = url.host().lower()
@@ -128,10 +128,10 @@ class NchantdRequestInterceptor(pyqt.QWebEngineUrlRequestInterceptor):
         {"type": "allow_only_domain", "value": "https://safe-site.com"},
     ]
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         super().__init__(parent)
 
-    def interceptRequest(self, info):
+    def interceptRequest(self, info) -> None:
         """Diagnostic logging only (no blocking).
 
         Logs every resource request — including XHR/fetch and WebSocket handshakes
@@ -203,19 +203,19 @@ class NchantdRequestInterceptor(pyqt.QWebEngineUrlRequestInterceptor):
         #     elif self.security_level == "high":
         #         self._apply_high_security_filters(info)
 
-    def intercept_media(self):
+    def intercept_media(self) -> None:
         """"""
 
-    def _block_javascript(self, info):
+    def _block_javascript(self, info) -> None:
         """"""
         if info.requestUrl().toString().endswith(".js"):
             logma.info(f"Blocking external script: {info.requestUrl().toString()}")
             info.block(True)
 
-    def _check_allow(self):
+    def _check_allow(self) -> None:
         """"""
 
-    def _setup_security_rules(self):
+    def _setup_security_rules(self) -> None:
         """Setup security rules based on security level"""
         # self.security_manager = CrossPlatformSecurityManager()
         # self.security_level = security_manager.security_config["security_level"]
@@ -239,7 +239,7 @@ class NchantdRequestInterceptor(pyqt.QWebEngineUrlRequestInterceptor):
         # Add known malicious domains (this would be populated from threat intelligence)
         self.blocked_domains.update({"malicious-site.com", "suspicious-domain.net"})
 
-    def _apply_maximum_security_filters(self, info):
+    def _apply_maximum_security_filters(self, info) -> None:
         """Apply maximum security filtering"""
         url_string = info.requestUrl().toString()
 
@@ -256,7 +256,7 @@ class NchantdRequestInterceptor(pyqt.QWebEngineUrlRequestInterceptor):
             info.block(True)
             return
 
-    def _apply_high_security_filters(self, info):
+    def _apply_high_security_filters(self, info) -> None:
         """Apply high security filtering"""
         url_string = info.requestUrl().toString()
 
@@ -349,18 +349,20 @@ class CloudflareHandler(pyqt.QWebEngineView):
     challenge_completed = pyqt.Signal()
     challenge_failed = pyqt.Signal()
 
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.challenge_timer = QTimer()
         self.challenge_timer.timeout.connect(self.check_challenge_status)
         self.page().loadFinished.connect(self.on_load_finished)
+        logma.info(f"CloudflareHandler initialized")
 
-    def on_load_finished(self, success):
+
+    def on_load_finished(self, success) -> None:
         """Check for Cloudflare challenge after page load"""
         if success:
             self.detect_cloudflare_challenge()
 
-    def detect_cloudflare_challenge(self):
+    def detect_cloudflare_challenge(self) -> None:
         """Detect if a Cloudflare challenge is present"""
         js_code = """
         (function() {
@@ -403,7 +405,7 @@ class CloudflareHandler(pyqt.QWebEngineView):
 
         self.page().runJavaScript(js_code, self.handle_challenge_detection)
 
-    def handle_challenge_detection(self, result):
+    def handle_challenge_detection(self, result) -> None:
         """Handle challenge detection result"""
         if result and result.get("challenge_detected"):
             logger.info(f"Cloudflare challenge detected: {result.get('challenge_type')}")
@@ -418,7 +420,7 @@ class CloudflareHandler(pyqt.QWebEngineView):
         else:
             logger.debug("No Cloudflare challenge detected")
 
-    def help_turnstile_render(self):
+    def help_turnstile_render(self) -> None:
         """Help Turnstile widget render properly"""
         js_code = """
         (function() {
@@ -456,7 +458,7 @@ class CloudflareHandler(pyqt.QWebEngineView):
 
         self.page().runJavaScript(js_code, lambda result: logger.debug("Turnstile help result: %s", result))
 
-    def check_challenge_status(self):
+    def check_challenge_status(self) -> None:
         """Periodically check if challenge is completed"""
         js_code = """
         (function() {
@@ -489,7 +491,7 @@ class CloudflareHandler(pyqt.QWebEngineView):
 
         self.page().runJavaScript(js_code, self.handle_challenge_status)
 
-    def handle_challenge_status(self, result):
+    def handle_challenge_status(self, result) -> None:
         """Handle challenge status check"""
         if result:
             if not result.get("still_challenging") and result.get("turnstile_completed"):

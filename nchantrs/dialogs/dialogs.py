@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -42,7 +44,7 @@ pxcfg = join(abspath(here), "_data_", "dialogs.yaml")  # ||
 class NchantdCape(NchantdPanties):
     """Cape is the base class leveraging dialogs to create single pane applications"""
 
-    def __init__(self, name, instance=None, parent=None, cfg=None, args=None, log_file=None):
+    def __init__(self, name, instance=None, parent=None, cfg=None, args=None, log_file=None) -> None:
         """
         :param name:
         :param cfg:
@@ -76,11 +78,11 @@ class NchantdCape(NchantdPanties):
         self._init_view_called = False
 
     @property
-    def main(self):
+    def main(self) -> Any:
         """Expose main_widget as main for compatibility with theme initialization"""
         return self.main_widget
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """Initialize UI setting the main application layout and building
         landing widgets"""
         # Guard against double initialization
@@ -127,7 +129,7 @@ class NchantdCape(NchantdPanties):
 
         return self
 
-    def add_widget(self, widget):
+    def add_widget(self, widget) -> Any:
         """"""
         logma.info(f"Adding widget: {widget}")
         try:
@@ -150,7 +152,7 @@ class NchantdCape(NchantdPanties):
             traceback.print_exc()
         return self
 
-    def initApp(self, cfg=None):
+    def initApp(self, cfg=None) -> int:
         """Initialize and run the application"""
         # Initialize model
         self.initModel()
@@ -164,7 +166,7 @@ class NchantdCape(NchantdPanties):
         logma.info(f"Application exiting")
         return 0
 
-    def closeEvent(self, event):
+    def closeEvent(self, event) -> Any:
         """Handle application close event"""
         logma.info(f"NchantdCape Close Event")
         event.accept()
@@ -182,7 +184,7 @@ class NchantdCape(NchantdPanties):
 class NchantdClip(pyqt.QDialog):
     """"""
 
-    def __init__(self, name, args, widget, cfg=None):
+    def __init__(self, name, args, widget, cfg=None) -> None:
         """ """
         self.app = pyqt.QApplication(args)
         super().__init__()
@@ -195,7 +197,7 @@ class NchantdClip(pyqt.QDialog):
         logma.info(f"Type {type(widget)}")
         layout.addWidget(widget().initWidget())
 
-    def initApp(self):
+    def initApp(self) -> None:
         """"""
         self.exec()
         self.app.exec()
@@ -208,7 +210,7 @@ class NchantdSigil(NchantdSigilMixin, pyqt.QDialog):
     """Sigil is the base class for individual dialogs used to interact with the
     user these Sigils allow the user to alter their Cloak"""
 
-    def __init__(self, name, parent=None, cfg: dict = {}):
+    def __init__(self, name, parent=None, cfg: dict = {}) -> None:
         """
         :param name:
         :param parent:
@@ -221,7 +223,7 @@ class NchantdSigil(NchantdSigilMixin, pyqt.QDialog):
             self.layout = pyqt.QVBoxLayout()
             self.setLayout(self.layout)
 
-    def closeEvent(self, event):
+    def closeEvent(self, event) -> Any:
         """Handle close event and emit finished signal"""
         logma.info(f"NchantdSigil Close Event")
         event.accept()
@@ -229,26 +231,26 @@ class NchantdSigil(NchantdSigilMixin, pyqt.QDialog):
         self.finished.emit(0)
         return self
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> None:
         """"""
         super().initModel(cfg)
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """Build the dialog from the provided parameters"""
         super().initView(cfg)
         self.show()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         self.run()
         return self
-    def exec_(self):
+    def exec_(self) -> None:
         """"""
         self.exec()
-    def run(self, cfg=None):
+    def run(self, cfg=None) -> None:
         """"""
         logma.info(f"Run NchantdSigil")
         self.resize(300, 150)
@@ -256,10 +258,10 @@ class NchantdSigil(NchantdSigilMixin, pyqt.QDialog):
 class NchantdSplashDialog(NchantdSigil):
     """ """
 
-    def __init__(self):
+    def __init__(self) -> None:
         """ """
 
-    def buildDialog(self):
+    def buildDialog(self) -> Any:
         """ """
         return self
 
@@ -267,17 +269,17 @@ class NchantdSplashDialog(NchantdSigil):
 class NchantdBroach(NchantdWidget):
     """"""
 
-    def __init__(self, name, parent=None, cfg=None):
+    def __init__(self, name, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdBroach").override(cfg))
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         # self.setWindowTitle("Floating Widget")
@@ -293,7 +295,7 @@ class NchantdBroach(NchantdWidget):
         # self.layout.addWidget(close_button)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

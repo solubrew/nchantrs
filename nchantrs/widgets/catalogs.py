@@ -166,6 +166,8 @@ class NchantdImageCatalog(NchantdCatalog):
             self.config.override(parent.config)
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
+        logma.info(f"NchantdImageCatalog initialized")
+
 
     def initModel(self) -> None:
         """"""

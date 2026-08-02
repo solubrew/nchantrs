@@ -38,19 +38,19 @@ if not log:
 pxcfg = join(here, "_data_", "db.yaml")
 
 
-def migrate():
+def migrate() -> None:
     """Run a migration process from one version to the next"""
 
 
-def migrate_index():
+def migrate_index() -> None:
     """"""
 
 
-def migrate_table():
+def migrate_table() -> None:
     """"""
 
 
-def migrate_view():
+def migrate_view() -> None:
     """"""
 
 
@@ -67,7 +67,7 @@ class NchantdDBUpdate(object):
         self.hold_data = {}
         self.app = parent
 
-    def add_uuid(self, table, control_column, data_column, db="db"):
+    def add_uuid(self, table, control_column, data_column, db="db") -> Any:
         """Generate and insert a uuid to each record of a column given the filters"""
         self.app.model.store.add_uuid(table, control_column, data_column, db)
         return self
@@ -82,7 +82,7 @@ class NchantdDBUpdate(object):
             if data.empty:
                 raise Exception("No Instance Found")
             data = data.loc[0].to_dict()
-            #TODO refactor NchantdInstance
+            # NOTE refactor NchantdInstance
             # instance = NchantdInstance(self, data)
             # logma.info(f"Instance: {instance}")
             # self.parent.app.model.set_instance_active(instance)
@@ -193,7 +193,7 @@ class NchantdDBUpdate(object):
         logma.info(f"View Status {status}")
         return False
 
-    def repair_table(self, cmd, db="db"):
+    def repair_table(self, cmd, db="db") -> None:
         """"""
         # need to run cmds for specific repairs
 
@@ -316,7 +316,7 @@ class NchantdDBUpdate(object):
     #         logma.error(f"Update failed: {e}")
     #         return False
 
-    def update(self, table, cfg, db="db"):
+    def update(self, table, cfg, db="db") -> Any:
         """"""
         data = {"table": {table: cfg}}
         return self.parent.app.model.store.update_records(data, cfg, db)
@@ -427,7 +427,7 @@ class NchantdDBUpdate(object):
                 return False
         return True
 
-    def _process_view_operations(self, view, params, db):
+    def _process_view_operations(self, view, params, db) -> bool:
         """Process update operations for a view."""
         logma.info(f"Reloading View: {view}")
         if not self.reload_view(view, db):

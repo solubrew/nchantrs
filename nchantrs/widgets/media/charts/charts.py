@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -55,7 +57,7 @@ pxcfg = join(abspath(here), "_data_", "charts.yaml")
 class NchantdChart(NchantdWidgetMixin, FigureCanvas):
     """A canvas that updates itself every second with a new plot."""
 
-    def __init__(self, parent=None, cfg={}):
+    def __init__(self, parent=None, cfg={}) -> None:
         """ """
         width, height, dpi = 600, 4, 100
         self.config = kahndor.Instruct(pxcfg).select("NchantdChart")
@@ -89,7 +91,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         self.time_data = None
         self.time_series_values = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         self.axes.clear()
@@ -98,7 +100,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
             self.load_sample_data()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         self.plot_chart()
@@ -107,17 +109,17 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         # self.update_figure()
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """ """
         self.initModel()
         self.initView()
         return self
 
-    def clear_axes(self):
+    def clear_axes(self) -> None:
         """Clear the current axes to prepare for a new chart."""
         self.axes.clear()
 
-    def load_sample_data(self):
+    def load_sample_data(self) -> None:
         """"""
         self.x = np.linspace(0, 10, 100)
         self.y1 = np.sin(self.x)
@@ -142,7 +144,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
     #     # Enhance tick labels
     #     self.axes.tick_params(axis="both", which="major", labelsize=10)
 
-    def plot_chart(self):
+    def plot_chart(self) -> Any:
         """"""
         logma.info(f"Chart Type{self.chart_type}")
         if self.chart_type is None:
@@ -204,7 +206,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
                 self.plot_wordcloud()
         return self
 
-    def plot_area_chart(self):
+    def plot_area_chart(self) -> None:
         """Plot an area chart."""
         self.clear_axes()
         self.axes.fill_between(self.x, self.y1, color="blue", alpha=0.4, label="Sine Area")
@@ -215,9 +217,9 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         self.axes.legend()
         self.draw()
 
-    def plot_area_chart_3D(self):
+    def plot_area_chart_3D(self) -> None:
         """Generate and plot a 3D area chart."""
-        # TODO: this feature is not working the entire graph widget disappears when Area3D is selected in the chart type dropdown
+        # NOTE this feature is not working the entire graph widget disappears when Area3D is selected in the chart type dropdown
         self.fig.clear()
         ax = self.fig.add_subplot(111, projection="3d")
 
@@ -234,7 +236,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
 
         self.draw()
 
-    def plot_bar_chart(self):
+    def plot_bar_chart(self) -> None:
         """Plot a bar chart."""
         self.clear_axes()
         categories = ["A", "B", "C", "D", "E"]
@@ -245,7 +247,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         self.axes.set_ylabel("Values")
         self.draw()
 
-    def plot_bar_chart_3D(self):
+    def plot_bar_chart_3D(self) -> None:
         """Generate and plot a 3D bar chart."""
         self.fig.clear()
         ax = self.fig.add_subplot(111, projection="3d")
@@ -267,9 +269,9 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
 
         self.draw()
 
-    def plot_bar_chart_stacked(self):
+    def plot_bar_chart_stacked(self) -> None:
         """Generate and plot a stacked bar chart."""
-        # TODO: this feature is not working the entire graph widget disappears when BarStacked is selected in the chart type dropdown
+        # NOTE this feature is not working the entire graph widget disappears when BarStacked is selected in the chart type dropdown
         # Clear previous plots
         self.fig.clear()
         ax = self.fig.add_subplot(111)
@@ -322,7 +324,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         # Redraw the chart
         self.draw()
 
-    def plot_box_and_whisker(self):
+    def plot_box_and_whisker(self) -> None:
         """Generate and plot a box-and-whisker plot."""
         # Clear any previous plots
         self.fig.clear()
@@ -360,7 +362,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         # Redraw the chart
         self.draw()
 
-    def plot_bubble_chart(self):
+    def plot_bubble_chart(self) -> None:
         """Plot a bubble chart."""
         self.clear_axes()
         bubble_sizes = np.random.uniform(20, 200, size=len(self.x))
@@ -370,7 +372,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         self.axes.set_ylabel("Y-axis")
         self.draw()
 
-    def plot_candlestick_chart(self):
+    def plot_candlestick_chart(self) -> None:
         """Generate and plot a candlestick chart."""
         # Generate example OHLC data
         dates = date_range(dt.datetime(2023, 1, 1), periods=30)
@@ -401,7 +403,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         # Update the canvas to show the new chart
         self.draw()
 
-    def plot_column_chart(self):
+    def plot_column_chart(self) -> None:
         """Generate and plot a column chart."""
         # Generate example data
         categories = ["Category A", "Category B", "Category C", "Category D"]
@@ -428,7 +430,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         # Update the canvas to display the new chart
         self.draw()
 
-    def plot_column_chart_3D(self):
+    def plot_column_chart_3D(self) -> None:
         """Generate and plot a 3D column chart."""
         self.fig.clear()
         ax = self.fig.add_subplot(111, projection="3d")
@@ -444,7 +446,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         ax.set_zlabel("Value")
         self.draw()
 
-    def plot_column_chart_stacked(self):
+    def plot_column_chart_stacked(self) -> None:
         """Generate and plot a stacked column chart."""
         # Clear any previous plots
         self.fig.clear()
@@ -501,7 +503,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         # Redraw the canvas
         self.draw()
 
-    def plot_doughnut_chart(self):
+    def plot_doughnut_chart(self) -> None:
         """Generate and plot a doughnut chart."""
         # Example data for the doughnut chart
         categories = ["Category A", "Category B", "Category C", "Category D"]
@@ -531,7 +533,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         # Update the canvas to display the new chart
         self.draw()
 
-    def plot_doughnut_chart_3D(self):
+    def plot_doughnut_chart_3D(self) -> None:
         """Generate and plot a 3D doughnut chart (mocked with pie visualization)."""
         self.fig.clear()
         ax = self.fig.add_subplot(111, projection="3d")
@@ -559,7 +561,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
 
         self.draw()
 
-    def plot_funnel_chart(self):
+    def plot_funnel_chart(self) -> None:
         """Generate and plot a funnel chart."""
         # Example funnel data
         stages = ["Awareness", "Interest", "Consideration", "Evaluation", "Purchase"]
@@ -605,7 +607,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         # Update the canvas
         self.draw()
 
-    def plot_histogram_chart(self):
+    def plot_histogram_chart(self) -> None:
         """Generate and plot a histogram."""
         # Generate random data for the histogram
         data = np.random.normal(50, 10, 1000)  # Mean = 50, StdDev = 10, 1000 points
@@ -631,7 +633,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         # Update the canvas to display the new chart
         self.draw()
 
-    def plot_histogram_chart_3D(self):
+    def plot_histogram_chart_3D(self) -> None:
         """Generate and plot a 3D histogram chart."""
         self.fig.clear()
         ax = self.fig.add_subplot(111, projection="3d")
@@ -652,9 +654,9 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
 
         self.draw()
 
-    def plot_gantt_chart(self):
+    def plot_gantt_chart(self) -> None:
         """Plot a Gantt chart."""
-        # TODO: this feature is not working the entire graph widget disappears when gantt is selected in the chart type dropdown
+        # NOTE this feature is not working the entire graph widget disappears when gantt is selected in the chart type dropdown
         self.clear_axes()
 
         # Task positions (y-axis); reversed to plot Task A at the top
@@ -683,9 +685,9 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         self.axes.grid(axis="x", linestyle="--", alpha=0.7)
         self.draw()
 
-    def plot_heat_chart(self):
+    def plot_heat_chart(self) -> None:
         """Plot a heat chart."""
-        # TODO: this feature is not working the entire graph widget disappears when HeatMap is selected in the chart type dropdown
+        # NOTE this feature is not working the entire graph widget disappears when HeatMap is selected in the chart type dropdown
         self.clear_axes()
 
         # Use Seaborn's heatmap function to create a heatmap
@@ -703,7 +705,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         self.axes.set_ylabel("Rows")
         self.draw()
 
-    def plot_line_chart(self):
+    def plot_line_chart(self) -> None:
         """Plot a basic line chart."""
         logma.info(f"Plot Line Chart")
         self.clear_axes()
@@ -715,7 +717,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         self.axes.legend()
         self.draw()
 
-    def plot_pareto_chart(self):
+    def plot_pareto_chart(self) -> None:
         """Generate and plot a Pareto chart."""
         # Clear previous plots
         self.fig.clear()
@@ -770,7 +772,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         # Update the canvas
         self.draw()
 
-    def plot_pie_chart(self):
+    def plot_pie_chart(self) -> None:
         """Plots a pie chart."""
         self.clear_axes()
         values = [10, 30, 60]
@@ -785,9 +787,9 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         self.axes.set_title("Pie Chart")
         self.draw()
 
-    def plot_pie_chart_3D(self):
+    def plot_pie_chart_3D(self) -> None:
         """Generate and plot a 3D pie chart (as stacked bars)."""
-        # TODO: Pie3D is showing the same graph as regular Pie chart
+        # NOTE Pie3D is showing the same graph as regular Pie chart
         self.fig.clear()
         ax = self.fig.add_subplot(111, projection="3d")
 
@@ -809,7 +811,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
 
         self.draw()
 
-    def plot_radar_chart(self):
+    def plot_radar_chart(self) -> None:
         """Plots a radar chart."""
         self.clear_axes()
         values = [10, 30, 20, 10]
@@ -835,7 +837,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         self.axes.set_title("Radar Chart", va="bottom")
         self.draw()
 
-    def plot_sankey_chart(self):
+    def plot_sankey_chart(self) -> None:
         """Plots a Sankey chart."""
         self.clear_axes()
         Sankey(
@@ -853,7 +855,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         self.axes.set_title("Sankey Chart")
         self.draw()
 
-    def plot_scatter_chart(self):
+    def plot_scatter_chart(self) -> None:
         """Plots a scatter plot."""
         self.clear_axes()
         self.axes.scatter(
@@ -868,7 +870,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         self.axes.set_ylabel("Y-axis")
         self.draw()
 
-    def plot_scatter_chart_3D(self):
+    def plot_scatter_chart_3D(self) -> None:
         """Generate and plot a 3D scatter chart."""
         # Clear previous plots
         self.fig.clear()
@@ -908,7 +910,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         # Update the canvas
         self.draw()
 
-    def plot_surface_chart(self):
+    def plot_surface_chart(self) -> None:
         """Generate and plot a 3D surface chart."""
         # Clear previous plots
         self.fig.clear()
@@ -943,9 +945,9 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         # Update the canvas
         self.draw()
 
-    def plot_time_series_chart(self):
+    def plot_time_series_chart(self) -> None:
         """Plots a time series chart."""
-        # TODO: this feature is not working the entire graph widget disappears when timeseries is selected in the chart type dropdown
+        # NOTE this feature is not working the entire graph widget disappears when timeseries is selected in the chart type dropdown
         self.clear_axes()
         self.axes.plot(self.time_data, self.time_series_values, label="Cumulative Sum", linewidth=2)
         self.axes.set_title("Time Series Plot")
@@ -955,12 +957,12 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         self.axes.legend()
         self.draw()
 
-    def plot_tree_chart(self):
+    def plot_tree_chart(self) -> None:
         """Plot a basic line chart."""
         # pull in the DrillTreeChartWebEngine
-        # TODO: this feature is not working the entire graph widget disappears when TreeMap is selected in the chart type dropdown
+        # NOTE this feature is not working the entire graph widget disappears when TreeMap is selected in the chart type dropdown
 
-    def plot_violin_chart(self):
+    def plot_violin_chart(self) -> None:
         """Generate and plot a violin chart."""
         # Clear any previous plot
         self.fig.clear()
@@ -1005,10 +1007,10 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         # Redraw the chart
         self.draw()
 
-    def plot_word_cloud(self):
+    def plot_word_cloud(self) -> None:
         """Generate and plot a word cloud."""
         # Example text for the word cloud
-        # TODO: this feature is not working the entire graph widget disappears when wordcloud is selected in the chart type dropdown
+        # NOTE this feature is not working the entire graph widget disappears when wordcloud is selected in the chart type dropdown
         text = (
             "Python programming, Matplotlib, PySide6, data visualization, charts, "
             "histograms, scatterplots, coding, pandas, NumPy, libraries, "
@@ -1036,7 +1038,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         # Update the canvas to display the new chart
         self.draw()
 
-    def set_theme(self):
+    def set_theme(self) -> Any:
         """"""
         # sns.set_theme(style="darkgrid", palette="deep")  # Customize theme here
         themes = self.config.dikt.get("themes", None)
@@ -1052,7 +1054,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
 
 
 class DrillTreeChart(pyqt.QWebEngineView):
-    def __init__(self, parent=None):
+    def __init__(self, parent=None) -> None:
         super().__init__(parent)
 
         # Example data for hierarchical drill tree
@@ -1080,7 +1082,7 @@ class DrillTreeChart(pyqt.QWebEngineView):
 
         self.plot_drill_tree()
 
-    def plot_drill_tree(self):
+    def plot_drill_tree(self) -> None:
         """Renders the drill tree chart using Plotly."""
         fig = go.Figure(
             go.Treemap(
@@ -1097,7 +1099,7 @@ class DrillTreeChart(pyqt.QWebEngineView):
         # Render Plotly chart as HTML within QWebEngineView
         self.setHtml(fig.to_html(include_plotlyjs="cdn"))
 
-    def set_theme(self):
+    def set_theme(self) -> Any:
         """"""
         theme = self.config.dikt.get("theme", None)
         if theme is None:
@@ -1110,12 +1112,12 @@ class DrillTreeChart(pyqt.QWebEngineView):
 
 
 class FunnelChartCanvas(FigureCanvas):
-    def __init__(self, parent=None, width=5, height=4, dpi=100):
+    def __init__(self, parent=None, width=5, height=4, dpi=100) -> None:
         super().__init__(None)  # Since we use Plotly, we don't need Matplotlib here
         self.parent = parent
         self.initialize_chart()
 
-    def initialize_chart(self):
+    def initialize_chart(self) -> None:
         """Generate and update the funnel chart."""
         # Example data for Funnel
         stages = ["Awareness", "Interest", "Consideration", "Evaluation", "Purchase"]
@@ -1145,11 +1147,11 @@ class FunnelChartCanvas(FigureCanvas):
         # Display the funnel chart in a web browser
         logger.info(f"Saved 'funnel_chart.html'. Open it in a web browser!")
 
-    def clear_canvas(self):
+    def clear_canvas(self) -> None:
         """Clear the chart canvas (this is only relevant if you adapt this for live PySide6)."""
         pass
 
-def render_bar_chart(self):
+def render_bar_chart(self) -> None:
     """Render a bar chart with the provided series data."""
     for series in self.series:
         sns.barplot(
@@ -1161,7 +1163,7 @@ def render_bar_chart(self):
     self.finalize_chart()
 
 
-def render_line_chart(self):
+def render_line_chart(self) -> None:
     """Render a line chart with the provided series data."""
     for series in self.series:
         sns.lineplot(
@@ -1173,7 +1175,7 @@ def render_line_chart(self):
     self.finalize_chart()
 
 
-def render_area_chart(self):
+def render_area_chart(self) -> None:
     """Render an area chart with the provided series data (using `fill_between`)."""
     for series in self.series:
         plt.fill_between(
@@ -1186,7 +1188,7 @@ def render_area_chart(self):
     self.finalize_chart()
 
 
-def render_scatter_plot(self):
+def render_scatter_plot(self) -> None:
     """Render a scatter plot with the provided series data."""
     for series in self.series:
         sns.scatterplot(
@@ -1198,7 +1200,7 @@ def render_scatter_plot(self):
     self.finalize_chart()
 
 
-def render_box_plot(self, x: str = None, y: str = None, **kwargs):
+def render_box_plot(self, x: str = None, y: str = None, **kwargs) -> None:
     """
     Render a box plot for visualizing distributions.
 
@@ -1211,7 +1213,7 @@ def render_box_plot(self, x: str = None, y: str = None, **kwargs):
     self.finalize_chart()
 
 
-def render_histogram(self, x: str, bins: int = 20, kde: bool = False, **kwargs):
+def render_histogram(self, x: str, bins: int = 20, kde: bool = False, **kwargs) -> None:
     """
     Render a histogram for a single variable.
 
@@ -1225,7 +1227,7 @@ def render_histogram(self, x: str, bins: int = 20, kde: bool = False, **kwargs):
     self.finalize_chart()
 
 
-def render_pie_chart(self, values: list, labels: list, **kwargs):
+def render_pie_chart(self, values: list, labels: list, **kwargs) -> None:
     """
     Render a pie chart using Matplotlib.
 
@@ -1239,7 +1241,7 @@ def render_pie_chart(self, values: list, labels: list, **kwargs):
     plt.show()
 
 
-def render_heatmap(self, data: DataFrame, cmap="viridis", **kwargs):
+def render_heatmap(self, data: DataFrame, cmap="viridis", **kwargs) -> None:
     """
     Render a heatmap from a 2D data array.
 
@@ -1250,7 +1252,7 @@ def render_heatmap(self, data: DataFrame, cmap="viridis", **kwargs):
     """
     sns.heatmap(data, annot=True, cmap=cmap, **kwargs)
     self.finalize_chart()
-def finalize_chart(self):
+def finalize_chart(self) -> None:
     """
     Finalize the chart by setting the title, axis labels, legends, and showing the plot.
     """

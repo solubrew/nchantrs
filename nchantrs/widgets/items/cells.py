@@ -51,7 +51,7 @@ logma.off()
 pxcfg = join(here, "_data_", "cells.yaml")
 
 
-def _pyffice_required(op_name):
+def _pyffice_required(op_name) -> None:
     raise NotImplementedError(
         f"{op_name} requires pyffice — the integration lives in "
         "nchantdoffice (nchantrs + pyffice). nchantrs does not depend "
@@ -80,6 +80,8 @@ class NchantdCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
         self.document = None
         self.active_color = active_color
         self.is_active = False
+        logma.info(f"NchantdCell initialized")
+
 
     def initModel(self) -> None:
         """"""
@@ -197,6 +199,8 @@ class NchantdTableCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
         self.default_color = default_color
         self.active_color = active_color
         self.is_active = False
+        logma.info(f"NchantdTableCell initialized")
+
 
     def initModel(self) -> None:
         """"""

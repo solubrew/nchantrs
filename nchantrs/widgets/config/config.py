@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -39,16 +41,16 @@ pxcfg = join(here, "_data_", "config.yaml")
 class NchantdConfigStoreDocument(object):
     """"""
 
-    def __init__(self, cfg=None):
+    def __init__(self, cfg=None) -> None:
         """"""
         self.config = kahndor.Instruct(pxcfg).select("NchantdConfigStoreDocument").override(cfg)
         self.interface = None
 
-    def get_settings(self):
+    def get_settings(self) -> Any:
         """"""
         return self
 
-    def load_document(self, document=None):
+    def load_document(self, document=None) -> Any:
         """"""
         logma.info(f"Load Document {document}")
         if document is None:
@@ -71,7 +73,7 @@ class NchantdConfigStoreDocument(object):
         self.set_tags(document.get("meta_data", {}).get("tags", None))
         return self
 
-    def set_author(self, author):
+    def set_author(self, author) -> Any:
         """"""
         if author is None:
             author = ""
@@ -80,7 +82,7 @@ class NchantdConfigStoreDocument(object):
             self.author = author
         return self
 
-    def set_context(self, context):
+    def set_context(self, context) -> Any:
         """"""
         if context is None:
             context = ""
@@ -89,7 +91,7 @@ class NchantdConfigStoreDocument(object):
             self.context = context
         return self
 
-    def set_creon(self, creon=None):
+    def set_creon(self, creon=None) -> Any:
         """"""
         if creon is None:
             creon = self.time.get_current_datetime_str()
@@ -98,7 +100,7 @@ class NchantdConfigStoreDocument(object):
             self.creon = creon
         return self
 
-    def set_description(self, description):
+    def set_description(self, description) -> Any:
         """"""
         if description is None:
             description = ""
@@ -107,7 +109,7 @@ class NchantdConfigStoreDocument(object):
             self.description = description
         return self
 
-    def set_did(self, did=None):
+    def set_did(self, did=None) -> Any:
         """"""
         if did is None:
             did = uuid()
@@ -116,7 +118,7 @@ class NchantdConfigStoreDocument(object):
             self.did = did
         return self
 
-    def set_document(self, document):
+    def set_document(self, document) -> Any:
         """"""
         if document is None:
             document = {}
@@ -125,7 +127,7 @@ class NchantdConfigStoreDocument(object):
         self.document = document
         return self
 
-    def set_encoding(self, encoding=None):
+    def set_encoding(self, encoding=None) -> Any:
         """"""
         if encoding is None:
             encoding = "utf-8"
@@ -134,25 +136,25 @@ class NchantdConfigStoreDocument(object):
             self.encoding = encoding
         return self
 
-    def set_hash(self, hash_):
+    def set_hash(self, hash_) -> Any:
         """"""
         if hash_ is None:
             hash_ = text_hashing_function(self.context)
         logma.info(f"Hash {hash_}")
-        # TODO need to determine what parts get hased and when/where that happens
+        # NOTE need to determine what parts get hased and when/where that happens
         if hash_ != self.hash:
             self.add_change("hash", self.hash, hash_)
             self.hash = hash_
         return self
 
-    def set_meta_data(self, meta_data):
+    def set_meta_data(self, meta_data) -> Any:
         """"""
         if meta_data != self.meta_data:
             self.add_change("meta_data", self.meta_data, meta_data)
             self.meta_data = meta_data
         return self
 
-    def set_modon(self, modon=None):
+    def set_modon(self, modon=None) -> Any:
         """"""
         if modon is None:
             modon = self.time.get_current_datetime_str()
@@ -161,7 +163,7 @@ class NchantdConfigStoreDocument(object):
             self.modon = modon
         return self
 
-    def set_name(self, name):
+    def set_name(self, name) -> Any:
         """"""
         if name is None:
             name = self.did
@@ -170,23 +172,23 @@ class NchantdConfigStoreDocument(object):
             self.name = name
         return self
 
-    def set_saved(self, saved):
+    def set_saved(self, saved) -> Any:
         """"""
         if saved != self.is_saved:
             self.add_change("saved", self.is_saved, saved)
             self.is_saved = saved
         return self
 
-    def set_settings_account(self, account=None):
+    def set_settings_account(self, account=None) -> Any:
         """"""
         return self
 
-    def set_settings_extensions(self, extensions=None):
+    def set_settings_extensions(self, extensions=None) -> Any:
         """"""
         # HOLD
         return self
 
-    def set_settings_interface(self, interface=None):
+    def set_settings_interface(self, interface=None) -> Any:
         """"""
         self.enable_journal_node = True
         self.enable_settings_node = True
@@ -202,7 +204,7 @@ class NchantdConfigStoreDocument(object):
         self.right_side_tabs = {}
         return self
 
-    def set_settings_security(self, security=None):
+    def set_settings_security(self, security=None) -> Any:
         """"""
         self.user = security.get("user", None)
         # password
@@ -212,7 +214,7 @@ class NchantdConfigStoreDocument(object):
         # pin
         return self
 
-    def set_settings_storages(self, storages=None):
+    def set_settings_storages(self, storages=None) -> Any:
         """"""
         self.auto_save_enable = True
         self.auto_save_interval_mins = 15
@@ -224,12 +226,12 @@ class NchantdConfigStoreDocument(object):
         self.document_file_name = ""
         return self
 
-    def set_settings_theme(self, theme="midnight_mist"):
+    def set_settings_theme(self, theme="midnight_mist") -> Any:
         """"""
         self.theme = theme
         return self
 
-    def set_tags(self, tags):
+    def set_tags(self, tags) -> Any:
         """"""
         if tags is None:
             tags = []
@@ -238,7 +240,7 @@ class NchantdConfigStoreDocument(object):
             self.tags = tags
         return self
 
-    def to_dict(self):
+    def to_dict(self) -> Any:
         """"""
         doc = {}
         doc["document"] = {}
@@ -280,7 +282,7 @@ class NchantdConfigStoreDocument(object):
             document["account"]["is_changed"] = False
         return doc
 
-    def to_string(self):
+    def to_string(self) -> Any:
         """"""
         return j.dumps(self.to_dict())
 

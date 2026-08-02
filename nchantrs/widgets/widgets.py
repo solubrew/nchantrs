@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any, Dict, Tuple
+
 """
 ---
 <(META)>:
@@ -44,7 +46,7 @@ pxcfg = join(abspath(here), "_data_", "widgets.yaml")
 class NchantdAction(object):
     """"""
 
-    def __init__(self, action_term, code_group="base", parent=None, cfg=None):
+    def __init__(self, action_term, code_group="base", parent=None, cfg=None) -> None:
         """"""
         self.config = kahndor.Instruct(pxcfg).select("NchantdAction").override(cfg)
         self.app = None
@@ -54,47 +56,47 @@ class NchantdAction(object):
             self.app = self.parent.app
         self.action = self.lookup_action(action_term, code_group)
 
-    def get_lookup_code(self):
+    def get_lookup_code(self) -> Any:
         """"""
         return self.action["lookup_code_txt"]
 
-    def get_name(self):
+    def get_name(self) -> Any:
         """"""
         return self.action["name_txt"]
 
-    def get_description(self):
+    def get_description(self) -> Any:
         """"""
         return self.action["description_ltxt"]
 
-    def get_UUID(self):
+    def get_UUID(self) -> Any:
         """"""
         return self.action["UUID"]
 
-    def get_icon(self):
+    def get_icon(self) -> Any:
         """"""
         return self.action["icon_txt"]
 
-    def get_short_cut(self):
+    def get_short_cut(self) -> Any:
         """"""
         return self.action["short_cut_txt"]
 
-    def get_tip(self):
+    def get_tip(self) -> Any:
         """"""
         return self.action["tip_txt"]
 
-    def get_advanced_tip(self):
+    def get_advanced_tip(self) -> Any:
         """"""
         return self.action["advanced_tip_ltxt"]
 
-    def get_widget(self):
+    def get_widget(self) -> Any:
         """"""
         return self.action["widget"]
 
-    def get_parameters(self):
+    def get_parameters(self) -> Any:
         """"""
         return j.loads(self.action.get("parameters_dict", "{}").replace("'", '"').strip())
 
-    def lookup_action(self, action_term, code_group="base"):
+    def lookup_action(self, action_term, code_group="base") -> Any:
         """"""
         return lookup(self.app, action_term, {"code_group": code_group})
 
@@ -102,7 +104,7 @@ class NchantdAction(object):
 class NchantdWidgetMixin(object):
     """"""
 
-    def init_variables(self):
+    def init_variables(self) -> Any:
         """"""
         self.app = None
         self.context_menu_name = "widget"
@@ -157,7 +159,7 @@ class NchantdWidgetMixin(object):
         # logma.info(f"Initialize Variables {type(self)}")
         return self
 
-    def initModel(self, objects=None, get_actions=True):
+    def initModel(self, objects=None, get_actions=True) -> Any:
         """"""
         # logma.info("Mixin Model")
         self.init_variables()
@@ -179,7 +181,7 @@ class NchantdWidgetMixin(object):
         # self.initTriggers()
         return self
 
-    def initView(self, cfg={}):
+    def initView(self, cfg={}) -> Any:
         """"""
         # logma.info(f"Initialize View")
         self.config.override(cfg)
@@ -206,11 +208,11 @@ class NchantdWidgetMixin(object):
         self.initialize_context_menu()
         return self
 
-    def accpet(self):
+    def accpet(self) -> Any:
         """"""
         return self
 
-    def initialize_context_menu(self, menu_name=None):
+    def initialize_context_menu(self, menu_name=None) -> Any:
         """"""
         if menu_name is None:
             menu_name = self.context_menu_name
@@ -251,7 +253,7 @@ class NchantdWidgetMixin(object):
     #     self.context_menu = NchantdContextMenu(self, cfg).initWidget()
     #     return self
 
-    def contextMenuEvent(self, event):
+    def contextMenuEvent(self, event) -> Any:
         """"""
         # if self.context_menu is None:
         self.initialize_context_menu()
@@ -263,7 +265,7 @@ class NchantdWidgetMixin(object):
         self.context_menu.exec(event.globalPos())
         return self
 
-    def developer_info(self):
+    def developer_info(self) -> Dict[str, Any]:
         """Collect developer-facing metadata about this widget."""
         try:
             rect = self.geometry()
@@ -281,7 +283,7 @@ class NchantdWidgetMixin(object):
             "geometry": geo,
         }
 
-    def add_developer_menu(self, menu):
+    def add_developer_menu(self, menu) -> Any:
         """Append a debug-only 'Developer' submenu exposing widget metadata."""
         info = self.developer_info()
         text = "\n".join(f"{k}: {v}" for k, v in info.items())
@@ -297,35 +299,35 @@ class NchantdWidgetMixin(object):
         log_it.triggered.connect(lambda *_: logma.info(f"[developer] {info}"))
         return self
 
-    def cmd_copy_selection(self, selection=""):
+    def cmd_copy_selection(self, selection="") -> Any:
         """"""
         return self
 
-    def cmd_cut_selection(self, selection=""):
+    def cmd_cut_selection(self, selection="") -> Any:
         """"""
         return self
 
-    def cmd_delete_selection(self, selection=""):
+    def cmd_delete_selection(self, selection="") -> Any:
         """"""
         return self
 
-    def cmd_paste_selection(self, selection=""):
+    def cmd_paste_selection(self, selection="") -> Any:
         """"""
         return self
 
-    def cmd_paste_selection_formatting(self, selection=""):
+    def cmd_paste_selection_formatting(self, selection="") -> Any:
         """"""
         return self
 
-    def cmd_paste_selection_formula(self, selection=""):
+    def cmd_paste_selection_formula(self, selection="") -> Any:
         """"""
         return self
 
-    def cmd_paste_selection_values(self, selection=""):
+    def cmd_paste_selection_values(self, selection="") -> Any:
         """"""
         return self
 
-    def cmd_set_bold(self, selection=""):
+    def cmd_set_bold(self, selection="") -> Any:
         fmt = self.editor.currentCharFormat()
         if fmt.fontWeight() > pyqt.QFont.Normal:
             fmt.setFontWeight(pyqt.QFont.Normal)
@@ -334,18 +336,18 @@ class NchantdWidgetMixin(object):
         self.editor.setCurrentCharFormat(fmt)
         return self
 
-    def cmd_set_file_path(self, path):
+    def cmd_set_file_path(self, path) -> Any:
         """"""
         if path is None:
             path = self.config.dikt.get("path", None)
         self.file_path = path
         return self
 
-    def cmd_set_font(self, selection=""):
+    def cmd_set_font(self, selection="") -> Any:
         """"""
         return self
 
-    def cmd_set_font_color(self, selection=""):
+    def cmd_set_font_color(self, selection="") -> Any:
         """"""
         color = pyqt.QColorDialog.getColor()
         fmt = self.editor.currentCharFormat()
@@ -353,68 +355,68 @@ class NchantdWidgetMixin(object):
         self.editor.setCurrentCharFormat(fmt)
         return self
 
-    def cmd_set_italic(self, selection=""):
+    def cmd_set_italic(self, selection="") -> Any:
         """"""
         fmt = self.editor.currentCharFormat()
         fmt.setFontItalic(not fmt.fontItalic())
         self.editor.setCurrentCharFormat(fmt)
         return self
 
-    def cmd_set_underline(self, selection=""):
+    def cmd_set_underline(self, selection="") -> Any:
         fmt = self.editor.currentCharFormat()
         fmt.setFontUnderline(not fmt.fontUnderline())
         self.editor.setCurrentCharFormat(fmt)
         return self
 
-    def cmd_set_background_color(self, selection=""):
+    def cmd_set_background_color(self, selection="") -> Any:
         """"""
         return self
 
-    def cmd_set_highlight_color(self, selection=""):
+    def cmd_set_highlight_color(self, selection="") -> Any:
         """"""
         return self
 
-    def cmd_set_number_format(self, selection=""):
+    def cmd_set_number_format(self, selection="") -> Any:
         """"""
         return self
 
-    def cmd_set_text_format(self, selection=""):
+    def cmd_set_text_format(self, selection="") -> Any:
         """"""
         return self
 
-    def cmd_set_size(self, selection=""):
+    def cmd_set_size(self, selection="") -> Any:
         """"""
         return self
 
-    def cmd_set_superscript(self, selection=""):
+    def cmd_set_superscript(self, selection="") -> Any:
         """"""
         return self
 
-    def cmd_set_subscript(self, selection=""):
+    def cmd_set_subscript(self, selection="") -> Any:
         """"""
         return self
 
-    def cmd_set_strikeout(self, selection=""):
+    def cmd_set_strikeout(self, selection="") -> Any:
         fmt = self.editor.currentCharFormat()
         fmt.setFontStrikeOut(not fmt.fontStrikeOut())
         self.editor.setCurrentCharFormat(fmt)
         return self
 
-    def defocus(self):
+    def defocus(self) -> Any:
         """"""
         return self
 
-    def focusInEvent(self, event):
+    def focusInEvent(self, event) -> Any:
         super().focusInEvent(event)
         logma.info(f"Focus In")
         return self
 
-    def focusOutEvent(self, event):
+    def focusOutEvent(self, event) -> Any:
         super().focusOutEvent(event)
         logma.info(f"Focus Out")
         return self
 
-    def getAlignment(self, justify):
+    def getAlignment(self, justify) -> Any:
         """"""
         justify = justify.lower()
         if justify == "left":
@@ -430,18 +432,18 @@ class NchantdWidgetMixin(object):
         elif justify == "top_left":
             return pyqt.Qt.AlignmentFlag.AlignTop | pyqt.Qt.AlignmentFlag.AlignLeft
 
-    def get_viewport_size(self):
+    def get_viewport_size(self) -> Any:
         """"""
         return self
 
-    def keyPressEvent(self, event):
+    def keyPressEvent(self, event) -> Any:
         """Exit fullscreen mode when ESC key is pressed."""
         if self.isFullScreen() and event.key() in {27}:  # ESC key
             self.showNormal()
         super().keyPressEvent(event)
         return self
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event) -> Any:
         """"""
         logma.info("Mouse Press Event")
         if event.button() == pyqt.Qt.MouseButton.LeftButton:
@@ -456,73 +458,73 @@ class NchantdWidgetMixin(object):
         super().mousePressEvent(event)
         return self
 
-    def on_widget_changed(self):
+    def on_widget_changed(self) -> Any:
         """"""
         self.app.model.has_changed = True
         return self
 
-    def onLeftClick(self, signal=None):
+    def onLeftClick(self, signal=None) -> Any:
         """"""
         logma.info(f"Left Click {signal}")
         logma.info(f"Left Click")
         return self
 
-    def onRightClick(self, signal=None):
+    def onRightClick(self, signal=None) -> Any:
         """ """
         logma.info(f"Right Click")
         return self
 
-    def onExpand(self):
+    def onExpand(self) -> Any:
         """ """
         return self
 
-    def onLeftDoubleClick(self, signal):
+    def onLeftDoubleClick(self, signal) -> Any:
         logma.info(f"Left Double Click")
         return self
 
-    def onMiddleClick(self, signal=None):
+    def onMiddleClick(self, signal=None) -> Any:
         """ """
         logma.info(f"Middle Click")
         return self
 
-    def onSelection(self, fx, mod=None):
+    def onSelection(self, fx, mod=None) -> None:
         """On selection of tree node load data for tabs in center widget"""
         event.on_clickleft_press(fx)
 
         return
 
-    def onDeselection(self, fx, mod=None):
+    def onDeselection(self, fx, mod=None) -> None:
         """On deslection of tree node save any changes to node options"""
         event.on_clickleft_release(fx)
         return
 
-    def onEnter(self, fx, mod=None):
+    def onEnter(self, fx, mod=None) -> None:
         """Need to build if a node was selected an enter create a new sibling
         node. shift-enter creates a new child node, ctrl-enter creates
         a new tab in the node"""
         event.on_enter_kp(fx, mod)
         return
 
-    def onDelete(self, fx, mod=None):
+    def onDelete(self, fx, mod=None) -> None:
         """Launch Dialog to confirm deletion of node, which marks as deleted in database
         and is not removed until a database cleanup is run"""
 
-    def reject(self):
+    def reject(self) -> Any:
         """"""
         return self
 
-    def run_size_control(self):
+    def run_size_control(self) -> Any:
         """"""
         return self
 
-    def save(self, *args, **kwargs):
+    def save(self, *args, **kwargs) -> Any:
         """"""
         # params = {}
         # cfg = {}
         # self.app.model.store.write(params, cfg)
         return self
 
-    def set_background(self, color=None, hex=None):
+    def set_background(self, color=None, hex=None) -> Any:
         """"""
         logma.info(f"Set Background {color} {hex}")
         if color is not None:
@@ -536,7 +538,7 @@ class NchantdWidgetMixin(object):
         self.setStyleSheet(f"background-color: {color.get_hex()}; color: {color.calculate_text_color()}")
         return self
 
-    def set_font(self):
+    def set_font(self) -> Any:
         """"""
         if self.config.dikt.get("font", None):
             font_cfg = self.config.dikt.get("font")
@@ -549,17 +551,17 @@ class NchantdWidgetMixin(object):
         self.setFont(font)
         return self
 
-    def set_changed(self):
+    def set_changed(self) -> Any:
         """"""
         self.changed = True
         return self
 
-    def set_handler(self, handler=None, params=None):
+    def set_handler(self, handler=None, params=None) -> Any:
         """"""
         self.handler = handler
         return self
 
-    def set_size(self, set_width=None, set_height=None, min_width=10, min_height=10, max_width=None, max_height=None):
+    def set_size(self, set_width=None, set_height=None, min_width=10, min_height=10, max_width=None, max_height=None) -> Any:
         """"""
         # logma.info(f"Set Size {set_width} {set_height} {min_width} {min_height} {max_width} {max_height}")
         self._set_width(set_width, min_width, max_width)
@@ -567,19 +569,19 @@ class NchantdWidgetMixin(object):
         self.updateGeometry()
         return self
 
-    def change_label_text(self, label):
+    def change_label_text(self, label) -> None:
         """Change text of label"""
         label.setText("Text changed!")
 
-    def change_label_color(self, label):
+    def change_label_color(self, label) -> None:
         """Change color of label"""
         label.setStyleSheet("color: red; background-color: yellow;")
 
-    def change_button_style(self, button):
+    def change_button_style(self, button) -> None:
         """Change style of button"""
         button.setStyleSheet("background-color: lightblue; border: 2px solid blue;")
 
-    def _set_alignment(self):
+    def _set_alignment(self) -> Any:
         """"""
         if self.config.dikt.get("justify", None) is not None:
             justify = self.config.dikt.get("justify")
@@ -601,7 +603,7 @@ class NchantdWidgetMixin(object):
                 self.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignBottom | pyqt.Qt.AlignmentFlag.AlignRight)
         return self
 
-    def _set_width(self, set_width=None, min_width=None, max_width=None):
+    def _set_width(self, set_width=None, min_width=None, max_width=None) -> Any:
         """"""
         if set_width == "auto":
             return self
@@ -688,7 +690,7 @@ class NchantdWidgetMixin(object):
     #     # logma.off()
     #     return self
 
-    def _set_height(self, set_height=None, min_height=None, max_height=None):
+    def _set_height(self, set_height=None, min_height=None, max_height=None) -> Any:
         """"""
         # logma.off()
         # logma.info(f"Set Height {set_height} Min {min_height} Max {max_height}")
@@ -744,7 +746,7 @@ class NchantdWidgetMixin(object):
         # logma.off()
         return self
 
-    def _should_expand_in_layout(self):
+    def _should_expand_in_layout(self) -> bool:
         """Check if this widget should expand to fill available space in its layout"""
         try:
             # Check if parent has a layout
@@ -814,7 +816,7 @@ class NchantdWidgetMixin(object):
     #     # logma.off()
     #     return self
 
-    def _get_text_size(self, text):
+    def _get_text_size(self, text) -> Tuple[int, int]:
         """
 
                 font = pyqt.QFont(self.config.dikt["font"]["type"], self.config.dikt["font"]["size"])
@@ -841,7 +843,7 @@ class NchantdWidgetMixin(object):
             min_width = width * (1.4 - (0.5 * width**0.8) / 100)
         return int(min_width), int(min_height)
 
-    def _set_widget_size(self, size=None):
+    def _set_widget_size(self, size=None) -> Any:
         """"""
         min_height = 25
         cfg = {"size": [0, 0]}
@@ -878,7 +880,7 @@ class NchantdWidgetMixin(object):
                     self.style = "page"
         return cfg
 
-    def __getstate__(self):
+    def __getstate__(self) -> Any:
         """"""
         state = self.__dict__.copy()
         # Remove the unpicklable entries.
@@ -886,7 +888,7 @@ class NchantdWidgetMixin(object):
             del state["unpicklable_attribute"]
         return state
 
-    def __setstate__(self, state):
+    def __setstate__(self, state) -> None:
         """"""
 
 
@@ -897,7 +899,7 @@ class NchantdWidget(NchantdWidgetMixin, pyqt.QWidget):
     # to ensure Qt initialization. The mixin provides application logic, QWidget provides
     # the Qt widget functionality. Using super().__init__() would skip QWidget init.
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         # Explicitly call QWidget.__init__ to ensure proper Qt initialization
         # This fixes: RuntimeError: libshiboken: 'init' method of object's base class not called
@@ -917,7 +919,7 @@ class NchantdWidget(NchantdWidgetMixin, pyqt.QWidget):
         if not hasattr(self, "context_menu_name"):
             self.context_menu_name = "widget"
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         if hasattr(self.parent, "context_menu"):
@@ -926,18 +928,18 @@ class NchantdWidget(NchantdWidgetMixin, pyqt.QWidget):
             self.initialize_context_menu()
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def initTriggers(self):
+    def initTriggers(self) -> Any:
         """ """
         logma.info(f"Init Triggers")
         try:
@@ -958,7 +960,7 @@ class NchantdWidget(NchantdWidgetMixin, pyqt.QWidget):
 class NchantdSideBar(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdSideBar")
@@ -967,25 +969,25 @@ class NchantdSideBar(NchantdWidget):
         self.config.override(cfg)
         super(NchantdSideBar, self).__init__(self.parent, self.config)
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         self.setMaximumWidth(300)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
 
-def buildPane(parent, cfg, offsetcol=0):
+def buildPane(parent, cfg, offsetcol=0) -> None:
     """ """
     expandCFG(cfg)
     for row in cfg["seq"].keys():
@@ -996,7 +998,7 @@ def buildPane(parent, cfg, offsetcol=0):
             parent.layout.addWidget(widget, int(row), int(col) + offsetcol)
 
 
-def expandCFG(cfg):
+def expandCFG(cfg) -> Any:
     """Expand Configuration Details to all child wigets within config"""
     dcfg = kahndor.Instruct(pxcfg).select("expandCFG").override(cfg).dikt
     fonts, styles = dcfg["fonts"], dcfg["styles"]
@@ -1008,7 +1010,7 @@ def expandCFG(cfg):
     return cfg
 
 
-def expandFonts(cfg, fonts):
+def expandFonts(cfg, fonts) -> Any:
     """ """
     if "font" in cfg:
         font = cfg["font"]
@@ -1018,7 +1020,7 @@ def expandFonts(cfg, fonts):
     return cfg
 
 
-def expandStyles(cfg, styles):
+def expandStyles(cfg, styles) -> Any:
     """ """
     if "style" in cfg.keys():
         style = cfg["style"]
@@ -1028,7 +1030,7 @@ def expandStyles(cfg, styles):
     return cfg
 
 
-def loadWidget(parent, cfg=None):  # , panestyle=None):
+def loadWidget(parent, cfg=None):  # , panestyle=None) -> Any:
     """Load the defined widget from its parameters or from a list of registered
     widgets
     Load Source for Daynamically building the tabset for the pane"""
@@ -1070,7 +1072,7 @@ def loadWidget(parent, cfg=None):  # , panestyle=None):
     return widget
 
 
-def lookupWidget(key):
+def lookupWidget(key) -> Any:
     """ """
     return kahndor.Instruct(pxcfg).select("RegisteredWidgets").dikt[key]
 

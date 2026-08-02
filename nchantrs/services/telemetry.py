@@ -28,6 +28,7 @@ logger = logging.getLogger(__name__)
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", ".yaml")
@@ -36,11 +37,11 @@ pxcfg = join(here, "_data_", ".yaml")
 class TelemetryService:
     """"""
 
-    def __init__(self, cfg: None = None):
+    def __init__(self, cfg: None = None) -> None:
         """"""
         self.config = kahndor.Instruct(pxcfg).select("TelemetryService").override(cfg)
 
-    def send_data(self):
+    def send_data(self) -> None:
         """
         connect to an api and PUT appevents data to server
         :return:
@@ -48,7 +49,7 @@ class TelemetryService:
         self._send_data(self.app.model.get_telemetry())
         self.app.model.cleanup_telemetry()
 
-    def _send_data(self, data: dict):
+    def _send_data(self, data: dict) -> None:
         """"""
 
 

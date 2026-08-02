@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -45,7 +47,7 @@ pxcfg = join(here, "_data_", "month.yaml")
 class NchantdMonthCalendar(NchantdTab):
     """The Month Calendar will be a fixed window for a multiweek calendar with fixed end points"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """"""
         super().__init__(parent, cfg)
         self.parent = parent
@@ -56,14 +58,14 @@ class NchantdMonthCalendar(NchantdTab):
         self.month_type = None
         self.journal_notes = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         datetime = self.config.dikt.get("datetime", dt.datetime.now())
         # self.journal_notes = self.app.model.store.get_journal_notes("MONTH", date=datetime)
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         self.month_type = self.config.dikt.get("month_type", "widget")
@@ -109,13 +111,13 @@ class NchantdMonthCalendar(NchantdTab):
         self.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignTop | pyqt.Qt.AlignmentFlag.AlignLeft)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initView()
         self.initModel()
         return self
 
-    def insertCalendarWidget(self):
+    def insertCalendarWidget(self) -> None:
         """"""
         year = self.selectedDate.year()
         cfg = {
@@ -127,7 +129,7 @@ class NchantdMonthCalendar(NchantdTab):
         grid = NchantdGrid(self, cfg).initWidget()
         self.layout.addWidget(grid)
 
-    def insertCalendarText(self):
+    def insertCalendarText(self) -> None:
         self.editor.clear()
         cursor = self.editor.textCursor()
         cursor.beginEditBlock()
@@ -194,15 +196,15 @@ class NchantdMonthCalendar(NchantdTab):
         months_name = calendar.month_name[self.selectedDate.month()]
         self.setWindowTitle("Calendar for %s %d" % (months_name, self.selectedDate.year()))
 
-    def setfontSize(self, size):
+    def setfontSize(self, size) -> None:
         self.fontSize = size
         self.insertCalendar()
 
-    def setMonth(self, month):
+    def setMonth(self, month) -> None:
         self.selectedDate = pyqt.QDate(self.selectedDate.year(), month + 1, self.selectedDate.day())
         self.insertCalendar()
 
-    def setYear(self, date):
+    def setYear(self, date) -> None:
         self.selectedDate = pyqt.QDate(date.year(), self.selectedDate.month(), self.selectedDate.day())
         self.insertCalendar()
 
@@ -210,23 +212,23 @@ class NchantdMonthCalendar(NchantdTab):
 class NchantdQuarterYearCalendar(NchantdWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdQuarterYearCalendar").override(cfg))
 
-    def initModel(self, cfg=None):
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -236,7 +238,7 @@ class NchantdQuarterYearCalendar(NchantdWidget):
 class NchantdMonthlyJournal(NchantdTab):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -246,12 +248,12 @@ class NchantdMonthlyJournal(NchantdTab):
         self.config.override(cfg)
         self.journal_group = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """"""
         super().initView()
         cfg = {"size": ["auto", "auto"]}
@@ -260,7 +262,7 @@ class NchantdMonthlyJournal(NchantdTab):
         self.layout.addLayout(self.journal_group.layout)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
@@ -270,7 +272,7 @@ class NchantdMonthlyJournal(NchantdTab):
 class NchantdMonthDashboard(NchantdTab):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
@@ -281,12 +283,12 @@ class NchantdMonthDashboard(NchantdTab):
         self.calendar = None
         self.month_overview_group = None
 
-    def initModel(self):
+    def initModel(self) -> Any:
         """"""
         super().initModel()
         return self
 
-    def initView(self):
+    def initView(self) -> Any:
         """
 
         Show an overview of a schedule for the month
@@ -305,7 +307,7 @@ class NchantdMonthDashboard(NchantdTab):
         self.month_overview_group.addWidget(self.calendar)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()

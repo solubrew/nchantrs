@@ -1,4 +1,6 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+from typing import Any
+
 """
 ---
 <(META)>:
@@ -27,6 +29,7 @@ from nchantrs.widgets.widgets import NchantdWidgetMixin
 here = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
+logma.off()
 
 # ====================================================================================================================||
 pxcfg = join(here, "_data_", "scenes.yaml")
@@ -35,28 +38,30 @@ pxcfg = join(here, "_data_", "scenes.yaml")
 class NchantdProxyWidget(NchantdWidgetMixin, pyqt.QGraphicsProxyWidget):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdProxyWidget").override(cfg))
+        logma.info(f"NchantdProxyWidget initialized")
 
-    def initModel(self, cfg=None):
+
+    def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event) -> None:
         """Detect and start resizing if the user clicks near the edges."""
         if self.is_near_edge(event.pos()):
             self.is_resizing = True  # Start resizing mode
@@ -64,7 +69,7 @@ class NchantdProxyWidget(NchantdWidgetMixin, pyqt.QGraphicsProxyWidget):
         else:
             super().mousePressEvent(event)
 
-    def mouseMoveEvent(self, event):
+    def mouseMoveEvent(self, event) -> None:
         """Handle resizing or dragging based on the event."""
         if self.is_resizing:
             # Resize the widget by adjusting its width while dragging
@@ -74,7 +79,7 @@ class NchantdProxyWidget(NchantdWidgetMixin, pyqt.QGraphicsProxyWidget):
         else:
             super().mouseMoveEvent(event)
 
-    def mouseReleaseEvent(self, event):
+    def mouseReleaseEvent(self, event) -> None:
         """Stop resizing when the mouse button is released."""
         if self.is_resizing:
             self.is_resizing = False
@@ -82,7 +87,7 @@ class NchantdProxyWidget(NchantdWidgetMixin, pyqt.QGraphicsProxyWidget):
         else:
             super().mouseReleaseEvent(event)
 
-    def is_near_edge(self, pos):
+    def is_near_edge(self, pos) -> bool:
         """Determine if the mouse is near the right edge of the textbox."""
         rect = self.boundingRect()
         return rect.right() - 10 < pos.x() < rect.right() + 10  # Distance near the edge
@@ -91,7 +96,7 @@ class NchantdProxyWidget(NchantdWidgetMixin, pyqt.QGraphicsProxyWidget):
 class NchantdScene(pyqt.QGraphicsScene):
     """"""
 
-    def __init__(self, parent=None, cfg=None):
+    def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent)
         self.parent = parent
@@ -99,22 +104,24 @@ class NchantdScene(pyqt.QGraphicsScene):
         self.widgets = []
         self.lines = []
         self.start_widget = None
+        logma.info(f"NchantdScene initialized")
 
-    def initModel(self, cfg=None):
+
+    def initModel(self, cfg=None) -> Any:
         """"""
         return self
 
-    def initView(self, cfg=None):
+    def initView(self, cfg=None) -> Any:
         """"""
         return self
 
-    def initWidget(self):
+    def initWidget(self) -> Any:
         """"""
         self.initModel()
         self.initView()
         return self
 
-    def add_proxy_widget(self, widget, position=[0, 0]):
+    def add_proxy_widget(self, widget, position=[0, 0]) -> Any:
         """"""
         proxy = pyqt.QGraphicsProxyWidget()
         proxy.setWidget(widget)
@@ -127,7 +134,7 @@ class NchantdScene(pyqt.QGraphicsScene):
         self.widgets.append(proxy)
         return self
 
-    def create_line(self, start_widget, end_widget):
+    def create_line(self, start_widget, end_widget) -> None:
         """Create and draw a link (line) between two widgets."""
         start_center = start_widget.sceneBoundingRect().center()
         end_center = end_widget.sceneBoundingRect().center()
@@ -139,7 +146,7 @@ class NchantdScene(pyqt.QGraphicsScene):
         # Keep track of the line
         self.lines.append((start_widget, end_widget, line))
 
-    def mouseMoveEvent(self, event):
+    def mouseMoveEvent(self, event) -> None:
         """Update linked lines when a widget is dragged."""
         for start_widget, end_widget, line in self.lines:
             start_center = start_widget.sceneBoundingRect().center()
@@ -151,7 +158,7 @@ class NchantdScene(pyqt.QGraphicsScene):
             line.setPath(path)
         super().mouseMoveEvent(event)
 
-    def mousePressEvent(self, event):
+    def mousePressEvent(self, event) -> None:
         """Handle mouse press events to start linking widgets."""
         item = self.itemAt(event.scenePos(), pyqt.QTransform())
         if isinstance(item, pyqt.QGraphicsProxyWidget):
@@ -171,7 +178,7 @@ class NchantdScene(pyqt.QGraphicsScene):
             self.start_widget = None
         super().mousePressEvent(event)
 
-    def add_connection(self, start_textbox, end_textbox):
+    def add_connection(self, start_textbox, end_textbox) -> None:
         """Draw a line between two textboxes."""
         start_center = start_textbox.sceneBoundingRect().center()
         end_center = end_textbox.sceneBoundingRect().center()

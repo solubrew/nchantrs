@@ -31,6 +31,7 @@ from subtrix import thing
 # ====================================================================================================================||
 here = join(dirname(__file__), "")  # ||
 logma: Logma = Logma(__name__)
+logma.off()
 
 # Configure module logger
 logger: logging.Logger = logging.getLogger(__name__)
