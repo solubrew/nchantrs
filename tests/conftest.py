@@ -55,6 +55,19 @@ def mock_pyqt():
         "PySide6.QtCore": mock_qt,
         "PySide6.QtWidgets": mock_qt,
         "PySide6.QtGui": mock_qt,
+        # nchantrs.libraries.pyqt imports many PySide6 submodules at
+        # module-load time.  Mock them all so widgets can be imported
+        # without a real PySide6 install.
+        "PySide6.QtNetwork": mock_qt,
+        "PySide6.QtSql": mock_qt,
+        "PySide6.QtWebEngineWidgets": mock_qt,
+        "PySide6.QtWebEngineCore": mock_qt,
+        "PySide6.QtWebChannel": mock_qt,
+        "PySide6.QtCharts": mock_qt,
+        "PySide6.QtPrintSupport": mock_qt,
+        "PySide6.QtPdfWidgets": mock_qt,
+        "PySide6.QtPdf": mock_qt,
+        "PySide6.QtSvg": mock_qt,
     }
     
     with patch.dict(sys.modules, qt_modules):

@@ -78,7 +78,7 @@
 
 **Resolution (2026-08-01):** Addressed as a single commit. The `clear_axes(projection=...)` helper now rebuilds the axes when switching 2D↔3D, and every plot method uses `self.clear_axes(...)` + `self.axes.*` instead of the broken `self.fig.clear() + ax.*` pattern. Implemented `plot_treemap_chart` and `plot_wordcloud` (both were missing — the case-statement would have raised AttributeError). Fixed the `case 'pie3d':` to call `plot_pie_chart_3D` instead of the 2D `plot_pie_chart`. Deleted the 8 module-level `render_*` helpers and `finalize_chart` (all were aspirational dead code with `self.` parameters but no enclosing class — they referenced `self.series` and `self.data` that never existed). Made the matplotlib backend selection headless-safe (was hard-coded to `QtAgg` which crashes under `QT_QPA_PLATFORM=offscreen`). The 4 stale "feature is not working" TODO comments were removed. See commit `d13c884+1` for the full diff.
 
-### T-NEW-002 — Calculator: number-key routing from numpad/number line
+### T-NEW-002 — Calculator: number-key routing from numpad/number line (✅ 2026-08-01)
 
 **Context:** The NchantdAdvancedCalculator widget has no key-routing from external inputs (number line, numpad buttons). Users have to click the on-screen keys. The widget should accept key events when it has focus and forward to its internal `cmd_press` handlers.
 
@@ -93,6 +93,8 @@
 2. Map `Qt.Key_0`–`Qt.Key_9` and `Qt.Key_Period`/`Qt.Key_Comma` to the calculator's `cmd_press(0)`–`cmd_press(9)` and decimal handler
 3. Add a `set_focusable()` method so the parent layout can route key events when the calculator is the active widget
 4. Wire `cmd_on_focus_in` / `cmd_on_focus_out` from the base `NchantdWidgetMixin` so the focus state is observable
+
+**Resolution (2026-08-01):** ``NchantdAdvancedCalculator`` now has a real ``keyPressEvent`` dispatcher that maps ``Qt.Key_0``–``Key_9`` to ``_press_digit`` (a new helper extracted from ``digitClicked`` so both entry paths share the same logic), ``Key_Period``/``Key_Comma`` to ``pointClicked``, ``Key_Plus``/``Key_Minus`` to ``_apply_additive_operator('+'/'-')``, ``Key_Asterisk``/``Key_Slash`` to ``_apply_multiplicative_operator('×'/'÷')`` (the visible button text, not the raw key symbol), ``Key_Return``/``Key_Enter`` to ``equalClicked``, ``Key_Backspace`` to ``backspaceClicked``, and ``Key_Escape`` to ``clearAll``. Unhandled keys fall through to ``super().keyPressEvent``. The calculator's ``__init__`` now sets ``StrongFocus`` focus policy and ``focusInEvent``/``focusOutEvent`` set/clear a ``_has_focus`` flag so the parent layout can observe focus state. The 5 broken ``initUI``/``initModel``/``initView``/``initWidget`` methods (in ``NchantdAdvancedCalculator`` and ``NchantdGraphingCalculator``) that previously referenced the undefined ``method_name`` variable are now direct ``super().X()`` calls. A new test suite ``tests/unit/nchantrs/test_calculator_keyrouting.py`` (18 tests) asserts the key-routing helpers, the cross-class delegation, and the focus-state wiring. Also fixed ``nchantrs.libraries.pyqt`` to handle a missing ``PySide6.QtSql`` gracefully (sets ``None`` placeholders) and extended the root ``tests/conftest.py`` to mock the additional PySide6 submodules that ``pyqt.py`` imports at module-load time.
 
 ### T-NEW-003 — Application model: path-override + save-logic + base-version tracking
 

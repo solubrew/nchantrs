@@ -41,7 +41,6 @@ class NchantdCalculator(NchantdTab):
         self.clearMemoryButton = None
         self.readMemoryButton = None
         self.setMemoryButton = None
-        #TODO: need to route number keys to calculator when the widget is active from number line and number pad
         self.divisionButton = None
         self.timesButton = None
         self.minusButton = None
@@ -101,6 +100,15 @@ class NchantdCalculator(NchantdTab):
         """Handle additive operations: + and -"""
         clickedButton = self.sender()
         clickedOperator = clickedButton.text()
+        self._apply_additive_operator(clickedOperator)
+
+    def _apply_additive_operator(self, clickedOperator: str) -> None:
+        """Apply the additive operator ``+`` or ``-`` from a button click or key event.
+
+        Extracted from ``additiveOperatorClicked`` so the key-routing
+        path in ``NchantdAdvancedCalculator.keyPressEvent`` can drive
+        the same logic without needing a button sender.
+        """
         try:
             operand = float(self._get_current_line())
         except ValueError:
@@ -133,6 +141,10 @@ class NchantdCalculator(NchantdTab):
         """Handle multiplicative operations: × and ÷"""
         clickedButton = self.sender()
         clickedOperator = clickedButton.text()
+        self._apply_multiplicative_operator(clickedOperator)
+
+    def _apply_multiplicative_operator(self, clickedOperator: str) -> None:
+        """Apply the multiplicative operator ``×`` or ``÷`` from a button click or key event."""
         try:
             operand = float(self._get_current_line())
         except ValueError:
@@ -189,7 +201,18 @@ class NchantdCalculator(NchantdTab):
         clickedButton = self.sender()
         try:
             digitValue = int(clickedButton.text())
-        except ValueError:
+        except (ValueError, AttributeError):
+            return
+        self._press_digit(digitValue)
+
+    def _press_digit(self, digitValue: int) -> None:
+        """Press a digit (called from both button clicks and key events).
+
+        Extracted from ``digitClicked`` so the key-routing path in
+        ``NchantdAdvancedCalculator.keyPressEvent`` can drive the
+        same entry logic without needing a button sender.
+        """
+        if digitValue < 0 or digitValue > 9:
             return
         current_text = self._get_current_line()
         if current_text == '0' and digitValue == 0:
@@ -439,47 +462,91 @@ class NchantdAdvancedCalculator(NchantdCalculator):
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select('NchantdAdvancedCalculator').override(cfg))
+        self.setFocusPolicy(pyqt.Qt.FocusPolicy.StrongFocus)
         logma.info(f'NchantdAdvancedCalculator initialized')
 
     def initUI(self) -> Any:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
-        logma.info(f'initUI {{type(self).__name__}}')
+        """Set up the equation log + output panel below the base calculator."""
+        super().initUI()
+        # Reserve rows 6+ for the advanced equation log (added by subclasses).
+        logma.info(f'initUI {type(self).__name__}')
         return self
 
     def initModel(self) -> Any:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
-        logma.info(f'initModel {{type(self).__name__}}')
+        super().initModel()
+        logma.info(f'initModel {type(self).__name__}')
         return self
 
     def initView(self) -> Any:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
-        logma.info(f'initView {{type(self).__name__}}')
+        super().initView()
+        logma.info(f'initView {type(self).__name__}')
         return self
 
     def initWidget(self) -> Any:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
-        logma.info(f'initWidget {{type(self).__name__}}')
+        super().initWidget()
+        logma.info(f'initWidget {type(self).__name__}')
         return self
+
+    def keyPressEvent(self, event) -> None:
+        """Route digit/operator keys to the existing button handlers.
+
+        Keeps the button-driven entry path untouched; only adds a
+        keyboard-driven path so the calculator can be operated
+        without clicking the on-screen buttons.
+        """
+        key = event.key()
+        # 0-9 (top row + numpad)
+        if pyqt.Qt.Key_0 <= key <= pyqt.Qt.Key_9:
+            self._press_digit(key - pyqt.Qt.Key_0)
+            event.accept()
+            return
+        # Decimal separators (both US and EU conventions)
+        if key in (pyqt.Qt.Key_Period, pyqt.Qt.Key_Comma):
+            self.pointClicked()
+            event.accept()
+            return
+        # Operators — route to the additive/multiplicative handlers
+        if key == pyqt.Qt.Key_Plus:
+            self._apply_additive_operator('+')
+            event.accept()
+            return
+        if key == pyqt.Qt.Key_Minus:
+            self._apply_additive_operator('-')
+            event.accept()
+            return
+        if key == pyqt.Qt.Key_Asterisk:
+            self._apply_multiplicative_operator('×')
+            event.accept()
+            return
+        if key == pyqt.Qt.Key_Slash:
+            self._apply_multiplicative_operator('÷')
+            event.accept()
+            return
+        if key in (pyqt.Qt.Key_Return, pyqt.Qt.Key_Enter):
+            self.equalClicked()
+            event.accept()
+            return
+        if key == pyqt.Qt.Key_Backspace:
+            self.backspaceClicked()
+            event.accept()
+            return
+        if key == pyqt.Qt.Key_Escape:
+            self.clearAll()
+            event.accept()
+            return
+        super().keyPressEvent(event)
+
+    def focusInEvent(self, event) -> None:
+        """Mark the calculator as the active key-routing target."""
+        super().focusInEvent(event)
+        logma.debug(f'{type(self).__name__} gained focus')
+        self._has_focus = True
+
+    def focusOutEvent(self, event) -> None:
+        """Drop the active-key-routing flag on focus loss."""
+        super().focusOutEvent(event)
+        logma.debug(f'{type(self).__name__} lost focus')
+        self._has_focus = False
 
 class NchantdFinancialCalculator(NchantdCalculator):
     """Financial Calculator for adhoc calculations"""
@@ -514,13 +581,8 @@ class NchantdGraphingCalculator(NchantdAdvancedCalculator):
         self.config.override(kahndor.Instruct(pxcfg).select('NchantdAdvancedCalculator').override(cfg))
 
     def initModel(self) -> Any:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
-        logma.info(f'initModel {{type(self).__name__}}')
+        super().initModel()
+        logma.info(f'initModel {type(self).__name__}')
         return self
 
     def initView(self) -> Any:
