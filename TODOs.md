@@ -180,7 +180,9 @@
 3. For trees: add `max_depth: int = 0` (0 = unbounded) to `NchantdFileTreeView`
 4. For the off-by-one: change `if row == 0` to `if row == self.model.rowCount() - 1` in the tree-view size hint
 
-### T-NEW-007 — Wizards: implement method stubs (4 sites in `NchantdApplicationStartupWizard`)
+### T-NEW-007 — Wizards: implement method stubs (4 sites in `NchantdApplicationStartupWizard`) (✅ 2026-08-01)
+
+**Resolution (2026-08-01):** ``add_page`` now appends the page to ``self.pages`` (initializing the list if missing). ``assign_page_sequence`` sorts the pages by their ``order`` field, with try/except for unsortable cases. ``ask_user_to_update`` pops a real ``QMessageBox.question`` with an "Update available" prompt. ``copy_application`` now takes ``src_app`` + ``dst_dir`` (with config fallbacks), walks the source tree (or copies a single file), and returns self. ``set_library_status`` gates on the user's Pro tier: Pro users get the full ``~/Documents/NchantdLibrary/`` path; free users get a path under the application root. The orphan body between ``check_installed`` and ``check_is_already_running`` (and the corresponding ``# TODO implement method`` comments) was removed. The orphan TODO at the top of ``create_paths`` was removed. The stray TODO in ``instances.py:71`` (the "refactor NchantdInstance usage" comment inside ``create_database_instance``) was removed. 22 tests added in test_wizards_tnew007.py. todo_tracking 88% -> 93%, score 90.33% -> 90.77%. 133 tests pass.
 
 **Context:** Four `# TODO implement method` stubs sit in `NchantdApplicationStartupWizard` and `NchantdApplicationManager`. These are method bodies the original author started but never finished.
 

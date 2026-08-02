@@ -159,16 +159,33 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         return self
 
     def add_page(self, page) -> Any:
-        logma.info(f'add_page called')
+        logma.info(f'add_page {type(page).__name__}')
+        if not hasattr(self, 'pages'):
+            self.pages = []
+        self.pages.append(page)
         return self
 
     def assign_page_sequence(self) -> Any:
         logma.info(f'assign_page_sequence called')
+        if not hasattr(self, 'pages') or not self.pages:
+            return self
+        try:
+            self.pages.sort(key=lambda p: getattr(p, 'order', 0))
+        except TypeError:
+            logma.warning('assign_page_sequence: pages not all sortable')
         return self
 
     def ask_user_to_update(self) -> Any:
         logma.info(f'ask_user_to_update called')
-        return self
+        from nchantrs.libraries import pyqt
+        reply = pyqt.QMessageBox.question(
+            None,
+            'Update available',
+            'An update is available. Would you like to install it now?',
+            pyqt.QMessageBox.StandardButton.Yes | pyqt.QMessageBox.StandardButton.No,
+            pyqt.QMessageBox.StandardButton.No,
+        )
+        return reply == pyqt.QMessageBox.StandardButton.Yes
 
     def check_installed(self) -> bool:
         """"""
@@ -188,17 +205,9 @@ class NchantdApplicationStartupWizard(NchantdWizard):
             if data.get('installed', False) is False:
                 return False
         if exists(self.app.model.application_path):
-            #TODO implement method
-            if exists(join(app_path, f'{self.slug}.pyof')):
+            if exists(join(self.app.model.application_path, f'{self.slug}.pyof')):
                 return True
         return False
-
-    #TODO implement method
-        """"""
-        instance_path = self.app.model.instance_path
-        if exists(join(instance_path, f'{self.slug}.sqlite')):
-            return True
-        #TODO implement method
 
     def check_is_already_running(self) -> bool:
         """
@@ -239,8 +248,47 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         logma.info(f'Execution Method is Binary: {self.ran_by_binary}')
         return self
 
-    def copy_application(self) -> None:
-        logma.info(f'copy_application called')
+    def copy_application(self, src_app=None, dst_dir=None) -> Any:
+        logma.info(f'copy_application {src_app} -> {dst_dir}')
+        if src_app is None:
+            src_app = self.config.dikt.get('src_app')
+        if dst_dir is None:
+            dst_dir = self.config.dikt.get('dst_dir')
+        if not src_app or not dst_dir:
+            logma.warning('copy_application: src_app or dst_dir missing')
+            return self
+        from os import walk
+        from os.path import expanduser, exists, isfile, join
+        from nchantrs.libraries import pyqt
+        try:
+            makedirs(dst_dir, exist_ok=True)
+        except Exception:
+            pass
+        if src_app.startswith('~'):
+            src_app = expanduser(src_app)
+        if not exists(src_app):
+            logma.warning(f'copy_application: src_path does not exist')
+            return self
+        if isfile(src_app):
+            import shutil
+            try:
+                shutil.copy2(src_app, dst_dir)
+            except Exception as e:
+                logma.warning(f'copy_application: cannot copy file: {e}')
+            return self
+        import shutil
+        for root, dirs, files in walk(src_app):
+            rel = root[len(src_app):].lstrip('/')
+            target = join(dst_dir, rel) if rel else dst_dir
+            try:
+                makedirs(target, exist_ok=True)
+            except Exception:
+                continue
+            for f in files:
+                try:
+                    shutil.copy2(join(root, f), join(target, f))
+                except Exception:
+                    pass
         return self
 
     def create_config_file(self, cfg=None) -> None:
@@ -271,8 +319,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         return False
 
     def create_paths(self, os_type='linux') -> Tuple[str, Any]:
-        """"""
-        #TODO implement method
+        """Create the app's filesystem paths (config, application, library, shortcut)."""
         paths = []
         state = False
         if self.create_paths_config(paths):
@@ -458,15 +505,19 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         return self
 
     def set_library_status(self) -> Any:
-        """
-        TODO controls for allowing the user to turn the library on but only for paid versions
-        :return:
-        """
-        self.library_active = True
-        if self.library_active:
+        logma.info(f'set_library_status')
+        is_pro = bool(getattr(self.app, 'has_pro', False)) if hasattr(self, 'app') else False
+        if is_pro:
+            self.library_active = True
             self.library_path = join(expanduser('~'), 'Documents', 'NchantdLibrary/')
-            if not exists(self.library_path):
+        else:
+            self.library_active = False
+            self.library_path = join(self.app.model.application_path, 'library') if hasattr(self, 'app') and hasattr(self.app, 'model') else '.'
+        if self.library_active and not exists(self.library_path):
+            try:
                 fonql.touch(self.library_path)
+            except Exception as e:
+                logma.warning(f'set_library_status: cannot touch library_path: {e}')
         return self
 
     def _load_profile(self, profile) -> Any:
