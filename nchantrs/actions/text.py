@@ -1,4 +1,3 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 """
 ---
 <(META)>:
@@ -10,76 +9,52 @@
         security: seclvl2
         <(WT)>: -32
 """
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
-
 import logging
-
-# ======================================3rd Party Library Modules=====================================================||
-
 logger = logging.getLogger(__name__)
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from typing import Optional, Dict, List, Any, Tuple
 from kahndor.logma import Logma
-
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
 logma.off()
-
-# Constants for magic number replacement
-DEFAULT_STATUS_MESSAGE_TIMEOUT = 3000  # milliseconds
-DEFAULT_FIND_TIMEOUT = 2000  # milliseconds
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", ".yaml")
-
+DEFAULT_STATUS_MESSAGE_TIMEOUT = 3000
+DEFAULT_FIND_TIMEOUT = 2000
+pxcfg = join(here, '_data_', '.yaml')
 
 def bold() -> None:
-    """Set selected text to a bold font"""
-    return
-
+    logma.info(f'bold called')
+    return self
 
 def capitalize() -> None:
-    """Change selected to a capitalized text"""
-    return
-
+    logma.info(f'capitalize called')
+    return self
 
 def copy() -> None:
-    """Add selected text to clipboard"""
-    return
-
+    logma.info(f'copy called')
+    return self
 
 def cut() -> None:
-    """Add selected text to clipboard and remove selected text from selected
-    area"""
-    return
-
+    logma.info(f'cut called')
+    return self
 
 def edit() -> None:
-    """"""
-    return
-
+    logma.info(f'edit called')
+    return self
 
 def findinapplication() -> None:
-    """Search through all connected workbooks for selected text"""
-
+    logma.info(f'findinapplication called')
+    return self
 
 def findinsheet() -> None:
-    """Search through active sheet for selected text"""
-    return
-
+    logma.info(f'findinsheet called')
+    return self
 
 def findinworkbook() -> None:
-    """Search through active workbook for selected text"""
-    return
-
+    logma.info(f'findinworkbook called')
+    return self
 
 def findText(self, word) -> None:
     if self.myeditor.find(word):
@@ -89,209 +64,166 @@ def findText(self, word) -> None:
         if self.myeditor.find(word):
             return
         else:
-            self.statusBar().showMessage("nichts gefunden", DEFAULT_STATUS_MESSAGE_TIMEOUT)
-
+            self.statusBar().showMessage('nichts gefunden', DEFAULT_STATUS_MESSAGE_TIMEOUT)
 
 def findreplaceinapplication() -> None:
-    """Search through all connected workbooks for selected text and replace with
-    other text"""
-    return
-
+    logma.info(f'findreplaceinapplication called')
+    return self
 
 def findreplaceinsheet() -> None:
-    """Search through sheet for selected text and replace with other text"""
-    return
-
+    logma.info(f'findreplaceinsheet called')
+    return self
 
 def findreplaceinworkbook() -> None:
-    """Search through active workbook for selected text and replace with
-    other text"""
-    return
-
+    logma.info(f'findreplaceinworkbook called')
+    return self
 
 def replaceAll(self) -> None:
     oldtext = self.findfield.text()
     newtext = self.replacefield.text()
-    if not oldtext == "":
+    if not oldtext == '':
         h = self.myeditor.toHtml().replace(oldtext, newtext)
         self.myeditor.setText(h)
         self.setModified(True)
-        self.statusBar().showMessage("alles ersetzt", DEFAULT_STATUS_MESSAGE_TIMEOUT)
+        self.statusBar().showMessage('alles ersetzt', DEFAULT_STATUS_MESSAGE_TIMEOUT)
     else:
-        self.statusBar().showMessage("nichts zu ersetzen", DEFAULT_STATUS_MESSAGE_TIMEOUT)
-
+        self.statusBar().showMessage('nichts zu ersetzen', DEFAULT_STATUS_MESSAGE_TIMEOUT)
 
 def replaceOne(self) -> None:
     oldtext = self.findfield.text()
     newtext = self.replacefield.text()
-    if not oldtext == "":
+    if not oldtext == '':
         h = self.myeditor.toHtml().replace(oldtext, newtext, 1)
         self.myeditor.setText(h)
         self.setModified(True)
-        self.statusBar().showMessage("1 ersetzt", DEFAULT_STATUS_MESSAGE_TIMEOUT)
+        self.statusBar().showMessage('1 ersetzt', DEFAULT_STATUS_MESSAGE_TIMEOUT)
     else:
-        self.statusBar().showMessage("nichts zu ersetzen", DEFAULT_STATUS_MESSAGE_TIMEOUT)
-
+        self.statusBar().showMessage('nichts zu ersetzen', DEFAULT_STATUS_MESSAGE_TIMEOUT)
 
 def format() -> None:
-    """ """
-    return
-
+    logma.info(f'format called')
+    return self
 
 def italic() -> None:
-    """ """
-    return
-
+    logma.info(f'italic called')
+    return self
 
 def line_spacing_1_0() -> None:
-    """Set the line spacing of selected text to 1"""
-    return
-
+    logma.info(f'line_spacing_1_0 called')
+    return self
 
 def line_spacing_1_5() -> None:
-    """Set the line spacing of selected text to 1.5"""
-    return
-
+    logma.info(f'line_spacing_1_5 called')
+    return self
 
 def line_spacing_2_0() -> None:
-    """Set the line spacing of selected text to 2"""
-    return
-
+    logma.info(f'line_spacing_2_0 called')
+    return self
 
 def line_spacing_custom() -> None:
-    """Set the line spacing of selected text to 2"""
-    return
-
+    logma.info(f'line_spacing_custom called')
+    return self
 
 def lowercase() -> None:
-    """ """
-    return
-
+    logma.info(f'lowercase called')
+    return self
 
 def paste() -> None:
-    """Add object from clipboard to document at cursor location"""
-    return
-
+    logma.info(f'paste called')
+    return self
 
 def pasteunformattedtext() -> None:
-    """Add object from clipboard to document at cursor location removing all
-    formating of object"""
-    return
-
+    logma.info(f'pasteunformattedtext called')
+    return self
 
 def pastespecial() -> None:
-    """Open dialog to select formatting options"""
-    return
-
+    logma.info(f'pastespecial called')
+    return self
 
 def paragraphspacingincrease() -> None:
-    """ """
-    return
-
+    logma.info(f'paragraphspacingincrease called')
+    return self
 
 def paragraphspacingdecrease() -> None:
-    """ """
-    return
-
+    logma.info(f'paragraphspacingdecrease called')
+    return self
 
 def propercase() -> None:
-    """ """
-    return
-
+    logma.info(f'propercase called')
+    return self
 
 def replaceThis(self) -> None:
-    if not self.myeditor.textCursor().selectedText() == "":
+    if not self.myeditor.textCursor().selectedText() == '':
         rtext = self.myeditor.textCursor().selectedText()
         dlg = QInputDialog(self, Qt.Dialog)
-        dlg.setOkButtonText("Replace")
-        text = dlg.getText(self, "Ersetzen", "ersetze '" + rtext + "' durch:", QLineEdit.Normal, "")
+        dlg.setOkButtonText('Replace')
+        text = dlg.getText(self, 'Ersetzen', "ersetze '" + rtext + "' durch:", QLineEdit.Normal, '')
         oldtext = self.myeditor.document().toPlainText()
-        if not (text[0] == ""):
+        if not text[0] == '':
             newtext = oldtext.replace(rtext, text[0])
             self.myeditor.setPlainText(newtext)
             self.myeditor.document().setModified(True)
 
-
 def selectall() -> None:
-    """ """
-    return
-
+    logma.info(f'selectall called')
+    return self
 
 def select() -> None:
-    """ """
-    return
-
+    logma.info(f'select called')
+    return self
 
 def sentencecase() -> None:
-    """ """
-    return
-
+    logma.info(f'sentencecase called')
+    return self
 
 def shadow() -> None:
-    """"""
-    return
-
+    logma.info(f'shadow called')
+    return self
 
 def spacing() -> None:
-    """ """
-    return
-
+    logma.info(f'spacing called')
+    return self
 
 def strikethrough() -> None:
-    """ """
-    return
-
+    logma.info(f'strikethrough called')
+    return self
 
 def superscript() -> None:
-    """ """
-    return
-
+    logma.info(f'superscript called')
+    return self
 
 def subscript() -> None:
-    """ """
-    return
-
+    logma.info(f'subscript called')
+    return self
 
 def styles() -> None:
-    """ """
-    return
-
+    logma.info(f'styles called')
+    return self
 
 def text() -> None:
-    """ """
-    return
-
+    logma.info(f'text called')
+    return self
 
 def textwrap() -> None:
-    """ """
-    return
-
+    logma.info(f'textwrap called')
+    return self
 
 def togglecase() -> None:
-    """ """
-    return
-
+    logma.info(f'togglecase called')
+    return self
 
 def trackchanges() -> None:
-    """ """
-    return
-
+    logma.info(f'trackchanges called')
+    return self
 
 def underline() -> None:
-    """ """
-    return
-
+    logma.info(f'underline called')
+    return self
 
 def underlinedouble() -> None:
-    """ """
-    return
-
+    logma.info(f'underlinedouble called')
+    return self
 
 def uppercase() -> None:
-    """ """
-    return
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+    logma.info(f'uppercase called')
+    return self

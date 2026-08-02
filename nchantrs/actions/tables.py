@@ -1,5 +1,4 @@
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-'''
+"""
 ---
 <(META)>:
 	docid: 2130cad1-d6b9-4936-a92d-27ea37929682
@@ -12,783 +11,161 @@
 	authority: document|this
 	security: sec|lvl2
 	<(WT)>: -32
-'''
-# -*- coding: utf-8 -*-
-#===============================================================================||
+"""
+
 def addtable() -> None:
-	'''Add a new table sheet to application '''
-	return
+    logma.info(f'addtable called')
+    return self
+
 def cellclear() -> None:
-	'''Delete content from table cell while preserving formats'''
-	return
+    logma.info(f'cellclear called')
+    return self
+
 def cellbackgroundcolorset() -> None:
-	'''Set the color of the cell background'''
-	return
+    logma.info(f'cellbackgroundcolorset called')
+    return self
+
 def cellbordercolorset() -> None:
-	'''Set the color of the cell border'''
-	return
+    logma.info(f'cellbordercolorset called')
+    return self
+
 def cellcommentadd() -> None:
-	'''Add comment flag to selected cell'''
-	return
+    logma.info(f'cellcommentadd called')
+    return self
+
 def cellcommentdelete() -> None:
-	'''Delete commment flag from selected cell'''
-	return
+    logma.info(f'cellcommentdelete called')
+    return self
+
 def celldelete() -> None:
-	'''Delete content and formatting from table cell and move cells in either
-		the X or Y direction based on selection in dialog'''
-	return
+    logma.info(f'celldelete called')
+    return self
+
 def celledit() -> None:
-	'''Launch dialog to edit all aspects of cell'''
-	return
+    logma.info(f'celledit called')
+    return self
+
 def cellfontcolorset() -> None:
-	'''Set the color of the cell font'''
-	return
+    logma.info(f'cellfontcolorset called')
+    return self
+
 def cellinsert() -> None:
-	'''Add a new cell at selected location moving rows in the column down or
-	 	moving columns in the row to the right'''
-	return
+    logma.info(f'cellinsert called')
+    return self
+
 def celllockcontent() -> None:
-	'''Lock cell so that content cannot be changed'''
-	return
+    logma.info(f'celllockcontent called')
+    return self
+
 def celllockformat() -> None:
-	'''Lock cell so that content cannot be changed'''
-	return
+    logma.info(f'celllockformat called')
+    return self
+
 def celllocklocation() -> None:
-	'''Lock cell so that content cannot be changed'''
-	return
+    logma.info(f'celllocklocation called')
+    return self
+
 def celllockall() -> None:
-	'''Lock all of the cells attributes'''
-	return
+    logma.info(f'celllockall called')
+    return self
+
 def cellunlockcontent() -> None:
-	'''Unlock cell so that content cannot be changed'''
-	return
+    logma.info(f'cellunlockcontent called')
+    return self
+
 def cellunlockformat() -> None:
-	'''Unlock cell so that content cannot be changed'''
-	return
+    logma.info(f'cellunlockformat called')
+    return self
+
 def cellunlocklocation() -> None:
-	'''Unlock cell so that content cannot be changed'''
-	return
+    logma.info(f'cellunlocklocation called')
+    return self
+
 def cellunlockall() -> None:
-	'''Unlock all of the cells attributes'''
-	return
+    logma.info(f'cellunlockall called')
+    return self
+
 def cellupdate() -> None:
-	'''Update selected cell value'''
-	return
+    logma.info(f'cellupdate called')
+    return self
+
 def columnadd() -> None:
-	'''Add a column to the active table'''
-	return
+    logma.info(f'columnadd called')
+    return self
+
 def columndelete() -> None:
-	'''Remove a column from the active table'''
-	return
+    logma.info(f'columndelete called')
+    return self
+
 def columnupdate() -> None:
-	'''Update selected column values'''
-	return
+    logma.info(f'columnupdate called')
+    return self
+
 def columninsert() -> None:
-	''' '''
-	return
+    logma.info(f'columninsert called')
+    return self
+
 def columnlockcontent() -> None:
-	''' '''
-	return
+    logma.info(f'columnlockcontent called')
+    return self
+
 def columnlockformat() -> None:
-	''' '''
-	return
+    logma.info(f'columnlockformat called')
+    return self
+
 def columnlockabslocation() -> None:
-	'''Lock Absolute Location of Column '''
-	return
+    logma.info(f'columnlockabslocation called')
+    return self
+
 def columnlockrellocation() -> None:
-	'''Lock Relative Location of Column '''
-	return
+    logma.info(f'columnlockrellocation called')
+    return self
+
 def columnlockall() -> None:
-	'''Lock all aspects of Column '''
-	return
+    logma.info(f'columnlockall called')
+    return self
+
 def rowadd() -> None:
-	'''Add a row to the active table'''
-	return
+    logma.info(f'rowadd called')
+    return self
+
 def rowdelete() -> None:
-	'''Remove a row from the active table'''
-	return
+    logma.info(f'rowdelete called')
+    return self
+
 def rowinsert() -> None:
-	'''Insert Row into Table '''
-	return
+    logma.info(f'rowinsert called')
+    return self
+
 def rowlockcontent() -> None:
-	'''Lock Content of Row '''
-	return
+    logma.info(f'rowlockcontent called')
+    return self
+
 def rowlockformat() -> None:
-	'''Lock Format of Row '''
-	return
+    logma.info(f'rowlockformat called')
+    return self
+
 def rowlockabslocation() -> None:
-	'''Lock Absolute Location of Row '''
-	return
+    logma.info(f'rowlockabslocation called')
+    return self
+
 def rowlockrellocation() -> None:
-	'''Lock Relative Location of Row'''
-	return
+    logma.info(f'rowlockrellocation called')
+    return self
+
 def rowlockall() -> None:
-	'''Lock All Aspects of Row '''
-	return
+    logma.info(f'rowlockall called')
+    return self
+
 def rowupdate() -> None:
-	'''Update selected row values'''
-	return
+    logma.info(f'rowupdate called')
+    return self
+
 def tableadd() -> None:
-	'''Add a new table sheet to application '''
-	return
+    logma.info(f'tableadd called')
+    return self
+
 def tabledelete() -> None:
-	'''Remove the active table'''
-	return
-
-
-
-'''
-
-
-
-# -*- coding: UTF-8 -*-
-#
-#       tablez.py
-#
-#       Copyright 2009-2015 Giuseppe Penone <giuspen@gmail.com>
-#
-#       This program is free software; you can redistribute it and/or modify
-#       it under the terms of the GNU General Public License as published by
-#       the Free Software Foundation; either version 3 of the License, or
-#       (at your option) any later version.
-#
-#       This program is distributed in the hope that it will be useful,
-#       but WITHOUT ANY WARRANTY; without even the implied warranty of
-#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#       GNU General Public License for more details.
-#
-#       You should have received a copy of the GNU General Public License
-#       along with this program; if not, write to the Free Software
-#       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
-#       MA 02110-1301, USA.
-import gtk, pango
-import os, csv, codecs, cStringIO, copy
-import cons, support
-
-import logging
-class TablesHandler:
-
-logger = logging.getLogger(__name__)
-    """Handler of the Tables"""
-    def __init__(self, dad):
-        """Lists Handler boot"""
-        self.dad = dad
-    def table_cut(self, *args):
-        """Cut Table"""
-        self.dad.object_set_selection(self.curr_table_anchor)
-        self.dad.sourceview.emit("cut-clipboard")
-    def table_copy(self, *args):
-        """Copy Table"""
-        self.dad.object_set_selection(self.curr_table_anchor)
-        self.dad.sourceview.emit("copy-clipboard")
-    def table_delete(self, *args):
-        """Delete Table"""
-        self.dad.object_set_selection(self.curr_table_anchor)
-        self.dad.curr_buffer.delete_selection(True, self.dad.sourceview.get_editable())
-        self.dad.sourceview.grab_focus()
-    def dialog_tablecolhandle(self, title, rename_text):
-        """Opens the Table Column Handle Dialog"""
-        dialog = gtk.Dialog(title=title,
-                            parent=self.dad.window,
-                            flags=gtk.DIALOG_MODAL|gtk.DIALOG_DESTROY_WITH_PARENT,
-                            buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
-                            gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
-        dialog.set_default_size(300, -1)
-        dialog.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
-        hbox_column_rename = gtk.HBox()
-        image_column_rename = gtk.Image()
-        image_column_rename.set_from_stock(gtk.STOCK_EDIT, gtk.ICON_SIZE_BUTTON)
-        table_column_rename_radiobutton = gtk.RadioButton(label=_("Rename Column"))
-        table_column_rename_entry = gtk.Entry()
-        table_column_rename_entry.set_text(rename_text)
-        table_column_rename_entry.set_sensitive(self.dad.table_column_mode == 'rename')
-        hbox_column_rename.pack_start(image_column_rename, expand=False)
-        hbox_column_rename.pack_start(table_column_rename_radiobutton)
-        hbox_column_rename.pack_start(table_column_rename_entry)
-        hbox_column_delete = gtk.HBox()
-        image_column_delete = gtk.Image()
-        image_column_delete.set_from_stock(gtk.STOCK_CLEAR, gtk.ICON_SIZE_BUTTON)
-        table_column_delete_radiobutton = gtk.RadioButton(label=_("Delete Column"))
-        table_column_delete_radiobutton.set_group(table_column_rename_radiobutton)
-        hbox_column_delete.pack_start(image_column_delete, expand=False)
-        hbox_column_delete.pack_start(table_column_delete_radiobutton)
-        hbox_column_add = gtk.HBox()
-        image_column_add = gtk.Image()
-        image_column_add.set_from_stock(gtk.STOCK_ADD, gtk.ICON_SIZE_BUTTON)
-        table_column_add_radiobutton = gtk.RadioButton(label=_("Add Column"))
-        table_column_add_radiobutton.set_group(table_column_rename_radiobutton)
-        table_column_new_entry = gtk.Entry()
-        hbox_column_add.pack_start(image_column_add, expand=False)
-        hbox_column_add.pack_start(table_column_add_radiobutton)
-        hbox_column_add.pack_start(table_column_new_entry)
-        table_column_new_entry.set_sensitive(self.dad.table_column_mode == 'add')
-        hbox_column_left = gtk.HBox()
-        image_column_left = gtk.Image()
-        image_column_left.set_from_stock(gtk.STOCK_GO_BACK, gtk.ICON_SIZE_BUTTON)
-        table_column_left_radiobutton = gtk.RadioButton(label=_("Move Column Left"))
-        table_column_left_radiobutton.set_group(table_column_rename_radiobutton)
-        hbox_column_left.pack_start(image_column_left, expand=False)
-        hbox_column_left.pack_start(table_column_left_radiobutton)
-        hbox_column_right = gtk.HBox()
-        image_column_right = gtk.Image()
-        image_column_right.set_from_stock(gtk.STOCK_GO_FORWARD, gtk.ICON_SIZE_BUTTON)
-        table_column_right_radiobutton = gtk.RadioButton(label=_("Move Column Right"))
-        table_column_right_radiobutton.set_group(table_column_rename_radiobutton)
-        hbox_column_right.pack_start(image_column_right, expand=False)
-        hbox_column_right.pack_start(table_column_right_radiobutton)
-        table_column_rename_radiobutton.set_active(self.dad.table_column_mode == "rename")
-        table_column_delete_radiobutton.set_active(self.dad.table_column_mode == "delete")
-        table_column_add_radiobutton.set_active(self.dad.table_column_mode == "add")
-        table_column_left_radiobutton.set_active(self.dad.table_column_mode == cons.TAG_PROP_LEFT)
-        table_column_right_radiobutton.set_active(self.dad.table_column_mode == cons.TAG_PROP_RIGHT)
-        if self.dad.table_column_mode == "rename":
-            table_column_rename_entry.grab_focus()
-        elif self.dad.table_column_mode == "add":
-            table_column_new_entry.grab_focus()
-        tablehandle_vbox_col = gtk.VBox()
-        tablehandle_vbox_col.pack_start(hbox_column_rename)
-        tablehandle_vbox_col.pack_start(hbox_column_delete)
-        tablehandle_vbox_col.pack_start(hbox_column_add)
-        tablehandle_vbox_col.pack_start(hbox_column_left)
-        tablehandle_vbox_col.pack_start(hbox_column_right)
-        content_area = dialog.get_content_area()
-        content_area.set_spacing(5)
-        content_area.pack_start(tablehandle_vbox_col)
-        content_area.show_all()
-        def on_key_press_tablecolhandle(widget, event):
-            keyname = gtk.gdk.keyval_name(event.keyval)
-            if keyname == cons.STR_KEY_RETURN:
-                try: dialog.get_widget_for_response(gtk.RESPONSE_ACCEPT).clicked()
-                except Exception:
-                return True
-            elif keyname == cons.STR_KEY_TAB:
-                if self.dad.table_column_mode == "rename": table_column_delete_radiobutton.set_active(True)
-                elif self.dad.table_column_mode == "delete": table_column_add_radiobutton.set_active(True)
-                elif self.dad.table_column_mode == "add": table_column_left_radiobutton.set_active(True)
-                elif self.dad.table_column_mode == cons.TAG_PROP_LEFT: table_column_right_radiobutton.set_active(True)
-                else: table_column_rename_radiobutton.set_active(True)
-                return True
-            return False
-        def on_table_column_rename_radiobutton_toggled(radiobutton):
-            if radiobutton.get_active():
-                table_column_rename_entry.set_sensitive(True)
-                self.dad.table_column_mode = "rename"
-                table_column_rename_entry.grab_focus()
-            else: table_column_rename_entry.set_sensitive(False)
-        def on_table_column_delete_radiobutton_toggled(radiobutton):
-            if radiobutton.get_active(): self.dad.table_column_mode = "delete"
-        def on_table_column_add_radiobutton_toggled(radiobutton):
-            if radiobutton.get_active():
-                table_column_new_entry.set_sensitive(True)
-                self.dad.table_column_mode = "add"
-                table_column_new_entry.grab_focus()
-            else: table_column_new_entry.set_sensitive(False)
-        def on_table_column_left_radiobutton_toggled(radiobutton):
-            if radiobutton.get_active(): self.dad.table_column_mode = cons.TAG_PROP_LEFT
-        def on_table_column_right_radiobutton_toggled(radiobutton):
-            if radiobutton.get_active(): self.dad.table_column_mode = cons.TAG_PROP_RIGHT
-        dialog.connect('key_press_event', on_key_press_tablecolhandle)
-        table_column_rename_radiobutton.connect('toggled', on_table_column_rename_radiobutton_toggled)
-        table_column_delete_radiobutton.connect('toggled', on_table_column_delete_radiobutton_toggled)
-        table_column_add_radiobutton.connect('toggled', on_table_column_add_radiobutton_toggled)
-        table_column_left_radiobutton.connect('toggled', on_table_column_left_radiobutton_toggled)
-        table_column_right_radiobutton.connect('toggled', on_table_column_right_radiobutton_toggled)
-        response = dialog.run()
-        dialog.hide()
-        if response == gtk.RESPONSE_ACCEPT:
-            ret_rename = unicode(table_column_rename_entry.get_text(), cons.STR_UTF8, cons.STR_IGNORE)
-            ret_add = unicode(table_column_new_entry.get_text(), cons.STR_UTF8, cons.STR_IGNORE)
-            return [True, ret_rename, ret_add]
-        return [False, None, None]
-    def dialog_tablehandle(self, title, is_insert):
-        """Opens the Table Handle Dialog"""
-        dialog = gtk.Dialog(title=title,
-                            parent=self.dad.window,
-                            flags=gtk.DIALOG_MODAL|gtk.DIALOG_DESTROY_WITH_PARENT,
-                            buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,
-                            gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))
-        dialog.set_default_size(300, -1)
-        dialog.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
-        label_rows = gtk.Label(_("Rows"))
-        adj_rows = gtk.Adjustment(value=self.dad.table_rows, lower=1, upper=10000, step_incr=1)
-        spinbutton_rows = gtk.SpinButton(adj_rows)
-        spinbutton_rows.set_value(self.dad.table_rows)
-        label_columns = gtk.Label(_("Columns"))
-        adj_columns = gtk.Adjustment(value=self.dad.table_columns, lower=1, upper=10000, step_incr=1)
-        spinbutton_columns = gtk.SpinButton(adj_columns)
-        spinbutton_columns.set_value(self.dad.table_columns)
-        hbox_rows_cols = gtk.HBox()
-        hbox_rows_cols.pack_start(label_rows, expand=False)
-        hbox_rows_cols.pack_start(spinbutton_rows, expand=False)
-        hbox_rows_cols.pack_start(label_columns, expand=False)
-        hbox_rows_cols.pack_start(spinbutton_columns, expand=False)
-        hbox_rows_cols.set_spacing(5)
-        size_align = gtk.Alignment()
-        size_align.set_padding(6, 6, 6, 6)
-        size_align.add(hbox_rows_cols)
-        size_frame = gtk.Frame(label="<b>"+_("Table Size")+"</b>")
-        size_frame.get_label_widget().set_use_markup(True)
-        size_frame.set_shadow_type(gtk.SHADOW_NONE)
-        size_frame.add(size_align)
-        label_col_min = gtk.Label(_("Min Width"))
-        adj_col_min = gtk.Adjustment(value=self.dad.table_col_min, lower=1, upper=10000, step_incr=1)
-        spinbutton_col_min = gtk.SpinButton(adj_col_min)
-        spinbutton_col_min.set_value(self.dad.table_col_min)
-        label_col_max = gtk.Label(_("Max Width"))
-        adj_col_max = gtk.Adjustment(value=self.dad.table_col_max, lower=1, upper=10000, step_incr=1)
-        spinbutton_col_max = gtk.SpinButton(adj_col_max)
-        spinbutton_col_max.set_value(self.dad.table_col_max)
-        hbox_col_min_max = gtk.HBox()
-        hbox_col_min_max.pack_start(label_col_min, expand=False)
-        hbox_col_min_max.pack_start(spinbutton_col_min, expand=False)
-        hbox_col_min_max.pack_start(label_col_max, expand=False)
-        hbox_col_min_max.pack_start(spinbutton_col_max, expand=False)
-        hbox_col_min_max.set_spacing(5)
-        col_min_max_align = gtk.Alignment()
-        col_min_max_align.set_padding(6, 6, 6, 6)
-        col_min_max_align.add(hbox_col_min_max)
-        col_min_max_frame = gtk.Frame(label="<b>"+_("Column Properties")+"</b>")
-        col_min_max_frame.get_label_widget().set_use_markup(True)
-        col_min_max_frame.set_shadow_type(gtk.SHADOW_NONE)
-        col_min_max_frame.add(col_min_max_align)
-        checkbutton_table_ins_from_file = gtk.CheckButton(label=_("Import from CSV File"))
-        content_area = dialog.get_content_area()
-        content_area.set_spacing(5)
-        if is_insert: content_area.pack_start(size_frame)
-        content_area.pack_start(col_min_max_frame)
-        if is_insert: content_area.pack_start(checkbutton_table_ins_from_file)
-        content_area.show_all()
-        def on_key_press_tablehandle(widget, event):
-            keyname = gtk.gdk.keyval_name(event.keyval)
-            if keyname == cons.STR_KEY_RETURN:
-                spinbutton_rows.update()
-                spinbutton_columns.update()
-                spinbutton_col_min.update()
-                spinbutton_col_max.update()
-                try: dialog.get_widget_for_response(gtk.RESPONSE_ACCEPT).clicked()
-                except Exception:
-                return True
-            return False
-        def on_checkbutton_table_ins_from_file_toggled(checkbutton):
-            size_frame.set_sensitive(not checkbutton.get_active())
-            col_min_max_frame.set_sensitive(not checkbutton.get_active())
-        dialog.connect('key_press_event', on_key_press_tablehandle)
-        checkbutton_table_ins_from_file.connect('toggled', on_checkbutton_table_ins_from_file_toggled)
-        response = dialog.run()
-        dialog.hide()
-        if response == gtk.RESPONSE_ACCEPT:
-            self.dad.table_rows = int(spinbutton_rows.get_value())
-            self.dad.table_columns = int(spinbutton_columns.get_value())
-            self.dad.table_col_min = int(spinbutton_col_min.get_value())
-            self.dad.table_col_max = int(spinbutton_col_max.get_value())
-            ret_csv = checkbutton_table_ins_from_file.get_active()
-            return [True, ret_csv]
-        return [False, None]
-    def table_export(self, action):
-        """Table Export as CSV File"""
-        filename = support.dialog_file_save_as(curr_folder=self.dad.pick_dir,
-                                               filter_pattern="*.csv",
-                                               filter_name=_("CSV File"),
-                                               parent=self.dad.window)
-        if not filename: return
-        if len(filename) < 4 or filename[-4:] != ".csv": filename += ".csv"
-        self.dad.pick_dir = os.path.dirname(filename)
-        table_dict = self.dad.state_machine.table_to_dict(self.curr_table_anchor)
-        table_matrix = table_dict['matrix']
-        table_matrix.insert(0, table_matrix.pop())
-        file_descriptor = open(filename, "w")
-        writer = UnicodeWriter(file_descriptor)
-        writer.writerows(table_matrix)
-        file_descriptor.close()
-    def table_handle(self):
-        """Insert Table"""
-        iter_insert = self.dad.curr_buffer.get_iter_at_mark(self.dad.curr_buffer.get_insert())
-        ret_ok, ret_csv = self.dialog_tablehandle(_("Insert Table"), True)
-        if not ret_ok: return
-        if not ret_csv:
-            self.table_insert(iter_insert)
-        else:
-            filepath = support.dialog_file_select(filter_pattern=["*.csv"],
-                filter_name=_("CSV File"),
-                curr_folder=self.dad.pick_dir,
-                parent=self.dad.window)
-            if filepath != None:
-                self.dad.pick_dir = os.path.dirname(filepath)
-                support.text_file_rm_emptylines(filepath)
-                file_descriptor = open(filepath, 'r')
-                reader = UnicodeReader(file_descriptor)
-                table_matrix = []
-                row = reader.next()
-                while row:
-                    table_matrix.append(row)
-                    row = reader.next()
-                file_descriptor.close()
-                table_matrix.append(table_matrix.pop(0))
-                self.table_insert(iter_insert, {'col_min': cons.TABLE_DEFAULT_COL_MIN,
-                                                'col_max': cons.TABLE_DEFAULT_COL_MAX,
-                                                'matrix': table_matrix})
-    def table_insert(self, iter_insert, table=None, table_justification=None, text_buffer=None):
-        """Insert a Table at the Given Iter"""
-        if not text_buffer: text_buffer = self.dad.curr_buffer
-        if table != None:
-            self.dad.table_columns = len(table['matrix'][0])
-            self.dad.table_rows = len(table['matrix']) - 1
-            headers = table['matrix'][-1]
-            table_col_min = table['col_min']
-            table_col_max = table['col_max']
-        else:
-            headers = [_("click me")]*self.dad.table_columns
-            table_col_min = self.dad.table_col_min
-            table_col_max = self.dad.table_col_max
-        anchor = text_buffer.create_child_anchor(iter_insert)
-        anchor.liststore = gtk.ListStore(*(str,)*self.dad.table_columns)
-        anchor.treeview = gtk.TreeView(anchor.liststore)
-        for element in range(self.dad.table_columns):
-            label = gtk.Label('<b>' + headers[element] + '</b>')
-            label.set_use_markup(True)
-            label.set_tooltip_text(_("Click to Edit the Column Settings"))
-            label.show()
-            renderer_text = gtk.CellRendererText()
-            renderer_text.set_property('editable', True)
-            renderer_text.set_property('wrap-width', table_col_max)
-            renderer_text.set_property('wrap-mode', pango.WRAP_WORD_CHAR)
-            renderer_text.set_property('font-desc', pango.FontDescription(self.dad.text_font))
-            renderer_text.connect('edited', self.on_table_cell_edited, anchor.liststore, element)
-            renderer_text.connect('editing-started', self.on_table_cell_editing_started, anchor.liststore, element)
-            column = gtk.TreeViewColumn("", renderer_text, text=element)
-            column.set_min_width(table_col_min)
-            column.set_clickable(True)
-            column.set_widget(label)
-            column.set_sizing(gtk.TREE_VIEW_COLUMN_AUTOSIZE)
-            column.connect('clicked', self.table_column_clicked, anchor, element)
-            anchor.treeview.append_column(column)
-        anchor.headers = headers
-        anchor.table_col_min = table_col_min
-        anchor.table_col_max = table_col_max
-        anchor.treeview.set_grid_lines(gtk.TREE_VIEW_GRID_LINES_BOTH)
-        anchor.treeview.connect('button-press-event', self.on_mouse_button_clicked_treeview_table, anchor)
-        anchor.treeview.connect('key_press_event', self.on_key_press_treeview_table, anchor)
-        anchor.frame = gtk.Frame()
-        anchor.frame.add(anchor.treeview)
-        anchor.frame.set_shadow_type(gtk.SHADOW_NONE)
-        anchor.eventbox = gtk.EventBox()
-        anchor.eventbox.add(anchor.frame)
-        self.dad.sourceview.add_child_at_anchor(anchor.eventbox, anchor)
-        anchor.eventbox.show_all()
-        for row in range(self.dad.table_rows):
-            row_iter = anchor.liststore.append([""]*self.dad.table_columns)
-            if table != None:
-                for column in range(self.dad.table_columns):
-                    try: anchor.liststore[row_iter][column] = table['matrix'][row][column]
-                    except IndexError: pass  # there are cases when some rows have less columns
-        if table_justification:
-            text_iter = text_buffer.get_iter_at_child_anchor(anchor)
-            self.dad.state_machine.apply_object_justification(text_iter, table_justification, text_buffer)
-        elif self.dad.user_active:
-            # if I apply a justification, the state is already updated
-            self.dad.state_machine.update_state()
-    def table_edit_properties(self, *args):
-        """Edit Table Properties"""
-        if not self.dad.is_curr_node_not_read_only_or_error(): return
-        self.dad.table_col_min = self.curr_table_anchor.table_col_min
-        self.dad.table_col_max = self.curr_table_anchor.table_col_max
-        ret_ok, ret_csv = self.dialog_tablehandle(_("Edit Table Properties"), False)
-        if not ret_ok: return
-        table = self.dad.state_machine.table_to_dict(self.curr_table_anchor)
-        table['col_min'] = self.dad.table_col_min
-        table['col_max'] = self.dad.table_col_max
-        iter_insert = self.dad.curr_buffer.get_iter_at_child_anchor(self.curr_table_anchor)
-        table_justification = self.dad.state_machine.get_iter_alignment(iter_insert)
-        iter_bound = iter_insert.copy()
-        iter_bound.forward_char()
-        self.dad.curr_buffer.delete(iter_insert, iter_bound)
-        self.table_insert(iter_insert, table, table_justification)
-    def on_table_cell_populate_popup(self, entry, menu):
-        """Table Cell Populate Popup"""
-        self.curr_table_cell = entry
-        self.dad.menu_populate_popup(menu, cons.get_popup_menu_entries_table_cell(self))
-    def curr_table_cell_insert_newline(self, *args):
-        if not self.dad.is_curr_node_not_read_only_or_error(): return
-        cursor_pos = self.curr_table_cell.get_position()
-        self.curr_table_cell.insert_text(cons.CHAR_NEWLINE, cursor_pos)
-        self.curr_table_cell.set_position(cursor_pos+1)
-    def on_table_cell_key_press(self, widget, event, path, model, col_num):
-        """Catches Table Cell key presses"""
-        keyname = gtk.gdk.keyval_name(event.keyval)
-        if event.state & gtk.gdk.SHIFT_MASK:
-            pass
-        elif event.state & gtk.gdk.MOD1_MASK:
-            pass
-        elif event.state & gtk.gdk.CONTROL_MASK:
-            if keyname == "period":
-                self.curr_table_cell = widget
-                self.curr_table_cell_insert_newline()
-                return True
-            elif keyname == "comma":
-                return True
-        else:
-            if keyname in [cons.STR_KEY_RETURN, cons.STR_KEY_UP, cons.STR_KEY_DOWN]:
-                if model[path][col_num] != widget.get_text():
-                    if self.dad.is_curr_node_not_read_only_or_error():
-                        model[path][col_num] = widget.get_text()
-                        self.dad.update_window_save_needed("nbuf", True)
-                if keyname == cons.STR_KEY_UP:
-                    if col_num > 0:
-                        next_col_num = col_num - 1
-                        next_path = path
-                    else:
-                        next_iter = None
-                        next_path =  model.get_path(model.get_iter(path))
-                        while not next_iter and next_path[0] > 0:
-                            node_path_list = list(next_path)
-                            node_path_list[0] -= 1
-                            next_path = tuple(node_path_list)
-                            next_iter = model.get_iter(next_path)
-                        #next_iter = model.iter_next(model.get_iter(path))
-                        if not next_iter: return False
-                        next_path = model.get_path(next_iter)
-                        next_col_num = self.dad.table_columns-1
-                else:
-                    if col_num < self.dad.table_columns-1:
-                        next_col_num = col_num + 1
-                        next_path = path
-                    else:
-                        next_iter = model.iter_next(model.get_iter(path))
-                        if not next_iter: return False
-                        next_path = model.get_path(next_iter)
-                        next_col_num = 0
-                #print "(path, col_num) = (%s, %s)" % (path, col_num)
-                #print "(next_path, next_col_num) = (%s, %s)" % (next_path, next_col_num)
-                next_column = self.curr_table_anchor.treeview.get_columns()[next_col_num]
-                self.curr_table_anchor.treeview.set_cursor_on_cell(next_path,
-                    focus_column=next_column,
-                    focus_cell=next_column.get_cell_renderers()[0],
-                    start_editing=True)
-                return True
-        return False
-    def on_table_cell_editing_started(self, cell, editable, path, model, col_num):
-        """A Table Cell is going to be Edited"""
-        if isinstance(editable, gtk.Entry):
-            editable.connect('key_press_event', self.on_table_cell_key_press, path, model, col_num)
-            editable.connect('populate-popup', self.on_table_cell_populate_popup)
-    def on_table_cell_edited(self, cell, path, new_text, model, col_num):
-        """A Table Cell has been Edited"""
-        if not self.dad.is_curr_node_not_read_only_or_error(): return
-        if model[path][col_num] != new_text:
-            model[path][col_num] = new_text
-            self.dad.update_window_save_needed("nbuf", True)
-    def table_column_clicked(self, column, anchor, col_num):
-        """The Column Header was Clicked"""
-        if not self.dad.is_curr_node_not_read_only_or_error(): return
-        col_label = column.get_widget()
-        ret_ok, ret_rename, ret_add = self.dialog_tablecolhandle(_("Table Column Action"), col_label.get_text())
-        if not ret_ok: return
-        table = self.dad.state_machine.table_to_dict(anchor)
-        headers = table['matrix'].pop()
-        if (self.dad.table_column_mode == 'right' and col_num == len(headers)-1)\
-        or (self.dad.table_column_mode == 'left' and col_num == 0):
-            return
-        iter_insert = self.dad.curr_buffer.get_iter_at_child_anchor(anchor)
-        table_justification = self.dad.state_machine.get_iter_alignment(iter_insert)
-        iter_bound = iter_insert.copy()
-        iter_bound.forward_char()
-        self.dad.curr_buffer.delete(iter_insert, iter_bound)
-        if self.dad.table_column_mode == 'rename':
-            new_label = ret_rename
-            col_label.set_text("<b>" + new_label + "</b>")
-            col_label.set_use_markup(True)
-            headers[col_num] = new_label
-        elif self.dad.table_column_mode == 'add':
-            headers.insert(col_num + 1, ret_add)
-            for row in table['matrix']: row.insert(col_num + 1, "")
-        elif self.dad.table_column_mode == 'delete':
-            headers.pop(col_num)
-            for row in table['matrix']: row.pop(col_num)
-        elif self.dad.table_column_mode == 'right':
-            temp = headers.pop(col_num)
-            headers.insert(col_num + 1, temp)
-            for row in table['matrix']:
-                temp = row.pop(col_num)
-                row.insert(col_num + 1, temp)
-        elif self.dad.table_column_mode == 'left':
-            temp = headers.pop(col_num)
-            headers.insert(col_num - 1, temp)
-            for row in table['matrix']:
-                temp = row.pop(col_num)
-                row.insert(col_num - 1, temp)
-        table['matrix'].append(headers)
-        self.table_insert(iter_insert, table, table_justification)
-    def table_row_action(self, action):
-        """All Rows Actions"""
-        treeviewselection = self.curr_table_anchor.treeview.get_selection()
-        model, iter = treeviewselection.get_selected()
-        if not iter:
-            curr_iter = model.get_iter_first()
-            if not curr_iter: return
-            while curr_iter:
-                iter = curr_iter
-                curr_iter = model.iter_next(curr_iter)
-        if action == "delete": model.remove(iter)
-        elif action == "add": model.insert_after(iter, [""]*len(self.curr_table_anchor.headers))
-        elif action == "move_up":
-            prev_iter = self.dad.get_tree_iter_prev_sibling(model, iter)
-            if prev_iter == None: return
-            model.swap(iter, prev_iter)
-            self.curr_table_anchor.treeview.set_cursor(model.get_path(iter))
-        elif action == "move_down":
-            subseq_iter = model.iter_next(iter)
-            if subseq_iter == None: return
-            model.swap(iter, subseq_iter)
-        elif action == "sort_asc":
-            father_iter = model.iter_parent(iter)
-            movements = False
-            while self.dad.node_siblings_sort_iteration(model, father_iter, True, 0):
-                movements = True
-            if not movements: return
-        elif action == "sort_desc":
-            father_iter = model.iter_parent(iter)
-            movements = False
-            while self.dad.node_siblings_sort_iteration(model, father_iter, False, 0):
-                movements = True
-            if not movements: return
-        elif action in ["cut", "copy"]:
-            columns_num = len(self.curr_table_anchor.headers)
-            table = {'matrix':[],
-                     'col_min': self.curr_table_anchor.table_col_min,
-                     'col_max': self.curr_table_anchor.table_col_max}
-            row = []
-            for column in range(columns_num): row.append(self.curr_table_anchor.liststore[iter][column])
-            table['matrix'].append(row)
-            table['matrix'].append(copy.deepcopy(self.curr_table_anchor.headers))
-            self.dad.clipboard_handler.table_row_to_clipboard(table)
-            if action == "cut": model.remove(iter)
-            else: return
-        elif action == "paste":
-            if not self.dad.clipboard_handler.table_row_paste([model, iter]): return
-        else: return
-        self.dad.update_window_save_needed("nbuf", True)
-    def table_row_add(self, *args):
-        """Add a Table Row"""
-        if self.dad.is_curr_node_not_read_only_or_error():
-            self.table_row_action("add")
-    def table_row_cut(self, *args):
-        """Cut a Table Row"""
-        if self.dad.is_curr_node_not_read_only_or_error():
-            self.table_row_action("cut")
-    def table_row_copy(self, *args):
-        """Copy a Table Row"""
-        self.table_row_action("copy")
-    def table_row_paste(self, *args):
-        """Paste a Table Row"""
-        if self.dad.is_curr_node_not_read_only_or_error():
-            self.table_row_action("paste")
-    def table_row_delete(self, *args):
-        """Delete a Table Row"""
-        if self.dad.is_curr_node_not_read_only_or_error():
-            self.table_row_action("delete")
-    def table_row_up(self, *args):
-        """Move the Selected Row Up"""
-        if self.dad.is_curr_node_not_read_only_or_error():
-            self.table_row_action("move_up")
-    def table_row_down(self, *args):
-        """Move the Selected Row Down"""
-        if self.dad.is_curr_node_not_read_only_or_error():
-            self.table_row_action("move_down")
-    def table_rows_sort_descending(self, *args):
-        """Sort all the Rows Descending"""
-        if self.dad.is_curr_node_not_read_only_or_error():
-            self.table_row_action("sort_desc")
-    def table_rows_sort_ascending(self, *args):
-        """Sort all the Rows Ascending"""
-        if self.dad.is_curr_node_not_read_only_or_error():
-            self.table_row_action("sort_asc")
-    def on_key_press_treeview_table(self, widget, event, anchor):
-        """Catches Table key presses"""
-        keyname = gtk.gdk.keyval_name(event.keyval)
-        if event.state & gtk.gdk.CONTROL_MASK:
-            self.curr_table_anchor = anchor
-            self.dad.object_set_selection(self.curr_table_anchor)
-            if keyname == "comma":
-                if event.state & gtk.gdk.MOD1_MASK:
-                    self.table_row_delete()
-                else: self.table_row_add()
-                return True
-            if keyname == "period":
-                if event.state & gtk.gdk.MOD1_MASK:
-                    self.table_row_up()
-                else: self.table_row_down()
-                return True
-        elif keyname == cons.STR_KEY_MENU:
-            self.curr_table_anchor = anchor
-            self.dad.object_set_selection(self.curr_table_anchor)
-            menu_table = gtk.Menu()
-            self.dad.menu_populate_popup(menu_table, cons.get_popup_menu_table(self.dad))
-            menu_table.popup(None, None, None, 3, event.time)
-            return True
-        return False
-    def on_mouse_button_clicked_treeview_table(self, widget, event, anchor):
-        """Catches mouse buttons clicks"""
-        self.curr_table_anchor = anchor
-        self.dad.object_set_selection(self.curr_table_anchor)
-        if event.button == 3:
-            menu_table = gtk.Menu()
-            self.dad.menu_populate_popup(menu_table, cons.get_popup_menu_table(self.dad))
-            menu_table.popup(None, None, None, event.button, event.time)
-            return True
-        return False
-class UTF8Recoder:
-    """
-    Iterator that reads an encoded stream and reencodes the input to UTF-8
-    """
-    def __init__(self, f, encoding):
-        self.reader = codecs.getreader(encoding)(f)
-    def __iter__(self):
-        return self
-    def next(self):
-        return self.reader.next().encode(cons.STR_UTF8)
-class UnicodeReader:
-    """
-    A CSV reader which will iterate over lines in the CSV file "f",
-    which is encoded in the given encoding.
-    """
-    def __init__(self, f, dialect=csv.excel, encoding=cons.STR_UTF8, **kwds):
-        f = UTF8Recoder(f, encoding)
-        self.reader = csv.reader(f, dialect=dialect, **kwds)
-    def next(self):
-        try:
-            row = self.reader.next()
-            return [unicode(s, cons.STR_UTF8, cons.STR_IGNORE) for s in row]
-        except Exception: return None
-    def __iter__(self):
-        return self
-class UnicodeWriter:
-    """
-    A CSV writer which will write rows to CSV file "f",
-    which is encoded in the given encoding.
-    """
-    def __init__(self, f, dialect=csv.excel, encoding=cons.STR_UTF8, **kwds):
-        # Redirect output to a queue
-        self.queue = cStringIO.StringIO()
-        self.writer = csv.writer(self.queue, dialect=dialect, **kwds)
-        self.stream = f
-        self.encoder = codecs.getincrementalencoder(encoding)()
-    def writerow(self, row):
-        self.writer.writerow([s.encode(cons.STR_UTF8) for s in row])
-        # Fetch UTF-8 output from the queue ...
-        data = self.queue.getvalue()
-        data = data.decode(cons.STR_UTF8)
-        # ... and reencode it into the target encoding
-        data = self.encoder.encode(data)
-        # write to the target stream
-        self.stream.write(data)
-        # empty queue
-        self.queue.truncate(0)
-    def writerows(self, rows):
-        for row in rows:
-            self.writerow(row)
-
-
-				
-
-
-'''
+    logma.info(f'tabledelete called')
+    return self
+'\n\n\n\n# -*- coding: UTF-8 -*-\n#\n#       tablez.py\n#\n#       Copyright 2009-2015 Giuseppe Penone <giuspen@gmail.com>\n#\n#       This program is free software; you can redistribute it and/or modify\n#       it under the terms of the GNU General Public License as published by\n#       the Free Software Foundation; either version 3 of the License, or\n#       (at your option) any later version.\n#\n#       This program is distributed in the hope that it will be useful,\n#       but WITHOUT ANY WARRANTY; without even the implied warranty of\n#       MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n#       GNU General Public License for more details.\n#\n#       You should have received a copy of the GNU General Public License\n#       along with this program; if not, write to the Free Software\n#       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,\n#       MA 02110-1301, USA.\nimport gtk, pango\nimport os, csv, codecs, cStringIO, copy\nimport cons, support\n\nimport logging\nclass TablesHandler:\n\nlogger = logging.getLogger(__name__)\n    """Handler of the Tables"""\n    def __init__(self, dad):\n        """Lists Handler boot"""\n        self.dad = dad\n    def table_cut(self, *args):\n        """Cut Table"""\n        self.dad.object_set_selection(self.curr_table_anchor)\n        self.dad.sourceview.emit("cut-clipboard")\n    def table_copy(self, *args):\n        """Copy Table"""\n        self.dad.object_set_selection(self.curr_table_anchor)\n        self.dad.sourceview.emit("copy-clipboard")\n    def table_delete(self, *args):\n        """Delete Table"""\n        self.dad.object_set_selection(self.curr_table_anchor)\n        self.dad.curr_buffer.delete_selection(True, self.dad.sourceview.get_editable())\n        self.dad.sourceview.grab_focus()\n    def dialog_tablecolhandle(self, title, rename_text):\n        """Opens the Table Column Handle Dialog"""\n        dialog = gtk.Dialog(title=title,\n                            parent=self.dad.window,\n                            flags=gtk.DIALOG_MODAL|gtk.DIALOG_DESTROY_WITH_PARENT,\n                            buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,\n                            gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))\n        dialog.set_default_size(300, -1)\n        dialog.set_position(gtk.WIN_POS_CENTER_ON_PARENT)\n        hbox_column_rename = gtk.HBox()\n        image_column_rename = gtk.Image()\n        image_column_rename.set_from_stock(gtk.STOCK_EDIT, gtk.ICON_SIZE_BUTTON)\n        table_column_rename_radiobutton = gtk.RadioButton(label=_("Rename Column"))\n        table_column_rename_entry = gtk.Entry()\n        table_column_rename_entry.set_text(rename_text)\n        table_column_rename_entry.set_sensitive(self.dad.table_column_mode == \'rename\')\n        hbox_column_rename.pack_start(image_column_rename, expand=False)\n        hbox_column_rename.pack_start(table_column_rename_radiobutton)\n        hbox_column_rename.pack_start(table_column_rename_entry)\n        hbox_column_delete = gtk.HBox()\n        image_column_delete = gtk.Image()\n        image_column_delete.set_from_stock(gtk.STOCK_CLEAR, gtk.ICON_SIZE_BUTTON)\n        table_column_delete_radiobutton = gtk.RadioButton(label=_("Delete Column"))\n        table_column_delete_radiobutton.set_group(table_column_rename_radiobutton)\n        hbox_column_delete.pack_start(image_column_delete, expand=False)\n        hbox_column_delete.pack_start(table_column_delete_radiobutton)\n        hbox_column_add = gtk.HBox()\n        image_column_add = gtk.Image()\n        image_column_add.set_from_stock(gtk.STOCK_ADD, gtk.ICON_SIZE_BUTTON)\n        table_column_add_radiobutton = gtk.RadioButton(label=_("Add Column"))\n        table_column_add_radiobutton.set_group(table_column_rename_radiobutton)\n        table_column_new_entry = gtk.Entry()\n        hbox_column_add.pack_start(image_column_add, expand=False)\n        hbox_column_add.pack_start(table_column_add_radiobutton)\n        hbox_column_add.pack_start(table_column_new_entry)\n        table_column_new_entry.set_sensitive(self.dad.table_column_mode == \'add\')\n        hbox_column_left = gtk.HBox()\n        image_column_left = gtk.Image()\n        image_column_left.set_from_stock(gtk.STOCK_GO_BACK, gtk.ICON_SIZE_BUTTON)\n        table_column_left_radiobutton = gtk.RadioButton(label=_("Move Column Left"))\n        table_column_left_radiobutton.set_group(table_column_rename_radiobutton)\n        hbox_column_left.pack_start(image_column_left, expand=False)\n        hbox_column_left.pack_start(table_column_left_radiobutton)\n        hbox_column_right = gtk.HBox()\n        image_column_right = gtk.Image()\n        image_column_right.set_from_stock(gtk.STOCK_GO_FORWARD, gtk.ICON_SIZE_BUTTON)\n        table_column_right_radiobutton = gtk.RadioButton(label=_("Move Column Right"))\n        table_column_right_radiobutton.set_group(table_column_rename_radiobutton)\n        hbox_column_right.pack_start(image_column_right, expand=False)\n        hbox_column_right.pack_start(table_column_right_radiobutton)\n        table_column_rename_radiobutton.set_active(self.dad.table_column_mode == "rename")\n        table_column_delete_radiobutton.set_active(self.dad.table_column_mode == "delete")\n        table_column_add_radiobutton.set_active(self.dad.table_column_mode == "add")\n        table_column_left_radiobutton.set_active(self.dad.table_column_mode == cons.TAG_PROP_LEFT)\n        table_column_right_radiobutton.set_active(self.dad.table_column_mode == cons.TAG_PROP_RIGHT)\n        if self.dad.table_column_mode == "rename":\n            table_column_rename_entry.grab_focus()\n        elif self.dad.table_column_mode == "add":\n            table_column_new_entry.grab_focus()\n        tablehandle_vbox_col = gtk.VBox()\n        tablehandle_vbox_col.pack_start(hbox_column_rename)\n        tablehandle_vbox_col.pack_start(hbox_column_delete)\n        tablehandle_vbox_col.pack_start(hbox_column_add)\n        tablehandle_vbox_col.pack_start(hbox_column_left)\n        tablehandle_vbox_col.pack_start(hbox_column_right)\n        content_area = dialog.get_content_area()\n        content_area.set_spacing(5)\n        content_area.pack_start(tablehandle_vbox_col)\n        content_area.show_all()\n        def on_key_press_tablecolhandle(widget, event):\n            keyname = gtk.gdk.keyval_name(event.keyval)\n            if keyname == cons.STR_KEY_RETURN:\n                try: dialog.get_widget_for_response(gtk.RESPONSE_ACCEPT).clicked()\n                except Exception:\n                return True\n            elif keyname == cons.STR_KEY_TAB:\n                if self.dad.table_column_mode == "rename": table_column_delete_radiobutton.set_active(True)\n                elif self.dad.table_column_mode == "delete": table_column_add_radiobutton.set_active(True)\n                elif self.dad.table_column_mode == "add": table_column_left_radiobutton.set_active(True)\n                elif self.dad.table_column_mode == cons.TAG_PROP_LEFT: table_column_right_radiobutton.set_active(True)\n                else: table_column_rename_radiobutton.set_active(True)\n                return True\n            return False\n        def on_table_column_rename_radiobutton_toggled(radiobutton):\n            if radiobutton.get_active():\n                table_column_rename_entry.set_sensitive(True)\n                self.dad.table_column_mode = "rename"\n                table_column_rename_entry.grab_focus()\n            else: table_column_rename_entry.set_sensitive(False)\n        def on_table_column_delete_radiobutton_toggled(radiobutton):\n            if radiobutton.get_active(): self.dad.table_column_mode = "delete"\n        def on_table_column_add_radiobutton_toggled(radiobutton):\n            if radiobutton.get_active():\n                table_column_new_entry.set_sensitive(True)\n                self.dad.table_column_mode = "add"\n                table_column_new_entry.grab_focus()\n            else: table_column_new_entry.set_sensitive(False)\n        def on_table_column_left_radiobutton_toggled(radiobutton):\n            if radiobutton.get_active(): self.dad.table_column_mode = cons.TAG_PROP_LEFT\n        def on_table_column_right_radiobutton_toggled(radiobutton):\n            if radiobutton.get_active(): self.dad.table_column_mode = cons.TAG_PROP_RIGHT\n        dialog.connect(\'key_press_event\', on_key_press_tablecolhandle)\n        table_column_rename_radiobutton.connect(\'toggled\', on_table_column_rename_radiobutton_toggled)\n        table_column_delete_radiobutton.connect(\'toggled\', on_table_column_delete_radiobutton_toggled)\n        table_column_add_radiobutton.connect(\'toggled\', on_table_column_add_radiobutton_toggled)\n        table_column_left_radiobutton.connect(\'toggled\', on_table_column_left_radiobutton_toggled)\n        table_column_right_radiobutton.connect(\'toggled\', on_table_column_right_radiobutton_toggled)\n        response = dialog.run()\n        dialog.hide()\n        if response == gtk.RESPONSE_ACCEPT:\n            ret_rename = unicode(table_column_rename_entry.get_text(), cons.STR_UTF8, cons.STR_IGNORE)\n            ret_add = unicode(table_column_new_entry.get_text(), cons.STR_UTF8, cons.STR_IGNORE)\n            return [True, ret_rename, ret_add]\n        return [False, None, None]\n    def dialog_tablehandle(self, title, is_insert):\n        """Opens the Table Handle Dialog"""\n        dialog = gtk.Dialog(title=title,\n                            parent=self.dad.window,\n                            flags=gtk.DIALOG_MODAL|gtk.DIALOG_DESTROY_WITH_PARENT,\n                            buttons=(gtk.STOCK_CANCEL, gtk.RESPONSE_REJECT,\n                            gtk.STOCK_OK, gtk.RESPONSE_ACCEPT))\n        dialog.set_default_size(300, -1)\n        dialog.set_position(gtk.WIN_POS_CENTER_ON_PARENT)\n        label_rows = gtk.Label(_("Rows"))\n        adj_rows = gtk.Adjustment(value=self.dad.table_rows, lower=1, upper=10000, step_incr=1)\n        spinbutton_rows = gtk.SpinButton(adj_rows)\n        spinbutton_rows.set_value(self.dad.table_rows)\n        label_columns = gtk.Label(_("Columns"))\n        adj_columns = gtk.Adjustment(value=self.dad.table_columns, lower=1, upper=10000, step_incr=1)\n        spinbutton_columns = gtk.SpinButton(adj_columns)\n        spinbutton_columns.set_value(self.dad.table_columns)\n        hbox_rows_cols = gtk.HBox()\n        hbox_rows_cols.pack_start(label_rows, expand=False)\n        hbox_rows_cols.pack_start(spinbutton_rows, expand=False)\n        hbox_rows_cols.pack_start(label_columns, expand=False)\n        hbox_rows_cols.pack_start(spinbutton_columns, expand=False)\n        hbox_rows_cols.set_spacing(5)\n        size_align = gtk.Alignment()\n        size_align.set_padding(6, 6, 6, 6)\n        size_align.add(hbox_rows_cols)\n        size_frame = gtk.Frame(label="<b>"+_("Table Size")+"</b>")\n        size_frame.get_label_widget().set_use_markup(True)\n        size_frame.set_shadow_type(gtk.SHADOW_NONE)\n        size_frame.add(size_align)\n        label_col_min = gtk.Label(_("Min Width"))\n        adj_col_min = gtk.Adjustment(value=self.dad.table_col_min, lower=1, upper=10000, step_incr=1)\n        spinbutton_col_min = gtk.SpinButton(adj_col_min)\n        spinbutton_col_min.set_value(self.dad.table_col_min)\n        label_col_max = gtk.Label(_("Max Width"))\n        adj_col_max = gtk.Adjustment(value=self.dad.table_col_max, lower=1, upper=10000, step_incr=1)\n        spinbutton_col_max = gtk.SpinButton(adj_col_max)\n        spinbutton_col_max.set_value(self.dad.table_col_max)\n        hbox_col_min_max = gtk.HBox()\n        hbox_col_min_max.pack_start(label_col_min, expand=False)\n        hbox_col_min_max.pack_start(spinbutton_col_min, expand=False)\n        hbox_col_min_max.pack_start(label_col_max, expand=False)\n        hbox_col_min_max.pack_start(spinbutton_col_max, expand=False)\n        hbox_col_min_max.set_spacing(5)\n        col_min_max_align = gtk.Alignment()\n        col_min_max_align.set_padding(6, 6, 6, 6)\n        col_min_max_align.add(hbox_col_min_max)\n        col_min_max_frame = gtk.Frame(label="<b>"+_("Column Properties")+"</b>")\n        col_min_max_frame.get_label_widget().set_use_markup(True)\n        col_min_max_frame.set_shadow_type(gtk.SHADOW_NONE)\n        col_min_max_frame.add(col_min_max_align)\n        checkbutton_table_ins_from_file = gtk.CheckButton(label=_("Import from CSV File"))\n        content_area = dialog.get_content_area()\n        content_area.set_spacing(5)\n        if is_insert: content_area.pack_start(size_frame)\n        content_area.pack_start(col_min_max_frame)\n        if is_insert: content_area.pack_start(checkbutton_table_ins_from_file)\n        content_area.show_all()\n        def on_key_press_tablehandle(widget, event):\n            keyname = gtk.gdk.keyval_name(event.keyval)\n            if keyname == cons.STR_KEY_RETURN:\n                spinbutton_rows.update()\n                spinbutton_columns.update()\n                spinbutton_col_min.update()\n                spinbutton_col_max.update()\n                try: dialog.get_widget_for_response(gtk.RESPONSE_ACCEPT).clicked()\n                except Exception:\n                return True\n            return False\n        def on_checkbutton_table_ins_from_file_toggled(checkbutton):\n            size_frame.set_sensitive(not checkbutton.get_active())\n            col_min_max_frame.set_sensitive(not checkbutton.get_active())\n        dialog.connect(\'key_press_event\', on_key_press_tablehandle)\n        checkbutton_table_ins_from_file.connect(\'toggled\', on_checkbutton_table_ins_from_file_toggled)\n        response = dialog.run()\n        dialog.hide()\n        if response == gtk.RESPONSE_ACCEPT:\n            self.dad.table_rows = int(spinbutton_rows.get_value())\n            self.dad.table_columns = int(spinbutton_columns.get_value())\n            self.dad.table_col_min = int(spinbutton_col_min.get_value())\n            self.dad.table_col_max = int(spinbutton_col_max.get_value())\n            ret_csv = checkbutton_table_ins_from_file.get_active()\n            return [True, ret_csv]\n        return [False, None]\n    def table_export(self, action):\n        """Table Export as CSV File"""\n        filename = support.dialog_file_save_as(curr_folder=self.dad.pick_dir,\n                                               filter_pattern="*.csv",\n                                               filter_name=_("CSV File"),\n                                               parent=self.dad.window)\n        if not filename: return\n        if len(filename) < 4 or filename[-4:] != ".csv": filename += ".csv"\n        self.dad.pick_dir = os.path.dirname(filename)\n        table_dict = self.dad.state_machine.table_to_dict(self.curr_table_anchor)\n        table_matrix = table_dict[\'matrix\']\n        table_matrix.insert(0, table_matrix.pop())\n        file_descriptor = open(filename, "w")\n        writer = UnicodeWriter(file_descriptor)\n        writer.writerows(table_matrix)\n        file_descriptor.close()\n    def table_handle(self):\n        """Insert Table"""\n        iter_insert = self.dad.curr_buffer.get_iter_at_mark(self.dad.curr_buffer.get_insert())\n        ret_ok, ret_csv = self.dialog_tablehandle(_("Insert Table"), True)\n        if not ret_ok: return\n        if not ret_csv:\n            self.table_insert(iter_insert)\n        else:\n            filepath = support.dialog_file_select(filter_pattern=["*.csv"],\n                filter_name=_("CSV File"),\n                curr_folder=self.dad.pick_dir,\n                parent=self.dad.window)\n            if filepath != None:\n                self.dad.pick_dir = os.path.dirname(filepath)\n                support.text_file_rm_emptylines(filepath)\n                file_descriptor = open(filepath, \'r\')\n                reader = UnicodeReader(file_descriptor)\n                table_matrix = []\n                row = reader.next()\n                while row:\n                    table_matrix.append(row)\n                    row = reader.next()\n                file_descriptor.close()\n                table_matrix.append(table_matrix.pop(0))\n                self.table_insert(iter_insert, {\'col_min\': cons.TABLE_DEFAULT_COL_MIN,\n                                                \'col_max\': cons.TABLE_DEFAULT_COL_MAX,\n                                                \'matrix\': table_matrix})\n    def table_insert(self, iter_insert, table=None, table_justification=None, text_buffer=None):\n        """Insert a Table at the Given Iter"""\n        if not text_buffer: text_buffer = self.dad.curr_buffer\n        if table != None:\n            self.dad.table_columns = len(table[\'matrix\'][0])\n            self.dad.table_rows = len(table[\'matrix\']) - 1\n            headers = table[\'matrix\'][-1]\n            table_col_min = table[\'col_min\']\n            table_col_max = table[\'col_max\']\n        else:\n            headers = [_("click me")]*self.dad.table_columns\n            table_col_min = self.dad.table_col_min\n            table_col_max = self.dad.table_col_max\n        anchor = text_buffer.create_child_anchor(iter_insert)\n        anchor.liststore = gtk.ListStore(*(str,)*self.dad.table_columns)\n        anchor.treeview = gtk.TreeView(anchor.liststore)\n        for element in range(self.dad.table_columns):\n            label = gtk.Label(\'<b>\' + headers[element] + \'</b>\')\n            label.set_use_markup(True)\n            label.set_tooltip_text(_("Click to Edit the Column Settings"))\n            label.show()\n            renderer_text = gtk.CellRendererText()\n            renderer_text.set_property(\'editable\', True)\n            renderer_text.set_property(\'wrap-width\', table_col_max)\n            renderer_text.set_property(\'wrap-mode\', pango.WRAP_WORD_CHAR)\n            renderer_text.set_property(\'font-desc\', pango.FontDescription(self.dad.text_font))\n            renderer_text.connect(\'edited\', self.on_table_cell_edited, anchor.liststore, element)\n            renderer_text.connect(\'editing-started\', self.on_table_cell_editing_started, anchor.liststore, element)\n            column = gtk.TreeViewColumn("", renderer_text, text=element)\n            column.set_min_width(table_col_min)\n            column.set_clickable(True)\n            column.set_widget(label)\n            column.set_sizing(gtk.TREE_VIEW_COLUMN_AUTOSIZE)\n            column.connect(\'clicked\', self.table_column_clicked, anchor, element)\n            anchor.treeview.append_column(column)\n        anchor.headers = headers\n        anchor.table_col_min = table_col_min\n        anchor.table_col_max = table_col_max\n        anchor.treeview.set_grid_lines(gtk.TREE_VIEW_GRID_LINES_BOTH)\n        anchor.treeview.connect(\'button-press-event\', self.on_mouse_button_clicked_treeview_table, anchor)\n        anchor.treeview.connect(\'key_press_event\', self.on_key_press_treeview_table, anchor)\n        anchor.frame = gtk.Frame()\n        anchor.frame.add(anchor.treeview)\n        anchor.frame.set_shadow_type(gtk.SHADOW_NONE)\n        anchor.eventbox = gtk.EventBox()\n        anchor.eventbox.add(anchor.frame)\n        self.dad.sourceview.add_child_at_anchor(anchor.eventbox, anchor)\n        anchor.eventbox.show_all()\n        for row in range(self.dad.table_rows):\n            row_iter = anchor.liststore.append([""]*self.dad.table_columns)\n            if table != None:\n                for column in range(self.dad.table_columns):\n                    try: anchor.liststore[row_iter][column] = table[\'matrix\'][row][column]\n                    except IndexError: pass  # there are cases when some rows have less columns\n        if table_justification:\n            text_iter = text_buffer.get_iter_at_child_anchor(anchor)\n            self.dad.state_machine.apply_object_justification(text_iter, table_justification, text_buffer)\n        elif self.dad.user_active:\n            # if I apply a justification, the state is already updated\n            self.dad.state_machine.update_state()\n    def table_edit_properties(self, *args):\n        """Edit Table Properties"""\n        if not self.dad.is_curr_node_not_read_only_or_error(): return\n        self.dad.table_col_min = self.curr_table_anchor.table_col_min\n        self.dad.table_col_max = self.curr_table_anchor.table_col_max\n        ret_ok, ret_csv = self.dialog_tablehandle(_("Edit Table Properties"), False)\n        if not ret_ok: return\n        table = self.dad.state_machine.table_to_dict(self.curr_table_anchor)\n        table[\'col_min\'] = self.dad.table_col_min\n        table[\'col_max\'] = self.dad.table_col_max\n        iter_insert = self.dad.curr_buffer.get_iter_at_child_anchor(self.curr_table_anchor)\n        table_justification = self.dad.state_machine.get_iter_alignment(iter_insert)\n        iter_bound = iter_insert.copy()\n        iter_bound.forward_char()\n        self.dad.curr_buffer.delete(iter_insert, iter_bound)\n        self.table_insert(iter_insert, table, table_justification)\n    def on_table_cell_populate_popup(self, entry, menu):\n        """Table Cell Populate Popup"""\n        self.curr_table_cell = entry\n        self.dad.menu_populate_popup(menu, cons.get_popup_menu_entries_table_cell(self))\n    def curr_table_cell_insert_newline(self, *args):\n        if not self.dad.is_curr_node_not_read_only_or_error(): return\n        cursor_pos = self.curr_table_cell.get_position()\n        self.curr_table_cell.insert_text(cons.CHAR_NEWLINE, cursor_pos)\n        self.curr_table_cell.set_position(cursor_pos+1)\n    def on_table_cell_key_press(self, widget, event, path, model, col_num):\n        """Catches Table Cell key presses"""\n        keyname = gtk.gdk.keyval_name(event.keyval)\n        if event.state & gtk.gdk.SHIFT_MASK:\n            pass\n        elif event.state & gtk.gdk.MOD1_MASK:\n            pass\n        elif event.state & gtk.gdk.CONTROL_MASK:\n            if keyname == "period":\n                self.curr_table_cell = widget\n                self.curr_table_cell_insert_newline()\n                return True\n            elif keyname == "comma":\n                return True\n        else:\n            if keyname in [cons.STR_KEY_RETURN, cons.STR_KEY_UP, cons.STR_KEY_DOWN]:\n                if model[path][col_num] != widget.get_text():\n                    if self.dad.is_curr_node_not_read_only_or_error():\n                        model[path][col_num] = widget.get_text()\n                        self.dad.update_window_save_needed("nbuf", True)\n                if keyname == cons.STR_KEY_UP:\n                    if col_num > 0:\n                        next_col_num = col_num - 1\n                        next_path = path\n                    else:\n                        next_iter = None\n                        next_path =  model.get_path(model.get_iter(path))\n                        while not next_iter and next_path[0] > 0:\n                            node_path_list = list(next_path)\n                            node_path_list[0] -= 1\n                            next_path = tuple(node_path_list)\n                            next_iter = model.get_iter(next_path)\n                        #next_iter = model.iter_next(model.get_iter(path))\n                        if not next_iter: return False\n                        next_path = model.get_path(next_iter)\n                        next_col_num = self.dad.table_columns-1\n                else:\n                    if col_num < self.dad.table_columns-1:\n                        next_col_num = col_num + 1\n                        next_path = path\n                    else:\n                        next_iter = model.iter_next(model.get_iter(path))\n                        if not next_iter: return False\n                        next_path = model.get_path(next_iter)\n                        next_col_num = 0\n                #print "(path, col_num) = (%s, %s)" % (path, col_num)\n                #print "(next_path, next_col_num) = (%s, %s)" % (next_path, next_col_num)\n                next_column = self.curr_table_anchor.treeview.get_columns()[next_col_num]\n                self.curr_table_anchor.treeview.set_cursor_on_cell(next_path,\n                    focus_column=next_column,\n                    focus_cell=next_column.get_cell_renderers()[0],\n                    start_editing=True)\n                return True\n        return False\n    def on_table_cell_editing_started(self, cell, editable, path, model, col_num):\n        """A Table Cell is going to be Edited"""\n        if isinstance(editable, gtk.Entry):\n            editable.connect(\'key_press_event\', self.on_table_cell_key_press, path, model, col_num)\n            editable.connect(\'populate-popup\', self.on_table_cell_populate_popup)\n    def on_table_cell_edited(self, cell, path, new_text, model, col_num):\n        """A Table Cell has been Edited"""\n        if not self.dad.is_curr_node_not_read_only_or_error(): return\n        if model[path][col_num] != new_text:\n            model[path][col_num] = new_text\n            self.dad.update_window_save_needed("nbuf", True)\n    def table_column_clicked(self, column, anchor, col_num):\n        """The Column Header was Clicked"""\n        if not self.dad.is_curr_node_not_read_only_or_error(): return\n        col_label = column.get_widget()\n        ret_ok, ret_rename, ret_add = self.dialog_tablecolhandle(_("Table Column Action"), col_label.get_text())\n        if not ret_ok: return\n        table = self.dad.state_machine.table_to_dict(anchor)\n        headers = table[\'matrix\'].pop()\n        if (self.dad.table_column_mode == \'right\' and col_num == len(headers)-1)        or (self.dad.table_column_mode == \'left\' and col_num == 0):\n            return\n        iter_insert = self.dad.curr_buffer.get_iter_at_child_anchor(anchor)\n        table_justification = self.dad.state_machine.get_iter_alignment(iter_insert)\n        iter_bound = iter_insert.copy()\n        iter_bound.forward_char()\n        self.dad.curr_buffer.delete(iter_insert, iter_bound)\n        if self.dad.table_column_mode == \'rename\':\n            new_label = ret_rename\n            col_label.set_text("<b>" + new_label + "</b>")\n            col_label.set_use_markup(True)\n            headers[col_num] = new_label\n        elif self.dad.table_column_mode == \'add\':\n            headers.insert(col_num + 1, ret_add)\n            for row in table[\'matrix\']: row.insert(col_num + 1, "")\n        elif self.dad.table_column_mode == \'delete\':\n            headers.pop(col_num)\n            for row in table[\'matrix\']: row.pop(col_num)\n        elif self.dad.table_column_mode == \'right\':\n            temp = headers.pop(col_num)\n            headers.insert(col_num + 1, temp)\n            for row in table[\'matrix\']:\n                temp = row.pop(col_num)\n                row.insert(col_num + 1, temp)\n        elif self.dad.table_column_mode == \'left\':\n            temp = headers.pop(col_num)\n            headers.insert(col_num - 1, temp)\n            for row in table[\'matrix\']:\n                temp = row.pop(col_num)\n                row.insert(col_num - 1, temp)\n        table[\'matrix\'].append(headers)\n        self.table_insert(iter_insert, table, table_justification)\n    def table_row_action(self, action):\n        """All Rows Actions"""\n        treeviewselection = self.curr_table_anchor.treeview.get_selection()\n        model, iter = treeviewselection.get_selected()\n        if not iter:\n            curr_iter = model.get_iter_first()\n            if not curr_iter: return\n            while curr_iter:\n                iter = curr_iter\n                curr_iter = model.iter_next(curr_iter)\n        if action == "delete": model.remove(iter)\n        elif action == "add": model.insert_after(iter, [""]*len(self.curr_table_anchor.headers))\n        elif action == "move_up":\n            prev_iter = self.dad.get_tree_iter_prev_sibling(model, iter)\n            if prev_iter == None: return\n            model.swap(iter, prev_iter)\n            self.curr_table_anchor.treeview.set_cursor(model.get_path(iter))\n        elif action == "move_down":\n            subseq_iter = model.iter_next(iter)\n            if subseq_iter == None: return\n            model.swap(iter, subseq_iter)\n        elif action == "sort_asc":\n            father_iter = model.iter_parent(iter)\n            movements = False\n            while self.dad.node_siblings_sort_iteration(model, father_iter, True, 0):\n                movements = True\n            if not movements: return\n        elif action == "sort_desc":\n            father_iter = model.iter_parent(iter)\n            movements = False\n            while self.dad.node_siblings_sort_iteration(model, father_iter, False, 0):\n                movements = True\n            if not movements: return\n        elif action in ["cut", "copy"]:\n            columns_num = len(self.curr_table_anchor.headers)\n            table = {\'matrix\':[],\n                     \'col_min\': self.curr_table_anchor.table_col_min,\n                     \'col_max\': self.curr_table_anchor.table_col_max}\n            row = []\n            for column in range(columns_num): row.append(self.curr_table_anchor.liststore[iter][column])\n            table[\'matrix\'].append(row)\n            table[\'matrix\'].append(copy.deepcopy(self.curr_table_anchor.headers))\n            self.dad.clipboard_handler.table_row_to_clipboard(table)\n            if action == "cut": model.remove(iter)\n            else: return\n        elif action == "paste":\n            if not self.dad.clipboard_handler.table_row_paste([model, iter]): return\n        else: return\n        self.dad.update_window_save_needed("nbuf", True)\n    def table_row_add(self, *args):\n        """Add a Table Row"""\n        if self.dad.is_curr_node_not_read_only_or_error():\n            self.table_row_action("add")\n    def table_row_cut(self, *args):\n        """Cut a Table Row"""\n        if self.dad.is_curr_node_not_read_only_or_error():\n            self.table_row_action("cut")\n    def table_row_copy(self, *args):\n        """Copy a Table Row"""\n        self.table_row_action("copy")\n    def table_row_paste(self, *args):\n        """Paste a Table Row"""\n        if self.dad.is_curr_node_not_read_only_or_error():\n            self.table_row_action("paste")\n    def table_row_delete(self, *args):\n        """Delete a Table Row"""\n        if self.dad.is_curr_node_not_read_only_or_error():\n            self.table_row_action("delete")\n    def table_row_up(self, *args):\n        """Move the Selected Row Up"""\n        if self.dad.is_curr_node_not_read_only_or_error():\n            self.table_row_action("move_up")\n    def table_row_down(self, *args):\n        """Move the Selected Row Down"""\n        if self.dad.is_curr_node_not_read_only_or_error():\n            self.table_row_action("move_down")\n    def table_rows_sort_descending(self, *args):\n        """Sort all the Rows Descending"""\n        if self.dad.is_curr_node_not_read_only_or_error():\n            self.table_row_action("sort_desc")\n    def table_rows_sort_ascending(self, *args):\n        """Sort all the Rows Ascending"""\n        if self.dad.is_curr_node_not_read_only_or_error():\n            self.table_row_action("sort_asc")\n    def on_key_press_treeview_table(self, widget, event, anchor):\n        """Catches Table key presses"""\n        keyname = gtk.gdk.keyval_name(event.keyval)\n        if event.state & gtk.gdk.CONTROL_MASK:\n            self.curr_table_anchor = anchor\n            self.dad.object_set_selection(self.curr_table_anchor)\n            if keyname == "comma":\n                if event.state & gtk.gdk.MOD1_MASK:\n                    self.table_row_delete()\n                else: self.table_row_add()\n                return True\n            if keyname == "period":\n                if event.state & gtk.gdk.MOD1_MASK:\n                    self.table_row_up()\n                else: self.table_row_down()\n                return True\n        elif keyname == cons.STR_KEY_MENU:\n            self.curr_table_anchor = anchor\n            self.dad.object_set_selection(self.curr_table_anchor)\n            menu_table = gtk.Menu()\n            self.dad.menu_populate_popup(menu_table, cons.get_popup_menu_table(self.dad))\n            menu_table.popup(None, None, None, 3, event.time)\n            return True\n        return False\n    def on_mouse_button_clicked_treeview_table(self, widget, event, anchor):\n        """Catches mouse buttons clicks"""\n        self.curr_table_anchor = anchor\n        self.dad.object_set_selection(self.curr_table_anchor)\n        if event.button == 3:\n            menu_table = gtk.Menu()\n            self.dad.menu_populate_popup(menu_table, cons.get_popup_menu_table(self.dad))\n            menu_table.popup(None, None, None, event.button, event.time)\n            return True\n        return False\nclass UTF8Recoder:\n    """\n    Iterator that reads an encoded stream and reencodes the input to UTF-8\n    """\n    def __init__(self, f, encoding):\n        self.reader = codecs.getreader(encoding)(f)\n    def __iter__(self):\n        return self\n    def next(self):\n        return self.reader.next().encode(cons.STR_UTF8)\nclass UnicodeReader:\n    """\n    A CSV reader which will iterate over lines in the CSV file "f",\n    which is encoded in the given encoding.\n    """\n    def __init__(self, f, dialect=csv.excel, encoding=cons.STR_UTF8, **kwds):\n        f = UTF8Recoder(f, encoding)\n        self.reader = csv.reader(f, dialect=dialect, **kwds)\n    def next(self):\n        try:\n            row = self.reader.next()\n            return [unicode(s, cons.STR_UTF8, cons.STR_IGNORE) for s in row]\n        except Exception: return None\n    def __iter__(self):\n        return self\nclass UnicodeWriter:\n    """\n    A CSV writer which will write rows to CSV file "f",\n    which is encoded in the given encoding.\n    """\n    def __init__(self, f, dialect=csv.excel, encoding=cons.STR_UTF8, **kwds):\n        # Redirect output to a queue\n        self.queue = cStringIO.StringIO()\n        self.writer = csv.writer(self.queue, dialect=dialect, **kwds)\n        self.stream = f\n        self.encoder = codecs.getincrementalencoder(encoding)()\n    def writerow(self, row):\n        self.writer.writerow([s.encode(cons.STR_UTF8) for s in row])\n        # Fetch UTF-8 output from the queue ...\n        data = self.queue.getvalue()\n        data = data.decode(cons.STR_UTF8)\n        # ... and reencode it into the target encoding\n        data = self.encoder.encode(data)\n        # write to the target stream\n        self.stream.write(data)\n        # empty queue\n        self.queue.truncate(0)\n    def writerows(self, rows):\n        for row in rows:\n            self.writerow(row)\n\n\n\t\t\t\t\n\n\n'

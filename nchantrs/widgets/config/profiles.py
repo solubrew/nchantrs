@@ -1,43 +1,18 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 from typing import Any
-
-"""
----
-<(META)>:
-        docid:
-        name:
-        description: >
-        version: 0.0.0.0.0.0
-        authority: filesystem
-        security: seclvl2
-        <(WT)>: -32
-"""
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
+'\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
 from os.path import abspath, dirname, join
 import datetime as dt
-
 import logging
-
 logger = logging.getLogger(__name__)
-# ======================================3rd Party Library Modules=====================================================||
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
 from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.config.settings import NchantdSettingsWidget
-
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
 logma.off()
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", "profiles.yaml")
-
+pxcfg = join(here, '_data_', 'profiles.yaml')
 
 class NchantdProfile(NchantdWidget):
     """An Nchantd Profile with hold all the account and user details for a given profile interaction  multiple profiles can be
@@ -47,7 +22,7 @@ class NchantdProfile(NchantdWidget):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config(kahndor.Instruct(pxcfg).select("NchantdProfile").override(cfg))
+        self.config(kahndor.Instruct(pxcfg).select('NchantdProfile').override(cfg))
 
     def initModel(self) -> Any:
         """"""
@@ -64,8 +39,3 @@ class NchantdProfile(NchantdWidget):
         self.initModel()
         self.initView()
         return self
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

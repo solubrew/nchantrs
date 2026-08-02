@@ -1,31 +1,11 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 from typing import Any, Iterator, Union
-
-"""
----
-<(META)>:
-        docid:
-        name:
-        description: >
-        version: 0.0.0.0.0.0
-        authority: filesystem
-        security: seclvl2
-        <(WT)>: -32
-"""
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
+'\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
 from os.path import abspath, dirname, join
 import datetime as dt
 import base64
-
 import logging
-
 logger = logging.getLogger(__name__)
-# ======================================3rd Party Library Modules=====================================================||
 from uuid_extensions import uuid7
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from pycurity.pycrypt import decrypt_aes, encrypt_aes, create_hash, create_public_private_keccak_keys
 from pycurity.pycrypt import create_public_private_rsa_keys, create_symmetric_aes_key, encrypt_password
@@ -34,27 +14,20 @@ from pycurity.pyvalid import validate_password_strength
 from pycurity.pyhash import encode64, text_hashing_function
 from nchantrs.libraries import pyqt
 from kahndor.logma import Logma
-
-# ====================================================================================================================||
-# Constants for magic number replacement
 DEFAULT_PASSWORD_ITERATIONS = 100000
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 log = False
 logma = Logma(__name__)
 debug = True
 logma.off()
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", "users.yaml")
-
+pxcfg = join(here, '_data_', 'users.yaml')
 
 class NchantdUser(object):
     """"""
 
     def __init__(self, parent, cfg=None) -> None:
         """"""
-        self.config = kahndor.Instruct(pxcfg).select("NchantdUser").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('NchantdUser').override(cfg)
         self.parent = parent
         self.config.override(parent.config)
         self.app = pyqt.QApplication.instance()
@@ -81,7 +54,7 @@ class NchantdUser(object):
 
     def check_has_api(self, service) -> Any:
         """"""
-        return self.check_secure_store("apikey", service)
+        return self.check_secure_store('apikey', service)
 
     def check_secure_store(self, label, key) -> bool:
         """"""
@@ -95,7 +68,7 @@ class NchantdUser(object):
         self._create_user()
         return self
 
-    def get_password(self, message="Enter credentials: ") -> Iterator[Any]:
+    def get_password(self, message='Enter credentials: ') -> Iterator[Any]:
         """
         Generate or retrieve password for authentication.
 
@@ -105,39 +78,34 @@ class NchantdUser(object):
         :return:
         """
         user = self.parent.device.user
-        logma.info(f"User {user}")
+        logma.info(f'User {user}')
         initialization = dt.datetime.now()
         self.is_valid = False
         while True:
-            # SECURITY FIX: Removed insecure default password (user.upper() + uuid)
-            # Password must be properly obtained via secure dialog
             if self.app.model.is_private or self.app.model.is_secure:
-                # [DONE] setup a standard dialog
                 pword = input(message)
             else:
-                # For non-secure apps, use a generated password but log warning
-                logma.warning(f"Using generated password for non-secure app - this should be replaced")
+                logma.warning(f'Using generated password for non-secure app - this should be replaced')
                 pword = user.upper() + self.uuid
             while True:
-                logma.info(f"Check Private")
+                logma.info(f'Check Private')
                 if self.app.model.is_private or self.app.model.is_secure:
-                    # [DONE] implement whatever rules that are needed for password collection
-                    expiration = self.config.dikt["pword"]["rules"]["expiration"]
+                    expiration = self.config.dikt['pword']['rules']['expiration']
                     expired = (dt.datetime.now() - initialization).total_seconds() > expiration
-                    logma.info(f"check Expired")
+                    logma.info(f'check Expired')
                     if expired:
-                        logma.info(f"Password Verification Expired")
+                        logma.info(f'Password Verification Expired')
                         break
-                logma.info(f"Check User")
-                if user == self.parent.device.user:  # [DONE] implement repulling of the user device details
-                    logma.info(f"Verify Password")
+                logma.info(f'Check User')
+                if user == self.parent.device.user:
+                    logma.info(f'Verify Password')
                     if self.verify_password(password):
-                        logma.info(f"Password Verified")
+                        logma.info(f'Password Verified')
                         yield password
                     else:
-                        raise Exception("Invalid password")
+                        raise Exception('Invalid password')
                 else:
-                    raise Exception("User name has changed during operation of the application")
+                    raise Exception('User name has changed during operation of the application')
 
     def decrypt(self, data) -> Any:
         """"""
@@ -154,50 +122,44 @@ class NchantdUser(object):
     def select_user(self, data) -> Any:
         """"""
         user = False
-        logma.info(f"Data {data}")
-        logma.info(f"MAC: {self.parent.device.mac}")
+        logma.info(f'Data {data}')
+        logma.info(f'MAC: {self.parent.device.mac}')
         mac_hash = text_hashing_function(self.parent.device.mac)
-        logma.info(f"MAC Hash: {mac_hash}")
-        device_users = data[data["mac_hash_txt"] == mac_hash]
-        logma.info(f"Select Users: {device_users}")
+        logma.info(f'MAC Hash: {mac_hash}')
+        device_users = data[data['mac_hash_txt'] == mac_hash]
+        logma.info(f'Select Users: {device_users}')
         if not device_users.empty:
-            logma.info(f"User {self.parent.device.user}")
-            users_nms = device_users[device_users["user_nm_txt"] == self.parent.device.user]
-            logma.info(f"Users NMS: {users_nms}")
+            logma.info(f'User {self.parent.device.user}')
+            users_nms = device_users[device_users['user_nm_txt'] == self.parent.device.user]
+            logma.info(f'Users NMS: {users_nms}')
             if users_nms.empty:
-                logma.info(f"Create User")
+                logma.info(f'Create User')
                 user = self._create_user()
             else:
-                # if users_nms.shape[0] > 1 and (self.app.model.is_secure or self.app.model.is_private):
-                #    user = self._select_user(users_nms)
-                # else:
                 user = data.iloc[0].to_dict()
         else:
-            user_nms = data[data["user_nm_txt"] == self.parent.device.user]
+            user_nms = data[data['user_nm_txt'] == self.parent.device.user]
             if user_nms.empty:
-                logma.info(f"Create User")
+                logma.info(f'Create User')
                 user = self._create_user()
             else:
-                # if user_nms.shape[0] > 1 and (self.app.model.is_secure or self.app.model.is_private):
-                #    user = self._select_user(user_nms)
-                # else:
                 user = data.iloc[0].to_dict()
-        self.name = user["user_nm_txt"]
-        self.uuid = str(user["UUID"])
-        self.hash = base64.b64decode(user["password_txt"]).decode()
-        self.salt = base64.b64decode(user["saltUUID"]).decode()
-        self.iters = base64.b64decode(user["iterations_txt"]).decode()
+        self.name = user['user_nm_txt']
+        self.uuid = str(user['UUID'])
+        self.hash = base64.b64decode(user['password_txt']).decode()
+        self.salt = base64.b64decode(user['saltUUID']).decode()
+        self.iters = base64.b64decode(user['iterations_txt']).decode()
         if self.app.model.is_private or self.app.model.is_secure:
             self._verify_user(next(self.pword))
         return self
 
     def read_secure(self, key, label=None) -> Any:
         """"""
-        table = "app_secure_store"
+        table = 'app_secure_store'
         if not self.is_verified and (self.app.model.is_private or self.app.model.is_secure):
             return
-        cfg = {"WHERE": {"EQUAL": {"key_txt": key, "UUID": self.uuid}}}
-        return next(self.parent.store.docs["db"].read({"table": table}, cfg)).dikt[table]["df"]
+        cfg = {'WHERE': {'EQUAL': {'key_txt': key, 'UUID': self.uuid}}}
+        return next(self.parent.store.docs['db'].read({'table': table}, cfg)).dikt[table]['df']
 
     def verify_pword(self, pword) -> bool:
         """
@@ -206,40 +168,17 @@ class NchantdUser(object):
         SECURITY FIX: Removed debug mode exception bypass that exposed password hash.
         Now properly returns False on verification failure.
         """
-        logma.info(f"Check Password Hash {pword}")
+        logma.info(f'Check Password Hash {pword}')
         if self.hash is not None:
             if self._hash_password(pword) == self.hash:
                 return True
-        # SECURITY FIX: Removed debug bypass that raised exception and exposed hash
-        logma.warning(f"Password verification failed for user {self.name}")
+        logma.warning(f'Password verification failed for user {self.name}')
         return False
-
-    # def write_secure(self, user, key, value=None):
-    #     """"""
-    #     if not self.is_verified and (self.app.model.is_private or self.app.model.is_secure):
-    #         return False
-    #     db_objects = self.config.dikt["dstruct"]["database"]["objects"]
-    #     if db_objects is None:
-    #         return
-    #     if isinstance(key, list):
-    #         payload = []
-    #         for item in key:
-    #             [k], [v] = item.keys(), item.values()
-    #             payload.append([str(uuid7()), self.uuid, k, base64.b64encode(v).decode()])
-    #     else:
-    #         payload = [[str(uuid7()), self.uuid, key, base64.b64encode(value)]]
-    #     cfg = {
-    #         "app_secure_store": {
-    #             "records": payload,
-    #             "columns": db_objects["table"]["app_secure_store"]["columns"],
-    #         }
-    #     }
-    #     self.app.model.store.docs["db"].write(cfg)
 
     def _check_password_rules(self, password) -> Any:
         """"""
         specials = "/.,|:;][><()@#$%^&*-_=+!?'" + '"'
-        policy = {"special_chars": specials, "min_length": 8, "max_length": 128}
+        policy = {'special_chars': specials, 'min_length': 8, 'max_length': 128}
         finding = validate_password_strength(password, policy)
         return finding
 
@@ -251,40 +190,35 @@ class NchantdUser(object):
         :return:
         """
         logma.inspect_caller()
-        logma.info(f"Create User")
+        logma.info(f'Create User')
         self.address, address_private_key = create_public_private_keccak_keys()
         self.rsa_key, private_key = create_public_private_rsa_keys()
         aes_key = create_symmetric_aes_key()
-        # if self.parent.parent.is_private or self.parent.parent.is_secure:
         self._create_user_password()
         user_FK, user = self.app.model.store.store_app_user(self)
         store_private_key = encrypt_password(private_key, next(self.pword), self.address.encode())
         store_address_private_key = encrypt_rsa(address_private_key.encode(), self.rsa_key)
         store_aes_key = encrypt_rsa(aes_key, self.rsa_key)
-        data = [
-            {"address_private_key": store_private_key},
-            {"store_address_private_key": store_address_private_key},
-            {"store_aes_key": store_aes_key},
-        ]
+        data = [{'address_private_key': store_private_key}, {'store_address_private_key': store_address_private_key}, {'store_aes_key': store_aes_key}]
         self.app.model.store.write_secure(self, data)
-        db_objects = self.config.dikt["dstruct"]["database"]["objects"]
-        columns = [x["name"] for x in db_objects["table"]["app_user"]["columns"]]
+        db_objects = self.config.dikt['dstruct']['database']['objects']
+        columns = [x['name'] for x in db_objects['table']['app_user']['columns']]
         user = dict(zip(columns, user))
-        user["FK"] = user_FK
+        user['FK'] = user_FK
         return user
 
     def _create_user_password(self) -> bool:
         """"""
-        message = ""
+        message = ''
         while True:
             status, message = self._check_password_rules(next(self.pword))
             if status is False:
-                logma.info(f"Verify pword:")
-                verify_pword = next(self.get_password("Verify pword: "))
+                logma.info(f'Verify pword:')
+                verify_pword = next(self.get_password('Verify pword: '))
                 if next(self.pword) == verify_pword:
                     return True
                 else:
-                    message = "Passwords provided do not match. Please retry"
+                    message = 'Passwords provided do not match. Please retry'
             else:
                 break
 
@@ -296,10 +230,10 @@ class NchantdUser(object):
         -
         :return:
         """
-        table = "secure_store"
-        cfg = {"WHERE": {table: {"key": "private_key", "UUUID": self.uuid}}}
-        df = next(self.parent.store.docs["db"].read({"table": table}, cfg)).dikt[table]["df"]
-        rsa_key_stored = df["value"].values.tolist()[0]
+        table = 'secure_store'
+        cfg = {'WHERE': {table: {'key': 'private_key', 'UUUID': self.uuid}}}
+        df = next(self.parent.store.docs['db'].read({'table': table}, cfg)).dikt[table]['df']
+        rsa_key_stored = df['value'].values.tolist()[0]
         rsa_key = decrypt_pword(rsa_key_stored, next(self.pword), self.address.encode())
         return rsa_key
 
@@ -310,16 +244,16 @@ class NchantdUser(object):
         -
         :return:
         """
-        table = "secure_store"
-        cfg = {"WHERE": {table: {"key": "aes_key", "UUUID": self.uuid}}}
-        df = next(self.parent.store.docs["db"].read({"table": table}, cfg)).dikt[table]["df"]
-        aes_key_stored = df["value"].values.tolist()[0]
+        table = 'secure_store'
+        cfg = {'WHERE': {table: {'key': 'aes_key', 'UUUID': self.uuid}}}
+        df = next(self.parent.store.docs['db'].read({'table': table}, cfg)).dikt[table]['df']
+        aes_key_stored = df['value'].values.tolist()[0]
         aes_key = decrypt_rsa(aes_key_stored, self._get_rsa_key())
         return aes_key
 
     def _hash_password(self, password) -> Any:
         """"""
-        logma.info(f"Hash HMAC Password: {password}")
+        logma.info(f'Hash HMAC Password: {password}')
         return create_hash(password, self.salt, self.iters)
 
     def _select_user(self, data) -> Any:
@@ -335,27 +269,16 @@ class NchantdUser(object):
         if address.empty:
             return False
         address = address.iloc[0].to_dict()
-        decrypted_value = decrypt_password(address["value"])
-        if verify_signature(address["key"], decrypted_value, password):
+        decrypted_value = decrypt_password(address['value'])
+        if verify_signature(address['key'], decrypted_value, password):
             self.pword = password
             return self
         return False
 
-
 def ask_user_for_account() -> None:
-    """
-    Need to launch a dialog for the user
-    :return:
-    """
-
+    logma.info(f'ask_user_for_account called')
+    return self
 
 def check_for_account() -> None:
-    """
-    need to send request to Nchantrs Server
-    :return:
-    """
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+    logma.info(f'check_for_account called')
+    return self

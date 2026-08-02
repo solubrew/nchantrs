@@ -1,44 +1,19 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 from typing import Any
-
-"""#																			||
----  #																			||
-<(META)>: #								||
-        DOCid: 'b0383757-eb6b-4d01-a5af-f0b4bc6b3b44' #								||
-        name: Nchantrs Module Widgets Forms Python Excecution Document  #			||
-        description: >  #															||
-        expirary: <[expiration]>  #													||
-        version: <[version]>  #														||
-        authority: document|this  #													||
-        security: sec|lvl2  #														||
-        <(WT)>: -32  #																||
-"""  # ||
-
-# -*- coding: utf-8 -*-#														||
-# ================================Core Modules===================================||
+"#\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n---  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n<(META)>: #\t\t\t\t\t\t\t\t||\n        DOCid: 'b0383757-eb6b-4d01-a5af-f0b4bc6b3b44' #\t\t\t\t\t\t\t\t||\n        name: Nchantrs Module Widgets Forms Python Excecution Document  #\t\t\t||\n        description: >  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        expirary: <[expiration]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        version: <[version]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        authority: document|this  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        security: sec|lvl2  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        <(WT)>: -32  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n"
 from os.path import abspath, dirname, join
-
-# ===============================================================================||
 from kahndor import kahndor
-
 import logging
 from nchantrs.libraries import pyqt
-
 logger = logging.getLogger(__name__)
 from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.widgets import loadWidget
 from kahndor.logma import Logma
-
-# ===============================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
 if not log:
     logma.off()
-
-# ===============================================================================||
-pxcfg = join(abspath(here), "_data_", "forms.yaml")
-
+pxcfg = join(abspath(here), '_data_', 'forms.yaml')
 
 class NchantdForm(NchantdWidget):
     """"""
@@ -47,7 +22,7 @@ class NchantdForm(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdForm"))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdForm'))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -68,7 +43,6 @@ class NchantdForm(NchantdWidget):
         self.initView()
         return self
 
-
 class NchantdDynamicEntryForm(NchantdForm):
     """A single pane widget for building a simple top down entry form with a
     submission button at the end of the form"""
@@ -80,9 +54,9 @@ class NchantdDynamicEntryForm(NchantdForm):
         :param cfg:
         """
         super().__init__(parent, cfg)
-        logma.info(f"Init NchantdDynamicEntryForm Config {cfg}")
+        logma.info(f'Init NchantdDynamicEntryForm Config {cfg}')
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdDynamicEntryForm").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdDynamicEntryForm').override(cfg))
         self.fieldWDGTs = {}
         self.controlWDGTs = {}
         self.handlers = {}
@@ -90,14 +64,9 @@ class NchantdDynamicEntryForm(NchantdForm):
     def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel()
-        for control in self.config.dikt.get("controls", {}).keys():
-            handler = self.config.dikt["controls"].get(control, {}).get("handler", "default")
+        for control in self.config.dikt.get('controls', {}).keys():
+            handler = self.config.dikt['controls'].get(control, {}).get('handler', 'default')
             self.handlers[control] = getattr(self, handler)
-        # self.source = self.config.dikt.get("source", "")[: self.config.dikt.get("source", "").find(".")]
-        # left = -self.config.dikt.get("source", "").find(".")
-        # right = self.config.dikt.get("source", "").find(".")
-        # self.table = self.config.dikt.get("source", "")[left:right]
-        # self.src = self.app.model.store
         self.values = {}
         self.handlers = {}
         self.rid = None
@@ -108,17 +77,15 @@ class NchantdDynamicEntryForm(NchantdForm):
 
         TODO: need to get max columns grid in order to span other fields
         """
-        super().initView({"layout": "grid"})
-        x, y = 0, 0
+        super().initView({'layout': 'grid'})
+        x, y = (0, 0)
         y = self._build_controls(y, x)
         y += 1
         self._build_fields(y)
-        # self.setLayout(layout)
         return self
 
     def initWidget(self) -> Any:
         """ """
-        # not to create a dialog model to replace this and mimic application models
         self.reset = None
         self.initModel(self.reset)
         self.initView()
@@ -152,11 +119,11 @@ class NchantdDynamicEntryForm(NchantdForm):
         self.rid = None
 
     def save_entry(self) -> None:
-        """"""
+        logma.info(f'save_entry called')
+        return self
 
     def entryFieldModels(self) -> Any:
-        """Combine and connect to the dynamic entry fields and controls in
-        the form"""
+        logma.info(f'entryFieldModels called')
         return self
 
     def handler(self, key, val: dict) -> Any:
@@ -167,7 +134,7 @@ class NchantdDynamicEntryForm(NchantdForm):
         """
         now = dt.datetime.now()
         if key not in self.values:
-            self.values[key] = {}  # can i get the original value?
+            self.values[key] = {}
         self.values[key][now] = val
         return self
 
@@ -181,7 +148,7 @@ class NchantdDynamicEntryForm(NchantdForm):
 
     def loadControls(self) -> Any:
         """ """
-        logma.info(f"New Button\n {self.entryBTNs.newbutton.__dir__()}")
+        logma.info(f'New Button\n {self.entryBTNs.newbutton.__dir__()}')
         if self.entryBTNs.newbutton.isEnabled:
             self.entryBTNs.newbutton.clicked.connect(self.newEntry)
         if self.entryBTNs.submitbutton.isEnabled:
@@ -198,69 +165,52 @@ class NchantdDynamicEntryForm(NchantdForm):
 
     def _build_controls(self, y=0, x=0) -> Any:
         """"""
-        # [DONE]
-        max_grid_x = self.config.dikt.get("max_x", x)
-        # for i, control in enumerate(self.config.dikt.get("controls", {})):
-        #     cfg = self.config.dikt["controls"][control]
-        #     self.controlWDGTs[control] = loadWidget(self, cfg)
-        #     self.controlWDGTs[control].initWidget(self.model.handlers[control])
-        #     self.layout.addWidget(self.controlWDGTs[control], y, x, 1, max_grid_x)
-        #    y += i
+        max_grid_x = self.config.dikt.get('max_x', x)
         return y
 
     def _build_fields(self, y=0, x=0, max_grid_x=1) -> Any:
         """"""
-        for i, field in enumerate(self.config.dikt.get("fields", {}).keys()):
-            logma.info(f"Field {field}")
-            cfg = (
-                self.config.dikt["fields"][field].copy() if isinstance(self.config.dikt["fields"][field], dict) else {}
-            )
-            # Add the field name to the configuration so the widget can display it as a label
-            if "label" not in cfg:
-                cfg["label"] = field
+        for i, field in enumerate(self.config.dikt.get('fields', {}).keys()):
+            logma.info(f'Field {field}')
+            cfg = self.config.dikt['fields'][field].copy() if isinstance(self.config.dikt['fields'][field], dict) else {}
+            if 'label' not in cfg:
+                cfg['label'] = field
             if isinstance(cfg, dict):
-                if cfg.get("store", ""):
-                    table = cfg["store"][cfg["store"].find(".") + 1 : cfg["store"].find("|")]
+                if cfg.get('store', ''):
+                    table = cfg['store'][cfg['store'].find('.') + 1:cfg['store'].find('|')]
                 else:
-                    table = "form"
-                db_field = f"{table}.{field}"
-                grid_x, grid_y = 0, y + i
-                if cfg.get("grid"):
-                    if "|" in str(cfg["grid"]):
-                        grid_y = int(cfg["grid"][: cfg["grid"].find("|")]) + y
-                        grid_x = int(cfg["grid"][cfg["grid"].find("|") + 1 :])
+                    table = 'form'
+                db_field = f'{table}.{field}'
+                grid_x, grid_y = (0, y + i)
+                if cfg.get('grid'):
+                    if '|' in str(cfg['grid']):
+                        grid_y = int(cfg['grid'][:cfg['grid'].find('|')]) + y
+                        grid_x = int(cfg['grid'][cfg['grid'].find('|') + 1:])
                         max_grid_x = grid_x if grid_x > max_grid_x else max_grid_x
                         self.fieldWDGTs[db_field] = loadWidget(self, cfg)
                         self.fieldWDGTs[db_field].initWidget()
                         self.layout.addWidget(self.fieldWDGTs[db_field], grid_y, grid_x)
                     else:
-                        grid_y = int(cfg["grid"]) + y
+                        grid_y = int(cfg['grid']) + y
                         self.fieldWDGTs[db_field] = loadWidget(self, cfg)
                         self.fieldWDGTs[db_field].initWidget()
                         self.layout.addWidget(self.fieldWDGTs[db_field], grid_y, 0, 1, max_grid_x)
                 else:
-                    # Add field with default grid position if grid not specified
                     self.fieldWDGTs[db_field] = loadWidget(self, cfg)
                     self.fieldWDGTs[db_field].initWidget()
                     self.layout.addWidget(self.fieldWDGTs[db_field], y + i, 0, 1, max_grid_x)
         return y
-
 
 class NchantdAPIEntryForm(NchantdDynamicEntryForm):
     """ """
 
     def __init__(self, parent=None, cfg={}) -> None:
         """ """
-        self.config = kahndor.Instruct(pxcfg).select("NchantdAPIEntryForm")
+        self.config = kahndor.Instruct(pxcfg).select('NchantdAPIEntryForm')
         self.config.override(cfg)
         if parent:
             self.config.override(parent.config)
         self.src = parent.src
         super().__init__(parent, self.config)
         self.buildPane()
-
-
-# ===========================Code Source Examples================================||
-"""
-"""
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+'\n'

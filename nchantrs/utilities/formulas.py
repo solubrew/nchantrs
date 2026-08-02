@@ -1,4 +1,3 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 """
 ---
 <(META)>:
@@ -10,61 +9,39 @@
         security: seclvl2
         <(WT)>: -32
 """
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 from typing import Any, Dict, Optional, Any
-
 import logging
-
-# ======================================3rd Party Library Modules=====================================================||
-
 logger = logging.getLogger(__name__)
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
-
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
 logma.off()
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", "formulas.yaml")
-
+pxcfg = join(here, '_data_', 'formulas.yaml')
 
 class NchantdFormula(object):
     """"""
 
-    def __init__(self, formula: str, cfg: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, formula: str, cfg: Optional[Dict[str, Any]]=None) -> None:
         """"""
         self.config = kahndor.Instruct(pxcfg).override(cfg)
         self.formula = formula
         self.parsed_formula = self.parse()
         self.value: Optional[Any] = None
 
-    def parse(self) -> "NchantdFormula":
-        """
-        need to parse and search out the base formulas used
-        :return:
-        """
+    def parse(self) -> 'NchantdFormula':
+        logma.info(f'parse called')
         return self
 
-    def compute(self, arguments: Optional[Dict[str, Any]] = None) -> Any:
-        """"""
+    def compute(self, arguments: Optional[Dict[str, Any]]=None) -> Any:
+        logma.info(f'compute called')
         return self
 
-    def get_value(self, refresh: bool = False) -> Optional[Any]:
+    def get_value(self, refresh: bool=False) -> Optional[Any]:
         """"""
         if self.value is None or refresh:
             self.compute()
         return self.value
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

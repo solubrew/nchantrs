@@ -1,4 +1,3 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 """
 ---
 <(META)>:
@@ -12,36 +11,22 @@
         security: seclvl2
         <(WT)>: -32
 """
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
-
-# ======================================3rd Party Library Modules=====================================================||
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
-
 import logging
 from nchantrs.libraries import qpandas
-
 logger = logging.getLogger(__name__)
 from kahndor.logma import Logma
 from subtrix import thing
-
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 logma = Logma(__name__)
 logma.off()
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", "tags.yaml")
-
+pxcfg = join(here, '_data_', 'tags.yaml')
 
 class TagGroup:
     """"""
 
-    def __init__(self, name: str, description: str = "", uuid: str = None) -> None:
+    def __init__(self, name: str, description: str='', uuid: str=None) -> None:
         """"""
         self.name = name
         self.description = description
@@ -50,11 +35,10 @@ class TagGroup:
             self.uuid = thing.What().uuid().ruuid
         self.tags = {}
 
-
 class Tag:
     """"""
 
-    def __init__(self, name: str, description: str = "", uuid: str = None) -> None:
+    def __init__(self, name: str, description: str='', uuid: str=None) -> None:
         """"""
         self.name = name
         self.description = description
@@ -63,15 +47,11 @@ class Tag:
             self.uuid = thing.What().uuid().ruuid
 
     def rename(self, name: str) -> None:
-        """"""
+        logma.info(f'rename called')
+        return self
 
-    def storage(self) -> "qpandas.DataFrame":
+    def storage(self) -> 'qpandas.DataFrame':
         """"""
-        columns = ["name", "description", "uuid"]
+        columns = ['name', 'description', 'uuid']
         df = qpandas.DataFrame([[self.name, self.description, self.uuid]], columns=columns)
         return df
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

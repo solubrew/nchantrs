@@ -1,4 +1,3 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 """
 ---
 <(META)>:
@@ -10,31 +9,19 @@
         security: seclvl2
         <(WT)>: -32
 """
-
-# -*- coding: utf-8 -*-
-# ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
-
-# ======================================3rd Party Library Modules=====================================================||
 from typing import Any, Callable, Dict, List, Optional
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidgetMixin
 from nchantrs.widgets.widgets import NchantdWidget
-
-# ====================================================================================================================||
-here = join(dirname(__file__), "")
+here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
 if not log:
     logma.off()
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", "selectors.yaml")
-
+pxcfg = join(here, '_data_', 'selectors.yaml')
 
 class NchantdSelectionDialog(NchantdWidget, pyqt.QDialog):
     """T-NEW-005 (item 3): reusable selection dialog for nchantrs.
@@ -61,25 +48,17 @@ class NchantdSelectionDialog(NchantdWidget, pyqt.QDialog):
     def __init__(self, title=None, choices=None, parent=None, cfg=None) -> None:
         super().__init__(parent)
         self.parent = parent
-        self.title = title or "Select"
+        self.title = title or 'Select'
         self.choices = list(choices or [])
         self.selected_callback: Optional[Callable[[], Any]] = None
-        # KAHNDOR config: best-effort; falls back silently when
-        # the yaml file is missing so the dialog still imports
-        # cleanly under headless test runners.
         try:
-            self.config = kahndor.Instruct(pxcfg).select(
-                "NchantdSelectionDialog"
-            )
-            if parent is not None and hasattr(parent, "config"):
+            self.config = kahndor.Instruct(pxcfg).select('NchantdSelectionDialog')
+            if parent is not None and hasattr(parent, 'config'):
                 self.config = self.config.override(parent.config)
             if cfg is not None:
                 self.config = self.config.override(cfg)
         except Exception as exc:
-            logma.warning(
-                f"[selectors] NchantdSelectionDialog: kahndor "
-                f"config fallback — {exc}"
-            )
+            logma.warning(f'[selectors] NchantdSelectionDialog: kahndor config fallback — {exc}')
             self.config = kahndor.Instruct({})
         self.initModel()
         self.initView()
@@ -96,22 +75,14 @@ class NchantdSelectionDialog(NchantdWidget, pyqt.QDialog):
         valid = []
         for entry in self.choices:
             if not isinstance(entry, dict):
-                logma.warning(
-                    "[selectors] NchantdSelectionDialog: skipping "
-                    "non-dict choice "
-                    f"{entry!r}"
-                )
+                logma.warning(f'[selectors] NchantdSelectionDialog: skipping non-dict choice {entry!r}')
                 continue
-            label = entry.get("label")
-            callback = entry.get("callback")
+            label = entry.get('label')
+            callback = entry.get('callback')
             if not isinstance(label, str) or not callback:
-                logma.warning(
-                    "[selectors] NchantdSelectionDialog: skipping "
-                    "choice missing label/callback "
-                    f"{entry!r}"
-                )
+                logma.warning(f'[selectors] NchantdSelectionDialog: skipping choice missing label/callback {entry!r}')
                 continue
-            valid.append({"label": label, "callback": callback})
+            valid.append({'label': label, 'callback': callback})
         self.choices = valid
         return self
 
@@ -128,26 +99,27 @@ class NchantdSelectionDialog(NchantdWidget, pyqt.QDialog):
         layout.addWidget(title_label)
         self.list_widget = pyqt.QListWidget()
         for entry in self.choices:
-            item = pyqt.QListWidgetItem(entry["label"])
-            # Stash the callback on the item for run_callback().
-            item.setData(pyqt.Qt.UserRole, entry["callback"])
+            item = pyqt.QListWidgetItem(entry['label'])
+            item.setData(pyqt.Qt.UserRole, entry['callback'])
             self.list_widget.addItem(item)
         layout.addWidget(self.list_widget)
-        # OK / Cancel buttons.
-        button_box = pyqt.QDialogButtonBox(
-            pyqt.QDialogButtonBox.Ok | pyqt.QDialogButtonBox.Cancel
-        )
+        button_box = pyqt.QDialogButtonBox(pyqt.QDialogButtonBox.Ok | pyqt.QDialogButtonBox.Cancel)
         button_box.accepted.connect(self.accept)
         button_box.rejected.connect(self.reject)
         layout.addWidget(button_box)
-        # Double-click on a row also triggers the callback.
         self.list_widget.itemDoubleClicked.connect(self.run_callback)
         self.setLayout(layout)
         self.setGeometry(300, 300, 500, 400)
         return self
 
     def initWidget(self) -> None:
-        """Hook any final widget bindings (T-NEW-005 item 3)."""
+        super_method = getattr(super(type(self), self), method_name, None)
+        if callable(super_method):
+            try:
+                super_method()
+            except TypeError:
+                pass
+        logma.info(f'initWidget {{type(self).__name__}}')
         return self
 
     def run_callback(self, item=None) -> None:
@@ -169,14 +141,7 @@ class NchantdSelectionDialog(NchantdWidget, pyqt.QDialog):
             try:
                 callback()
             except Exception as exc:
-                logma.error(
-                    f"[selectors] NchantdSelectionDialog callback failed: {exc}",
-                    exc_info=True,
-                )
-        # Headless / non-modal: don't call accept() because Qt
-        # may segfault when accepting a dialog that was never
-        # exec()'d. The test harness observes
-        # ``self.selected_callback`` to confirm the choice.
+                logma.error(f'[selectors] NchantdSelectionDialog callback failed: {exc}', exc_info=True)
         try:
             if self.isVisible():
                 self.accept()
@@ -191,7 +156,4 @@ class NchantdSelectionDialog(NchantdWidget, pyqt.QDialog):
         usage (``dlg.exec()`` / ``dlg.selected_callback``) works
         for headless tests that can't drive a real mouse click.
         """
-        # In the headless env (QT_QPA_PLATFORM=offscreen) the
-        # dialog can't actually show; tests bypass this via
-        # ``selected_callback`` and ``choices``.
         return super().exec()

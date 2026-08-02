@@ -1,40 +1,16 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 from typing import Any
-
-"""
----
-<(META)>:
-        docid:
-        name:
-        description: >
-        version: 0.0.0.0.0.0
-        authority: filesystem
-        security: seclvl2
-        <(WT)>: -32
-"""
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
+'\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
 from os.path import dirname, join
-
-# ======================================3rd Party Library Modules=====================================================||
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from nchantrs.utilities.users import NchantdUser
 from kahndor.logma import Logma
 from nchantrs.widgets.config.settings import NchantdSettingsWidget
 from nchantrs.widgets.tabsets import NchantdTab
-
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
 logma.off()
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", "accounts.yaml")
-
+pxcfg = join(here, '_data_', 'accounts.yaml')
 
 class NchantdAccountOverview(NchantdTab):
     """"""
@@ -42,7 +18,7 @@ class NchantdAccountOverview(NchantdTab):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdAccountOverview").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdAccountOverview').override(cfg))
         self.user = NchantdUser(self, self.config)
         self.address = None
         self.description = None
@@ -58,17 +34,13 @@ class NchantdAccountOverview(NchantdTab):
         return self
 
     def initView(self) -> Any:
-        """
-        Here we can implement a high security area of no view of secure information without a password
-        or have it viewable and only change with password
-        :return:
-        """
-        # if self.User().security == 'high':
-        # 	self.username = NchantdSecureEntryDisplay()
-        # 	self.email = NhcantdSecureEntryDisplay()
-        # 	self.apikey = NchantdSecureEntryDisplay()
-        # else:
-        #
+        super_method = getattr(super(type(self), self), method_name, None)
+        if callable(super_method):
+            try:
+                super_method()
+            except TypeError:
+                pass
+        logma.info(f'initView {{type(self).__name__}}')
         return self
 
     def initWidget(self) -> Any:
@@ -77,7 +49,6 @@ class NchantdAccountOverview(NchantdTab):
         self.initView()
         return self
 
-
 class NchantdAccountSettings(NchantdSettingsWidget):
     """"""
 
@@ -85,7 +56,7 @@ class NchantdAccountSettings(NchantdSettingsWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdAccountSettings").override(parent.config).override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdAccountSettings').override(parent.config).override(cfg))
 
     def initModel(self) -> Any:
         """"""
@@ -102,8 +73,3 @@ class NchantdAccountSettings(NchantdSettingsWidget):
         self.initModel()
         self.initView()
         return self
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

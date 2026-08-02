@@ -1,4 +1,3 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 """
 ---
 <(META)>:
@@ -10,123 +9,69 @@
         security: seclvl2
         <(WT)>: -32
 """
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 import enum
 import dataclasses
 import platform as _platform
 from typing import Optional
-
 import logging
 from collections.abc import Callable
-
 logger = logging.getLogger(__name__)
-
-# ======================================3rd Party Library Modules=====================================================||
-
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from kahndor.logma import Logma
 from nchantrs.widgets.browsers.utilities import NchantdURL
-
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 log = False
 logma = Logma(__name__)
 if not log:
     logma.off()
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", ".yaml")
-
-# ---------------------------------------------------------------------------||
-# Google sign-in "site-specific quirk".
-#
-# Google's OAuth/sign-in flow hard-blocks embedded browsers that identify as
-# Chrome ("Couldn't sign you in — this browser or app may not be secure"). The
-# proven workaround (used by qutebrowser and other QtWebEngine browsers) is to
-# advertise a *Firefox* User-Agent, but ONLY on the sign-in hosts — a Firefox UA
-# applied globally breaks many other sites. So we rewrite the User-Agent header
-# per-request for the account hosts and leave the modern Chrome UA everywhere
-# else. See qutebrowser issue #5182.
-#
-# ENABLED alongside a global Firefox profile UA (profiles.DEFAULT_USER_AGENT):
-# the profile UA is now Firefox, so this quirk REINFORCES a consistent Firefox
-# identity on the sign-in hosts (navigator.vendor/productSub/userAgentData +
-# window.chrome fixed to Firefox values) rather than contradicting a Chrome UA as
-# it did in earlier attempts. Set to False to fall back to the plain profile UA.
-# ---------------------------------------------------------------------------||
+pxcfg = join(here, '_data_', '.yaml')
 ENABLE_GOOGLE_LOGIN_QUIRK = True
-
-_FIREFOX_VERSION = "140.0"
-
-# Hosts that serve Google's sign-in / account challenge pages. Matched exactly
-# or as a dotted suffix (so "foo.accounts.google.com" also matches).
-GOOGLE_LOGIN_HOSTS = (
-    "accounts.google.com",
-    "accounts.youtube.com",
-)
-
+_FIREFOX_VERSION = '140.0'
+GOOGLE_LOGIN_HOSTS = ('accounts.google.com', 'accounts.youtube.com')
 
 def _quirk_platform_token() -> str:
     """UA platform token for the host OS, in Firefox's format."""
     system = _platform.system()
-    if system == "Windows":
-        return "Windows NT 10.0; Win64; x64"
-    if system == "Darwin":
-        return "Macintosh; Intel Mac OS X 10.15"
-    return "X11; Linux x86_64"
-
+    if system == 'Windows':
+        return 'Windows NT 10.0; Win64; x64'
+    if system == 'Darwin':
+        return 'Macintosh; Intel Mac OS X 10.15'
+    return 'X11; Linux x86_64'
 
 def google_login_user_agent() -> str:
     """Firefox User-Agent used on Google sign-in hosts (F2 quirk)."""
-    return (
-        f"Mozilla/5.0 ({_quirk_platform_token()}; rv:{_FIREFOX_VERSION}) "
-        f"Gecko/20100101 Firefox/{_FIREFOX_VERSION}"
-    )
-
+    return f'Mozilla/5.0 ({_quirk_platform_token()}; rv:{_FIREFOX_VERSION}) Gecko/20100101 Firefox/{_FIREFOX_VERSION}'
 
 def is_google_login_host(host) -> bool:
     """True if host is (or is under) a Google sign-in host."""
-    host = (host or "").lower()
-    return any(host == h or host.endswith("." + h) for h in GOOGLE_LOGIN_HOSTS)
-
+    host = (host or '').lower()
+    return any((host == h or host.endswith('.' + h) for h in GOOGLE_LOGIN_HOSTS))
 
 class NchantdLocalServiceRequestInterceptor(pyqt.QWebEngineUrlRequestInterceptor):
     """Request interceptor optimized for local services"""
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
-        self.local_hosts = {"localhost", "127.0.0.1", "0.0.0.0"}
+        self.local_hosts = {'localhost', '127.0.0.1', '0.0.0.0'}
 
     def interceptRequest(self, info) -> None:
         """Intercept requests and handle local service specifics"""
         url = info.requestUrl()
         host = url.host().lower()
-        # Log local service requests
         if host in self.local_hosts:
-            logma.info(f"Local service request: {url.toString()}")
-            # Add development headers for local services
+            logma.info(f'Local service request: {url.toString()}')
             headers = info.requestHeaders()
-            headers["X-Requested-With"] = b"LocalBrowser"
-            headers["X-Local-Development"] = b"true"
+            headers['X-Requested-With'] = b'LocalBrowser'
+            headers['X-Local-Development'] = b'true'
             info.setRequestHeaders(headers)
-
 
 class NchantdRequestInterceptor(pyqt.QWebEngineUrlRequestInterceptor):
     """"""
-
     BLOCK_JAVASCRIPT = True
-    RULES = [
-        {"type": "deny_domain", "value": "malicious-site.com"},
-        {"type": "deny_extension", "value": ".exe"},
-        {"type": "allow_only_domain", "value": "https://safe-site.com"},
-    ]
+    RULES = [{'type': 'deny_domain', 'value': 'malicious-site.com'}, {'type': 'deny_extension', 'value': '.exe'}, {'type': 'allow_only_domain', 'value': 'https://safe-site.com'}]
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
@@ -140,76 +85,32 @@ class NchantdRequestInterceptor(pyqt.QWebEngineUrlRequestInterceptor):
         """
         try:
             url = info.requestUrl().toString()
-            method = bytes(info.requestMethod()).decode("ascii", "replace")
+            method = bytes(info.requestMethod()).decode('ascii', 'replace')
             rtype = info.resourceType()
             fp = info.firstPartyUrl().toString()
-            is_api = "/api/" in url
-            is_ws = url.startswith("ws://") or url.startswith("wss://")
+            is_api = '/api/' in url
+            is_ws = url.startswith('ws://') or url.startswith('wss://')
             if is_api or is_ws:
-                logma.info(f"[req] {method} {url} | type={rtype} | api={is_api} ws={is_ws} | firstParty={fp}")
+                logma.info(f'[req] {method} {url} | type={rtype} | api={is_api} ws={is_ws} | firstParty={fp}')
             else:
-                logma.info(f"[req] {method} {url} | type={rtype}")
+                logma.info(f'[req] {method} {url} | type={rtype}')
         except Exception as e:
-            logma.error(f"[req] interceptor log failed: {e}")
-
-        # Google sign-in quirk: advertise Firefox on the account/login hosts so
-        # Google does not hard-block the embedded view (F2). Everything else keeps
-        # the profile's UA. Disabled by default — see ENABLE_GOOGLE_LOGIN_QUIRK.
+            logma.error(f'[req] interceptor log failed: {e}')
         try:
             if ENABLE_GOOGLE_LOGIN_QUIRK and is_google_login_host(info.requestUrl().host()):
-                info.setHttpHeader(b"User-Agent", google_login_user_agent().encode("ascii"))
+                info.setHttpHeader(b'User-Agent', google_login_user_agent().encode('ascii'))
         except Exception as e:
-            logma.error(f"[req] google login UA quirk failed: {e}")
+            logma.error(f'[req] google login UA quirk failed: {e}')
         return
-        # profile = info.profile()
-        # # data = profile.property("custom-data")
-        # logma.info(profile.url().toString())
-        # logma.info(f"URL Request intercepted: {info.requestUrl().toString()}")
-        # logma.info(f"Request Method: {info.requestMethod()}")
-        # # for header, value in info.requestHeaders().items():
-        # #     logma.info(f"Request Header: {header} - {value}")
-        #
-        # self._setup_security_rules()
-        # url = info.requestUrl()
-        # url_string = url.toString()
-        #
-        # # Log request for security monitoring
-        # logma.info(f"Request intercepted: {url_string}")
-        #
-        # if self.security_level in ("maximum", "high"):
-        #     # Check URL scheme
-        #     if url.scheme() not in self.allowed_schemes:
-        #         logma.info(f"Blocked request with disallowed scheme: {url.scheme()}")
-        #         info.block(True)
-        #         return
-        #     # Check for blocked domains
-        #     host = url.host().lower()
-        #     if host in self.blocked_domains:
-        #         logma.info(f"Blocked request to suspicious domain: {host}")
-        #         info.block(True)
-        #         return
-        #     # Check for blocked file extensions
-        #     path = url.path().lower()
-        #     for ext in self.blocked_extensions:
-        #         if path.endswith(ext):
-        #             logma.info(f"Blocked request for dangerous file: {path}")
-        #             info.block(True)
-        #             return
-        #     if self.BLOCK_JAVASCRIPT == True:
-        #         self._block_javascript(info)
-        #     # Security level specific filtering
-        #     if self.security_level == "maximum":
-        #         self._apply_maximum_security_filters(info)
-        #     elif self.security_level == "high":
-        #         self._apply_high_security_filters(info)
 
     def intercept_media(self) -> None:
-        """"""
+        logma.info(f'intercept_media called')
+        return self
 
     def _block_javascript(self, info) -> None:
         """"""
-        if info.requestUrl().toString().endswith(".js"):
-            logma.info(f"Blocking external script: {info.requestUrl().toString()}")
+        if info.requestUrl().toString().endswith('.js'):
+            logma.info(f'Blocking external script: {info.requestUrl().toString()}')
             info.block(True)
 
     def _check_allow(self) -> None:
@@ -217,56 +118,41 @@ class NchantdRequestInterceptor(pyqt.QWebEngineUrlRequestInterceptor):
 
     def _setup_security_rules(self) -> None:
         """Setup security rules based on security level"""
-        # self.security_manager = CrossPlatformSecurityManager()
-        # self.security_level = security_manager.security_config["security_level"]
-        self.security_level = "low"
-        if self.security_level == "low":
+        self.security_level = 'low'
+        if self.security_level == 'low':
             return
         self.blocked_domains = set()
         self.blocked_extensions = set()
-        self.allowed_schemes = {"https", "data"}
-
-        if self.security_level == "maximum":
-            # Maximum security: very restrictive
-            self.blocked_extensions.update({".exe", ".dll", ".bat", ".cmd", ".scr"})
-            self.allowed_schemes = {"https"}  # Only HTTPS
-
-        elif self.security_level == "high":
-            # High security: moderately restrictive
-            self.blocked_extensions.update({".exe", ".dll", ".bat", ".cmd"})
-            self.allowed_schemes.update({"http"})  # Allow HTTP
-
-        # Add known malicious domains (this would be populated from threat intelligence)
-        self.blocked_domains.update({"malicious-site.com", "suspicious-domain.net"})
+        self.allowed_schemes = {'https', 'data'}
+        if self.security_level == 'maximum':
+            self.blocked_extensions.update({'.exe', '.dll', '.bat', '.cmd', '.scr'})
+            self.allowed_schemes = {'https'}
+        elif self.security_level == 'high':
+            self.blocked_extensions.update({'.exe', '.dll', '.bat', '.cmd'})
+            self.allowed_schemes.update({'http'})
+        self.blocked_domains.update({'malicious-site.com', 'suspicious-domain.net'})
 
     def _apply_maximum_security_filters(self, info) -> None:
         """Apply maximum security filtering"""
         url_string = info.requestUrl().toString()
-
-        # Block all JavaScript files in maximum security mode
-        if url_string.endswith(".js"):
-            logma.info(f"Blocked JavaScript file in maximum security mode: {url_string}")
+        if url_string.endswith('.js'):
+            logma.info(f'Blocked JavaScript file in maximum security mode: {url_string}')
             info.block(True)
             return
-
-        # Block tracking and analytics
-        tracking_patterns = ["analytics", "tracking", "ads", "facebook", "google-analytics"]
-        if any(pattern in url_string.lower() for pattern in tracking_patterns):
-            logma.info(f"Blocked tracking request: {url_string}")
+        tracking_patterns = ['analytics', 'tracking', 'ads', 'facebook', 'google-analytics']
+        if any((pattern in url_string.lower() for pattern in tracking_patterns)):
+            logma.info(f'Blocked tracking request: {url_string}')
             info.block(True)
             return
 
     def _apply_high_security_filters(self, info) -> None:
         """Apply high security filtering"""
         url_string = info.requestUrl().toString()
-
-        # Block known ad and tracking domains
-        ad_patterns = ["/ads/", "/ad/", "doubleclick", "googlesyndication"]
-        if any(pattern in url_string.lower() for pattern in ad_patterns):
-            logma.info(f"Blocked advertising request: {url_string}")
+        ad_patterns = ['/ads/', '/ad/', 'doubleclick', 'googlesyndication']
+        if any((pattern in url_string.lower() for pattern in ad_patterns)):
+            logma.info(f'Blocked advertising request: {url_string}')
             info.block(True)
             return
-
 
 class ResourceType(enum.Enum):
     """Possible request types that can be received.
@@ -274,7 +160,6 @@ class ResourceType(enum.Enum):
     Currently corresponds to the QWebEngineUrlRequestInfo Enum:
     https://doc.qt.io/qt-6/qwebengineurlrequestinfo.html#ResourceType-enum
     """
-
     main_frame = 0
     sub_frame = 1
     stylesheet = 2
@@ -293,38 +178,28 @@ class ResourceType(enum.Enum):
     service_worker = 15
     csp_report = 16
     plugin_resource = 17
-    # 18 is "preload", deprecated in Chromium
     preload_main_frame = 19
     preload_sub_frame = 20
     json = 21
     websocket = 254
     unknown = 255
 
-
 class RedirectException(Exception):
     """Raised when the request was invalid, or a request was already made."""
-
 
 @dataclasses.dataclass
 class NchantdRequest:
     """A request which can be intercepted/blocked."""
-
-    #: The URL of the page being shown.
     first_party_url: Optional[NchantdURL]
-
-    #: The URL of the file being requested.
     request_url: NchantdURL
-
     is_blocked: bool = False
-
-    #: The resource type of the request. None if not supported on this backend.
     resource_type: Optional[ResourceType] = None
 
     def block(self) -> None:
         """Block this request."""
         self.is_blocked = True
 
-    def redirect(self, url: NchantdURL, *, ignore_unsupported: bool = False) -> None:
+    def redirect(self, url: NchantdURL, *, ignore_unsupported: bool=False) -> None:
         """Redirect this request.
 
         Only some types of requests can be successfully redirected.
@@ -338,13 +213,10 @@ class NchantdRequest:
                 redirected (such as POST) are silently ignored instead of throwing an
                 exception.
         """
-        # Will be overridden if the backend supports redirection
         raise NotImplementedError
-
 
 class CloudflareHandler(pyqt.QWebEngineView):
     """Handler for Cloudflare challenges"""
-
     challenge_detected = pyqt.Signal()
     challenge_completed = pyqt.Signal()
     challenge_failed = pyqt.Signal()
@@ -354,8 +226,7 @@ class CloudflareHandler(pyqt.QWebEngineView):
         self.challenge_timer = QTimer()
         self.challenge_timer.timeout.connect(self.check_challenge_status)
         self.page().loadFinished.connect(self.on_load_finished)
-        logma.info(f"CloudflareHandler initialized")
-
+        logma.info(f'CloudflareHandler initialized')
 
     def on_load_finished(self, success) -> None:
         """Check for Cloudflare challenge after page load"""
@@ -364,256 +235,34 @@ class CloudflareHandler(pyqt.QWebEngineView):
 
     def detect_cloudflare_challenge(self) -> None:
         """Detect if a Cloudflare challenge is present"""
-        js_code = """
-        (function() {
-            // Check for various Cloudflare challenge indicators
-            const challengeSelectors = [
-                '.cf-browser-verification',
-                '.cf-checking-browser',
-                '[data-sitekey]',
-                '#challenge-form',
-                '.challenge-container',
-                'input[name="cf_captcha_kind"]'
-            ];
-
-            let challengeFound = false;
-            let challengeType = null;
-
-            for (const selector of challengeSelectors) {
-                const element = document.querySelector(selector);
-                if (element) {
-                    challengeFound = true;
-                    challengeType = selector;
-                    break;
-                }
-            }
-
-            // Check for Turnstile widget specifically
-            const turnstileWidget = document.querySelector('[data-sitekey]');
-            const isTurnstile = turnstileWidget !== null;
-
-            return {
-                challenge_detected: challengeFound,
-                challenge_type: challengeType,
-                is_turnstile: isTurnstile,
-                page_title: document.title,
-                url: window.location.href,
-                ready_state: document.readyState
-            };
-        })();
-        """
-
+        js_code = '\n        (function() {\n            // Check for various Cloudflare challenge indicators\n            const challengeSelectors = [\n                \'.cf-browser-verification\',\n                \'.cf-checking-browser\',\n                \'[data-sitekey]\',\n                \'#challenge-form\',\n                \'.challenge-container\',\n                \'input[name="cf_captcha_kind"]\'\n            ];\n\n            let challengeFound = false;\n            let challengeType = null;\n\n            for (const selector of challengeSelectors) {\n                const element = document.querySelector(selector);\n                if (element) {\n                    challengeFound = true;\n                    challengeType = selector;\n                    break;\n                }\n            }\n\n            // Check for Turnstile widget specifically\n            const turnstileWidget = document.querySelector(\'[data-sitekey]\');\n            const isTurnstile = turnstileWidget !== null;\n\n            return {\n                challenge_detected: challengeFound,\n                challenge_type: challengeType,\n                is_turnstile: isTurnstile,\n                page_title: document.title,\n                url: window.location.href,\n                ready_state: document.readyState\n            };\n        })();\n        '
         self.page().runJavaScript(js_code, self.handle_challenge_detection)
 
     def handle_challenge_detection(self, result) -> None:
         """Handle challenge detection result"""
-        if result and result.get("challenge_detected"):
+        if result and result.get('challenge_detected'):
             logger.info(f"Cloudflare challenge detected: {result.get('challenge_type')}")
             self.challenge_detected.emit()
-
-            # Start monitoring for challenge completion
-            self.challenge_timer.start(1000)  # Check every second
-
-            # If it's a Turnstile widget, try to help it render
-            if result.get("is_turnstile"):
+            self.challenge_timer.start(1000)
+            if result.get('is_turnstile'):
                 self.help_turnstile_render()
         else:
-            logger.debug("No Cloudflare challenge detected")
+            logger.debug('No Cloudflare challenge detected')
 
     def help_turnstile_render(self) -> None:
         """Help Turnstile widget render properly"""
-        js_code = """
-        (function() {
-            // Force Turnstile to re-initialize
-            if (window.turnstile && window.turnstile.render) {
-                const widgets = document.querySelectorAll('[data-sitekey]');
-                widgets.forEach(function(widget, index) {
-                    if (!widget.innerHTML.trim()) {
-                        try {
-                            const sitekey = widget.getAttribute('data-sitekey');
-                            if (sitekey) {
-                                window.turnstile.render(widget, {
-                                    sitekey: sitekey,
-                                    callback: function(token) {
-                                        console.log('Turnstile completed:', token);
-                                    }
-                                });
-                            }
-                        } catch (e) {
-                            console.log('Turnstile render error:', e);
-                        }
-                    }
-                });
-            }
-
-            // Also try triggering resize events which can help with rendering
-            window.dispatchEvent(new Event('resize'));
-
-            return {
-                turnstile_available: typeof window.turnstile !== 'undefined',
-                widgets_found: document.querySelectorAll('[data-sitekey]').length
-            };
-        })();
-        """
-
-        self.page().runJavaScript(js_code, lambda result: logger.debug("Turnstile help result: %s", result))
+        js_code = "\n        (function() {\n            // Force Turnstile to re-initialize\n            if (window.turnstile && window.turnstile.render) {\n                const widgets = document.querySelectorAll('[data-sitekey]');\n                widgets.forEach(function(widget, index) {\n                    if (!widget.innerHTML.trim()) {\n                        try {\n                            const sitekey = widget.getAttribute('data-sitekey');\n                            if (sitekey) {\n                                window.turnstile.render(widget, {\n                                    sitekey: sitekey,\n                                    callback: function(token) {\n                                        console.log('Turnstile completed:', token);\n                                    }\n                                });\n                            }\n                        } catch (e) {\n                            console.log('Turnstile render error:', e);\n                        }\n                    }\n                });\n            }\n\n            // Also try triggering resize events which can help with rendering\n            window.dispatchEvent(new Event('resize'));\n\n            return {\n                turnstile_available: typeof window.turnstile !== 'undefined',\n                widgets_found: document.querySelectorAll('[data-sitekey]').length\n            };\n        })();\n        "
+        self.page().runJavaScript(js_code, lambda result: logger.debug('Turnstile help result: %s', result))
 
     def check_challenge_status(self) -> None:
         """Periodically check if challenge is completed"""
-        js_code = """
-        (function() {
-            // Check if we're still on a challenge page
-            const challengeSelectors = [
-                '.cf-browser-verification',
-                '.cf-checking-browser',
-                '#challenge-form'
-            ];
-
-            let stillChallenging = false;
-            for (const selector of challengeSelectors) {
-                if (document.querySelector(selector)) {
-                    stillChallenging = true;
-                    break;
-                }
-            }
-
-            // Check if Turnstile is completed
-            const turnstileCompleted = document.querySelector('input[name="cf-turnstile-response"]')?.value || false;
-
-            return {
-                still_challenging: stillChallenging,
-                turnstile_completed: !!turnstileCompleted,
-                current_url: window.location.href,
-                page_title: document.title
-            };
-        })();
-        """
-
+        js_code = '\n        (function() {\n            // Check if we\'re still on a challenge page\n            const challengeSelectors = [\n                \'.cf-browser-verification\',\n                \'.cf-checking-browser\',\n                \'#challenge-form\'\n            ];\n\n            let stillChallenging = false;\n            for (const selector of challengeSelectors) {\n                if (document.querySelector(selector)) {\n                    stillChallenging = true;\n                    break;\n                }\n            }\n\n            // Check if Turnstile is completed\n            const turnstileCompleted = document.querySelector(\'input[name="cf-turnstile-response"]\')?.value || false;\n\n            return {\n                still_challenging: stillChallenging,\n                turnstile_completed: !!turnstileCompleted,\n                current_url: window.location.href,\n                page_title: document.title\n            };\n        })();\n        '
         self.page().runJavaScript(js_code, self.handle_challenge_status)
 
     def handle_challenge_status(self, result) -> None:
         """Handle challenge status check"""
         if result:
-            if not result.get("still_challenging") and result.get("turnstile_completed"):
-                logger.info("Cloudflare challenge completed!")
+            if not result.get('still_challenging') and result.get('turnstile_completed'):
+                logger.info('Cloudflare challenge completed!')
                 self.challenge_timer.stop()
                 self.challenge_completed.emit()
-
-
-#
-#
-# #: Type annotation for an interceptor function.
-# InterceptorType = Callable[[NchantdRequest], None]
-#
-#
-# _interceptors: list[InterceptorType] = []
-#
-#
-#
-# def register(interceptor: InterceptorType) -> None:
-#     _interceptors.append(interceptor)
-#
-#
-# def run(info: NchantdRequest) -> None:
-#     for interceptor in _interceptors:
-#         interceptor(info)
-#
-# class SecureRequestInterceptor(QWebEngineUrlRequestInterceptor):
-#     """Security-enhanced request interceptor"""
-#
-#     def __init__(self, security_manager: CrossPlatformSecurityManager, parent=None):
-#         super().__init__(parent)
-#         self.security_manager = security_manager
-#         self.security_level = security_manager.security_config["security_level"]
-#
-#         # Define security rules based on security level
-#         self._setup_security_rules()
-#
-#     def _setup_security_rules(self):
-#         """Setup security rules based on security level"""
-#
-#         self.blocked_domains = set()
-#         self.blocked_extensions = set()
-#         self.allowed_schemes = {"https", "data"}
-#
-#         if self.security_level == "maximum":
-#             # Maximum security: very restrictive
-#             self.blocked_extensions.update({".exe", ".dll", ".bat", ".cmd", ".scr"})
-#             self.allowed_schemes = {"https"}  # Only HTTPS
-#
-#         elif self.security_level == "high":
-#             # High security: moderately restrictive
-#             self.blocked_extensions.update({".exe", ".dll", ".bat", ".cmd"})
-#             self.allowed_schemes.update({"http"})  # Allow HTTP
-#
-#         # Add known malicious domains (this would be populated from threat intelligence)
-#         self.blocked_domains.update({"malicious-site.com", "suspicious-domain.net"})
-#
-#     def interceptRequest(self, info):
-#         """Intercept and filter requests based on security policy"""
-#
-#         url = info.requestUrl()
-#         url_string = url.toString()
-#
-#         # Log request for security monitoring
-#         logma.info(f"Request intercepted: {url_string}")
-#
-#         # Check URL scheme
-#         if url.scheme() not in self.allowed_schemes:
-#             logma.info(f"Blocked request with disallowed scheme: {url.scheme()}")
-#             info.block(True)
-#             return
-#
-#         # Check for blocked domains
-#         host = url.host().lower()
-#         if host in self.blocked_domains:
-#             logma.info(f"Blocked request to suspicious domain: {host}")
-#             info.block(True)
-#             return
-#
-#         # Check for blocked file extensions
-#         path = url.path().lower()
-#         for ext in self.blocked_extensions:
-#             if path.endswith(ext):
-#                 logma.info(f"Blocked request for dangerous file: {path}")
-#                 info.block(True)
-#                 return
-#
-#         # Security level specific filtering
-#         if self.security_level == "maximum":
-#             self._apply_maximum_security_filters(info)
-#         elif self.security_level == "high":
-#             self._apply_high_security_filters(info)
-#
-#     def _apply_maximum_security_filters(self, info):
-#         """Apply maximum security filtering"""
-#         url_string = info.requestUrl().toString()
-#
-#         # Block all JavaScript files in maximum security mode
-#         if url_string.endswith(".js"):
-#             logma.info(f"Blocked JavaScript file in maximum security mode: {url_string}")
-#             info.block(True)
-#             return
-#
-#         # Block tracking and analytics
-#         tracking_patterns = ["analytics", "tracking", "ads", "facebook", "google-analytics"]
-#         if any(pattern in url_string.lower() for pattern in tracking_patterns):
-#             logma.info(f"Blocked tracking request: {url_string}")
-#             info.block(True)
-#             return
-#
-#     def _apply_high_security_filters(self, info):
-#         """Apply high security filtering"""
-#         url_string = info.requestUrl().toString()
-#
-#         # Block known ad and tracking domains
-#         ad_patterns = ["/ads/", "/ad/", "doubleclick", "googlesyndication"]
-#         if any(pattern in url_string.lower() for pattern in ad_patterns):
-#             logma.info(f"Blocked advertising request: {url_string}")
-#             info.block(True)
-#             return
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

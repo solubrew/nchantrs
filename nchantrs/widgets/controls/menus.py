@@ -1,40 +1,16 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 from typing import Any
-
-"""
----
-<(META)>:
-        docid:
-        name:
-        description: >
-        version: 0.0.0.0.0.0
-        authority: filesystem
-        security: seclvl2
-        <(WT)>: -32
-"""
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
+'\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
 from os.path import abspath, dirname, join
-
-# ======================================3rd Party Library Modules=====================================================||
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from nchantrs.utilities.utils import convert_df_to_tree, lookup
 from nchantrs.libraries import pyqt
 from kahndor.logma import Logma
-
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 logma = Logma(__name__)
 log = False
 if not log:
     logma.off()
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", "menus.yaml")
-
+pxcfg = join(here, '_data_', 'menus.yaml')
 
 class NchantdMenu(pyqt.QMenu):
     """ """
@@ -43,37 +19,39 @@ class NchantdMenu(pyqt.QMenu):
         """ """
         super().__init__()
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdMenu").override(parent.config).override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('NchantdMenu').override(parent.config).override(cfg)
         self.actions = None
         self.menus = {}
 
     def initModel(self) -> Any:
         """ """
-        # need to lookup the action
-        self.actions = self.config.dikt.get("actions", [])
+        self.actions = self.config.dikt.get('actions', [])
         return self
 
     def initView(self) -> Any:
         """ """
         for action in self.actions:
-            # logma.info(f"Action {action}")
             if isinstance(action, str):
                 action = lookup(self.parent, action, None, True, True, False)
-                # logma.info(f"Action {action}")
             elif isinstance(action, int):
                 action = lookup(self.parent, action, None, True, True, False)
-                # logma.info(f"Action {action}")
-            self.add_action(action.get("name_txt", None), action.get("handler", None))
+            self.add_action(action.get('name_txt', None), action.get('handler', None))
         return self
 
     def initWidget(self) -> Any:
-        """ """
+        super_method = getattr(super(type(self), self), method_name, None)
+        if callable(super_method):
+            try:
+                super_method()
+            except TypeError:
+                pass
+        logma.info(f'initWidget {{type(self).__name__}}')
         return self
 
     def add_action(self, title, handler) -> Any:
         """"""
         action = pyqt.QAction(title, self)
-        if handler is not None and handler != "":
+        if handler is not None and handler != '':
             handler = getattr(self.parent, handler)
             action.triggered.connect(handler)
         self.addAction(action)
@@ -83,28 +61,25 @@ class NchantdMenu(pyqt.QMenu):
         """Build menu from menu configuration tree"""
         if menus is None:
             return self
-        for code, subcode in menus.items():  # ||Menubar Code
-            logma.info(f"Code {code} Subcode {subcode}")
-            logma.info(f"Menus {self.menus}")
-            # menu_cfg = lookup(self.parent.app, code, None, True, True, False)
-            menu_cfg = self.menu_df[self.menu_df["name_txt"] == code].to_dict("records")[0]
-            logma.info(f"Menu {menu_cfg}")
-            if menu_cfg["name_txt"] is None:
-                menu_cfg["name_txt"] = code
+        for code, subcode in menus.items():
+            logma.info(f'Code {code} Subcode {subcode}')
+            logma.info(f'Menus {self.menus}')
+            menu_cfg = self.menu_df[self.menu_df['name_txt'] == code].to_dict('records')[0]
+            logma.info(f'Menu {menu_cfg}')
+            if menu_cfg['name_txt'] is None:
+                menu_cfg['name_txt'] = code
             if menu not in self.menus:
                 self.menus[menu] = self.addMenu(f"{menu_cfg['name_txt']}")
             self.menus[code] = self.menus[menu].addMenu(f"{menu_cfg['name_txt']}")
-            # self.menus[code] = self.addMenu(f"{menu_cfg['name_txt']}")
-            if subcode is not None and not subcode == {}:
+            if subcode is not None and (not subcode == {}):
                 self.buildMenu(code, subcode)
             else:
                 logma.info(f"Action {menu_cfg['name_txt']} {menu_cfg['handler']}")
-                if menu_cfg["handler"] is None or menu_cfg["handler"] == "":
+                if menu_cfg['handler'] is None or menu_cfg['handler'] == '':
                     continue
-                if hasattr(self.parent, menu_cfg.get("handler", None)):
-                    self.add_action(menu_cfg["name_txt"], getattr(self.parent, menu_cfg["handler"]))
+                if hasattr(self.parent, menu_cfg.get('handler', None)):
+                    self.add_action(menu_cfg['name_txt'], getattr(self.parent, menu_cfg['handler']))
         return self
-
 
 class NchantdContextMenu(NchantdMenu):
     """"""
@@ -113,7 +88,7 @@ class NchantdContextMenu(NchantdMenu):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdContextMenu").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdContextMenu').override(cfg))
         self.menu_data = None
         self.name = None
         self.menu_df = None
@@ -121,7 +96,7 @@ class NchantdContextMenu(NchantdMenu):
     def initModel(self) -> Any:
         """"""
         super().initModel()
-        self.name = self.config.dikt.get("name", None)
+        self.name = self.config.dikt.get('name', None)
         return self
 
     def initView(self) -> Any:
@@ -138,19 +113,18 @@ class NchantdContextMenu(NchantdMenu):
 
     def get_menu(self, name=None) -> Any:
         """"""
-        logma.info(f"Name {name}")
+        logma.info(f'Name {name}')
         if name:
             self.name = name
-        # menus are cached application-wide by the model; see invalidate_cache
         self.menu_df = self.parent.app.model.get_menu(self.name)
-        logma.info(f"Menu Data {self.menu_df.head()}")
+        logma.info(f'Menu Data {self.menu_df.head()}')
         menu_data = convert_df_to_tree(self.menu_df)
-        logma.info(f"Menu Data {menu_data}")
+        logma.info(f'Menu Data {menu_data}')
         if self.menu_data is None:
             self.menu_data = menu_data
         else:
             self.menu_data.update(menu_data)
-        logma.info(f"Menu Data {self.menu_data.keys()}")
+        logma.info(f'Menu Data {self.menu_data.keys()}')
         self.buildMenu(self.name, self.menu_data)
         return self
 
@@ -163,8 +137,3 @@ class NchantdContextMenu(NchantdMenu):
         """
         self.parent.app.model.invalidate_menu_cache(name)
         return self
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

@@ -1,49 +1,25 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 from typing import Any
-
-"""
----
-<(META)>:
-    docid:
-    name:
-    description: >
-    version: 0.0.0.0.0.0
-    authority: filesystem
-    security: seclvl2
-    <(WT)>: -32
-"""
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
+'\n---\n<(META)>:\n    docid:\n    name:\n    description: >\n    version: 0.0.0.0.0.0\n    authority: filesystem\n    security: seclvl2\n    <(WT)>: -32\n'
 from os.path import abspath, dirname, join
 import datetime as dt
-
 import logging
-
-
 logger = logging.getLogger(__name__)
-# ======================================3rd Party Library Modules=====================================================||
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
-
 from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.controls.checkboxes import NchantdCheckbox
 from nchantrs.widgets.media.editors.editors import NchantdEntryEditor, NchantdEntryBox
 from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.controls.buttons import NchantdButton
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
 logma.off()
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", "entries.yaml")
-
+pxcfg = join(here, '_data_', 'entries.yaml')
 
 class NchantdEntryEditorExplainer(NchantdWidget):
     """"""
+
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
@@ -53,8 +29,7 @@ class NchantdEntryEditorExplainer(NchantdWidget):
         super().__init__(self)
         self.config.override(cfg)
         self.explainer = None
-        logma.info(f"NchantdEntryEditorExplainer initialized")
-
+        logma.info(f'NchantdEntryEditorExplainer initialized')
 
     def initModel(self) -> Any:
         """"""
@@ -87,6 +62,7 @@ class NchantdEntryEditorExplainer(NchantdWidget):
 
 class NchantdActivateEntry(NchantdWidget):
     """"""
+
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
@@ -104,10 +80,8 @@ class NchantdActivateEntry(NchantdWidget):
     def initView(self) -> Any:
         """Initialize the view with checkable button via config only"""
         super().initView()
-        cfg = self.config.override({"checkable": True}).dikt
+        cfg = self.config.override({'checkable': True}).dikt
         self.enable_button = NchantdButton(self, cfg).initWidget()
-        # Note: setCheckable(True) is now handled by NchantdButton.initView() via config
-        # Do NOT call setCheckable again here - it causes PySide6 bug
         self.layout.addWidget(self.enable_button)
         cfg = self.config.override({}).dikt
         self.editor = NchantdEntryBox(self, cfg).initWidget()
@@ -122,6 +96,7 @@ class NchantdActivateEntry(NchantdWidget):
 
 class NchantdCheckboxEditor(NchantdWidget):
     """"""
+
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
@@ -138,13 +113,13 @@ class NchantdCheckboxEditor(NchantdWidget):
 
     def initView(self) -> Any:
         """"""
-        cfg = {"layout": "horizontal"}
+        cfg = {'layout': 'horizontal'}
         super().initView(cfg)
-        cfg = {"text": self.config.dikt.get("label", "Missing Label"), "size": self.config.dikt.get("size", ["auto", "auto"])}
+        cfg = {'text': self.config.dikt.get('label', 'Missing Label'), 'size': self.config.dikt.get('size', ['auto', 'auto'])}
         self.checkbox = NchantdCheckbox(self, cfg).initWidget()
         self.layout.addWidget(self.checkbox)
-        cfg = self.config.dikt.get("entrybox")
-        cfg["size"] = ["auto", "auto"]
+        cfg = self.config.dikt.get('entrybox')
+        cfg['size'] = ['auto', 'auto']
         self.entrybox = NchantdEntryBox(self, cfg).initWidget()
         self.entrybox.setMinimumHeight(30)
         self.layout.addWidget(self.entrybox)
@@ -155,7 +130,3 @@ class NchantdCheckboxEditor(NchantdWidget):
         self.initModel()
         self.initView()
         return self
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

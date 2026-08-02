@@ -1,28 +1,8 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 from typing import Any
-
-"""
----
-<(META)>:
-    docid:
-    name:
-    description: >
-    version: 0.0.0.0.0.0
-    authority: filesystem
-    security: seclvl2
-    <(WT)>: -32
-"""
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
+'\n---\n<(META)>:\n    docid:\n    name:\n    description: >\n    version: 0.0.0.0.0.0\n    authority: filesystem\n    security: seclvl2\n    <(WT)>: -32\n'
 from os.path import dirname, join
 import math
-
 import logging
-
-# ======================================3rd Party Library Modules=====================================================||
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.controls.button_groups import NchantdMathPad, NchantdNumberPad
@@ -31,34 +11,28 @@ from nchantrs.widgets.media.editors.editors import NchantdEntryBox
 from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.tabsets import NchantdTab
 from kahndor.logma import Logma
-
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
 logma.off()
+pxcfg = join(here, '_data_', 'calculators.yaml')
 
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", "calculators.yaml")
-
-# NOTE need to route number keys to calculator when the widget is active from number line and number pad
 class NchantdCalculator(NchantdTab):
     """"""
-
     NumDigitButtons = 10
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCalculator").override(cfg))
-        self.pendingAdditiveOperator = ""
-        self.pendingMultiplicativeOperator = ""
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdCalculator').override(cfg))
+        self.pendingAdditiveOperator = ''
+        self.pendingMultiplicativeOperator = ''
         self.sumInMemory = 0.0
         self.sumSoFar = 0.0
         self.factorSoFar = 0.0
         self.waitingForOperand = True
         self.calculation_history = []
-        self.current_expression = ""
+        self.current_expression = ''
         self.pointButton = None
         self.changeSignButton = None
         self.backspaceButton = None
@@ -85,16 +59,13 @@ class NchantdCalculator(NchantdTab):
 
     def initView(self) -> Any:
         """"""
-        super().initView({"layout": "grid"})
+        super().initView({'layout': 'grid'})
         self.setDisplay()
         self.buildKeyBoard()
-
-        # Set uniform stretching for columns and rows to fill space evenly
         for col in range(6):
             self.layout.setColumnStretch(col, 1)
         for row in range(6):
             self.layout.setRowStretch(row, 1)
-
         self.layout.addWidget(self.display, 0, 0, 1, 6)
         self.layout.addWidget(self.backspaceButton, 1, 0, 1, 2)
         self.layout.addWidget(self.clearButton, 1, 2, 1, 2)
@@ -103,12 +74,10 @@ class NchantdCalculator(NchantdTab):
         self.layout.addWidget(self.readMemoryButton, 3, 0)
         self.layout.addWidget(self.setMemoryButton, 4, 0)
         self.layout.addWidget(self.addToMemoryButton, 5, 0)
-
         for i in range(1, self.NumDigitButtons):
-            row = int(((9 - i) / 3) + 2)
-            column = int(((i - 1) % 3) + 1)
+            row = int((9 - i) / 3 + 2)
+            column = int((i - 1) % 3 + 1)
             self.layout.addWidget(self.digitButtons[i], row, column)
-
         self.layout.addWidget(self.digitButtons[0], 5, 1)
         self.layout.addWidget(self.pointButton, 5, 2)
         self.layout.addWidget(self.changeSignButton, 5, 3)
@@ -132,19 +101,15 @@ class NchantdCalculator(NchantdTab):
         """Handle additive operations: + and -"""
         clickedButton = self.sender()
         clickedOperator = clickedButton.text()
-
         try:
             operand = float(self._get_current_line())
         except ValueError:
             self.abortOperation()
             return
-
-        # Build expression string
         if not self.current_expression:
             self.current_expression = str(operand)
         else:
-            self.current_expression += " " + str(operand)
-
+            self.current_expression += ' ' + str(operand)
         if self.pendingMultiplicativeOperator:
             if not self.calculate(operand, self.pendingMultiplicativeOperator):
                 self.abortOperation()
@@ -152,8 +117,7 @@ class NchantdCalculator(NchantdTab):
             self._set_current_line(str(self.factorSoFar))
             operand = self.factorSoFar
             self.factorSoFar = 0.0
-            self.pendingMultiplicativeOperator = ""
-
+            self.pendingMultiplicativeOperator = ''
         if self.pendingAdditiveOperator:
             if not self.calculate(operand, self.pendingAdditiveOperator):
                 self.abortOperation()
@@ -161,8 +125,7 @@ class NchantdCalculator(NchantdTab):
             self._set_current_line(str(self.sumSoFar))
         else:
             self.sumSoFar = operand
-
-        self.current_expression += " " + clickedOperator
+        self.current_expression += ' ' + clickedOperator
         self.pendingAdditiveOperator = clickedOperator
         self.waitingForOperand = True
 
@@ -170,19 +133,15 @@ class NchantdCalculator(NchantdTab):
         """Handle multiplicative operations: × and ÷"""
         clickedButton = self.sender()
         clickedOperator = clickedButton.text()
-
         try:
             operand = float(self._get_current_line())
         except ValueError:
             self.abortOperation()
             return
-
-        # Build expression string
         if not self.current_expression:
             self.current_expression = str(operand)
         else:
-            self.current_expression += " " + str(operand)
-
+            self.current_expression += ' ' + str(operand)
         if self.pendingMultiplicativeOperator:
             if not self.calculate(operand, self.pendingMultiplicativeOperator):
                 self.abortOperation()
@@ -190,8 +149,7 @@ class NchantdCalculator(NchantdTab):
             self._set_current_line(str(self.factorSoFar))
         else:
             self.factorSoFar = operand
-
-        self.current_expression += " " + clickedOperator
+        self.current_expression += ' ' + clickedOperator
         self.pendingMultiplicativeOperator = clickedOperator
         self.waitingForOperand = True
 
@@ -199,67 +157,57 @@ class NchantdCalculator(NchantdTab):
         """Handle unary operations: Sqrt, Square, Reciprocal"""
         clickedButton = self.sender()
         clickedOperator = clickedButton.text()
-
         try:
             operand = float(self._get_current_line())
         except ValueError:
             self.abortOperation()
             return
-
         try:
-            if clickedOperator == "Sqrt":
+            if clickedOperator == 'Sqrt':
                 if operand < 0.0:
                     self.abortOperation()
                     return
                 result = math.sqrt(operand)
-            elif clickedOperator == "x\N{SUPERSCRIPT TWO}":
+            elif clickedOperator == 'x²':
                 result = math.pow(operand, 2.0)
-            elif clickedOperator == "1/x":
+            elif clickedOperator == '1/x':
                 if operand == 0.0:
                     self.abortOperation()
                     return
                 result = 1.0 / operand
             else:
-                logma.warning(f"Unknown unary operator: {clickedOperator}")
+                logma.warning(f'Unknown unary operator: {clickedOperator}')
                 return
-
             self._set_current_line(str(result))
             self.waitingForOperand = True
         except Exception as e:
-            logma.error(f"Error in unary operation: {e}")
+            logma.error(f'Error in unary operation: {e}')
             self.abortOperation()
 
     def digitClicked(self) -> None:
         """Handle digit button clicks (0-9)"""
         clickedButton = self.sender()
-
         try:
             digitValue = int(clickedButton.text())
         except ValueError:
             return
-
         current_text = self._get_current_line()
-        if current_text == "0" and digitValue == 0:
+        if current_text == '0' and digitValue == 0:
             return
-
         if self.waitingForOperand:
-            self._set_current_line("")
+            self._set_current_line('')
             self.waitingForOperand = False
-            # If starting fresh after equals, start on a new line
-            if not self.pendingAdditiveOperator and not self.pendingMultiplicativeOperator and self.calculation_history:
-                self._update_display("\n".join(self.calculation_history[-10:]) + "\n")
-
+            if not self.pendingAdditiveOperator and (not self.pendingMultiplicativeOperator) and self.calculation_history:
+                self._update_display('\n'.join(self.calculation_history[-10:]) + '\n')
         self._set_current_line(self._get_current_line() + str(digitValue))
 
     def pointClicked(self) -> None:
         """Handle decimal point entry"""
         if self.waitingForOperand:
-            self._set_current_line("0")
-
+            self._set_current_line('0')
         current_text = self._get_current_line()
-        if current_text and "." not in current_text:
-            self._set_current_line(current_text + ".")
-
+        if current_text and '.' not in current_text:
+            self._set_current_line(current_text + '.')
         self.waitingForOperand = False
 
     def changeSignClicked(self) -> None:
@@ -268,7 +216,7 @@ class NchantdCalculator(NchantdTab):
             text = self._get_current_line()
             value = float(text)
             if value > 0.0:
-                text = "-" + text
+                text = '-' + text
             elif value < 0.0:
                 text = text[1:]
             self._set_current_line(text)
@@ -281,7 +229,7 @@ class NchantdCalculator(NchantdTab):
             return
         text = self._get_current_line()[:-1]
         if not text:
-            text = "0"
+            text = '0'
             self.waitingForOperand = True
         self._set_current_line(text)
 
@@ -289,18 +237,18 @@ class NchantdCalculator(NchantdTab):
         """Clear current entry"""
         if self.waitingForOperand:
             return
-        self._set_current_line("0")
+        self._set_current_line('0')
         self.waitingForOperand = True
 
     def clearAll(self) -> None:
         """Clear all calculations and history"""
         self.sumSoFar = 0.0
         self.factorSoFar = 0.0
-        self.pendingAdditiveOperator = ""
-        self.pendingMultiplicativeOperator = ""
+        self.pendingAdditiveOperator = ''
+        self.pendingMultiplicativeOperator = ''
         self.calculation_history = []
-        self.current_expression = ""
-        self._update_display("0")
+        self.current_expression = ''
+        self._update_display('0')
         self.waitingForOperand = True
 
     def clearMemory(self) -> None:
@@ -335,93 +283,73 @@ class NchantdCalculator(NchantdTab):
         except ValueError:
             self.abortOperation()
             return
-
-        # Complete the expression with the final operand
         if not self.current_expression:
             expression = str(operand)
         else:
-            expression = self.current_expression + " " + str(operand)
-
+            expression = self.current_expression + ' ' + str(operand)
         if self.pendingMultiplicativeOperator:
             if not self.calculate(operand, self.pendingMultiplicativeOperator):
                 self.abortOperation()
                 return
             operand = self.factorSoFar
             self.factorSoFar = 0.0
-            self.pendingMultiplicativeOperator = ""
-
+            self.pendingMultiplicativeOperator = ''
         if self.pendingAdditiveOperator:
             if not self.calculate(operand, self.pendingAdditiveOperator):
                 self.abortOperation()
                 return
-            self.pendingAdditiveOperator = ""
+            self.pendingAdditiveOperator = ''
         else:
             self.sumSoFar = operand
-
         result = str(self.sumSoFar)
-
-        # Add to history
         self._add_to_history(expression, result)
-
-        # Reset expression for next calculation
-        self.current_expression = ""
+        self.current_expression = ''
         self.sumSoFar = 0.0
         self.waitingForOperand = True
 
     def abortOperation(self) -> None:
         """Abort operation and display error state"""
         self.clearAll()
-        self._set_current_line("Error")
+        self._set_current_line('Error')
 
     def _get_current_line(self) -> Any:
         """Get the current line (last line) from the display"""
         text = self.display.toPlainText()
-        lines = text.split("\n")
-        return lines[-1] if lines else "0"
+        lines = text.split('\n')
+        return lines[-1] if lines else '0'
 
     def _set_current_line(self, value) -> None:
         """Set the current line (last line) in the display"""
         text = self.display.toPlainText()
-        lines = text.split("\n")
+        lines = text.split('\n')
         if len(lines) > 0:
             lines[-1] = value
         else:
             lines = [value]
-        self._update_display("\n".join(lines))
+        self._update_display('\n'.join(lines))
 
     def _update_display(self, text) -> None:
         """Update display with proper bottom alignment"""
-        # Calculate how many empty lines we need to push content to bottom
-        lines = text.split("\n")
+        lines = text.split('\n')
         font_metrics = self.display.fontMetrics()
         line_height = font_metrics.lineSpacing()
         display_height = self.display.viewport().height()
-
-        # Calculate number of lines that fit in the display
         max_lines = max(1, display_height // line_height)
         current_lines = len(lines)
-
-        # Add empty lines at the top to push content to bottom
         padding_lines = max(0, max_lines - current_lines - 1)
-        padded_text = "\n" * padding_lines + text
-
-        # Use HTML to ensure right alignment
-        html_text = padded_text.replace("\n", "<br>")
+        padded_text = '\n' * padding_lines + text
+        html_text = padded_text.replace('\n', '<br>')
         self.display.setHtml(f'<div style="text-align: right;">{html_text}</div>')
-
-        # Scroll to bottom
         self.display.moveCursor(pyqt.QTextCursor.MoveOperation.End)
         scrollbar = self.display.verticalScrollBar()
         scrollbar.setValue(scrollbar.maximum())
 
     def _add_to_history(self, expression, result) -> None:
         """Add a calculation to history and update display"""
-        history_line = f"{expression} = {result}"
+        history_line = f'{expression} = {result}'
         self.calculation_history.append(history_line)
-
-        # Update display: show history + current result
-        display_text = "\n".join(self.calculation_history[-10:])  # Keep last 10 calculations
-        display_text += f"\n{result}"
+        display_text = '\n'.join(self.calculation_history[-10:])
+        display_text += f'\n{result}'
         self._update_display(display_text)
 
     def buildKeyBoard(self) -> Any:
@@ -429,36 +357,28 @@ class NchantdCalculator(NchantdTab):
         self.digitButtons = []
         for i in range(self.NumDigitButtons):
             self.digitButtons.append(self.createButton(str(i), self.digitClicked))
-
-        self.pointButton = self.createButton(".", self.pointClicked)
-        self.changeSignButton = self.createButton("\N{PLUS-MINUS SIGN}", self.changeSignClicked)
-        self.backspaceButton = self.createButton("Backspace", self.backspaceClicked)
-        self.clearButton = self.createButton("Clear", self.clear)
-        self.clearAllButton = self.createButton("Clear All", self.clearAll)
-        self.clearMemoryButton = self.createButton("MC", self.clearMemory)
-        self.readMemoryButton = self.createButton("MR", self.readMemory)
-        self.setMemoryButton = self.createButton("MS", self.setMemory)
-        self.addToMemoryButton = self.createButton("M+", self.addToMemory)
-        self.divisionButton = self.createButton("\N{DIVISION SIGN}", self.multiplicativeOperatorClicked)
-        self.timesButton = self.createButton("\N{MULTIPLICATION SIGN}", self.multiplicativeOperatorClicked)
-        self.minusButton = self.createButton("-", self.additiveOperatorClicked)
-        self.plusButton = self.createButton("+", self.additiveOperatorClicked)
-        self.squareRootButton = self.createButton("Sqrt", self.unaryOperatorClicked)
-        self.powerButton = self.createButton("x\N{SUPERSCRIPT TWO}", self.unaryOperatorClicked)
-        self.reciprocalButton = self.createButton("1/x", self.unaryOperatorClicked)
-        self.equalButton = self.createButton("=", self.equalClicked)
+        self.pointButton = self.createButton('.', self.pointClicked)
+        self.changeSignButton = self.createButton('±', self.changeSignClicked)
+        self.backspaceButton = self.createButton('Backspace', self.backspaceClicked)
+        self.clearButton = self.createButton('Clear', self.clear)
+        self.clearAllButton = self.createButton('Clear All', self.clearAll)
+        self.clearMemoryButton = self.createButton('MC', self.clearMemory)
+        self.readMemoryButton = self.createButton('MR', self.readMemory)
+        self.setMemoryButton = self.createButton('MS', self.setMemory)
+        self.addToMemoryButton = self.createButton('M+', self.addToMemory)
+        self.divisionButton = self.createButton('÷', self.multiplicativeOperatorClicked)
+        self.timesButton = self.createButton('×', self.multiplicativeOperatorClicked)
+        self.minusButton = self.createButton('-', self.additiveOperatorClicked)
+        self.plusButton = self.createButton('+', self.additiveOperatorClicked)
+        self.squareRootButton = self.createButton('Sqrt', self.unaryOperatorClicked)
+        self.powerButton = self.createButton('x²', self.unaryOperatorClicked)
+        self.reciprocalButton = self.createButton('1/x', self.unaryOperatorClicked)
+        self.equalButton = self.createButton('=', self.equalClicked)
         return self
 
     def calculate(self, rightOperand: float, pendingOperator: str) -> bool:
         """Perform calculation based on operator using dictionary lookup"""
-        # Dictionary for switch_abuse replacement - maps operators to calculation methods
-        OPERATOR_METHODS = {
-            "+": "_apply_add",
-            "-": "_apply_subtract",
-            "\N{MULTIPLICATION SIGN}": "_apply_multiply",
-            "\N{DIVISION SIGN}": "_apply_divide",
-        }
-
+        OPERATOR_METHODS = {'+': '_apply_add', '-': '_apply_subtract', '×': '_apply_multiply', '÷': '_apply_divide'}
         method_name = OPERATOR_METHODS.get(pendingOperator)
         if method_name and hasattr(self, method_name):
             method = getattr(self, method_name)
@@ -485,40 +405,32 @@ class NchantdCalculator(NchantdTab):
 
     def createButton(self, text, member) -> Any:
         """Create and configure a button"""
-        cfg = {"text": text}
+        cfg = {'text': text}
         button = NchantdButton(self, cfg).initWidget()
         button.clicked.connect(member)
         return button
 
     def setDisplay(self) -> Any:
         """Initialize the display widget as a multiline text area"""
-        cfg = {"text": "0"}
-        self.config.dikt["width"] = None
-        self.config.dikt["height"] = None
-        self.config.dikt["size"] = None
+        cfg = {'text': '0'}
+        self.config.dikt['width'] = None
+        self.config.dikt['height'] = None
+        self.config.dikt['size'] = None
         self.display = pyqt.QTextEdit(self)
         self.display.setReadOnly(True)
         self.display.setAlignment(pyqt.Qt.AlignmentFlag.AlignRight | pyqt.Qt.AlignmentFlag.AlignBottom)
-
         width = 300
         height = 800
         self.display.setMinimumSize(width, int(height * 0.1))
-
         font = self.display.font()
         font.setPointSize(font.pointSize() + 8)
         self.display.setFont(font)
-        self.display.setStyleSheet("QTextEdit { " "background-color: black; " "color: white; " "padding: 5px; " "}")
+        self.display.setStyleSheet('QTextEdit { background-color: black; color: white; padding: 5px; }')
         self.display.setFocusPolicy(pyqt.Qt.FocusPolicy.NoFocus)
         self.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignCenter | pyqt.Qt.AlignmentFlag.AlignTop)
-
-        # Set vertical scrollbar to always be at bottom
         self.display.setVerticalScrollBarPolicy(pyqt.Qt.ScrollBarPolicy.ScrollBarAsNeeded)
-
-        # Initialize with right-aligned text at bottom
         self.display.setHtml('<div style="text-align: right;">0</div>')
-
         return self
-
 
 class NchantdAdvancedCalculator(NchantdCalculator):
     """A Calculator Widget with the ability to enter equations and an output log"""
@@ -526,26 +438,48 @@ class NchantdAdvancedCalculator(NchantdCalculator):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdAdvancedCalculator").override(cfg))
-        logma.info(f"NchantdAdvancedCalculator initialized")
-
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdAdvancedCalculator').override(cfg))
+        logma.info(f'NchantdAdvancedCalculator initialized')
 
     def initUI(self) -> Any:
-        """ """
+        super_method = getattr(super(type(self), self), method_name, None)
+        if callable(super_method):
+            try:
+                super_method()
+            except TypeError:
+                pass
+        logma.info(f'initUI {{type(self).__name__}}')
         return self
 
     def initModel(self) -> Any:
-        """ """
+        super_method = getattr(super(type(self), self), method_name, None)
+        if callable(super_method):
+            try:
+                super_method()
+            except TypeError:
+                pass
+        logma.info(f'initModel {{type(self).__name__}}')
         return self
 
     def initView(self) -> Any:
-        """ """
+        super_method = getattr(super(type(self), self), method_name, None)
+        if callable(super_method):
+            try:
+                super_method()
+            except TypeError:
+                pass
+        logma.info(f'initView {{type(self).__name__}}')
         return self
 
     def initWidget(self) -> Any:
-        """ """
+        super_method = getattr(super(type(self), self), method_name, None)
+        if callable(super_method):
+            try:
+                super_method()
+            except TypeError:
+                pass
+        logma.info(f'initWidget {{type(self).__name__}}')
         return self
-
 
 class NchantdFinancialCalculator(NchantdCalculator):
     """Financial Calculator for adhoc calculations"""
@@ -553,7 +487,7 @@ class NchantdFinancialCalculator(NchantdCalculator):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdAdvancedCalculator").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdAdvancedCalculator').override(cfg))
 
     def initModel(self) -> Any:
         """"""
@@ -571,17 +505,22 @@ class NchantdFinancialCalculator(NchantdCalculator):
         self.initView()
         return self
 
-
 class NchantdGraphingCalculator(NchantdAdvancedCalculator):
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdAdvancedCalculator").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdAdvancedCalculator').override(cfg))
 
     def initModel(self) -> Any:
-        """"""
+        super_method = getattr(super(type(self), self), method_name, None)
+        if callable(super_method):
+            try:
+                super_method()
+            except TypeError:
+                pass
+        logma.info(f'initModel {{type(self).__name__}}')
         return self
 
     def initView(self) -> Any:
@@ -594,8 +533,3 @@ class NchantdGraphingCalculator(NchantdAdvancedCalculator):
         self.initModel()
         self.initView()
         return self
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

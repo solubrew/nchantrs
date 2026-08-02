@@ -1,24 +1,6 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 from typing import Any, Optional
-
-"""
----
-<(META)>:
-    docid:
-    name:
-    description: >
-    version: 0.0.0.0.0.0
-    authority: filesystem
-    security: seclvl2
-    <(WT)>: -32
-"""
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
+'\n---\n<(META)>:\n    docid:\n    name:\n    description: >\n    version: 0.0.0.0.0.0\n    authority: filesystem\n    security: seclvl2\n    <(WT)>: -32\n'
 from os.path import dirname, join
-
-# ======================================3rd Party Library Modules=====================================================||
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
@@ -27,17 +9,12 @@ from nchantrs.widgets.media.editors.editors import NchantdEntryBox
 from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.controls.checkboxes import NchantdCheckbox
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
-# ====================================================================================================================||
-here = join(dirname(__file__), '')  # ||
+here = join(dirname(__file__), '')
 logma = Logma(__name__)
 log = False
 if not log:
     logma.off()
-
-# ====================================================================================================================||
 pxcfg = join(here, '_data_', 'selectors.yaml')
-
-
 
 class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
     """ """
@@ -46,7 +23,7 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
         """ """
         super().__init__()
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdComboBox").override(parent.config).override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('NchantdComboBox').override(parent.config).override(cfg)
         self.handler = None
         self.value = None
         self.options = []
@@ -54,11 +31,11 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
     def initModel(self, handler=None) -> Any:
         """"""
         self.init_variables()
-        self.setEditable(True)  # Set up the completer
-        self.set_options(self.config.dikt.get("options", []), self.config.dikt.get("sort", True))
-        self.lineEdit().setPlaceholderText("Type or select an item")  # Create a custom widget for editing
-        value = self.config.dikt.get("value", None)
-        logma.info(f"Value {value}")
+        self.setEditable(True)
+        self.set_options(self.config.dikt.get('options', []), self.config.dikt.get('sort', True))
+        self.lineEdit().setPlaceholderText('Type or select an item')
+        value = self.config.dikt.get('value', None)
+        logma.info(f'Value {value}')
         if value not in self.options:
             self.add_option(value)
         if value is not None and value in self.options:
@@ -71,14 +48,13 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
     def initView(self) -> Any:
         """"""
         self.setInsertPolicy(pyqt.QComboBox.InsertAtTop)
-        # # TODO replace with size methods from NchantdWidgetMixin
         self.set_size()
         return self
 
     def init_triggers(self) -> Any:
         """"""
         self.lineEdit().returnPressed.connect(self.on_return_pressed)
-        self.handler = self.config.dikt.get("handler", None)
+        self.handler = self.config.dikt.get('handler', None)
         self.activated.connect(self.on_activated)
         self.currentIndexChanged.connect(self.on_index_change)
         self.currentTextChanged.connect(self.on_text_change)
@@ -97,7 +73,7 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
 
     def add_option(self, option) -> Any:
         """"""
-        logma.info(f"Option {option}")
+        logma.info(f'Option {option}')
         self.addItem(option)
         return self
 
@@ -115,8 +91,7 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
 
     def on_activated(self, index) -> None:
         """"""
-        # Handle item selection
-        if index == -1:  # -1 means the entered text is not in the list
+        if index == -1:
             text = self.lineEdit().text().strip()
             if text:
                 self.addItem(text)
@@ -131,57 +106,52 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
         self.value = self.itemText(index)
         self.setCurrentText(self.value)
         if index is not None and self.handler is not None:
-            logma.info(f"Handler {self.handler}")
+            logma.info(f'Handler {self.handler}')
             self.handler(index, self.itemText(index))
         return
 
     def on_return_pressed(self) -> Any:
-        """"""
-        #commented out to fix issue with NchantdWebViewer url drop down not sure if it will be an issue else where
-        # Handle the return/enter key press
-        # logma.on()
-        # logma.info(f"Return Pressed")
-        # text = self.lineEdit().text().strip()
-        # logma.info(f"Text {text}")
-        # if text:
-        #     self.addItem(text)
-        #     self.setCurrentIndex(self.findText(text))
-        #     self.lineEdit().clear()
-        # logma.off()
+        logma.info(f'on_return_pressed event received')
+        if getattr(self, 'app', None) is not None and hasattr(self.app, 'model'):
+            self.app.model.has_changed = True
         return self
+
     def on_text_change(self) -> Any:
-        """"""
+        logma.info(f'on_text_change event received')
+        if getattr(self, 'app', None) is not None and hasattr(self.app, 'model'):
+            self.app.model.has_changed = True
         return self
 
     def on_text_edit(self, event, *args, **kwargs) -> Any:
-        """"""
+        logma.info(f'on_text_edit event received')
+        if getattr(self, 'app', None) is not None and hasattr(self.app, 'model'):
+            self.app.model.has_changed = True
         return self
 
     def set_current_text(self) -> Any:
-        """"""
-
+        logma.info(f'set_current_text called')
+        if hasattr(self, 'current_text'):
+            logma.info(f'  has current_text attr')
         return self
 
     def set_size(self) -> None:
         """"""
         min_width_min = None
         min_height_min = None
-        if self.config.dikt.get("size", None) is None:
+        if self.config.dikt.get('size', None) is None:
             max_width = 500
             min_width_min = 50
             min_height_min = 20
             for option in self.options:
                 text_width, text_height = self._get_text_size(str(option))
-                min_width, min_height = text_width + 30, text_height
+                min_width, min_height = (text_width + 30, text_height)
                 if min_width > min_width_min:
                     min_width_min = min_width
                 if min_height > min_height_min:
                     min_height_min = min_height
             if min_width_min > max_width:
                 min_width_min = max_width
-            # self.setFixedWidth(min_width_min + 40)
-            # self.setMinimumHeight(min_height_min)
-        self.setMaximumWidth(150)#TODO refactor for better overal cascading/dynamic control
+        self.setMaximumWidth(150)
         super().set_size(min_width_min, min_height_min, None, 30)
 
     def set_value(self, text) -> Any:
@@ -196,26 +166,22 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
         :param sort:
         :return:
         """
-        # logma.info(f"Options {options}")
         if options is None or options == []:
             return
-        logma.info(f"Options {options}")
+        logma.info(f'Options {options}')
         if isinstance(options[0], dict):
-            self.options = [x["name"] for x in options]  # + self.config.dikt.get("default", [])
+            self.options = [x['name'] for x in options]
         else:
             self.options = options
         self.options = [x for x in self.options if x is not None]
-        #if sort:
-        # NOTE should always be sorted in some positive manner either by the values or a given sequence
-        logma.info(f"Options {self.options}")
+        logma.info(f'Options {self.options}')
         self.options = list(set(self.options))
         self.options.sort()
         self.options = [str(x) for x in self.options]
-        logma.info(f"Options {self.options}")
+        logma.info(f'Options {self.options}')
         self.clear()
         self.addItems(self.options)
         return self
-
 
 class NchantdDropDown(NchantdWidget):
     """ """
@@ -224,7 +190,7 @@ class NchantdDropDown(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdDropDown").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdDropDown').override(cfg))
         self.label = None
         self.combobox = None
         self.options = []
@@ -235,22 +201,22 @@ class NchantdDropDown(NchantdWidget):
         :return:
         """
         super().initModel()
-        self.options = self.config.dikt.get("options", [])
+        self.options = self.config.dikt.get('options', [])
         return self
 
     def initView(self, handler=None) -> Any:
         """ """
         super().initView()
         logma.info(f"Label {self.config.dikt.get('label', 'Missing Label')}")
-        self.config.dikt["label"] = self.config.dikt.get("label", "Missing Label")
+        self.config.dikt['label'] = self.config.dikt.get('label', 'Missing Label')
         self.label = NchantdLabel(self, self.config).initWidget()
         self.layout.setAlignment(self.label, pyqt.Qt.AlignTop | pyqt.Qt.AlignLeft)
         self.layout.addWidget(self.label)
         self.layout.addSpacing(3)
-        cfg = self.config.dikt.get("combobox")
-        logma.info(f"{cfg}")
+        cfg = self.config.dikt.get('combobox')
+        logma.info(f'{cfg}')
         self.combobox = NchantdComboBox(self, cfg).initWidget(handler)
-        self.update_options(self.options, False, self.config.dikt.get("sort", True))
+        self.update_options(self.options, False, self.config.dikt.get('sort', True))
         self.layout.setAlignment(self.combobox, pyqt.Qt.AlignTop | pyqt.Qt.AlignLeft)
         self.layout.addWidget(self.combobox)
         return self
@@ -268,12 +234,14 @@ class NchantdDropDown(NchantdWidget):
         return self.combobox.get_value()
 
     def on_return_pressed(self, method) -> Any:
-        """"""
+        logma.info(f'on_return_pressed event received')
+        if getattr(self, 'app', None) is not None and hasattr(self.app, 'model'):
+            self.app.model.has_changed = True
         return self
 
     def set_option_selection(self, value) -> Any:
         """"""
-        logma.info(f"Option Selection {value}")
+        logma.info(f'Option Selection {value}')
         if value is None:
             value = self.options[0]
         self.combobox.setCurrentIndex(self.combobox.findText(value))
@@ -298,14 +266,13 @@ class NchantdDropDown(NchantdWidget):
             options.append(x)
             if replace:
                 self.combobox.set_options(self.options)
-            else:
-                if self.combobox.findText(x) == -1:  # -1 means the item doesn't exist
-                    self.combobox.addItem(x)
+            elif self.combobox.findText(x) == -1:
+                self.combobox.addItem(x)
         return self
-
 
 class NchantdDropDownActivator(NchantdDropDown):
     """"""
+
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
@@ -319,7 +286,7 @@ class NchantdDropDownActivator(NchantdDropDown):
     def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
-        cfg = {"action": self.config.dikt.get("action", {})}
+        cfg = {'action': self.config.dikt.get('action', {})}
         self.activate_button = NchantdButton(self, cfg).initWidget()
         self.layout.addWidget(self.activate_button)
         return self
@@ -332,6 +299,7 @@ class NchantdDropDownActivator(NchantdDropDown):
 
 class NchantdDropDownExplainer(NchantdWidget):
     """"""
+
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
@@ -341,8 +309,7 @@ class NchantdDropDownExplainer(NchantdWidget):
         super().__init__(self)
         self.config.override(cfg)
         self.explainer = None
-        logma.info(f"NchantdDropDownExplainer initialized")
-
+        logma.info(f'NchantdDropDownExplainer initialized')
 
     def initModel(self) -> Any:
         """"""
@@ -351,8 +318,8 @@ class NchantdDropDownExplainer(NchantdWidget):
 
     def initView(self) -> Any:
         """"""
-        super().initView({"layout": "vertical"})
-        cfg = self.config.override({"layout": "horizontal"}).dikt
+        super().initView({'layout': 'vertical'})
+        cfg = self.config.override({'layout': 'horizontal'}).dikt
         self.dropdown = NchantdDropDown(self, cfg).initWidget()
         self.layout.addWidget(self.dropdown)
         self.update_explainer()
@@ -373,9 +340,9 @@ class NchantdDropDownExplainer(NchantdWidget):
         self.layout.addWidget(self.explainer)
         return self
 
-
 class NchantdCheckboxCombo(NchantdWidget):
     """"""
+
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
@@ -403,9 +370,9 @@ class NchantdCheckboxCombo(NchantdWidget):
         self.initView()
         return self
 
-
 class NchantdComboEditor(NchantdWidget):
     """"""
+
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
@@ -431,8 +398,3 @@ class NchantdComboEditor(NchantdWidget):
         self.initModel()
         self.initView()
         return self
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

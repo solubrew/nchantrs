@@ -1,49 +1,23 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 from typing import Any
-
-"""
----
-<(META)>:
-        docid:
-        name:
-        description: >
-        version: 0.0.0.0.0.0
-        authority: filesystem
-        security: seclvl2
-        <(WT)>: -32
-"""
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
+'\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
 from os.path import dirname, join
-
-# ======================================3rd Party Library Modules=====================================================||
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
-
 import logging
 from nchantrs.widgets.tabsets import NchantdTab
-
 logger = logging.getLogger(__name__)
 from nchantrs.widgets.browsers.browsers import NchantdWebBrowser
 from kahndor.logma import Logma
-
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 logma = Logma(__name__)
 logma.off()
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", ".yaml")
-
+pxcfg = join(here, '_data_', '.yaml')
 
 class NchantdCalendlyConnectTab:
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """"""
-        self.confg = kahndor.Instruct(pxcfg).select("NchantdCalendlyConnectTab")
+        self.confg = kahndor.Instruct(pxcfg).select('NchantdCalendlyConnectTab')
         self.parent = parent
         if self.parent is not None:
             self.config.override(self.parent.config)
@@ -62,13 +36,12 @@ class NchantdCalendlyConnectTab:
         """"""
         pass
 
-
 class NchantdConnectTab(NchantdTab):
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """"""
-        self.confg = kahndor.Instruct(pxcfg).select("NchantdConnectTab")
+        self.confg = kahndor.Instruct(pxcfg).select('NchantdConnectTab')
         self.parent = parent
         if self.parent is not None:
             self.config.override(self.parent.config)
@@ -87,13 +60,12 @@ class NchantdConnectTab(NchantdTab):
         """"""
         pass
 
-
 class NchantdFacebookConnectTab:
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """"""
-        self.confg = kahndor.Instruct(pxcfg).select("NchantdFacebookConnectTab")
+        self.confg = kahndor.Instruct(pxcfg).select('NchantdFacebookConnectTab')
         self.parent = parent
         if self.parent is not None:
             self.config.override(self.parent.config)
@@ -112,17 +84,12 @@ class NchantdFacebookConnectTab:
         """"""
         pass
 
-
-# [DONE]
-# Connect to the google calendar api integrate a browser into this tab
-# Leverage Google Stone
-#
 class NchantdGoogleConnectTab(NchantdConnectTab):
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """"""
-        self.confg = kahndor.Instruct(pxcfg).select("NchantdGoogleConnectTab")
+        self.confg = kahndor.Instruct(pxcfg).select('NchantdGoogleConnectTab')
         self.parent = parent
         if self.parent is not None:
             self.config.override(self.parent.config)
@@ -131,7 +98,6 @@ class NchantdGoogleConnectTab(NchantdConnectTab):
 
     def initModel(self) -> None:
         """"""
-        # [DONE]
         pass
 
     def initView(self) -> None:
@@ -140,17 +106,16 @@ class NchantdGoogleConnectTab(NchantdConnectTab):
 
     def initWidget(self) -> Any:
         """"""
-        self.state_details = ""  # Show connected status, when connected, when authenticated?
+        self.state_details = ''
         self.browser = NchantdWebBrowser(self).initWidget()
         return self
-
 
 class NchantdOutlookConnectTab:
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """"""
-        self.confg = kahndor.Instruct(pxcfg).select("NchantdOutlookConnectTab")
+        self.confg = kahndor.Instruct(pxcfg).select('NchantdOutlookConnectTab')
         self.parent = parent
         if self.parent is not None:
             self.config.override(self.parent.config)
@@ -169,13 +134,12 @@ class NchantdOutlookConnectTab:
         """"""
         pass
 
-
 class NchantdXConnectTab:
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """"""
-        self.confg = kahndor.Instruct(pxcfg).select("NchantdCalendlyConnectTab")
+        self.confg = kahndor.Instruct(pxcfg).select('NchantdCalendlyConnectTab')
         self.parent = parent
         if self.parent is not None:
             self.config.override(self.parent.config)
@@ -193,8 +157,3 @@ class NchantdXConnectTab:
     def initWidget(self) -> None:
         """"""
         pass
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

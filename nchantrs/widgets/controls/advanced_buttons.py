@@ -1,4 +1,3 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 """
 ---
 <(META)>:
@@ -10,14 +9,9 @@
     security: seclvl2
     <(WT)>: -32
 """
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 from typing import Any, Dict, Optional
-
-# ======================================3rd Party Library Modules=====================================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
@@ -26,16 +20,10 @@ from nchantrs.widgets.controls.checkboxes import NchantdCheckbox
 from nchantrs.widgets.media.editors.editors import NchantdEntryBox
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 from nchantrs.widgets.controls.buttons import NchantdButton
-
-# ====================================================================================================================||
-here = join(dirname(__file__), "")
+here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
 logma.off()
-
-
-# ====================================================================================================================||
-# Constants to avoid magic numbers
 DEFAULT_INITIAL_VALUE: int = 16
 DEFAULT_MINIMUM: int = 0
 DEFAULT_MAXIMUM: int = 100
@@ -46,20 +34,15 @@ DISPLAY_SIZE: int = 30
 SPACING_DEFAULT: int = 5
 SPINBOX_LAYOUT_SPACING: int = 3
 FONT_SIZE_SMALL: int = 8
-
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", "advanced_buttons.yaml")
-
+pxcfg = join(here, '_data_', 'advanced_buttons.yaml')
 
 class NchantdNumberWheelButton(NchantdWidget):
-    # Signal to emit the current value whenever it changes
     valueChanged = pyqt.Signal(int)
 
-    def __init__(self, parent: Optional[Any] = None, cfg: Optional[Dict] = None) -> None:
+    def __init__(self, parent: Optional[Any]=None, cfg: Optional[Dict]=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdNumberWheelButton").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdNumberWheelButton').override(cfg))
         self.value: int = DEFAULT_INITIAL_VALUE
         self.minimum: int = DEFAULT_MINIMUM
         self.maximum: int = DEFAULT_MAXIMUM
@@ -68,46 +51,38 @@ class NchantdNumberWheelButton(NchantdWidget):
         self.down_button: Optional[Any] = None
         self.number_display: Optional[Any] = None
         self.label: Optional[Any] = None
-        logma.info(f"NchantdNumberWheelButton initialized")
+        logma.info(f'NchantdNumberWheelButton initialized')
 
-
-    def initModel(self) -> "NchantdNumberWheelButton":
+    def initModel(self) -> 'NchantdNumberWheelButton':
         """"""
         super().initModel()
-        self.value = self.config.dikt.get("initial_value", DEFAULT_INITIAL_VALUE) or 0
-        self.minimum = self.config.dikt.get("minimum", DEFAULT_MINIMUM) or 0
-        self.maximum = self.config.dikt.get("maximum", DEFAULT_MAXIMUM) or 0
-        self.step = self.config.dikt.get("step", DEFAULT_STEP) or 0
+        self.value = self.config.dikt.get('initial_value', DEFAULT_INITIAL_VALUE) or 0
+        self.minimum = self.config.dikt.get('minimum', DEFAULT_MINIMUM) or 0
+        self.maximum = self.config.dikt.get('maximum', DEFAULT_MAXIMUM) or 0
+        self.step = self.config.dikt.get('step', DEFAULT_STEP) or 0
         self.valueChanged.emit(self.value)
         return self
 
-    def initView(self) -> "NchantdNumberWheelButton":
+    def initView(self) -> 'NchantdNumberWheelButton':
         """"""
         super().initView()
-        # Vertical layout for Up Button, Display, Down Button
         self.layout.setContentsMargins(0, 0, 0, 0)
         self.layout.setSpacing(SPACING_DEFAULT)
-
-        cfg = {"label": self.config.dikt.get("label", "")}
+        cfg = {'label': self.config.dikt.get('label', '')}
         self.label = NchantdLabel(self, cfg).initWidget()
         self.layout.addWidget(self.label)
         self.layout.setAlignment(self.label, pyqt.Qt.AlignCenter)
         layout = pyqt.QHBoxLayout()
-        # Up button
-        self.up_button = pyqt.QPushButton("▲")
+        self.up_button = pyqt.QPushButton('▲')
         self.up_button.setFixedSize(BUTTON_SIZE_SMALL, BUTTON_SIZE_SMALL)
         self.up_button.clicked.connect(self.increment_value)
         layout.addWidget(self.up_button, alignment=pyqt.Qt.AlignCenter)
-
-        # Display label
-        cfg = {"label": str(self.value)}
+        cfg = {'label': str(self.value)}
         self.number_display = NchantdEntryBox(self, cfg).initWidget()
         self.number_display.setAlignment(pyqt.Qt.AlignCenter)
         self.number_display.setFixedSize(DISPLAY_SIZE, DISPLAY_SIZE)
         layout.addWidget(self.number_display, alignment=pyqt.Qt.AlignCenter)
-
-        # Down button
-        self.down_button = pyqt.QPushButton("▼")
+        self.down_button = pyqt.QPushButton('▼')
         self.down_button.setFixedSize(BUTTON_SIZE_MEDIUM, BUTTON_SIZE_SMALL)
         self.down_button.clicked.connect(self.decrement_value)
         layout.addWidget(self.down_button, alignment=pyqt.Qt.AlignCenter)
@@ -115,26 +90,23 @@ class NchantdNumberWheelButton(NchantdWidget):
         self.update_display()
         return self
 
-    def initWidget(self) -> "NchantdNumberWheelButton":
+    def initWidget(self) -> 'NchantdNumberWheelButton':
         """"""
         self.initModel()
         self.initView()
         return self
 
     def increment_value(self) -> None:
-        # Increment the value while respecting the maximum
         if self.value + self.step <= self.maximum:
             self.value += self.step
             self.update_display()
 
     def decrement_value(self) -> None:
-        # Decrement the value while respecting the minimum
         if self.value - self.step >= self.minimum:
             self.value -= self.step
             self.update_display()
 
     def update_display(self) -> None:
-        # Update the label to display the current value
         self.number_display.setText(str(self.value))
         self.valueChanged.emit(self.value)
 
@@ -159,7 +131,6 @@ class NchantdNumberWheelButton(NchantdWidget):
         """
         self.step = step
 
-
 class NchantdShareButton(NchantdWidgetMixin, pyqt.QPushButton):
     """"""
 
@@ -167,14 +138,26 @@ class NchantdShareButton(NchantdWidgetMixin, pyqt.QPushButton):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdLinkIcon")).override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdLinkIcon')).override(cfg)
 
     def initModel(self) -> Any:
-        """"""
+        super_method = getattr(super(type(self), self), method_name, None)
+        if callable(super_method):
+            try:
+                super_method()
+            except TypeError:
+                pass
+        logma.info(f'initModel {{type(self).__name__}}')
         return self
 
     def initView(self) -> Any:
-        """"""
+        super_method = getattr(super(type(self), self), method_name, None)
+        if callable(super_method):
+            try:
+                super_method()
+            except TypeError:
+                pass
+        logma.info(f'initView {{type(self).__name__}}')
         return self
 
     def initWidget(self) -> Any:
@@ -183,14 +166,13 @@ class NchantdShareButton(NchantdWidgetMixin, pyqt.QPushButton):
         self.initView()
         return self
 
-
 class NchantdEnableSpinBox(NchantdWidget):
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdEnableSpinBox").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdEnableSpinBox').override(cfg))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -204,9 +186,9 @@ class NchantdEnableSpinBox(NchantdWidget):
         """"""
         if cfg is None:
             cfg = {}
-        cfg["layout"] = "horizontal"
+        cfg['layout'] = 'horizontal'
         super().initView(cfg)
-        cfg = {"text": self.config.dikt.get("label", ""), "font": {"size": 8}}
+        cfg = {'text': self.config.dikt.get('label', ''), 'font': {'size': 8}}
         self.checkbox = NchantdCheckbox(self, cfg).initWidget()
         self.layout.addWidget(self.checkbox)
         self.layout.setSpacing(3)
@@ -221,29 +203,27 @@ class NchantdEnableSpinBox(NchantdWidget):
         self.initView()
         return self
 
-
 class NchantdEnableSequencer(NchantdWidget):
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdEnableSequencer").override(cfg))
-        logma.info(f"NchantdEnableSequencer initialized")
-
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdEnableSequencer').override(cfg))
+        logma.info(f'NchantdEnableSequencer initialized')
 
     def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
-        self.sequence = {i: None for i in range(len(self.config.dikt.get("items", [])))}
+        self.sequence = {i: None for i in range(len(self.config.dikt.get('items', [])))}
         self.items = {}
         return self
 
     def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
-        for i, item in enumerate(self.config.dikt.get("items", [])):
-            item["value"] = i
+        for i, item in enumerate(self.config.dikt.get('items', [])):
+            item['value'] = i
             self.items[i] = NchantdEnableSpinBox(self, item).initWidget()
             self.layout.addWidget(self.items[i])
         return self
@@ -256,7 +236,6 @@ class NchantdEnableSequencer(NchantdWidget):
 
     def on_spin_box_change(self, signal=None, *args, **kwargs) -> None:
         """"""
-        # update each page below that is set to enabled
         for i, widget in self.items:
             new_value = self.sequence[i]
             if new_value is None:
@@ -265,7 +244,6 @@ class NchantdEnableSequencer(NchantdWidget):
                 widget.setValue(new_value)
         self.sequence[widget] = new_value
 
-
 class NchantdSpinBox(NchantdWidgetMixin, pyqt.QSpinBox):
     """"""
 
@@ -273,15 +251,15 @@ class NchantdSpinBox(NchantdWidgetMixin, pyqt.QSpinBox):
         """ """
         super().__init__(parent)
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdSpinBox").override(parent.config).override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('NchantdSpinBox').override(parent.config).override(cfg)
         self.init_variables()
 
     def initModel(self) -> Any:
         """"""
         super().initModel()
-        self.setRange(int(self.config.get("min_value", 0) or 0), int(self.config.get("max_value", 100) or 0)) # Set the range for the spin box
-        self.setSingleStep(int(self.config.get("step", 1) or 0))
-        self.setValue(int(self.config.get("value", 0) or 0))
+        self.setRange(int(self.config.get('min_value', 0) or 0), int(self.config.get('max_value', 100) or 0))
+        self.setSingleStep(int(self.config.get('step', 1) or 0))
+        self.setValue(int(self.config.get('value', 0) or 0))
         return self
 
     def initView(self) -> Any:
@@ -295,28 +273,13 @@ class NchantdSpinBox(NchantdWidgetMixin, pyqt.QSpinBox):
         self.initView()
         return self
 
-    # def validate(self, text, pos):
-    # 	 """Override the validate method to ensure only even numbers are valid."""
-    # 	 if text.isdigit() and int(text) % 2 == 0:
-    # 		 return pyqt.QSpinBox.Acceptable, text, pos
-    # 	 return pyqt.QSpinBox.Intermediate, text, pos
-    #
-    # def valueFromText(self, text):
-    # 	 """Convert input text to an integer."""
-    # 	 return int(text)
-    #
-    # def textFromValue(self, value):
-    # 	 """Convert the value into a string."""
-    # 	 return str(value)
-
-
 class NchantdActivateSpinBox(NchantdWidget):
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdActivateSpinBox").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdActivateSpinBox').override(cfg))
 
     def initModel(self, cfg=None) -> Any:
         """"""
@@ -327,15 +290,14 @@ class NchantdActivateSpinBox(NchantdWidget):
         """"""
         if cfg is None:
             cfg = {}
-        cfg["layout"] = "horizontal"
-        cfg["size"] = None
+        cfg['layout'] = 'horizontal'
+        cfg['size'] = None
         super().initView(cfg)
-        cfg = {"text": self.config.dikt.get("label", ""), "action": self.config.dikt.get("action", None)}
+        cfg = {'text': self.config.dikt.get('label', ''), 'action': self.config.dikt.get('action', None)}
         self.button = NchantdButton(self, cfg).initWidget()
         self.layout.addWidget(self.button)
-        # self.layout.addStretch(0)
-        range_ = self.config.dikt.get("range", [0, 100])
-        cfg = {"range": range_, "value": 0, "font": {"size": 8}}
+        range_ = self.config.dikt.get('range', [0, 100])
+        cfg = {'range': range_, 'value': 0, 'font': {'size': 8}}
         self.spinbox = NchantdSpinBox(self, cfg).initWidget()
         self.layout.addWidget(self.spinbox)
         return self
@@ -346,38 +308,36 @@ class NchantdActivateSpinBox(NchantdWidget):
         self.initView()
         return self
 
-
 class NchantdLabeledSpinBox(NchantdWidget):
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdLabeledSpinBox").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdLabeledSpinBox').override(cfg))
 
     def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
-        self.has_lock = self.config.get("has_lock", False)
+        self.has_lock = self.config.get('has_lock', False)
         return self
 
     def initView(self, cfg=None) -> Any:
         """"""
         if cfg is None:
             cfg = {}
-        cfg["layout"] = "horizontal"
-        cfg["size"] = None
+        cfg['layout'] = 'horizontal'
+        cfg['size'] = None
         super().initView(cfg)
-        cfg = {"text": self.config.get("label", "")}
+        cfg = {'text': self.config.get('label', '')}
         label = NchantdLabel(self, cfg).initWidget()
         self.layout.addWidget(label)
-        # self.layout.addStretch(0)
-        range_ = self.config.dikt.get("range", [0, 100])
-        cfg = {"range": range_, "value": self.config.get("value", 0), "font": {"size": 8}}
+        range_ = self.config.dikt.get('range', [0, 100])
+        cfg = {'range': range_, 'value': self.config.get('value', 0), 'font': {'size': 8}}
         self.spinbox = NchantdSpinBox(self, cfg).initWidget()
         self.layout.addWidget(self.spinbox)
         if self.has_lock:
-            self.lock_button = NchantdButton(self, cfg={"text": "Lock"}).initWidget()
+            self.lock_button = NchantdButton(self, cfg={'text': 'Lock'}).initWidget()
             self.layout.addWidget(self.lock_button)
         self.layout.addStretch(0)
         return self
@@ -388,14 +348,13 @@ class NchantdLabeledSpinBox(NchantdWidget):
         self.initView()
         return self
 
-
 class NchantdLabeledDoubleSpinBox(NchantdWidget):
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdLabeledDoubleSpinBox").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdLabeledDoubleSpinBox').override(cfg))
 
     def initModel(self, cfg=None) -> Any:
         """"""
@@ -406,7 +365,7 @@ class NchantdLabeledDoubleSpinBox(NchantdWidget):
         """"""
         if cfg is None:
             cfg = {}
-        cfg["layout"] = "horizontal"
+        cfg['layout'] = 'horizontal'
         super().initView(cfg)
         self.label = NchantdLabel(self, cfg).initWidget()
         self.layout.addWidget(self.label)
@@ -424,14 +383,13 @@ class NchantdLabeledDoubleSpinBox(NchantdWidget):
         self.initView()
         return self
 
-
 class NchantdColorSelectButton(NchantdWidget):
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdColorSelectButton").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdColorSelectButton').override(cfg))
         self.color = None
         self.button = None
         self.color_sample = None
@@ -439,7 +397,7 @@ class NchantdColorSelectButton(NchantdWidget):
     def initModel(self, cfg=None) -> Any:
         """"""
         super().initModel(cfg)
-        self.color = self.config.dikt.get("color", "#000000")
+        self.color = self.config.dikt.get('color', '#000000')
         return self
 
     def initView(self, cfg=None) -> Any:
@@ -448,7 +406,7 @@ class NchantdColorSelectButton(NchantdWidget):
         cfg = {}
         self.button = NchantdButton(self, cfg).initWidget()
         self.layout.addWidget(self.button)
-        cfg = {"color": self.color}
+        cfg = {'color': self.color}
         self.color_sample = NchantdLabel(self, cfg).initWidget()
         self.layout.addWidget(self.color_sample)
         return self
@@ -458,8 +416,3 @@ class NchantdColorSelectButton(NchantdWidget):
         self.initModel()
         self.initView()
         return self
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

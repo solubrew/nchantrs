@@ -1,58 +1,32 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 from typing import Any
-
-"""
----
-<(META)>:
-        docid:
-        name:
-        description: >
-        version: 0.0.0.0.0.0
-        authority: filesystem
-        security: seclvl2
-        <(WT)>: -32
-"""
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
+'\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
 from os.path import abspath, dirname, join
 import datetime as dt
 import numpy as np
-
 import logging
-
 logger = logging.getLogger(__name__)
-# ======================================3rd Party Library Modules=====================================================||
 from PIL import Image, ImageDraw, ImageFont
 import random
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
-
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
 logma.off()
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", "pixelart.yaml")
-
+pxcfg = join(here, '_data_', 'pixelart.yaml')
 
 class PixelArtGenerator:
     """"""
 
     def __init__(self, cfg=None) -> None:
         """"""
-        self.config = kahndor.Instruct(pxcfg).select("").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('').override(cfg)
         self.x_dim = 50
         self.y_dim = 50
         self.image = None
         self.palette = None
         self.border = None
-        logma.info(f"PixelArtGenerator initialized")
-
+        logma.info(f'PixelArtGenerator initialized')
 
     def create_palette(self, colors=None) -> None:
         """"""
@@ -83,11 +57,6 @@ class PixelArtGenerator:
 
     def save(self) -> None:
         """"""
-        today = dt.datetime.now().strftime("%Y%m%d%H%M%S")
-        path = f"/home/solubrew/Downloads/{today}.png"
+        today = dt.datetime.now().strftime('%Y%m%d%H%M%S')
+        path = f'/home/solubrew/Downloads/{today}.png'
         self.image.save(path)
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

@@ -1,4 +1,3 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 """
 ---
 <(META)>:
@@ -10,36 +9,22 @@
         security: seclvl2
         <(WT)>: -32
 """
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
-
-# ======================================3rd Party Library Modules=====================================================||
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
-
 import logging
 from kahndor.logma import Logma
-
 logger = logging.getLogger(__name__)
-
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 logma = Logma(__name__)
 logma.off()
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", ".yaml")
-
+pxcfg = join(here, '_data_', '.yaml')
 
 class TelemetryService:
     """"""
 
-    def __init__(self, cfg: None = None) -> None:
+    def __init__(self, cfg: None=None) -> None:
         """"""
-        self.config = kahndor.Instruct(pxcfg).select("TelemetryService").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('TelemetryService').override(cfg)
 
     def send_data(self) -> None:
         """
@@ -51,8 +36,3 @@ class TelemetryService:
 
     def _send_data(self, data: dict) -> None:
         """"""
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

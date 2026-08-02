@@ -1,63 +1,33 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 from typing import Any
-
-"""#																			||
----  #																			||
-<(META)>:  #																	||
-    docid:   #																	||
-    name:   #																	||
-    description: >  #															||
-          #			||
-    expirary: <[expiration]>  #													||
-    version: <[version]>  #														||
-    path: <[LEXIvrs]>  #														||
-    outline: <[outline]>  #														||
-    authority: document|this  #													||
-    security: sec|lvl2  #														||
-    <(WT)>: -32  #																||
-"""  # ||
-
-# -*- coding: utf-8 -*-#														||
-# ===============================Core Modules====================================||
+'#\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n---  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n<(META)>:  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    docid:   #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    name:   #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    description: >  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n          #\t\t\t||\n    expirary: <[expiration]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    version: <[version]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    path: <[LEXIvrs]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    outline: <[outline]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    authority: document|this  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    security: sec|lvl2  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    <(WT)>: -32  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n'
 from os.path import abspath, dirname, join
-
-# ===============================================================================||
 from kahndor import kahndor
-
 import logging
 from nchantrs.libraries import pyqt
-
 logger = logging.getLogger(__name__)
 from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.groups import NchantdVScrollGroupBox
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 from kahndor.logma import Logma
-
-# ===============================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 logma = Logma(__name__)
 logma.off()
 log = False
-
-# ===============================================================================||
-pxcfg = join(abspath(here), "_data_", "controls.yaml")
-
+pxcfg = join(abspath(here), '_data_', 'controls.yaml')
 
 class NchantdIncrementbox(NchantdWidgetMixin, pyqt.QSpinBox):
     """ """
 
     def __init__(self, parent=None, cfg=None) -> None:
         """https://www.tutorialspoint.com/pyqt/pyqt_qspinbox_self.htm"""
-        super().__init__(cfg["name"])
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdIncrementbox").override(cfg))
-        self.setMinimum(cfg["min"])
-        self.setMaximum(cfg["max"])
-        self.setRange(cfg["range"])
-        self.setValue(cfg["default_value"])
-        #self.valueChanged.connect(getattr(app, cfg["handlers"]["value_changed_handler"]))
+        super().__init__(cfg['name'])
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdIncrementbox').override(cfg))
+        self.setMinimum(cfg['min'])
+        self.setMaximum(cfg['max'])
+        self.setRange(cfg['range'])
+        self.setValue(cfg['default_value'])
         self.init_variables()
-
 
 class NchantdSelectionWidget(NchantdWidget):
     """"""
@@ -65,7 +35,7 @@ class NchantdSelectionWidget(NchantdWidget):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdSelectionWidget").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdSelectionWidget').override(cfg))
         self.checkable_button = None
         self.label = None
         self.description = None
@@ -95,22 +65,20 @@ class NchantdSelectionWidget(NchantdWidget):
         self.initView()
         return self
 
-
 class NchantdWidgetSelector(NchantdWidget):
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdWidgetSelector").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdWidgetSelector').override(cfg))
         self.widgets = {}
-        logma.info(f"NchantdWidgetSelector initialized")
-
+        logma.info(f'NchantdWidgetSelector initialized')
 
     def initModel(self) -> Any:
         """"""
         super().initModel()
-        [self.add_widget(sequence, widget) for sequence, widget in self.config.dikt.get("selector", {}).items()]
+        [self.add_widget(sequence, widget) for sequence, widget in self.config.dikt.get('selector', {}).items()]
         return self
 
     def initView(self) -> Any:
@@ -132,9 +100,4 @@ class NchantdWidgetSelector(NchantdWidget):
         """"""
         self.widgets[sequence] = widget
         return self
-
-
-# ===========================Code Source Examples================================||
-"""
-"""
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+'\n'

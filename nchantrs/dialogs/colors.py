@@ -1,4 +1,3 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 """
 ---
 <(META)>:
@@ -10,27 +9,16 @@
         security: seclvl2
         <(WT)>: -32
 """
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
 from os.path import dirname, join
-
-# ======================================3rd Party Library Modules=====================================================||
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
 from nchantrs.dialogs.sigil import NchantdSigilMixin
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
 logma.off()
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", "colors.yaml")
-
+pxcfg = join(here, '_data_', 'colors.yaml')
 
 class NchantdColorSelectSigil(NchantdSigilMixin, pyqt.QColorDialog):
     """"""
@@ -39,19 +27,23 @@ class NchantdColorSelectSigil(NchantdSigilMixin, pyqt.QColorDialog):
         """ """
         super().__init__(parent.app.main)
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdColorSelectSigil").override(parent.config).override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('NchantdColorSelectSigil').override(parent.config).override(cfg)
         self.init_variables()
-        logma.info(f"NchantdColorSelectSigil initialized")
-
+        logma.info(f'NchantdColorSelectSigil initialized')
 
     def initModel(self, cfg=None) -> None:
-        """"""
+        super_method = getattr(super(type(self), self), method_name, None)
+        if callable(super_method):
+            try:
+                super_method()
+            except TypeError:
+                pass
+        logma.info(f'initModel {{type(self).__name__}}')
         return self
 
     def initView(self, cfg=None) -> None:
         """"""
         self.setGeometry(150, 250, 1000, 600)
-        # self.hide_title()
         return self
 
     def initWidget(self) -> None:
@@ -59,7 +51,6 @@ class NchantdColorSelectSigil(NchantdSigilMixin, pyqt.QColorDialog):
         self.initModel()
         self.initView()
         self.color = self.getColor()
-        # self.run()
         return self
 
     def accept(self) -> None:
@@ -84,8 +75,3 @@ class NchantdColorSelectSigil(NchantdSigilMixin, pyqt.QColorDialog):
     def run(self) -> None:
         """"""
         self.exec()
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

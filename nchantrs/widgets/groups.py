@@ -1,41 +1,16 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 from typing import Any
-
-"""
----
-<(META)>:
-    docid:
-    name:
-    description: >
-    version: 0.0.0.0.0.0
-    authority: filesystem
-    security: seclvl2
-    <(WT)>: -32
-"""
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
+'\n---\n<(META)>:\n    docid:\n    name:\n    description: >\n    version: 0.0.0.0.0.0\n    authority: filesystem\n    security: seclvl2\n    <(WT)>: -32\n'
 from os.path import abspath, dirname, join
 import datetime as dt
-
-# ======================================3rd Party Library Modules=====================================================||
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from networkx.algorithms.connectivity import minimum_node_cut
-
 from nchantrs.libraries import pyqt
 from kahndor.logma import Logma
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
-
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 logma = Logma(__name__)
 logma.off()
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", "groups.yaml")
-
+pxcfg = join(here, '_data_', 'groups.yaml')
 
 class NchantdGroup(NchantdWidgetMixin, pyqt.QGroupBox):
     """"""
@@ -44,17 +19,15 @@ class NchantdGroup(NchantdWidgetMixin, pyqt.QGroupBox):
         """ """
         super().__init__()
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdGroup").override(parent.config).override(cfg)
-        #self.init_variables()
+        self.config = kahndor.Instruct(pxcfg).select('NchantdGroup').override(parent.config).override(cfg)
         self.collapsible = None
         self.fixed_height = None
-        self.set_collapsible(self.config.dikt.get("collapsible", False))
-        self.collapsed = self.config.dikt.get("collapsed", False)
+        self.set_collapsible(self.config.dikt.get('collapsible', False))
+        self.collapsed = self.config.dikt.get('collapsed', False)
         if self.collapsed:
             self.set_open(False)
-        label = self.config.dikt.get("text", "Missing Group Text")
+        label = self.config.dikt.get('text', 'Missing Group Text')
         self.setTitle(label)
-        #self.setAlignment(pyqt.Qt.AlignmentFlag.AlignTop | pyqt.Qt.AlignmentFlag.AlignCenter)
         self.setSizePolicy(self.sizePolicy().horizontalPolicy(), self.sizePolicy().verticalPolicy())
         self.toggled.connect(self.set_open)
 
@@ -68,31 +41,14 @@ class NchantdGroup(NchantdWidgetMixin, pyqt.QGroupBox):
     def show(self) -> Any:
         """"""
         logma.info(f"Show {self.config.dikt.get('text', 'Missing Group Text')}")
-        # size = self.config.dikt.get("size", [None, 250])
-        logma.info(f"Size {self.parent.size().height()}")
-        #minimum_height = 250
-        #height = self.parent.size().height()
-        #if height < minimum_height:
-        #    height = minimum_height
-        #logma.info(f"Height {self.height}")
-        #if self.fixed_height is None:
-        #    self.set_height(height)
-        # self.set_size("auto", self.parent.size().height(), None, 250)
-        # cfg_height = self.config.dikt.get("size", [None, minimum_height])[1]
-        # if cfg_height == "auto":
-        # height = minimum_height
-
-        #self.setMinimumHeight(self.fixed_height)
-        #self.setMaximumHeight(self.fixed_height)
-        # self.updateGeometry()
-        # self.parent.updateGeometry()
+        logma.info(f'Size {self.parent.size().height()}')
         return self
 
     def hide(self) -> Any:
         """"""
         logma.info(f"Hide {self.config.dikt.get('text', 'Missing Group Text')}")
-        size = self.config.dikt.get("hidden_size", [None, 30])
-        self.set_size("auto", size[1], size[0], size[1])
+        size = self.config.dikt.get('hidden_size', [None, 30])
+        self.set_size('auto', size[1], size[0], size[1])
         self.setMinimumHeight(size[1])
         self.setMaximumHeight(size[1])
         self.parent.updateGeometry()
@@ -118,7 +74,6 @@ class NchantdGroup(NchantdWidgetMixin, pyqt.QGroupBox):
             self.set_open(True)
         return self
 
-
 class NchantdCollapsableGroup(NchantdWidget):
     """"""
 
@@ -126,7 +81,7 @@ class NchantdCollapsableGroup(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCollapsableGroup"))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdCollapsableGroup'))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -146,31 +101,15 @@ class NchantdCollapsableGroup(NchantdWidget):
         self.tree.setHeaderHidden(True)
         self.tree.setColumnCount(1)
         self.tree.setIndentation(5)
-        self.tree.setStyleSheet("""
-            QTreeView {
-                border: 1px solid #4F5665;
-            }
-            QTreeView::item {
-                border: 1px solid #5F5FDF;     /* Border only for child items */
-                padding: 4px;
-                font-size: 14px;
-            }
-        """)
-        # self.root_item = pyqt.QTreeWidgetItem(self.tree)
-        # self.root_item.setText(0, self.config.dikt.get("text", "Missing Group Title"))
-        # self.child_item = pyqt.QTreeWidgetItem()
-        # self.root_item.addChild(self.child_item)
-        # widget = pyqt.QWidget()
-        if self.config.dikt.get("layout", None) == "horizontal":
+        self.tree.setStyleSheet('\n            QTreeView {\n                border: 1px solid #4F5665;\n            }\n            QTreeView::item {\n                border: 1px solid #5F5FDF;     /* Border only for child items */\n                padding: 4px;\n                font-size: 14px;\n            }\n        ')
+        if self.config.dikt.get('layout', None) == 'horizontal':
             self.layout = pyqt.QHBoxLayout()
-        elif self.config.dikt.get("layout", None) == "grid":
+        elif self.config.dikt.get('layout', None) == 'grid':
             self.layout = pyqt.QGridLayout()
         else:
             self.layout = pyqt.QVBoxLayout()
         self.layout.setSpacing(0)
         self.layout.setContentsMargins(0, 0, 0, 0)
-        # widget.setLayout(self.layout)
-        # self.tree.setItemWidget(self.child_item, 0, widget)
         self.setLayout(self.layout)
         self.set_size()
         return self
@@ -184,12 +123,11 @@ class NchantdCollapsableGroup(NchantdWidget):
         """"""
         self.config.override(cfg)
         root_item = pyqt.QTreeWidgetItem(self.tree)
-        root_item.setText(0, self.config.dikt.get("text", "Missing Group Title"))
+        root_item.setText(0, self.config.dikt.get('text', 'Missing Group Title'))
         self.child_item = pyqt.QTreeWidgetItem()
         root_item.addChild(self.child_item)
         self.tree.setItemWidget(self.child_item, 0, widget)
         return self
-
 
 class NchantdHGroupBox(pyqt.QGroupBox):
     """"""
@@ -197,13 +135,12 @@ class NchantdHGroupBox(pyqt.QGroupBox):
     def __init__(self, parent=None, cfg=None) -> None:
         """"""
         super().__init__(parent, cfg)
-        self.config = kahndor.Instruct(pxcfg).select("NchantdHGroupBox")
+        self.config = kahndor.Instruct(pxcfg).select('NchantdHGroupBox')
         self.parent = parent
-        if parent is not None and not isinstance(parent, pyqt.QWidget):
+        if parent is not None and (not isinstance(parent, pyqt.QWidget)):
             self.config.override(parent.config)
         self.config.override(cfg)
-        logma.info(f"NchantdHGroupBox initialized")
-
+        logma.info(f'NchantdHGroupBox initialized')
 
     def addWidget(self, widget) -> Any:
         """"""
@@ -211,7 +148,13 @@ class NchantdHGroupBox(pyqt.QGroupBox):
         return self
 
     def initModel(self) -> Any:
-        """"""
+        super_method = getattr(super(type(self), self), method_name, None)
+        if callable(super_method):
+            try:
+                super_method()
+            except TypeError:
+                pass
+        logma.info(f'initModel {{type(self).__name__}}')
         return self
 
     def initView(self) -> Any:
@@ -225,7 +168,6 @@ class NchantdHGroupBox(pyqt.QGroupBox):
         self.initModel()
         self.initView()
         return self
-
 
 class NchantdVGroupBox(pyqt.QGroupBox):
     """"""
@@ -233,13 +175,12 @@ class NchantdVGroupBox(pyqt.QGroupBox):
     def __init__(self, parent=None, cfg=None) -> None:
         """"""
         super().__init__()
-        self.config = kahndor.Instruct(pxcfg).select("NchantdVGroupBox")
+        self.config = kahndor.Instruct(pxcfg).select('NchantdVGroupBox')
         self.parent = parent
-        if parent is not None and not isinstance(parent, pyqt.QWidget):
+        if parent is not None and (not isinstance(parent, pyqt.QWidget)):
             self.config.override(parent.config)
         self.config.override(cfg)
-        logma.info(f"NchantdVGroupBox initialized")
-
+        logma.info(f'NchantdVGroupBox initialized')
 
     def addWidget(self, widget) -> Any:
         """"""
@@ -247,7 +188,13 @@ class NchantdVGroupBox(pyqt.QGroupBox):
         return self
 
     def initModel(self) -> Any:
-        """"""
+        super_method = getattr(super(type(self), self), method_name, None)
+        if callable(super_method):
+            try:
+                super_method()
+            except TypeError:
+                pass
+        logma.info(f'initModel {{type(self).__name__}}')
         return self
 
     def initView(self) -> Any:
@@ -261,7 +208,6 @@ class NchantdVGroupBox(pyqt.QGroupBox):
         self.initModel()
         self.initView()
         return self
-
 
 class NchantdVScrollGroupBox(NchantdWidget):
     """"""
@@ -270,13 +216,12 @@ class NchantdVScrollGroupBox(NchantdWidget):
         """"""
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdVScrollGroupBox"))
-        if parent is not None and not isinstance(parent, pyqt.QWidget):
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdVScrollGroupBox'))
+        if parent is not None and (not isinstance(parent, pyqt.QWidget)):
             self.config.override(parent.config)
         self.config.override(cfg)
         self.initLayout()
-        logma.info(f"NchantdVScrollGroupBox initialized")
-
+        logma.info(f'NchantdVScrollGroupBox initialized')
 
     def addWidget(self, widget) -> Any:
         """"""
@@ -287,57 +232,48 @@ class NchantdVScrollGroupBox(NchantdWidget):
         """"""
         cfg = {}
         self.group = NchantdGroup(self, cfg)
-        #self.group.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
-        if self.config.get("height", None):
-            self.setMaxiumHeight(self.config.get("height"))
-
+        if self.config.get('height', None):
+            self.setMaxiumHeight(self.config.get('height'))
         self.layout_box = pyqt.QVBoxLayout(self)
         self.layout_box.addStretch()
         self.layout_box.setSpacing(0)
         self.layout_box.setContentsMargins(0, 0, 0, 0)
-
         self.scroll = pyqt.QScrollArea()
         self.scroll.setVerticalScrollBarPolicy(pyqt.Qt.ScrollBarAlwaysOn)
         self.scroll.setHorizontalScrollBarPolicy(pyqt.Qt.ScrollBarAlwaysOff)
         self.scroll.setWidgetResizable(True)
         self.scroll.setWidget(self)
-        #self.scroll.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
-
         layout = pyqt.QVBoxLayout()
         self.group.setLayout(layout)
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(self.scroll)
-        #self.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
-
         self.layout = pyqt.QVBoxLayout()
         self.layout.addWidget(self.group)
         self.layout.setSpacing(0)
         self.layout.setContentsMargins(0, 0, 0, 0)
-
-        #self.set_size("auto", self.parent.size().height())
         return self
 
     def setTitle(self, title) -> None:
         self.group.setTitle(title)
+
     def setMaxiumHeight(self, height) -> None:
         """"""
         self.group.setMaximumHeight(height)
+
     def setMinimumHeight(self, height) -> None:
         """"""
         self.group.setMinimumHeight(height)
 
     def set_scroll_bar_position(self, position) -> None:
         """"""
-        if position == "top":
+        if position == 'top':
             position = self.scroll.horizontalScrollBar().minimum()
             self.scroll.horizontalScrollBar().setSliderPosition(position)
-
-        elif position == "center":
+        elif position == 'center':
             position = int((self.scroll.verticalScrollBar().minimum() + self.scroll.verticalScrollBar().maximum()) / 2)
             self.scroll.horizontalScrollBar().setSliderPosition(position)
-
-        elif position == "bottom":
+        elif position == 'bottom':
             position = self.scroll.horizontalScrollBar().maximum()
             self.scroll.horizontalScrollBar().setSliderPosition(position)
 
@@ -352,12 +288,6 @@ class NchantdVScrollGroupBox(NchantdWidget):
             self.group.setMaximumHeight(self.max_height)
         if self.min_height is not None:
             self.group.setMinimumHeight(self.min_height)
-        # self.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignTop)
-        # self.layout.setSpacing(0)
-        # self.layout.setContentsMargins(0, 0, 0, 0)
-        # self.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignTop)
-        # self.layout.setSpacing(0)
-
 
 class NchantdHScrollGroupBox(pyqt.QWidget):
     """"""
@@ -366,10 +296,7 @@ class NchantdHScrollGroupBox(pyqt.QWidget):
         """"""
         super().__init__(parent)
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdHScrollGroupBox").override(cfg)
-        #if parent is not None and not isinstance(parent, pyqt.QWidget):
-        #    self.config.override(parent.config)
-        #self.config.override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('NchantdHScrollGroupBox').override(cfg)
         self.group = None
         self.layout_box = None
         self.scroll = None
@@ -389,8 +316,8 @@ class NchantdHScrollGroupBox(pyqt.QWidget):
         self.scroll.setWidgetResizable(True)
         self.scroll.setWidget(self)
         self.group = pyqt.QGroupBox()
-        if self.config.get("height", None):
-            self.setMaxiumHeight(self.config.get("height"))
+        if self.config.get('height', None):
+            self.setMaxiumHeight(self.config.get('height'))
         layout = pyqt.QVBoxLayout(self.group)
         layout.addWidget(self.scroll)
         self.layout = pyqt.QVBoxLayout()
@@ -428,24 +355,22 @@ class NchantdHScrollGroupBox(pyqt.QWidget):
         min_ = self.scroll.horizontalScrollBar().minimum()
         max_ = self.scroll.horizontalScrollBar().maximum()
         if max_ == 0:
-            max_ = self.scroll.viewport().size().width() * 2  # TODO HACK:
-            self.scroll.horizontalScrollBar().setMaximum(max_)  # TODO HACK:
-
-        logma.info(f"Min {min_} Max {max_}")
-        if position == "left":
+            max_ = self.scroll.viewport().size().width() * 2
+            self.scroll.horizontalScrollBar().setMaximum(max_)
+        logma.info(f'Min {min_} Max {max_}')
+        if position == 'left':
             position = min_
-        elif position == "center":
-            position = int((max_ + min_) / 2 + (max_ + min_) / 3)  # TODO HACK:
-        elif position == "right":
+        elif position == 'center':
+            position = int((max_ + min_) / 2 + (max_ + min_) / 3)
+        elif position == 'right':
             position = max_
         else:
-            raise Exception(f"Invalid position {position}")
-        logma.info(f"Position {position}")
+            raise Exception(f'Invalid position {position}')
+        logma.info(f'Position {position}')
         scrollbar = self.scroll.horizontalScrollBar()
         scrollbar.setSliderPosition(position)
         scrollbar.setValue(position)
-        logma.info(f"Position {scrollbar.sliderPosition()}")
-
+        logma.info(f'Position {scrollbar.sliderPosition()}')
 
 class NchantdGridScrollGroupBox(pyqt.QWidget):
     """"""
@@ -455,12 +380,11 @@ class NchantdGridScrollGroupBox(pyqt.QWidget):
         super().__init__(parent)
         self.config = kahndor.Instruct(pxcfg)
         self.parent = parent
-        if parent is not None and not isinstance(parent, pyqt.QWidget):
+        if parent is not None and (not isinstance(parent, pyqt.QWidget)):
             self.config.override(parent.config)
         self.config.override(cfg)
         self.initLayout()
-        logma.info(f"NchantdGridScrollGroupBox initialized")
-
+        logma.info(f'NchantdGridScrollGroupBox initialized')
 
     def addWidget(self, widget, row=0, column=0, row_span=1, column_span=1) -> Any:
         """"""
@@ -506,15 +430,11 @@ class NchantdGridScrollGroupBox(pyqt.QWidget):
 
     def set_minimum_height(self, height) -> None:
         """"""
-        # self.scroll.setMinimumHeight(height)
         self.group.setMinimumHeight(height)
-        # self.setMinimumHeight(height)
 
     def set_maximum_height(self, height) -> None:
         """"""
-        # self.scroll.setMaximumHeight(height)
         self.group.setMaximumHeight(height)
-        # self.setMaximumHeight(height)
 
     def set_size(self, width=None, height=None) -> None:
         """"""
@@ -529,8 +449,3 @@ class NchantdGridScrollGroupBox(pyqt.QWidget):
         self.layout_grid.setContentsMargins(0, 0, 0, 0)
         self.layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignTop)
         self.layout.setSpacing(0)
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

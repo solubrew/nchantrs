@@ -1,4 +1,3 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Nchantrs@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 """#																			||
 ---  #																			||
 <(META)>:  #																	||
@@ -13,69 +12,27 @@
         authority: document|this  #													||
         security: sec|lvl2  #														||
         <(WT)>: -32  #																||
-"""  # 																			||
-
-# -*- coding: utf-8 -*-#														||
-# ================================Core Modules===================================||
+"""
 from os.path import abspath, dirname, exists, join, expanduser
-
-# ===============================================================================||
 from kahndor import kahndor
-
 import logging
 from kahndor.thing import thingify, getName
-
 logger = logging.getLogger(__name__)
 from fxsquirl.fxsquirl import Chunker
-
-# Constants for switch_abuse replacement (if/elif chains)
-ECHO_MODES = {
-    0: QLineEdit.Normal,
-    1: QLineEdit.Password,
-    2: QLineEdit.PasswordEchoOnEdit,
-    3: QLineEdit.NoEcho,
-}
-
-VALIDATOR_TYPES = {
-    0: None,
-    1: lambda: QIntValidator(self.validatorLineEdit),
-    2: lambda: QDoubleValidator(
-        MIN_VALIDATOR_VALUE, MAX_VALIDATOR_VALUE, VALIDATOR_DECIMAL_PLACES, self.validatorLineEdit
-    ),
-}
-
-ALIGNMENT_MODES = {
-    0: Qt.AlignLeft,
-    1: Qt.AlignCenter,
-    2: Qt.AlignRight,
-}
-
-INPUT_MASKS = {
-    0: "",
-    1: "+99 99 99 99 99;_",
-    2: "0000-00-00",
-    3: ">AAAAA-AAAAA-AAAAA-AAAAA-AAAAA;#",
-}
-
-ACCESS_MODES = {
-    0: False,  # read-write
-    1: True,  # read-only
-}
-
-# ====================================================================================================================||
-# Constants for magic number replacement
+ECHO_MODES = {0: QLineEdit.Normal, 1: QLineEdit.Password, 2: QLineEdit.PasswordEchoOnEdit, 3: QLineEdit.NoEcho}
+VALIDATOR_TYPES = {0: None, 1: lambda: QIntValidator(self.validatorLineEdit), 2: lambda: QDoubleValidator(MIN_VALIDATOR_VALUE, MAX_VALIDATOR_VALUE, VALIDATOR_DECIMAL_PLACES, self.validatorLineEdit)}
+ALIGNMENT_MODES = {0: Qt.AlignLeft, 1: Qt.AlignCenter, 2: Qt.AlignRight}
+INPUT_MASKS = {0: '', 1: '+99 99 99 99 99;_', 2: '0000-00-00', 3: '>AAAAA-AAAAA-AAAAA-AAAAA-AAAAA;#'}
+ACCESS_MODES = {0: False, 1: True}
 MIN_VALIDATOR_VALUE = -999.0
 MAX_VALIDATOR_VALUE = 999.0
 VALIDATOR_DECIMAL_PLACES = 2
 DEFAULT_INPUT_MASK_INDEX = 0
-# ===============================================================================||
-here = join(dirname(__file__), "")  # 												||
-there = abspath(join("../../.."))  # 												||set path at pheonix level
-version = "0.0.0.0.0.0"  # 														||
+here = join(dirname(__file__), '')
+there = abspath(join('../../..'))
+version = '0.0.0.0.0.0'
 log = False
-# ===============================================================================||
-pxcfg = f"{here}_data_/events.yaml"
-
+pxcfg = f'{here}_data_/events.yaml'
 
 class NchantdEventSet:
     """The EventSet is historical log of actions relative to an Nchantd
@@ -87,40 +44,37 @@ class NchantdEventSet:
         if parent:
             cfg = parent.config
         self.config = kahndor.Instruct(pxcfg)
-        self.config.select("NchantdEventSet").override(cfg)
+        self.config.select('NchantdEventSet').override(cfg)
         if not parent.newInstance:
             self.restoreEventSet()
         self.lastEvent = self.getLastEvent()
-        logma.info(f"NchantdEventSet initialized")
-
+        logma.info(f'NchantdEventSet initialized')
 
     def store(self, event) -> None:
-        """ """
+        logma.info(f'store called')
         return self
 
     def restoreEventSet(self) -> None:
-        """ """
+        logma.info(f'restoreEventSet called')
         return self
 
     def restoreEvent(self) -> None:
-        """ """
+        logma.info(f'restoreEvent called')
         return self
 
     def getLastEvent(self) -> None:
         """ """
         return event
 
-
 class NchantdEvent:
     """An Event provides data to listeners and storage of the event"""
 
     def __init__(self) -> None:
         """ """
-        logma.info(f"NchantdEvent initialized")
-
+        logma.info(f'NchantdEvent initialized')
 
     def store(self, event) -> None:
-        """ """
+        logma.info(f'store called')
         return self
 
     def currentCharFormatChanged(self, format) -> None:
@@ -134,13 +88,7 @@ class NchantdEvent:
         self.actionPaste.setEnabled(len(QApplication.clipboard().text()) != 0)
 
     def about(self) -> None:
-        QMessageBox.about(
-            self,
-            "About",
-            "This example demonstrates Qt's rich text editing facilities "
-            "in action, providing an example document for you to "
-            "experiment with.",
-        )
+        QMessageBox.about(self, 'About', "This example demonstrates Qt's rich text editing facilities in action, providing an example document for you to experiment with.")
 
     def mergeFormatOnWordOrSelection(self, format) -> None:
         cursor = self.textEdit.textCursor()
@@ -151,7 +99,7 @@ class NchantdEvent:
 
     def fontChanged(self, font) -> None:
         self.comboFont.setCurrentIndex(self.comboFont.findText(QFontInfo(font).family()))
-        self.comboSize.setCurrentIndex(self.comboSize.findText("%s" % font.pointSize()))
+        self.comboSize.setCurrentIndex(self.comboSize.findText('%s' % font.pointSize()))
         self.actionTextBold.setChecked(font.bold())
         self.actionTextItalic.setChecked(font.italic())
         self.actionTextUnderline.setChecked(font.underline())
@@ -192,10 +140,10 @@ class NchantdEvent:
 
     def inputMaskChanged(self, index) -> None:
         """Change input mask based on index using dictionary lookup"""
-        mask = INPUT_MASKS.get(index, "")
+        mask = INPUT_MASKS.get(index, '')
         self.inputMaskLineEdit.setInputMask(mask)
         if index == 2:
-            self.inputMaskLineEdit.setText("00000000")
+            self.inputMaskLineEdit.setText('00000000')
             self.inputMaskLineEdit.setCursorPosition(0)
 
     def accessChanged(self, index) -> None:
@@ -209,10 +157,8 @@ class NchantdEvent:
         toolbars/etc. in sync with the current edit state.
         :return:
         """
-        # Disable signals for all format widgets, so changing values here does not trigger further formatting.
         self.block_signals(self._format_actions, True)
         self.fonts.setCurrentFont(self.editor.currentFont())
-        # Nasty, but we get the font-size as a float but want it was an int
         self.fontsize.setCurrentText(str(int(self.editor.fontPointSize())))
         self.italic_action.setChecked(self.editor.fontItalic())
         self.underline_action.setChecked(self.editor.fontUnderline())

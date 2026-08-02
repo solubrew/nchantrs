@@ -1,4 +1,3 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 """#																			||
 ---  #																			||
 <(META)>:  #																	||
@@ -13,28 +12,17 @@
         authority: document|this  #													||
         security: sec|lvl2  #														||
         <(WT)>: -32  #																||
-"""  # ||
-
-# -*- coding: utf-8 -*-#														||
-# ================================Core Modules===================================||
+"""
 from os.path import dirname, join
-
-# ===============================================================================||
-# ===============================================================================||
 from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidgetMixin
 from typing import Optional, Dict, List, Any, Tuple
 from kahndor.logma import Logma
-
-# ===============================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 log = False
 logma = Logma(__name__)
-
-# ===============================================================================||
-pxcfg = join(here, "_data_", "items.yaml")
-
+pxcfg = join(here, '_data_', 'items.yaml')
 
 class NchantdItem(NchantdWidgetMixin, pyqt.QStandardItem):
     """ """
@@ -42,7 +30,7 @@ class NchantdItem(NchantdWidgetMixin, pyqt.QStandardItem):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent_widget = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdItem")
+        self.config = kahndor.Instruct(pxcfg).select('NchantdItem')
         self.catalog = parent.catalog
         NchantdWidgetMixin.__init__(self)
         pyqt.QStandardItem.__init__(self, parent)
@@ -79,38 +67,37 @@ class NchantdItem(NchantdWidgetMixin, pyqt.QStandardItem):
 
     def initTriggers(self) -> None:
         """ """
-        logma.info(f"Init Triggers")
+        logma.info(f'Init Triggers')
         self.doubleClicked.connect(self.onLeftDoubleClick)
         self.expanded.connect(self.onExpand)
         self.clicked.connect(self.onLeftClick)
         return self
 
     def onExpand(self) -> None:
-        """ """
+        logma.info(f'onExpand called')
         return self
 
     def onRightClick(self, signal=None) -> None:
         """ """
-        logma.info(f"Right Click")
+        logma.info(f'Right Click')
         return self
 
     def onLeftDoubleClick(self, signal) -> None:
-        logma.info(f"Left Double Click")
+        logma.info(f'Left Double Click')
         return self
 
     def onLeftClick(self, signal) -> None:
-        """"""
+        logma.info(f'onLeftClick called')
         return self
 
     def onMiddleClick(self) -> None:
         """ """
-        logma.info(f"Middle Click")
+        logma.info(f'Middle Click')
         return self
 
     def onSelection(self, fx, mod=None) -> None:
         """On selection of tree node load data for tabs in center widget"""
         event.on_clickleft_press(fx)
-
         return
 
     def onDeselection(self, fx, mod=None) -> None:
@@ -126,14 +113,8 @@ class NchantdItem(NchantdWidgetMixin, pyqt.QStandardItem):
         return
 
     def onDelete(self, fx, mod=None) -> None:
-        """Launch Dialog to confirm deletion of node, which marks as deleted in database
-        and is not removed until a database cleanup is run"""
-
-
-# expand this to allow for multiple connections to content and only delete
-# connections until no connections are left then remove content...this requires
-# the knowledge of parents by their children
-
+        logma.info(f'onDelete called')
+        return self
 
 class NchantdTreeItem(NchantdWidgetMixin, pyqt.QTreeWidgetItem):
     """ """
@@ -142,7 +123,7 @@ class NchantdTreeItem(NchantdWidgetMixin, pyqt.QTreeWidgetItem):
         """ """
         super().__init__(parent)
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdTreeItem").override(parent.config).override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('NchantdTreeItem').override(parent.config).override(cfg)
 
     def initModel(self, cfg) -> None:
         """ """
@@ -159,9 +140,4 @@ class NchantdTreeItem(NchantdWidgetMixin, pyqt.QTreeWidgetItem):
         self.model()
         self.view()
         return self
-
-
-# ===========================Code Source Examples================================||
-"""
-"""
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+'\n'

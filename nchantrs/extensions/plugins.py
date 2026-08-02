@@ -1,4 +1,3 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 """
 ---
 <(META)>:
@@ -10,32 +9,19 @@
         security: seclvl2
         <(WT)>: -32
 """
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 from typing import Optional, Dict, List, Any, Tuple
 import datetime as dt
-
 import logging
-
 logger = logging.getLogger(__name__)
-# ======================================3rd Party Library Modules=====================================================||
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from nchantrs.widgets.widgets import NchantdWidget
 from kahndor.logma import Logma
-
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
 logma.off()
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", "plugins.yaml")
-
+pxcfg = join(here, '_data_', 'plugins.yaml')
 
 class NchantdBrowserPluginBase(NchantdWidget):
     """"""
@@ -43,7 +29,7 @@ class NchantdBrowserPluginBase(NchantdWidget):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdPluginBase")
+        self.config = kahndor.Instruct(pxcfg).select('NchantdPluginBase')
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -64,7 +50,6 @@ class NchantdBrowserPluginBase(NchantdWidget):
         self.initModel()
         self.initView()
         return self
-
 
 class NchantdApplicationPluginBase(NchantdWidget):
     """"""
@@ -72,7 +57,7 @@ class NchantdApplicationPluginBase(NchantdWidget):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
+        self.config = kahndor.Instruct(pxcfg).select('Nchantd')
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -93,8 +78,3 @@ class NchantdApplicationPluginBase(NchantdWidget):
         self.initModel()
         self.initView()
         return self
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

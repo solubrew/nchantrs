@@ -1,29 +1,10 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Nchantrs@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 from typing import Any, Optional
-
-"""#																			||
----  #																			||
-<(META)>:  #																	||
-        docid: 'a75f07e9-73f9-4622-b748-5c9cc4c88e8b'  #							||
-        name: Nchantrs Application Models Python Excecution Document  #				||
-        description: >  #															||
-        expirary: <[expiration]>  #													||
-        version: <[version]>  #														||
-        path: <[LEXIvrs]>  #														||
-        authority: document|this  #													||
-        security: sec|lvl2  #														||
-        <(WT)>: -32  #																||
-"""  # ||
-
-# -*- coding: utf-8 -*-#														||
-# ================================Core Modules===================================||
+"#\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n---  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n<(META)>:  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        docid: 'a75f07e9-73f9-4622-b748-5c9cc4c88e8b'  #\t\t\t\t\t\t\t||\n        name: Nchantrs Application Models Python Excecution Document  #\t\t\t\t||\n        description: >  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        expirary: <[expiration]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        version: <[version]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        path: <[LEXIvrs]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        authority: document|this  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        security: sec|lvl2  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        <(WT)>: -32  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n"
 from os.path import dirname, join, expanduser
 from os import environ
 import platform
 import json as j
 from pandas import DataFrame
-
-# ===============================================================================||
 from kahndor import kahndor
 from subtrix.subtrix import Mechanism
 from subtrix.utilities import uuid
@@ -34,17 +15,13 @@ from nchantrs.widgets.items.nodes import NchantdTreeNode
 from nchantrs.wizards.instances import NchantdNewInstanceWizard
 from kahndor.logma import Logma
 from pycurity.pyvice import Device
-
-# ===============================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 log = False
 logma = Logma(__name__)
 debug = True
 if not log:
     logma.off()
-# ===============================================================================||
-pxcfg = join(here, "_data_", "applicationmodels.yaml")
-
+pxcfg = join(here, '_data_', 'applicationmodels.yaml')
 
 class NchantdPantiesModel(object):
     """
@@ -60,7 +37,7 @@ class NchantdPantiesModel(object):
         :param cfg:
         """
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdPantiesModel").override(parent.config).override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('NchantdPantiesModel').override(parent.config).override(cfg)
         self.app = self.parent.app
         self.app_cfg = None
         self.application_path = None
@@ -72,12 +49,12 @@ class NchantdPantiesModel(object):
         self.config_imported = False
         self.connections = None
         self.current_tabset = None
-        if self.config.dikt.get("override_format"):
+        if self.config.dikt.get('override_format'):
             self.config_imported = True
         self.device = None
         self.slug = self.app.slug
-        self.home = environ["HOME"]
-        self.parents = [self.slug, "nchantrs"]
+        self.home = environ['HOME']
+        self.parents = [self.slug, 'nchantrs']
         self.policy = None
         self.location = None
         self.listeners = None
@@ -85,13 +62,10 @@ class NchantdPantiesModel(object):
         self.store = NchantdStore(self.slug, self.parent)
         self.os_type = platform.system().lower()
         self.user = None
-        self.is_private = None  # Private will enforce a basic_js login when opening the application or instance and some sensitive data is encrypted when stored
-        self.is_secure = None  # Secure will enforce the same as private but also encrypt all information stored and held in cache...this will not be available unless a true security audit is compeleted
+        self.is_private = None
+        self.is_secure = None
         self.instance_cfg = None
         self.reset = None
-        # App-level web-engine profile pool (single shared default profile).
-        # Built lazily via get_web_profiles() so QtWebEngine/profile imports and
-        # storage paths are resolved only when a web view actually needs them.
         self.web_profiles = None
 
     def get_web_profiles(self) -> Any:
@@ -102,10 +76,10 @@ class NchantdPantiesModel(object):
         object at one storage path — the safe pattern that both restores
         persistence and avoids the multi-object same-path corruption.
         """
-        if getattr(self, "web_profiles", None) is None:
+        if getattr(self, 'web_profiles', None) is None:
             from nchantrs.widgets.browsers.profiles import ProfileManager
-            base = self.application_path or getattr(self.store, "application_path", None) or self.home
-            logma.info(f"[appmodel] creating app-level web_profiles pool | storage_base={base!r}")
+            base = self.application_path or getattr(self.store, 'application_path', None) or self.home
+            logma.info(f'[appmodel] creating app-level web_profiles pool | storage_base={base!r}')
             self.web_profiles = ProfileManager(self.parent, storage_base=base)
         return self.web_profiles
 
@@ -113,13 +87,13 @@ class NchantdPantiesModel(object):
         """
         Check requires_auth before creating user to avoid unnecessary password dialogs.
         """
-        self.is_private = False  # Private will enforce a basic_js login when opening the application or instance and some sensitive data is encrypted when stored
-        self.is_secure = False  # Secure will enforce the same as private but also encrypt all information stored and held in cache...this will not be available unless a true security audit is compeleted
+        self.is_private = False
+        self.is_secure = False
         self.device = Device()
         self.policy = NchantdDataPolicy(self)
         self._reset_cache()
         cfg = {}
-        requires_auth = self.config.dikt.get("config", {}).get("requires_auth", False)
+        requires_auth = self.config.dikt.get('config', {}).get('requires_auth', False)
         if requires_auth:
             self.user = NchantdUser(self, cfg)
         self.initialize_instance()
@@ -129,37 +103,9 @@ class NchantdPantiesModel(object):
         if instance_object is None:
             instance_object = NchantdInstance
         self.instance = instance_object(self)
-    # def load_instance(self):
-    #     """"""
-    #     #TODO refactor this into model level
-    #     instances = self.get_app_instance()
-    #     instances.sort_values(by=["CREON_DTTM"], inplace=True)
-    #     instance_dict = instances.loc[0].to_dict()
-    #     # logma.info(f"Wizard: create_instance: {instance_dict}")
-    #     instance = NchantdInstance(self, instance_dict)
-    #     # Load meta_data from database if available (for restoring last selected node)
-    #     if "meta_data_enc64_dict" in instance_dict and instance_dict["meta_data_enc64_dict"]:
-    #         try:
-    #             from pycurity.pyhash import decode64
-    #
-    #             instance.meta_data = json.loads(decode64(instance_dict["meta_data_enc64_dict"]))
-    #             # logma.info(f"Loaded instance meta_data: {instance.meta_data}")
-    #         except Exception as e:
-    #             logma.warning(f"Could not load instance meta_data: {e}")
-    #             instance.meta_data = {}
-    #     self.app.model.instances = {x["instance_id_txt"]: x for x in instances.to_dict(orient="records")}
-    #     instance.is_install_active = False
-    #     logma.info(f"Install Active: {instance.is_install_active}")
-    #     # logma.info(f"Instance Id {instance.instance_id}")
-    #     self.app.model.set_instance_active(instance)
-    #     # After instance is loaded, select the appropriate node:
-    #     # - For new installs (first run): select Home node
-    #     # - For existing instances: restore last selected node or default to Home
-    #     self._select_initial_node(instance)
-    #
-    #     return self
+
     def init_model_pre(self) -> None:
-        """Initialize model pre-creation"""
+        logma.info(f'init_model_pre called')
         return self
 
     def initModel(self, reset=None, pre=True, post=True) -> None:
@@ -172,23 +118,22 @@ class NchantdPantiesModel(object):
 
     def init_model_post(self) -> None:
         """Initialize model post-creation"""
-        self.store.store_app_event("initialized", "application_model_initialized")
+        self.store.store_app_event('initialized', 'application_model_initialized')
 
     def _initialize_account(self) -> None:
         """Initialize account"""
         if self.new_account is True:
-            self.new_account = False  # this account is referring to the Nchantrs online service account
-            self.store.store_app_event("initialized", "application_account_created")
+            self.new_account = False
+            self.store.store_app_event('initialized', 'application_account_created')
         else:
             self.new_account = False
-            self.store.store_app_event("initialized", "application_account_selected")
+            self.store.store_app_event('initialized', 'application_account_selected')
 
     def _reset_cache(self) -> None:
         """Reset cache"""
         self.store.reset_cache()
-        if hasattr(self, "menu_cache"):
+        if hasattr(self, 'menu_cache'):
             self.menu_cache.clear()
-
 
 class NchantdCapeModel(NchantdPantiesModel):
     """Nchantd Cape is a model that allows for simple independant dialog applications"""
@@ -196,13 +141,12 @@ class NchantdCapeModel(NchantdPantiesModel):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdSigilModel")
+        self.config = kahndor.Instruct(pxcfg).select('NchantdSigilModel')
         if parent:
             self.config.override(parent.config)
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
         self.initialize_application()
-
 
 class NchantdCloakModel(NchantdPantiesModel):
     """The Nchantd Cloak Model sets up the connection to the data for a generic
@@ -212,26 +156,22 @@ class NchantdCloakModel(NchantdPantiesModel):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCloakModel").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdCloakModel').override(cfg))
         self.store.config.override(self.config)
-        self.level = self.config.dikt.get("level", "")
+        self.level = self.config.dikt.get('level', '')
         self.has_library = False
         self.has_changed = False
-        self.are_mini_games_active = False  # will be used to run the mini game logic
-        self.is_internal_server_active = False  # will be used to run self hosted web based apps
+        self.are_mini_games_active = False
+        self.is_internal_server_active = False
         self.is_saved = False
-        self.are_services_active = False  # will be used to connect to 3rd party services
+        self.are_services_active = False
         self.instance = None
-        self.menu_cache = {}  # application-wide cache of menu DataFrames keyed by name
+        self.menu_cache = {}
 
     def initModel(self, reset=None) -> None:
         """"""
         super().initModel(reset)
-        # self.set_paths()
         self.connect_nchantd_office()
-        # self.user_config() #TODO need to connect user'
-        # self.integration_config()
-        # self.extension_config()
         return self
 
     def add_attachment(self, name, widgdata, pid, did, document_type, tabset_type) -> None:
@@ -240,20 +180,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         editable = True
         visible = True
         moveable = True
-        row = [
-            name,
-            "widgets.media.documents.notes.NchantdOfficeStickyNote",  # TODO fix this shouldn't reference NchantdOffice
-            widgdata,
-            pid,
-            did,
-            document_type,
-            tabset_type,
-            readonly,
-            editable,
-            visible,
-            moveable,
-            uuid(),
-        ]
+        row = [name, 'widgets.media.documents.notes.NchantdOfficeStickyNote', widgdata, pid, did, document_type, tabset_type, readonly, editable, visible, moveable, uuid()]
         self.store.store_app_tab(row)
 
     def add_instance(self, instance) -> None:
@@ -266,45 +193,38 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def add_node(self, name, ntype, pid, pos, parameters=None, tabset=None, return_node=False) -> None:
         """Add a node to the document tree."""
-        logma.info(f"Add Node")
+        logma.info(f'Add Node')
         nid, row = self.store.store_doc_tree_node(name, ntype, pid, pos, parameters)
         if return_node is False:
             return nid
-        columns = self.app.view.panes["left"].tree.model.nodecolumns + ["app_data_type"]
-        row = row + ["doc"]
-        logma.info(f"PID {pid} COLUMNS {columns}")
-        if str(pid) == "0":
-            parent_node = self.app.view.panes["left"].tree
+        columns = self.app.view.panes['left'].tree.model.nodecolumns + ['app_data_type']
+        row = row + ['doc']
+        logma.info(f'PID {pid} COLUMNS {columns}')
+        if str(pid) == '0':
+            parent_node = self.app.view.panes['left'].tree
         else:
-            # Find the actual parent node in the tree by its nid
             parent_node = self.find_node_in_tree(pid)
             if parent_node is None:
                 logma.warning(f"Parent node with nid {pid} not found in tree, using current node's parent")
                 current = self.get_current_node()
-                # If pid doesn't match current node's nid, this should be a sibling
                 if current and str(current.nid) != str(pid):
-                    parent_node = (
-                        current.parent() if hasattr(current, "parent") and callable(current.parent) else current
-                    )
+                    parent_node = current.parent() if hasattr(current, 'parent') and callable(current.parent) else current
                 else:
                     parent_node = current
-        logma.info(f"Parent Node {parent_node}")
+        logma.info(f'Parent Node {parent_node}')
         new_node = NchantdTreeNode(parent_node, name, nid, dict(zip(columns, row)))
         new_node.initWidget()
         new_node.setExpanded(True)
-        if str(pid) == "0":
+        if str(pid) == '0':
             parent_node.addTopLevelItem(new_node)
         else:
             parent_node.addChild(new_node)
-        self.app.view.panes["left"].tree.model.current_node = new_node
-        new_node.updateTabs("center")
-        # Select and scroll to the new node directly without full tree refresh
-        self.app.view.panes["left"].tree.view.set_current_node(new_node)
+        self.app.view.panes['left'].tree.model.current_node = new_node
+        new_node.updateTabs('center')
+        self.app.view.panes['left'].tree.view.set_current_node(new_node)
         return self
 
-    def add_tab(
-        self, name, pid, pos, widget, widgdata=None, did=None, doc_type=None, tabset=None, in_doc=True, db="db"
-    ) -> None:
+    def add_tab(self, name, pid, pos, widget, widgdata=None, did=None, doc_type=None, tabset=None, in_doc=True, db='db') -> None:
         """
         :param name: Name of the tab to be added.
         :param pid: Process ID associated with the tab.
@@ -313,24 +233,24 @@ class NchantdCloakModel(NchantdPantiesModel):
         :return: The current instance of the object.
         """
         if widgdata is None:
-            widgdata = "{}"
+            widgdata = '{}'
         if did is None:
             did = uuid()
         if doc_type is None:
-            doc_type = "custom-widget"
+            doc_type = 'custom-widget'
         if tabset is None:
-            tabset = "center"
+            tabset = 'center'
         if isinstance(widgdata, dict):
             try:
                 widgdata = j.dumps(widgdata)
             except Exception as e:
-                logma.warning(f"Widgdata Cannot be Serialized to JSON")
+                logma.warning(f'Widgdata Cannot be Serialized to JSON')
                 logma.warning(widgdata)
                 if debug:
                     raise Exception(e)
         tabbase = self.app.view.panes[tabset].model.tabbase
         tid = uuid()
-        logma.info(f"Widget {widget}")
+        logma.info(f'Widget {widget}')
         row = [name, widget, widgdata, pid, did, pos, doc_type, tabset] + tabbase + [tid]
         if in_doc is True:
             self.store.store_doc_tab(row, self.app.model.instance)
@@ -338,50 +258,48 @@ class NchantdCloakModel(NchantdPantiesModel):
             self.store.store_app_tab(row)
         return tid
 
-    def check_policy(self, policy, table, condition, value, db="db") -> None:
+    def check_policy(self, policy, table, condition, value, db='db') -> None:
         """"""
-        if policy == "Data Retention Policy":
+        if policy == 'Data Retention Policy':
             return self.check_data_retention_policy(table, condition, value, db)
-        if policy == "Data Security Policy":
+        if policy == 'Data Security Policy':
             return self.check_data_security_policy(table, condition, value, db)
-        raise Exception(f"Policy {policy} not found")
+        raise Exception(f'Policy {policy} not found')
 
-    def check_data_retention_policy(self, table, condition, value, db="db") -> None:
+    def check_data_retention_policy(self, table, condition, value, db='db') -> None:
         """"""
-        policy = "Data Retention Policy"
-        cfg = {"WHERE": {"EQUAL": {"type_txt": policy, "target_txt": table}}}
+        policy = 'Data Retention Policy'
+        cfg = {'WHERE': {'EQUAL': {'type_txt': policy, 'target_txt': table}}}
         data = self.store.get_app_policy(cfg, db)
         if not data.empty:
-            policy = j.loads(data["policy_dict"].values[0])
+            policy = j.loads(data['policy_dict'].values[0])
             if policy.get(condition, None) == value:
                 return True
         return False
 
-    def check_data_security_policy(self, table, condition, value, db="db") -> None:
+    def check_data_security_policy(self, table, condition, value, db='db') -> None:
         """"""
-        policy = "Data Security Policy"
+        policy = 'Data Security Policy'
         data = self.store.get_app_policy(table, policy, db)
         if not data.empty:
-            policy = j.loads(data["policy_dict"].values[0])
+            policy = j.loads(data['policy_dict'].values[0])
             if policy.get(condition, None) == value:
                 return True
         return False
 
     def clear_doc_tables(self) -> None:
         """"""
-        tables = ["doc_media", "doc_media_content", "doc_tab", "doc_tree_node", "doc_user"]
+        tables = ['doc_media', 'doc_media_content', 'doc_tab', 'doc_tree_node', 'doc_user']
         for table in tables:
             self.store.clear_doc_table(table)
         return self
 
     def connect_nchantd_office(self) -> None:
-        """Connect to the Nchantd Office API"""
-        # need to make a connection to the Nchantd Office API
+        logma.info(f'connect_nchantd_office called')
         return self
 
     def convert_database(self, version_from, version_to) -> None:
-        """Convert database between versions"""
-        # handle data updates
+        logma.info(f'convert_database called')
         return self
 
     def create_new_instance(self) -> None:
@@ -391,37 +309,31 @@ class NchantdCloakModel(NchantdPantiesModel):
         instance = NchantdNewInstanceWizard(self, cfg).initWizard()
         if self.instance is None:
             self.instance = instance
-        # [DONE]
         self.instance.set_independent()
-        logma.info("Request New Instance")
+        logma.info('Request New Instance')
         if not self.app.comms_manager.request_new_instance(self.instance.instance_id):
             self.app.comms_manager.launch_supervisor()
             if not self.app.comms_manager.request_new_instance(self.instance.instance_id):
-                raise Exception("No Supervisor Communication Bridge to Request New Instance")
+                raise Exception('No Supervisor Communication Bridge to Request New Instance')
         return self
 
-    def deactivate(self, table, uuid=None, primary_key=None, db="db") -> None:
-        """"""
+    def deactivate(self, table, uuid=None, primary_key=None, db='db') -> None:
+        logma.info(f'deactivate called')
         return self
 
     def delete_node(self, node) -> None:
         """"""
-        logma.info(f"Node {node.nid} will be deleted")
+        logma.info(f'Node {node.nid} will be deleted')
         for tab in node.tabs:
             self.delete_tab(tab)
-        self.store.delete_record("doc_tree_node", uuid=node.nid, column="nid_txt")
+        self.store.delete_record('doc_tree_node', uuid=node.nid, column='nid_txt')
         return self
 
-    def delete_tab(self, uuid=None, tab_pk=None, db="db") -> None:
+    def delete_tab(self, uuid=None, tab_pk=None, db='db') -> None:
         """"""
-        # self.parent.current_tabset.remove_tab(self.app.model.current_tab.tabn)
-        # if uuid is not None and tab_pk is None:
-        #     tab_pk = self.store.get_primary_key("doc_tab", uuid=uuid)
-        # if tab_pk is None:
-        #     raise Exception(f"Tab UUID {uuid} Cannot be Deleted {tab_pk}")
-        self._delete_record("doc_tab", uuid=uuid, column="tid_txt", db=db)
+        self._delete_record('doc_tab', uuid=uuid, column='tid_txt', db=db)
         cfg = {}
-        self.store_event("NONACTIVE", "DeleteTab", cfg)
+        self.store_event('NONACTIVE', 'DeleteTab', cfg)
         self.has_changed = True
         return self
 
@@ -432,9 +344,9 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def extension_config(self) -> None:
         """"""
-        if self.config.dikt["dstruct"]["extensions"] is not None:
-            for extension, details in self.config.dikt["dstruct"]["extensions"].items():
-                if details["active"]:
+        if self.config.dikt['dstruct']['extensions'] is not None:
+            for extension, details in self.config.dikt['dstruct']['extensions'].items():
+                if details['active']:
                     self._activate_extension(extension, details)
 
     def generate_paths(self, cfg) -> None:
@@ -445,24 +357,21 @@ class NchantdCloakModel(NchantdPantiesModel):
         # NOTE implement a path override for testing
 
         """
-        if cfg.get("level", None) is not None:
-            self.level = cfg.get("level")  # TODO: IMPLEMENT better for instance
-        logma.info(f"Level {self.level}")
-        data = {"<[application_slug]>": self.slug, "<[user_home]>": self.home, "level": self.level}
-        path = self.config.dikt["dstruct"]["filesystem"][self.os_type].get("application", "").get("path", "")
+        if cfg.get('level', None) is not None:
+            self.level = cfg.get('level')
+        logma.info(f'Level {self.level}')
+        data = {'<[application_slug]>': self.slug, '<[user_home]>': self.home, 'level': self.level}
+        path = self.config.dikt['dstruct']['filesystem'][self.os_type].get('application', '').get('path', '')
         self.application_path = Mechanism(path, data).run()
-        data = {"<[application_slug]>": self.slug, "<[user_home]>": self.home, "level": self.level}
-        path = self.config.dikt["dstruct"]["filesystem"][self.os_type].get("config", "").get("path", "")
+        data = {'<[application_slug]>': self.slug, '<[user_home]>': self.home, 'level': self.level}
+        path = self.config.dikt['dstruct']['filesystem'][self.os_type].get('config', '').get('path', '')
         self.config_path = Mechanism(path, data).run()
-        data = {"<[application_slug]>": self.slug, "<[user_home]>": self.home, "level": self.level}
-        path = self.config.dikt["dstruct"]["filesystem"][self.os_type].get("library", "").get("path", "")
+        data = {'<[application_slug]>': self.slug, '<[user_home]>': self.home, 'level': self.level}
+        path = self.config.dikt['dstruct']['filesystem'][self.os_type].get('library', '').get('path', '')
         self.library_path = Mechanism(path, data).run()
-        # data = {"<[application_slug]>": self.slug, "<[user_home]>": self.home}
-        # path = self.config.dikt["dstruct"]["filesystem"][self.os_type].get("shortcut", "").get("path", "")
-        # self.shortcut_path = Mechanism(path, data).run()
-        self.shortcut_path = ""  # self.config_path + "shortcuts/" + self.slug + ".lnk"
-        data["<[application_icon]>"] = "launch_icon"
-        path = self.config.dikt["dstruct"]["filesystem"][self.os_type].get("icon", "").get("path", "")
+        self.shortcut_path = ''
+        data['<[application_icon]>'] = 'launch_icon'
+        path = self.config.dikt['dstruct']['filesystem'][self.os_type].get('icon', '').get('path', '')
         self.icon_path = Mechanism(path, data).run()
         return [self.application_path, self.config_path, self.library_path, self.shortcut_path, self.icon_path]
 
@@ -470,17 +379,17 @@ class NchantdCloakModel(NchantdPantiesModel):
         """"""
         instances = self.store.get_app_instance()
         if instances.empty:
-            raise Exception("No Instance available")
-        logma.info(f"Instances {instances}")
+            raise Exception('No Instance available')
+        logma.info(f'Instances {instances}')
         instance = instances.iloc[0].to_dict()
         return NchantdInstance.from_dict(instance)
 
-    def get_current_node(self, pane="left") -> None:
+    def get_current_node(self, pane='left') -> None:
         """"""
         node = self.app.view.panes[pane].tree.model.current_node
         return node
 
-    def get_current_tab(self, pane="center") -> None:
+    def get_current_tab(self, pane='center') -> None:
         """"""
         tab = self.app.view.panes[pane].model.current_tab
         return tab
@@ -488,15 +397,15 @@ class NchantdCloakModel(NchantdPantiesModel):
     def get_current_version(self) -> None:
         """"""
         df = self.store.get_app_version()
-        logma.info(f"Current Version {df}")
+        logma.info(f'Current Version {df}')
         if df.empty:
-            return "0.0.1.0.1.4"  # TODO:0 need a better way to track updating the base version
+            return '0.0.1.0.1.4'
         else:
             try:
-                return df.iloc[0]["version_txt"]
+                return df.iloc[0]['version_txt']
             except Exception as e:
-                logma.warning(f"Cannot Get Current Version {e}")
-                return "0.0.1.0.1.4"
+                logma.warning(f'Cannot Get Current Version {e}')
+                return '0.0.1.0.1.4'
 
     def get_instance(self, instance_id=None) -> None:
         """"""
@@ -517,7 +426,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         instances = self.store.get_app_instance(most_recent=last)
         if instances.empty:
             return []
-        instances = instances.to_list(orient="records")
+        instances = instances.to_list(orient='records')
         return instances
 
     def get_menu(self, name, refresh=False) -> None:
@@ -530,9 +439,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         if name is None:
             return DataFrame()
         if not refresh and name in self.menu_cache:
-            #logma.info(f"Menu cache hit {name}")
             return self.menu_cache[name]
-        #logma.info(f"Menu cache miss {name}")
         menu_df = self.store.get_app_menu(name)
         self.menu_cache[name] = menu_df
         return menu_df
@@ -544,24 +451,19 @@ class NchantdCloakModel(NchantdPantiesModel):
         entire cache so subsequent get_menu calls re-fetch from the store.
         """
         if name is None:
-            #logma.info("Invalidating entire menu cache")
             self.menu_cache.clear()
         else:
-            #logma.info(f"Invalidating menu cache {name}")
             self.menu_cache.pop(name, None)
         return self
 
     def find_node_in_tree(self, nid, tree_widget=None) -> Optional[Any]:
         """Find an existing node widget in the tree by its nid."""
         if tree_widget is None:
-            tree_widget = self.app.view.panes["left"].tree
-
-        # Search top-level items
+            tree_widget = self.app.view.panes['left'].tree
         for i in range(tree_widget.topLevelItemCount()):
             item = tree_widget.topLevelItem(i)
-            if hasattr(item, "nid") and str(item.nid) == str(nid):
+            if hasattr(item, 'nid') and str(item.nid) == str(nid):
                 return item
-            # Recursively search children
             found = self._find_node_recursive(item, nid)
             if found:
                 return found
@@ -571,9 +473,8 @@ class NchantdCloakModel(NchantdPantiesModel):
         """Recursively search for a node in the tree."""
         for i in range(parent_item.childCount()):
             child = parent_item.child(i)
-            if hasattr(child, "nid") and str(child.nid) == str(nid):
+            if hasattr(child, 'nid') and str(child.nid) == str(nid):
                 return child
-            # Recursively search this child's children
             found = self._find_node_recursive(child, nid)
             if found:
                 return found
@@ -581,79 +482,67 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def get_node(self, nid=None, tree=None) -> None:
         """Get a node from the database."""
-        # logma.info(f"Get Node {nid}")
-        table = "vw_tree_node"
-        # logma.info(f"Node {nid}")
-        cfg = {"WHERE": {"EQUAL": {"pid_txt": "0", "position_int": 0}}}
+        table = 'vw_tree_node'
+        cfg = {'WHERE': {'EQUAL': {'pid_txt': '0', 'position_int': 0}}}
         if nid is not None:
-            cfg["WHERE"] = {"IN": {"nid_txt": [str(nid)]}}
-        nodes = next(self.store.docs["db"].read({"table": table}, cfg)).dikt[table]["df"].to_dict(orient="records")
-        logma.info(f"Nodes {nodes}")
+            cfg['WHERE'] = {'IN': {'nid_txt': [str(nid)]}}
+        nodes = next(self.store.docs['db'].read({'table': table}, cfg)).dikt[table]['df'].to_dict(orient='records')
+        logma.info(f'Nodes {nodes}')
         if len(nodes) == 0:
-            raise Exception(f"Node {nid} not found")
+            raise Exception(f'Node {nid} not found')
         else:
             node = nodes[0]
         pnode = None
-        if str(node["pid_txt"]) == "0":
-            pnode = self.app.view.panes["left"].tree
+        if str(node['pid_txt']) == '0':
+            pnode = self.app.view.panes['left'].tree
         if pnode is None:
-            pnode = self.app.view.panes["left"].tree.model.current_node
-        # logma.info(f"PNode {pnode.parent}")
+            pnode = self.app.view.panes['left'].tree.model.current_node
         if pnode is None:
-            raise Exception("No Current Node")
-        return NchantdTreeNode(pnode, node["name_txt"], node["nid_txt"], node).initWidget()
+            raise Exception('No Current Node')
+        return NchantdTreeNode(pnode, node['name_txt'], node['nid_txt'], node).initWidget()
 
     def get_nodes(self, treeid=0) -> None:
         """"""
-        table = "vw_tree_node"
-        cfg = {
-            "WHERE": {"EQUAL": {"treeid_txt": treeid, "visible_bit": 1}},
-            "ORDER": [
-                7,
-            ],
-        }
+        table = 'vw_tree_node'
+        cfg = {'WHERE': {'EQUAL': {'treeid_txt': treeid, 'visible_bit': 1}}, 'ORDER': [7]}
         return self.store.get_table(table, cfg)
 
-    def get_policy(self, data_table, policy, db="db") -> None:
+    def get_policy(self, data_table, policy, db='db') -> None:
         """"""
-        cfg = {"WHERE": {"EQUAL": {"type_txt": policy, "target_txt": data_table}}}
+        cfg = {'WHERE': {'EQUAL': {'type_txt': policy, 'target_txt': data_table}}}
         df = self.store.get_app_policy(cfg, db)
         return df
 
-    def get_tabs(self, node, tabset="center") -> None:
+    def get_tabs(self, node, tabset='center') -> None:
         """"""
         if node is None:
             return None
-        filters = {"WHERE": {"IN": {"pid_txt": [node], "tabset_type_txt": [tabset]}}}
-        if tabset == "right":
-            filters["WHERE"]["IN"]["pid_txt"].append("0")
-        filters["ORDER"] = [5]
+        filters = {'WHERE': {'IN': {'pid_txt': [node], 'tabset_type_txt': [tabset]}}}
+        if tabset == 'right':
+            filters['WHERE']['IN']['pid_txt'].append('0')
+        filters['ORDER'] = [5]
         return self.store.get_view_tab(filters)
 
     def integration_config(self) -> None:
-        """"""
-        # if self.config.dikt['dstruct']['integrations'] is not None:
-        # 	for integration, details in self.config.dikt['dstruct']['integrations'].items():
-        # 		if details['active']:
-        # 			self._activate_integration(integration, details)
+        logma.info(f'integration_config called')
+        return self
 
-    def maintain_application(self, db="db") -> None:
+    def maintain_application(self, db='db') -> None:
         """"""
-        # self.maintain_doc_media_content()
-        logma.info("Maintain Application")
+        logma.info('Maintain Application')
         self.store.compact_instances()
         self.store.compact_database(db)
         if self.instance is None:
-            raise Exception(f"No Instance Configured")
+            raise Exception(f'No Instance Configured')
         self.store.backup_database(self.instance, db)
         return self
 
     def maintain_doc_media_content(self) -> None:
         """"""
         df = self.store.get_view_maintain_doc_media_content()
-        values = df["doc_media_content_PK"].values.tolist()
-        logma.info(f"Values {values}")
-        self.store.delete_record("doc_media_content", primary_key=values)
+        values = df['doc_media_content_PK'].values.tolist()
+        logma.info(f'Values {values}')
+        self.store.delete_record('doc_media_content', primary_key=values)
         return self
 
     def open_instance(self, instance=None) -> None:
@@ -661,7 +550,6 @@ class NchantdCloakModel(NchantdPantiesModel):
         if instance is None:
             instance = self.get_instance_recent()
         self.parent.dbupdate.update_instance(instance)
-        #
         return self
 
     def register_action(self, action) -> None:
@@ -670,9 +558,10 @@ class NchantdCloakModel(NchantdPantiesModel):
         return self
 
     def reload_index(self, index) -> None:
-        """"""
+        logma.info(f'reload_index called')
+        return self
 
-    def reload_table(self, table, keep, map_, filters={}, db="db") -> None:
+    def reload_table(self, table, keep, map_, filters={}, db='db') -> None:
         """This method reloads a table allowing changes to the table strucuture and the ability to reinject the
         previous data and new data as needed.
 
@@ -681,61 +570,57 @@ class NchantdCloakModel(NchantdPantiesModel):
 
         """
         if keep:
-            logma.info(f"Copy Table {table} to temp_table")
-            outcome = self.store.copy_table(table, f"temp_{table}", None, db)
-            logma.info(f"Copy Table {table} to temp_table {outcome}"[:500])
+            logma.info(f'Copy Table {table} to temp_table')
+            outcome = self.store.copy_table(table, f'temp_{table}', None, db)
+            logma.info(f'Copy Table {table} to temp_table {outcome}'[:500])
             if not outcome:
                 if debug:
-                    raise Exception(f"Cannot Copy Table {table} to temp_table")
+                    raise Exception(f'Cannot Copy Table {table} to temp_table')
                 return False
-        logma.info(f"Delete Table {table}")
+        logma.info(f'Delete Table {table}')
         if not self.store.delete_table(table, db):
-            logma.info(f"Cannot Delete Table {table}")
+            logma.info(f'Cannot Delete Table {table}')
             return False
-        logma.info(f"Create Table {table}")
+        logma.info(f'Create Table {table}')
         if not self.store.create_table(table, db):
-            logma.info(f"Cannot Create Table {table}")
+            logma.info(f'Cannot Create Table {table}')
             return False
-        if self.store.copy_table(table, f"new_{table}", None, db) is False:
+        if self.store.copy_table(table, f'new_{table}', None, db) is False:
             return False
         if not self.store.delete_table(table, db):
-            logma.info(f"Cannot Delete Table {table}")
+            logma.info(f'Cannot Delete Table {table}')
             return False
-        logma.info(f"Create Table {table}")
+        logma.info(f'Create Table {table}')
         if not self.store.create_table(table, db, insert_data=False):
-            logma.info(f"Cannot Create Table {table}")
+            logma.info(f'Cannot Create Table {table}')
             return False
-        logma.info(f"Merge Table {table} from temp_table")
+        logma.info(f'Merge Table {table} from temp_table')
         filter_ = DataFilter()
-        [filter_.add_exclude(column, value) for column, value in filters.get("exclude", {}).items()]
-        [filter_.add_include(column, value) for column, value in filters.get("include", {}).items()]
-        filter_.merge_on(filters.get("merge_on_columns", []))
-        # ensure that the merge on columns are not null, not sure if I can assume they are always a uuid type column
-        # if i do enforce that rule then my update capabilities are tied to that and every record must have a uuid
-        # this will make deduplication on other columns a near impossible task
-        # would have to use an add and delete process for all record changes which maybe is good thing
-        #
+        [filter_.add_exclude(column, value) for column, value in filters.get('exclude', {}).items()]
+        [filter_.add_include(column, value) for column, value in filters.get('include', {}).items()]
+        filter_.merge_on(filters.get('merge_on_columns', []))
         if keep:
-            if self.store.merge_table(f"temp_{table}", table, map_, filter_, db, include_pk=True) is False:
+            if self.store.merge_table(f'temp_{table}', table, map_, filter_, db, include_pk=True) is False:
                 return False
-            logma.info(f"Delete Table temp_{table}")
-            if not self.store.delete_table(f"temp_{table}", db):
+            logma.info(f'Delete Table temp_{table}')
+            if not self.store.delete_table(f'temp_{table}', db):
                 return False
-        if self.store.merge_table(f"new_{table}", table, map_, filter_, db) is False:
+        if self.store.merge_table(f'new_{table}', table, map_, filter_, db) is False:
             return False
-        if not self.store.delete_table(f"new_{table}", db):
+        if not self.store.delete_table(f'new_{table}', db):
             return False
         return True
 
     def reload_view(self, view) -> None:
-        """"""
+        logma.info(f'reload_view called')
+        return self
 
     def remove_affiliate_links(self) -> None:
         """"""
-        self.store.delete_record("links", column="type_txt", value=["base", "webapp", "affiliate"])
+        self.store.delete_record('links', column='type_txt', value=['base', 'webapp', 'affiliate'])
         return self
 
-    def remove_data_by_date(self, table, date, direction="before", db="db") -> None:
+    def remove_data_by_date(self, table, date, direction='before', db='db') -> None:
         """
         remove data before a certain date should there be a min qty of records?
 
@@ -746,15 +631,15 @@ class NchantdCloakModel(NchantdPantiesModel):
 
         #use mark_delete functionality
         """
-        if direction == "before":
-            cfg = {table: {"LESS": {"MODON_DTTM": self.time.store_now()}}}
-        elif direction == "after":
-            cfg = {table: {"GREATER": {"MODON_DTTM": self.time.store_now()}}}
+        if direction == 'before':
+            cfg = {table: {'LESS': {'MODON_DTTM': self.time.store_now()}}}
+        elif direction == 'after':
+            cfg = {table: {'GREATER': {'MODON_DTTM': self.time.store_now()}}}
         self.docs[db].mark_delete(cfg)
 
-    def remove_telemetry(self, db="db") -> None:
+    def remove_telemetry(self, db='db') -> None:
         """"""
-        cfg = {"telemetry": {"WHERE": {"LESS": {"CREON_DTTM": self.time.store_now()}}}}
+        cfg = {'telemetry': {'WHERE': {'LESS': {'CREON_DTTM': self.time.store_now()}}}}
         self.docs[db].mark_delete(cfg)
 
     def set_is_saved(self, saved=False) -> None:
@@ -763,8 +648,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         return self
 
     def save(self) -> Any:
-        """"""
-        # NOTE need to implement application level save logic
+        logma.info(f'save called')
         return self
 
     def set_instance_active(self, instance) -> None:
@@ -776,22 +660,24 @@ class NchantdCloakModel(NchantdPantiesModel):
 
         def set_paths(self) -> None:
         """
-        self.app_path = join(expanduser("~"), ".local", "share", self.APP_NAME.lower())
-        self.venv_path = join(self.app_path, ".venv")
+        self.app_path = join(expanduser('~'), '.local', 'share', self.APP_NAME.lower())
+        self.venv_path = join(self.app_path, '.venv')
         return self
 
     def store_cache(self, df, table) -> None:
         """"""
-        self._store_cache(table, df, "dbc")
+        self._store_cache(table, df, 'dbc')
 
     def store_instance(self, instance) -> None:
         """"""
         self.store.store_app_instance(instance)
         return self
+
     def store_link(self, name, url=None, tags=None) -> None:
-        """"""
-        # NOTE implement method
-    def store_records(self, table, data, db="db") -> None:
+        logma.info(f'store_link called')
+        return self
+
+    def store_records(self, table, data, db='db') -> None:
         """"""
         self.store.store_records(table, data, db)
         return self
@@ -802,7 +688,7 @@ class NchantdCloakModel(NchantdPantiesModel):
             action()
         return self
 
-    def update_affilate_links(self, last_affilate_update_dttm: str = "2025-01-01 00:00:00", reload=False) -> None:
+    def update_affilate_links(self, last_affilate_update_dttm: str='2025-01-01 00:00:00', reload=False) -> None:
         """
         [DONE] where connection to the link_affiliate table
                 SPLIT into affiliate links and non-affilate links
@@ -810,49 +696,45 @@ class NchantdCloakModel(NchantdPantiesModel):
                 where the affiliate exists
         :return:
         """
-        API_URL = "https://nchantdoffice.com/api/"
-        # client = self.mole.api.set_base_end_point(API_URL)
+        API_URL = 'https://nchantdoffice.com/api/'
         if reload:
-            last_affilate_update_dttm = "2025-01-01 00:00:00"
+            last_affilate_update_dttm = '2025-01-01 00:00:00'
             self.remove_affiliate_links()
-        params = {"since_dttm": last_affilate_update_dttm}
-        # client.build_end_point(["affiliate/links/"])
-        # self.update_affilate_links(client.get_end_point(params=params))
+        params = {'since_dttm': last_affilate_update_dttm}
         return
 
-    def update_node(self, node, data, db="db") -> None:
+    def update_node(self, node, data, db='db') -> None:
         """"""
-        logma.info(f"Node {node.node_type} {node.nid} updated")
-        if node.node_type in ("displaynode", "sysorgnode", "yearnode", "monthnode", "daynode"):
+        logma.info(f'Node {node.node_type} {node.nid} updated')
+        if node.node_type in ('displaynode', 'sysorgnode', 'yearnode', 'monthnode', 'daynode'):
             return self
-        elif node.node_type == "usernode":
-            data = {"table": {"doc_tree_node": {"data": data}}}
+        elif node.node_type == 'usernode':
+            data = {'table': {'doc_tree_node': {'data': data}}}
         else:
-            raise Exception(f"Node Type {node.node_type} not recognized")
-        column = "nid_txt"
+            raise Exception(f'Node Type {node.node_type} not recognized')
+        column = 'nid_txt'
         value = node.nid
         self.store.update_record(data, column, value, db)
         return self
 
-    def update_tab(self, tab, data, db="db") -> None:
+    def update_tab(self, tab, data, db='db') -> None:
         """"""
-        logma.info(f"Tab {tab.app_data_type} {tab.tid} updated")
-        if tab.app_data_type == "app":
+        logma.info(f'Tab {tab.app_data_type} {tab.tid} updated')
+        if tab.app_data_type == 'app':
             return self
-        elif tab.app_data_type == "doc":
-            data = {"table": {"doc_tab": {"data": data}}}
+        elif tab.app_data_type == 'doc':
+            data = {'table': {'doc_tab': {'data': data}}}
         else:
-            raise Exception(f"Node Type {tab.tab_type} not recognized")
-
-        column = "tid_txt"
+            raise Exception(f'Node Type {tab.tab_type} not recognized')
+        column = 'tid_txt'
         value = tab.tid
         self.store.update_record(data, column, value, db)
         return self
 
-    def update_version(self, name, version, is_primary=False, db="db") -> None:
+    def update_version(self, name, version, is_primary=False, db='db') -> None:
         """"""
-        data = {"table": {"app_instance": {"data": {"version_txt": version, "is_primary_bit": is_primary}}}}
-        self.store.update_record(data, "name_txt", name, db)
+        data = {'table': {'app_instance': {'data': {'version_txt': version, 'is_primary_bit': is_primary}}}}
+        self.store.update_record(data, 'name_txt', name, db)
         return self
 
     def user_config(self) -> None:
@@ -868,7 +750,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         def _activate_integration(self, integration, details) -> None:
         """
 
-    def _archive_record(self, table, primary_key, uuid=None, column=None, db="db", flip=False) -> None:
+    def _archive_record(self, table, primary_key, uuid=None, column=None, db='db', flip=False) -> None:
         """
             self.store.archive_record(table, primary_key, uuid, column, db, flip)
             return self
@@ -879,25 +761,20 @@ class NchantdCloakModel(NchantdPantiesModel):
             return False
         return True
 
-    def _delete_record(self, table, primary_key=None, uuid=None, column=None, db="db", flip=False) -> None:
+    def _delete_record(self, table, primary_key=None, uuid=None, column=None, db='db', flip=False) -> None:
         """Records are not deleted in a straight forward manner.  They are marked for deletion based on a policy
         and will then be removed during a compaction step when the policy is met."""
-        policy = "Data Retention Policy"
-        condition = "hold"
-        value = "permanent"
+        policy = 'Data Retention Policy'
+        condition = 'hold'
+        value = 'permanent'
         if self.check_policy(policy, table, condition, value, db):
-            # tables with a data retention policy parameter of hold = permanent can only ever be archived
             self._archive_record(table, primary_key, uuid, column, db, flip)
             return self
-        value = "indefinite"
+        value = 'indefinite'
         if self.check_policy(policy, table, condition, value, db):
-            # tables with a data retention policy parameter of hold = indefinite are deletable by user action but will be
-            # held based ont the hold window for the particular table in a deactivated state
             self.store.delete_record(table, primary_key, uuid, column, db, flip)
-        value = "limited"
+        value = 'limited'
         if self.check_policy(policy, table, condition, value, db):
-            # tables with a data retention policy parameter of hold = limited are only deleteable through standard
-            # compaction processes based on the tables hold window
             return self
         return self
 
@@ -909,33 +786,31 @@ class NchantdCloakModel(NchantdPantiesModel):
 
         def _load_password(self) -> None:
         """
-        filter = {"filter": {"username": self.parent.user}}
-        user_data = next(self.docs["db"].read({"table": {"appusers"}}, filter))
-
-        filter = {"filter": {"key": ["internal_password", user_data["password"]]}}
-        data = next(self.docs["db"].read({"table": {"secure_store"}}, filter))
-        if data["internal_password"] is None:
+        filter = {'filter': {'username': self.parent.user}}
+        user_data = next(self.docs['db'].read({'table': {'appusers'}}, filter))
+        filter = {'filter': {'key': ['internal_password', user_data['password']]}}
+        data = next(self.docs['db'].read({'table': {'secure_store'}}, filter))
+        if data['internal_password'] is None:
             self._set_internal_password()
 
-    def _set_internal_password(self, db="db") -> None:
+    def _set_internal_password(self, db='db') -> None:
         """"""
         self.internal_password = uuid()
         self.password = self.internal_password
-        data = [["internal_password", self.internal_password], ["password", self.password]]
-        payload = {"table": {"secure_store": {"records": data, "columns": ["key", "value"]}}}
+        data = [['internal_password', self.internal_password], ['password', self.password]]
+        payload = {'table': {'secure_store': {'records': data, 'columns': ['key', 'value']}}}
         self.docs[db].write(payload)
         return self
 
     def _user_select(self) -> None:
         """"""
-        table = "app_user"
-        data = next(self.store.docs["db"].read({"table": table})).dikt[table]["df"]
-        logma.info(f"Current Users {data}")
+        table = 'app_user'
+        data = next(self.store.docs['db'].read({'table': table})).dikt[table]['df']
+        logma.info(f'Current Users {data}')
         if not data.empty:
             self.user.select_user(data)
             return self
         return None
-
 
 class NchantdSigilModel(NchantdPantiesModel):
     """Model used for dialog windows within larger applications"""
@@ -945,26 +820,24 @@ class NchantdSigilModel(NchantdPantiesModel):
         super(NchantdSigilModel, self).__init__(parent, cfg)
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg)
-        self.config.select("NchantdSigilModel").override(cfg)
+        self.config.select('NchantdSigilModel').override(cfg)
         if parent:
-            logger.debug(f"Parent", parent.config.dikt["args"])
+            logger.debug(f'Parent', parent.config.dikt['args'])
             self.config.override(parent.config)
-            logger.debug(f"Self", self.config.dikt["args"])
+            logger.debug(f'Self', self.config.dikt['args'])
         self.listeners = {}
-
 
 class NchantdModel(object):
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdModel").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('NchantdModel').override(cfg)
 
     def initModel(self, cfg=None) -> None:
         """Initialize the model"""
         super().initModel(cfg)
         return self
-
 
 class DataFilter(object):
     """Data filter for pandas DataFrames"""
@@ -973,8 +846,7 @@ class DataFilter(object):
         self.includes = []
         self.excludes = []
         self.merge_on_columns = []
-        logma.info(f"DataFilter initialized")
-
+        logma.info(f'DataFilter initialized')
 
     def add_exclude(self, column, values) -> None:
         """Add column/value pairs to exclude filter"""
@@ -998,7 +870,3 @@ class DataFilter(object):
         """Merge on columns"""
         self.merge_on_columns = columns
         return self
-
-
-# ===========================Code Source Examples================================||
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

@@ -1,4 +1,3 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 """
 ---
 <(META)>:
@@ -12,29 +11,15 @@
         security: seclvl2
         <(WT)>: -32
 """
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
-
-# ======================================3rd Party Library Modules=====================================================||
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
-
 import logging
 from kahndor.logma import Logma
-
 logger = logging.getLogger(__name__)
-
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 logma = Logma(__name__)
 logma.off()
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", ".yaml")
-
+pxcfg = join(here, '_data_', '.yaml')
 
 class NchantdConnections(object):
     """"""
@@ -42,31 +27,25 @@ class NchantdConnections(object):
     def __init__(self) -> None:
         """"""
         self.connections = {}
-        logma.info(f"NchantdConnections initialized")
+        logma.info(f'NchantdConnections initialized')
 
-
-    def connect_to_database(self, name: str = None) -> "NchantdConnections":
+    def connect_to_database(self, name: str=None) -> 'NchantdConnections':
         """Allow for adhoc connecting to multiple databases"""
-        if "db" not in self.connections:
-            self.connections["db"] = {}
+        if 'db' not in self.connections:
+            self.connections['db'] = {}
         return self
 
-    def connect_to_google(self) -> "NchantdConnections":
-        """leverate google stone"""
+    def connect_to_google(self) -> 'NchantdConnections':
+        logma.info(f'connect_to_google called')
+        return self
 
-    def connect_to_wikipedia(self) -> "NchantdConnections":
-        """leverage wikipedia stone"""
+    def connect_to_wikipedia(self) -> 'NchantdConnections':
+        logma.info(f'connect_to_wikipedia called')
+        return self
 
-    def connect_to_wrlok(self) -> "NchantdConnections":
+    def connect_to_wrlok(self) -> 'NchantdConnections':
         """Nchantrs native data source for a consolidated data experience"""
-        if "wrlok" not in self.connections:
-            self.connections["wrlok"] = {}
-        self.available_extensions = [
-            "NchantdApplicationExport",
-        ]
+        if 'wrlok' not in self.connections:
+            self.connections['wrlok'] = {}
+        self.available_extensions = ['NchantdApplicationExport']
         return self
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

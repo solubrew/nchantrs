@@ -1,8 +1,1 @@
-from nchantrs.widgets.managers.managers import (
-    NchantdManager,
-    NchantdBasket,
-    NchantdBasketManager,
-    NchantdExtensionManager,
-    NchantdFileSystemsManager,
-    NchantdSecurityManager,
-)
+from nchantrs.widgets.managers.managers import NchantdManager, NchantdBasket, NchantdBasketManager, NchantdExtensionManager, NchantdFileSystemsManager, NchantdSecurityManager

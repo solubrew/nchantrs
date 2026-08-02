@@ -1,4 +1,3 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 """
 ---
 <(META)>:
@@ -10,86 +9,17 @@
         security: seclvl2
         <(WT)>: -32
 """
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 import datetime as dt
 from typing import Optional, Dict, List, Any, Tuple
-
 import logging
-
 logger = logging.getLogger(__name__)
-# ======================================3rd Party Library Modules=====================================================||
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
 from nchantrs.dialogs.settings import NchantdSettingsSigil
 from nchantrs.widgets.controls.checkboxes import NchantdCheckbox
-
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
 logma.off()
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", "editors.yaml")
-
-
-# class NchantdJournalSettingsSigil(NchantdSettingsSigil):
-#     """"""
-#
-#     def __init__(self, parent=None, cfg=None) -> None:
-#         """ """
-#         super().__init__(parent, cfg)
-#         self.parent = parent
-#         self.config = kahndor.Instruct(pxcfg).select("NchantdJournalSettingsSigil")
-#         if self.parent:
-#             self.config.override(parent.config)
-#         self.config.override(cfg)
-#         self.append_only = True
-#         self.running_log = False
-#         self.main_settings = None
-#
-#     def initModel(self) -> None:
-#         """"""
-#         super().initModel()
-#         return self
-#
-#     def initView(self) -> None:
-#         """"""
-#         checkboxes = []
-#         for checkbox in self.config.dikt["checkboxes"]:
-#             checkbox_widget = NchantdCheckbox(self, checkbox)
-#             checkboxes.append(checkbox_widget)
-#         self.config.dikt["checkboxes"] = checkboxes
-#         super().initView()
-#         return self
-#
-#     def initWidget(self) -> None:
-#         """"""
-#         self.initModel()
-#         self.initView()
-#         return self
-#
-#     def set_append_only(self, append_only) -> None:
-#         """"""
-#         self.append_only = append_only
-#         return self
-#
-#     def set_rotate_time(self) -> None:
-#         """"""
-#         self.rotate_time = self.current_time + 24 * 60 * 60
-#         return self
-#
-#     def set_running_log(self, running_log) -> None:
-#         """"""
-#         self.running_log = running_log
-#         return self
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+pxcfg = join(here, '_data_', 'editors.yaml')

@@ -1,4 +1,3 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 """
 ---
 <(META)>:
@@ -13,32 +12,18 @@
         security: seclvl2
         <(WT)>: -32
 """
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
 from __future__ import annotations
-
 import logging
 from os.path import abspath, dirname, join
 from typing import Optional
-
-# ======================================3rd Party Library Modules=====================================================||
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
 from subtrix import thing
-
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 logma: Logma = Logma(__name__)
 logma.off()
-
-# Configure module logger
 logger: logging.Logger = logging.getLogger(__name__)
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", ".yaml")
-
+pxcfg = join(here, '_data_', '.yaml')
 
 def create_application_NCDRID() -> str:
     """Create a unique Nchantrs Registry ID (NCDRID).
@@ -51,8 +36,3 @@ def create_application_NCDRID() -> str:
             A unique identifier string
     """
     return thing.What().uuid().ruuid
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

@@ -1,4 +1,3 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 """
 ---
 <(META)>:
@@ -10,9 +9,6 @@
         security: seclvl2
         <(WT)>: -32
 """
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 from os import environ
 import datetime as dt
@@ -21,45 +17,28 @@ import platform as _platform
 from enum import Enum
 from typing import Any, Dict, Optional
 import uuid
-
 import logging
-
 logger = logging.getLogger(__name__)
-# ======================================3rd Party Library Modules=====================================================||
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from subtrix.subtrix import Mechanism
 from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.browsers.requests import NchantdRequestInterceptor
 from nchantrs.widgets.widgets import NchantdWidgetMixin
-
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
-# logma.off()
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", "profiles.yaml")
-
-# Current stable Chrome major used only when the running engine cannot be
-# queried. Runtime UA is normally derived from the actual QtWebEngine Chromium
-# version (see chromium_major_version) so the advertised version never lags the
-# real engine — the mismatch that made Gmail flag the browser as unsupported.
-_FALLBACK_CHROME_MAJOR = "138"
-
+pxcfg = join(here, '_data_', 'profiles.yaml')
+_FALLBACK_CHROME_MAJOR = '138'
 
 def _default_platform_token() -> str:
     """Return a UA platform token matching the host OS."""
     system = _platform.system()
-    if system == "Windows":
-        return "Windows NT 10.0; Win64; x64"
-    if system == "Darwin":
-        return "Macintosh; Intel Mac OS X 10_15_7"
-    return "X11; Linux x86_64"
-
+    if system == 'Windows':
+        return 'Windows NT 10.0; Win64; x64'
+    if system == 'Darwin':
+        return 'Macintosh; Intel Mac OS X 10_15_7'
+    return 'X11; Linux x86_64'
 
 def chromium_major_version() -> Any:
     """Major version of the Chromium that QtWebEngine is actually built on.
@@ -67,16 +46,15 @@ def chromium_major_version() -> Any:
     Falls back to _FALLBACK_CHROME_MAJOR when the version API is unavailable
     (older bindings) or raises.
     """
-    fn = getattr(pyqt, "qWebEngineChromiumVersion", None)
+    fn = getattr(pyqt, 'qWebEngineChromiumVersion', None)
     if fn is not None:
         try:
             version = fn()
             if version:
-                return str(version).split(".")[0]
+                return str(version).split('.')[0]
         except Exception:
             pass
     return _FALLBACK_CHROME_MAJOR
-
 
 def modern_user_agent(platform_token=None) -> str:
     """Build a modern Chrome-compatible User-Agent string.
@@ -93,14 +71,8 @@ def modern_user_agent(platform_token=None) -> str:
     if platform_token is None:
         platform_token = _default_platform_token()
     major = chromium_major_version()
-    return (
-        f"Mozilla/5.0 ({platform_token}) AppleWebKit/537.36 "
-        f"(KHTML, like Gecko) Chrome/{major}.0.0.0 Safari/537.36"
-    )
-
-
-_FIREFOX_VERSION = "140.0"
-
+    return f'Mozilla/5.0 ({platform_token}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/{major}.0.0.0 Safari/537.36'
+_FIREFOX_VERSION = '140.0'
 
 def firefox_user_agent(platform_token=None) -> str:
     """Build a current Firefox User-Agent string.
@@ -113,29 +85,8 @@ def firefox_user_agent(platform_token=None) -> str:
     """
     if platform_token is None:
         platform_token = _default_platform_token()
-    return f"Mozilla/5.0 ({platform_token}; rv:{_FIREFOX_VERSION}) Gecko/20100101 Firefox/{_FIREFOX_VERSION}"
-
-
-# Baseline User-Agent for every profile — the single knob for F2 browser
-# compliance. CONFIRMED (2026-07-08): Google account login succeeds with NO error
-# in this configuration. DO NOT REGRESS without re-testing a *fresh* (cold-cookie)
-# Google sign-in.
-#
-# Findings from iterating against Google:
-#   * mainstream Chrome UA        -> Google HARD-BLOCKS embedded sign-in.
-#   * PARTIAL Firefox disguise    -> still hard-blocked (Chrome tells leak through:
-#     navigator.vendor="Google Inc.", productSub, userAgentData, window.chrome,
-#     Sec-CH-UA headers).
-#   * FULL, consistent Firefox    -> login works. Requires ALL of:
-#       - this Firefox profile UA, AND
-#       - requests.ENABLE_GOOGLE_LOGIN_QUIRK=True (navigator/window overrides on
-#         accounts.google.com via install_google_login_ua_script), AND
-#       - Chromium client hints disabled (graphics.py --disable-features=
-#         UserAgentClientHint,...), so Sec-CH-UA is not sent.
-#   * unknown UA ("CustomBrowser/1.0") -> login also works, but shows a soft
-#     "old/uncommon browser" banner. Reliable fallback if Google tightens again.
+    return f'Mozilla/5.0 ({platform_token}; rv:{_FIREFOX_VERSION}) Gecko/20100101 Firefox/{_FIREFOX_VERSION}'
 DEFAULT_USER_AGENT = firefox_user_agent()
-
 
 def install_google_login_ua_script(profile) -> None:
     """Make ``navigator`` report Firefox on Google sign-in hosts.
@@ -150,79 +101,43 @@ def install_google_login_ua_script(profile) -> None:
     keeps the real Chrome navigator. See F2 / qutebrowser #5182.
     """
     try:
-        from nchantrs.widgets.browsers.requests import (
-            ENABLE_GOOGLE_LOGIN_QUIRK,
-            GOOGLE_LOGIN_HOSTS,
-            google_login_user_agent,
-        )
+        from nchantrs.widgets.browsers.requests import ENABLE_GOOGLE_LOGIN_QUIRK, GOOGLE_LOGIN_HOSTS, google_login_user_agent
     except Exception as e:
-        logma.error(f"[profiles] cannot load google login quirk: {e}")
+        logma.error(f'[profiles] cannot load google login quirk: {e}')
         return
-
-    # Disabled while we hold the known-good soft-banner baseline (F2). The Firefox
-    # navigator/header spoof did not defeat Google's embedded hard block, so it is
-    # gated off rather than removed, ready for the next iteration.
     if not ENABLE_GOOGLE_LOGIN_QUIRK:
         return
-
     ff_ua = google_login_user_agent()
     system = _platform.system()
-    if system == "Windows":
-        platform_val, oscpu = "Win32", "Windows NT 10.0; Win64; x64"
-    elif system == "Darwin":
-        platform_val, oscpu = "MacIntel", "Intel Mac OS X 10.15"
+    if system == 'Windows':
+        platform_val, oscpu = ('Win32', 'Windows NT 10.0; Win64; x64')
+    elif system == 'Darwin':
+        platform_val, oscpu = ('MacIntel', 'Intel Mac OS X 10.15')
     else:
-        platform_val, oscpu = "Linux x86_64", "Linux x86_64"
-
-    hosts_js = ", ".join(j.dumps(h) for h in GOOGLE_LOGIN_HOSTS)
-    js = f"""
-(function() {{
-  try {{
-    var hosts = [{hosts_js}];
-    var h = (location.hostname || '').toLowerCase();
-    var match = hosts.some(function(x) {{ return h === x || h.endsWith('.' + x); }});
-    if (!match) return;
-    function def(prop, val) {{
-      try {{ Object.defineProperty(navigator, prop, {{get: function() {{ return val; }}, configurable: true}}); }} catch (e) {{}}
-    }}
-    def('userAgent', {j.dumps(ff_ua)});
-    def('appVersion', '5.0 (' + {j.dumps(platform_val)} + ')');
-    def('platform', {j.dumps(platform_val)});
-    def('oscpu', {j.dumps(oscpu)});
-    def('vendor', '');
-    def('vendorSub', '');
-    def('productSub', '20100101');
-    def('userAgentData', undefined);
-    // Chromium-only global that betrays a fake Firefox (real Firefox has no
-    // window.chrome). Hide it so the identity is consistently Firefox.
-    try {{ Object.defineProperty(window, 'chrome', {{get: function() {{ return undefined; }}, configurable: true}}); }} catch (e) {{}}
-  }} catch (e) {{}}
-}})();
-"""
+        platform_val, oscpu = ('Linux x86_64', 'Linux x86_64')
+    hosts_js = ', '.join((j.dumps(h) for h in GOOGLE_LOGIN_HOSTS))
+    js = f"\n(function() {{\n  try {{\n    var hosts = [{hosts_js}];\n    var h = (location.hostname || '').toLowerCase();\n    var match = hosts.some(function(x) {{ return h === x || h.endsWith('.' + x); }});\n    if (!match) return;\n    function def(prop, val) {{\n      try {{ Object.defineProperty(navigator, prop, {{get: function() {{ return val; }}, configurable: true}}); }} catch (e) {{}}\n    }}\n    def('userAgent', {j.dumps(ff_ua)});\n    def('appVersion', '5.0 (' + {j.dumps(platform_val)} + ')');\n    def('platform', {j.dumps(platform_val)});\n    def('oscpu', {j.dumps(oscpu)});\n    def('vendor', '');\n    def('vendorSub', '');\n    def('productSub', '20100101');\n    def('userAgentData', undefined);\n    // Chromium-only global that betrays a fake Firefox (real Firefox has no\n    // window.chrome). Hide it so the identity is consistently Firefox.\n    try {{ Object.defineProperty(window, 'chrome', {{get: function() {{ return undefined; }}, configurable: true}}); }} catch (e) {{}}\n  }} catch (e) {{}}\n}})();\n"
     try:
         script = pyqt.QWebEngineScript()
-        script.setName("nchantd_google_login_uaquirk")
+        script.setName('nchantd_google_login_uaquirk')
         script.setInjectionPoint(pyqt.QWebEngineScript.InjectionPoint.DocumentCreation)
         script.setWorldId(pyqt.QWebEngineScript.ScriptWorldId.MainWorld)
         script.setRunsOnSubFrames(True)
         script.setSourceCode(js)
         collection = profile.scripts()
-        already = any(s.name() == script.name() for s in collection.toList())
+        already = any((s.name() == script.name() for s in collection.toList()))
         if not already:
             collection.insert(script)
     except Exception as e:
-        logma.error(f"[profiles] could not insert google login quirk script: {e}")
-
+        logma.error(f'[profiles] could not insert google login quirk script: {e}')
 
 class ProfileType(Enum):
     """Define different types of profiles"""
-
-    DEFAULT = "default"
-    SECURE = "secure"
-    DEVELOPMENT = "development"
-    INCOGNITO = "incognito"
-    CUSTOM = "custom"
-
+    DEFAULT = 'default'
+    SECURE = 'secure'
+    DEVELOPMENT = 'development'
+    INCOGNITO = 'incognito'
+    CUSTOM = 'custom'
 
 class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
     """"""
@@ -233,7 +148,7 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
         self.parent = parent
         self.name = name
         self.browser = browser
-        self.config = kahndor.Instruct(pxcfg).select("NchantdWebProfile").override(parent.config).override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('NchantdWebProfile').override(parent.config).override(cfg)
         self.init_variables()
         self.type = None
         self.user = None
@@ -246,24 +161,19 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
         """"""
         if self.intercept:
             self.initialize_interceptor()
-        agent = self.config.dikt.get("agent", None)
-        self.config.dikt["config"]["system-information"] = self.app.model.device.get_agent()
-        self.config.dikt["config"]["webkit-version"] = self.config.dikt["config"]["webkit-version"][0]
-        self.config.dikt["config"]["chrome-version"] = self.config.dikt["config"]["chrome-version"][0]
-        self.config.dikt["config"]["safari-version"] = self.config.dikt["config"]["safari-version"][0]
-
-        agent = agent.replace("<[system-information]>", str(self.config.dikt["config"]["system-information"]))
-        agent = agent.replace("<[webkit-version]>", str(self.config.dikt["config"]["webkit-version"]))
-        agent = agent.replace("<[chrome-version]>", str(self.config.dikt["config"]["chrome-version"]))
-        agent = agent.replace("<[safari-version]>", str(self.config.dikt["config"]["safari-version"]))
-        agent = agent.replace("<[CustomBrowser]>", str("NchantdBrowser"))
-        agent = agent.replace("<[custom-version]>", str("0.0.1"))
-        # agent = Mechanism(agent, self.config.dikt.get("config", {})).run()
+        agent = self.config.dikt.get('agent', None)
+        self.config.dikt['config']['system-information'] = self.app.model.device.get_agent()
+        self.config.dikt['config']['webkit-version'] = self.config.dikt['config']['webkit-version'][0]
+        self.config.dikt['config']['chrome-version'] = self.config.dikt['config']['chrome-version'][0]
+        self.config.dikt['config']['safari-version'] = self.config.dikt['config']['safari-version'][0]
+        agent = agent.replace('<[system-information]>', str(self.config.dikt['config']['system-information']))
+        agent = agent.replace('<[webkit-version]>', str(self.config.dikt['config']['webkit-version']))
+        agent = agent.replace('<[chrome-version]>', str(self.config.dikt['config']['chrome-version']))
+        agent = agent.replace('<[safari-version]>', str(self.config.dikt['config']['safari-version']))
+        agent = agent.replace('<[CustomBrowser]>', str('NchantdBrowser'))
+        agent = agent.replace('<[custom-version]>', str('0.0.1'))
         logma.info(agent)
-        # raise Exception(f"Agent {agent}")
-
         self.setHttpUserAgent(agent)
-        # self.setHttpCacheMaximumSize(0)
         self.initialize_settings()
         self.set_persistence()
         self.check_connection_security()
@@ -272,39 +182,32 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
     def check_connection_security(self) -> Any:
         """"""
         if not pyqt.QSslSocket.supportsSsl():
-            raise RuntimeError("SSL support is required for secure communication.")
+            raise RuntimeError('SSL support is required for secure communication.')
         return self
 
     def initialize_settings(self) -> Any:
         """"""
-        # settings = pyqt.QWebEngineSettings.globalSettings()
         settings = self.settings()
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.LocalStorageEnabled, True)
-        settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.JavascriptEnabled, True)  # Disable JavaScript
+        settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.JavascriptEnabled, True)
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.JavascriptCanOpenWindows, True)
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.AllowWindowActivationFromJavaScript, True)
-
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.PlaybackRequiresUserGesture, False)
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.AllowRunningInsecureContent, True)
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.PluginsEnabled, True)
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.LocalContentCanAccessRemoteUrls, True)
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.LocalContentCanAccessFileUrls, True)
-
-        # Media-specific settings
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.WebRTCPublicInterfacesOnly, False)
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.DnsPrefetchEnabled, True)
-
-        if self.config.dikt["settings"].get("dns_prefetch", False):
+        if self.config.dikt['settings'].get('dns_prefetch', False):
             settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.DnsPrefetchEnabled, True)
-        if self.config.dikt["settings"].get("local_content_can_access_remote_urls", False):
+        if self.config.dikt['settings'].get('local_content_can_access_remote_urls', False):
             settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.LocalContentCanAccessRemoteUrls, True)
-        if self.config.dikt["settings"].get("local_content_can_access_file_urls", False):
+        if self.config.dikt['settings'].get('local_content_can_access_file_urls', False):
             settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.LocalContentCanAccessFileUrls, True)
-        # settings.setAttribute(pyqt.QWebEngineSettings.LocalStorageEnabled, False)
-        # self.current_profile.setHttpCacheType(pyqt.QWebEngineProfile.NoCache)
-        if self.config.dikt["settings"].get("plugins", False):
+        if self.config.dikt['settings'].get('plugins', False):
             settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.PluginsEnabled, True)
-        if self.config.dikt["settings"].get("high_security", False):
+        if self.config.dikt['settings'].get('high_security', False):
             self.initialize_high_security(settings)
         self.initialize_gpu(settings)
         self.initialize_settings_drm(settings)
@@ -319,7 +222,7 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
         """"""
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.HyperlinkAuditingEnabled, True)
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.JavascriptCanAccessClipboard, False)
-        settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.JavascriptEnabled, False)  # Disable JavaScript
+        settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.JavascriptEnabled, False)
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.LocalStorageEnabled, False)
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.LocalContentCanAccessFileUrls, False)
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.LocalContentCanAccessRemoteUrls, False)
@@ -333,312 +236,249 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
 
     def initialize_settings_drm(self, settings) -> Any:
         """"""
-        # ENABLE Protected Content using QWebEngineSettings
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.PlaybackRequiresUserGesture, True)
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.AllowRunningInsecureContent, True)
         return self
 
     def initialize_interceptor(self) -> Any:
         """"""
-        logma.info(f"Initializing Interceptor {self.name}")
+        logma.info(f'Initializing Interceptor {self.name}')
         interceptor = NchantdRequestInterceptor()
         self.defaultProfile().setUrlRequestInterceptor(interceptor)
         return self
 
     def load_local_storage(self) -> Any:
-        """"""
+        logma.info(f'load_local_storage called')
         return self
 
     def load_cache(self) -> Any:
-        """"""
+        logma.info(f'load_cache called')
         return self
 
     def set_persistence(self) -> Any:
         """"""
-        logma.info(f"Set Persistence {self.name}")
-        # Use application path for storage
-        storage_base = getattr(self.app.model.store, "application_path", ".")
-        cache_path = join(storage_base, f".cache_{self.name}")
-        persistent_path = join(storage_base, ".persistence", str(self.name))
-
+        logma.info(f'Set Persistence {self.name}')
+        storage_base = getattr(self.app.model.store, 'application_path', '.')
+        cache_path = join(storage_base, f'.cache_{self.name}')
+        persistent_path = join(storage_base, '.persistence', str(self.name))
         self.setCachePath(cache_path)
         self.setPersistentStoragePath(persistent_path)
-
         self.setHttpCacheType(pyqt.QWebEngineProfile.HttpCacheType.DiskHttpCache)
         self.setPersistentCookiesPolicy(pyqt.QWebEngineProfile.PersistentCookiesPolicy.AllowPersistentCookies)
-
-        # Baseline non-Chrome UA (see DEFAULT_USER_AGENT) — soft banner, login works.
         self.setHttpUserAgent(DEFAULT_USER_AGENT)
-        self.setHttpAcceptLanguage("en-US,en;q=0.9")
-
+        self.setHttpAcceptLanguage('en-US,en;q=0.9')
         self.persistence = True
         return self
 
     def set_persistent_storage_db(self, path) -> Any:
-        """"""
+        logma.info(f'set_persistent_storage_db called')
+        if hasattr(self, 'persistent_storage_db'):
+            logma.info(f'  has persistent_storage_db attr')
         return self
 
     def set_persistent_storage_path(self, path) -> Any:
         """"""
-        logma.info(f"Setting Persistent Storage Path: {path}")
+        logma.info(f'Setting Persistent Storage Path: {path}')
         self.setPersistentStoragePath(path)
         return self
 
-    def set_persistent_storage_type(self, type_="file") -> Any:
+    def set_persistent_storage_type(self, type_='file') -> Any:
         """"""
-        if type_ == "file":
+        if type_ == 'file':
             self.set_persistent_storage_path(self.app.model.path)
-        elif type_ == "database":
+        elif type_ == 'database':
             self.set_persistent_storage_db(self.app.model.path)
         return self
 
     def set_application_cache_storage(self) -> Any:
-        """"""
+        logma.info(f'set_application_cache_storage called')
+        if hasattr(self, 'application_cache_storage'):
+            logma.info(f'  has application_cache_storage attr')
         return self
 
     def set_cache_storage(self) -> Any:
-        """"""
+        logma.info(f'set_cache_storage called')
+        if hasattr(self, 'cache_storage'):
+            logma.info(f'  has cache_storage attr')
         return self
 
     def set_cookie_storage(self) -> Any:
-        """"""
+        logma.info(f'set_cookie_storage called')
+        if hasattr(self, 'cookie_storage'):
+            logma.info(f'  has cookie_storage attr')
         return self
 
     def set_file_system_api_storage(self) -> Any:
-        """"""
+        logma.info(f'set_file_system_api_storage called')
+        if hasattr(self, 'file_system_api_storage'):
+            logma.info(f'  has file_system_api_storage attr')
         return self
 
     def set_indexed_db_storage(self) -> Any:
-        """"""
+        logma.info(f'set_indexed_db_storage called')
+        if hasattr(self, 'indexed_db_storage'):
+            logma.info(f'  has indexed_db_storage attr')
         return self
 
     def set_local_storage(self) -> Any:
-        """"""
+        logma.info(f'set_local_storage called')
+        if hasattr(self, 'local_storage'):
+            logma.info(f'  has local_storage attr')
         return self
 
-    def set_security_policy(self, policy_code="safe") -> Any:
+    def set_security_policy(self, policy_code='safe') -> Any:
         """"""
-        # settings = pyqt.QWebEngineSettings.globalSettings()
         settings = self.settings()
-        # The safest browsing possible that may in fact break things for use in highly sensitive interactions
-        if policy_code == "safe":
-            # ensure this is enabled via shell?
-            #   QTWEBENGINE_DISABLE_SANDBOX=0
-            # Disable Local Storage
+        if policy_code == 'safe':
             settings.setAttribute(pyqt.QWebEngineProfile.LocalStorageEnabled, False)
-            # Use the baseline UA rather than a bogus token ("SafeUserAgent").
-            self.setHttpUserAgent(DEFAULT_USER_AGENT)  # Customize user-agent
-            # Prevent local files access
+            self.setHttpUserAgent(DEFAULT_USER_AGENT)
             settings.setAttribute(pyqt.QWebEngineSettings.LocalContentCanAccessFileUrls, False)
-            # Prevent remote access
             settings.setAttribute(pyqt.QWebEngineSettings.LocalContentCanAccessRemoteUrls, False)
-            settings.setAttribute(pyqt.QWebEngineSettings.JavascriptEnabled, False)  # Disable JavaScript
-            settings.setAttribute(pyqt.QWebEngineSettings.LocalStorageEnabled, False)  # Block local storage
-            settings.setAttribute(pyqt.QWebEngineSettings.PluginsEnabled, False)  # Disable plugins
-
-        # Nearly Safe tries to strike a balance between being as safe as possible and not breaking much
-        elif policy_code == "nearly_safe":
+            settings.setAttribute(pyqt.QWebEngineSettings.JavascriptEnabled, False)
+            settings.setAttribute(pyqt.QWebEngineSettings.LocalStorageEnabled, False)
+            settings.setAttribute(pyqt.QWebEngineSettings.PluginsEnabled, False)
+        elif policy_code == 'nearly_safe':
             pass
-
-        # Mostly Safe is similar to any general browsing experience seeking to operate as safely as possibly without breaking anything
-        elif policy_code == "mostly_safe":
+        elif policy_code == 'mostly_safe':
             pass
-
-        # Unsafe tries to run anything it can but will be transparent about potentially unafe things to the user
-        elif policy_code == "unsafe":
+        elif policy_code == 'unsafe':
             pass
-
         else:
-            raise Exception(f"Invalid Security Policy Code {policy_code}")
-
+            raise Exception(f'Invalid Security Policy Code {policy_code}')
         return self
 
     def set_service_worker_storage(self) -> Any:
-        """"""
+        logma.info(f'set_service_worker_storage called')
+        if hasattr(self, 'service_worker_storage'):
+            logma.info(f'  has service_worker_storage attr')
         return self
 
     def set_session_storage(self) -> Any:
-        """"""
+        logma.info(f'set_session_storage called')
+        if hasattr(self, 'session_storage'):
+            logma.info(f'  has session_storage attr')
         return self
 
     def set_web_sql_storage(self) -> Any:
-        """"""
+        logma.info(f'set_web_sql_storage called')
+        if hasattr(self, 'web_sql_storage'):
+            logma.info(f'  has web_sql_storage attr')
         return self
 
     def store_cache(self) -> Any:
         """"""
-        data = {"id": cache.id, "url": cache.url, "data": cache.data, "timestamp": cache.timestamp}
-        payload = [Thing().uuid, self.user.app_profile_FK, "cache", j.dumps(data)]
+        data = {'id': cache.id, 'url': cache.url, 'data': cache.data, 'timestamp': cache.timestamp}
+        payload = [Thing().uuid, self.user.app_profile_FK, 'cache', j.dumps(data)]
         return self
 
     def store_cookie(self) -> Any:
         """"""
-        data = {
-            "id": cookie.id,
-            "name": cookie.name,
-            "value": cookie.value,
-            "domain": cookie.domain,
-            "path": cookie.path,
-            "expiration": cookie.expiration,
-        }
-        payload = [Thing().uuid, self.user.app_profile_FK, "cookie", j.dumps(data)]
+        data = {'id': cookie.id, 'name': cookie.name, 'value': cookie.value, 'domain': cookie.domain, 'path': cookie.path, 'expiration': cookie.expiration}
+        payload = [Thing().uuid, self.user.app_profile_FK, 'cookie', j.dumps(data)]
         return self
 
     def store_indexed_db(self) -> Any:
         """"""
-        data = {"id": idb.id, "key": idb.key, "value": idb.value}
-        payload = [Thing().uuid, self.user.app_profile_FK, "indexed_db", j.dumps(data)]
+        data = {'id': idb.id, 'key': idb.key, 'value': idb.value}
+        payload = [Thing().uuid, self.user.app_profile_FK, 'indexed_db', j.dumps(data)]
         return self
 
     def store_local_file(self) -> Any:
         """"""
-        data = {"id": local_file.id, "key": local_file.key, "value": local_file.value}
-        payload = [Thing().uuid, self.user.app_profile_FK, "local_file", j.dumps(data)]
+        data = {'id': local_file.id, 'key': local_file.key, 'value': local_file.value}
+        payload = [Thing().uuid, self.user.app_profile_FK, 'local_file', j.dumps(data)]
         return self
 
     def store_service_worker(self) -> Any:
-        data = {"id": service_worker.id, "scope": service_worker.scope, "script_url": service_worker.script_url}
-        payload = [Thing().uuid, self.user.app_profile_FK, "service_worker", j.dumps(data)]
+        data = {'id': service_worker.id, 'scope': service_worker.scope, 'script_url': service_worker.script_url}
+        payload = [Thing().uuid, self.user.app_profile_FK, 'service_worker', j.dumps(data)]
         return self
 
     def store_address(self) -> Any:
-        data = {"id": address.id, "chain_id": address.chain_id, "address": address.address}
-        payload = [Thing().uuid, self.user.app_profile_FK, "address", j.dumps(data)]
+        data = {'id': address.id, 'chain_id': address.chain_id, 'address': address.address}
+        payload = [Thing().uuid, self.user.app_profile_FK, 'address', j.dumps(data)]
         return self
-
 
 class ProfileConfiguration:
     """Configuration class for web engine profiles"""
 
-    def __init__(self, name: str, profile_type: ProfileType = ProfileType.DEFAULT) -> None:
+    def __init__(self, name: str, profile_type: ProfileType=ProfileType.DEFAULT) -> None:
         self.name = name
         self.profile_type = profile_type
-        # Baseline non-Chrome UA — yields Google's soft "unsupported" banner but
-        # keeps sign-in working (a Chrome UA triggers Google's hard block). F2.
         self.user_agent = DEFAULT_USER_AGENT
         self.cache_enabled = True
         self.cookies_enabled = True
         self.javascript_enabled = True
         self.plugins_enabled = True
-        self.storage_path = ""
-        self.download_path = ""
+        self.storage_path = ''
+        self.download_path = ''
         self.interceptor_rules = {}
         self.is_default = False
-
-        # Apply type-specific defaults
         self._apply_type_defaults()
 
     def _apply_type_defaults(self) -> None:
         """Apply default settings based on profile type"""
         if self.profile_type == ProfileType.SECURE:
-            self.interceptor_rules = {
-                "blocked_domains": ["malicious-site.com", "tracking.com"],
-                "blocked_extensions": [".exe", ".dll", ".bat"],
-                "allowed_schemes": ["https"],
-            }
+            self.interceptor_rules = {'blocked_domains': ['malicious-site.com', 'tracking.com'], 'blocked_extensions': ['.exe', '.dll', '.bat'], 'allowed_schemes': ['https']}
             self.javascript_enabled = False
             self.plugins_enabled = False
-
         elif self.profile_type == ProfileType.DEVELOPMENT:
             self.user_agent = DEFAULT_USER_AGENT
-            self.interceptor_rules = {
-                "blocked_domains": [],
-                "blocked_extensions": [],
-                "allowed_schemes": ["https", "http", "file", "data"],
-            }
-
+            self.interceptor_rules = {'blocked_domains': [], 'blocked_extensions': [], 'allowed_schemes': ['https', 'http', 'file', 'data']}
         elif self.profile_type == ProfileType.INCOGNITO:
             self.cache_enabled = False
             self.cookies_enabled = False
-            self.storage_path = ""  # Off-the-record
-
+            self.storage_path = ''
 
 class ProfileManager(pyqt.QObject):
     """Manages multiple web engine profiles"""
-
-    profileCreated = pyqt.Signal(str, pyqt.QWebEngineProfile)  # profile_name, profile
-    profileRemoved = pyqt.Signal(str)  # profile_name
-    defaultProfileChanged = pyqt.Signal(str)  # profile_name
+    profileCreated = pyqt.Signal(str, pyqt.QWebEngineProfile)
+    profileRemoved = pyqt.Signal(str)
+    defaultProfileChanged = pyqt.Signal(str)
 
     def __init__(self, parent=None, storage_base=None) -> None:
         super().__init__(parent)
         self.profiles: Dict[str, pyqt.QWebEngineProfile] = {}
         self.configurations: Dict[str, ProfileConfiguration] = {}
         self.interceptors: Dict[str, NchantdRequestInterceptor] = {}
-        self.default_profile_name = "default"
-        # Base directory under which each persistent profile gets its own stable
-        # storage/cache dir. Passed by the app pool (app.model.store.application_path).
-        self.storage_base = storage_base or "."
-        logma.info(f"[profiles] ProfileManager init | storage_base={self.storage_base!r}")
+        self.default_profile_name = 'default'
+        self.storage_base = storage_base or '.'
+        logma.info(f'[profiles] ProfileManager init | storage_base={self.storage_base!r}')
+        self.create_profile('default', ProfileType.DEFAULT, is_default=True)
 
-        # Create default profile (persistent, shared app-wide).
-        self.create_profile("default", ProfileType.DEFAULT, is_default=True)
-
-    def get_or_create(self, name: str, profile_type: "ProfileType" = None) -> pyqt.QWebEngineProfile:
+    def get_or_create(self, name: str, profile_type: 'ProfileType'=None) -> pyqt.QWebEngineProfile:
         """Return an existing profile or create a persistent one with this name."""
         if name in self.profiles:
             return self.profiles[name]
         return self.create_profile(name, profile_type or ProfileType.DEFAULT)
 
-    def create_profile(
-        self,
-        name: str,
-        profile_type: ProfileType = ProfileType.DEFAULT,
-        config: Optional[ProfileConfiguration] = None,
-        is_default: bool = False,
-    ) -> pyqt.QWebEngineProfile:
+    def create_profile(self, name: str, profile_type: ProfileType=ProfileType.DEFAULT, config: Optional[ProfileConfiguration]=None, is_default: bool=False) -> pyqt.QWebEngineProfile:
         """Create a new web engine profile"""
-
         if name in self.profiles:
             logma.warning(f"Profile '{name}' already exists")
             return self.profiles[name]
-
-        # Create configuration if not provided
         if config is None:
             config = ProfileConfiguration(name, profile_type)
             config.is_default = is_default
-
-        # Create the profile
         if profile_type == ProfileType.INCOGNITO:
-            # Off-the-record profile
             profile = pyqt.QWebEngineProfile(self)
         else:
-            # Persistent profile. Use a STABLE storage name (the profile name)
-            # so the on-disk storage/cache dir is reused across restarts — a
-            # uuid suffix would create a fresh empty profile every run and
-            # nothing (cookies/logins) would persist.
-            storage_name = f"profile_{name}"
+            storage_name = f'profile_{name}'
             profile = pyqt.QWebEngineProfile(storage_name, self)
-
-        # Configure the profile
         self._configure_profile(profile, config)
-
-        # Store references
         self.profiles[name] = profile
         self.configurations[name] = config
-
-        # Set as default if specified
         if is_default:
             self.set_default_profile(name)
-
-        # Emit signal
         self.profileCreated.emit(name, profile)
-
         logma.info(f"Created profile '{name}' of type {profile_type.value}")
         return profile
 
     def _configure_profile(self, profile: pyqt.QWebEngineProfile, config: ProfileConfiguration) -> None:
         """Configure a profile with the given configuration"""
         from os import makedirs
-
-        # Basic settings
         profile.setHttpUserAgent(config.user_agent)
-        # Advertise a normal Accept-Language; Google flags requests that omit it.
-        profile.setHttpAcceptLanguage("en-US,en;q=0.9")
-
-        # Gmail (and most modern web apps) require JavaScript + local storage.
-        # Enable them explicitly so a profile is never left in a state that
-        # trips the "unsupported browser" path.
+        profile.setHttpAcceptLanguage('en-US,en;q=0.9')
         try:
             settings = profile.settings()
             settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.JavascriptEnabled, config.javascript_enabled)
@@ -646,17 +486,10 @@ class ProfileManager(pyqt.QObject):
             settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.JavascriptCanOpenWindows, True)
         except Exception as e:
             logma.error(f"[profiles] could not apply web settings for '{config.name}': {e}")
-
-        # Google sign-in quirk (navigator side — pairs with the interceptor's
-        # request-header UA rewrite).
         install_google_login_ua_script(profile)
-
-        # Stable on-disk storage/cache for persistent (non-incognito) profiles,
-        # rooted under the app storage base so each named profile is isolated
-        # and reused across restarts.
-        if config.profile_type != ProfileType.INCOGNITO and not profile.isOffTheRecord():
-            persistent_path = config.storage_path or join(self.storage_base, ".webprofiles", config.name)
-            cache_path = join(self.storage_base, ".webprofiles", config.name, "cache")
+        if config.profile_type != ProfileType.INCOGNITO and (not profile.isOffTheRecord()):
+            persistent_path = config.storage_path or join(self.storage_base, '.webprofiles', config.name)
+            cache_path = join(self.storage_base, '.webprofiles', config.name, 'cache')
             try:
                 makedirs(persistent_path, exist_ok=True)
                 makedirs(cache_path, exist_ok=True)
@@ -664,24 +497,16 @@ class ProfileManager(pyqt.QObject):
                 logma.error(f"[profiles] could not create profile dirs for '{config.name}': {e}")
             profile.setPersistentStoragePath(persistent_path)
             profile.setCachePath(cache_path)
-
-        # Cache settings
         if config.cache_enabled:
             profile.setHttpCacheType(pyqt.QWebEngineProfile.HttpCacheType.DiskHttpCache)
         else:
             profile.setHttpCacheType(pyqt.QWebEngineProfile.HttpCacheType.NoCache)
-
-        # Cookie settings
         if config.cookies_enabled:
             profile.setPersistentCookiesPolicy(pyqt.QWebEngineProfile.PersistentCookiesPolicy.AllowPersistentCookies)
         else:
             profile.setPersistentCookiesPolicy(pyqt.QWebEngineProfile.PersistentCookiesPolicy.NoPersistentCookies)
-
-        # Download path
         if config.download_path:
             profile.setDownloadPath(config.download_path)
-
-        # Create and install request interceptor (once per profile).
         if config.name not in self.interceptors:
             try:
                 if config.interceptor_rules:
@@ -692,12 +517,7 @@ class ProfileManager(pyqt.QObject):
                 self.interceptors[config.name] = interceptor
             except Exception as e:
                 logma.error(f"[profiles] could not install interceptor for '{config.name}': {e}")
-
-        logma.info(
-            f"[profiles] configured '{config.name}' | off_the_record={profile.isOffTheRecord()} "
-            f"| storage={profile.persistentStoragePath()!r} | cache={profile.cachePath()!r} "
-            f"| cache_type={profile.httpCacheType()} | cookies={profile.persistentCookiesPolicy()}"
-        )
+        logma.info(f"[profiles] configured '{config.name}' | off_the_record={profile.isOffTheRecord()} | storage={profile.persistentStoragePath()!r} | cache={profile.cachePath()!r} | cache_type={profile.httpCacheType()} | cookies={profile.persistentCookiesPolicy()}")
 
     def get_profile(self, name: str) -> Optional[pyqt.QWebEngineProfile]:
         """Get a profile by name"""
@@ -712,12 +532,9 @@ class ProfileManager(pyqt.QObject):
         if name in self.profiles:
             old_default = self.default_profile_name
             self.default_profile_name = name
-
-            # Update configurations
             if old_default in self.configurations:
                 self.configurations[old_default].is_default = False
             self.configurations[name].is_default = True
-
             self.defaultProfileChanged.emit(name)
             logma.warning(f"Default profile changed to '{name}'")
 
@@ -726,15 +543,11 @@ class ProfileManager(pyqt.QObject):
         if name == self.default_profile_name:
             logma.warning(f"Cannot remove default profile '{name}'")
             return
-
         if name in self.profiles:
-            # Clean up
             if name in self.interceptors:
                 del self.interceptors[name]
-
             del self.profiles[name]
             del self.configurations[name]
-
             self.profileRemoved.emit(name)
             logger.info(f"Removed profile '{name}'")
 
@@ -746,164 +559,5 @@ class ProfileManager(pyqt.QObject):
         """Get profile information"""
         if name not in self.profiles:
             return None
-
         config = self.configurations[name]
-        return {
-            "name": name,
-            "type": config.profile_type.value,
-            "is_default": config.is_default,
-            "cache_enabled": config.cache_enabled,
-            "cookies_enabled": config.cookies_enabled,
-            "user_agent": config.user_agent,
-        }
-
-
-# class SecureWebProfile(QWebEngineProfile):
-#     """Security-enhanced web profile"""
-#
-#     def __init__(self, name: str, security_manager: CrossPlatformSecurityManager, parent=None):
-#         super().__init__(name, parent)
-#
-#         self.security_manager = security_manager
-#         self.security_config = security_manager.security_config
-#
-#         # Configure profile based on security assessment
-#         self._configure_secure_profile()
-#
-#     def _configure_secure_profile(self):
-#         """Configure profile with security settings"""
-#
-#         # Configure HTTP settings
-#         self._configure_http_security()
-#
-#         # Configure web settings
-#         self._configure_web_settings()
-#
-#         # Set up request interceptor
-#         self._setup_request_interceptor()
-#
-#         # Configure storage settings
-#         self._configure_storage_security()
-#
-#     def _configure_http_security(self):
-#         """Configure HTTP-level security"""
-#
-#         # Set secure user agent
-#         security_level = self.security_config["security_level"]
-#
-#         if security_level == "maximum":
-#             # Minimal user agent for privacy
-#             self.setHttpUserAgent("SecureBrowser/1.0")
-#         else:
-#             # Standard user agent with security identifier
-#             self.setHttpUserAgent("SecureBrowser/1.0 (Security Enhanced)")
-#
-#         # Configure cache settings based on security level
-#         if security_level in ["maximum", "high"]:
-#             self.setHttpCacheType(QWebEngineProfile.HttpCacheType.MemoryHttpCache)
-#             self.setHttpCacheMaximumSize(10 * 1024 * 1024)  # 10MB max
-#         else:
-#             self.setHttpCacheType(QWebEngineProfile.HttpCacheType.DiskHttpCache)
-#
-#     def _configure_web_settings(self):
-#         """Configure WebEngine settings based on security level"""
-#         settings = self.settings()
-#         security_level = self.security_config["security_level"]
-#
-#         # Base security settings for all levels
-#         settings.setAttribute(QWebEngineSettings.WebAttribute.LocalStorageEnabled, False)
-#         settings.setAttribute(QWebEngineSettings.WebAttribute.WebGLEnabled, False)
-#         settings.setAttribute(QWebEngineSettings.WebAttribute.Accelerated2dCanvasEnabled, False)
-#
-#         if security_level == "maximum":
-#             # Maximum security: disable most features
-#             settings.setAttribute(QWebEngineSettings.WebAttribute.JavascriptEnabled, False)
-#             settings.setAttribute(QWebEngineSettings.WebAttribute.PluginsEnabled, False)
-#             settings.setAttribute(QWebEngineSettings.WebAttribute.JavascriptCanOpenWindows, False)
-#             settings.setAttribute(QWebEngineSettings.WebAttribute.JavascriptCanAccessClipboard, False)
-#             settings.setAttribute(QWebEngineSettings.WebAttribute.LocalContentCanAccessRemoteUrls, False)
-#             settings.setAttribute(QWebEngineSettings.WebAttribute.LocalContentCanAccessFileUrls, False)
-#
-#         elif security_level == "high":
-#             # High security: selective feature enabling
-#             settings.setAttribute(QWebEngineSettings.WebAttribute.JavascriptEnabled, True)
-#             settings.setAttribute(QWebEngineSettings.WebAttribute.PluginsEnabled, False)
-#             settings.setAttribute(QWebEngineSettings.WebAttribute.JavascriptCanOpenWindows, False)
-#             settings.setAttribute(QWebEngineSettings.WebAttribute.JavascriptCanAccessClipboard, False)
-#             settings.setAttribute(QWebEngineSettings.WebAttribute.LocalContentCanAccessRemoteUrls, False)
-#             settings.setAttribute(QWebEngineSettings.WebAttribute.LocalContentCanAccessFileUrls, False)
-#
-#         else:
-#             # Standard security: reasonable defaults
-#             settings.setAttribute(QWebEngineSettings.WebAttribute.JavascriptEnabled, True)
-#             settings.setAttribute(QWebEngineSettings.WebAttribute.PluginsEnabled, True)
-#             settings.setAttribute(QWebEngineSettings.WebAttribute.JavascriptCanOpenWindows, False)
-#             settings.setAttribute(QWebEngineSettings.WebAttribute.JavascriptCanAccessClipboard, False)
-#
-#         # Platform-specific settings
-#         self._apply_platform_specific_settings(settings)
-#
-#     def _apply_platform_specific_settings(self, settings):
-#         """Apply platform-specific security settings"""
-#
-#         if self.security_manager.os_type == OSType.WINDOWS:
-#             # Windows-specific security settings
-#             if self.security_manager.capabilities.crypto_hardware:
-#                 settings.setAttribute(QWebEngineSettings.WebAttribute.WebGLEnabled, True)
-#
-#         elif self.security_manager.os_type == OSType.MACOS:
-#             # macOS-specific settings
-#             settings.setAttribute(QWebEngineSettings.WebAttribute.SpatialNavigationEnabled, False)
-#
-#         elif self.security_manager.os_type == OSType.LINUX:
-#             # Linux-specific settings
-#             if not self.security_manager.capabilities.process_isolation:
-#                 # Additional restrictions when sandbox is disabled
-#                 settings.setAttribute(QWebEngineSettings.WebAttribute.PluginsEnabled, False)
-#
-#     def _setup_request_interceptor(self):
-#         """Setup security-aware request interceptor"""
-#         from security_request_interceptor import SecureRequestInterceptor
-#
-#         interceptor = SecureRequestInterceptor(self.security_manager)
-#         self.setUrlRequestInterceptor(interceptor)
-#
-#     def _configure_storage_security(self):
-#         """Configure storage settings based on security level"""
-#         security_level = self.security_config["security_level"]
-#
-#         if security_level == "maximum":
-#             # Maximum security: no persistent storage
-#             self.setPersistentCookiesPolicy(QWebEngineProfile.PersistentCookiesPolicy.NoPersistentCookies)
-#
-#         elif security_level == "high":
-#             # High security: limited persistent storage
-#             self.setPersistentCookiesPolicy(QWebEngineProfile.PersistentCookiesPolicy.ForcePersistentCookies)
-#             # Set secure storage path
-#             secure_path = self._get_secure_storage_path()
-#             if secure_path:
-#                 self.setPersistentStoragePath(secure_path)
-#
-#         else:
-#             # Standard security: normal storage with restrictions
-#             self.setPersistentCookiesPolicy(QWebEngineProfile.PersistentCookiesPolicy.AllowPersistentCookies)
-#
-#     def _get_secure_storage_path(self) -> str:
-#         """Get secure storage path based on platform"""
-#         if self.security_manager.os_type == OSType.WINDOWS:
-#             import os
-#
-#             return os.path.join(os.environ.get("LOCALAPPDATA", ""), "SecureBrowser")
-#         elif self.security_manager.os_type == OSType.MACOS:
-#             import os
-#
-#             return os.path.expanduser("~/Library/Application Support/SecureBrowser")
-#         else:
-#             import os
-#
-#             return os.path.expanduser("~/.local/share/SecureBrowser")
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+        return {'name': name, 'type': config.profile_type.value, 'is_default': config.is_default, 'cache_enabled': config.cache_enabled, 'cookies_enabled': config.cookies_enabled, 'user_agent': config.user_agent}

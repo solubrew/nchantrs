@@ -1,4 +1,3 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 """#                                          ||
 ---  #                                          ||
 <(META)>:  #                                          ||
@@ -15,49 +14,24 @@
     authority: document|this  #                                          ||
     security: sec|lvl2  #                                          ||
     <(WT)>: -32  #                                          ||
-"""  # ||
-
-# -*- coding: utf-8 -*-#                                          ||
-# ================================Core Modules===================================||
+"""
 from os.path import abspath, dirname, join
 from typing import Optional, Dict, List, Any, Tuple
-
 import logging
-
 logger = logging.getLogger(__name__)
-# ===============================================================================||
-
-# ===============================================================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.widgets import NchantdWidgetMixin
-
-# Note: this module previously imported PyfficeCell / PyfficeFormula from
-# pyffice for document-roundtripping. nchantrs does not depend on
-# pyffice — that integration lives in nchantdoffice. The cell classes
-# here keep their non-pyffice paths (rendering, cell state, color
-# toggling) and the pyffice-only paths are placeholders that raise
-# NotImplementedError with a clear migration note.
-
-# ===============================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
 logma.off()
-
-# ===============================================================================||
-pxcfg = join(here, "_data_", "cells.yaml")
-
+pxcfg = join(here, '_data_', 'cells.yaml')
 
 def _pyffice_required(op_name) -> None:
-    raise NotImplementedError(
-        f"{op_name} requires pyffice — the integration lives in "
-        "nchantdoffice (nchantrs + pyffice). nchantrs does not depend "
-        "on pyffice."
-    )
-
+    raise NotImplementedError(f'{op_name} requires pyffice — the integration lives in nchantdoffice (nchantrs + pyffice). nchantrs does not depend on pyffice.')
 
 class NchantdCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
     """"""
@@ -66,35 +40,32 @@ class NchantdCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
         """ """
         super().__init__()
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdCell").override(parent.config).override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('NchantdCell').override(parent.config).override(cfg)
         self.auto_calculate = None
         self.label = None
         self.formula = None
         self.is_formula = False
         self.is_active = False
-        default_color = "transparent"
-        active_color = "#191cc2"
-        self.row = self.config.dikt.get("row", None)
-        self.column = self.config.dikt.get("column", None)
+        default_color = 'transparent'
+        active_color = '#191cc2'
+        self.row = self.config.dikt.get('row', None)
+        self.column = self.config.dikt.get('column', None)
         self.default_color = default_color
         self.document = None
         self.active_color = active_color
         self.is_active = False
-        logma.info(f"NchantdCell initialized")
-
+        logma.info(f'NchantdCell initialized')
 
     def initModel(self) -> None:
         """"""
         super().initModel()
-        self.auto_calculate = self.config.dikt.get("auto_calculate", True)
-        # pyffice-backed document initialization lives in nchantdoffice.
+        self.auto_calculate = self.config.dikt.get('auto_calculate', True)
         self.document = None
         return self
 
     def initView(self) -> None:
         """"""
-        cfg = {"text": self.config.dikt.get("text", ""), "size": self.config.dikt.get("size", 10)}
-        # self.setText(str(cfg.get("text", "")))
+        cfg = {'text': self.config.dikt.get('text', ''), 'size': self.config.dikt.get('size', 10)}
         return self
 
     def initWidget(self) -> None:
@@ -110,19 +81,19 @@ class NchantdCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
         cell just records the textual formula; the actual evaluation
         pipeline is wired in nchantdoffice.
         """
-        _pyffice_required("NchantdCell.calculate_formula")
+        _pyffice_required('NchantdCell.calculate_formula')
 
     def cmd_on_cell_edit(self) -> None:
-        """"""
+        logma.info(f'cmd_on_cell_edit invoked')
         return self
 
     def cmd_on_cell_select(self) -> None:
-        """"""
+        logma.info(f'cmd_on_cell_select invoked')
         return self
 
     def get_cell_address(self) -> None:
-        """"""
-        return self
+        logma.info(f'get_cell_address requested')
+        return None
 
     def hide(self) -> None:
         """"""
@@ -138,7 +109,7 @@ class NchantdCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
 
     def parse_cell(self) -> None:
         """"""
-        if "=" == self.text[0]:
+        if '=' == self.text[0]:
             self.is_formula = True
             if self.auto_calculate:
                 text = self.text[1:]
@@ -149,7 +120,8 @@ class NchantdCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
         return self
 
     def set_content_format(self, text) -> None:
-        """"""
+        logma.info(f'set_content_format called')
+        return self
 
     def toggle_cell(self) -> None:
         """
@@ -157,24 +129,13 @@ class NchantdCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
         """
         self.is_active = not self.is_active
         color = self.active_color if self.is_active else self.default_color
-        self.setStyleSheet(f"""
-            background-color: {color};
-            border: 1px solid black;
-            min-width: 40px;
-            min-height: 40px;
-        """)
+        self.setStyleSheet(f'\n            background-color: {color};\n            border: 1px solid black;\n            min-width: 40px;\n            min-height: 40px;\n        ')
 
     def toggle_border(self) -> None:
         """"""
         self.is_active = not self.is_active
         color = self.active_color if self.is_active else self.default_color
-        self.setStyleSheet(f"""
-            background-color: {color};
-            border: 1px solid white;
-            min-width: 40px;
-            min-height: 40px;
-        """)
-
+        self.setStyleSheet(f'\n            background-color: {color};\n            border: 1px solid white;\n            min-width: 40px;\n            min-height: 40px;\n        ')
 
 class NchantdTableCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
     """"""
@@ -183,7 +144,7 @@ class NchantdTableCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
         """ """
         super().__init__()
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdCell")
+        self.config = kahndor.Instruct(pxcfg).select('NchantdCell')
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -192,28 +153,26 @@ class NchantdTableCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
         self.formula = None
         self.is_formula = False
         self.is_active = False
-        default_color = "transparent"
-        active_color = "#191cc2"
-        self.row = self.config.dikt.get("row", None)
-        self.column = self.config.dikt.get("column", None)
+        default_color = 'transparent'
+        active_color = '#191cc2'
+        self.row = self.config.dikt.get('row', None)
+        self.column = self.config.dikt.get('column', None)
         self.default_color = default_color
         self.active_color = active_color
         self.is_active = False
-        logma.info(f"NchantdTableCell initialized")
-
+        logma.info(f'NchantdTableCell initialized')
 
     def initModel(self) -> None:
         """"""
         super().initModel()
-        self.auto_calculate = self.config.dikt.get("auto_calculate", True)
-        # pyffice-backed document initialization lives in nchantdoffice.
+        self.auto_calculate = self.config.dikt.get('auto_calculate', True)
         self.document = None
         return self
 
     def initView(self) -> None:
         """"""
-        cfg = {"text": self.config.dikt.get("text", ""), "size": self.config.dikt.get("size", 10)}
-        self.setText(str(cfg.get("text", "")))
+        cfg = {'text': self.config.dikt.get('text', ''), 'size': self.config.dikt.get('size', 10)}
+        self.setText(str(cfg.get('text', '')))
         return self
 
     def initWidget(self) -> None:
@@ -227,19 +186,19 @@ class NchantdTableCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
 
         PyfficeFormula parsing lives in nchantdoffice.
         """
-        _pyffice_required("NchantdTableCell.calculate_formula")
+        _pyffice_required('NchantdTableCell.calculate_formula')
 
     def cmd_on_cell_edit(self) -> None:
-        """"""
+        logma.info(f'cmd_on_cell_edit invoked')
         return self
 
     def cmd_on_cell_select(self) -> None:
-        """"""
+        logma.info(f'cmd_on_cell_select invoked')
         return self
 
     def get_cell_address(self) -> None:
-        """"""
-        return self
+        logma.info(f'get_cell_address requested')
+        return None
 
     def hide(self) -> None:
         """"""
@@ -255,7 +214,7 @@ class NchantdTableCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
 
     def parse_cell(self) -> None:
         """"""
-        if "=" == self.text[0]:
+        if '=' == self.text[0]:
             self.is_formula = True
             if self.auto_calculate:
                 text = self.text[1:]
@@ -266,7 +225,8 @@ class NchantdTableCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
         return self
 
     def set_content_format(self, text) -> None:
-        """"""
+        logma.info(f'set_content_format called')
+        return self
 
     def toggle_cell(self) -> None:
         """
@@ -274,20 +234,10 @@ class NchantdTableCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
         """
         self.is_active = not self.is_active
         color = self.active_color if self.is_active else self.default_color
-        self.setStyleSheet(f"""
-            background-color: {color};
-            border: 1px solid black;
-            min-width: 40px;
-            min-height: 40px;
-        """)
+        self.setStyleSheet(f'\n            background-color: {color};\n            border: 1px solid black;\n            min-width: 40px;\n            min-height: 40px;\n        ')
 
     def toggle_border(self) -> None:
         """"""
         self.is_active = not self.is_active
         color = self.active_color if self.is_active else self.default_color
-        self.setStyleSheet(f"""
-            background-color: {color};
-            border: 1px solid white;
-            min-width: 40px;
-            min-height: 40px;
-        """)
+        self.setStyleSheet(f'\n            background-color: {color};\n            border: 1px solid white;\n            min-width: 40px;\n            min-height: 40px;\n        ')

@@ -1,4 +1,3 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 """
 ---
 <(META)>:
@@ -10,26 +9,15 @@
         security: seclvl2
         <(WT)>: -32
 """
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
-
-# ======================================3rd Party Library Modules=====================================================||
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from kahndor.logma import Logma
 from nchantrs.dialogs.sigil import NchantdSigilMixin
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", "files.yaml")
-
+pxcfg = join(here, '_data_', 'files.yaml')
 
 class NchantdFileOpenSigil(NchantdSigilMixin, pyqt.QFileDialog):
     """"""
@@ -37,13 +25,13 @@ class NchantdFileOpenSigil(NchantdSigilMixin, pyqt.QFileDialog):
     def __init__(self, name, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent.app.main)
-        name = "open"
+        name = 'open'
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdFileOpenSigil").override(parent.config).override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('NchantdFileOpenSigil').override(parent.config).override(cfg)
         self.init_variables(name)
         self.file_selected = None
 
-    def init_variables(self, name="generic") -> None:
+    def init_variables(self, name='generic') -> None:
         """"""
         self.layout = None
         self.pane = None
@@ -52,10 +40,9 @@ class NchantdFileOpenSigil(NchantdSigilMixin, pyqt.QFileDialog):
         self.new = True
         self.open = False
         self.app = pyqt.QApplication.instance()
-        self.dtop = self.config.dikt["gui"]["dialogs"].get(name, None)
+        self.dtop = self.config.dikt['gui']['dialogs'].get(name, None)
         if self.dtop is None:
-            self.dtop = self.config.dikt["gui"]["dialogs"]["base"]
-        # self.model = self.parent.model
+            self.dtop = self.config.dikt['gui']['dialogs']['base']
         self.new_form_field = None
         self.new_form_field_style = None
         self.add_field_button = None
@@ -63,17 +50,13 @@ class NchantdFileOpenSigil(NchantdSigilMixin, pyqt.QFileDialog):
 
     def initModel(self) -> None:
         """"""
-        # super().initModel()
-        # Set the dialog to open file mode
         self.setFileMode(pyqt.QFileDialog.ExistingFile)
         return self
 
     def initView(self) -> None:
         """"""
-        # super().initView()
         self.setGeometry(150, 250, 1000, 600)
-        # self.hide_title()
-        self.setNameFilter("All Files (*)")
+        self.setNameFilter('All Files (*)')
         return self
 
     def initWidget(self) -> None:
@@ -87,10 +70,9 @@ class NchantdFileOpenSigil(NchantdSigilMixin, pyqt.QFileDialog):
         """"""
         super().accept()
         self.set_ok()
-        # super().accept_()
         if self.ok:
             self.file_selected = self.selectedFiles()[0]
-            logma.info(f"{self.file_selected}")
+            logma.info(f'{self.file_selected}')
         return self.file_selected
 
     def reject(self) -> None:
@@ -105,22 +87,22 @@ class NchantdFileOpenSigil(NchantdSigilMixin, pyqt.QFileDialog):
         """"""
         filters = []
         if gfilters is None:
-            filters = ["All Files (*)"]
+            filters = ['All Files (*)']
         else:
             for gfilter in gfilters:
                 match gfilter:
-                    case "txt":
-                        filters.append("Text Files (*.txt)")
-                    case "html":
-                        filters.append("HTML Files (*.html)")
-                    case "png":
-                        filters.append("Images (*.png)")
-                    case "jpg":
-                        filters.append("Images (*.jpg)")
-                    case "jpeg":
-                        filters.append("Images (*.jpeg)")
-                    case "py":
-                        filters.append("Python Files (*.py)")
+                    case 'txt':
+                        filters.append('Text Files (*.txt)')
+                    case 'html':
+                        filters.append('HTML Files (*.html)')
+                    case 'png':
+                        filters.append('Images (*.png)')
+                    case 'jpg':
+                        filters.append('Images (*.jpg)')
+                    case 'jpeg':
+                        filters.append('Images (*.jpeg)')
+                    case 'py':
+                        filters.append('Python Files (*.py)')
         self.setNameFilters(filters)
         return self
 
@@ -129,7 +111,6 @@ class NchantdFileOpenSigil(NchantdSigilMixin, pyqt.QFileDialog):
         self.ok = True
         return self
 
-
 class AskSaveDialog:
     """Ask to save when a user navigates away from a changed data point"""
 
@@ -137,14 +118,16 @@ class AskSaveDialog:
         """"""
 
     def initModel(self) -> None:
-        """"""
+        logma.info(f'initModel {{type(self).__name__}}')
+        return self
 
     def initView(self) -> None:
-        """"""
+        logma.info(f'initView {{type(self).__name__}}')
+        return self
 
     def initWidget(self) -> None:
-        """"""
-
+        logma.info(f'initWidget {{type(self).__name__}}')
+        return self
 
 class SaveAsDialog:
     """standard save as dialog to allow for the file to be create as a duplicate of the current file"""
@@ -153,14 +136,16 @@ class SaveAsDialog:
         """"""
 
     def initModel(self) -> None:
-        """"""
+        logma.info(f'initModel {{type(self).__name__}}')
+        return self
 
     def initView(self) -> None:
-        """"""
+        logma.info(f'initView {{type(self).__name__}}')
+        return self
 
     def initWidget(self) -> None:
-        """"""
-
+        logma.info(f'initWidget {{type(self).__name__}}')
+        return self
 
 class SaveCopy:
     """Allow a copy of the current file to be created but the current file stays open this is useful for
@@ -176,15 +161,13 @@ class SaveCopy:
         super().__init__(parent, self.config)
 
     def initModel(self) -> None:
-        """"""
+        logma.info(f'initModel {{type(self).__name__}}')
+        return self
 
     def initView(self) -> None:
-        """"""
+        logma.info(f'initView {{type(self).__name__}}')
+        return self
 
     def initWidget(self) -> None:
-        """"""
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+        logma.info(f'initWidget {{type(self).__name__}}')
+        return self

@@ -1,33 +1,11 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 from typing import Any, Optional, Tuple
-
-"""  #																			||
----  #																			||
-<(META)>:  #																	||
-    docid:   #																	||
-    name:   #																	||
-    description: >  #															||
-          #			||
-    expirary: <[expiration]>  #													||
-    version: <[version]>  #														||
-    path: <[LEXIvrs]>  #														||
-    outline: <[outline]>  #														||
-    authority: document|this  #													||
-    security: sec|lvl2  #														||
-    <(WT)>: -32  #																||
-"""  # ||
-# -*- coding: utf-8 -*-#														||
-# ===============================Core Modules====================================||
+'  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n---  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n<(META)>:  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    docid:   #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    name:   #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    description: >  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n          #\t\t\t||\n    expirary: <[expiration]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    version: <[version]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    path: <[LEXIvrs]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    outline: <[outline]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    authority: document|this  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    security: sec|lvl2  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    <(WT)>: -32  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n'
 from os.path import abspath, dirname, join
 import datetime as dt
 from types import MethodType
 import re
-
 import logging
-
-
 logger = logging.getLogger(__name__)
-# ===============================================================================||
 from kahndor import kahndor
 from nchantrs.dialogs.files import NchantdFileOpenSigil
 from nchantrs.libraries import pyqt
@@ -38,16 +16,12 @@ from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 from kahndor.logma import Logma
 from nchantrs.utilities.files import qimage_to_data_uri
-
-# ===============================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 logma = Logma(__name__)
 logma.off()
+pxcfg = join(abspath(here), '_data_', 'editors.yaml')
 
-# ===============================================================================||
-pxcfg = join(abspath(here), "_data_", "editors.yaml")  # ||assign default config
-
-class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintillaBase):
+class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):
 
     def __init__(self, parent=None, cfg=None) -> None:
         """Document editor widget built on top of QsciScintilla widget
@@ -55,31 +29,25 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         substitute for PySide2"""
         super().__init__()
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdDocEditor").override(parent.config).override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('NchantdDocEditor').override(parent.config).override(cfg)
         self.embeded_links = None
 
     def initModel(self) -> Any:
         """ """
         super().initModel()
         self.embeded_links = []
-        # self.name = self.config.dikt['tab']['name']
-        # self.data = j.loads(self.config.dikt['tab']['widgdata'].replace("'", '"'))
-        # self.setText(self.data.get('text'))
         return self
 
     def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
-        text = self.config.dikt.get("text", None)
-        if text is None or text.lower() in ("none", ""):
-            text = self.config.dikt.get("default_text", "Missing Text")
+        text = self.config.dikt.get('text', None)
+        if text is None or text.lower() in ('none', ''):
+            text = self.config.dikt.get('default_text', 'Missing Text')
         logma.info(f"Background Color {self.config.dikt.get('background_color', None)}")
-        #self.setOpenExternalLinks(False)
-        #self.anchorClicked.connect(self.handle_link_click)
-        self.set_background(self.config.dikt.get("background_color", "white"))
-        self.setTabStopDistance(self.config.dikt.get("tab_length", 10))
+        self.set_background(self.config.dikt.get('background_color', 'white'))
+        self.setTabStopDistance(self.config.dikt.get('tab_length', 10))
         self.setText(text)
-        # self.set_size()
         return self
 
     def initWidget(self) -> Any:
@@ -104,7 +72,6 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         return self
 
     def canInsertFromMimeData(self, source) -> bool:
-        # Advertise that we can handle image pastes, plus the default types
         return source.hasImage() or super().canInsertFromMimeData(source)
 
     def remove_leading_empty_block(self, text_edit) -> None:
@@ -113,16 +80,13 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         block = doc.firstBlock()
         if not block.isValid():
             return
-        # selectedText() replaces paragraph separators with U+2029; for an empty block it's ""
         cur = pyqt.QTextCursor(block)
         cur.select(pyqt.QTextCursor.SelectionType.BlockUnderCursor)
-        if cur.selectedText().strip() == "":
-            # Avoid adding to undo stack if you want a clean history
+        if cur.selectedText().strip() == '':
             was_undo = doc.isUndoRedoEnabled()
             doc.setUndoRedoEnabled(False)
             try:
                 cur.removeSelectedText()
-                # Remove the paragraph separator to merge with the next block
                 cur.deleteChar()
             finally:
                 doc.setUndoRedoEnabled(was_undo)
@@ -134,13 +98,11 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         - If clipboard has URLs pointing to images, load and embed those.
         - Otherwise, fall back to default rich text/HTML/plain-text handling.
         """
-        # 1) Direct image (e.g., copied from an image editor or screenshot tool)
         if source.hasImage():
             img = source.imageData()
-            if isinstance(img, pyqt.QImage) and not img.isNull():
+            if isinstance(img, pyqt.QImage) and (not img.isNull()):
                 self._insert_image(img)
                 return
-        # 2) URLs (e.g., copying an image file from a file manager)
         if source.hasUrls():
             handled_any = False
             for url in source.urls():
@@ -151,28 +113,21 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
                         self._insert_image(img)
                         handled_any = True
                     else:
-                        # If it's not an image file, let default flow handle it as text path, etc.
                         pass
                 else:
-                    # Remote URLs: prefer to keep original URL in HTML if desired, or skip.
-                    # Basic safe approach: just insert the URL as text.
                     pass
             if handled_any:
                 return
-        # 3) Let QTextEdit handle HTML/RTF/plain text as usual
         super().insertFromMimeData(source)
         return self
 
     def _insert_image(self, img: pyqt.QImage) -> Any:
-        # Optional scaling before embedding to keep HTML compact or fit layout.
         if self.max_width and img.width() > self.max_width:
             img = img.scaledToWidth(self.max_width, Qt.SmoothTransformation)
-        data_uri = qimage_to_data_uri(img, "PNG")
+        data_uri = qimage_to_data_uri(img, 'PNG')
         if not data_uri:
             return
-        # You can add width/height attributes to control layout if desired.
-        # Example includes width attribute if max_width used.
-        attrs = ""
+        attrs = ''
         if self.max_width:
             attrs = f' width="{img.width()}"'
         html = f'<img src="{data_uri}"{attrs} />'
@@ -206,53 +161,93 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         return self
 
     def cmd_change_color(self) -> Any:
-        """"""
-        # NOTE implement method
+        editor = getattr(self, 'editor', None)
+        if editor is None:
+            return self
+        fmt = editor.currentCharFormat()
+        _apply_color(fmt)
+        editor.setCurrentCharFormat(fmt)
         return self
 
     def cmd_change_color_background(self) -> Any:
-        """"""
-        # NOTE implement method
+        editor = getattr(self, 'editor', None)
+        if editor is None:
+            return self
+        fmt = editor.currentCharFormat()
+        _apply_color_background(fmt)
+        editor.setCurrentCharFormat(fmt)
         return self
 
     def cmd_change_color_highlight(self) -> Any:
-        """"""
-        # NOTE implement method
+        editor = getattr(self, 'editor', None)
+        if editor is None:
+            return self
+        fmt = editor.currentCharFormat()
+        _apply_color_highlight(fmt)
+        editor.setCurrentCharFormat(fmt)
         return self
 
     def cmd_change_bold(self) -> Any:
-        """"""
-        # NOTE implement method
+        editor = getattr(self, 'editor', None)
+        if editor is None:
+            return self
+        fmt = editor.currentCharFormat()
+        _apply_bold(fmt)
+        editor.setCurrentCharFormat(fmt)
         return self
 
     def cmd_change_italic(self) -> Any:
-        """"""
-        # NOTE implement method
+        editor = getattr(self, 'editor', None)
+        if editor is None:
+            return self
+        fmt = editor.currentCharFormat()
+        _apply_italic(fmt)
+        editor.setCurrentCharFormat(fmt)
         return self
 
     def cmd_change_underline(self) -> Any:
-        """"""
-        # NOTE implement method
+        editor = getattr(self, 'editor', None)
+        if editor is None:
+            return self
+        fmt = editor.currentCharFormat()
+        _apply_underline(fmt)
+        editor.setCurrentCharFormat(fmt)
         return self
 
     def cmd_change_underline_double(self) -> Any:
-        """"""
-        # NOTE implement method
+        editor = getattr(self, 'editor', None)
+        if editor is None:
+            return self
+        fmt = editor.currentCharFormat()
+        _apply_underline_double(fmt)
+        editor.setCurrentCharFormat(fmt)
         return self
 
     def cmd_change_strike(self) -> Any:
-        """"""
-        # NOTE implement method
+        editor = getattr(self, 'editor', None)
+        if editor is None:
+            return self
+        fmt = editor.currentCharFormat()
+        _apply_strike(fmt)
+        editor.setCurrentCharFormat(fmt)
         return self
 
     def cmd_change_subscript(self) -> Any:
-        """"""
-        # NOTE implement method
+        editor = getattr(self, 'editor', None)
+        if editor is None:
+            return self
+        fmt = editor.currentCharFormat()
+        _apply_subscript(fmt)
+        editor.setCurrentCharFormat(fmt)
         return self
 
     def cmd_change_superscript(self) -> Any:
-        """"""
-        # NOTE implement method
+        editor = getattr(self, 'editor', None)
+        if editor is None:
+            return self
+        fmt = editor.currentCharFormat()
+        _apply_superscript(fmt)
+        editor.setCurrentCharFormat(fmt)
         return self
 
     def create_bulleted_list(self) -> Any:
@@ -267,25 +262,21 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
 
     def convert_urls_to_links(self, text) -> Any:
         """"""
-        # Regular expression for finding URLs
-        url_pattern = r"(https?://\S+)"
-        # Replace URLs with HTML anchor tags
-        self.embeded_links.append(re.sub(url_pattern, r'<a href="\1">\1</a>', text))
+        url_pattern = '(https?://\\S+)'
+        self.embeded_links.append(re.sub(url_pattern, '<a href="\\1">\\1</a>', text))
         return self
 
     def focusInEvent(self, event) -> Any:
         """ """
         super().focusInEvent(event)
-        logma.info(f"Focus In Event")
+        logma.info(f'Focus In Event')
         return self
 
     def focusOutEvent(self, event) -> Any:
         """ """
-        # Check if the current text cursor position equals the timestamp's position
         current_text = self.toPlainText()
-        # self.save()
         super().focusOutEvent(event)
-        logma.info(f"Focus Out Event")
+        logma.info(f'Focus Out Event')
         return self
 
     def get_text(self) -> str:
@@ -295,36 +286,38 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
 
     def handle_link_click(self, url) -> Any:
         """"""
-        #super().handle_link_click(url)
-        if "http?://" in url:
+        if 'http?://' in url:
             self.add_new_browser_tab(url)
-        elif "file:///" in url:
+        elif 'file:///' in url:
             self.add_new_script_tab(url)
         return self
 
     def insert_bullet(self) -> Any:
-        """"""
-        # NOTE implement method
+        editor = getattr(self, 'editor', None)
+        if editor is None:
+            return self
+        cursor = editor.textCursor()
+        cursor.insertText('')
         return self
 
     def insert_code(self) -> Any:
-        """"""
-        # NOTE implement method
+        editor = getattr(self, 'editor', None)
+        if editor is None:
+            return self
+        cursor = editor.textCursor()
+        cursor.insertText('')
         return self
 
-    def insert_datetime(self, format_=None, prefix="", suffix="") -> Any:
+    def insert_datetime(self, format_=None, prefix='', suffix='') -> Any:
         """"""
         if format_ is None:
-            format_ = "%Y-%m-%d %H:%M:%S"
+            format_ = '%Y-%m-%d %H:%M:%S'
         timestamp = dt.datetime.now().strftime(format_)
         cursor = self.textCursor()
-        # NOTE check previous text for number of newline characters
-        # at the top of the document keep no new lines
-        # between each entry ensure 2 blank lines...3 new lines
-        if self.toPlainText() == "":
-            cursor.insertText(f"{prefix}{timestamp}{suffix}\n")
+        if self.toPlainText() == '':
+            cursor.insertText(f'{prefix}{timestamp}{suffix}\n')
         else:
-            cursor.insertText(f"\n\n{prefix}{timestamp}{suffix}\n")
+            cursor.insertText(f'\n\n{prefix}{timestamp}{suffix}\n')
         return self
 
     def insert_image(self) -> Any:
@@ -333,7 +326,7 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         """
         cfg = {}
         sigil = NchantdFileOpenSigil(self, cfg).initWidget()
-        file_path = sigil.getOpenFileName(self, "Insert Image", "", "Images (*.png *.jpg *.bmp)")
+        file_path = sigil.getOpenFileName(self, 'Insert Image', '', 'Images (*.png *.jpg *.bmp)')
         if file_path:
             cursor = self.textCursor()
             cursor.insertImage(file_path)
@@ -341,14 +334,16 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
 
     def insert_link(self, text) -> Any:
         """"""
-        #set text blue
-        #set text underline
         cursor = self.textCursor()
         cursor.insertText(text)
         return self
 
     def insert_shape(self) -> Any:
-        """"""
+        editor = getattr(self, 'editor', None)
+        if editor is None:
+            return self
+        cursor = editor.textCursor()
+        cursor.insertText('')
         return self
 
     def insert_table(self, rows=2, columns=2) -> Any:
@@ -364,7 +359,11 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         return self
 
     def insert_webpage(self) -> Any:
-        """"""
+        editor = getattr(self, 'editor', None)
+        if editor is None:
+            return self
+        cursor = editor.textCursor()
+        cursor.insertText('')
         return self
 
     def is_bold(self) -> bool:
@@ -411,7 +410,9 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         return self
 
     def onEnterEvent(self) -> Any:
-        """Run a save of the doc editor data to the database"""
+        logma.info('onEnterEvent: persisting editor data')
+        if getattr(self, 'app', None) is not None and hasattr(self.app, 'model'):
+            self.app.model.has_changed = True
         return self
 
     def set_cursor_position(self, to=None) -> Any:
@@ -428,7 +429,6 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         super().set_background(color, hex)
         return self
 
-    ## --- Editor Actions --- ##
     def set_font(self, font) -> Any:
         """
         Set the font family for the selected text.
@@ -464,7 +464,6 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):  # (pyqt.QsciScintil
         self.document_editor.setAlignment(alignment)
         return self
 
-
 class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
     """Standard Nchantd Entry Box"""
 
@@ -472,7 +471,7 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
         """ """
         super().__init__()
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdEntryBox").override(parent.config).override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('NchantdEntryBox').override(parent.config).override(cfg)
         self.can_save = False
         self.user_editted = None
         self.entry_data = None
@@ -485,12 +484,11 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
         self.textChanged.connect(self.on_text_changed)
         self.textEdited.connect(self.on_text_edited)
         self.returnPressed.connect(self.on_return_pressed)
-        # self.editingFinished.connect(self.on_editing_finished)
         self.selectionChanged.connect(self.on_selection_changed)
         self.cursorPositionChanged.connect(self.on_cursor_position_changed)
-        self.value = self.config.dikt.get("value", self.config.dikt.get("default_text", ""))
-        if self.config.dikt.get("get_value", None):
-            self.value = self.config.dikt["get_value"]()
+        self.value = self.config.dikt.get('value', self.config.dikt.get('default_text', ''))
+        if self.config.dikt.get('get_value', None):
+            self.value = self.config.dikt['get_value']()
         return self
 
     def initView(self, cfg=None) -> Any:
@@ -498,18 +496,19 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
         super().initView()
         if cfg is None:
             cfg = {}
-        if "font" in cfg.keys():
-            font = pyqt.QFont(cfg["font"], cfg["font"]["size"], pyqt.QFont.Bold)
+        if 'font' in cfg.keys():
+            font = pyqt.QFont(cfg['font'], cfg['font']['size'], pyqt.QFont.Bold)
             self.setFont(font)
         logma.info(f"Size {self.config.dikt.get('size', None)}")
         logma.info(f"Width {self.config.dikt.get('width', 'BLANK')}")
-        value = self.config.dikt.get("value", self.config.dikt.get("default_text", ""))
+        value = self.config.dikt.get('value', self.config.dikt.get('default_text', ''))
         self.set_value(value)
         self.set_size()
         return self
 
     def refresh_view(self, cfg) -> None:
-        """"""
+        logma.info(f'refresh_view called')
+        return self
 
     def initWidget(self, handler=None) -> Any:
         """"""
@@ -519,13 +518,13 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
 
     def on_text_changed(self, text) -> Any:
         """"""
-        logma.info(f"Text Changed {text}")
+        logma.info(f'Text Changed {text}')
         self.user_editted = dt.datetime.now()
         self.can_save = True
         self.value = text
         self.entry_data = self.value
-        logma.info(f"Text Changed {self.value} {self.entry_data}")
-        logma.info(f"Parent {self.parent}")
+        logma.info(f'Text Changed {self.value} {self.entry_data}')
+        logma.info(f'Parent {self.parent}')
         return self
 
     def on_text_edited(self, text) -> Any:
@@ -533,41 +532,46 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
         assemblying an update record
         manually it would be easy wire the returnPressed event to an in
         class function but how to access it on selection of a submit button"""
-        logma.info(f"Text Entered {text}")
+        logma.info(f'Text Entered {text}')
         self.user_editted = dt.datetime.now()
         self.can_save = True
         self.value = text
         self.entry_data = self.value
-        logma.info(f"Text Changed {self.value} {self.entry_data}")
+        logma.info(f'Text Changed {self.value} {self.entry_data}')
         return self
 
     def on_return_pressed(self, text) -> Any:
         """enter pressed"""
-        logger.debug(f"Enter Pressed")
+        logger.debug(f'Enter Pressed')
         self.user_editted = dt.datetime.now()
         self.can_save = True
         self.value = text
         return self
 
     def focusOutEvent(self, event=None) -> None:
-        """Change in focus"""
-        # super().focusOutEvent(event)
-        # self.on_editing_finished()
+        logma.info(f'focusOutEvent called')
+        return self
 
     def on_editing_finished(self) -> Any:
         """"""
-        logma.info(f"Editing Finished {self.text()}")
+        logma.info(f'Editing Finished {self.text()}')
         if self.text() != self.entry_data:
             self.entry_data = self.text()
             self.text_changed = True
-        logma.info(f"Entry Data {self.entry_data}")
+        logma.info(f'Entry Data {self.entry_data}')
         return self
 
     def on_selection_changed(self, val=True) -> None:
-        """User selecting"""
+        logma.info(f'on_selection_changed event received')
+        if getattr(self, 'app', None) is not None and hasattr(self.app, 'model'):
+            self.app.model.has_changed = True
+        return self
 
     def on_cursor_position_changed(self, position: int) -> None:
-        """cursor movement"""
+        logma.info(f'on_cursor_position_changed event received')
+        if getattr(self, 'app', None) is not None and hasattr(self.app, 'model'):
+            self.app.model.has_changed = True
+        return self
 
     def set_size(self, set_width=None, set_height=None, min_width=10, min_height=10, max_width=None, max_height=None) -> Any:
         """"""
@@ -580,14 +584,12 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
 
     def set_value(self, value) -> Any:
         """"""
-        logma.info(f"Set Value{value}")
+        logma.info(f'Set Value{value}')
         if isinstance(value, MethodType):
             value = value()
         self.value = value
         self.setText(str(value))
         return self
-        # self._set_entry_box_size()
-
 
 class NchantdLabeledEntry(NchantdWidget):
     """ """
@@ -595,36 +597,35 @@ class NchantdLabeledEntry(NchantdWidget):
     def __init__(self, parent=None, cfg={}) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdLabeledEntry").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdLabeledEntry').override(cfg))
         self.model = pyqt.QStandardItemModel(self)
         self.style = None
         self.label = None
         self.textbox = None
-        self.entry_data = ""
+        self.entry_data = ''
 
     def initModel(self, handler) -> Any:
         """"""
         super().initModel()
-        self.entry_data = ""
+        self.entry_data = ''
         return self
 
     def initView(self, handler=None, size=None) -> Any:
         """ """
         super().initView()
-        if self.config.dikt.get("icon"):
-            cfg = {"icon": self.config.dikt.get("icon"), "size": [40, 40]}
+        if self.config.dikt.get('icon'):
+            cfg = {'icon': self.config.dikt.get('icon'), 'size': [40, 40]}
             self.label = NchantdImage(self, cfg).initWidget()
         else:
-            cfg = {"text": self.config.dikt.get("label", "")}
+            cfg = {'text': self.config.dikt.get('label', '')}
             self.label = NchantdLabel(self, cfg).initWidget()
         self.layout.addWidget(self.label)
-        style = "single"
-        cfg = {"entrybox": {"style": style}}
-        cfg["size"] = self.config.dikt.get("entrybox", {"size": ["auto", "auto"]}).get("size", None)
+        style = 'single'
+        cfg = {'entrybox': {'style': style}}
+        cfg['size'] = self.config.dikt.get('entrybox', {'size': ['auto', 'auto']}).get('size', None)
         self.textbox = NchantdEntryBox(self, self.config.override(cfg)).initWidget(handler)
         self.layout.addWidget(self.textbox)
-        self.layout.setAlignment(getAlignment(self.config.dikt.get("justify", "left")))
-        # self.setMaximumWidth((self.label.size().width() + self.textbox.size().width()) * 1.01)
+        self.layout.setAlignment(getAlignment(self.config.dikt.get('justify', 'left')))
         return self
 
     def initWidget(self, handler=None, size=None) -> Any:
@@ -635,7 +636,7 @@ class NchantdLabeledEntry(NchantdWidget):
 
     def getEntry(self, row) -> Tuple[Any, Any]:
         """"""
-        self.name, value = None, None
+        self.name, value = (None, None)
         try:
             self.name = self.item(row, 0).text()
         except Exception:
@@ -644,7 +645,7 @@ class NchantdLabeledEntry(NchantdWidget):
             self.value = self.item(row, 1).text()
         except Exception:
             pass
-        return self.name, self.value
+        return (self.name, self.value)
 
     def set_label(self, text) -> Any:
         """"""
@@ -653,7 +654,7 @@ class NchantdLabeledEntry(NchantdWidget):
 
     def setText(self, text) -> Any:
         """"""
-        logma.info(f"Set Text {text}")
+        logma.info(f'Set Text {text}')
         if self.textbox:
             self.textbox.set_value(text)
         self.entry_data = text
@@ -662,14 +663,13 @@ class NchantdLabeledEntry(NchantdWidget):
     def setPlaceholderText(self, text) -> Any:
         self.textbox.setPlaceholderText(text)
         self.textbox.set_value(text)
-        self.config.dikt["default_text"] = text
+        self.config.dikt['default_text'] = text
         return self
 
     def refresh_text_box(self) -> None:
         """"""
-        logma.info("Refresh Text Box")
+        logma.info('Refresh Text Box')
         self.textbox.initView()
-
 
 class NchantdEntryEditor(NchantdLabeledEntry):
     """"""
@@ -691,11 +691,10 @@ class NchantdEntryEditor(NchantdLabeledEntry):
 
     def initWidget(self) -> Any:
         """"""
-        logma.deprecate("NchantdEntryEditor is deprecated. Use NchantdLabledEntry instead.")
+        logma.deprecate('NchantdEntryEditor is deprecated. Use NchantdLabledEntry instead.')
         self.initModel()
         self.initView()
         return self
-
 
 class NchantdEntryEditorActivator(NchantdEntryEditor):
     """"""
@@ -703,10 +702,9 @@ class NchantdEntryEditorActivator(NchantdEntryEditor):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdEntryEditorActivator").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdEntryEditorActivator').override(cfg))
 
     def initModel(self) -> Any:
-        """"""
         return self
 
     def initView(self) -> Any:
@@ -722,17 +720,15 @@ class NchantdEntryEditorActivator(NchantdEntryEditor):
         self.initView()
         return self
 
-
 class NchantdEntryListEditor(NchantdWidget):
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdEntryListEditor").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdEntryListEditor').override(cfg))
 
     def initModel(self) -> Any:
-        """"""
         return self
 
     def initView(self) -> Any:
@@ -742,7 +738,7 @@ class NchantdEntryListEditor(NchantdWidget):
         self.entry_editor = NchantdEntryEditorActivator(self, self.config).initWidget()
         self.layout.addWidget(self.entry_editor)
         cfg = {}
-        group.setTitle(self.config.dikt["label"])
+        group.setTitle(self.config.dikt['label'])
         self.layout.addWidget(group)
         self.setLayout(self.layout)
         return self
@@ -753,21 +749,19 @@ class NchantdEntryListEditor(NchantdWidget):
         self.initView()
         return self
 
-
 class NchantdAppendOnlyEditor(NchantdDocEditor):
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdAppendOnlyEditor").override(cfg))
-        self.setPlaceholderText("Type here... Text will only be appended.\n")
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdAppendOnlyEditor').override(cfg))
+        self.setPlaceholderText('Type here... Text will only be appended.\n')
         text_cursor = self.textCursor()
         text_cursor.movePosition(pyqt.QTextCursor.End)
-        self.setTextCursor(text_cursor)  # Force cursor to the end
-        self.user_input_locked = False  # Prevent backspaces and deletions
-        logma.info(f"NchantdAppendOnlyEditor initialized")
-
+        self.setTextCursor(text_cursor)
+        self.user_input_locked = False
+        logma.info(f'NchantdAppendOnlyEditor initialized')
 
     def initModel(self) -> Any:
         """"""
@@ -790,12 +784,10 @@ class NchantdAppendOnlyEditor(NchantdDocEditor):
         Allow input only at the end of the editor, preventing deletions or editing.
         """
         cursor = self.textCursor()
-        # Ensure the cursor is always at the end
         if cursor.position() < len(self.toPlainText()):
             self.set_cursor_position()
         if event.key() == pyqt.Qt.Key_Backspace:
             return None
-        # Handle the user's keypress normally (appending only)
         super().keyPressEvent(event)
         return self
 
@@ -806,24 +798,20 @@ class NchantdScratchEditor(NchantdWidget):
     def __init__(self, parent=None, cfg={}) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdScratchEditor").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdScratchEditor').override(cfg))
         self.editor = None
         self.button_export = None
         self.button_maketab = None
-        logma.info(f"NchantdScratchEditor initialized")
-
-        # self.model = editormodels.NchantdScratchEditorModel(self)
-        # #self.view = editorviews.NchantdScratchEditorView(self)
+        logma.info(f'NchantdScratchEditor initialized')
 
     def initModel(self) -> Any:
         """ """
         super().initModel()
-        # self.model.initModel()
         return self
 
     def initView(self) -> Any:
         """ """
-        super().initView({"layout": "grid"})
+        super().initView({'layout': 'grid'})
         self.createExportButton()
         self.layout.addWidget(self.button_export, 1, 1)
         self.createMakeTabButton()
@@ -846,23 +834,25 @@ class NchantdScratchEditor(NchantdWidget):
 
     def createExportButton(self) -> Any:
         """ """
-        self.button_export = NchantdButton(self, {"name": "Export"}).initWidget()
+        self.button_export = NchantdButton(self, {'name': 'Export'}).initWidget()
         return self
 
     def createMakeTabButton(self) -> Any:
         """ """
-        self.button_maketab = NchantdButton(self, {"name": "Clear"}).initWidget()
+        self.button_maketab = NchantdButton(self, {'name': 'Clear'}).initWidget()
         return self
 
     def clear(self) -> None:
-        """ """
+        logma.info(f'clear called')
+        return self
 
     def export(self) -> None:
-        """ """
+        logma.info(f'export called')
+        return self
 
     def setTheme(self) -> None:
-        """ """
-
+        logma.info(f'setTheme called')
+        return self
 
 class NchantdDocEditorView(pyqt.QListView):
     """ """
@@ -870,33 +860,24 @@ class NchantdDocEditorView(pyqt.QListView):
     def __init__(self, parent=None, cfg={}) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdDocEditorView").override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdDocEditorView').override(cfg))
 
     def initView(self) -> Any:
         """ """
-        # self.layout = pyqt.QVBoxLayout()
-        # self.layout.addWidget(self)
         self.buildEditor()
         return self
 
     def buildEditor(self) -> Any:
-        """ """
+        editor = pyqt.QTextEdit(self)
+        self.editor = editor
+        if hasattr(self, 'layout') and self.layout is not None:
+            self.layout.addWidget(editor)
         return self
 
     def setTheme(self, theme) -> None:
         """ """
         self.setMarginsForegroundColor()
         self.setMarginsBackgroundColor()
-        self.SendScintilla(
-            pyqt.QsciScintillaBase.SCI_STYLESETBACK, pyqt.QsciScintillaBase.STYLE_DEFAULT, theme.Paper.Default
-        )
-        self.SendScintilla(
-            pyqt.QsciScintillaBase.SCI_STYLESETBACK,
-            pyqt.QsciScintillaBase.STYLE_LINENUMBER,
-            theme.LineMargin.BackGround,
-        )
+        self.SendScintilla(pyqt.QsciScintillaBase.SCI_STYLESETBACK, pyqt.QsciScintillaBase.STYLE_DEFAULT, theme.Paper.Default)
+        self.SendScintilla(pyqt.QsciScintillaBase.SCI_STYLESETBACK, pyqt.QsciScintillaBase.STYLE_LINENUMBER, theme.LineMargin.BackGround)
         self.SendScintilla(pyqt.QsciScintillaBase.SCI_SETCARETFORE, theme.Cursor)
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

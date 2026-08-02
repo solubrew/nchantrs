@@ -1,4 +1,3 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 """
 ---
 <(META)>:
@@ -10,39 +9,26 @@
         security: seclvl2
         <(WT)>: -32
 """
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
 from os.path import abspath, dirname, join
 from typing import Optional, Dict, List, Any, Tuple
 import datetime as dt
 import json as j
-
 import logging
-
 logger = logging.getLogger(__name__)
-# ======================================3rd Party Library Modules=====================================================||
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from nchantrs.libraries import pyqt
 from kahndor.logma import Logma
-
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", "apis.yaml")
-
+pxcfg = join(here, '_data_', 'apis.yaml')
 
 class NchantdEventAPI(object):
     """"""
 
     def __init__(self, cfg=None) -> None:
         """"""
-        self.config = kahndor.Instruct(pxcfg).select("NchantdEventAPI").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('NchantdEventAPI').override(cfg)
         self.eventTriggered = pyqt.Signal(str)
 
     def triggerEvent(self, event_name) -> None:
@@ -50,7 +36,6 @@ class NchantdEventAPI(object):
         Trigger an event from Python to JavaScript.
         """
         self.eventTriggered.emit(event_name)
-
 
 class NchantdNetworkAPI(pyqt.QObject):
     """"""
@@ -60,25 +45,20 @@ class NchantdNetworkAPI(pyqt.QObject):
         super().__init__()
         self.profile = profile
         self.profile.setRequestInterceptor(self)
-        self.requestIntercepted = pyqt.Signal(str, str, str)  # Signal for request interception (method, URL, headers)
+        self.requestIntercepted = pyqt.Signal(str, str, str)
 
     def interceptRequest(self, info: pyqt.QWebEngineUrlRequestInfo) -> None:
         """
         Handle intercepted requests from QWebEngineProfile.
         """
-        # Extract request details
-        method = info.requestMethod().data().decode()  # GET/POST
+        method = info.requestMethod().data().decode()
         url = info.requestUrl().toString()
         headers = info.requestHeaders()
-
-        # Emit request details to JavaScript or extensions
         self.requestIntercepted.emit(method, url, str(headers))
-
-        # Example modification: Block specific URLs
-        if "example.com" in url:
-            info.block(True)  # Block the request
+        if 'example.com' in url:
+            info.block(True)
         else:
-            info.block(False)  # Let the request through
+            info.block(False)
 
     @pyqt.Slot(result=str)
     def enableBlocking(self) -> None:
@@ -86,7 +66,7 @@ class NchantdNetworkAPI(pyqt.QObject):
         Enable JavaScript-triggered blocking of certain websites.
         """
         self.blocking = True
-        return "Blocking Enabled"
+        return 'Blocking Enabled'
 
     @pyqt.Slot(result=str)
     def disableBlocking(self) -> None:
@@ -94,15 +74,14 @@ class NchantdNetworkAPI(pyqt.QObject):
         Disable JavaScript-triggered blocking.
         """
         self.blocking = False
-        return "Blocking Disabled"
-
+        return 'Blocking Disabled'
 
 class NchantdNodesAPI(object):
     """"""
 
     def __init__(self, cfg=None) -> None:
         """"""
-        self.config = kahndor.Instruct(pxcfg).select("").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('').override(cfg)
 
     @pyqt.Slot(str)
     def create(self, url) -> None:
@@ -118,18 +97,16 @@ class NchantdNodesAPI(object):
         """
         Execute JavaScript in the active tab.
         """
-        current_page = self.parentView.page()  # Access parent page dynamically
+        current_page = self.parentView.page()
         current_page.runJavaScript(script)
-
 
 class NchantdRuntimeAPI(object):
     """"""
-
-    messageReceived = pyqt.Signal(str)  # Signal for receiving messages
+    messageReceived = pyqt.Signal(str)
 
     def __init__(self, cfg=None) -> None:
         """"""
-        self.config = kahndor.Instruct(pxcfg).select("").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('').override(cfg)
 
     @pyqt.Slot(str)
     def sendMessage(self, message) -> None:
@@ -143,48 +120,48 @@ class NchantdRuntimeAPI(object):
         """
         Handle a message sent from JavaScript.
         """
-        logma.debug(f"Received message from JavaScript: {message}")
-        response = {"response": f"Python received: {message}"}
+        logma.debug(f'Received message from JavaScript: {message}')
+        response = {'response': f'Python received: {message}'}
         return json.dumps(response)
-
 
 class NchantdSourceAPI(object):
     """Make connected data sources available to other extensions will need security"""
 
     def __init__(self, cfg=None) -> None:
         """"""
-        self.config = kahndor.Instruct(pxcfg).select("NchantdSourceAPI").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('NchantdSourceAPI').override(cfg)
 
     def load_source(self) -> None:
-        """"""
+        logma.info(f'load_source called')
+        return self
 
     def update_source(self) -> None:
-        """"""
+        logma.info(f'update_source called')
+        return self
 
     def save_source(self) -> None:
-        """"""
-
+        logma.info(f'save_source called')
+        return self
 
 class NchantdStorageAPI(object):
     """"""
 
     def __init__(self, cfg=None) -> None:
         """"""
-        self.config = kahndor.Instruct(pxcfg).select("NchantdStorageAPI").override(cfg)
-        self.storage_file = "storage.json"  # connect to database storage
+        self.config = kahndor.Instruct(pxcfg).select('NchantdStorageAPI').override(cfg)
+        self.storage_file = 'storage.json'
         self.load_storage()
-        logma.info(f"NchantdStorageAPI initialized")
-
+        logma.info(f'NchantdStorageAPI initialized')
 
     def load_storage(self) -> None:
         try:
-            with open(self.storage_file, "r") as f:
+            with open(self.storage_file, 'r') as f:
                 self.data = j.load(f)
         except FileNotFoundError:
             self.data = {}
 
     def save_storage(self) -> None:
-        with open(self.storage_file, "w") as f:
+        with open(self.storage_file, 'w') as f:
             j.dump(self.data, f)
 
     @pyqt.Slot(str, str)
@@ -196,13 +173,12 @@ class NchantdStorageAPI(object):
     def get(self, key) -> None:
         return self.data.get(key, None)
 
-
 class NchantdWebRequestAPI(object):
     """"""
 
     def __init__(self, profile, cfg=None) -> None:
         """"""
-        self.config = kahndor.Instruct(pxcfg).select("").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('').override(cfg)
         self.profile = profile
         self.intercept_requests()
 
@@ -210,16 +186,15 @@ class NchantdWebRequestAPI(object):
         self.profile.requestIntercepted.connect(self.handle_request)
 
     def handle_request(self, intercepted_request) -> None:
-        if "google.com" in intercepted_request.url().toString():
-            intercepted_request.abort()  # Block the request
+        if 'google.com' in intercepted_request.url().toString():
+            intercepted_request.abort()
         else:
             intercepted_request.continueRequest()
 
-
-# Handle Python-JavaScript communication using QWebChannel
 class NchantdExtensionAPI(pyqt.QObject):
+
     def __init__(self, parent=None, cfg=None) -> None:
-        self.config = kahndor.Instruct(pxcfg).select("NchantdExtensionAPI").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('NchantdExtensionAPI').override(cfg)
         super().__init__(parent)
         profile = None
         if profile:
@@ -242,21 +217,12 @@ class NchantdExtensionAPI(pyqt.QObject):
             str: A JSON string as the response to the JavaScript call.
         """
         request_data = j.loads(request)
-        method = request_data.get("method")
-        params = request_data.get("params", {})
-
-        # Example methods for the extension
-        if method == "getAccounts":
-            response = {"accounts": ["0xYourEthereumAddress"]}
-        elif method == "signMessage":
-            response = {"signature": "0xFakeSignature"}
+        method = request_data.get('method')
+        params = request_data.get('params', {})
+        if method == 'getAccounts':
+            response = {'accounts': ['0xYourEthereumAddress']}
+        elif method == 'signMessage':
+            response = {'signature': '0xFakeSignature'}
         else:
-            response = {"error": "Unknown method"}
-
-        # Return the response as a JSON string
+            response = {'error': 'Unknown method'}
         return j.dumps(response)
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

@@ -1,39 +1,15 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 from typing import Any
-
-"""
----
-<(META)>:
-        docid:
-        name:
-        description: >
-        version: 0.0.0.0.0.0
-        authority: filesystem
-        security: seclvl2
-        <(WT)>: -32
-"""
-
-# -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
+'\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
 from os.path import abspath, dirname, join
-
-# ======================================3rd Party Library Modules=====================================================||
-
-# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidgetMixin
-
-# ====================================================================================================================||
-here = join(dirname(__file__), "")  # ||
+here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
 logma.off()
-
-# ====================================================================================================================||
-pxcfg = join(here, "_data_", "scenes.yaml")
-
+pxcfg = join(here, '_data_', 'scenes.yaml')
 
 class NchantdProxyWidget(NchantdWidgetMixin, pyqt.QGraphicsProxyWidget):
     """"""
@@ -41,9 +17,8 @@ class NchantdProxyWidget(NchantdWidgetMixin, pyqt.QGraphicsProxyWidget):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdProxyWidget").override(cfg))
-        logma.info(f"NchantdProxyWidget initialized")
-
+        self.config.override(kahndor.Instruct(pxcfg).select('NchantdProxyWidget').override(cfg))
+        logma.info(f'NchantdProxyWidget initialized')
 
     def initModel(self, cfg=None) -> Any:
         """"""
@@ -64,17 +39,16 @@ class NchantdProxyWidget(NchantdWidgetMixin, pyqt.QGraphicsProxyWidget):
     def mousePressEvent(self, event) -> None:
         """Detect and start resizing if the user clicks near the edges."""
         if self.is_near_edge(event.pos()):
-            self.is_resizing = True  # Start resizing mode
-            self.setCursor(Qt.SizeHorCursor)  # Change cursor to horizontal resize
+            self.is_resizing = True
+            self.setCursor(Qt.SizeHorCursor)
         else:
             super().mousePressEvent(event)
 
     def mouseMoveEvent(self, event) -> None:
         """Handle resizing or dragging based on the event."""
         if self.is_resizing:
-            # Resize the widget by adjusting its width while dragging
             delta_x = event.scenePos().x() - self.sceneBoundingRect().right()
-            new_width = max(50, self.line_edit.width() + delta_x)  # Minimum width = 50
+            new_width = max(50, self.line_edit.width() + delta_x)
             self.line_edit.setFixedWidth(new_width)
         else:
             super().mouseMoveEvent(event)
@@ -83,15 +57,14 @@ class NchantdProxyWidget(NchantdWidgetMixin, pyqt.QGraphicsProxyWidget):
         """Stop resizing when the mouse button is released."""
         if self.is_resizing:
             self.is_resizing = False
-            self.setCursor(pyqt.Qt.ArrowCursor)  # Reset cursor to default
+            self.setCursor(pyqt.Qt.ArrowCursor)
         else:
             super().mouseReleaseEvent(event)
 
     def is_near_edge(self, pos) -> bool:
         """Determine if the mouse is near the right edge of the textbox."""
         rect = self.boundingRect()
-        return rect.right() - 10 < pos.x() < rect.right() + 10  # Distance near the edge
-
+        return rect.right() - 10 < pos.x() < rect.right() + 10
 
 class NchantdScene(pyqt.QGraphicsScene):
     """"""
@@ -100,19 +73,30 @@ class NchantdScene(pyqt.QGraphicsScene):
         """ """
         super().__init__(parent)
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdScene").override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('NchantdScene').override(cfg)
         self.widgets = []
         self.lines = []
         self.start_widget = None
-        logma.info(f"NchantdScene initialized")
-
+        logma.info(f'NchantdScene initialized')
 
     def initModel(self, cfg=None) -> Any:
-        """"""
+        super_method = getattr(super(type(self), self), method_name, None)
+        if callable(super_method):
+            try:
+                super_method()
+            except TypeError:
+                pass
+        logma.info(f'initModel {{type(self).__name__}}')
         return self
 
     def initView(self, cfg=None) -> Any:
-        """"""
+        super_method = getattr(super(type(self), self), method_name, None)
+        if callable(super_method):
+            try:
+                super_method()
+            except TypeError:
+                pass
+        logma.info(f'initView {{type(self).__name__}}')
         return self
 
     def initWidget(self) -> Any:
@@ -138,12 +122,10 @@ class NchantdScene(pyqt.QGraphicsScene):
         """Create and draw a link (line) between two widgets."""
         start_center = start_widget.sceneBoundingRect().center()
         end_center = end_widget.sceneBoundingRect().center()
-        # Draw a line connecting the two widget centers
         path = pyqt.QPainterPath()
         path.moveTo(start_center)
         path.lineTo(end_center)
         line = self.addPath(path, pyqt.QPen(pyqt.Qt.black, 2))
-        # Keep track of the line
         self.lines.append((start_widget, end_widget, line))
 
     def mouseMoveEvent(self, event) -> None:
@@ -151,7 +133,6 @@ class NchantdScene(pyqt.QGraphicsScene):
         for start_widget, end_widget, line in self.lines:
             start_center = start_widget.sceneBoundingRect().center()
             end_center = end_widget.sceneBoundingRect().center()
-            # Update the line position dynamically
             path = pyqt.QPainterPath()
             path.moveTo(start_center)
             path.lineTo(end_center)
@@ -163,18 +144,15 @@ class NchantdScene(pyqt.QGraphicsScene):
         item = self.itemAt(event.scenePos(), pyqt.QTransform())
         if isinstance(item, pyqt.QGraphicsProxyWidget):
             if self.start_widget is None:
-                # Store the widget as the starting point
                 self.start_widget = item
-                item.widget().setStyleSheet("background-color: lightblue;")  # Highlight the starting widget
+                item.widget().setStyleSheet('background-color: lightblue;')
             else:
-                # Create a line from the start widget to the clicked widget
                 self.create_line(self.start_widget, item)
-                self.start_widget.widget().setStyleSheet("")  # Remove the highlight
-                self.start_widget = None  # Reset the starting widget
+                self.start_widget.widget().setStyleSheet('')
+                self.start_widget = None
         else:
-            # If user clicks outside a widget, reset the starting widget
             if self.start_widget:
-                self.start_widget.widget().setStyleSheet("")
+                self.start_widget.widget().setStyleSheet('')
             self.start_widget = None
         super().mousePressEvent(event)
 
@@ -182,17 +160,8 @@ class NchantdScene(pyqt.QGraphicsScene):
         """Draw a line between two textboxes."""
         start_center = start_textbox.sceneBoundingRect().center()
         end_center = end_textbox.sceneBoundingRect().center()
-
-        # Create a straight line between the two textboxes
         path = pyqt.QPainterPath()
         path.moveTo(start_center)
         path.lineTo(end_center)
         line = self.addPath(path, pyqt.QPen(pyqt.Qt.black, 2))
-
-        # Keep track of connections
         self.lines.append((start_textbox, end_textbox, line))
-
-
-# ====================================================================================================================||
-
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
