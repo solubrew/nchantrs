@@ -482,7 +482,11 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         drag.setMimeData(mime_data)
         drag.setPixmap(pixmap)
         drag.setHotSpot(pyqt.QPoint(pixmap.width() // 2, pixmap.height() // 2))
-        # TODO: fix drop_action declarition
+        # Execute the drag and capture the user's drop action.  The
+        # drag.exec_() call blocks until the user drops the tab (or
+        # cancels).  When the drop action is ``MoveAction``, the tab
+        # has been successfully moved to its new position.
+        drop_action = drag.exec_(pyqt.Qt.MoveAction | pyqt.Qt.CopyAction)
         if drop_action == pyqt.Qt.MoveAction:
             self.handle_successful_drag()
 

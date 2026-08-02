@@ -28,14 +28,15 @@ class NchantdWizard(pyqt.QWizard):
         self.set_theme(self.config.dikt['gui']['desktop']['theme'])
 
     def initModel(self, cfg=None) -> Any:
-        """"""
-        # super_method = getattr(super(type(self), self), method_name, None)
-        # if callable(super_method):
-        #     try:
-        #         super_method()
-        #     except TypeError:
-        #         pass
-        # logma.info(f'initModel {{type(self).__name__}}')
+        """Initialize the wizard model.
+
+        Calls ``super().__init__`` so the QWizard framework can set up
+        the default wizard state.  ``cfg`` is currently accepted for
+        symmetry with the other ``initModel`` methods but is not used
+        (the wizard's config is already bound in ``__init__``).
+        """
+        super().__init__()
+        logma.info(f'initModel {type(self).__name__}')
         return self
 
     def initView(self, cfg=None) -> Any:

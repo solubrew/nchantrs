@@ -199,9 +199,6 @@ class NchantdWebViewer(NchantdWidget):
         clobber it back to about:blank.
         """
         super().showEvent(event)
-        #TODO this is not working correctly with the populate document function which connects to the historical
-        # document saved for the browser
-        # this doesn't seem to be having any impact
         try:
             vs = self.size()
             bs = self.browser.size()
