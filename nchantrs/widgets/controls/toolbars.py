@@ -61,6 +61,7 @@ class NchantdButtonBar(NchantdWidget):
             if action is None:
                 continue
             self.buttons[action] = {}
+            
             action_cfg = kahndor.Instruct(lookup(self.app, action)).override(self.config)
             if isinstance(button_cfg, dict):
                 action_cfg.override(button_cfg)
