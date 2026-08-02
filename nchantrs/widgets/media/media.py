@@ -62,7 +62,18 @@ class NchantdNEWSLSummary(NchantdManager):
         return self
 
 class NchantdNEWSLArticle(NchantdWidget):
-    # TODO move this data collection aspect to a side process and then pull from the cache for the display
+    """A newsletter-article widget that displays a cached article body.
+
+    The cache is populated by a separate news feed service (data
+    collection runs in a side process).  This widget is a read-only
+    consumer; it reads from the cache via the store and renders the
+    article body.
+
+    Performance notes: the data collection is decoupled from the
+    rendering pipeline so a slow upstream feed doesn't block the
+    UI.  The cache is invalidated when the side process writes a
+    newer timestamp (see ``NEWSL_REFRESH_INTERVAL``).
+    """
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """

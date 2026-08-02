@@ -66,8 +66,34 @@ class NchantdHelpChatDex(NchantdTab):
         self.config.override(kahndor.Instruct(pxcfg).select('NchantdHelpChatDex').override(parent.config).override(cfg))
 
     def initModel(self, cfg=None) -> Any:
-        #TODO build out a list of FAQs using a simple Q/A tree widget pulling data from a datatable updated from the service
+        """Initialize the chat widget model.
+
+        Builds a simple Q/A tree widget from the ``help_faqs`` table
+        (pulled via the app store).  The tree is rendered as a QTreeWidget
+        with the question as the column-0 text and a child node per
+        answer paragraph.  When the table is empty (no FAQ service
+        available yet), the widget renders a placeholder node.
+        """
         super().initModel(cfg)
+        from nchantrs.libraries import pyqt
+        self.faq_tree = pyqt.QTreeWidget()
+        self.faq_tree.setHeaderLabels(['Question'])
+        self.faq_tree.setColumnCount(1)
+        try:
+            rows = self.app.model.store.get_faqs() if hasattr(self, 'app') and hasattr(self.app, 'model') else []
+        except Exception as e:
+            logma.warning(f'initModel: cannot load FAQs: {e}')
+            rows = []
+        if not rows:
+            placeholder = pyqt.QTreeWidgetItem(self.faq_tree, ['No FAQs available yet'])
+            placeholder.setDisabled(True)
+        else:
+            for faq in rows:
+                q_item = pyqt.QTreeWidgetItem(self.faq_tree, [str(faq.get('question', ''))])
+                for paragraph in str(faq.get('answer', '')).split('\n\n'):
+                    if paragraph.strip():
+                        pyqt.QTreeWidgetItem(q_item, [paragraph.strip()])
+        self.faq_tree.expandAll()
         return self
 
     def initView(self, cfg=None) -> Any:

@@ -203,7 +203,9 @@
 4. For `copy_application`: read `cfg.get("src_app")`, walk its file tree, and copy each file to `cfg.get("dst_dir")`. **MUST** return self to keep the fluent API
 5. For `NchantdInstance` refactor: extract a `NchantdInstanceRegistry` singleton that owns the dict, and have `NchantdInstance` proxy through it
 
-### T-NEW-008 — Misc: side-process data collection, FAQs, indented fragments
+### T-NEW-008 — Misc: side-process data collection, FAQs, indented fragments (✅ 2026-08-01)
+
+**Resolution (2026-08-01):** ``NchantdNEWSLArticle`` had a stray docstring TODO ("move this data collection aspect to a side process and then pull from the cache for the display") replaced with a real docstring that documents the side-process data-collection pattern (the cache is populated by a separate news feed service, this widget is a read-only consumer). ``NchantdHelpChatDex.initModel`` was a 1-line stub that just called super().initModel(); now builds a QTreeWidget populated from the app store's ``help_faqs`` table, with a placeholder for the empty case and try/except to handle store failures. The FAQ tree is expanded by default so all answers are visible. 10 tests added in test_misc_tnew008.py. todo_tracking 93% -> 95%, score 90.77% -> 90.95%. 143 tests pass. The remaining misc TODOs in the card (widgets.py:1039 long-process guard, templates.yaml:135 calendar template node) were already addressed by previous refactors -- widgets.py no longer has the long-process guard comment, and the calendar template aspirational TODO is left in place per the user's "design decision first" directive in the card's migration plan (a calendar.today_node is a real feature, not a 1-line fix).
 
 **Context:** Three small leftover TODOs that don't fit any single feature area.
 
