@@ -1,10 +1,27 @@
-from typing import Any
-"#\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n---  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n<(META)>:  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    docid: ''  #\t\t\t\t\t\t\t||\n    name: Moonbags Nchnated Python Document#\t\t\t\t\t\t\t\t||\n    description: >  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    expirary: <[expiration]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    version: <[version]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    path: <[LEXIvrs]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    outline: <[outline]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    authority: document|this  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    security: sec|lvl2  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    <(WT)>: -32  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n"
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@Nchantrs@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+"""#																			||
+---  #																			||
+<(META)>:  #																	||
+    docid: ''  #							||
+    name: Moonbags Nchnated Python Document#								||
+    description: >  #															||
+    expirary: <[expiration]>  #													||
+    version: <[version]>  #														||
+    path: <[LEXIvrs]>  #														||
+    outline: <[outline]>  #														||
+    authority: document|this  #													||
+    security: sec|lvl2  #														||
+    <(WT)>: -32  #																||
+"""  # ||
+
+# -*- coding: utf-8 -*-#														||
+# ================================Core Modules===================================||
 from os.path import dirname, join
 from collections import deque
 import datetime as dt
 import queue
 import logging
+from typing import Any
 from kahndor import kahndor
 from subtrix.utilities import uuid
 from nchantrs.dialogs.notifications import NchantdNotificationSigil
@@ -19,14 +36,21 @@ from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 from nchantrs.services.links import LinkService
 from kahndor.logma import Logma
 from nchantrs.widgets.browsers.graphics import configure_qt_for_webengine, setup_application_attributes
+
 configure_qt_for_webengine()
+
 try:
     setup_application_attributes()
 except Exception as e:
-    Logma(__name__).warning(f'Could not set all Qt attributes: {e}')
-here = join(dirname(__file__), '')
+    Logma(__name__).warning(f"Could not set all Qt attributes: {e}")
+
+# ===============================================================================||
+here = join(dirname(__file__), "")  # ||
 logma = Logma(__name__)
-pxcfg = join(here, '_data_', 'browsers.yaml')
+
+# ===============================================================================||
+pxcfg = join(here, "_data_", "browsers.yaml")
+
 
 class NchantdWebManager(NchantdWidgetMixin, pyqt.QObject):
     """
@@ -34,10 +58,10 @@ class NchantdWebManager(NchantdWidgetMixin, pyqt.QObject):
     TODO: Proper implementation of engine reuse and background loading.
     """
 
-    def __init__(self, parent=None, cfg=None) -> None:
+    def __init__(self, parent=None, cfg=None):
         """ """
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select('NchantdWebManager')
+        self.config = kahndor.Instruct(pxcfg).select("NchantdWebManager")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(parent)
@@ -45,9 +69,9 @@ class NchantdWebManager(NchantdWidgetMixin, pyqt.QObject):
         self.available_engines = deque([])
         self.active_engines = deque([])
         cfg = {}
-        logma.info(f'NchantdWebManager initialized')
+        # self.link_library = PyfficeURLLibrary(cfg) TODO must be implemented in the NchatndOffice layer
 
-    def initModel(self) -> Any:
+    def initModel(self):
         """"""
         super().initModel()
         return self
@@ -68,6 +92,7 @@ class NchantdWebManager(NchantdWidgetMixin, pyqt.QObject):
         """"""
         wip_engine_size = 3
         while len(self.available_engines) < wip_engine_size:
+            # Set self as parent to the viewer so it is destroyed with the manager
             viewer = NchantdWebViewer(self)
             viewer.browser.setHtml('<html><body><h1>Loading Complete</h1></body></html>')
             self.available_engines.append(viewer)
@@ -77,6 +102,7 @@ class NchantdWebManager(NchantdWidgetMixin, pyqt.QObject):
         if not self.available_engines:
             self.create_engines()
         viewer = self.available_engines.popleft()
+        # Note: viewer is already parented to self
         self.create_engines()
         return viewer
 
@@ -173,6 +199,9 @@ class NchantdWebViewer(NchantdWidget):
         clobber it back to about:blank.
         """
         super().showEvent(event)
+        #TODO this is not working correctly with the populate document function which connects to the historical
+        # document saved for the browser
+        # this doesn't seem to be having any impact
         try:
             vs = self.size()
             bs = self.browser.size()
@@ -207,6 +236,7 @@ class NchantdWebViewer(NchantdWidget):
     def add_profile(self, profile_name) -> Any:
         """"""
         if not self.has_pro:
+            # TODO create user warning system and tell them that only pro users can have multiple profiles
             cfg = {}
             pro_user_warning = NchantdNotificationSigil(self, cfg)
             pro_user_warning.initWidget()
@@ -321,6 +351,10 @@ class NchantdWebViewer(NchantdWidget):
         urls = list(set(urls))
         return urls
 
+    def get_home_page(self):
+        """"""
+        return self.home_url
+
     def get_recent_urls(self) -> Any:
         """"""
         urls = []
@@ -387,6 +421,8 @@ class NchantdWebViewer(NchantdWidget):
         js_code = '\n\n        '
         self.browser.page().runJavaScript(js_code)
         return self
+        # # Inject a custom theme script on navigation
+        # theme_script = """
 
     def load_url(self, url) -> Any:
         """"""
@@ -415,7 +451,11 @@ class NchantdWebViewer(NchantdWidget):
             url = url.url
         if url is None:
             url = self.default_url
-        logma.info(f'Load Document: {url}')
+        logma.info(f"Load Document: {url}")
+        if url is None:
+            url = self.get_home_page() or "http://www.duckduckgo.com/"
+            if url is None:
+                raise Exception("No URL Provided")
         self.browser.load(url)
         self.save()
         return self
@@ -430,7 +470,8 @@ class NchantdWebViewer(NchantdWidget):
 
     def save(self) -> Any:
         logma.info(f'save called')
-        return self
+        #TODO implement basic save function
+        return self._to_dict()
 
     def set_channel(self) -> Any:
         """"""
@@ -478,6 +519,11 @@ class NchantdWebViewer(NchantdWidget):
     def take_screenshot(self) -> Any:
         logma.info(f'take_screenshot called')
         return self
+
+    def _to_dict(self):
+        """"""
+        return {}
+
 
 class NchantdWebBrowser(NchantdWebViewer):
     """An Nchantd WebApp provides access to a web url that acts as an application integrating features into the widget
@@ -540,3 +586,8 @@ class NchantdWebBrowser(NchantdWebViewer):
             self.url_select_entry.combobox.setCurrentText(url)
             self.url_select_entry.update_options([url], False, False)
         return self
+
+
+# ====================================================================================================================||
+
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
