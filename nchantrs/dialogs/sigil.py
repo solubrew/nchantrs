@@ -75,9 +75,16 @@ class NchantdSigilMixin(NchantdWidgetMixin):
             cnt += 1
 
     def getData(self) -> Any:
-        if self.records == None:
+        """Return the dialog's current record data, falling back to defaults.
+
+        The dialog's ``records`` field is the canonical form-set: a
+        list of dicts produced by the form's input widgets.  When the
+        user hasn't populated any field yet, ``records`` is ``None``
+        and we return the dialog's ``defaults`` instead.
+        """
+        if self.records is None:
             return self.defaults
-        #TODO need to refactor these methods
+        return self.records
 
     def hide_title(self) -> None:
         """"""

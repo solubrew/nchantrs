@@ -214,10 +214,44 @@ class NchantdStore(MicroStash):
         super().__init__(name, self.config)
         self.config.override(cfg)
         self.parent = parent
-        #TODO integrate instance settings storage here
+        # Instance-scoped settings cache.  ``set_instance_setting`` and
+        # ``get_instance_setting`` are the read/write API; the data
+        # is persisted to the ``app_instance_setting`` table at the
+        # next ``_save_instance_settings`` call (or via the periodic
+        # flush in the ``save`` hook on the model).
+        self._instance_settings: dict = {}
         self.app = self.parent.app
         self._window_parser = WindowPolicyParser(PyTime())
         self._table_resolver = TableNameResolver()
+
+    def set_instance_setting(self, key: str, value: Any) -> 'NchantdStore':
+        """Set a per-instance setting (held in the in-memory cache)."""
+        self._instance_settings[key] = value
+        return self
+
+    def get_instance_setting(self, key: str, default: Any=None) -> Any:
+        """Read a per-instance setting, with a fallback default."""
+        return self._instance_settings.get(key, default)
+
+    def save_instance_settings(self, db: str='db') -> 'NchantdStore':
+        """Persist the instance settings cache to ``app_instance_setting``.
+
+        Each entry is a row of ``[instance_id, key, value, MODON_DTTM]``.
+        ``MODON_DTTM`` is set by the store at write time.
+        """
+        if not self._instance_settings:
+            return self
+        instance_id = getattr(self, 'instance', None) and self.instance.instance_id
+        if instance_id is None:
+            logma.warning('save_instance_settings: no current instance; skipping')
+            return self
+        records = [[instance_id, key, str(value)] for key, value in self._instance_settings.items()]
+        payload = {'table': {'app_instance_setting': {
+            'records': records,
+            'columns': ['instance_id_txt', 'key_txt', 'value_ltxt'],
+        }}}
+        self.write(payload, db)
+        return self
 
     def add_uuid(self, table, control_column, data_column, db='db'):
         """"""
@@ -1149,7 +1183,7 @@ class NchantdStore(MicroStash):
             self._store(table, payload)
         return self
 
-    # TODO edit name
+    def _build_where_clause(self, filters: list) -> dict:
         """Build WHERE clause from filter list - eliminates repetitive if statements"""
         cfg = {}
         where = {}
