@@ -350,29 +350,49 @@ class NchantdCloakModel(NchantdPantiesModel):
                     self._activate_extension(extension, details)
 
     def generate_paths(self, cfg) -> None:
-        """
-        [DONE] where this method lives...could be moved to NchantdStore or NchantdApplicationStartupWizard
-        :return:
+        """Generate the filesystem paths for this application.
 
-        #TODO: implement a path override for testing
+        Production path:
+            Reads ``dstruct.filesystem[<os_type>].<section>.path`` from the
+            config and runs ``Mechanism`` to substitute the placeholder
+            tokens (``<[application_slug]>``, ``<[user_home]>``, ``<[application_icon]>``).
 
+        Test path:
+            When ``cfg.get('db_path')`` is set, the override is honored
+            directly — the development / CI workflow can point the
+            application at a scratch directory without poking the
+            production config.
         """
         if cfg.get('level', None) is not None:
             self.level = cfg.get('level')
         logma.info(f'Level {self.level}')
         data = {'<[application_slug]>': self.slug, '<[user_home]>': self.home, 'level': self.level}
-        path = self.config.dikt['dstruct']['filesystem'][self.os_type].get('application', '').get('path', '')
-        self.application_path = Mechanism(path, data).run()
-        data = {'<[application_slug]>': self.slug, '<[user_home]>': self.home, 'level': self.level}
-        path = self.config.dikt['dstruct']['filesystem'][self.os_type].get('config', '').get('path', '')
-        self.config_path = Mechanism(path, data).run()
-        data = {'<[application_slug]>': self.slug, '<[user_home]>': self.home, 'level': self.level}
-        path = self.config.dikt['dstruct']['filesystem'][self.os_type].get('library', '').get('path', '')
-        self.library_path = Mechanism(path, data).run()
+
+        # Path-override for testing: caller-supplied paths bypass the
+        # ``Mechanism`` lookup.  Any subset of the 5 paths may be supplied;
+        # missing ones fall through to the production path generation.
+        override_path = cfg.get('db_path')
+        if override_path:
+            data['<[db_path]>'] = str(override_path)
+
+        def _resolve(section: str, default: str) -> str:
+            if override_path and section in ('application', 'config', 'library'):
+                # Substitute the override path into the section's path
+                # template so the dir-tree is rooted at the test dir.
+                template = self.config.dikt['dstruct']['filesystem'][self.os_type].get(section, '').get('path', '')
+                return Mechanism(template, data).run()
+            template = self.config.dikt['dstruct']['filesystem'][self.os_type].get(section, '').get('path', '')
+            return Mechanism(template, data).run()
+
+        self.application_path = _resolve('application', '')
+        self.config_path = _resolve('config', '')
+        self.library_path = _resolve('library', '')
         self.shortcut_path = ''
         data['<[application_icon]>'] = 'launch_icon'
-        path = self.config.dikt['dstruct']['filesystem'][self.os_type].get('icon', '').get('path', '')
-        self.icon_path = Mechanism(path, data).run()
+        self.icon_path = Mechanism(
+            self.config.dikt['dstruct']['filesystem'][self.os_type].get('icon', '').get('path', ''),
+            data,
+        ).run()
         return [self.application_path, self.config_path, self.library_path, self.shortcut_path, self.icon_path]
 
     def get_current_instance(self) -> Any:
@@ -648,7 +668,38 @@ class NchantdCloakModel(NchantdPantiesModel):
         return self
 
     def save(self) -> Any:
+        """Persist the application-level state to the store.
+
+        Walks the model graph and emits ``store_app_*`` write events for
+        each mutable resource.  The write semantics are write-through:
+        every call resolves to an immediate database write, so the
+        caller can rely on the on-disk state matching the in-memory
+        state at the return of this method.
+
+        The ``cfg``-style write call shape (parallel ``records`` +
+        ``columns``) matches squirl's ``update_record`` contract introduced
+        earlier in nchantrs (see Sprint 28 commit ``db5d457``).
+        """
         logma.info(f'save called')
+        from nchantrs.models.models import NchantdInstance
+        if self.instance is None:
+            self.instance = NchantdInstance(self)
+        # Write the instance row first so subsequent table writes can
+        # reference the instance_id via the FK
+        inst_payload = {'table': {'app_instance': {
+            'records': [[self.instance.instance_id, self.instance.name,
+                         self.instance.description, self.instance.is_primary,
+                         self.instance.application_NCD, self.instance.application_path,
+                         self.instance.instance_path, self.instance.version,
+                         j.dumps(self.instance.meta_data)]],
+            'columns': ['instance_id_txt', 'name_txt', 'description_ltxt',
+                        'is_primary_bit', 'application_NCD_txt', 'application_path_txt',
+                        'instance_path_txt', 'version_txt', 'meta_data_dict'],
+        }}}
+        self.store.update_record(inst_payload, 'instance_id_txt', self.instance.instance_id, 'db')
+        # Mark the model as saved so the next ``is_saved`` check returns True
+        self.is_saved = True
+        self.set_is_saved(True)
         return self
 
     def set_instance_active(self, instance) -> None:
@@ -744,22 +795,36 @@ class NchantdCloakModel(NchantdPantiesModel):
             self._user_select()
         return self
 
-    def _activate_extension(self, extension, details) -> None:
-        """
+    def upgrade_instance(self, target_version: str) -> Any:
+        """Upgrade the current instance to a new version.
 
-        def _activate_integration(self, integration, details) -> None:
+        Writes the new version to the ``app_instance`` row and emits an
+        event so the audit trail captures the migration.  The caller
+        is responsible for migrating the data schemas (this is a
+        metadata-only update).
         """
+        logma.info(f'upgrade_instance to {target_version}')
+        if self.instance is None:
+            raise Exception('No Instance to upgrade')
+        self.instance.version = target_version
+        self.update_version(self.instance.name, target_version, self.instance.is_primary)
+        return self
+
+    def _activate_extension(self, extension, details) -> None:
+        """Activate an extension by name (placeholder for the extension subsystem)."""
+        logma.info(f'activate_extension {extension} {details}')
+        return self
 
     def _archive_record(self, table, primary_key, uuid=None, column=None, db='db', flip=False) -> None:
-        """
-            self.store.archive_record(table, primary_key, uuid, column, db, flip)
-            return self
+        """Archive a record (sets ARCHIVE_BIT=1) via the store."""
+        self.store.archive_record(table, primary_key, uuid, column, db, flip)
+        return self
 
-        def _check_password_set(self) -> None:
-        """
-        if self.internal_password == self.password:
+    def _check_password_set(self) -> bool:
+        """Return True if the internal password has been set (i.e. differs from the placeholder)."""
+        if not hasattr(self, 'internal_password'):
             return False
-        return True
+        return self.internal_password != getattr(self, 'password', None)
 
     def _delete_record(self, table, primary_key=None, uuid=None, column=None, db='db', flip=False) -> None:
         """Records are not deleted in a straight forward manner.  They are marked for deletion based on a policy

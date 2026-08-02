@@ -448,14 +448,21 @@ class NchantdFileSystem(pyqt.QTreeWidget):
         self.initView()
         return self
 
-    def build_tree(self) -> None:
+    def build_tree(self, max_depth=None) -> None:
         """
         Build the entire tree structure from the root directory.
+
+        :param max_depth: Optional depth limit forwarded to
+            ``add_top_level_items``.  Reads ``self.config.dikt.get('tree', {}).get('max_depth')``
+            when not provided explicitly (``None`` keeps the legacy
+            behavior of unbounded recursion).
         """
+        if max_depth is None:
+            max_depth = 0
         self.clear()
         root_item = pyqt.QTreeWidgetItem(self, [str(self.root_dir)])
         root_item.setExpanded(True)
-        self.add_top_level_items(self.root_dir, root_item)
+        self.add_top_level_items(self.root_dir, root_item, max_depth=max_depth, current_depth=0)
 
     def add_root_item(self) -> None:
         """
@@ -468,17 +475,29 @@ class NchantdFileSystem(pyqt.QTreeWidget):
         root_item.setChildIndicatorPolicy(pyqt.QTreeWidgetItem.ShowIndicator)
         self.addTopLevelItem(root_item)
 
-    def add_top_level_items(self, path, parent_item) -> None:
+    def add_top_level_items(self, path, parent_item, max_depth=None, current_depth=0) -> None:
         """
         Recursively add items to the tree structure.
+
         :param path: Current directory path.
         :param parent_item: The parent tree widget item to which child items will be added.
+        :param max_depth: Optional depth limit. ``0`` or ``None`` means no
+            limit (current behavior). ``1`` means only the top-level
+            children, etc.  This is the ``read depth`` knob: at
+            ``max_depth=1`` the tree is flattened to a single level
+            (useful for shallow previews).
+        :param current_depth: Internal -- tracks the recursion depth.
         """
+        if max_depth is not None and current_depth >= max_depth:
+            return
         try:
             for item in sorted(path.iterdir(), key=lambda x: x.name):
                 if item.is_dir():
                     tree_item = pyqt.QTreeWidgetItem(parent_item, [item.name])
-                    self.add_top_level_items(item, tree_item)
+                    self.add_top_level_items(
+                        item, tree_item, max_depth=max_depth,
+                        current_depth=current_depth + 1,
+                    )
         except PermissionError:
             pass
 

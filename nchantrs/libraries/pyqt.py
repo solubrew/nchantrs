@@ -11,8 +11,18 @@ from PySide6.QtGui import QSyntaxHighlighter, QTransform, QColorTransform, QPain
 from PySide6.QtGui import QTextCharFormat, QTextLength, QTextOption, QTextTableFormat, QTextFrameFormat, QTextFrame
 from PySide6.QtGui import QShortcut, QKeySequence, QDrag, QDragEnterEvent, QDropEvent, QDragMoveEvent, QKeySequence
 from PySide6.QtGui import QHoverEvent, QMouseEvent, QMoveEvent, QResizeEvent, QWheelEvent, QMouseEvent, QCursor
-from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel
-from PySide6.QtSql import QSqlTableModel, QSqlRelationalTableModel
+try:
+    from PySide6.QtSql import QSqlDatabase, QSqlQuery, QSqlQueryModel
+    from PySide6.QtSql import QSqlTableModel, QSqlRelationalTableModel
+except ImportError:
+    # QtSql is optional and removed in newer PySide6 builds.  Provide
+    # ``None`` placeholders so imports of this module don't fail when
+    # only the widget subset is in use.
+    QSqlDatabase = None
+    QSqlQuery = None
+    QSqlQueryModel = None
+    QSqlTableModel = None
+    QSqlRelationalTableModel = None
 from typing import Optional, Dict, List, Any, Tuple
 import logging
 from PySide6.QtNetwork import QSslSocket

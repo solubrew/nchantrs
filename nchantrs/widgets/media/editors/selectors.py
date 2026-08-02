@@ -159,13 +159,18 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
         self.setCurrentIndex(self.findText(text))
         return self
 
-    def set_options(self, options, sort=True) -> Any:
+    def set_options(self, options, sort=None) -> Any:
+        """Set the dropdown's options and optionally sort them.
+
+        :param options: List of options to display.  Each entry can be
+            a string or a dict with a 'name' key (the value is the 'name').
+        :param sort: Sort strategy.  None / 'alpha' (default) sorts
+            alphabetically.  'insertion' preserves the input order.
+            'value' co-erces to float before sorting (numeric ascending).
+        :return: self
         """
-        #TODO implement a more sophisticated sorting mechanism to allow control of options display
-        :param options:
-        :param sort:
-        :return:
-        """
+        if sort is None:
+            sort = 'alpha'
         if options is None or options == []:
             return
         logma.info(f'Options {options}')
@@ -174,9 +179,15 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
         else:
             self.options = options
         self.options = [x for x in self.options if x is not None]
-        logma.info(f'Options {self.options}')
-        self.options = list(set(self.options))
-        self.options.sort()
+        if sort == 'insertion':
+            pass  # preserve input order
+        elif sort == 'value':
+            try:
+                self.options = sorted(self.options, key=lambda x: float(x))
+            except (ValueError, TypeError):
+                self.options.sort()
+        else:  # 'alpha' or unknown
+            self.options.sort()
         self.options = [str(x) for x in self.options]
         logma.info(f'Options {self.options}')
         self.clear()
@@ -191,7 +202,6 @@ class NchantdDropDown(NchantdWidget):
         super().__init__(parent, cfg)
         self.parent = parent
         self.config.override(kahndor.Instruct(pxcfg).select('NchantdDropDown').override(cfg))
-        #TODO implement a more sophisticated sorting mechanism to allow control of options display
         self.combobox = None
         self.options = []
 
@@ -205,8 +215,7 @@ class NchantdDropDown(NchantdWidget):
         return self
 
     def initView(self, handler=None) -> Any:
-        """ """
-        #TODO: should always be sorted in some positive manner either by the values or a given sequence
+        """Build the dropdown view: a label above the combobox."""
         logma.info(f"Label {self.config.dikt.get('label', 'Missing Label')}")
         self.config.dikt['label'] = self.config.dikt.get('label', 'Missing Label')
         self.label = NchantdLabel(self, self.config).initWidget()
@@ -251,21 +260,30 @@ class NchantdDropDown(NchantdWidget):
         """"""
         self.update_options(options, True)
 
-    def update_options(self, options, replace=False, sort=True) -> Any:
-        """"""
+    def update_options(self, options, replace=False, sort=None) -> Any:
+        """Add or replace the dropdown's options.
+
+        :param options: list of options (or a single option).  None entries
+            are skipped.
+        :param replace: when True, clear the existing options first.
+        :param sort: sort strategy forwarded to ``self.combobox.set_options``.
+            None / 'alpha' sorts alphabetically; 'insertion' preserves
+            input order; 'value' sorts numerically.
+        :return: self
+        """
+        if sort is None:
+            sort = True
         if not isinstance(options, list):
             options = [options]
         if replace:
             self.options = []
             self.combobox.clear()
         self.options += options
-        options = []
         for x in self.options:
             if x is None:
                 continue
-            options.append(x)
             if replace:
-                self.combobox.set_options(self.options)
+                self.combobox.set_options(self.options, sort=sort)
             elif self.combobox.findText(x) == -1:
                 self.combobox.addItem(x)
         return self

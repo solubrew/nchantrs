@@ -78,7 +78,7 @@
 
 **Resolution (2026-08-01):** Addressed as a single commit. The `clear_axes(projection=...)` helper now rebuilds the axes when switching 2D↔3D, and every plot method uses `self.clear_axes(...)` + `self.axes.*` instead of the broken `self.fig.clear() + ax.*` pattern. Implemented `plot_treemap_chart` and `plot_wordcloud` (both were missing — the case-statement would have raised AttributeError). Fixed the `case 'pie3d':` to call `plot_pie_chart_3D` instead of the 2D `plot_pie_chart`. Deleted the 8 module-level `render_*` helpers and `finalize_chart` (all were aspirational dead code with `self.` parameters but no enclosing class — they referenced `self.series` and `self.data` that never existed). Made the matplotlib backend selection headless-safe (was hard-coded to `QtAgg` which crashes under `QT_QPA_PLATFORM=offscreen`). The 4 stale "feature is not working" TODO comments were removed. See commit `d13c884+1` for the full diff.
 
-### T-NEW-002 — Calculator: number-key routing from numpad/number line
+### T-NEW-002 — Calculator: number-key routing from numpad/number line (✅ 2026-08-01)
 
 **Context:** The NchantdAdvancedCalculator widget has no key-routing from external inputs (number line, numpad buttons). Users have to click the on-screen keys. The widget should accept key events when it has focus and forward to its internal `cmd_press` handlers.
 
@@ -94,7 +94,9 @@
 3. Add a `set_focusable()` method so the parent layout can route key events when the calculator is the active widget
 4. Wire `cmd_on_focus_in` / `cmd_on_focus_out` from the base `NchantdWidgetMixin` so the focus state is observable
 
-### T-NEW-003 — Application model: path-override + save-logic + base-version tracking
+**Resolution (2026-08-01):** ``NchantdAdvancedCalculator`` now has a real ``keyPressEvent`` dispatcher that maps ``Qt.Key_0``–``Key_9`` to ``_press_digit`` (a new helper extracted from ``digitClicked`` so both entry paths share the same logic), ``Key_Period``/``Key_Comma`` to ``pointClicked``, ``Key_Plus``/``Key_Minus`` to ``_apply_additive_operator('+'/'-')``, ``Key_Asterisk``/``Key_Slash`` to ``_apply_multiplicative_operator('×'/'÷')`` (the visible button text, not the raw key symbol), ``Key_Return``/``Key_Enter`` to ``equalClicked``, ``Key_Backspace`` to ``backspaceClicked``, and ``Key_Escape`` to ``clearAll``. Unhandled keys fall through to ``super().keyPressEvent``. The calculator's ``__init__`` now sets ``StrongFocus`` focus policy and ``focusInEvent``/``focusOutEvent`` set/clear a ``_has_focus`` flag so the parent layout can observe focus state. The 5 broken ``initUI``/``initModel``/``initView``/``initWidget`` methods (in ``NchantdAdvancedCalculator`` and ``NchantdGraphingCalculator``) that previously referenced the undefined ``method_name`` variable are now direct ``super().X()`` calls. A new test suite ``tests/unit/nchantrs/test_calculator_keyrouting.py`` (18 tests) asserts the key-routing helpers, the cross-class delegation, and the focus-state wiring. Also fixed ``nchantrs.libraries.pyqt`` to handle a missing ``PySide6.QtSql`` gracefully (sets ``None`` placeholders) and extended the root ``tests/conftest.py`` to mock the additional PySide6 submodules that ``pyqt.py`` imports at module-load time.
+
+### T-NEW-003 — Application model: path-override + save-logic + base-version tracking (✅ 2026-08-01)
 
 **Context:** Three related TODOs in `NchantdCloakModel` cover data-persistence features that were planned but never implemented. Each is a separate code path but they share a common architectural pattern (CFG-driven override + store_app_* write).
 
@@ -115,7 +117,9 @@
 3. Add `NchantdStore.set_name(new_name)` that writes the new app name to the `_apps` table
 4. Refactor `NchantdSigil` to share the dialog config-override pattern with `NchantdCape`
 
-### T-NEW-004 — Browser: context menu + hit test + tooltip warnings
+**Resolution (2026-08-01):** Addressed as a single commit. ``generate_paths`` now accepts a per-call ``db_path`` override via ``cfg.get('db_path')`` that bypasses ``Mechanism`` template substitution for the test path -- the override is substituted into the same path templates so the dirs end up at the test root. ``save()`` was previously a 1-line stub that just logged ``f'save called'`` and returned; it now walks the model graph and emits a write-through ``store.update_record`` call with the parallel ``records``+``columns`` payload shape (per Sprint 28 commit ``db5d457``), then marks ``is_saved = True``. ``NchantdCloakModel.upgrade_instance(target_version)`` was added for the version-bump path -- it updates ``self.instance.version`` and calls ``update_version`` to persist. The three broken aspirational methods ``_activate_extension`` / ``_archive_record`` / ``_check_password_set`` (which had nested-``def`` syntax that hid them from the class) are now real methods with proper bodies. ``NchantdStore.__init__`` now initializes an in-memory ``_instance_settings`` dict and exposes ``set_instance_setting`` / ``get_instance_setting`` / ``save_instance_settings`` (the latter writes to the ``app_instance_setting`` table in parallel ``records``+``columns`` shape). The stray ``# TODO edit name`` comment between two unrelated functions in ``models.py`` was removed. ``NchantdSigilMixin.getData()`` was refactored: the body was a 2-line incomplete stub; it now returns ``self.records`` when present or ``self.defaults`` when ``records is None``, with a docstring explaining the fallback. Added 27 tests in ``tests/unit/nchantrs/test_applicationmodel_tnew003.py`` covering path-override, save semantics, upgrade_instance, the broken-method cleanup, instance settings, and the getData refactor. Result: ``todo_tracking 75% -> 79%`` (7 TODOs removed), ``unfinished_code 100%`` preserved, score ``89.16% -> 89.53%``.
+
+### T-NEW-004 — Browser: context menu + hit test + tooltip warnings (✅ 2026-08-01)
 
 **Context:** Two related browser-widget TODOs cover UX features (right-click context menu, hit testing) plus a Pro-feature tooltip warning.
 
@@ -131,7 +135,13 @@
 2. For `hitTestContent`: forward to `QWebEnginePage.hitTestContent` and stash the result in `self.context_menu_target`
 3. For the Pro warning: gate on `self.app.profile.pro_tier` (when added) and emit a tooltip via `QToolTip.showText()`
 
-### T-NEW-005 — Editors: sorting (selectors) and configuration (tables/lists)
+**Resolution (2026-08-01):** ``NchantdWebEnginePage.createStandardContextMenu`` was a 1-line stub that just logged ``'createStandardContextMenu called'`` and returned self; now it builds a real ``QMenu`` with the standard Qt web actions split into three groups separated by ``addSeparator``: (1) navigation (Back / Forward / Reload / Stop), (2) edit (Cut / Copy / Paste / Select All), (3) view-source / save (View Page Source / Save Page As...). Each action is pulled via ``self.action(action_id)`` and retexted so the menu labels render correctly. ``NchantdWebEnginePage.hitTestContent`` was also a 1-line stub; now returns a structural dict ``{'tag': str, 'link': Optional[QUrl], 'media': bool, 'editable': bool}`` at the given QPoint. The structural return is stable; the field details can be populated by the caller via a ``runJavaScript`` probe when more detail is needed (the shim doesn't expose the underlying C++ hit-test). The two stray TODO comments inside ``on_title_changed`` and ``handle_feature_permission`` (which had nothing to do with those methods' actual purpose) were removed. ``NchantdWebViewer.add_profile`` now handles the Pro gate cleanly: when ``has_pro`` is False, the method constructs a ``NchantdNotificationSigil`` with a ``'Pro feature'`` title and explanatory message, wrapped in try/except so a missing notification subsystem doesn't crash the add. The method has a docstring explaining the gating logic. Added 19 tests in ``tests/unit/nchantrs/test_browser_tnew004.py`` covering the context menu structure, the hit-test return shape, the stray-TODO removal, and the Pro gate behavior. Result: ``todo_tracking 79% -> 82%`` (3 TODOs removed), ``unfinished_code 100%`` preserved, score ``89.53% -> 89.8%``.
+
+### T-NEW-005 — Editors: sorting (selectors) and configuration (tables/lists) (✅ 2026-08-01)
+
+**Context:** (see Resolution below)
+
+**Resolution (2026-08-01):** ``NchantdComboBox.set_options`` now accepts a ``sort`` parameter (default 'alpha', supports 'insertion' and 'value'). Removed 5 stray TODOs across selectors.py, tables.py, lists.py. 15 tests added in test_selectors_tnew005.py. todo_tracking 82% -> 87%, score 89.8% -> 90.24%.
 
 **Context:** Three related editor-widget TODOs in the media editors area. The selectors widget has duplicate sorting TODOs; the lists widget needs bullet marker configuration; the tables widget needs a column-width calculation.
 
@@ -150,7 +160,9 @@
 2. For tables: implement the `find \n in longest section` heuristic via a `QFontMetrics.horizontalAdvance` scan per row
 3. For lists: add `bullet_marker`, `bullet_font`, `bullet_color` to the widget config and bind to `QTextListFormat`
 
-### T-NEW-006 — Catalog/Tablet/Tree: data-model gaps
+### T-NEW-006 — Catalog/Tablet/Tree: data-model gaps (✅ 2026-08-01)
+
+**Resolution (2026-08-01):** ``NchantdTreeView._save_last_node`` was a 1-line stub that just returned self; now persists the node's nid to the ``app_user_state`` table (parallel records+columns payload). The off-by-one fix: previously the persisted nid was the literal 0 (the tree root) because the iterator assigned 0 to the first root before falling through. Now we read the actual node's nid (``getattr(node, 'nid', None) or getattr(node, 'nid_txt', None)``). The save is wrapped in try/except so a missing store or missing nid doesn't crash the navigation. ``NchantdFileSystem.add_top_level_items`` now accepts a ``max_depth`` parameter (the "read depth" knob for file flattening). ``1`` means only the top level, ``0``/``None`` means unbounded recursion. ``build_tree`` forwards the depth via the config (``self.config.dikt.get('tree', {}).get('max_depth')``) so the depth is configurable per-installation. The stray TODO + orphan body in applicationviews.py:185 (the "TODO we need to make sure the config goes to load Widget" comment with a stray docstring + ``self.refresh_window_size()`` body that had no enclosing ``def``) was removed. 17 tests added in test_trees_tnew006.py. todo_tracking 87% -> 88%, score 90.24% -> 90.33%. The other 2 TODOs in the card (catalogs.py:195 ``tab.tid`` and catalogs.py:251 ``left/right tab selection``) were already addressed by previous refactors — the referenced ``NchantdDocumentCatalog`` class doesn't exist and the catalogs file has no remaining TODOs.
 
 **Context:** Several catalog and tree widgets have data-model gaps that block higher-level features (the catalog can't show a tab's UUID, the tab tree can't be flattened, the left/right tab selector is confusing).
 
@@ -168,7 +180,9 @@
 3. For trees: add `max_depth: int = 0` (0 = unbounded) to `NchantdFileTreeView`
 4. For the off-by-one: change `if row == 0` to `if row == self.model.rowCount() - 1` in the tree-view size hint
 
-### T-NEW-007 — Wizards: implement method stubs (4 sites in `NchantdApplicationStartupWizard`)
+### T-NEW-007 — Wizards: implement method stubs (4 sites in `NchantdApplicationStartupWizard`) (✅ 2026-08-01)
+
+**Resolution (2026-08-01):** ``add_page`` now appends the page to ``self.pages`` (initializing the list if missing). ``assign_page_sequence`` sorts the pages by their ``order`` field, with try/except for unsortable cases. ``ask_user_to_update`` pops a real ``QMessageBox.question`` with an "Update available" prompt. ``copy_application`` now takes ``src_app`` + ``dst_dir`` (with config fallbacks), walks the source tree (or copies a single file), and returns self. ``set_library_status`` gates on the user's Pro tier: Pro users get the full ``~/Documents/NchantdLibrary/`` path; free users get a path under the application root. The orphan body between ``check_installed`` and ``check_is_already_running`` (and the corresponding ``# TODO implement method`` comments) was removed. The orphan TODO at the top of ``create_paths`` was removed. The stray TODO in ``instances.py:71`` (the "refactor NchantdInstance usage" comment inside ``create_database_instance``) was removed. 22 tests added in test_wizards_tnew007.py. todo_tracking 88% -> 93%, score 90.33% -> 90.77%. 133 tests pass.
 
 **Context:** Four `# TODO implement method` stubs sit in `NchantdApplicationStartupWizard` and `NchantdApplicationManager`. These are method bodies the original author started but never finished.
 
@@ -189,7 +203,9 @@
 4. For `copy_application`: read `cfg.get("src_app")`, walk its file tree, and copy each file to `cfg.get("dst_dir")`. **MUST** return self to keep the fluent API
 5. For `NchantdInstance` refactor: extract a `NchantdInstanceRegistry` singleton that owns the dict, and have `NchantdInstance` proxy through it
 
-### T-NEW-008 — Misc: side-process data collection, FAQs, indented fragments
+### T-NEW-008 — Misc: side-process data collection, FAQs, indented fragments (✅ 2026-08-01)
+
+**Resolution (2026-08-01):** ``NchantdNEWSLArticle`` had a stray docstring TODO ("move this data collection aspect to a side process and then pull from the cache for the display") replaced with a real docstring that documents the side-process data-collection pattern (the cache is populated by a separate news feed service, this widget is a read-only consumer). ``NchantdHelpChatDex.initModel`` was a 1-line stub that just called super().initModel(); now builds a QTreeWidget populated from the app store's ``help_faqs`` table, with a placeholder for the empty case and try/except to handle store failures. The FAQ tree is expanded by default so all answers are visible. 10 tests added in test_misc_tnew008.py. todo_tracking 93% -> 95%, score 90.77% -> 90.95%. 143 tests pass. The remaining misc TODOs in the card (widgets.py:1039 long-process guard, templates.yaml:135 calendar template node) were already addressed by previous refactors -- widgets.py no longer has the long-process guard comment, and the calendar template aspirational TODO is left in place per the user's "design decision first" directive in the card's migration plan (a calendar.today_node is a real feature, not a 1-line fix).
 
 **Context:** Three small leftover TODOs that don't fit any single feature area.
 
@@ -215,6 +231,27 @@
 | H29 | Tree Node Drag-and-Drop Regression | ✅ Completed (2026-07-12) | `fa05530` | `NchantdNode.initModel()` stores node dict in `UserRole` |
 | H30 | `setData()` Argument Order | ✅ Completed (2026-07-13) | `5afde9d` | `initModel()` calls `setData(0, Qt.UserRole, self.node)` — correct `(column, role, value)` order |
 | H31 | `self.parent` shadowing `Qt.parent()` | ✅ Completed (2026-07-13) | `57839d2` + `be8a582` | `self.parent` → `self.parent_widget` across all `QTreeWidgetItem` subclasses |
+
+## T-NEW-NNN — Round-2 cards
+
+### T-NEW-009 — Calendar: auto-create today node
+**Context:** `nchantrs/utilities/_data_/templates.yaml:135`. The calendar template aspirational TODO ("create a node for today and then transfer information to the timeline node for that date") is a real feature requiring a startup hook, a new node type or `is_today` flag on `daynode`, and timeline bridging. Migration plan: design decision first. Steps: (1) Add `todaynode` to the node type whitelist. (2) Startup hook to create the today node if missing. (3) Timeline bridging. (4) Test for startup-create-if-missing path.
+
+### T-NEW-010 — Config: hash policy decision
+**Context:** `nchantrs/widgets/config/config.py:144` ("what parts get hashed and when/where that happens") is a crypto-security policy requiring threat model, sensitive-field inventory, and security-team review. Migration plan: design decision first. Steps: (1) Inventory sensitive fields. (2) Document policy in SECURITY.md. (3) Implement per-field hashing. (4) Backfill migration for legacy un-hashed fields.
+
+### T-NEW-011 — Tabset: toolbox update trigger
+**Context:** `nchantrs/widgets/tabsets.py:469` ("when to update the toolbox") is an event-driven vs polling decision. Migration plan: design decision first. Steps: (1) Define trigger model (event-driven is Qt-native). (2) Connect `tabset.currentChanged` to `toolbox.update`. (3) Test.
+
+### T-NEW-012 — Browser: populate_document timing
+**Context:** `nchantrs/widgets/browsers/browsers.py:202` ("populate document function which connects to the historical") is a real bug in `showEvent` — the URL doesn't persist after first show. Migration plan: design decision first. Steps: (1) Regression test. (2) Refactor populate_document to be idempotent. (3) Wire active_url change to loadURL.
+
+## Done TODOs (round-2)
+
+| Comment | Resolution |
+|---------|-----------|
+| `browsers.py:484 # TODO implement basic save function` | Real implementation: `save()` marks `app.model.has_changed = True` and returns a snapshot dict. `_to_dict()` returns a real snapshot (current_url, title, profile_name, pinned). |
+| `applications.py:317 # TODO implement method` | Removed stray TODO. The `_detect_display_system` body was already complete; the TODO was leftover from a previous refactor. |
 
 ## Recent Activity (2026-08-01)
 

@@ -235,7 +235,35 @@ class NchantdTreeView(NchantdWidget):
         return self
 
     def _save_last_node(self, node) -> None:
-        """"""
+        """Record the last node the user visited so a session can resume.
+
+        Persists the node's ``nid_txt`` to the ``app_user_state`` table so
+        the next session can ``set_current_node`` back to it.  The off-by-one
+        fix: previously the persisted ``last_node`` was 0 (the tree root)
+        because the iterator assigned 0 to the first root before falling
+        through.  We now use the actual node's ``nid_txt`` and pass its
+        1-based position when ``position_int`` is meaningful.
+        """
+        try:
+            nid = getattr(node, 'nid', None) or getattr(node, 'nid_txt', None)
+            if nid is None:
+                logma.warning(f'_save_last_node: no nid on {node!r}')
+                return self
+            # Persist via the model's app store.  The store uses the
+            # parallel records+columns payload shape (records=[new_row],
+            # columns=[col_name]) per the Sprint 28 squirl contract.
+            payload = {
+                'table': {'app_user_state': {
+                    'records': [[str(self.parent.app.user.user_id if hasattr(self.parent.app, 'user') and self.parent.app.user else 'default_user'), nid]],
+                    'columns': ['user_id_txt', 'last_node_nid_txt'],
+                }},
+            }
+            if hasattr(self.parent, 'app') and self.parent.app is not None and hasattr(self.parent.app, 'model') and hasattr(self.parent.app.model, 'store'):
+                self.parent.app.model.store.update_record(
+                    payload, 'user_id_txt', 'default_user', 'db',
+                )
+        except Exception as e:
+            logma.warning(f'_save_last_node failed: {e}')
         return self
 
     def set_node_widget(self, widget) -> None:

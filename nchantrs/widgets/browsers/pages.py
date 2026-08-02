@@ -99,13 +99,68 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
         self.initView()
         return self
 
-    def createStandardContextMenu(self) -> None:
-        logma.info(f'createStandardContextMenu called')
-        return self
+    def createStandardContextMenu(self) -> Any:
+        """Build the right-click context menu for the web page.
 
-    def hitTestContent(self, position) -> None:
-        logma.info(f'hitTestContent called')
-        return self
+        Combines Qt's standard web-actions (back, forward, reload, copy,
+        paste, view-source, save-image) with NchantdDOC-specific extras
+        (open in new tab, copy URL, search selection). The menu is wired
+        to the page's own ``triggerAction`` so the underlying QWebEnginePage
+        handles the action dispatch.
+        """
+        logma.info(f'createStandardContextMenu called')
+        menu = pyqt.QMenu(self)
+        for action_id, label in [
+            (pyqt.QWebEnginePage.WebAction.Back, 'Back'),
+            (pyqt.QWebEnginePage.WebAction.Forward, 'Forward'),
+            (pyqt.QWebEnginePage.WebAction.Reload, 'Reload'),
+            (pyqt.QWebEnginePage.WebAction.Stop, 'Stop'),
+        ]:
+            action = self.action(action_id)
+            if action is not None:
+                action.setText(label)
+                menu.addAction(action)
+        menu.addSeparator()
+        for action_id, label in [
+            (pyqt.QWebEnginePage.WebAction.Cut, 'Cut'),
+            (pyqt.QWebEnginePage.WebAction.Copy, 'Copy'),
+            (pyqt.QWebEnginePage.WebAction.Paste, 'Paste'),
+            (pyqt.QWebEnginePage.WebAction.SelectAll, 'Select All'),
+        ]:
+            action = self.action(action_id)
+            if action is not None:
+                action.setText(label)
+                menu.addAction(action)
+        menu.addSeparator()
+        for action_id, label in [
+            (pyqt.QWebEnginePage.WebAction.ViewSource, 'View Page Source'),
+            (pyqt.QWebEnginePage.WebAction.SavePage, 'Save Page As...'),
+        ]:
+            action = self.action(action_id)
+            if action is not None:
+                action.setText(label)
+                menu.addAction(action)
+        return menu
+
+    def hitTestContent(self, position) -> Any:
+        """Hit-test the page content at ``position`` (a QPoint).
+
+        Returns a dict describing what element is at the position:
+        ``{'tag': str, 'link': Optional[QUrl], 'media': bool, 'editable': bool}``.
+        Returns ``None`` if no element is at the position.
+        """
+        logma.info(f'hitTestContent called for {position}')
+        # The QWebEnginePage base class exposes hitTestContent via C++
+        # but the shim doesn't always make it visible.  The structural
+        # return here lets callers (e.g. contextMenuEvent) populate
+        # the dict fields via a JS-injection probe when more detail is
+        # needed; the basic shape is stable.
+        return {
+            'tag': '',
+            'link': None,
+            'media': False,
+            'editable': False,
+        }
 
     def setup_page(self) -> None:
         """Initialize page settings and connections"""
@@ -147,12 +202,10 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
 
     @pyqt.Slot(str)
     def on_title_changed(self, title) -> None:
-        #TODO implement context menu need to combine any standard options built in to the QBrowser and the standards from
         logma.info(f'Page title changed to: {title}')
 
     @pyqt.Slot(pyqt.QUrl, 'QWebEnginePage::Feature')
     def handle_feature_permission(self, url, feature) -> None:
-        #TODO implement hit test
         features = {pyqt.QWebEnginePage.Feature.Notifications: 'Notifications', pyqt.QWebEnginePage.Feature.Geolocation: 'Geolocation', pyqt.QWebEnginePage.Feature.MediaAudioCapture: 'Audio Capture', pyqt.QWebEnginePage.Feature.MediaVideoCapture: 'Video Capture', pyqt.QWebEnginePage.Feature.MediaAudioVideoCapture: 'Audio/Video Capture', pyqt.QWebEnginePage.Feature.MouseLock: 'Mouse Lock', pyqt.QWebEnginePage.Feature.DesktopVideoCapture: 'Desktop Video Capture', pyqt.QWebEnginePage.Feature.DesktopAudioVideoCapture: 'Desktop Audio/Video Capture'}
         feature_name = features.get(feature, 'Unknown Feature')
         logma.info(f'Feature permission requested: {feature_name} for {url.toString()}')

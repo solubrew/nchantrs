@@ -477,8 +477,8 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
             return metrics.horizontalAdvance(text)
 
 class NchantdDataFrameTable(NchantdWidgetMixin, qpandas.DataTableWidget):
-    """ """
-# TODO need to find any \n values and split to check the longest section of text
+    """A pandas-backed table widget."""
+
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__()

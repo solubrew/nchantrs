@@ -68,7 +68,6 @@ class NchantdNewInstanceWizard(NchantdWizard):
             new_objects['view'][f'{key}{instance.alias}'] = value
         self.app.model.store.attach_database(instance, new_objects)
         objects = self.app.model.config.dikt['dstruct']['database']['objects']
-        #TODO refactor NchantdInstance usage
         self.app.model.store.create_objects(objects, instance.instance_id)
         return True
 
