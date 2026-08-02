@@ -561,10 +561,11 @@ class NchantdGrid(NchantdWidget):
         super().initView()
         self.grid_group = pyqt.QGroupBox()
         grid_layout = pyqt.QGridLayout()
-        width, height = (self.get_viewport_size().width(), self.get_viewport_size().height())
-        logma.info(f'Size {width} {height}')
-        size = [width // self.columns, height // self.rows]
-        logma.info(f'Size {size}')
+        #width, height = (self.get_viewport_size().width(), self.get_viewport_size().height())
+        #logma.info(f'Size {width} {height}')
+        #size = [width // self.columns, height // self.rows]
+        #logma.info(f'Size {size}')
+        size = 10
         cnt = 0
         for row in range(self.rows):
             for col in range(self.columns):

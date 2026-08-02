@@ -93,7 +93,7 @@ def lookup(app: Any, action: str, cfg: Optional[dict]=None, deep: bool=False, re
     logma.info(f'Action Lookup Config {cfg.keys()}')
     if cfg is None or cfg == {}:
         if debug:
-            raise Exception(f'Action Lookup Config is Empty {cfg}')
+            raise Exception(f'Action {action} Lookup Config is Empty {cfg}')
         return {}
     return search(action, cfg, deep, debug=debug)
 

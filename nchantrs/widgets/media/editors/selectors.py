@@ -216,6 +216,8 @@ class NchantdDropDown(NchantdWidget):
 
     def initView(self, handler=None) -> Any:
         """Build the dropdown view: a label above the combobox."""
+        cfg = {}
+        super().initView(cfg)
         logma.info(f"Label {self.config.dikt.get('label', 'Missing Label')}")
         self.config.dikt['label'] = self.config.dikt.get('label', 'Missing Label')
         self.label = NchantdLabel(self, self.config).initWidget()
