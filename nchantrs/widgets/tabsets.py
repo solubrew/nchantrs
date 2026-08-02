@@ -198,11 +198,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
     def __init__(self, parent=None, cfg=None) -> None:
         """'"""
         super().__init__()
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdTabSet")
-        self.config.override(cfg)
-        if parent:
-            self.config.override(parent.config)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdTabSet").override(parent.config).override(cfg)
         self.model = tabsetmodels.NchantdTabSetModel(self, self.config)
         self.app = pyqt.QApplication.instance()
         self.currenttabn = 0
@@ -651,6 +647,3 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         super().update()
         self.app.view.refresh_window_size()
         return self
-
-
-"\n"
