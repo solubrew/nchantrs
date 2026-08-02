@@ -52,9 +52,11 @@
 
 ## T-NEW Cards
 
-### T-NEW-001 — Charts: 3D/advanced chart-type rendering broken
+### T-NEW-001 — Charts: 3D/advanced chart-type rendering broken (✅ 2026-08-01)
 
 **Context:** Six chart-type dropdowns in `NchantdChart` cause the entire graph widget to disappear when selected. The chart-rendering pipeline silently fails on Area3D, BarStacked, gantt, HeatMap, timeseries, TreeMap, and wordcloud — and Pie3D shows the regular Pie chart instead of 3D. These were all flagged in the original 2026-07 TODO scan and remained in the codebase as broken UX.
+
+**Root cause:** Every plot method that switched 2D↔3D projection (or otherwise rebuilt the axes) did `self.fig.clear(); ax = self.fig.add_subplot(...)` and operated on a local `ax` variable — but never updated `self.axes`. After the figure clear, `self.axes` still pointed at the old (deleted) axes object, so the next chart call's `self.clear_axes()` invoked `self.axes.clear()` on a stale reference, which Qt silently drops, leaving the widget empty.
 
 **Affected sites:**
 - `nchantrs/widgets/media/charts/charts.py:222` — Area3D selection crashes the widget
@@ -73,6 +75,8 @@
 2. For Pie3D specifically: separate the 3D rendering path from the 2D path (matplotlib's `projection='3d'`)
 3. Add a `try/except` around the chart-type switcher so a single broken type no longer hides the entire widget
 4. Re-enable the dropdown items currently commented out in `_data_/charts.yaml`
+
+**Resolution (2026-08-01):** Addressed as a single commit. The `clear_axes(projection=...)` helper now rebuilds the axes when switching 2D↔3D, and every plot method uses `self.clear_axes(...)` + `self.axes.*` instead of the broken `self.fig.clear() + ax.*` pattern. Implemented `plot_treemap_chart` and `plot_wordcloud` (both were missing — the case-statement would have raised AttributeError). Fixed the `case 'pie3d':` to call `plot_pie_chart_3D` instead of the 2D `plot_pie_chart`. Deleted the 8 module-level `render_*` helpers and `finalize_chart` (all were aspirational dead code with `self.` parameters but no enclosing class — they referenced `self.series` and `self.data` that never existed). Made the matplotlib backend selection headless-safe (was hard-coded to `QtAgg` which crashes under `QT_QPA_PLATFORM=offscreen`). The 4 stale "feature is not working" TODO comments were removed. See commit `d13c884+1` for the full diff.
 
 ### T-NEW-002 — Calculator: number-key routing from numpad/number line
 
