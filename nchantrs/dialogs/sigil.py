@@ -77,7 +77,7 @@ class NchantdSigilMixin(NchantdWidgetMixin):
     def getData(self) -> Any:
         if self.records == None:
             return self.defaults
-        return self.records
+        #TODO need to refactor these methods
 
     def hide_title(self) -> None:
         """"""

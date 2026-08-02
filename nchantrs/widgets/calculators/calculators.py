@@ -41,7 +41,7 @@ class NchantdCalculator(NchantdTab):
         self.clearMemoryButton = None
         self.readMemoryButton = None
         self.setMemoryButton = None
-        self.addToMemoryButton = None
+        #TODO: need to route number keys to calculator when the widget is active from number line and number pad
         self.divisionButton = None
         self.timesButton = None
         self.minusButton = None

@@ -182,7 +182,7 @@ class NchantdCloakView(NchantdPantiesView):
         """"""
         self.refresh_window_size()
 
-    def on_window_resize(self, event) -> None:
+    # TODO we need to make sure the config goes to load Widget
         """"""
         self.refresh_window_size()
 

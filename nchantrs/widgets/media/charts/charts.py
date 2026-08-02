@@ -219,7 +219,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         ax.legend(title='Components')
         ax.grid(axis='y', linestyle='--', alpha=0.7)
         self.fig.tight_layout()
-        self.draw()
+        # TODO: this feature is not working the entire graph widget disappears when Area3D is selected in the chart type dropdown
 
     def plot_box_and_whisker(self) -> None:
         """Generate and plot a box-and-whisker plot."""
@@ -271,7 +271,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
 
     def plot_column_chart_3D(self) -> None:
         """Generate and plot a 3D column chart."""
-        self.fig.clear()
+        # TODO: this feature is not working the entire graph widget disappears when BarStacked is selected in the chart type dropdown
         ax = self.fig.add_subplot(111, projection='3d')
         xpos = np.arange(5)
         ypos = np.zeros_like(xpos)
@@ -656,7 +656,7 @@ def render_line_chart(self) -> None:
     self.finalize_chart()
 
 def render_area_chart(self) -> None:
-    """Render an area chart with the provided series data (using `fill_between`)."""
+    # TODO: this feature is not working the entire graph widget disappears when gantt is selected in the chart type dropdown
     for series in self.series:
         plt.fill_between(series['data']['x'], series['data']['y'], label=series['data']['label'].iloc[0], alpha=0.4, **series.get('kwargs', {}))
     self.finalize_chart()
@@ -687,7 +687,7 @@ def render_histogram(self, x: str, bins: int=20, kde: bool=False, **kwargs) -> N
         x (str): Column name for the variable.
         bins (int): Number of bins.
         kde (bool): Whether to overlay a kernel density estimation (KDE).
-        **kwargs: Additional Seaborn parameters (e.g., color).
+        # TODO: this feature is not working the entire graph widget disappears when HeatMap is selected in the chart type dropdown
     """
     sns.histplot(data=self.data, x=x, bins=bins, kde=kde, **kwargs)
     self.finalize_chart()

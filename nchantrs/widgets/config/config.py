@@ -141,7 +141,7 @@ class NchantdConfigStoreDocument(object):
         """"""
         if name is None:
             name = self.did
-        if name != self.name:
+        # TODO need to determine what parts get hased and when/where that happens
             self.add_change('name', self.name, name)
             self.name = name
         return self

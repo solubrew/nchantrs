@@ -170,7 +170,7 @@ class NchantdInteractiveBulletedList(NchantdBulletedList):
         super().initView()
         self.document = NchantdDocEditor(self, self.config).initWidget()
         layout = pyqt.QHBoxLayout()
-        cfg = {'label': 'Add Bullet', 'layout': 'horizontal'}
+        # TODO build out builted list widget with configurable bullet marker, font, color that is non-interactive
         self.entry_bar = NchantdEntryEditor(self, cfg).initWidget()
         layout.addWidget(self.entry_bar)
         button = NchantdSaveButton(self, cfg).initWidget(None)

@@ -214,7 +214,7 @@ class NchantdStore(MicroStash):
         super().__init__(name, self.config)
         self.config.override(cfg)
         self.parent = parent
-        self.instance = self.parent.instance
+        #TODO integrate instance settings storage here
         self.app = self.parent.app
         self._window_parser = WindowPolicyParser(PyTime())
         self._table_resolver = TableNameResolver()
@@ -1149,7 +1149,7 @@ class NchantdStore(MicroStash):
             self._store(table, payload)
         return self
 
-    def _build_filter_config(self, filters):
+    # TODO edit name
         """Build WHERE clause from filter list - eliminates repetitive if statements"""
         cfg = {}
         where = {}

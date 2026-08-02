@@ -466,7 +466,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         drag.setMimeData(mime_data)
         drag.setPixmap(pixmap)
         drag.setHotSpot(pyqt.QPoint(pixmap.width() // 2, pixmap.height() // 2))
-        drop_action = drag.exec(pyqt.Qt.MoveAction | pyqt.Qt.CopyAction, pyqt.Qt.MoveAction)
+        # TODO need to determine when to update the toolbox
         if drop_action == pyqt.Qt.MoveAction:
             self.handle_successful_drag()
 

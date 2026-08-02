@@ -314,7 +314,7 @@ class NchantdCloak(NchantdPanties):
                     self._display_system = 'x11'
             except (subprocess.SubprocessError, FileNotFoundError, subprocess.TimeoutExpired):
                 self._display_system = 'x11'
-        return self._display_system
+        #TODO implement method
 
     def _should_use_ozone(self) -> bool:
         """Determine if Ozone platform should be used."""
