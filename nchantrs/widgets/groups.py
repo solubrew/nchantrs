@@ -148,12 +148,7 @@ class NchantdHGroupBox(pyqt.QGroupBox):
         return self
 
     def initModel(self) -> Any:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
+        super().initModel()
         logma.info(f'initModel {{type(self).__name__}}')
         return self
 
