@@ -232,6 +232,27 @@
 | H30 | `setData()` Argument Order | ✅ Completed (2026-07-13) | `5afde9d` | `initModel()` calls `setData(0, Qt.UserRole, self.node)` — correct `(column, role, value)` order |
 | H31 | `self.parent` shadowing `Qt.parent()` | ✅ Completed (2026-07-13) | `57839d2` + `be8a582` | `self.parent` → `self.parent_widget` across all `QTreeWidgetItem` subclasses |
 
+## T-NEW-NNN — Round-2 cards
+
+### T-NEW-009 — Calendar: auto-create today node
+**Context:** `nchantrs/utilities/_data_/templates.yaml:135`. The calendar template aspirational TODO ("create a node for today and then transfer information to the timeline node for that date") is a real feature requiring a startup hook, a new node type or `is_today` flag on `daynode`, and timeline bridging. Migration plan: design decision first. Steps: (1) Add `todaynode` to the node type whitelist. (2) Startup hook to create the today node if missing. (3) Timeline bridging. (4) Test for startup-create-if-missing path.
+
+### T-NEW-010 — Config: hash policy decision
+**Context:** `nchantrs/widgets/config/config.py:144` ("what parts get hashed and when/where that happens") is a crypto-security policy requiring threat model, sensitive-field inventory, and security-team review. Migration plan: design decision first. Steps: (1) Inventory sensitive fields. (2) Document policy in SECURITY.md. (3) Implement per-field hashing. (4) Backfill migration for legacy un-hashed fields.
+
+### T-NEW-011 — Tabset: toolbox update trigger
+**Context:** `nchantrs/widgets/tabsets.py:469` ("when to update the toolbox") is an event-driven vs polling decision. Migration plan: design decision first. Steps: (1) Define trigger model (event-driven is Qt-native). (2) Connect `tabset.currentChanged` to `toolbox.update`. (3) Test.
+
+### T-NEW-012 — Browser: populate_document timing
+**Context:** `nchantrs/widgets/browsers/browsers.py:202` ("populate document function which connects to the historical") is a real bug in `showEvent` — the URL doesn't persist after first show. Migration plan: design decision first. Steps: (1) Regression test. (2) Refactor populate_document to be idempotent. (3) Wire active_url change to loadURL.
+
+## Done TODOs (round-2)
+
+| Comment | Resolution |
+|---------|-----------|
+| `browsers.py:484 # TODO implement basic save function` | Real implementation: `save()` marks `app.model.has_changed = True` and returns a snapshot dict. `_to_dict()` returns a real snapshot (current_url, title, profile_name, pinned). |
+| `applications.py:317 # TODO implement method` | Removed stray TODO. The `_detect_display_system` body was already complete; the TODO was leftover from a previous refactor. |
+
 ## Recent Activity (2026-08-01)
 
 | Commit | Description |

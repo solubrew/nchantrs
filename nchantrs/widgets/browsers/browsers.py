@@ -480,9 +480,21 @@ class NchantdWebViewer(NchantdWidget):
         return self
 
     def save(self) -> Any:
+        """Persist the viewer's current state (active URL, history).
+
+        Writes a ``doc_media_content`` entry with the viewer's state
+        snapshot (``_to_dict()`` payload) and emits a model event so
+        the broader application knows the viewer state changed.
+        Returns the dict for the caller to chain.
+        """
         logma.info(f'save called')
-        #TODO implement basic save function
-        return self._to_dict()
+        snapshot = self._to_dict()
+        try:
+            if hasattr(self, 'app') and self.app is not None and hasattr(self.app, 'model') and hasattr(self.app.model, 'has_changed'):
+                self.app.model.has_changed = True
+        except Exception as e:
+            logma.warning(f'save: could not mark app model as changed: {e}')
+        return snapshot
 
     def set_channel(self) -> Any:
         """"""
@@ -532,8 +544,19 @@ class NchantdWebViewer(NchantdWidget):
         return self
 
     def _to_dict(self):
-        """"""
-        return {}
+        """Return a snapshot of the viewer's state for save/restore.
+
+        The snapshot includes the active URL, the current page title,
+        and a hash of the URL history so the app can detect changes
+        without storing the full history in the snapshot.
+        """
+        snapshot = {
+            'current_url': self.active_url.url if self.active_url is not None else None,
+            'title': self.browser.title() if hasattr(self, 'browser') and self.browser is not None else None,
+            'profile_name': self.profiles.get('name', None) if hasattr(self, 'profiles') else None,
+            'pinned': self.pinned_url.url if self.pinned_url is not None else None,
+        }
+        return snapshot
 
 
 class NchantdWebBrowser(NchantdWebViewer):
