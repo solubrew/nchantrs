@@ -35,22 +35,12 @@ class NchantdSubTree:
         super(NchantdSubTree, self).__init__(self.parent, self.config)
 
     def initModel(self) -> None:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
+        super().initModel()
         logma.info(f'initModel {{type(self).__name__}}')
         return self
 
     def initView(self) -> None:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
+        super().initView()
         logma.info(f'initView {{type(self).__name__}}')
         return self
 
@@ -79,12 +69,7 @@ class NchantdProjectSubTree(NchantdSubTree):
         return self
 
     def initView(self) -> None:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
+        super().initView()
         logma.info(f'initView {{type(self).__name__}}')
         return self
 
@@ -107,22 +92,12 @@ class NchantdFileSystemSubTree(NchantdSubTree):
         super(NchantdFileSystemSubTree, self).__init__(self.parent, self.config)
 
     def initModel(self) -> None:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
+        super().initModel()
         logma.info(f'initModel {{type(self).__name__}}')
         return self
 
     def initView(self) -> None:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
+        super().initView()
         logma.info(f'initView {{type(self).__name__}}')
         return self
 

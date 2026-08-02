@@ -34,12 +34,7 @@ class NchantdAccountOverview(NchantdTab):
         return self
 
     def initView(self) -> Any:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
+        super().initView()
         logma.info(f'initView {{type(self).__name__}}')
         return self
 

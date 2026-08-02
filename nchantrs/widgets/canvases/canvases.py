@@ -211,22 +211,12 @@ class NchantdGameCanvas(NchantdCanvas):
         logma.info(f'NchantdGameCanvas initialized')
 
     def initModel(self) -> Any:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
+        super().initModel()
         logma.info(f'initModel {{type(self).__name__}}')
         return self
 
     def initView(self) -> Any:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
+        super().initView()
         logma.info(f'initView {{type(self).__name__}}')
         return self
 
@@ -261,22 +251,12 @@ class NchantdMapCanvas(NchantdCanvas):
         self.config.override(kahndor.Instruct(pxcfg).select('NchantdMapCanvas').override(cfg))
 
     def initModel(self) -> Any:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
+        super().initModel()
         logma.info(f'initModel {{type(self).__name__}}')
         return self
 
     def initView(self) -> Any:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
+        super().initView()
         logma.info(f'initView {{type(self).__name__}}')
         return self
 

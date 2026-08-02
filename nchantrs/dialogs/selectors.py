@@ -113,12 +113,7 @@ class NchantdSelectionDialog(NchantdWidget, pyqt.QDialog):
         return self
 
     def initWidget(self) -> None:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
+        super().initWidget()
         logma.info(f'initWidget {{type(self).__name__}}')
         return self
 

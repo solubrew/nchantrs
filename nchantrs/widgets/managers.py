@@ -118,12 +118,7 @@ class NchantdExtensionManager(NchantdManager):
         logma.info(f'NchantdExtensionManager initialized')
 
     def initModel(self) -> Any:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
+        super().initModel()
         logma.info(f'initModel {{type(self).__name__}}')
         return self
 
@@ -165,12 +160,7 @@ class NchantdFileSystemsManager(NchantdManager):
         super(NchantdFileSystemsManager, self).__init__(self.parent, self.config)
 
     def initModel(self) -> Any:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
+        super().initModel()
         logma.info(f'initModel {{type(self).__name__}}')
         return self
 

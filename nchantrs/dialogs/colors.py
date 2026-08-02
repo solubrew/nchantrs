@@ -32,12 +32,7 @@ class NchantdColorSelectSigil(NchantdSigilMixin, pyqt.QColorDialog):
         logma.info(f'NchantdColorSelectSigil initialized')
 
     def initModel(self, cfg=None) -> None:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
+        super().initModel()
         logma.info(f'initModel {{type(self).__name__}}')
         return self
 

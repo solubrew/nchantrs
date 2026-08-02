@@ -170,12 +170,7 @@ class NchantdNode(NchantdItem):
         return self
 
     def initUI(self) -> Any:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
+        super().initUI()
         logma.info(f'initUI {{type(self).__name__}}')
         return self
 

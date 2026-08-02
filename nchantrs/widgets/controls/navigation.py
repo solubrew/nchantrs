@@ -45,11 +45,6 @@ class NchantdNavigationButtons(pyqt.QWidget):
         self.setLayout(self.layout)
 
     def initWidget(self) -> Any:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
+        super().initWidget()
         logma.info(f'initWidget {{type(self).__name__}}')
         return self

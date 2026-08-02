@@ -26,22 +26,12 @@ class NchantdToolTip(pyqt.QWidget):
         super(NchantdToolTip, self).__init__(self.parent)
 
     def initModel(self) -> Any:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
+        super().initModel()
         logma.info(f'initModel {{type(self).__name__}}')
         return self
 
     def initView(self) -> Any:
-        super_method = getattr(super(type(self), self), method_name, None)
-        if callable(super_method):
-            try:
-                super_method()
-            except TypeError:
-                pass
+        super().initView()
         logma.info(f'initView {{type(self).__name__}}')
         return self
 

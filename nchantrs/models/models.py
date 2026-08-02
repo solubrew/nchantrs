@@ -730,17 +730,7 @@ class NchantdStore(MicroStash):
         :return:
         """
         table = 'app_event'
-        if how == 'INSERT':
-            payload = []
-        elif how == 'UPDATE':
-            payload = [{}]
-        elif how == 'DEACTIVATE':
-            payload = []
-        elif how == 'DELETE':
-            payload = []
-        elif how == 'ARCHIVE':
-            payload = []
-        else:
+        if how not in ('INSERT', 'UPDATE', 'DEACTIVATE', 'DELETE', 'ARCHIVE'):
             raise Exception(f'{how} is not supported.')
         return self
 
@@ -751,17 +741,7 @@ class NchantdStore(MicroStash):
         :return:
         """
         table = 'app_instance'
-        if how == 'INSERT':
-            payload = []
-        elif how == 'UPDATE':
-            payload = [{}]
-        elif how == 'DEACTIVATE':
-            payload = []
-        elif how == 'DELETE':
-            payload = []
-        elif how == 'ARCHIVE':
-            payload = []
-        else:
+        if how not in ('INSERT', 'UPDATE', 'DEACTIVATE', 'DELETE', 'ARCHIVE'):
             raise Exception(f'{how} is not supported.')
         if how == 'INSERT':
             payload = [[instance.instance_id, instance.name, instance.description, instance.is_primary, instance.application_NCD, instance.application_path, instance.instance_path, instance.version, encode64(json.dumps(instance.meta_data))]]
@@ -777,17 +757,7 @@ class NchantdStore(MicroStash):
     def store_app_media(self, document, db='db', how='INSERT'):
         """"""
         table = 'app_media'
-        if how == 'INSERT':
-            payload = []
-        elif how == 'UPDATE':
-            payload = [{}]
-        elif how == 'DEACTIVATE':
-            payload = []
-        elif how == 'DELETE':
-            payload = []
-        elif how == 'ARCHIVE':
-            payload = []
-        else:
+        if how not in ('INSERT', 'UPDATE', 'DEACTIVATE', 'DELETE', 'ARCHIVE'):
             raise Exception(f'{how} is not supported.')
         payload = [[document['did'], document.get('compatibility', 'pyffice'), document['document_type'], document['syntax'], document['name'], document['file_name'], document['description'], document['path'], document['location'], document['encoding'], '|'.join(document['tags']), document['version'], document['hash'], document['policy'], encode64(json.dumps(document.get('metadata', {})))]]
         self._store(table, payload, db)
@@ -796,17 +766,7 @@ class NchantdStore(MicroStash):
     def store_app_media_content(self, content, db='db', how='INSERT'):
         """"""
         table = 'app_media_content'
-        if how == 'INSERT':
-            payload = []
-        elif how == 'UPDATE':
-            payload = [{}]
-        elif how == 'DEACTIVATE':
-            payload = []
-        elif how == 'DELETE':
-            payload = []
-        elif how == 'ARCHIVE':
-            payload = []
-        else:
+        if how not in ('INSERT', 'UPDATE', 'DEACTIVATE', 'DELETE', 'ARCHIVE'):
             raise Exception(f'{how} is not supported.')
         payload = [[content['uuid'], content['pUUID'], content['page'], content['entry'], _coerce_doc_version(content.get('version')) + 1, content['hash'], content['content'], content['context']]]
         self._store(table, payload, db)
@@ -854,17 +814,7 @@ class NchantdStore(MicroStash):
         :return:
         """
         table = 'app_option'
-        if how == 'INSERT':
-            payload = []
-        elif how == 'UPDATE':
-            payload = [{}]
-        elif how == 'DEACTIVATE':
-            payload = []
-        elif how == 'DELETE':
-            payload = []
-        elif how == 'ARCHIVE':
-            payload = []
-        else:
+        if how not in ('INSERT', 'UPDATE', 'DEACTIVATE', 'DELETE', 'ARCHIVE'):
             raise Exception(f'{how} is not supported.')
         if self.user is None:
             user_FK = DEFAULT_USER_ID
@@ -889,17 +839,7 @@ class NchantdStore(MicroStash):
                     'columns': ['UUID', 'app_option_FK_0', 'virtual_table_txt', 'table_txt', 'app_option_FK_1', 'instance_FK', 'user_FK']
         :return:
         """
-        if how == 'INSERT':
-            payload = []
-        elif how == 'UPDATE':
-            payload = [{}]
-        elif how == 'DEACTIVATE':
-            payload = []
-        elif how == 'DELETE':
-            payload = []
-        elif how == 'ARCHIVE':
-            payload = []
-        else:
+        if how not in ('INSERT', 'UPDATE', 'DEACTIVATE', 'DELETE', 'ARCHIVE'):
             raise Exception(f'{how} is not supported.')
         return self
 
@@ -910,17 +850,7 @@ class NchantdStore(MicroStash):
         :return:
         """
         table = 'app_policy'
-        if how == 'INSERT':
-            payload = []
-        elif how == 'UPDATE':
-            payload = [{}]
-        elif how == 'DEACTIVATE':
-            payload = []
-        elif how == 'DELETE':
-            payload = []
-        elif how == 'ARCHIVE':
-            payload = []
-        else:
+        if how not in ('INSERT', 'UPDATE', 'DEACTIVATE', 'DELETE', 'ARCHIVE'):
             raise Exception(f'{how} is not supported.')
         self._store('app_policy', [record])
         return self
@@ -935,17 +865,7 @@ class NchantdStore(MicroStash):
         :return:
         """
         table = 'app_secure_store'
-        if how == 'INSERT':
-            payload = []
-        elif how == 'UPDATE':
-            payload = [{}]
-        elif how == 'DEACTIVATE':
-            payload = []
-        elif how == 'DELETE':
-            payload = []
-        elif how == 'ARCHIVE':
-            payload = []
-        else:
+        if how not in ('INSERT', 'UPDATE', 'DEACTIVATE', 'DELETE', 'ARCHIVE'):
             raise Exception(f'{how} is not supported.')
         cfg = {'table': table}
         reader = self.docs['db'].read(cfg)
@@ -962,17 +882,7 @@ class NchantdStore(MicroStash):
         :return:
         """
         table = 'app_tab'
-        if how == 'INSERT':
-            payload = []
-        elif how == 'UPDATE':
-            payload = [{}]
-        elif how == 'DEACTIVATE':
-            payload = []
-        elif how == 'DELETE':
-            payload = []
-        elif how == 'ARCHIVE':
-            payload = []
-        else:
+        if how not in ('INSERT', 'UPDATE', 'DEACTIVATE', 'DELETE', 'ARCHIVE'):
             raise Exception(f'{how} is not supported.')
         payload = [row]
         self._store(table, payload)
@@ -986,17 +896,7 @@ class NchantdStore(MicroStash):
         :param data:
         :return:
         """
-        if how == 'INSERT':
-            payload = []
-        elif how == 'UPDATE':
-            payload = [{}]
-        elif how == 'DEACTIVATE':
-            payload = []
-        elif how == 'DELETE':
-            payload = []
-        elif how == 'ARCHIVE':
-            payload = []
-        else:
+        if how not in ('INSERT', 'UPDATE', 'DEACTIVATE', 'DELETE', 'ARCHIVE'):
             raise Exception(f'{how} is not supported.')
         if isinstance(data, DataFrame):
             self._store_df(self.nodetable, data, {'how': 'IF NOT EXISTS', self.nodetable: 'nid'})
@@ -1006,17 +906,7 @@ class NchantdStore(MicroStash):
 
     def store_app_tree_node(self, name, ntype, pid, pos, parameters=None, tree='left', db='db', how='INSERT'):
         """"""
-        if how == 'INSERT':
-            payload = []
-        elif how == 'UPDATE':
-            payload = [{}]
-        elif how == 'DEACTIVATE':
-            payload = []
-        elif how == 'DELETE':
-            payload = []
-        elif how == 'ARCHIVE':
-            payload = []
-        else:
+        if how not in ('INSERT', 'UPDATE', 'DEACTIVATE', 'DELETE', 'ARCHIVE'):
             raise Exception(f'{how} is not supported.')
         icon = ''
         nid = self.gen_NID()
@@ -1039,17 +929,7 @@ class NchantdStore(MicroStash):
         :return:
         """
         table = 'app_user'
-        if how == 'INSERT':
-            payload = []
-        elif how == 'UPDATE':
-            payload = [{}]
-        elif how == 'DEACTIVATE':
-            payload = []
-        elif how == 'DELETE':
-            payload = []
-        elif how == 'ARCHIVE':
-            payload = []
-        else:
+        if how not in ('INSERT', 'UPDATE', 'DEACTIVATE', 'DELETE', 'ARCHIVE'):
             raise Exception(f'{how} is not supported.')
         payload = [[user.uuid, text_hashing_function(user.parent.device.mac), user.parent.device.user, encode64(user.hash), encode64(user.salt), encode64(str(user.iters)), encode64(user.address), encode64(user.rsa_key), self.app.model.is_private, self.app.model.is_secure, self.app.model.instance.instance_id]]
         FK = self._store(table, payload, db)
@@ -1057,32 +937,12 @@ class NchantdStore(MicroStash):
 
     def store_doc_media(self, db='db', how='INSERT'):
         """"""
-        if how == 'INSERT':
-            payload = []
-        elif how == 'UPDATE':
-            payload = [{}]
-        elif how == 'DEACTIVATE':
-            payload = []
-        elif how == 'DELETE':
-            payload = []
-        elif how == 'ARCHIVE':
-            payload = []
-        else:
+        if how not in ('INSERT', 'UPDATE', 'DEACTIVATE', 'DELETE', 'ARCHIVE'):
             raise Exception(f'{how} is not supported.')
 
     def store_doc_media_content(self, db='db', how='INSERT'):
         """"""
-        if how == 'INSERT':
-            payload = []
-        elif how == 'UPDATE':
-            payload = [{}]
-        elif how == 'DEACTIVATE':
-            payload = []
-        elif how == 'DELETE':
-            payload = []
-        elif how == 'ARCHIVE':
-            payload = []
-        else:
+        if how not in ('INSERT', 'UPDATE', 'DEACTIVATE', 'DELETE', 'ARCHIVE'):
             raise Exception(f'{how} is not supported.')
 
     def store_doc_tab(self, row, instance, db='db', how='INSERT'):
@@ -1094,17 +954,7 @@ class NchantdStore(MicroStash):
         :return:
         """
         table = 'doc_tab'
-        if how == 'INSERT':
-            payload = []
-        elif how == 'UPDATE':
-            payload = [{}]
-        elif how == 'DEACTIVATE':
-            payload = []
-        elif how == 'DELETE':
-            payload = []
-        elif how == 'ARCHIVE':
-            payload = []
-        else:
+        if how not in ('INSERT', 'UPDATE', 'DEACTIVATE', 'DELETE', 'ARCHIVE'):
             raise Exception(f'{how} is not supported.')
         payload = [row]
         self._store(table, payload, db)
@@ -1112,17 +962,7 @@ class NchantdStore(MicroStash):
 
     def store_doc_tree_node(self, name, ntype, pid, pos, parameters=None, tree='left', db='db', how='INSERT'):
         """"""
-        if how == 'INSERT':
-            payload = []
-        elif how == 'UPDATE':
-            payload = [{}]
-        elif how == 'DEACTIVATE':
-            payload = []
-        elif how == 'DELETE':
-            payload = []
-        elif how == 'ARCHIVE':
-            payload = []
-        else:
+        if how not in ('INSERT', 'UPDATE', 'DEACTIVATE', 'DELETE', 'ARCHIVE'):
             raise Exception(f'{how} is not supported.')
         icon = ''
         nid = self.gen_NID()
@@ -1144,17 +984,7 @@ class NchantdStore(MicroStash):
                         'instance_new_bit']
         :return:
         """
-        if how == 'INSERT':
-            payload = []
-        elif how == 'UPDATE':
-            payload = [{}]
-        elif how == 'DEACTIVATE':
-            payload = []
-        elif how == 'DELETE':
-            payload = []
-        elif how == 'ARCHIVE':
-            payload = []
-        else:
+        if how not in ('INSERT', 'UPDATE', 'DEACTIVATE', 'DELETE', 'ARCHIVE'):
             raise Exception(f'{how} is not supported.')
         return self
 
@@ -1163,17 +993,7 @@ class NchantdStore(MicroStash):
                     columns: ["UUID", "name", "type", "description", 'url_ltxt', "tag_txt"]
         :return:
         """
-        if how == 'INSERT':
-            payload = []
-        elif how == 'UPDATE':
-            payload = [{}]
-        elif how == 'DEACTIVATE':
-            payload = []
-        elif how == 'DELETE':
-            payload = []
-        elif how == 'ARCHIVE':
-            payload = []
-        else:
+        if how not in ('INSERT', 'UPDATE', 'DEACTIVATE', 'DELETE', 'ARCHIVE'):
             raise Exception(f'{how} is not supported.')
         table = 'link'
         if not isinstance(url, list):
