@@ -234,12 +234,23 @@ class NchantdWebViewer(NchantdWidget):
         return self
 
     def add_profile(self, profile_name) -> Any:
-        """"""
-        if not self.has_pro:
-            # TODO create user warning system and tell them that only pro users can have multiple profiles
-            cfg = {}
-            pro_user_warning = NchantdNotificationSigil(self, cfg)
-            pro_user_warning.initWidget()
+        """Add a named web profile to the viewer.
+
+        Free users are limited to a single profile (the default).  When
+        ``has_pro`` is False, attempting to add a second profile pops up
+        a notification explaining the Pro SKU requirement and aborts the
+        add.  Pro users can add unlimited profiles.
+        """
+        if not getattr(self, 'has_pro', False):
+            # Free-tier users cannot have multiple profiles.  Surface
+            # the limitation via a notification rather than silently
+            # dropping the add so the user knows what's happening.
+            cfg = {'title': 'Pro feature', 'message': 'Multiple profiles are a Pro feature. Upgrade to Pro to manage more than one profile.'}
+            try:
+                pro_user_warning = NchantdNotificationSigil(self, cfg)
+                pro_user_warning.initWidget()
+            except Exception as e:
+                logma.warning(f'could not show pro warning notification: {e}')
             return self
         self.profiles[profile_name] = {'default': False, 'profile': NchantdWebProfile(profile_name)}
         return self
