@@ -197,6 +197,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
 
     def __init__(self, parent=None, cfg=None) -> None:
         """'"""
+        self.parent = parent
         super().__init__()
         self.config = kahndor.Instruct(pxcfg).select("NchantdTabSet").override(parent.config).override(cfg)
         self.model = tabsetmodels.NchantdTabSetModel(self, self.config)
