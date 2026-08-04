@@ -114,7 +114,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         logma.info(f'Chart Type{self.chart_type}')
         chart_type = self.chart_type.lower()
         match chart_type:
-            case 'area':
+            case "area":
                 self.plot_area_chart()
             case 'area3d':
                 self.plot_area_chart_3D()
@@ -540,6 +540,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         colors = np.random.rand(num_points)
         sizes = np.random.uniform(20, 200, num_points)
         scatter_plot = self.axes.scatter(x, y, z, c=colors, cmap='viridis', s=sizes, alpha=0.8, edgecolor='w')
+        ax = None #TODO fix
         self.fig.colorbar(scatter_plot, ax=ax, shrink=0.5, aspect=10)
         self.axes.set_title('3D Scatter Chart', fontsize=16)
         self.axes.set_xlabel('X-Axis')
@@ -555,6 +556,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         Y = np.linspace(-5, 5, 100)
         X, Y = np.meshgrid(X, Y)
         Z = np.sin(np.sqrt(X ** 2 + Y ** 2))
+        ax = None  # TODO fix
         surf = self.axes.plot_surface(X, Y, Z, cmap='viridis', edgecolor='none')
         self.fig.colorbar(surf, ax=ax, shrink=0.5, aspect=10)
         self.axes.set_title('3D Surface Chart', fontsize=16)
