@@ -543,7 +543,7 @@ class NchantdStore(MicroStash):
     def get_links(self, name=None, description=None, type_=None, tag=None, url=None, db='db'):
         """"""
         table = self._table_resolver.get_table_name('link', self.instance)
-        cfg = self._build_filter_config([('EQUAL', 'name_txt', name), ('LIKE', 'description_ltxt', description), ('EQUAL', 'type_txt', type_), ('EQUAL', 'tag_txt', tag), ('LIKE', 'url_ltxt', url)])
+        cfg = self._build_where_clause([('EQUAL', 'name_txt', name), ('LIKE', 'description_ltxt', description), ('EQUAL', 'type_txt', type_), ('EQUAL', 'tag_txt', tag), ('LIKE', 'url_ltxt', url)])
         return self.get_table(table, cfg, db)
 
     def get_view_border_styles(self, cfg=None, db='db'):
