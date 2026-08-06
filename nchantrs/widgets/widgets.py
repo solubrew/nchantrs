@@ -79,8 +79,46 @@ class NchantdAction(object):
         return lookup(self.app, action_term, {"code_group": code_group})
 
 
-class NchantdWidgetMixin(pyqt.QObject):
-    """"""
+# T-NEW fix (2026-08-06): custom metaclass so NchantdWidgetMixin can
+# be combined with Qt widgets via multiple inheritance without
+# triggering Python's metaclass-conflict MRO rule. Subclasses
+# PySide6's Shiboken.ObjectType (so it is a subclass of Qt's widget
+# metaclass) AND plain ``type`` (so it works with ``object``-derived
+# base classes). Has no Qt runtime side-effects — only used by Python's
+# class-creation algorithm to satisfy MRO checks. (Derived from
+# ``TODO_CRIT_pyside6pandas_metaclass.md``.)
+try:
+    _NCHANTD_MIXIN_META = type(
+        type(pyqt.QObject).__name__, (type(pyqt.QObject), type), {}
+    )
+except (ImportError, AttributeError):
+    # PySide6 not installed (rare in tests). Fall back to plain ``type``.
+    _NCHANTD_MIXIN_META = type
+
+
+class NchantdWidgetMixin(object, metaclass=_NCHANTD_MIXIN_META):
+    """Mixin base for Nchantd* widgets.
+
+    Uses a custom metaclass (``_NCHANTD_MIXIN_META``) that subclasses
+    PySide6's ``Shiboken.ObjectType`` so this mixin can be combined
+    with Qt widgets via multiple inheritance without triggering
+    Python's metaclass-conflict MRO rule. The metaclass is a plain
+    Python class (no Qt runtime side-effects) — it just satisfies
+    Python's class-creation check.
+
+    Per ``TODO_CRIT_pyside6pandas_metaclass`` in nchantdoffice: the
+    previous ``NchantdWidgetMixin(object)`` definition produced a
+    metaclass-conflict ``TypeError`` when combined with Qt widgets
+    that have a ``Shiboken.ObjectType``-derived metaclass (e.g.
+    ``qpandas.DataTableWidget``). Switching to ``(QObject)`` (commit
+    02ea57a) caused a segmentation fault at runtime because Qt widgets
+    require ``__init__(parent=...)`` cooperation that the existing
+    PyQt5-style cooperative MRO doesn't provide. This custom-metaclass
+    approach sidesteps BOTH problems.
+
+    No behavior change for the existing 8+ widget subclasses — the
+    metaclass only affects Python's MRO algorithm.
+    """
 
     def init_variables(self) -> Any:
         """"""
