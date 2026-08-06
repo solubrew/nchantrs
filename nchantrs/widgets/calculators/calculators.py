@@ -27,6 +27,10 @@ class NchantdCalculator(NchantdTab):
         self.config.override(kahndor.Instruct(pxcfg).select('NchantdCalculator').override(cfg))
         self.pendingAdditiveOperator = ''
         self.pendingMultiplicativeOperator = ''
+        # T-NEW-053: keyboard support on the base calculator so the
+        # number row + numpad work without clicking on-screen buttons.
+        self.setFocusPolicy(pyqt.Qt.FocusPolicy.StrongFocus)
+        self._has_focus = False
         self.sumInMemory = 0.0
         self.sumSoFar = 0.0
         self.factorSoFar = 0.0
@@ -407,6 +411,65 @@ class NchantdCalculator(NchantdTab):
             method = getattr(self, method_name)
             return method(rightOperand)
         return True
+
+    def keyPressEvent(self, event) -> None:
+        """Route digit/operator keys to the same logic as button clicks.
+
+        T-NEW-053: keyboard support on the base ``NchantdCalculator``
+        so the number row + numpad work without clicking on-screen
+        buttons. Previously only ``NchantdAdvancedCalculator`` had this.
+        """
+        key = event.key()
+        # 0-9 (top row + numpad)
+        if pyqt.Qt.Key_0 <= key <= pyqt.Qt.Key_9:
+            self._press_digit(key - pyqt.Qt.Key_0)
+            event.accept()
+            return
+        # Decimal separators (both US and EU conventions)
+        if key in (pyqt.Qt.Key_Period, pyqt.Qt.Key_Comma):
+            self.pointClicked()
+            event.accept()
+            return
+        # Operators
+        if key == pyqt.Qt.Key_Plus:
+            self._apply_additive_operator('+')
+            event.accept()
+            return
+        if key == pyqt.Qt.Key_Minus:
+            self._apply_additive_operator('-')
+            event.accept()
+            return
+        if key == pyqt.Qt.Key_Asterisk:
+            self._apply_multiplicative_operator('×')
+            event.accept()
+            return
+        if key == pyqt.Qt.Key_Slash:
+            self._apply_multiplicative_operator('÷')
+            event.accept()
+            return
+        if key in (pyqt.Qt.Key_Return, pyqt.Qt.Key_Enter):
+            self.equalClicked()
+            event.accept()
+            return
+        if key == pyqt.Qt.Key_Backspace:
+            self.backspaceClicked()
+            event.accept()
+            return
+        if key == pyqt.Qt.Key_Escape:
+            self.clearAll()
+            event.accept()
+            return
+        super().keyPressEvent(event)
+
+    def focusInEvent(self, event) -> None:
+        """Mark the calculator as the active key-routing target."""
+        super().focusInEvent(event)
+        self._has_focus = True
+
+    def focusOutEvent(self, event) -> None:
+        """Drop the active-key-routing flag on focus loss."""
+        super().focusOutEvent(event)
+        self._has_focus = False
 
     def _apply_add(self, rightOperand: float) -> bool:
         self.sumSoFar += rightOperand
