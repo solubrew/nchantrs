@@ -66,26 +66,26 @@ class NchantdProxyWidget(NchantdWidgetMixin, pyqt.QGraphicsProxyWidget):
         rect = self.boundingRect()
         return rect.right() - 10 < pos.x() < rect.right() + 10
 
-class NchantdScene(pyqt.QGraphicsScene):
+class NchantdScene(NchantdWidgetMixin, pyqt.QGraphicsScene):
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent)
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select('NchantdScene').override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select('NchantdScene').override(parent.config).override(cfg)
         self.widgets = []
         self.lines = []
         self.start_widget = None
         logma.info(f'NchantdScene initialized')
 
     def initModel(self, cfg=None) -> Any:
-        super().initModel()
+        super().initModel(cfg)
         logma.info(f'initModel {{type(self).__name__}}')
         return self
 
     def initView(self, cfg=None) -> Any:
-        super().initView()
+        """"""
         logma.info(f'initView {{type(self).__name__}}')
         return self
 

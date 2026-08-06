@@ -464,7 +464,7 @@ class NchantdTreeNode(NchantdTreeItem):
         data = {'table': {'doc_tree_node': {'data': {}}}}
         for n, child in enumerate(children):
             data['table']['doc_tree_node']['data']['position_int'] = n
-            self.parent_widget.app.model.store.update_record(data, 'nid_txt', child.nid, db)
+            self.parent.app.model.store.update_record(data, 'nid_txt', child.nid, db)
         return self
 
     def updateTabs(self, view='center') -> Any:

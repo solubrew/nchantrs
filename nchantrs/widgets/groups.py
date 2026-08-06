@@ -132,17 +132,14 @@ class NchantdCollapsableGroup(NchantdWidget):
         return self
 
 
-class NchantdHGroupBox(pyqt.QGroupBox):
+class NchantdHGroupBox(NchantdWidgetMixin, pyqt.QGroupBox):
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """"""
         super().__init__(parent, cfg)
-        self.config = kahndor.Instruct(pxcfg).select("NchantdHGroupBox")
         self.parent = parent
-        if parent is not None and (not isinstance(parent, pyqt.QWidget)):
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdHGroupBox").override(parent.config).override(cfg)
         logma.info(f"NchantdHGroupBox initialized")
 
     def addWidget(self, widget) -> Any:
@@ -173,12 +170,9 @@ class NchantdVGroupBox(pyqt.QGroupBox):
 
     def __init__(self, parent=None, cfg=None) -> None:
         """"""
-        super().__init__()
-        self.config = kahndor.Instruct(pxcfg).select("NchantdVGroupBox")
+        super().__init__(parent, cfg)
         self.parent = parent
-        if parent is not None and (not isinstance(parent, pyqt.QWidget)):
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdVGroupBox").override(parent.config).override(cfg)
         logma.info(f"NchantdVGroupBox initialized")
 
     def addWidget(self, widget) -> Any:
