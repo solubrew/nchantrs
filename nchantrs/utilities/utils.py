@@ -86,12 +86,22 @@ def lookup(app: Any, action: str, cfg: Optional[dict]=None, deep: bool=False, re
         table = 'app_action'
         params = {'table': table}
         db_cfg = {'WHERE': {'EQUAL': {'code_group_txt': pxcfg['action_type']}}}
-        actions = next(app.model.store.docs['db'].read(params, db_cfg))
-        cfg = actions.dikt[table]['df'].to_dict('records')
-        cfg = {c['lookup_code_txt']: c for c in cfg}
-        app.model.store.docs['dbc'].write({'app_actions': cfg})
-    logma.info(f'Action Lookup Config {cfg.keys()}')
+        # T-NEW-051/052: wrap the DB read in try/except so a query
+        # error (e.g. missing position_int column) doesn't crash the
+        # toolbar init. Fall back to the cached config instead.
+        try:
+            actions = next(app.model.store.docs['db'].read(params, db_cfg))
+            cfg = actions.dikt[table]['df'].to_dict('records')
+            cfg = {c['lookup_code_txt']: c for c in cfg}
+            app.model.store.docs['dbc'].write({'app_actions': cfg})
+        except Exception as e:
+            logma.warning(f'[lookup] app_action DB read failed: {e}')
+            # Use whatever cfg we had from the cache
+            if cfg is None:
+                cfg = {}
+    logma.info(f'Action Lookup Config {cfg.keys() if cfg else "(empty)"}')
     if cfg is None or cfg == {}:
+        logma.warning(f'Action {action} Lookup Config is Empty')
         if debug:
             raise Exception(f'Action {action} Lookup Config is Empty {cfg}')
         return {}
