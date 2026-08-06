@@ -9,6 +9,7 @@
     security: seclvl2
     <(WT)>: -32
 """
+
 from os.path import abspath, dirname, join
 from typing import Optional, Dict, List, Any, Tuple
 import datetime as dt
@@ -20,12 +21,14 @@ from nchantrs.libraries import pyqt
 from nchantrs.themes.themes import NchantdTheme
 from nchantrs.widgets.widgets import loadWidget
 from kahndor.logma import Logma
-here = join(dirname(__file__), '')
+
+here = join(dirname(__file__), "")
 log = False
 logma = Logma(__name__)
 if not log:
     logma.off()
-pxcfg = join(abspath(here), '_data_', 'applicationviews.yaml')
+pxcfg = join(abspath(here), "_data_", "applicationviews.yaml")
+
 
 class NchantdPantiesView(object):
     """"""
@@ -34,7 +37,7 @@ class NchantdPantiesView(object):
         """"""
         super().__init__()
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select('NchantdPantiesView').override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdPantiesView").override(cfg)
         if self.parent:
             self.config.override(parent.config)
         self.theme = None
@@ -49,10 +52,10 @@ class NchantdPantiesView(object):
         """ """
         self.theme = NchantdTheme(self.app.main)
         self.themes = self.theme.themes
-        logma.info(f'Config {cfg.dikt.keys()}')
+        logma.info(f"Config {cfg.dikt.keys()}")
         self.config.override(cfg)
-        logma.info(f'Config {self.config.dikt.keys()}')
-        theme = self.config.dikt['gui']['desktop']['theme']
+        logma.info(f"Config {self.config.dikt.keys()}")
+        theme = self.config.dikt["gui"]["desktop"]["theme"]
         self.set_theme(theme)
         self.pre_view_init_ran = True
 
@@ -69,9 +72,10 @@ class NchantdPantiesView(object):
             self.init_post_view()
         return self
 
-    def set_theme(self, theme='midnight_mist') -> None:
+    def set_theme(self, theme="midnight_mist") -> None:
         """"""
         self.theme.set_theme(theme)
+
 
 class NchantdCapeView(NchantdPantiesView):
     """"""
@@ -80,7 +84,7 @@ class NchantdCapeView(NchantdPantiesView):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select('NchantdCapeView'))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCapeView"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -90,6 +94,7 @@ class NchantdCapeView(NchantdPantiesView):
         super().initView()
         return self
 
+
 class NchantdCloakView(NchantdPantiesView):
     """ """
 
@@ -97,7 +102,7 @@ class NchantdCloakView(NchantdPantiesView):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select('NchantdCloakView').override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdCloakView").override(cfg))
         if self.parent:
             self.config.override(parent.config)
         self.menus = {}
@@ -108,7 +113,7 @@ class NchantdCloakView(NchantdPantiesView):
         self.status_bar = None
         _time = self.parent.model.store.time.today_long()
         version = self.parent.model.get_current_version()
-        self.status_message = f'{self.parent.app.application_name} - version: {version} || {_time}  '
+        self.status_message = f"{self.parent.app.application_name} - version: {version} || {_time}  "
         self.new_account_wizard = None
 
     def initView(self, cfg=None) -> Any:
@@ -129,7 +134,7 @@ class NchantdCloakView(NchantdPantiesView):
     def add_status_bar(self) -> None:
         """"""
         self.status_bar = pyqt.QStatusBar()
-        self.status_bar.setStyleSheet('color: red')
+        self.status_bar.setStyleSheet("color: red")
         self.add_status_bar_message()
         self.app.main.setStatusBar(self.status_bar)
         return self
@@ -138,44 +143,44 @@ class NchantdCloakView(NchantdPantiesView):
         """"""
         if self.status_message is not None:
             if text is not None:
-                self.status_message += f' ... {text}'
+                self.status_message += f" ... {text}"
         self.set_status_bar_message(self.status_message)
         return self
 
     def build_panes(self) -> None:
         """"""
-        dtop = self.config.dikt['gui']['desktop']
-        style = '3Pane' if dtop['layout']['style'] is None else dtop['layout']['style']
-        for pos in self.config.dikt['gui']['desktop']['styles'][style]['positions']:
+        dtop = self.config.dikt["gui"]["desktop"]
+        style = "3Pane" if dtop["layout"]["style"] is None else dtop["layout"]["style"]
+        for pos in self.config.dikt["gui"]["desktop"]["styles"][style]["positions"]:
             widget = self.configure_widget(dtop, pos)
-            logma.info(f'Widget {widget} load')
-            logma.info(f'Parent {self.parent}')
+            logma.info(f"Widget {widget} load")
+            logma.info(f"Parent {self.parent}")
             self.panes[pos] = loadWidget(self.parent, widget)
             if self.panes[pos] is None:
-                raise Exception(f'Widget {widget} not loaded')
+                raise Exception(f"Widget {widget} not loaded")
             self.create_objects(pos)
             self.splitter.addWidget(self.panes[pos])
         return self
 
     def configure_widget(self, dtop, pos) -> None:
         """"""
-        default = {'name': 'Generic', 'widget': 'nchantrs.widgets.tabsets.NchantdTabSet'}
-        widget = dtop['layout'][pos] if dtop['layout'][pos]['widget'] is not None else default
-        widget['apps'] = []
-        widget['apps'].append(self.config.dikt.get('app', 'nchantrs'))
-        widget['apps'] += self.config.dikt.get('apps', [])
-        widget['apps'].append('nchantrs')
-        widget['apps'] = list(set(widget['apps']))
-        widget['app'] = self.config.dikt.get('app', 'nchantrs')
-        widget['pos'] = pos
+        default = {"name": "Generic", "widget": "nchantrs.widgets.tabsets.NchantdTabSet"}
+        widget = dtop["layout"][pos] if dtop["layout"][pos]["widget"] is not None else default
+        widget["apps"] = []
+        widget["apps"].append(self.config.dikt.get("app", "nchantrs"))
+        widget["apps"] += self.config.dikt.get("apps", [])
+        widget["apps"].append("nchantrs")
+        widget["apps"] = list(set(widget["apps"]))
+        widget["app"] = self.config.dikt.get("app", "nchantrs")
+        widget["pos"] = pos
         return widget
 
     def create_objects(self, pos) -> None:
         """"""
         create_objects = True
-        if pos == 'right':
+        if pos == "right":
             create_objects = False
-        self.panes[pos].initWidget({'create_objects': create_objects})
+        self.panes[pos].initWidget({"create_objects": create_objects})
         return self
 
     def on_window_move(self, event) -> None:
@@ -185,18 +190,18 @@ class NchantdCloakView(NchantdPantiesView):
     def refresh_window_size(self) -> None:
         self._set_application_size()
 
-    def set_status_bar_message(self, text='') -> None:
+    def set_status_bar_message(self, text="") -> None:
         """"""
         self.status_message = text
         self.status_bar.showMessage(self.status_message)
         return self
 
-    def set_theme(self, theme='midnight_mist') -> None:
+    def set_theme(self, theme="midnight_mist") -> None:
         """"""
         super().set_theme(theme)
         self.app.main.setWindowTitle(self.parent.app.application_name)
-        self.themes_path = join(here, '../themes')
-        path = join(self.themes_path, '_data_', 'icons', 'midnight_icons', 'full-length-nchantrs.svg')
+        self.themes_path = join(here, "../themes")
+        path = join(self.themes_path, "_data_", "icons", "icon_midnight_mist.svg")
         self.app.main.setWindowIcon(pyqt.QIcon(path))
         self._set_background()
         self.refresh_window_size()
@@ -204,17 +209,17 @@ class NchantdCloakView(NchantdPantiesView):
 
     def set_toolbar(self) -> None:
         """"""
-        toolbar = self.panes.get('toolbar', None)
+        toolbar = self.panes.get("toolbar", None)
         if toolbar is not None:
             self.splitter.addWidget(toolbar)
         return self
 
     def show_splash_screen(self) -> None:
         """ """
-        cfg = self.config.dikt['dialogs']['splash']
+        cfg = self.config.dikt["dialogs"]["splash"]
         screen = dialogs.Sigil(cfg)
         screen.show()
-        time.sleep(cfg['time'])
+        time.sleep(cfg["time"])
         screen.close()
         return self
 
@@ -222,20 +227,20 @@ class NchantdCloakView(NchantdPantiesView):
         """"""
         image = self.screen.grabWindow(0)
         if save:
-            name = dt.datetime.now().strftime('%Y%m%d%H%M%S')
-            self.screen.save(f'{name}_{uuid()}', 'png')
+            name = dt.datetime.now().strftime("%Y%m%d%H%M%S")
+            self.screen.save(f"{name}_{uuid()}", "png")
         return (image, self.gui.globalMousePosition())
 
     def _set_background(self, path=None) -> None:
         """"""
         if path:
-            self.app.main.setStyleSheet(f'background-image: url({path});')
+            self.app.main.setStyleSheet(f"background-image: url({path});")
 
     def _set_configurations(self) -> None:
         """"""
         self.app.main.setAttribute(pyqt.Qt.WA_DeleteOnClose)
         self.app.main.setAutoFillBackground(True)
-        self.app.main.MaxRecentFiles = self.config.dikt.get('max_recent_files', 10)
+        self.app.main.MaxRecentFiles = self.config.dikt.get("max_recent_files", 10)
         self.app.main.windowList = []
         self.app.main.recentFileActions = []
 
