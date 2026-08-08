@@ -206,14 +206,20 @@ class NchantdStore(MicroStash):
     """
     EXTENSION = '.nchnt'
 
-    def __init__(self, name, parent, cfg=None):
-        """"""
+    def __init__(self, name, parent, cfg=None, journal_path=None):
+        """NchantdStore constructor. Passes journal_path through
+        to MicroStash for opt-in WAL semantics (T-DESK-058 step 2)."""
         self.config = kahndor.Instruct(pxcfg).select('NchantdStore')
         if parent is not None:
             self.config.override(parent.config)
         super().__init__(name, self.config)
         self.config.override(cfg)
         self.parent = parent
+        # T-DESK-058 Step 2: forward journal_path to enable
+        # the write-ahead log (the opt-in is in MicroStash;
+        # this just threads the constructor arg through).
+        if journal_path:
+            self.enable_journal(journal_path)
         # Instance-scoped settings cache.  ``set_instance_setting`` and
         # ``get_instance_setting`` are the read/write API; the data
         # is persisted to the ``app_instance_setting`` table at the
