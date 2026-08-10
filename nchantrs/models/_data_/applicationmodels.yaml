@@ -273,8 +273,7 @@ NchantdPantiesModel:
                       {'name': 'UUID', 'type': 'text'}, {'name': 'icon_txt', 'type': 'text'},
                       {'name': 'short_cut_txt', 'type': 'text'}, {'name': 'tip_txt', 'type': 'text'},
                       {'name': 'advanced_tip_txt', 'type': 'text'}, {'name': 'widget_txt', 'type': 'text'},
-                      {'name': 'parameters_dict', 'type': 'text'},
-                      {'name': 'position_int', 'type': 'integer'}]
+                      {'name': 'parameters_dict', 'type': 'text'}]
             system_records:
               - ['base', 'about', 'About', 'About dialog containing information related to contact etc', '869525a0-0f67-4964-beb8-b8d588f2bee2', 'about', '', 'Launch an about dialog', '', '', "{}"]
               - ['base', 'add_automation', 'Automation', '', '<^[UUID]^>', 'automation', '', 'Create automation', '', '', "{}"]
@@ -651,7 +650,6 @@ NchantdPantiesModel:
               - ['base', 'select_file_entry', '', '', '<^[UUID]^>', 'file', '', '', '', '', "{}"]
               - ['base', 'select_select_entry', '', '', '<^[UUID]^>', 'form-dropdown-svgrepo-com', '', '', '', '', "{}"]
               - ['base', 'select_hidden_entry', '', '', '<^[UUID]^>', 'hide-eye-svgrepo-com', '', '', '', '', "{}"]
-
               - ['base', 'set_format_column_one', '', '', '<^[UUID]^>', 'column-one-svgrepo-com', '', 'Format Document for One Column', '', '', "{}" ]
               - ['base', 'set_format_column_two', '', '', '<^[UUID]^>', 'column-2-vertical-svgrepo-com', '', 'Format Document for Two Columns', '', '', "{}" ]
               - ['base', 'set_format_column_three', '', '', '<^[UUID]^>', 'column-triple-svgrepo-com', '', 'Format Document for Three Columns', '', '', "{}" ]
@@ -709,6 +707,7 @@ NchantdPantiesModel:
               - ['base', 'show_full_chart_pane', '', '', '<^[UUID]^>', 'maximize-2', '', '', '', '', "{}"]
               - ['base', 'show_badge_secure', '', '', '<^[UUID]^>', 'secure-svgrepo-com_gray', '', '', '', '', "{'stati': {'valid': 'secure-svgrepo-com_green', 'unknown': 'secure-svgrepo-com_gray', 'caution': 'secure-svgrepo-com_yellow', 'warning': 'secure-svgrepo-com_red'}}"]
               - ['base', 'show_badge_wot', '', '', '<^[UUID]^>', 'donut-gray', '', '', '', '', "{'stati': {'valid': 'donut_green', 'unknown': 'donut_gray', 'caution': 'donut_yellow', 'warning': 'donut_red'}}"]
+              - ['base', 'show_palette_drawer', '', '', '<^[UUID]^>', '', '', '', '', '', "{}"]
               - ['base', 'show_badge_2fdns', '', '', '<^[UUID]^>', 'two-fishes-svgrepo-com_gray', '', '', '', '', "{'stati': {'valid': 'two-fishes-svgrepo-com_green', 'unknown': 'two-fishes-svgrepo-com_gray', 'caution': 'two-fishes-svgrepo-com_yellow', 'warning': 'two-fishes-svgrepo-com_red'}}"]
               - ['base', 'show_pane_left', 'Show Left Pane', '', '<^[UUID]^>', 'move-left-svgrepo-com', '', '', '', '', "{'stati': {'enabled': {'icon': 'move-right-svgrepo-com'}}}" ]
               - ['base', 'show_pane_right', 'Show Right Pane', '', '<^[UUID]^>', 'move-right-svgrepo-com', '', '', '', '', "{'stati': {'enabled': {'icon': 'move-left-svgrepo-com'}}}" ]
@@ -1752,7 +1751,7 @@ NchantdPantiesModel:
               *
               FROM app_instance
               WHERE ACTIVE_BIT = 1 AND DELETE_BIT = 0 AND ARCHIVE_BIT = 0
-          vw_app_media':
+          'vw_app_media':
             cmd: >
               CREATE VIEW vw_app_media AS
               SELECT
