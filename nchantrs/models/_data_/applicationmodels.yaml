@@ -615,6 +615,7 @@ NchantdPantiesModel:
               - ['base', 'search_data_sources', '', '', '<^[UUID]^>', 'search-globe-svgrepo-com', '', '', '', '', "{}"]
               - ['base', 'save_instance', 'Save', '', '066d3a45-262b-7526-8000-392ccf6d3f46', 'save', '', '', '', '', "{}"]
               - ['base', 'save_menu', 'Save', '', 'c6a004a6-b2e2-4676-98a5-5d3af7f9fec9', 'save', 'Ctrl+s', '', '', '', "{}"]
+              - ['base', 'scan_palette_from_image', 'Scan', '', '', '', '', '', '', '', "{}"]
               - ['base', 'search_contacts', 'Search Contacts', '', '', 'search-window-svgrepo-com', '', '', '', '', "{}"]
               - ['base', 'search_go', 'Go!', '', '066f8a90-bea7-73d0-8000-a340df134c44', 'arrow-right', '', '', '', '', "{}"]
               - ['base', 'search_instance', 'Search Instance...', '', '066d3a45-262b-767d-8000-6f3387a727cd', 'search', '', '', '', '', "{}"]
