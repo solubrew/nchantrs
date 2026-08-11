@@ -1,5 +1,6 @@
 from typing import Any
-'\n---\n<(META)>:\n    docid:\n    name:\n    description: >\n    version: 0.0.0.0.0.0\n    authority: filesystem\n    security: seclvl2\n    <(WT)>: -32\n'
+
+"\n---\n<(META)>:\n    docid:\n    name:\n    description: >\n    version: 0.0.0.0.0.0\n    authority: filesystem\n    security: seclvl2\n    <(WT)>: -32\n"
 from os.path import dirname, join, exists
 import base64
 from kahndor import kahndor
@@ -7,11 +8,13 @@ from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.media.utilities import render_svg_to_pixmap
 from kahndor.logma import Logma
-here = join(dirname(__file__), '')
+
+here = join(dirname(__file__), "")
 log = True
 logma = Logma(__name__)
 logma.off()
-pxcfg = join(here, '_data_', 'images.yaml')
+pxcfg = join(here, "_data_", "images.yaml")
+
 
 class NchantdImage(NchantdWidget):
     """
@@ -21,14 +24,14 @@ class NchantdImage(NchantdWidget):
 
     def __init__(self, parent=None, cfg=None) -> None:
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select('NchantdImage').override(cfg))
-        self.default_path = join(here, '../../themes', '_data_', 'img', 'defaulty.jpg')
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdImage").override(cfg))
+        self.default_path = join(here, "../../themes", "_data_", "img", "defaulty.jpg")
         self.file_path = None
         self.label = pyqt.QLabel(self)
         self.image = None
         self.is_scaled = None
         self.container_size = (200, 200)
-        self.color = self.config.dikt.get('color', 'black')
+        self.color = self.config.dikt.get("color", "black")
         self.color = None
         self.hex = None
         self.rgb = None
@@ -38,18 +41,18 @@ class NchantdImage(NchantdWidget):
     def initModel(self) -> Any:
         """Initialize the model with image size and container logic."""
         super().initModel()
-        self.is_scaled = self.config.dikt.get('scaled', False)
-        icon_path_text = self.config.dikt.get('icon', self.config.dikt.get('icon_txt', None))
+        self.is_scaled = self.config.dikt.get("scaled", False)
+        icon_path_text = self.config.dikt.get("icon", self.config.dikt.get("icon_txt", None))
         if icon_path_text is None:
-            logma.info(f'Icon path is None')
+            logma.info(f"Icon path is None")
             self.set_file_path(None)
         elif exists(str(icon_path_text)):
-            logma.info(f'Icon path: {icon_path_text}')
+            logma.info(f"Icon path: {icon_path_text}")
             self.set_file_path(str(icon_path_text))
         elif icon_path_text is not None:
-            logma.info(f'Icon get Path: {icon_path_text}')
-            icon_path = self.app.view.theme.get_icon_path(icon_path_text, 'base')
-            logma.info(f'Icon path: {icon_path}')
+            logma.info(f"Icon get Path: {icon_path_text}")
+            icon_path = self.app.view.theme.get_icon_path(icon_path_text, "base")
+            logma.info(f"Icon path: {icon_path}")
             self.set_file_path(icon_path)
         else:
             raise Exception(f"Unknown File Handling {icon_path_text} {self.config.dikt.get('icon_txt', None)}")
@@ -62,14 +65,14 @@ class NchantdImage(NchantdWidget):
         self.label.setAlignment(alignment_flag)
         self.label.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
         self.label.setScaledContents(False)
-        if self.is_scaled:
-            self.label.setScaledContents(True)
-        if self.config.dikt.get('color'):
+        # if self.is_scaled: #TODO this was causing non ratio locked scaling of images.  testing to determine if any further changes are needed
+        #     self.label.setScaledContents(True)
+        if self.config.dikt.get("color"):
             self.label.setStyleSheet(f"background-color: {self.config.dikt.get('color')};")
         self.set_size()
-        if self.config.dikt.get('image_data', None) is not None:
+        if self.config.dikt.get("image_data", None) is not None:
             logma.info(f"image_data {self.config.dikt.get('image_data', None)}")
-            self.load_image_from_data(self.config.dikt.get('image_data', None))
+            self.load_image_from_data(self.config.dikt.get("image_data", None))
         else:
             self.load_image(self.file_path, self.width_size, self.height_size)
         self.layout.addWidget(self.label)
@@ -83,8 +86,8 @@ class NchantdImage(NchantdWidget):
 
     def loadImage(self, path=None, size_x=None, size_y=None) -> Any:
         """"""
-        logma.depricate(f'Change self.loadImage() method to self.load_image()')
-        self.load_image(path, size_x, size_y)
+        logma.depricate(f"Change self.loadImage() method to self.load_image()")
+        self.load_image(path)#, size_x, size_y)
         return self
 
     def load_image(self, path=None, size_x=None, size_y=None) -> Any:
@@ -92,27 +95,27 @@ class NchantdImage(NchantdWidget):
         if path is not None:
             self.set_file_path(path)
         path = self.file_path
-        logma.info(f'Path {path}')
+        logma.info(f"Path {path}")
         logma.info(f"Path {self.config.dikt.get('path', None)}")
         if exists(path):
-            if path.endswith('.svg'):
-                logma.info(f'Path {path}')
-                logma.info(f'Size X {size_x} Size Y {size_y}')
-                if size_x == 'auto':
+            if path.endswith(".svg"):
+                logma.info(f"Path {path}")
+                logma.info(f"Size X {size_x} Size Y {size_y}")
+                if size_x == "auto":
                     size_x = self.width()
-                if size_y == 'auto':
+                if size_y == "auto":
                     size_y = self.height()
                 self.image = render_svg_to_pixmap(path, size_x, size_y)
-            elif path.endswith('.gif'):
+            elif path.endswith(".gif"):
                 self.image = pyqt.QMovie(path)
             else:
-                logma.info(f'Path {path}')
+                logma.info(f"Path {path}")
                 self.image = pyqt.QPixmap(path)
-        elif path == 'Blank':
+        elif path == "Blank":
             self.image = pyqt.QPixmap(size_x, size_y)
             self.image.fill(pyqt.QColor(self.color))
         else:
-            logma.error(f'Image file not found: {path}')
+            logma.error(f"Image file not found: {path}")
             return self
         self.label.setPixmap(self.image)
         self.original_pixmap = self.image
@@ -136,18 +139,22 @@ class NchantdImage(NchantdWidget):
 
     def resizeEvent(self, event) -> None:
         if self.label.pixmap():
-            source = getattr(self, 'original_pixmap', None) or self.label.pixmap()
-            scaled = source.scaled(self.label.size(), pyqt.Qt.AspectRatioMode.KeepAspectRatio, pyqt.Qt.TransformationMode.SmoothTransformation)
+            source = getattr(self, "original_pixmap", None) or self.label.pixmap()
+            scaled = source.scaled(
+                self.label.size(),
+                pyqt.Qt.AspectRatioMode.KeepAspectRatio,
+                pyqt.Qt.TransformationMode.SmoothTransformation,
+            )
             self.label.setPixmap(scaled)
         super().resizeEvent(event)
 
     def set_file_path(self, path=None) -> Any:
         """Set the file path for the image."""
-        logma.info(f'Path {path}')
+        logma.info(f"Path {path}")
         if path is None:
-            path = self.config.dikt.get('path', None)
+            path = self.config.dikt.get("path", None)
         if path is None:
-            path = self.config.dikt.get('file_path', None)
+            path = self.config.dikt.get("file_path", None)
         if path is None:
             path = self.default_path
         self.file_path = path
@@ -181,18 +188,19 @@ class NchantdImage(NchantdWidget):
         """Implement color palette extraction (placeholder)."""
         pass
 
+
 class NchantdScreenShot(NchantdWidget):
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select('Nchantd')
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
         self.config.override(cfg)
-        self.setWindowTitle('Screenshot Tool')
+        self.setWindowTitle("Screenshot Tool")
         self.setWindowFlags(pyqt.Qt.FramelessWindowHint | pyqt.Qt.WindowStaysOnTopHint | pyqt.Qt.Dialog)
         self.setWindowOpacity(0.5)
         self.setAttribute(pyqt.Qt.WA_TranslucentBackground, True)
@@ -201,7 +209,7 @@ class NchantdScreenShot(NchantdWidget):
         self.end_point = None
         self.is_selecting = False
         self.setGeometry(0, 0, self.app.primaryScreen().size().width(), self.app.primaryScreen().size().height())
-        logma.info(f'NchantdScreenShot initialized')
+        logma.info(f"NchantdScreenShot initialized")
 
     def initModel(self) -> Any:
         """"""
@@ -257,4 +265,4 @@ class NchantdScreenShot(NchantdWidget):
         rect = pyqt.QRect(self.start_point, self.end_point).normalized()
         screen = self.app.primaryScreen()
         screenshot = screen.grabWindow(0, rect.x(), rect.y(), rect.width(), rect.height())
-        screenshot.save('screenshot.png', 'png')
+        screenshot.save("screenshot.png", "png")
