@@ -76,7 +76,7 @@ class NchantdCell(NchantdWidgetMixin, pyqt.QTableWidgetItem):
     def initView(self) -> None:
         """"""
         cfg = {"text": self.config.dikt.get("text", ""), "size": self.config.dikt.get("size", 10)}
-        # self.setText(str(cfg.get("text", "")))
+        self.setText(str(cfg.get("text", "")))
         return self
 
     def initWidget(self) -> None:

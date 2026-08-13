@@ -1,8 +1,10 @@
 from typing import Any, Union
-'\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
+
+"\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n"
 from os.path import abspath, dirname, join
 import datetime as dt
 import logging
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
 from nchantrs.libraries import pyqt
@@ -17,11 +19,13 @@ from nchantrs.widgets.panes.panes import NchantdPane
 from nchantrs.widgets.controls.button_groups import NchantdAcceptButtons, NchantdFontConfigBar
 from kahndor.logma import Logma
 from subtrix.utilities import uuid
-here = join(dirname(__file__), '')
+
+here = join(dirname(__file__), "")
 log = True
 logma = Logma(__name__)
 logma.off()
-pxcfg = join(here, '_data_', 'catalogs.yaml')
+pxcfg = join(here, "_data_", "catalogs.yaml")
+
 
 class NchantdNewNodePane(NchantdPane):
     """"""
@@ -29,9 +33,9 @@ class NchantdNewNodePane(NchantdPane):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select('NchantdNewNodePane').override(cfg))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdNewNodePane").override(cfg))
         self.catalog = self.parent.catalog
-        self.config.dikt['action'] = None
+        self.config.dikt["action"] = None
         self.active_item = None
         self.select_color = None
         self.select_icon = None
@@ -53,53 +57,72 @@ class NchantdNewNodePane(NchantdPane):
     def initModel(self) -> Any:
         """"""
         logma.info(f"Init Model{self.config.dikt.get('action')}")
-        self.config.dikt.pop('action')
+        self.config.dikt.pop("action")
         super().initModel()
         if self.catalog is None:
             return self
         self.active_item = self.catalog.selected_item
-        logma.info(f'Model Initd')
+        logma.info(f"Model Initd")
         return self
 
     def initView(self, cfg=None) -> Any:
         """"""
-        logma.info(f'Init View')
+        logma.info(f"Init View")
         if cfg is None:
             cfg = {}
-        cfg['size'] = ['auto', 'auto']
+        cfg["size"] = ["auto", "auto"]
         super().initView(cfg)
-        cfg = {'label': 'Document Type: ', 'combobox': {'options': self.config.dikt.get('options', [])}, 'layout': 'horizontal'}
+        cfg = {
+            "label": "Document Type: ",
+            "combobox": {"options": self.config.dikt.get("options", [])},
+            "layout": "horizontal",
+        }
         self.document_type_entry = NchantdDropDown(self, cfg).initWidget()
         self.left_side_layout.addWidget(self.document_type_entry)
-        cfg = {'label': 'Tab Name: ', 'layout': 'horizontal', 'value': self.get_new_tab_name(), 'size': [75, 20], 'entrybox': {'size': [200, 20]}}
+        cfg = {
+            "label": "Tab Name: ",
+            "layout": "horizontal",
+            "value": self.get_new_tab_name(),
+            "size": [75, 20],
+            "entrybox": {"size": [200, 20]},
+        }
         self.tab_name_entry = NchantdLabeledEntry(self, cfg).initWidget()
         self.left_side_layout.addWidget(self.tab_name_entry)
         self.config_buttons_layout = pyqt.QHBoxLayout()
-        cfg = {'action': 'select_icon', 'handler': 'nchantrs.dialogs.icons.NchantdIconSelectionSigil', 'size': 48, 'tip': 'Select Icon'}
+        cfg = {
+            "action": "select_icon",
+            "handler": "nchantrs.dialogs.icons.NchantdIconSelectionSigil",
+            "size": 48,
+            "tip": "Select Icon",
+        }
         self.select_icon = NchantdButton(self, cfg).initWidget()
         self.config_buttons_layout.addWidget(self.select_icon)
-        cfg = {'extend': False, 'show_label': False, 'highlight': False, 'two_rows': False}
+        cfg = {"extend": False, "show_label": False, "highlight": False, "two_rows": False, "layout": "horizontal"}
         self.font_config = NchantdFontConfigBar(self, cfg).initWidget()
         self.config_buttons_layout.addWidget(self.font_config)
-        self.config_buttons_layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignTop | pyqt.Qt.AlignmentFlag.AlignLeft)
         self.left_side_layout.addLayout(self.config_buttons_layout)
-        self.left_side_layout.addStretch(1)
         self.document_buttons_layout = pyqt.QHBoxLayout()
-        self.document_buttons_layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignTop | pyqt.Qt.AlignmentFlag.AlignLeft)
         self.left_side_layout.addLayout(self.document_buttons_layout)
-        self.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
+        # self.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
+        self.center_layout.addStretch(1)
         self.center_options_layout = pyqt.QVBoxLayout()
-        cfg = {'text': 'Node Options', 'description': '', 'checked': False, 'multi_options': ['Locked'], 'size': ['auto', 'auto']}
+        cfg = {
+            "text": "Node Options",
+            "description": "",
+            "checked": False,
+            "multi_options": ["Locked"],
+            "size": ["auto", "auto"],
+        }
         self.node_checkbox_group = NchantdCheckboxGroup(self, cfg).initWidget()
         self.center_options_layout.addWidget(self.node_checkbox_group)
+        self.center_layout.addLayout(self.center_options_layout)
+        self.center_options_layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignTop | pyqt.Qt.AlignmentFlag.AlignRight)
         self.accept_buttons_layout = pyqt.QHBoxLayout()
-        cfg = {'action': None, 'handler': self.accept}
+        cfg = {"action": None, "handler": self.accept}
         self.accept_buttons = NchantdAcceptButtons(self, cfg).initWidget()
         self.accept_buttons_layout.addWidget(self.accept_buttons)
         self.accept_buttons_layout.setAlignment(pyqt.Qt.AlignmentFlag.AlignBottom | pyqt.Qt.AlignmentFlag.AlignRight)
-        self.center_layout.addStretch(1)
-        self.layout.addLayout(self.accept_buttons_layout)
-        self.layout.setSpacing(3)
+        self.right_side_layout.addLayout(self.accept_buttons_layout)
         return self
 
     def initWidget(self) -> Any:
@@ -113,39 +136,39 @@ class NchantdNewNodePane(NchantdPane):
         :return:
         """
         super().accept()
-        self.add_feature('center')
+        self.add_feature("center")
 
     def add_field(self, field_widget) -> Any:
-        logma.info(f'add_field called')
+        logma.info(f"add_field called")
         return self
 
-    def add_node(self, tree='left', widgdata=None) -> Any:
+    def add_node(self, tree="left", widgdata=None) -> Any:
         """"""
-        tree = 'left'
+        tree = "left"
         if widgdata is None:
             widgdata = {}
         if self.ok:
             name = self.tab_name_entry.textbox.entry_data
-            logma.info(f'Active Item {self.active_item.document_nm}')
-            if self.active_item.document_nm == 'Root Node':
+            logma.info(f"Active Item {self.active_item.document_nm}")
+            if self.active_item.document_nm == "Root Node":
                 pid = 0
-            elif self.active_item.document_nm in ('Sibling Node', 'Child Node'):
+            elif self.active_item.document_nm in ("Sibling Node", "Child Node"):
                 pid = self.app.view.panes[tree].tree.model.current_node.pid
-            elif self.active_item.document_nm == 'Subtree Node':
+            elif self.active_item.document_nm == "Subtree Node":
                 pass
             pos = 0
-            ntype = 'usernode'
-            tabset = 'center'
-            parameters = {'focus': 'user', 'recent_tab': {}}
+            ntype = "usernode"
+            tabset = "center"
+            parameters = {"focus": "user", "recent_tab": {}}
             self.app.model.add_node(name, ntype, pid, pos, parameters, None, True)
         return self
 
     def get_focus_packages(self) -> Any:
         """"""
         df = self.app.model.store.get_focus_packages()
-        packages = dict(zip(df['sequence_int'].values.list(), df['package_name_txt'].values.list()))
+        packages = dict(zip(df["sequence_int"].values.list(), df["package_name_txt"].values.list()))
         for key, value in packages.items():
-            cfg = {'package_name': value}
+            cfg = {"package_name": value}
             packages[key] = NchantdSelectionWidget(self, cfg)
         return packages
 
@@ -168,7 +191,7 @@ class NchantdNewNodePane(NchantdPane):
         return self
 
     def show_first_tab_options(self) -> None:
-        logma.info(f'show_first_tab_options called')
+        logma.info(f"show_first_tab_options called")
         return self
 
     def update_pane(self) -> Any:
@@ -178,26 +201,26 @@ class NchantdNewNodePane(NchantdPane):
             self.set_active_item(self.catalog.selected_item)
         if self.active_item is not None:
             self.document_type_entry.set_option_selection(self.active_item.title_txt)
-            if self.active_item.file_type == 'app':
-                logma.info(f'Set as Node')
-                self.tab_name_entry.set_label('Node Name: ')
+            if self.active_item.file_type == "app":
+                logma.info(f"Set as Node")
+                self.tab_name_entry.set_label("Node Name: ")
                 self.add_feature = self.add_node
                 if self.node_radio_buttons is not None:
                     self.center_options_layout.removeWidget(self.node_radio_buttons)
                     self.node_radio_buttons.deleteLater()
                     self.node_radio_buttons = None
                 self.show_first_tab_options()
-            elif self.active_item.file_type == 'note':
+            elif self.active_item.file_type == "note":
                 pass
             else:
                 if self.node_radio_buttons is None:
-                    cfg = {'text': 'Select Tabset', 'layout': 'horizontal', 'unique_options': ['Center', 'Right']}
+                    cfg = {"text": "Select Tabset", "layout": "horizontal", "unique_options": ["Center", "Right"]}
                     self.node_radio_buttons = NchantdRadioButtonGroup(self, cfg).initWidget()
                     self.center_options_layout.addWidget(self.node_radio_buttons)
-                self.tab_name_entry.set_label('Tab Name: ')
-                logma.info(f'Set as Tab')
+                self.tab_name_entry.set_label("Tab Name: ")
+                logma.info(f"Set as Tab")
                 self.add_feature = self.add_document
         default_txt = self.get_new_tab_name()
-        logma.info(f'Update Default Name {default_txt}')
+        logma.info(f"Update Default Name {default_txt}")
         self.tab_name_entry.setText(default_txt)
         return self
