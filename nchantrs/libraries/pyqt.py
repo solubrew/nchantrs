@@ -44,6 +44,31 @@ for _mod in (QtCore, _QtGui, _QtWidgets):
 # different casing (the project uses mixed-case Qt names).
 Qpyqt = QtCore
 
+# T-NEW-108 (2026-08-14): also re-export from QtNetwork,
+# QtWebEngineCore, QtWebEngineWidgets, QtPrintSupport, and
+# QtWebChannel — these are needed by nchantdoffice's browser and
+# download-handling code. The browser code uses
+# ``pyqt.QWebEngineView``, ``pyqt.QWebEngineDownloadRequest``,
+# ``pyqt.QWebEnginePage`` etc. Without these exports, pytest
+# collection crashes with ``AttributeError: module
+# 'nchantrs.libraries.pyqt' has no attribute 'QWebEngineView'``.
+for _opt_mod_name in (
+    "PySide6.QtNetwork",
+    "PySide6.QtPrintSupport",
+    "PySide6.QtWebChannel",
+    "PySide6.QtWebEngineCore",
+    "PySide6.QtWebEngineWidgets",
+):
+    try:
+        _opt_mod = __import__(_opt_mod_name, fromlist=["*"])
+        for _name in dir(_opt_mod):
+            if _name.startswith("_"):
+                continue
+            if _name not in globals():
+                globals()[_name] = getattr(_opt_mod, _name)
+    except ImportError:
+        pass
+
 # Optional: QtSql (removed in some PySide6 builds). Fall back to
 # ``None`` placeholders so import-time references survive; only
 # actual usage at call time raises AttributeError.
