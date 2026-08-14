@@ -1,0 +1,36 @@
+# MANIFEST.in — controls what ships in the nchantrs sdist.
+#
+# Mirror the proven recipe from pyffice/sasquatch:
+# - recursive-include for runtime config + theme assets
+# - include top-level docs and CI scaffolding
+# - prune all dev/build artefacts
+#
+# The ``[project] readme`` and ``license`` references in
+# pyproject.toml pull README.md and LICENSE.md via setuptools'
+# own data-file logic; we still need to include them here for
+# ``python -m build --sdist`` to copy them into the sdist tarball.
+
+recursive-include nchantrs *.py
+recursive-include nchantrs *.yaml *.yml *.json *.qss *.svg *.png *.css
+recursive-include docs *.md *.yml
+recursive-include nchantrs.egg-info *.txt *.cfg 2>/dev/null || true
+
+include README.md LICENSE.md pyproject.toml CHANGES.md CLI.md CI_CD.md CONTRIBUTING.md mkdocs.yml
+include LICENSE_DEPENDENCIES.json requirements.txt
+
+global-exclude *.pyc *.pyo __pycache__/*
+prune .git
+prune dist
+prune build
+prune .egg-info
+prune .tox
+prune .venv
+prune venvs
+prune htmlcov
+prune .pytest_cache
+prune .mypy_cache
+prune .ruff_cache
+prune tests
+prune tests_sasquatch
+prune test_reports
+prune .github
