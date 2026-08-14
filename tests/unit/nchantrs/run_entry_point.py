@@ -9,10 +9,10 @@ Usage:
     python run_entry_point.py --help       # Show this help
 """
 
-import sys
-import os
-import logging
 import argparse
+import logging
+import os
+import sys
 
 # Set Qt platform BEFORE any Qt imports
 os.environ['QT_QPA_PLATFORM'] = 'offscreen'
@@ -53,7 +53,7 @@ class PrintLogger:
     def write(self, message):
         if message.strip():
             logger.info(message.strip())
-    
+
     def flush(self):
         pass
 
@@ -65,14 +65,14 @@ def run_aberration():
     """L1: Single widget dialog"""
     logger.info("Running aberration (L1 - Single widget dialog)...")
     from nchantrs.nchantrs import aberration
-    
+
     # Use full module path for widget - this is what loadWidget expects
     widget = 'nchantrs.widgets.annotations.NchantdLabel'
     cfg = {
         'name': 'Test Label',
         'widget': widget,
     }
-    
+
     aberration(name='Test Label', widget=widget, cfg=cfg)
 
 
@@ -80,7 +80,7 @@ def run_distortion():
     """L2: Complex dialog with multiple widgets"""
     logger.info("Running distortion (L2 - Complex dialog)...")
     from nchantrs.nchantrs import distortion
-    
+
     # Use full module path for widget
     widget = 'nchantrs.widgets.annotations.NchantdLabel'
     cfg = {
@@ -88,24 +88,24 @@ def run_distortion():
         'widget': widget,
         'theme': 'dark',
     }
-    
+
     distortion(name='Test App', args={}, widget=widget, cfg=cfg)
 
 
 def run_nchantment():
     """L3: Full application"""
     import os
-    
+
     logger.info("Running nchantment (L3 - Full application)...")
-    
+
     # Use offscreen Qt platform for headless operation
     os.environ['QT_QPA_PLATFORM'] = 'offscreen'
-    
+
     from nchantrs.nchantrs import nchantment
-    
+
     # Full application with profile
     profile = 'default'
-    
+
     nchantment(name='Nchantment', args={}, profile_override=profile)
 
 
@@ -114,24 +114,24 @@ def main():
         description='nchantrs Entry Point Runner',
         epilog='Examples:\n  python run_entry_point.py aberration\n  python run_entry_point.py distortion\n  python run_entry_point.py nchantment'
     )
-    
+
     parser.add_argument(
         'entry_point',
         choices=['aberration', 'distortion', 'nchantment'],
         help='Entry point level to run (L1-L3)'
     )
-    
+
     parser.add_argument(
         '--verbose', '-v',
         action='store_true',
         help='Enable verbose output'
     )
-    
+
     args = parser.parse_args()
-    
+
     if args.verbose:
         logger.info(f"Starting {args.entry_point}...")
-    
+
     # Run the selected entry point
     if args.entry_point == 'aberration':
         run_aberration()

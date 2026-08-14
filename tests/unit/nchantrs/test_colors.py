@@ -20,7 +20,6 @@ from __future__ import annotations
 
 import importlib
 import sys
-from unittest.mock import MagicMock
 
 import pytest
 
@@ -31,7 +30,6 @@ import pytest
 # because the conftest's MagicMock Qt modules stay in sys.modules
 # across tests.
 from nchantrs.themes.colors import NchantdColor
-
 
 # The ``tests/unit/nchantrs/conftest.py`` autouse fixture installs a usable
 # kahndor shim so that nchantrs modules can be imported in this test suite

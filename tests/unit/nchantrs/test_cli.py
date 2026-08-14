@@ -1,37 +1,34 @@
 """Tests for the Nchantrs CLI module."""
 
-import pytest
-from unittest.mock import patch, MagicMock
-import sys
-from pathlib import Path
+from unittest.mock import patch
 
 from nchantrs.cli import (
-    create_parser,
-    main,
-    cmd_run,
-    cmd_test,
-    cmd_install,
-    cmd_uninstall,
-    cmd_config,
-    cmd_version,
-    cmd_help,
+    DEFAULT_AGENT,
+    DEFAULT_AGENT_NAME,
     cmd_actions,
+    cmd_config,
     cmd_dialogs,
     cmd_events,
-    cmd_models,
-    cmd_services,
-    cmd_utilities,
-    cmd_widgets,
-    cmd_wizards,
     cmd_extensions,
+    cmd_help,
+    cmd_install,
     cmd_libraries,
     cmd_library,
     cmd_logging,
+    cmd_models,
+    cmd_run,
+    cmd_services,
+    cmd_test,
     cmd_themes,
+    cmd_uninstall,
     cmd_updates,
+    cmd_utilities,
+    cmd_version,
     cmd_views,
-    DEFAULT_AGENT,
-    DEFAULT_AGENT_NAME,
+    cmd_widgets,
+    cmd_wizards,
+    create_parser,
+    main,
 )
 
 
@@ -47,7 +44,7 @@ class TestCreateParser:
     def test_create_parser_has_run_command(self):
         """Test that parser has run subcommand."""
         parser = create_parser()
-        subparsers = {action: None for action in parser._subparsers._actions}
+        {action: None for action in parser._subparsers._actions}
         assert "run" in [sp.dest for sp in parser._subparsers._actions[1].choices.values()]
 
     def test_create_parser_has_version_flag(self):

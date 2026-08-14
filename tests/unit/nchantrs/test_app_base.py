@@ -27,21 +27,21 @@ Usage:
 Or as an entry point:
 	nchantment --name "Base App"
 """
-import sys
-from os.path import dirname, join
+import sys  # noqa: E402
+from os.path import dirname  # noqa: E402
 
 # Add the project to the path
 here = dirname(__file__)
 sys.path.insert(0, here)
 
 # Import Nchantrs entry point
-from nchantrs.nchantrs import nchantment
-from nchantrs.widgets.applications.applications import NchantdCloak
+from nchantrs.nchantrs import nchantment  # noqa: E402
+from nchantrs.widgets.applications.applications import NchantdCloak  # noqa: E402
 
 
 class BaseApplication(NchantdCloak):
 	"""Base Application extending NchantdCloak"""
-	
+
 	def __init__(self, name="Base App", instance=None, parent=None, cfg=None, args=None):
 		"""Initialize the base application"""
 		if cfg is None:
@@ -60,7 +60,7 @@ class BaseApplication(NchantdCloak):
 		})
 		super().__init__(name, instance, parent, cfg, args)
 		self.app_type = "base"
-	
+
 	def run_on_launch(self):
 		"""Custom launch behavior"""
 		print(f"Launching Base Application: {self.application_name}")
@@ -72,16 +72,16 @@ def main():
 	name = "Base App"
 	if len(sys.argv) > 1:
 		name = sys.argv[1]
-	
+
 	# Create args dictionary
 	args = {
 		"name": name,
 		"instance": None,
 	}
-	
+
 	# Use nchantment entry point
 	app = nchantment(name, args, main_app=BaseApplication)
-	
+
 	return app
 
 

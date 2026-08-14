@@ -26,7 +26,7 @@
 if __name__ == "__main__":
     from nchantrs.nchantrs import distortion
     from nchantrs.widgets.browsers.browsers import NchantdWebViewer
-    
+
     # Distortion - Complex single widget dialog
     # Example: Launch a web viewer dialog
     distortion(

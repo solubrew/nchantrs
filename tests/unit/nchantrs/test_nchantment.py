@@ -19,14 +19,13 @@ from os.path import dirname, join
 here = join(dirname(__file__), "")
 sys.path.insert(0, here)
 
-from nchantrs.nchantrs import nchantment
-
+from nchantrs.nchantrs import nchantment  # noqa: E402
 
 if __name__ == "__main__":
     print("="*60)
     print("Testing Nchantment (L3 Entry Point)")
     print("="*60)
-    
+
     # Call nchantment entry point
     # This launches a full Nchantrs application with startup wizard
     nchantment(
@@ -37,5 +36,5 @@ if __name__ == "__main__":
         startup_app=None,  # Uses default startup wizard
         profile_override=None
     )
-    
+
     print("Nchantment complete")

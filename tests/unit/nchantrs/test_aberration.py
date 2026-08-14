@@ -12,8 +12,8 @@
 	<(WT)>: -32
 """
 # -*- coding: utf-8 -*
-import sys
 import os
+import sys
 
 # Set Qt platform before importing PySide6
 os.environ.setdefault('QT_QPA_PLATFORM', 'offscreen')
@@ -24,17 +24,16 @@ from os.path import dirname, join
 here = join(dirname(__file__), "")
 sys.path.insert(0, here)
 
-from nchantrs.nchantrs import aberration
-from nchantrs.widgets.annotations import NchantdLabel
+from nchantrs.nchantrs import aberration  # noqa: E402
 
 
 class TestLabelWidget:
     """Simple test widget for aberration"""
-    
+
     def __init__(self, parent=None):
         self.parent = parent
         self.widget = None
-    
+
     def initWidget(self):
         """Initialize the widget"""
         from nchantrs.libraries import pyqt
@@ -47,10 +46,10 @@ if __name__ == "__main__":
     print("="*60)
     print("Testing Aberration (L1 Entry Point)")
     print("="*60)
-    
+
     # Create widget class for aberration
     widget = TestLabelWidget
-    
+
     # Call aberration entry point
     aberration(
         name="Test Aberration",
@@ -58,5 +57,5 @@ if __name__ == "__main__":
         widget=widget,
         cfg={"title": "Aberration Test"}
     )
-    
+
     print("Aberration complete")

@@ -100,6 +100,7 @@ def test_mixin_combines_with_qtablewidget():
 
     _reset_widgets_module()
     from PySide6.QtWidgets import QTableWidget
+
     from nchantrs.widgets.widgets import NchantdWidgetMixin
 
     # This used to raise TypeError: metaclass conflict
@@ -123,6 +124,7 @@ def test_mixin_combines_with_qlabel():
 
     _reset_widgets_module()
     from PySide6.QtWidgets import QLabel
+
     from nchantrs.widgets.widgets import NchantdWidgetMixin
 
     cls = type(
@@ -144,8 +146,12 @@ def test_mixin_combines_with_other_qt_widgets():
 
     _reset_widgets_module()
     from PySide6.QtWidgets import (
-        QGroupBox, QProgressBar, QTabWidget, QTreeWidget,
+        QGroupBox,
+        QProgressBar,
+        QTabWidget,
+        QTreeWidget,
     )
+
     from nchantrs.widgets.widgets import NchantdWidgetMixin
 
     for name, BaseCls in [

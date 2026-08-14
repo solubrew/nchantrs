@@ -3,9 +3,10 @@ and instances.py.
 
 Uses AST + source-text assertions.
 """
-import pytest
 import ast
 from pathlib import Path
+
+import pytest
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 APPS_PATH = PROJECT_ROOT / "nchantrs" / "wizards" / "apps.py"

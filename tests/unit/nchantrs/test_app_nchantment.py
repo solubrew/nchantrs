@@ -25,7 +25,7 @@
 
 if __name__ == "__main__":
     from nchantrs.nchantrs import nchantment
-    
+
     # Nchantment - Full application
     # Example: Launch a complete application
     nchantment(

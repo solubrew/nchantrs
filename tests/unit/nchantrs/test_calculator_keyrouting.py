@@ -12,9 +12,10 @@ The intent is to verify the class-specific logic itself: the
 ``keyPressEvent`` dispatcher, the ``_press_digit`` helper, the
 ``_apply_*_operator`` helpers, and the focus handling.
 """
-import pytest
 import ast
 from pathlib import Path
+
+import pytest
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 CALCULATORS_PATH = PROJECT_ROOT / "nchantrs" / "widgets" / "calculators" / "calculators.py"

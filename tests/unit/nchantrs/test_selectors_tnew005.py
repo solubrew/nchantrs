@@ -5,9 +5,10 @@ classes can't be instantiated in the headless test environment
 (mock-PyQt metaclass conflict), so the tests verify the class-specific
 logic by inspecting the source structure.
 """
-import pytest
 import ast
 from pathlib import Path
+
+import pytest
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 SELECTORS_PATH = PROJECT_ROOT / "nchantrs" / "widgets" / "media" / "editors" / "selectors.py"

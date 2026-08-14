@@ -23,7 +23,7 @@
 
 if __name__ == "__main__":
     from nchantrs.nchantrs import flection
-    
+
     # Flection - App supervisor with Pyularity
     # Example: Launch Nchantrs with update supervisor
     supervisor = flection(
@@ -40,5 +40,5 @@ if __name__ == "__main__":
         startup_app=None,  # Uses default NchantdApplicationStartupWizard
         profile_override=None
     )
-    
+
     print(f"Supervisor started: {supervisor}")

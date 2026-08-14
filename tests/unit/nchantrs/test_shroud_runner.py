@@ -17,10 +17,10 @@
 
 import sys
 import traceback
-import time
 from pathlib import Path
-from PySide6.QtWidgets import QApplication
+
 from PySide6.QtCore import QTimer
+from PySide6.QtWidgets import QApplication
 
 PROJECT_ROOT = Path(__file__).parent
 sys.path.insert(0, str(PROJECT_ROOT))
@@ -39,15 +39,15 @@ def test_aberration():
     print("\n" + "="*60)
     print("Testing: aberration (L1 - Single Widget Dialog)")
     print("="*60)
-    
+
     try:
         from nchantrs.nchantrs import aberration
         from nchantrs.widgets.controls.buttons import NchantdButton
-        
+
         print("  → Importing aberration entry point... OK")
-        
-        app = get_app()
-        
+
+        get_app()
+
         # Create dialog with non-blocking timeout close
         print("  → Creating aberration dialog...")
         dialog = aberration(
@@ -56,13 +56,13 @@ def test_aberration():
             widget=NchantdButton,
             cfg={"modal": False, "width": 400, "height": 200}
         )
-        
+
         print(f"  → Dialog created: {dialog}")
-        
+
         # Verify dialog exists and is visible
         if hasattr(dialog, 'isVisible'):
             print(f"  → Dialog visible: {dialog.isVisible()}")
-        
+
         # Get widget tree using Shroud
         try:
             from shroud.harness import GUIHarness
@@ -73,13 +73,13 @@ def test_aberration():
             harness.close()
         except Exception as e:
             print(f"  → Shroud inspection: {e}")
-        
+
         # Close after short delay
         QTimer.singleShot(500, dialog.close)
-        
+
         print("  ✓ Aberration test PASSED")
         return True
-        
+
     except Exception as e:
         print(f"  ✗ Aberration failed: {e}")
         traceback.print_exc()
@@ -91,15 +91,15 @@ def test_distortion():
     print("\n" + "="*60)
     print("Testing: distortion (L2 - Complex Single Widget Dialog)")
     print("="*60)
-    
+
     try:
         from nchantrs.nchantrs import distortion
         from nchantrs.widgets.browsers.browsers import NchantdWebViewer
-        
+
         print("  → Importing distortion entry point... OK")
-        
-        app = get_app()
-        
+
+        get_app()
+
         print("  → Creating distortion dialog...")
         dialog = distortion(
             name="test_distortion",
@@ -108,9 +108,9 @@ def test_distortion():
             instance=None,
             cfg={"modal": False, "width": 800, "height": 600}
         )
-        
+
         print(f"  → Dialog created: {dialog}")
-        
+
         # Get widget tree
         try:
             from shroud.harness import GUIHarness
@@ -121,12 +121,12 @@ def test_distortion():
             harness.close()
         except Exception as e:
             print(f"  → Shroud inspection: {e}")
-        
+
         QTimer.singleShot(500, dialog.close)
-        
+
         print("  ✓ Distortion test PASSED")
         return True
-        
+
     except Exception as e:
         print(f"  ✗ Distortion failed: {e}")
         traceback.print_exc()
@@ -138,14 +138,14 @@ def test_nchantment():
     print("\n" + "="*60)
     print("Testing: nchantment (L3 - Full Application)")
     print("="*60)
-    
+
     try:
         from nchantrs.nchantrs import nchantment
-        
+
         print("  → Importing nchantment entry point... OK")
-        
+
         app = get_app()
-        
+
         print("  → Creating nchantment application...")
         app_window = nchantment(
             name="test_nchantment",
@@ -160,9 +160,9 @@ def test_nchantment():
             startup_app=None,
             profile_override=None
         )
-        
+
         print(f"  → Application created: {app_window}")
-        
+
         # Get widget tree
         try:
             from shroud.harness import GUIHarness
@@ -173,12 +173,12 @@ def test_nchantment():
             harness.close()
         except Exception as e:
             print(f"  → Shroud inspection: {e}")
-        
+
         QTimer.singleShot(500, app.quit)
-        
+
         print("  ✓ Nchantment test PASSED")
         return True
-        
+
     except Exception as e:
         print(f"  ✗ Nchantment failed: {e}")
         traceback.print_exc()
@@ -189,22 +189,22 @@ if __name__ == "__main__":
     print("="*60)
     print("Nchantrs Entry Point Tests with Shroud")
     print("="*60)
-    
+
     results = {}
-    
+
     results["aberration"] = test_aberration()
     results["distortion"] = test_distortion()
     results["nchantment"] = test_nchantment()
-    
+
     print("\n" + "="*60)
     print("SUMMARY")
     print("="*60)
     for name, success in results.items():
         status = "✓ PASS" if success else "✗ FAIL"
         print(f"  {name}: {status}")
-    
+
     total = len(results)
     passed = sum(1 for v in results.values() if v)
     print(f"\nTotal: {passed}/{total} passed")
-    
+
     sys.exit(0 if passed == total else 1)

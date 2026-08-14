@@ -5,9 +5,10 @@ The tests use AST + source-text assertions rather than widget instantiation
 because the mock-PyQt metaclass conflicts in the headless test environment
 prevent NchantdModel subclasses from being instantiated cleanly.
 """
-import pytest
 import ast
 from pathlib import Path
+
+import pytest
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 APPMOD_PATH = PROJECT_ROOT / "nchantrs" / "models" / "applicationmodels.py"

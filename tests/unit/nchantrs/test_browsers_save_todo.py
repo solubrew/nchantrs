@@ -4,9 +4,10 @@
 
 Uses AST + source-text assertions.
 """
-import pytest
 import ast
 from pathlib import Path
+
+import pytest
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 BROWSERS_PATH = PROJECT_ROOT / "nchantrs" / "widgets" / "browsers" / "browsers.py"

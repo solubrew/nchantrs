@@ -1,9 +1,10 @@
-import sys
 import os
-from PySide6.QtWidgets import QApplication, QMainWindow, QVBoxLayout, QWidget, QPushButton
-from nchantrs.widgets.embeds import NchantdTerminalEmbed
+import sys
+
 from kahndor import kahndor
-import time
+from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton, QVBoxLayout, QWidget
+
+from nchantrs.widgets.embeds import NchantdTerminalEmbed
 
 
 def main():

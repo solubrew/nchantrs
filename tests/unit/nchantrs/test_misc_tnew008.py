@@ -2,9 +2,10 @@
 
 Uses AST + source-text assertions.
 """
-import pytest
 import ast
 from pathlib import Path
+
+import pytest
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent
 MEDIA_PATH = PROJECT_ROOT / "nchantrs" / "widgets" / "media" / "media.py"

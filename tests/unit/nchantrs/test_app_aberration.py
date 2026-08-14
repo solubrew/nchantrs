@@ -23,7 +23,7 @@
 if __name__ == "__main__":
     from nchantrs.nchantrs import aberration
     from nchantrs.widgets.controls.buttons import NchantdButton
-    
+
     # Aberration - Single widget dialog
     # Example: Launch a simple button dialog
     aberration(

@@ -27,21 +27,21 @@ Usage:
 Or as an entry point:
 	nchantdcalculator --name "Calculator"
 """
-import sys
-from os.path import dirname, join
+import sys  # noqa: E402
+from os.path import dirname  # noqa: E402
 
 # Add the project to the path
 here = dirname(__file__)
 sys.path.insert(0, here)
 
 # Import Nchantrs widgets
-from nchantrs.widgets.applications.applications import NchantdCloak
-from nchantrs.widgets.calculators.calculators import NchantdCalculator
+from nchantrs.widgets.applications.applications import NchantdCloak  # noqa: E402
+from nchantrs.widgets.calculators.calculators import NchantdCalculator  # noqa: E402
 
 
 class CalculatorApplication(NchantdCloak):
 	"""Calculator Application extending NchantdCloak"""
-	
+
 	def __init__(self, name="Calculator", instance=None, parent=None, cfg=None, args=None):
 		"""Initialize the calculator application"""
 		if cfg is None:
@@ -61,7 +61,7 @@ class CalculatorApplication(NchantdCloak):
 		super().__init__(name, instance, parent, cfg, args)
 		self.app_type = "calculator"
 		self.calculator_widget = None
-	
+
 	def run_on_launch(self):
 		"""Custom launch behavior for calculator app"""
 		print(f"Launching Calculator Application: {self.application_name}")
@@ -75,11 +75,11 @@ def main():
 	name = "Calculator"
 	if len(sys.argv) > 1:
 		name = sys.argv[1]
-	
+
 	# Create and run the application
 	app = CalculatorApplication(name)
 	app.initApp()
-	
+
 	return app
 
 

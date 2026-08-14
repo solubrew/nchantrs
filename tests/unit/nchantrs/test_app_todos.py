@@ -27,20 +27,20 @@ Usage:
 Or as an entry point:
 	nchantdtodos --name "My Todos"
 """
-import sys
-from os.path import dirname, join
+import sys  # noqa: E402
+from os.path import dirname  # noqa: E402
 
 # Add the project to the path
 here = dirname(__file__)
 sys.path.insert(0, here)
 
 # Import Nchantrs core
-from nchantrs.widgets.applications.applications import NchantdCloak
+from nchantrs.widgets.applications.applications import NchantdCloak  # noqa: E402
 
 
 class TodoApplication(NchantdCloak):
 	"""Todo Application extending NchantdCloak"""
-	
+
 	def __init__(self, name="Todo App", instance=None, parent=None, cfg=None, args=None):
 		"""Initialize the todo application"""
 		if cfg is None:
@@ -59,7 +59,7 @@ class TodoApplication(NchantdCloak):
 		})
 		super().__init__(name, instance, parent, cfg, args)
 		self.app_type = "todos"
-	
+
 	def run_on_launch(self):
 		"""Custom launch behavior for todo app"""
 		print(f"Launching Todo Application: {self.application_name}")
@@ -71,11 +71,11 @@ def main():
 	name = "My Todos"
 	if len(sys.argv) > 1:
 		name = sys.argv[1]
-	
+
 	# Create and run the application
 	app = TodoApplication(name)
 	app.initApp()
-	
+
 	return app
 
 
