@@ -10,9 +10,11 @@
         <(WT)>: -32
 """
 from os.path import dirname, join
-from kahndor import kahndor
+
 from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
+
 HERE = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -33,7 +35,7 @@ def format(color, style='') -> None:
         _format.setFontItalic(True)
     if 'italicbold' in style:
         _format.setFontItalic(True)
-        _format.setFontWeight(Qpyqt.Font.Bold)
+        _format.setFontWeight(pyqt.QFont.Bold)
     return _format
 mybrawn = '#7E5916'
 STYLES = {'keyword': format('#2C2CC8', 'bold'), 'operator': format('darkred'), 'brace': format('darkred'), 'defclass': format('#cc0000', 'bold'), 'classes': format('#cc0000', 'bold'), 'Qtclass': format('black', 'bold'), 'string': format(mybrawn), 'string2': format('#42923b', 'italic'), 'comment': format('#42923b', 'italic'), 'self': format('#D63030', 'italicbold'), 'selfnext': format('#2e3436', 'bold'), 'Qnext': format('#2e3436', 'bold'), 'numbers': format('#C82C2C')}

@@ -13,13 +13,12 @@
 	<(WT)>: -32  #																||
 """
 from os.path import dirname, join
-from typing import Any, Dict, List, Optional
-import logging
+from typing import Any
+
 here = join(dirname(__file__), '')
 log = False
 if log:
     print('Import pyside6pandas')
-from pandas import DataFrame
 
 def _import_or_stub(module_path, attr, stub_factory) -> Any:
     """Import ``module_path.attr`` or install a stand-in ``stub_factory()``."""
