@@ -1,11 +1,14 @@
 from typing import Any, Optional, Tuple, Union
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n                NchantdColor — nchantrs-native color device, drop-in for\n                PyfficeColor. Lives in nchantrs so the framework does not\n                depend on pyffice (pyffice is a downstream consumer concern).\n        version: 0.0.1.0.1.0\n        authority: document|this\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import abspath, dirname, join
-from collections import OrderedDict
-import colorsys
-from matplotlib.colors import CSS4_COLORS
-from kahndor import kahndor
-from kahndor.logma import Logma
+import colorsys  # noqa: E402
+from collections import OrderedDict  # noqa: E402
+from os.path import abspath, dirname, join  # noqa: E402
+
+from kahndor import kahndor  # noqa: E402
+from kahndor.logma import Logma  # noqa: E402
+from matplotlib.colors import CSS4_COLORS  # noqa: E402
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -48,7 +51,7 @@ def _xyz_to_lab_pure(xyz) -> Union[Any, Tuple[Any, Any, Any]]:
     fx = _f(x / x_n)
     fy = _f(y / y_n)
     fz = _f(z / z_n)
-    l = 116.0 * fy - 16.0
+    l = 116.0 * fy - 16.0  # noqa: E741  # L* in CIELAB
     a = 500.0 * (fx - fy)
     b = 200.0 * (fy - fz)
     return (l, a, b)
@@ -96,7 +99,7 @@ class NchantdColor(object):
         self.xyz = None
         self.lms = None
         self.color_name = self.config.dikt.get('color_name', None)
-        logma.info(f'NchantdColor initialized')
+        logma.info('NchantdColor initialized')
 
     def calculate_complementary_color(self) -> Tuple[Any, Any, Any]:
         """
@@ -354,14 +357,14 @@ class NchantdColor(object):
         return colorsys.rgb_to_hls(*[v / 255.0 for v in rgb])
 
     @staticmethod
-    def hsl_to_rgb(h, s, l) -> Union[Any, Tuple[int, int, int]]:
+    def hsl_to_rgb(h, s, lightness) -> Union[Any, Tuple[int, int, int]]:  # noqa: E741
         """
         Convert HSL to RGB.
 
         Args:
             h (float): Hue (0-1 range).
             s (float): Saturation (0-1 range).
-            l (float): Lightness (0-1 range).
+            lightness (float): Lightness (0-1 range).
 
         Returns:
             tuple: RGB values (0-255 scale).
@@ -380,10 +383,10 @@ class NchantdColor(object):
                 return p + (q - p) * (2 / 3 - t) * 6
             return p
         if s == 0:
-            r = g = b = l
+            r = g = b = lightness
         else:
-            q = l * (1 + s) if l < 0.5 else l + s - l * s
-            p = 2 * l - q
+            q = lightness * (1 + s) if lightness < 0.5 else lightness + s - lightness * s
+            p = 2 * lightness - q
             r = hue_to_rgb(p, q, h + 1 / 3)
             g = hue_to_rgb(p, q, h)
             b = hue_to_rgb(p, q, h - 1 / 3)
@@ -423,8 +426,8 @@ class NchantdColor(object):
     @staticmethod
     def lab_to_xyz(lab) -> Union[Any, Tuple[Any, Any, Any]]:
         """Convert CIELAB to CIE XYZ (D65)."""
-        l, a, b = lab
-        fy = (l + 16.0) / 116.0
+        l, a, b = lab  # noqa: E741  # L*, a*, b* in CIELAB
+        fy = (l + 16.0) / 116.0  # noqa: E741
         fx = a / 500.0 + fy
         fz = fy - b / 200.0
 

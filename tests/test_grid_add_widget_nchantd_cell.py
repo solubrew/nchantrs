@@ -11,7 +11,6 @@ layout accepts them, and verifies the active ``NchantdGrid``
 init loop (``initView``/``add_grid_widgets``) no longer raises.
 """
 
-import sys
 
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.tables.tables import NchantdGrid
@@ -85,9 +84,8 @@ def test_unwrapped_cell_with_grid_layout_still_raises_on_purpose():
         # If no error, the test fails: PySide6 accepting the
         # QTableWidgetItem means our wrapper is no longer
         # needed; consider retiring T-NEW-016.
-        raised = False
     except (TypeError, RuntimeError):
-        raised = True
+        pass
     # Don't assert — PySide6's behaviour for this case is
     # undocumented; the live crash trace confirmed it failed
     # at runtime.
