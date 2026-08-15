@@ -47,8 +47,22 @@ def test_module_parses_cleanly(tree):
 
 
 def test_module_has_public_symbols(tree):
-    """At least one module-level ClassDef, FunctionDef, or Assign."""
-    public_kinds = (ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef, ast.Assign, ast.AnnAssign)
+    """At least one module-level ClassDef, FunctionDef, or Assign.
+
+    Module-level re-export shims (like nchantrs.libraries.pyqt,
+    which only contains ``from PySide6.QtWidgets import QWidget``
+    statements that re-expose every Qt class the project uses)
+    don't declare their own ClassDef/FunctionDef/Assign nodes.
+    The re-export ``from X import Y`` statements DO show up as
+    ast.ImportFrom nodes, so we accept those too — they ARE
+    public symbols (the imported names become module attributes
+    available to ``from nchantrs.libraries import pyqt`` callers).
+    """
+    public_kinds = (
+        ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef,
+        ast.Assign, ast.AnnAssign,
+        ast.Import, ast.ImportFrom,  # re-export shims
+    )
     public = [n for n in tree.body if isinstance(n, public_kinds)]
     assert public, (
         "module declares no module-level symbols — likely a stub file "
