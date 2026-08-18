@@ -155,15 +155,6 @@ class NchantdWebViewer(NchantdWidget):
         self.browser.forwardAvailable.connect(self.on_forward_available)
         self.link_service = LinkService(self)
 
-    def on_back_available(self, available) -> None:
-        """Handle back availability change"""
-        if hasattr(self, "toolbar") and hasattr(self.toolbar, "buttons"):
-            pass
-
-    def on_forward_available(self, available) -> None:
-        """Handle forward availability change"""
-        pass
-
     def initModel(self, cfg=None) -> Any:
         """"""
         self.config.override(cfg)
@@ -178,7 +169,7 @@ class NchantdWebViewer(NchantdWidget):
 
     def initView(self, cfg=None) -> Any:
         """"""
-        cfg = dict(cfg or {})
+        cfg = cfg or {}
         cfg.setdefault("fill", True)
         super().initView(cfg)
         self.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
@@ -192,44 +183,6 @@ class NchantdWebViewer(NchantdWidget):
         self.layout.setSpacing(0)
         self._did_initial_load = False
         return self
-
-    def showEvent(self, event) -> None:
-        """Load on first show, once we have a surface (Fix B).
-
-        Prefer the active URL over the configured default: an earlier
-        navigation (e.g. the notebook pointing us at /tree before the tab was
-        shown) sets active_url, and reloading the config default here would
-        clobber it back to about:blank.
-        """
-        super().showEvent(event)
-        try:
-            vs = self.size()
-            bs = self.browser.size()
-            logma.info(
-                f"[webviewer] showEvent | viewer={vs.width()}x{vs.height()} visible={self.isVisible()} | view={bs.width()}x{bs.height()} view_visible={self.browser.isVisible()} | did_initial_load={getattr(self, '_did_initial_load', None)} | active_url={getattr(self.active_url, 'url', None)}"
-            )
-        except Exception as e:
-            logma.error(f"[webviewer] showEvent geometry log failed: {e}")
-        if not getattr(self, "_did_initial_load", False):
-            self._did_initial_load = True
-            if self.active_url is not None:
-                logma.info(f"[webviewer] first show -> loading active_url {self.active_url.url}")
-                self.populate_document(self.active_url)
-            else:
-                logma.info("[webviewer] first show -> no active_url, loading configured default")
-                self.cmd_goto_page()
-
-    def resizeEvent(self, event) -> None:
-        """Log resizes so a collapsed (zero-height) viewer is visible in the log."""
-        super().resizeEvent(event)
-        try:
-            s = event.size()
-            bs = self.browser.size()
-            logma.info(
-                f"[webviewer] resizeEvent | viewer={s.width()}x{s.height()} view={bs.width()}x{bs.height()} visible={self.isVisible()}"
-            )
-        except Exception as e:
-            logma.error(f"[webviewer] resizeEvent log failed: {e}")
 
     def initWidget(self, url=None) -> Any:
         """ """
@@ -360,6 +313,11 @@ class NchantdWebViewer(NchantdWidget):
         if request:
             request.accept()
 
+    def get_content(self) -> Dict[str, Any]:
+        """"""
+        content = self.document.active_page.to_dict()
+        return content
+
     def get_url_history(self) -> Any:
         """
         get a datafraome of the historically visited urls with a smart system showing a combination of recent
@@ -406,7 +364,7 @@ class NchantdWebViewer(NchantdWidget):
         logma.info(f"URL {url}")
         self.set_url_path(url)
         logma.info(f"Go To Page: {self.active_url.url}")
-        self.populate_document(self.active_url)
+        self.populate_viewport(self.active_url)
         return self
 
     def handle_console_message(self, level, message, line_number, source_id) -> None:
@@ -458,12 +416,21 @@ class NchantdWebViewer(NchantdWidget):
 
     def load_url(self, url) -> Any:
         """"""
-        self.populate_document(url)
+        self.populate_viewport(url)
         return self
 
     def open_new_tab(self) -> Any:
         logma.info(f"open_new_tab called")
         return self
+
+    def on_back_available(self, available) -> None:
+        """Handle back availability change"""
+        if hasattr(self, "toolbar") and hasattr(self.toolbar, "buttons"):
+            pass
+
+    def on_forward_available(self, available) -> None:
+        """Handle forward availability change"""
+        pass
 
     def on_tab_changed(self, index: int) -> Any:
         logma.info(f"on_tab_changed event received")
@@ -477,7 +444,7 @@ class NchantdWebViewer(NchantdWidget):
             self.app.model.has_changed = True
         return self
 
-    def populate_document(self, url) -> Any:
+    def populate_viewport(self, url):
         """"""
         if isinstance(url, NchantdURL):
             url = url.url
@@ -488,9 +455,23 @@ class NchantdWebViewer(NchantdWidget):
             url = self.get_home_page() or self.config.get("homepage", HOMEPAGE)
             if url is None:
                 raise Exception("No URL Provided")
-        self.browser.load(url)
-        self.save()
+        self.load(url)
         return self
+
+    # def populate_document(self, url) -> Any:
+    #     """"""
+    #     if isinstance(url, NchantdURL):
+    #         url = url.url
+    #     if url is None:
+    #         url = self.default_url
+    #     logma.info(f"Load Document: {url}")
+    #     if url is None:
+    #         url = self.get_home_page() or self.config.get("homepage", HOMEPAGE)
+    #         if url is None:
+    #             raise Exception("No URL Provided")
+    #     self.browser.load(url)
+    #     self.save()
+    #     return self
 
     def run_js_script(self, script) -> Any:
         """"""
@@ -500,27 +481,43 @@ class NchantdWebViewer(NchantdWidget):
         page.runJavaScript(script)
         return self
 
-    def save(self) -> Any:
-        """Persist the viewer's current state (active URL, history).
+    def showEvent(self, event) -> None:
+        """Load on first show, once we have a surface (Fix B).
 
-        Writes a ``doc_media_content`` entry with the viewer's state
-        snapshot (``_to_dict()`` payload) and emits a model event so
-        the broader application knows the viewer state changed.
-        Returns the dict for the caller to chain.
+        Prefer the active URL over the configured default: an earlier
+        navigation (e.g. the notebook pointing us at /tree before the tab was
+        shown) sets active_url, and reloading the config default here would
+        clobber it back to about:blank.
         """
-        logma.info(f"save called")
-        snapshot = self._to_dict()
-        # try:
-        #     if (
-        #         hasattr(self, "app")
-        #         and self.app is not None
-        #         and hasattr(self.app, "model")
-        #         and hasattr(self.app.model, "has_changed")
-        #     ):
-        #         self.app.model.has_changed = True
-        # except Exception as e:
-        #     logma.warning(f"save: could not mark app model as changed: {e}")
-        return snapshot
+        super().showEvent(event)
+        try:
+            vs = self.size()
+            bs = self.browser.size()
+            logma.info(
+                f"[webviewer] showEvent | viewer={vs.width()}x{vs.height()} visible={self.isVisible()} | view={bs.width()}x{bs.height()} view_visible={self.browser.isVisible()} | did_initial_load={getattr(self, '_did_initial_load', None)} | active_url={getattr(self.active_url, 'url', None)}"
+            )
+        except Exception as e:
+            logma.error(f"[webviewer] showEvent geometry log failed: {e}")
+        if not getattr(self, "_did_initial_load", False):
+            self._did_initial_load = True
+            if self.active_url is not None:
+                logma.info(f"[webviewer] first show -> loading active_url {self.active_url.url}")
+                self.populate_viewport(self.active_url)
+            else:
+                logma.info("[webviewer] first show -> no active_url, loading configured default")
+                self.cmd_goto_page()
+
+    def resizeEvent(self, event) -> None:
+        """Log resizes so a collapsed (zero-height) viewer is visible in the log."""
+        super().resizeEvent(event)
+        try:
+            s = event.size()
+            bs = self.browser.size()
+            logma.info(
+                f"[webviewer] resizeEvent | viewer={s.width()}x{s.height()} view={bs.width()}x{bs.height()} visible={self.isVisible()}"
+            )
+        except Exception as e:
+            logma.error(f"[webviewer] resizeEvent log failed: {e}")
 
     def set_channel(self) -> Any:
         """"""
@@ -565,24 +562,62 @@ class NchantdWebViewer(NchantdWidget):
         payload = [[uuid(), "dictionary", file_name, "doc_media|doc_media_content", "internal", "clear|text|utf-8"]]
         self._store_media(payload, page, entry, content)
 
-    def take_screenshot(self) -> Any:
-        logma.info(f"take_screenshot called")
+    def set_url_path(self, url=None) -> Self:
+        """T-NEW-069 — navigate to ``url`` and sync the dropdown.
+
+        Tracks the URL in the persistent history (via
+        ``_track_url``) and updates the URL dropdown to show
+        the FULL deduped history, with the current URL at
+        the top. Previously this method called
+        ``update_options([url], False, False)`` which appended
+        the URL to existing options without dedup — every
+        navigation added a duplicate. New implementation
+        uses ``replace=True`` and seeds with the deduped
+        history.
+        """
+        super().set_url_path(url)
+        if url is not None:
+            if isinstance(url, pyqt.QUrl):
+                url = url.toString()
+            if self.url_select_entry is None:
+                return self
+            history = self._track_url(url)
+            self.url_select_entry.combobox.setCurrentText(url)
+            self.url_select_entry.update_options(
+                history,
+                replace=True,
+                sort=False,
+            )
         return self
 
-    def _to_dict(self):
-        """Return a snapshot of the viewer's state for save/restore.
+    def _clear_url_history(self) -> None:
+        """Wipe the URL history list (dropdown-only)."""
+        self.config.dikt["url_history"] = []
 
-        The snapshot includes the active URL, the current page title,
-        and a hash of the URL history so the app can detect changes
-        without storing the full history in the snapshot.
+    def _get_url_history(self) -> List[str]:
+        """Return the URL history list (most-recent-first)."""
+        return list(self.config.dikt.get("url_history", []) or [])
+
+    # T-NEW-069 — URL dropdown history helpers (live on the
+    # WebViewer because that's where set_url_path lives).
+
+    def _track_url(self, url) -> List[str]:
+        """Add ``url`` to the persistent URL history.
+
+        Maintains ``config.dikt["url_history"]`` as a
+        most-recent-first list, deduped (case-sensitive),
+        capped at ``_url_history_max`` entries. No-op when
+        ``url`` is None or empty. Returns the resulting
+        history list (most-recent-first).
         """
-        snapshot = {
-            # "current_url": self.active_url.url if self.active_url is not None else None,
-            # "title": self.browser.title() if hasattr(self, "browser") and self.browser is not None else None,
-            # "profile_name": self.profiles.get("name", None) if hasattr(self, "profiles") else None,
-            # "pinned": self.pinned_url.url if self.pinned_url is not None else None,
-        }
-        return snapshot
+        if not url or not isinstance(url, str):
+            return list(self.config.dikt.get("url_history", []) or [])
+        history = list(self.config.dikt.get("url_history", []) or [])
+        history = [u for u in history if u != url]
+        history.insert(0, url)
+        history = history[: max(1, int(self._url_history_max))]
+        self.config.dikt["url_history"] = history
+        return history
 
 
 class NchantdWebBrowser(NchantdWebViewer):

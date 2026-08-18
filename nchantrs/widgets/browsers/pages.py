@@ -18,9 +18,9 @@ from typing import Any, Optional
 from os.path import abspath, dirname, join
 
 # ======================================3rd Party Library Modules=====================================================||
-from PySide6.QtWebEngineCore import QWebEngineProfile, QWebEngineSettings, QWebEnginePage
-from PySide6.QtWebEngineWidgets import QWebEngineView
-from PySide6.QtCore import QUrl
+# from PySide6.QtWebEngineCore import QWebEngineProfile, QWebEngineSettings, QWebEnginePage
+# from PySide6.QtWebEngineWidgets import QWebEngineView
+# from PySide6.QtCore import QUrl
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
@@ -35,16 +35,10 @@ log = True
 logma = Logma(__name__)
 if not log:
     logma.off()
-here = join(dirname(__file__), "")
-log = False
-logma = Logma(__name__)
-if not log:
-    logma.off()
-pxcfg = join(here, "_data_", "pages.yaml")
 ENABLE_NEW_WINDOW_DELEGATION = False
 
 # ====================================================================================================================||
-PXCFG = join(HERE, "_data_", ".yaml")
+PXCFG = join(HERE, "_data_", "pages.yaml")
 
 
 class _RedirectCapturePage(pyqt.QWebEnginePage):
@@ -375,7 +369,7 @@ class NchantdLocalServiceWebPage(NchantdWidgetMixin, pyqt.QWebEnginePage):
         return host in {"localhost", "127.0.0.1", "0.0.0.0", ""}
 
 
-class CloudflareCompatiblePage(QWebEnginePage):
+class CloudflareCompatiblePage(pyqt.QWebEnginePage):
 
     def __init__(self, profile=None, parent=None) -> None:
         super().__init__(profile, parent)
@@ -384,18 +378,18 @@ class CloudflareCompatiblePage(QWebEnginePage):
     def setup_cloudflare_compatibility(self) -> None:
         """Configure page settings to better handle Cloudflare challenges"""
         settings = self.settings()
-        settings.setAttribute(QWebEngineSettings.WebAttribute.JavascriptEnabled, True)
-        settings.setAttribute(QWebEngineSettings.WebAttribute.LocalStorageEnabled, True)
-        settings.setAttribute(QWebEngineSettings.WebAttribute.AllowRunningInsecureContent, False)
-        settings.setAttribute(QWebEngineSettings.WebAttribute.AllowGeolocationOnInsecureOrigins, False)
-        settings.setAttribute(QWebEngineSettings.WebAttribute.WebGLEnabled, True)
-        settings.setAttribute(QWebEngineSettings.WebAttribute.Accelerated2dCanvasEnabled, True)
-        settings.setAttribute(QWebEngineSettings.WebAttribute.TouchIconsEnabled, True)
-        settings.setAttribute(QWebEngineSettings.WebAttribute.FocusOnNavigationEnabled, True)
+        settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.JavascriptEnabled, True)
+        settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.LocalStorageEnabled, True)
+        settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.AllowRunningInsecureContent, False)
+        settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.AllowGeolocationOnInsecureOrigins, False)
+        settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.WebGLEnabled, True)
+        settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.Accelerated2dCanvasEnabled, True)
+        settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.TouchIconsEnabled, True)
+        settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.FocusOnNavigationEnabled, True)
         settings.setDefaultTextEncoding("UTF-8")
 
 
-class CloudflareCompatibleView(QWebEngineView):
+class CloudflareCompatibleView(NchantdWidgetMixin, pyqt.QWebEngineView):
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
@@ -406,7 +400,7 @@ class CloudflareCompatibleView(QWebEngineView):
 
     def create_enhanced_profile(self) -> str:
         """Create a profile that mimics a real browser more closely"""
-        profile = QWebEngineProfile.defaultProfile()
+        profile = pyqt.QWebEngineProfile.defaultProfile()
         user_agent = (
             "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
         )
