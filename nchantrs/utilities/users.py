@@ -175,6 +175,15 @@ class NchantdUser(object):
         logma.warning(f'Password verification failed for user {self.name}')
         return False
 
+    # T-NEW-151 — alias for verify_pword. The pre-fix NchantdUser
+    # exposed only verify_pword but get_password() at line 117
+    # calls self.verify_password(password), which raised
+    # AttributeError on first-boot app_user bootstrap (live
+    # operator traceback in testing-report_20260817.md,
+    # commit 3799b3f). Alias keeps both names resolving to
+    # the same impl; canonical name is verify_password.
+    verify_password = verify_pword
+
     def _check_password_rules(self, password) -> Any:
         """"""
         specials = "/.,|:;][><()@#$%^&*-_=+!?'" + '"'
