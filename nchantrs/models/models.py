@@ -856,8 +856,28 @@ class NchantdStore(MicroStash):
         return self
 
     def store_app_profile(self, record, db='db', how='INSERT'):
-        logma.info(f'store_app_profile called')
-        return self
+        """Persist a row to the ``app_profile`` table.
+
+        T-NEW-162 part B (nchantrs side): the pre-fix body was a
+        no-op stub (``logma.info(...) ; return self``). Desktop's
+        cmd_add_profile delegates through add_profile to this
+        method to land profile rows. Validates ``how`` against
+        the canonical INSERT/UPDATE/DEACTIVATE/DELETE/ARCHIVE
+        set, mirroring the store_app_policy pattern above.
+
+        :param record: dict-like row matching the app_profile schema
+        :param db: database alias (default 'db')
+        :param how: write mode (INSERT, UPDATE, DEACTIVATE, DELETE,
+            ARCHIVE) — anything else raises ``Exception``
+        :return: self for chaining
+        """
+        logma.info(f'store_app_profile: how={how}')
+        if how not in ('INSERT', 'UPDATE', 'DEACTIVATE', 'DELETE', 'ARCHIVE'):
+            raise Exception(f'{how} is not supported.')
+        if record is None:
+            logma.warning('store_app_profile: empty record; returning self')
+            return self
+        return self._store('app_profile', [record])
 
     def store_app_secure_store(self, db='db', how='INSERT'):
         """
