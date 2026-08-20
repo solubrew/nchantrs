@@ -1,9 +1,35 @@
+#!/usr/bin/env python3
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+"""
+---
+<(META)>:
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
+"""
+
+# -*- coding: utf-8 -*
+# ======================================Standard Library Modules======================================================||
+from os.path import abspath, dirname, join
+from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional, Union
 from typing import Any, List, Tuple
 
-"\n---\n<(META)>:\n    docid:\n    name: Nchantrs Widgets Tables Python Excecution Document  #\t||\n    description: >\n    version: 0.0.0.0.0.0\n    authority: filesystem\n    security: seclvl2\n    <(WT)>: -32\n"
+
 from os.path import abspath, dirname, join
 import datetime as dt
+
+# ======================================3rd Party Library Modules=====================================================||
 from pandas import DataFrame
+
+# ======================================Solutions Brewer Library Modules==============================================||
+from kahndor import kahndor
+from kahndor.logma import Logma
+
 from kahndor import kahndor
 from nchantrs.libraries import pyqt, qpandas
 from nchantrs.widgets.items.cells import NchantdCell, NchantdTableCell
@@ -11,13 +37,14 @@ from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 from kahndor.logma import Logma
 from thingery.numbers.numerals import calcExtendedRomanNumerals, calcArabicNumerals
 
-here = join(dirname(__file__), "")
-debug = True
+# ====================================================================================================================||
+HERE = join(dirname(__file__), "")  # ||
+log = False
 logma = Logma(__name__)
-log = True
 if not log:
     logma.off()
-pxcfg = join(abspath(here), "_data_", "tables.yaml")
+# ====================================================================================================================||
+PXCFG = join(HERE, "_data_", "tables.yaml")
 
 
 class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
@@ -28,13 +55,19 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
         super().__init__(10, 10, parent)
         self.parent = parent
         self.setParent(parent)
-        self.config = kahndor.Instruct(pxcfg).select("NchantdTable").override(parent.config).override(cfg)
+        self.config = kahndor.Instruct(PXCFG).select("NchantdTable").override(parent.config).override(cfg)
         self.current_cell = "I|1"
         self.cell_handlers = {}
         self.columns = None
         self.column_handlers = {}
         self.rows = None
         self.row_handlers = {}
+        # -- lazy-load state (Option A: viewport-driven row population) ------------
+        self.lazy_load = self.config.dikt.get("lazy_load", True)
+        self.lazy_buffer_rows = self.config.dikt.get("lazy_buffer_rows", 10)
+        self._data = []
+        self._built_rows = set()
+        self._lazy_connected = False
 
     def initModel(self, cfg=None) -> Any:
         """"""
@@ -362,51 +395,101 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
         self.setRowCount(num_rows)
 
     def set_data(self, data) -> Any:
-        """"""
+        """Populate the table, lazily building rows as they scroll into view.
+
+        When ``lazy_load`` is enabled (the default) the row/column counts are
+        set so the scrollbar geometry matches the full dataset, but only the
+        rows visible in the viewport -- plus a ``lazy_buffer_rows`` look-ahead
+        buffer -- are materialised into cell widgets. The remaining rows are
+        built on demand from ``verticalScrollBar().valueChanged`` (see
+        :meth:`_populate_visible_rows`). Set ``lazy_load: False`` in the config
+        to restore the eager, build-everything-up-front behaviour.
+
+        Note: cells are placed at their true ``(row, col)`` index so the
+        scroll position lines up with the underlying data. Empty ("") values
+        simply render no widget rather than collapsing later rows upward.
+        """
         self.setRowCount(self.config.dikt.get("num_rows", 3))
         self.set_column_numbers(self.config.dikt.get("num_columns", 3))
         logma.info(f"Data {data}")
+        self._data = data if isinstance(data, list) else []
+        self._built_rows = set()
         if data is None or data == []:
             return self
+        if not isinstance(data, list):
+            raise Exception("Data Must be in Row of Rows List format")
         self.setRowCount(len(data) if len(data) > 0 else self.config.dikt.get("num_rows", 3))
         self.set_column_numbers(len(data[0]) if data else self.config.dikt.get("num_columns", 3))
-        x = 0
-        width = {}
-        for col in range(self.columnCount()):
-            column_widget = None
-            column_name = None
-            if self.columns:
-                column_name = self.columns[col]
-            if column_name in self.config.dikt.get("column_widgets", {}):
-                column_widget = self.config.dikt["column_widgets"][column_name]
-            y = 0
-            width[col] = self.min_column_width
+        if self.lazy_load:
+            self._connect_lazy_scroll()
+            self._populate_visible_rows()
+        else:
             for row in range(self.rowCount()):
-                d = ""
-                if row >= len(data):
-                    continue
-                if col >= len(data[row]):
-                    continue
-                try:
-                    d = data[row][col]
-                    if d == "":
-                        continue
-                except Exception as e:
-                    if debug:
-                        logma.warning(e)
-                        raise e
-                if column_widget is None:
-                    cfg = {"text": d}
-                    self.setItem(y, x, NchantdTableCell(self, cfg).initWidget())
-                    self.set_font()
-                else:
-                    self.assign_widget(column_name, x, y, d)
-                y += 1
-            x += 1
+                self._build_row(row)
         self.set_column_numbers()
         self.resizeColumnsToContents()
-        self.resizeRowsToContents()
+        if not self.lazy_load:
+            self.resizeRowsToContents()
         return self
+
+    def _build_row(self, row) -> None:
+        """Materialise the cell widgets for a single ``row`` of ``self._data``.
+
+        Idempotent: a row already present in ``self._built_rows`` is skipped,
+        so repeated scroll callbacks never rebuild the same cells.
+        """
+        if row in self._built_rows:
+            return
+        data = self._data or []
+        if row >= len(data):
+            return
+        for col in range(self.columnCount()):
+            column_name = self.columns[col] if self.columns and col < len(self.columns) else None
+            column_widget = self.config.dikt.get("column_widgets", {}).get(column_name)
+            if col >= len(data[row]):
+                continue
+            try:
+                d = data[row][col]
+            except Exception as e:
+                logma.warning(e)
+                continue
+            if d == "":
+                continue
+            if column_widget is None:
+                self.setItem(row, col, NchantdTableCell(self, {"text": d}).initWidget())
+                self.set_font()
+            else:
+                self.assign_widget(column_name, col, row, d)
+        self._built_rows.add(row)
+
+    def _connect_lazy_scroll(self) -> None:
+        """Wire the vertical scrollbar to on-demand row population (once)."""
+        if self._lazy_connected:
+            return
+        self.verticalScrollBar().valueChanged.connect(lambda _=None: self._populate_visible_rows())
+        self._lazy_connected = True
+
+    def _populate_visible_rows(self) -> None:
+        """Build the rows currently in the viewport plus a look-ahead buffer."""
+        if not self._data:
+            return
+        buffer = self.lazy_buffer_rows
+        first = self.rowAt(0)
+        if first < 0:
+            first = 0
+        last = self.rowAt(self.viewport().height())
+        if last < 0:
+            last = self.rowCount() - 1
+        start = max(0, first - buffer)
+        end = min(self.rowCount(), last + 1 + buffer)
+        for row in range(start, end):
+            self._build_row(row)
+
+    def resizeEvent(self, event) -> None:
+        """Repopulate on resize so a taller viewport fills in newly-shown rows."""
+        super().resizeEvent(event)
+        if getattr(self, "lazy_load", False):
+            self._populate_visible_rows()
 
     def assign_widget(self, column_name, x, y, d=None) -> Any:
         """Override in subclasses to render a non-text cell (buttonbar, datetime, etc.).
@@ -487,7 +570,7 @@ class NchantdDataFrameTable(NchantdWidgetMixin, qpandas.DataTableWidget):
         """ """
         super().__init__()
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdDataFrameTable").override(parent.config).override(cfg)
+        self.config = kahndor.Instruct(PXCFG).select("NchantdDataFrameTable").override(parent.config).override(cfg)
         self.model = qpandas.DataFrameModel()
         logma.info(f"NchantdDataFrameTable initialized")
 
@@ -525,7 +608,7 @@ class NchantdTableWidget(NchantdWidget):
     def __init__(self, parent=None, cfg=None) -> None:
         """"""
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdTableWidget").override(cfg))
+        self.config.override(kahndor.Instruct(PXCFG).select("NchantdTableWidget").override(cfg))
         self.table = None
 
     def initModel(self, cfg=None) -> None:
@@ -550,7 +633,7 @@ class NchantdGrid(NchantdWidget):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdGrid").override(cfg))
+        self.config.override(kahndor.Instruct(PXCFG).select("NchantdGrid").override(cfg))
         self.rows = None
         self.columns = None
         self.cells = []
@@ -625,3 +708,8 @@ class NchantdGrid(NchantdWidget):
         else:
             return self
         return self
+
+
+# ====================================================================================================================||
+
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

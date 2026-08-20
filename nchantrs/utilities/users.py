@@ -99,11 +99,13 @@ class NchantdUser(object):
                 logma.info(f'Check User')
                 if user == self.parent.device.user:
                     logma.info(f'Verify Password')
-                    if self.verify_password(password):
+                    if self.verify_pword(pword):
                         logma.info(f'Password Verified')
                         yield password
                     else:
-                        raise Exception('Invalid password')
+                        #TODO implement rerun of the password dialog
+                        if debug:
+                            raise Exception('Invalid password')
                 else:
                     raise Exception('User name has changed during operation of the application')
 

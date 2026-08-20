@@ -21,7 +21,7 @@ from collections import deque
 import datetime as dt
 import queue
 import logging
-from typing import Any
+from typing import Any, Dict, List
 from kahndor import kahndor
 from subtrix.utilities import uuid
 from nchantrs.dialogs.notifications import NchantdNotificationSigil
@@ -363,7 +363,7 @@ class NchantdWebViewer(NchantdWidget):
                 url = None
         logma.info(f"URL {url}")
         self.set_url_path(url)
-        logma.info(f"Go To Page: {self.active_url.url}")
+        #logma.info(f"Go To Page: {self.active_url.url}")
         self.populate_viewport(self.active_url)
         return self
 
@@ -455,7 +455,7 @@ class NchantdWebViewer(NchantdWidget):
             url = self.get_home_page() or self.config.get("homepage", HOMEPAGE)
             if url is None:
                 raise Exception("No URL Provided")
-        self.load(url)
+        #self.load(url)
         return self
 
     # def populate_document(self, url) -> Any:
@@ -562,7 +562,7 @@ class NchantdWebViewer(NchantdWidget):
         payload = [[uuid(), "dictionary", file_name, "doc_media|doc_media_content", "internal", "clear|text|utf-8"]]
         self._store_media(payload, page, entry, content)
 
-    def set_url_path(self, url=None) -> Self:
+    def set_url_path(self, url=None) -> Any:
         """T-NEW-069 — navigate to ``url`` and sync the dropdown.
 
         Tracks the URL in the persistent history (via
@@ -575,7 +575,6 @@ class NchantdWebViewer(NchantdWidget):
         uses ``replace=True`` and seeds with the deduped
         history.
         """
-        super().set_url_path(url)
         if url is not None:
             if isinstance(url, pyqt.QUrl):
                 url = url.toString()

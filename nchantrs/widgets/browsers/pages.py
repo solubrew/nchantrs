@@ -107,8 +107,10 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
     pageLoadFinished = pyqt.Signal(pyqt.QUrl, bool)
     create_certificate_error_dialog = pyqt.Signal(pyqt.QWebEngineCertificateError)
 
-    def __init__(self, profile=None, parent=None) -> None:
+    def __init__(self, parent=None, profile=None, intercept=None, cfg=None) -> None:
         super().__init__(profile, parent)
+        self.parent = parent
+        self.config = kahndor.Instruct(PXCFG).select("NchantdOfficeWebPage").override(cfg)
 
     def initModel(self, cfg=None) -> Any:
         """Initialize the model with audio and fullscreen settings."""
