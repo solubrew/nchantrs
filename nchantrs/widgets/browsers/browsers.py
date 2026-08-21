@@ -363,7 +363,7 @@ class NchantdWebViewer(NchantdWidget):
                 url = None
         logma.info(f"URL {url}")
         self.set_url_path(url)
-        #logma.info(f"Go To Page: {self.active_url.url}")
+        # logma.info(f"Go To Page: {self.active_url.url}")
         self.populate_viewport(self.active_url)
         return self
 
@@ -455,7 +455,9 @@ class NchantdWebViewer(NchantdWidget):
             url = self.get_home_page() or self.config.get("homepage", HOMEPAGE)
             if url is None:
                 raise Exception("No URL Provided")
-        #self.load(url)
+        self.url_select_entry.set_value(url)
+        self.browser.load(url)
+        self.save()
         return self
 
     # def populate_document(self, url) -> Any:

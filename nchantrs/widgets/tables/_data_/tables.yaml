@@ -16,6 +16,9 @@ NchantdTable:
   num_rows: 20
   num_columns: 20
   column_widths:
+NchantdLargeTable:
+  chunk_size: 100
+  total_rows: 0
 NchantdDataFrameTable:
   layout: 'vertical'
   justify: 'left'

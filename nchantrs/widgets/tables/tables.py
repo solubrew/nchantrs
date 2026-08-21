@@ -461,6 +461,11 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
             else:
                 self.assign_widget(column_name, col, row, d)
         self._built_rows.add(row)
+        # Eager mode sizes every row once via resizeRowsToContents(); a lazily
+        # built row is never covered by that bulk pass, so size it here or its
+        # content clips to the default row height.
+        if self.lazy_load:
+            self.resizeRowToContents(row)
 
     def _connect_lazy_scroll(self) -> None:
         """Wire the vertical scrollbar to on-demand row population (once)."""
@@ -479,7 +484,14 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
             first = 0
         last = self.rowAt(self.viewport().height())
         if last < 0:
-            last = self.rowCount() - 1
+            # Viewport geometry is not resolved yet (first paint during
+            # initView) or the last painted row is scrolled past. Estimate how
+            # many rows fit rather than falling back to rowCount() - 1, which
+            # would build the whole dataset and defeat lazy loading.
+            row_h = self.rowHeight(first) or self.verticalHeader().defaultSectionSize() or 1
+            height = self.viewport().height()
+            visible = max(1, height // row_h) if height > 0 else buffer
+            last = min(self.rowCount() - 1, first + visible)
         start = max(0, first - buffer)
         end = min(self.rowCount(), last + 1 + buffer)
         for row in range(start, end):
@@ -561,6 +573,111 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
         if self.font is not None:
             metrics = pyqt.QFontMetrics(self.font)
             return metrics.horizontalAdvance(text)
+
+
+class NchantdLargeTable(NchantdTable):
+    """Lazy *data-loading* table for datasets too large to hold in memory.
+
+    :class:`NchantdTable` lazily *renders* an in-memory dataset -- every row
+    already lives in ``self._data`` and only the cell widgets are built on
+    demand as rows scroll into view. ``NchantdLargeTable`` extends that idea to
+    the data itself: rows are fetched from a pluggable provider in fixed-size
+    chunks as the viewport reaches them, so the full dataset never has to be
+    resident in ``self._data`` at once.
+
+    STUB: the chunk-fetch plumbing (``set_provider``, ``_chunk_for_row``,
+    ``_ensure_rows_loaded``) is scaffolded and hooked into the inherited
+    viewport machinery via :meth:`_populate_visible_rows`, but the provider
+    protocol itself is not implemented yet -- :meth:`_fetch_chunk` raises
+    ``NotImplementedError`` until a concrete data source is wired in. With no
+    provider registered the class degrades to plain :class:`NchantdTable`
+    behaviour over whatever is already in ``self._data``.
+
+    Parameters:
+        - parent (QWidget): The parent widget. Default is None.
+        - cfg (dict): Configuration overrides. Default is None.
+
+    Config keys (``NchantdLargeTable`` section of ``tables.yaml``):
+        - chunk_size (int): rows fetched per provider request. Default 100.
+        - total_rows (int): total rows the provider can serve; used to size the
+          scrollbar geometry up front. Default 0.
+    """
+
+    def __init__(self, parent=None, cfg=None) -> None:
+        """ """
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(PXCFG).select("NchantdLargeTable").override(cfg))
+        # -- chunked data-loading state ------------------------------------
+        self.chunk_size = self.config.dikt.get("chunk_size", 100)
+        self.total_rows = self.config.dikt.get("total_rows", 0)
+        self.provider = None
+        self._loaded_chunks = set()
+
+    def set_provider(self, provider, total_rows=None) -> Any:
+        """Register the data source rows are fetched from.
+
+        :param provider: object/callable able to return a chunk of rows for a
+            given range. The concrete protocol is TBD (see :meth:`_fetch_chunk`).
+        :param total_rows: total number of rows the provider can serve; sizes
+            the row count (and therefore the scrollbar) up front so the table
+            geometry matches the full dataset before any chunk is fetched.
+        """
+        self.provider = provider
+        if total_rows is not None:
+            self.total_rows = total_rows
+            self.setRowCount(self.total_rows)
+        return self
+
+    def _chunk_for_row(self, row) -> int:
+        """Return the index of the chunk that contains ``row``."""
+        return row // self.chunk_size if self.chunk_size else 0
+
+    def _fetch_chunk(self, chunk_index) -> List[Any]:
+        """Fetch a single chunk of rows from the provider.
+
+        Expected (once implemented) to return the rows for the half-open range
+        ``[chunk_index * chunk_size, (chunk_index + 1) * chunk_size)`` as a
+        list of row lists, ready to splice into ``self._data``.
+
+        STUB: no provider protocol is implemented yet.
+        """
+        raise NotImplementedError("NchantdLargeTable._fetch_chunk: provider protocol not implemented")
+
+    def _ensure_rows_loaded(self, start, end) -> None:
+        """Ensure every chunk spanning the half-open range ``[start, end)`` has
+        been fetched into ``self._data`` before the inherited renderer builds
+        those rows.
+
+        No-op when no provider is registered, so the class behaves like a plain
+        :class:`NchantdTable` over the in-memory ``self._data``.
+
+        STUB: wiring only -- delegates to :meth:`_fetch_chunk` and records
+        fetched chunks; splicing rows into ``self._data`` is left to the
+        concrete implementation.
+        """
+        if self.provider is None or end <= start:
+            return
+        first_chunk = self._chunk_for_row(start)
+        last_chunk = self._chunk_for_row(end - 1)
+        for chunk_index in range(first_chunk, last_chunk + 1):
+            if chunk_index in self._loaded_chunks:
+                continue
+            self._fetch_chunk(chunk_index)  # TODO: splice returned rows into self._data at their offset
+            self._loaded_chunks.add(chunk_index)
+
+    def _populate_visible_rows(self) -> None:
+        """Fetch data for the viewport range, then render it via the inherited
+        viewport-driven builder."""
+        if self.provider is not None:
+            buffer = self.lazy_buffer_rows
+            first = self.rowAt(0)
+            if first < 0:
+                first = 0
+            last = self.rowAt(self.viewport().height())
+            if last < 0:
+                last = min(self.rowCount() - 1, first + buffer)
+            self._ensure_rows_loaded(max(0, first - buffer), min(self.rowCount(), last + 1 + buffer))
+        super()._populate_visible_rows()
 
 
 class NchantdDataFrameTable(NchantdWidgetMixin, qpandas.DataTableWidget):
