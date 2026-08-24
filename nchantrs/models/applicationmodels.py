@@ -173,6 +173,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.are_services_active = False
         self.instance = None
         self.menu_cache = {}
+        self.MODEL_OBJECTS = self.config.get("dstruct", {}).get("database", {}).get("objects")
 
     def initModel(self, reset=None) -> None:
         """"""
@@ -276,9 +277,11 @@ class NchantdCloakModel(NchantdPantiesModel):
         logma.info(f"Widget {widget}")
         row = [name, widget, widgdata, pid, did, pos, doc_type, tabset] + tabbase + [tid]
         if in_doc is True:
-            self.store.store_doc_tab(row, self.app.model.instance)
+            logma.info(f"Store Doc Tab")
+            self.store.store_doc_tab(row, self.app.model.instance, db)
         else:
-            self.store.store_app_tab(row)
+            logma.info(f"Store App Tab")
+            self.store.store_app_tab(row, self.app.model.instance, db)
         return tid
 
     def check_policy(self, policy, table, condition, value, db="db") -> None:
@@ -766,7 +769,7 @@ class NchantdCloakModel(NchantdPantiesModel):
     def store_instance(self, instance) -> Any:
         """Save the in-memory instance dict to the ``app_instance`` table."""
         self.instance = instance
-        #instance = instance.to_dict()
+        # instance = instance.to_dict()
         logma.info(f"Instance {instance}")
         self.store.store_app_instance(instance)
         return self
