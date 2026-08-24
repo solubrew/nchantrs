@@ -455,7 +455,8 @@ class NchantdWebViewer(NchantdWidget):
             url = self.get_home_page() or self.config.get("homepage", HOMEPAGE)
             if url is None:
                 raise Exception("No URL Provided")
-        self.url_select_entry.set_value(url)
+        if self.url_select_entry is not None:
+            self.url_select_entry.set_value(url)
         self.browser.load(url)
         self.save()
         return self

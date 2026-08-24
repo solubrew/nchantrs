@@ -475,8 +475,8 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         paths, state = self.create_paths()
         if state is True:
             self.create_database_application()
-            self.create_user()
-            self.create_instance()
+            # self.create_user()
+            # self.create_instance()
             self.copy_application()
             self.create_icon()
             self.run_install_complete()

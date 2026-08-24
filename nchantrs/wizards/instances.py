@@ -1,11 +1,8 @@
 from typing import Any
 
-"\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n"
 from os.path import abspath, dirname, join
 import datetime as dt
-import logging
 
-logger = logging.getLogger(__name__)
 from kahndor import kahndor
 from kahndor.logma import Logma
 from nchantrs.wizards.wizards import NchantdWizard
@@ -15,7 +12,8 @@ from nchantrs.models.models import NchantdInstance
 here = join(dirname(__file__), "")
 log = True
 logma = Logma(__name__)
-logma.off()
+if not log:
+    logma.off()
 pxcfg = join(here, "_data_", "instances.yaml")
 
 
@@ -43,6 +41,8 @@ class NchantdNewInstanceWizard(NchantdWizard):
         super().initView()
         self.select_instance = NchantdSelectInstancePage(self).initWidget()
         self.addPage(self.select_instance)
+        # only if an instance is not selected
+        self.create_instance()
         return self
 
     def initWidget(self, cfg=None) -> Any:
@@ -87,5 +87,6 @@ class NchantdNewInstanceWizard(NchantdWizard):
             instance.set_instance_path(self.app.model.application_path)
         self.app.model.add_instance(instance)
         self.app.model.set_instance_active(instance)
+        logma.info(f"Store Instance {instance}")
         self.app.model.store_instance(instance)
         return self

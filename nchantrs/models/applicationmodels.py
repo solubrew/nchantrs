@@ -18,7 +18,7 @@ from kahndor.logma import Logma
 from pycurity.pyvice import Device
 
 here = join(dirname(__file__), "")
-log = False
+log = True
 logma = Logma(__name__)
 debug = True
 if not log:
@@ -474,7 +474,7 @@ class NchantdCloakModel(NchantdPantiesModel):
             instance = None
         else:
             instance = instance[0]
-        self.create_instance(instance)
+        # self.create_instance(instance)
         return self
 
     def get_instance_recents(self, last=10) -> None:
@@ -759,9 +759,22 @@ class NchantdCloakModel(NchantdPantiesModel):
         """"""
         self._store_cache(table, df, "dbc")
 
-    def store_instance(self, instance) -> None:
-        """"""
+    # def store_instance(self, instance) -> None:
+    #     """"""
+    #     self.store.store_app_instance(instance)
+    #     return self
+    def store_instance(self, instance) -> Any:
+        """Save the in-memory instance dict to the ``app_instance`` table."""
+        self.instance = instance
+        #instance = instance.to_dict()
+        logma.info(f"Instance {instance}")
         self.store.store_app_instance(instance)
+        return self
+
+    def store_instances(self) -> Any:
+        """Save every in-memory instance dict to ``app_instance``."""
+        for instance in self.instances:
+            self.store_instance(instance)
         return self
 
     def store_link(self, name, url=None, tags=None) -> None:

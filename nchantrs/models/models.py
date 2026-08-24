@@ -802,8 +802,7 @@ class NchantdStore(MicroStash):
         :return:
         """
         table = "app_instance"
-        if how not in ("INSERT", "UPDATE", "DEACTIVATE", "DELETE", "ARCHIVE"):
-            raise Exception(f"{how} is not supported.")
+        logma.info(f"How to store {how}")
         if how == "INSERT":
             payload = [
                 [
@@ -818,7 +817,9 @@ class NchantdStore(MicroStash):
                     encode64(json.dumps(instance.meta_data)),
                 ]
             ]
-            self._store(table, payload)
+            logma.info(f"INSERT {table}")
+            logma.info(f"PAYLOAD {payload}")
+            self._store(table, payload, db)
         elif how == "UPDATE":
             payload = [
                 {
@@ -832,6 +833,8 @@ class NchantdStore(MicroStash):
             values = [instance.instance_id]
             cfg = {"WHERE": {"IN": {column: values}}}
             self._store(table, payload, cfg)
+        else:
+            raise Exception(f"{how} is not supported.")
         return self
 
     def store_app_media(self, document, db="db", how="INSERT"):
