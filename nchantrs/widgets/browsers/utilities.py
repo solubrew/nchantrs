@@ -110,13 +110,14 @@ class NchantdURL(NchantdWidgetMixin, pyqt.QUrl):
         super().__init__(url)
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdURL").override(parent.config).override(cfg)
-        self.init_variables()
         self.lock = False
         self.url = None
         self.set_url(url)
 
     def initModel(self, cfg=None):
         """"""
+        super().initModel(cfg)
+        return self
 
     def get_url(self):
         """"""

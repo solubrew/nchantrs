@@ -131,11 +131,11 @@ class NchantdImage(NchantdWidget):
 
     def refresh(self) -> None:
         """"""
-        image, cursor_pos = self.app.view.take_screen_shot()
-        color = image.toImage().pixelColor(cursor_pos)
-        self.color = color.name()
-        self.hex = color.hex()
-        self.rgb = color.rgb()
+        #image, cursor_pos = self.app.view.take_screen_shot()
+        #color = image.toImage().pixelColor(cursor_pos)
+        #self.color = color.name()
+        #self.hex = color.hex()
+        #self.rgb = color.rgb()
 
     def resizeEvent(self, event) -> None:
         if self.label.pixmap():

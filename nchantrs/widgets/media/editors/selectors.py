@@ -262,6 +262,13 @@ class NchantdDropDown(NchantdWidget):
         """"""
         self.update_options(options, True)
 
+    def  set_value(self, value):
+        """"""
+        if self.combobox is None:
+            return None
+        self.combobox.set_value(value)
+        return self
+
     def update_options(self, options, replace=False, sort=None) -> Any:
         """Add or replace the dropdown's options.
 

@@ -1,8 +1,46 @@
 from typing import Any, Iterator, List
-'#\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n---  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n<(META)>:  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        docid:   #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        name:\t#\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        description: >  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n                Develop Qt5TreeModel module and leverage it instead of adhoc\n                building it here  #\t\t\t||\n        expirary: <[expiration]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        version: <[version]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        path: <[LEXIvrs]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        outline: <[outline]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        authority: document|this  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        security: sec|lvl2  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        <(WT)>: -32  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n'
+
+#!/usr/bin/env python3
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+"""
+---
+<(META)>:
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
+"""
+
+# -*- coding: utf-8 -*
+# ======================================Standard Library Modules======================================================||
+from os.path import abspath, dirname, join
+from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional, Union
+
+# ======================================3rd Party Library Modules=====================================================||
+
+
+# ======================================Solutions Brewer Library Modules==============================================||
+from kahndor import kahndor
+from kahndor.logma import Logma
+
+# ====================================================================================================================||
+HERE = join(dirname(__file__), "")  # ||
+log = True
+logma = Logma(__name__)
+if not log:
+    logma.off()
+# ====================================================================================================================||
+PXCFG = join(HERE, "_data_", ".yaml")
+
+
 from os.path import abspath, dirname, join, expanduser
 from pathlib import Path
 import logging
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
 from nchantrs.libraries import pyqt
@@ -10,9 +48,11 @@ from nchantrs.views.treeviews import NchantdTreeView
 from nchantrs.models.treemodels import NchantdApplicationTreeModel, NchantdTreeModel, NchantdTimeTreeModel
 from nchantrs.widgets.widgets import NchantdWidgetMixin
 from kahndor.logma import Logma
-here = join(dirname(__file__), '')
+
+here = join(dirname(__file__), "")
 logma = Logma(__name__)
-pxcfg = join(here, '_data_', 'trees.yaml')
+pxcfg = join(here, "_data_", "trees.yaml")
+
 
 class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
     """
@@ -55,7 +95,7 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
     def __init__(self, parent=None, cfg={}, root=None) -> None:
         """ """
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select('NchantdTree').override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdTree").override(cfg)
         self.init_variables()
         super().__init__()
         self.model = NchantdTreeModel(self, root)
@@ -65,7 +105,7 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         self.setDropIndicatorShown(True)
         self.nodes = []
         self.expansion_state = {}
-        self.clipboard_state = {'nodes': [], 'mode': None}
+        self.clipboard_state = {"nodes": [], "mode": None}
         self.context_menu = None
         self.initialize_context_menu()
 
@@ -97,7 +137,7 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
 
     def dragEnterEvent(self, event) -> None:
         """Handle drag enter event with validation."""
-        if event.mimeData().hasFormat('application/x-qabstractitemmodeldatalist'):
+        if event.mimeData().hasFormat("application/x-qabstractitemmodeldatalist"):
             event.acceptProposedAction()
         else:
             event.ignore()
@@ -105,7 +145,7 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
     def dragMoveEvent(self, event) -> None:
         """Allow drag move inside the tree with visual feedback."""
         item = self.itemAt(event.pos())
-        if item and hasattr(item, 'moveable') and (not item.moveable):
+        if item and hasattr(item, "moveable") and (not item.moveable):
             event.ignore()
             return
         if item:
@@ -119,7 +159,7 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
 
     def dropEvent(self, event) -> None:
         """Handle the drop event to reparent dragged nodes with position awareness.
-        
+
         Drop behavior:
         - On folder/expandable node: becomes child
         - Above item (top half): becomes previous sibling
@@ -127,14 +167,14 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         """
         dragged_item = self.currentItem()
         target_item = self.itemAt(event.pos())
-        logma.info(f'Dragged Item: {dragged_item}')
-        logma.info(f'Target Item: {target_item}')
-        logma.info(f'Drop Position: {event.pos()}')
+        logma.info(f"Dragged Item: {dragged_item}")
+        logma.info(f"Target Item: {target_item}")
+        logma.info(f"Drop Position: {event.pos()}")
         if not dragged_item:
             event.ignore()
             return
-        if hasattr(dragged_item, 'moveable') and (not dragged_item.moveable):
-            logma.info('Item is not moveable')
+        if hasattr(dragged_item, "moveable") and (not dragged_item.moveable):
+            logma.info("Item is not moveable")
             event.ignore()
             return
         if target_item:
@@ -142,7 +182,7 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
                 event.ignore()
                 return
             if self._is_descendant(dragged_item, target_item):
-                logma.info('Cannot drop item onto its own descendant')
+                logma.info("Cannot drop item onto its own descendant")
                 event.ignore()
                 return
         drop_mode = self._determine_drop_mode(target_item, event.pos())
@@ -155,14 +195,14 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
             else:
                 relative_position = 0.5
         else:
-            drop_mode = 'root'
-        if drop_mode == 'child':
+            drop_mode = "root"
+        if drop_mode == "child":
             self._drop_as_child(dragged_item, target_item)
-        elif drop_mode == 'sibling_before':
+        elif drop_mode == "sibling_before":
             self._drop_as_sibling(dragged_item, target_item, before=True)
-        elif drop_mode == 'sibling_after':
+        elif drop_mode == "sibling_after":
             self._drop_as_sibling(dragged_item, target_item, before=False)
-        elif drop_mode == 'root':
+        elif drop_mode == "root":
             self._drop_as_root(dragged_item)
         event.setDropAction(pyqt.Qt.IgnoreAction)
         event.accept()
@@ -203,7 +243,7 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
 
     def _determine_drop_mode(self, target_item, pos) -> str:
         """Determine the drop mode based on target item and position.
-        
+
         Returns:
             'child': Drop onto target as child
             'sibling_before': Drop before target as sibling
@@ -211,8 +251,8 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
             'root': Drop as root-level item
         """
         if not target_item:
-            return 'root'
-        if hasattr(target_item, 'pregnable') and target_item.pregnable:
+            return "root"
+        if hasattr(target_item, "pregnable") and target_item.pregnable:
             target_rect = self.visualItemRect(target_item)
             relative_y = pos.y() - target_rect.top()
             item_height = target_rect.height()
@@ -221,16 +261,16 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
             else:
                 relative_position = 0.5
             if relative_position < 0.25:
-                return 'sibling_before'
+                return "sibling_before"
             elif relative_position > 0.75:
-                return 'child'
+                return "child"
             else:
-                return 'sibling_before'
-        return 'sibling_before'
+                return "sibling_before"
+        return "sibling_before"
 
     def _drop_as_child(self, dragged_item, new_parent) -> None:
         """Move dragged_item to become the last child of new_parent."""
-        logma.info(f'Dropping {dragged_item.name} as child of {new_parent.name}')
+        logma.info(f"Dropping {dragged_item.name} as child of {new_parent.name}")
         old_parent = self._item_parent(dragged_item)
         if old_parent:
             old_parent.removeChild(dragged_item)
@@ -241,11 +281,11 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         self.model.swap_parent(dragged_item, new_parent)
         self._renormalize(new_parent)
         self._renormalize(old_parent)
-        logma.info(f'Successfully moved {dragged_item.name} as child of {new_parent.name}')
+        logma.info(f"Successfully moved {dragged_item.name} as child of {new_parent.name}")
 
     def _drop_as_sibling(self, dragged_item, target_item, before=True) -> None:
         """Move dragged_item to become a sibling of target_item."""
-        logma.info(f'Dropping {dragged_item.name} as sibling of {target_item.name} (before={before})')
+        logma.info(f"Dropping {dragged_item.name} as sibling of {target_item.name} (before={before})")
         parent = self._item_parent(target_item)
         if not parent:
             parent = self.invisibleRootItem()
@@ -261,11 +301,11 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         self.model.move_sibling(dragged_item, parent)
         self._renormalize(parent)
         self._renormalize(old_parent)
-        logma.info(f'Successfully moved {dragged_item.name} as sibling')
+        logma.info(f"Successfully moved {dragged_item.name} as sibling")
 
     def _drop_as_root(self, dragged_item) -> None:
         """Move dragged_item to become a root-level item."""
-        logma.info(f'Dropping {dragged_item.name} as root-level item')
+        logma.info(f"Dropping {dragged_item.name} as root-level item")
         old_parent = self._item_parent(dragged_item)
         if old_parent:
             old_parent.removeChild(dragged_item)
@@ -276,7 +316,7 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         self.model.move_to_root(dragged_item)
         self._renormalize(root)
         self._renormalize(old_parent)
-        logma.info(f'Successfully moved {dragged_item.name} to root level')
+        logma.info(f"Successfully moved {dragged_item.name} to root level")
 
     def goto_node(self, node) -> Any:
         """"""
@@ -314,7 +354,7 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         self.model.sort(column)
 
     def sort_children(self, pid, column=0) -> None:
-        logma.info(f'sort_children called')
+        logma.info(f"sort_children called")
         return self
 
     def _reset_tree_state(self, item) -> Any:
@@ -334,13 +374,14 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
             self._save_tree_state(child)
         return self
 
+
 class NchantdGroupTree(NchantdTree):
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select('Nchantd')
+        self.config = kahndor.Instruct(pxcfg).select("Nchantd")
         if self.parent:
             self.config.override(parent.config)
         super().__init__(self)
@@ -362,6 +403,7 @@ class NchantdGroupTree(NchantdTree):
         self.initView()
         return self
 
+
 class NchantdApplicationTree(NchantdTree):
     """"""
 
@@ -369,13 +411,13 @@ class NchantdApplicationTree(NchantdTree):
         """ """
         super().__init__(parent, cfg)
         self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select('NchantdApplicationTree'))
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdApplicationTree"))
         if self.parent:
             self.config.override(parent.config)
         self.config.override(cfg)
         self.model = NchantdApplicationTreeModel(self, None, self.config)
         self.note = None
-        logma.info(f'NchantdApplicationTree initialized')
+        logma.info(f"NchantdApplicationTree initialized")
 
     def initModel(self) -> Any:
         """"""
@@ -394,32 +436,30 @@ class NchantdApplicationTree(NchantdTree):
         return self
 
     def on_node_changed(self) -> Any:
-        logma.info(f'on_node_changed event received')
-        if getattr(self, 'app', None) is not None and hasattr(self.app, 'model'):
+        logma.info(f"on_node_changed event received")
+        if getattr(self, "app", None) is not None and hasattr(self.app, "model"):
             self.app.model.has_changed = True
         return self
 
     def __getstate__(self) -> Any:
         """"""
         state = self.__dict__.copy()
-        if state.get('unpickable_attribute', False):
-            del state['unpicklable_attribute']
+        if state.get("unpickable_attribute", False):
+            del state["unpicklable_attribute"]
         return state
 
     def __setstate__(self, state) -> None:
         """"""
 
-class NchantdFileSystem(pyqt.QTreeWidget):
+
+class NchantdFileSystem(NchantdWidgetMixin, pyqt.QTreeWidget):
     """"""
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent)
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select('NchantdFileSystem')
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config = kahndor.Instruct(pxcfg).select("NchantdFileSystem").override(parent.config).override(cfg)
         self.file_system_toolbar = None
         self.root_path = None
         self.root_dir = None
@@ -427,17 +467,19 @@ class NchantdFileSystem(pyqt.QTreeWidget):
         self.current_level_directories = []
         self.current_level_path = None
         self.setColumnCount(1)
-        self.setHeaderLabel('File System')
+        self.setHeaderLabel("File System")
         self.setSortingEnabled(True)
 
     def initModel(self) -> Any:
         """"""
+        super().initModel()
         logma.info(f"Root Path: {self.config.dikt.get('root', None)}")
-        self.set_root(self.config.dikt.get('root', None))
+        self.set_root(self.config.dikt.get("root", None))
         return self
 
     def initView(self) -> Any:
         """"""
+        super().initView()
         self.itemExpanded.connect(self.on_item_expanded)
         self.itemPressed.connect(self.on_item_expanded)
         return self
@@ -469,7 +511,7 @@ class NchantdFileSystem(pyqt.QTreeWidget):
         Add the root directory node and lazily load its children.
         """
         self.clear()
-        logma.info(f'Root Dir: {self.root_dir}')
+        logma.info(f"Root Dir: {self.root_dir}")
         root_item = pyqt.QTreeWidgetItem(self, [str(self.root_dir)])
         root_item.setData(0, pyqt.Qt.UserRole, self.root_dir)
         root_item.setChildIndicatorPolicy(pyqt.QTreeWidgetItem.ShowIndicator)
@@ -495,33 +537,35 @@ class NchantdFileSystem(pyqt.QTreeWidget):
                 if item.is_dir():
                     tree_item = pyqt.QTreeWidgetItem(parent_item, [item.name])
                     self.add_top_level_items(
-                        item, tree_item, max_depth=max_depth,
+                        item,
+                        tree_item,
+                        max_depth=max_depth,
                         current_depth=current_depth + 1,
                     )
         except PermissionError:
             pass
 
-    def get_children(self, tree_item, location='local') -> Iterator[Any]:
+    def get_children(self, tree_item, location="local") -> Iterator[Any]:
         """"""
-        if location == 'local':
+        if location == "local":
             directory = tree_item.data(0, pyqt.Qt.UserRole)
             for child in sorted(directory.iterdir()):
                 yield child
-        elif location == 'google_drive':
+        elif location == "google_drive":
             self.get_children_google_drive()
-        elif location == 'dropbox':
+        elif location == "dropbox":
             self.get_children_dropbox()
         else:
             pass
 
     def get_current_level_files(self) -> Any:
         """"""
-        logma.info(f'Current Level Files: {self.current_level_files}')
+        logma.info(f"Current Level Files: {self.current_level_files}")
         return self.current_level_files
 
     def get_current_level_directories(self) -> Any:
         """"""
-        logma.info(f'Current Level Files: {self.current_level_directories}')
+        logma.info(f"Current Level Files: {self.current_level_directories}")
         return self.current_level_directories
 
     def lazy_load_children(self, tree_item) -> Any:
@@ -533,7 +577,7 @@ class NchantdFileSystem(pyqt.QTreeWidget):
         self.current_level_files = []
         self.current_level_directories = []
         directory = tree_item.data(0, pyqt.Qt.UserRole)
-        logma.info(f'Directory {directory}')
+        logma.info(f"Directory {directory}")
         if directory is None:
             return
         if not directory.is_dir():
@@ -542,7 +586,7 @@ class NchantdFileSystem(pyqt.QTreeWidget):
             return
         self.current_level_path = directory
         tree_item.takeChildren()
-        logma.info(f'Current Level Files: {self.current_level_files}')
+        logma.info(f"Current Level Files: {self.current_level_files}")
         try:
             for child in sorted(directory.iterdir(), key=lambda x: x.name):
                 if child.is_dir():
@@ -554,8 +598,8 @@ class NchantdFileSystem(pyqt.QTreeWidget):
                     self.current_level_files.append(child)
         except PermissionError:
             logma.info("Skip directories we don't have permission to access")
-        logma.info(f'Current Level Files: {self.current_level_files}')
-        logma.info(f'Current Level Path: {self.current_level_path}')
+        logma.info(f"Current Level Files: {self.current_level_files}")
+        logma.info(f"Current Level Path: {self.current_level_path}")
         return self
 
     def on_item_expanded(self, item) -> Any:
@@ -564,14 +608,14 @@ class NchantdFileSystem(pyqt.QTreeWidget):
         :param item: The QTreeWidgetItem that was expanded.
         """
         self.lazy_load_children(item)
-        logma.info(f'Current Level Files: {self.current_level_files}')
+        logma.info(f"Current Level Files: {self.current_level_files}")
         return self
 
     def set_root(self, path=None) -> Any:
         """"""
         self.root_path = path
         if self.root_path is None:
-            self.root_path = expanduser('~')
+            self.root_path = expanduser("~")
         self.current_level_path = self.root_path
         self.root_dir = Path(self.root_path)
         self.add_root_item()
@@ -582,4 +626,8 @@ class NchantdFileSystem(pyqt.QTreeWidget):
         Synchronize the tree with the current state of the filesystem.
         """
         self.build_tree()
-'\n'
+
+
+# ====================================================================================================================||
+
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
