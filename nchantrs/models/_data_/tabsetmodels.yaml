@@ -19,6 +19,43 @@ NchantdTabSetModel:
   dstruct:
     database:
       objects:
+        index:
+          idx_app_tab_delete:
+            cmd: >
+              CREATE INDEX idx_app_tab_delete ON app_tab (DELETE_BIT)
+          idx_app_tab_archive:
+            cmd: >
+              CREATE INDEX idx_app_tab_archive ON app_tab (ARCHIVE_BIT)
+          idx_app_tab_active:
+            cmd: >
+              CREATE INDEX idx_app_tab_active ON app_tab (ACTIVE_BIT)
+          idx_app_tab_did:
+            cmd: >
+              CREATE INDEX idx_app_tab_did ON app_tab (did_txt)
+          idx_app_tab_pid:
+            cmd: >
+              CREATE INDEX idx_app_tab_pid ON app_tab (pid_txt)
+          idx_app_tab_tid:
+            cmd: >
+              CREATE INDEX idx_app_tab_tid ON app_tab (tid_txt)
+          idx_doc_tab_delete:
+            cmd: >
+              CREATE INDEX idx_doc_tab_delete ON doc_tab (DELETE_BIT)
+          idx_doc_tab_archive:
+            cmd: >
+              CREATE INDEX idx_doc_tab_archive ON doc_tab (ARCHIVE_BIT)
+          idx_doc_tab_active:
+            cmd: >
+              CREATE INDEX idx_doc_tab_active ON doc_tab (ACTIVE_BIT)
+          idx_doc_tab_did:
+            cmd: >
+              CREATE INDEX idx_doc_tab_did ON doc_tab (did_txt)
+          idx_doc_tab_pid:
+            cmd: >
+              CREATE INDEX idx_doc_tab_pid ON doc_tab (pid_txt)
+          idx_doc_tab_tid:
+            cmd: >
+              CREATE INDEX idx_doc_tab_tid ON doc_tab (tid_txt)
         table:
           'app_tab':
             'columns': [{"name": 'name_txt', "type": "text"}, {"name": 'widget_txt', "type": "text"},
