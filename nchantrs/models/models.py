@@ -974,7 +974,7 @@ class NchantdStore(MicroStash):
         if how not in ("INSERT", "UPDATE", "DEACTIVATE", "DELETE", "ARCHIVE"):
             raise Exception(f"{how} is not supported.")
         payload = [row]
-        self._store(table, payload)
+        self._store(table, payload, db)
         return self
 
     def store_app_tree_nodes(self, data, db="db", how="INSERT"):
