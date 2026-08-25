@@ -187,21 +187,21 @@ NchantdPantiesModel:
           idx_app_tab_tid:
             cmd: >
               CREATE INDEX idx_app_tab_tid ON app_tab (tid_txt)
-          idx_app_tree_delete:
+          idx_app_tree_node_delete:
             cmd: >
-              CREATE INDEX idx_app_tree_delete ON app_tree_node (DELETE_BIT)
-          idx_app_tree_archive:
+              CREATE INDEX idx_app_tree_node_delete ON app_tree_node (DELETE_BIT)
+          idx_app_tree_node_archive:
             cmd: >
-              CREATE INDEX idx_app_tree_archive ON app_tree_node (ARCHIVE_BIT)
-          idx_app_tree_active:
+              CREATE INDEX idx_app_tree_node_archive ON app_tree_node (ARCHIVE_BIT)
+          idx_app_tree_node_active:
             cmd: >
-              CREATE INDEX idx_app_tree_active ON app_tree_node (ACTIVE_BIT)
-          idx_app_tree_nid:
+              CREATE INDEX idx_app_tree_node_active ON app_tree_node (ACTIVE_BIT)
+          idx_app_tree_node_nid:
             cmd: >
-              CREATE INDEX idx_app_tree_nid ON app_tree_node (nid_txt)
-          idx_app_tree_pid:
+              CREATE INDEX idx_app_tree_node_nid ON app_tree_node (nid_txt)
+          idx_app_tree_node_pid:
             cmd: >
-              CREATE INDEX idx_app_tree_pid ON app_tree_node (pid_txt)
+              CREATE INDEX idx_app_tree_node_pid ON app_tree_node (pid_txt)
           idx_doc_media_delete:
             cmd: >
               CREATE INDEX idx_doc_media_delete ON doc_media (DELETE_BIT)
@@ -247,21 +247,21 @@ NchantdPantiesModel:
           idx_doc_tab_tid:
             cmd: >
               CREATE INDEX idx_doc_tab_tid ON doc_tab (tid_txt)
-          idx_doc_tree_delete:
+          idx_doc_tree_node_delete:
             cmd: >
-              CREATE INDEX idx_doc_tree_delete ON doc_tree_node (DELETE_BIT)
-          idx_doc_tree_archive:
+              CREATE INDEX idx_doc_tree_node_delete ON doc_tree_node (DELETE_BIT)
+          idx_doc_tree_node_archive:
             cmd: >
-              CREATE INDEX idx_doc_tree_archive ON doc_tree_node (ARCHIVE_BIT)
-          idx_doc_tree_active:
+              CREATE INDEX idx_doc_tree_node_archive ON doc_tree_node (ARCHIVE_BIT)
+          idx_doc_tree_node_active:
             cmd: >
-              CREATE INDEX idx_doc_tree_active ON doc_tree_node (ACTIVE_BIT)
-          idx_doc_tree_nid:
+              CREATE INDEX idx_doc_tree_node_active ON doc_tree_node (ACTIVE_BIT)
+          idx_doc_tree_node_nid:
             cmd: >
-              CREATE INDEX idx_doc_tree_nid ON doc_tree_node (nid_txt)
-          idx_doc_tree_pid:
+              CREATE INDEX idx_doc_tree_node_nid ON doc_tree_node (nid_txt)
+          idx_doc_tree_node_pid:
             cmd: >
-              CREATE INDEX idx_doc_tree_pid ON doc_tree_node (pid_txt)
+              CREATE INDEX idx_doc_tree_node_pid ON doc_tree_node (pid_txt)
         'table':
           app_action: &app_action
             description: >

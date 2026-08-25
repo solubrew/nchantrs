@@ -145,12 +145,8 @@ class NchantdCapeModel(NchantdPantiesModel):
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdSigilModel")
-        if parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
-        super().__init__(self.parent, self.config)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdSigilModel").override(cfg))
         self.initialize_application()
 
 
@@ -171,7 +167,6 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.is_internal_server_active = False
         self.is_saved = False
         self.are_services_active = False
-        self.instance = None
         self.menu_cache = {}
 
     def initModel(self, reset=None) -> None:

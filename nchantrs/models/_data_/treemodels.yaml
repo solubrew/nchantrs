@@ -17,36 +17,6 @@ NchantdTreeModel:
     database:
       objects:
         index:
-          idx_app_tree_delete:
-            cmd: >
-              CREATE INDEX idx_app_tree_delete ON app_tree_node (DELETE_BIT)
-          idx_app_tree_archive:
-            cmd: >
-              CREATE INDEX idx_app_tree_archive ON app_tree_node (ARCHIVE_BIT)
-          idx_app_tree_active:
-            cmd: >
-              CREATE INDEX idx_app_tree_active ON app_tree_node (ACTIVE_BIT)
-          idx_app_tree_nid:
-            cmd: >
-              CREATE INDEX idx_app_tree_nid ON app_tree_node (nid_txt)
-          idx_app_tree_pid:
-            cmd: >
-              CREATE INDEX idx_app_tree_pid ON app_tree_node (pid_txt)
-          idx_doc_tree_delete:
-            cmd: >
-              CREATE INDEX idx_doc_tree_delete ON doc_tree_node (DELETE_BIT)
-          idx_doc_tree_archive:
-            cmd: >
-              CREATE INDEX idx_doc_tree_archive ON doc_tree_node (ARCHIVE_BIT)
-          idx_doc_tree_active:
-            cmd: >
-              CREATE INDEX idx_doc_tree_active ON doc_tree_node (ACTIVE_BIT)
-          idx_doc_tree_nid:
-            cmd: >
-              CREATE INDEX idx_doc_tree_nid ON doc_tree_node (nid_txt)
-          idx_doc_tree_pid:
-            cmd: >
-              CREATE INDEX idx_doc_tree_pid ON doc_tree_node (pid_txt)
         table:
           app_tree_node:
             description: >

@@ -39,6 +39,8 @@ ENABLE_NEW_WINDOW_DELEGATION = False
 
 # ====================================================================================================================||
 PXCFG = join(HERE, "_data_", "pages.yaml")
+HOMEPAGE = {"url": "https://www.nchantrs.com/"}
+HOMEURL = HOMEPAGE.get("url")
 
 
 class _RedirectCapturePage(pyqt.QWebEnginePage):
@@ -371,7 +373,7 @@ class NchantdLocalServiceWebPage(NchantdWidgetMixin, pyqt.QWebEnginePage):
         return host in {"localhost", "127.0.0.1", "0.0.0.0", ""}
 
 
-class CloudflareCompatiblePage(pyqt.QWebEnginePage):
+class NchantdCloudflareCompatiblePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
 
     def __init__(self, profile=None, parent=None) -> None:
         super().__init__(profile, parent)
@@ -391,12 +393,12 @@ class CloudflareCompatiblePage(pyqt.QWebEnginePage):
         settings.setDefaultTextEncoding("UTF-8")
 
 
-class CloudflareCompatibleView(NchantdWidgetMixin, pyqt.QWebEngineView):
+class NchantdCloudflareCompatibleView(NchantdWidgetMixin, pyqt.QWebEngineView):
 
     def __init__(self, parent=None) -> None:
         super().__init__(parent)
         self.profile = self.create_enhanced_profile()
-        self.custom_page = CloudflareCompatiblePage(self.profile, self)
+        self.custom_page = NchantdCloudflareCompatiblePage(self.profile, self)
         self.setPage(self.custom_page)
         self.page().loadFinished.connect(self.inject_cloudflare_helpers)
 

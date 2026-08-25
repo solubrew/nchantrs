@@ -1083,7 +1083,8 @@ class NchantdStore(MicroStash):
         if how not in ("INSERT", "UPDATE", "DEACTIVATE", "DELETE", "ARCHIVE"):
             raise Exception(f"{how} is not supported.")
         payload = [row]
-        self._store(table, payload, db)
+        columns = [x["name"] for x in self.app.model.MODEL_OBJECTS.get("table", {}).get(table, {}).get("columns", [])]
+        self._store(table, payload, db, columns=columns)
         return self
 
     def store_doc_tree_node(self, name, ntype, pid, pos, parameters=None, tree="left", db="db", how="INSERT"):
