@@ -997,7 +997,7 @@ class NchantdStore(MicroStash):
         if how not in ("INSERT", "UPDATE", "DEACTIVATE", "DELETE", "ARCHIVE"):
             raise Exception(f"{how} is not supported.")
         payload = [row]
-        self._store(table, payload)
+        self._store(table, payload, columns=self._get_columns(table))
         return self
 
     def store_app_tree_nodes(self, data, db="db", how="INSERT"):
@@ -1083,8 +1083,7 @@ class NchantdStore(MicroStash):
         if how not in ("INSERT", "UPDATE", "DEACTIVATE", "DELETE", "ARCHIVE"):
             raise Exception(f"{how} is not supported.")
         payload = [row]
-        columns = [x["name"] for x in self.app.model.MODEL_OBJECTS.get("table", {}).get(table, {}).get("columns", [])]
-        self._store(table, payload, db, columns=columns)
+        self._store(table, payload, db, columns=self._get_columns(table))
         return self
 
     def store_doc_tree_node(self, name, ntype, pid, pos, parameters=None, tree="left", db="db", how="INSERT"):
@@ -1187,6 +1186,10 @@ class NchantdStore(MicroStash):
                 if found:
                     return found
         return None
+
+    def _get_columns(self, table):
+        """"""
+        return [x["name"] for x in self.app.model.MODEL_OBJECTS.get("table", {}).get(table, {}).get("columns", [])]
 
     def _get_table_columns(self, table):
         """Get table columns from config with lazy loading"""

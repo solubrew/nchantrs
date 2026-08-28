@@ -88,9 +88,7 @@ class NchantdAction(object):
 # class-creation algorithm to satisfy MRO checks. (Derived from
 # ``TODO_CRIT_pyside6pandas_metaclass.md``.)
 try:
-    _NCHANTD_MIXIN_META = type(
-        type(pyqt.QObject).__name__, (type(pyqt.QObject), type), {}
-    )
+    _NCHANTD_MIXIN_META = type(type(pyqt.QObject).__name__, (type(pyqt.QObject), type), {})
 except (ImportError, AttributeError):
     # PySide6 not installed (rare in tests). Fall back to plain ``type``.
     _NCHANTD_MIXIN_META = type
@@ -494,7 +492,7 @@ class NchantdWidgetMixin(object, metaclass=_NCHANTD_MIXIN_META):
         logma.info(f"Focus In")
         return self
 
-    def focusOutEvent(self, event) -> Any:
+    def focusOutEvent(self, event=None, *args, **kwargs):
         super().focusOutEvent(event)
         logma.info(f"Focus Out")
         return self

@@ -32,9 +32,9 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):
         self.config = kahndor.Instruct(pxcfg).select('NchantdDocEditor').override(parent.config).override(cfg)
         self.embeded_links = None
 
-    def initModel(self) -> Any:
+    def initModel(self, cfg=None) -> Any:
         """ """
-        super().initModel()
+        super().initModel(cfg)
         self.embeded_links = []
         return self
 
@@ -272,10 +272,9 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):
         logma.info(f'Focus In Event')
         return self
 
-    def focusOutEvent(self, event) -> Any:
+    def focusOutEvent(self, event=None, *args, **kwargs):
         """ """
-        current_text = self.toPlainText()
-        super().focusOutEvent(event)
+        super().focusOutEvent(event, args, kwargs)
         logma.info(f'Focus Out Event')
         return self
 

@@ -54,6 +54,9 @@ class NchantdTab(NchantdWidget):
 
     def initView(self, cfg=None) -> Any:
         """"""
+        cfg = cfg or {}
+        if not cfg.get("buttons", None):
+            cfg["buttons"] = {}
         super().initView(cfg)
         return self
 
@@ -94,8 +97,8 @@ class NchantdTab(NchantdWidget):
         logma.info(f"Focus In")
         return self
 
-    def focusOutEvent(self, event) -> Any:
-        super().focusOutEvent(event)
+    def focusOutEvent(self, event=None, *args, **kwargs):
+        super().focusOutEvent(event, args, kwargs)
         logma.info(f"Focus Out")
         return self
 
