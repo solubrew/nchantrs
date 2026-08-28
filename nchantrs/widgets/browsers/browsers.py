@@ -185,6 +185,109 @@ class NchantdWebViewer(NchantdWidget):
         self._did_initial_load = False
         return self
 
+    def showEvent(self, event) -> None:
+        """Load on first show, once we have a surface (Fix B).
+
+        Prefer the active URL over the configured default: an earlier
+        navigation (e.g. the notebook pointing us at /tree before the tab was
+        shown) sets active_url, and reloading the config default here would
+        clobber it back to about:blank.
+        """
+        super().showEvent(event)
+        try:
+            vs = self.size()
+            bs = self.browser.size()
+            logma.info(
+                f"[webviewer] showEvent | viewer={vs.width()}x{vs.height()} visible={self.isVisible()} | view={bs.width()}x{bs.height()} view_visible={self.browser.isVisible()} | did_initial_load={getattr(self, '_did_initial_load', None)} | active_url={getattr(self.active_url, 'url', None)}"
+            )
+        except Exception as e:
+            logma.error(f"[webviewer] showEvent geometry log failed: {e}")
+        if not getattr(self, "_did_initial_load", False):
+            self._did_initial_load = True
+            if self.active_url is not None:
+                logma.info(f"[webviewer] first show -> loading active_url {self.active_url.url}")
+                self.populate_document(self.active_url)
+            else:
+                logma.info("[webviewer] first show -> no active_url, loading configured default")
+                self.cmd_goto_page()
+
+    # DESK T-NEW-059: defensive showEvent hook for nchantdoffice
+    # subclasses. The upstream code has a `populate_viewport`
+    # method (added in a newer nchantrs build than this
+    # checkout) that some NchantdOfficeWebBrowser subclasses
+    # rely on. That method dereferences `self.url_select_entry`
+    # which is initialised to None in `NchantdWebBrowser.__init__`
+    # and only set later (in `initView`) if the toolbar buttons
+    # config supplies a `buttons[14]` entry. Subclasses that
+    # don't call the full initView path (because they're
+    # embedded in a tab that's loaded lazily, like the
+    # Account tab in Settings) hit the showEvent chain
+    # BEFORE url_select_entry is populated, and crash with
+    # `'NoneType' object has no attribute 'set_value'`.
+    #
+    # The fix is to make `populate_viewport` (and the
+    # `populate_document` that calls it) tolerate
+    # url_select_entry being None. If it's None we skip the
+    # dropdown-update path but still load the URL — the
+    # toolbar is a nicety, not a requirement for the page
+    # to render.
+    def populate_viewport(self, url) -> Any:
+        """Set the url-select dropdown to ``url`` and load the page.
+
+        Subclasses that subclass NchantdWebViewer (and therefore
+        may not have run the full initView path before showEvent
+        fires) get a graceful no-op for the dropdown update
+        when url_select_entry hasn't been initialised yet. The
+        page itself still loads.
+        """
+        # URL is None -> nothing to do.
+        if url is None:
+            return self
+        # Defensive: the url_select_entry dropdown is initialised
+        # in initView from the toolbar buttons[14] config. If
+        # the subclass skipped that init (lazy tab load, headless
+        # embedding, etc.) the attribute is None — skip the
+        # dropdown update but still load the page.
+        if getattr(self, "url_select_entry", None) is not None:
+            try:
+                # Match the convention in set_url_path: QUrl
+                # objects need toString() before the combobox
+                # will accept them. Dropdown update is a
+                # best-effort nicety — the load() call below is
+                # what actually shows the page.
+                url_str = url.toString() if hasattr(url, "toString") else str(url)
+                _entry = self.url_select_entry
+                # The isinstance check below is redundant given
+                # the getattr check above (it returned non-None),
+                # but Pyright can't prove that through the
+                # optional-attribute flow, so the runtime guard
+                # silences the type checker and gives us a
+                # readable error if the assumption ever breaks.
+                if _entry is not None:
+                    _entry.combobox.setCurrentText(url_str)  # type: ignore[union-attr]
+                    _entry.update_options([url_str], False, False)  # type: ignore[union-attr]
+            except Exception as _exc:
+                logma.warning(
+                    f"[webviewer] populate_viewport dropdown update failed "
+                    f"(non-blocking): {_exc}"
+                )
+        # Always load the page — the dropdown is a nicety, the
+        # browser view is the actual feature.
+        self.browser.load(url)
+        return self
+
+    def resizeEvent(self, event) -> None:
+        """Log resizes so a collapsed (zero-height) viewer is visible in the log."""
+        super().resizeEvent(event)
+        try:
+            s = event.size()
+            bs = self.browser.size()
+            logma.info(
+                f"[webviewer] resizeEvent | viewer={s.width()}x{s.height()} view={bs.width()}x{bs.height()} visible={self.isVisible()}"
+            )
+        except Exception as e:
+            logma.error(f"[webviewer] resizeEvent log failed: {e}")
+
     def initWidget(self, url=None) -> Any:
         """ """
         self.initModel(url)
