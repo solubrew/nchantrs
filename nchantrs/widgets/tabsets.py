@@ -1,19 +1,21 @@
 from typing import Any, Optional, Union
 
 "#\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n---  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n<(META)>:  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    DOCid:   #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    name:   #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    description: >  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n          #\t\t\t||\n    expirary: <[expiration]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    version: <[version]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    path: <[LEXIvrs]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    outline: <[outline]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    authority: document|this  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    security: sec|lvl2  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    <(WT)>: -32  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n"
-from os.path import abspath, dirname, join
-from kahndor import kahndor
 import ast
 import logging
+from os.path import abspath, dirname, join
+
+from kahndor import kahndor
 from subtrix.utilities import uuid
 
 logger = logging.getLogger(__name__)
+from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
 from nchantrs.models import tabsetmodels
 from nchantrs.widgets.media.notes import NchantdStickyNoteEditor
-from nchantrs.widgets.widgets import NchantdWidgetMixin, NchantdWidget
 from nchantrs.widgets.trees import NchantdApplicationTree
-from kahndor.logma import Logma
+from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 
 here = join(dirname(__file__), "")
 log = False
@@ -67,7 +69,7 @@ class NchantdTab(NchantdWidget):
         return self
 
     def connect_toolbox(self) -> None:
-        logma.info(f"connect_toolbox called")
+        logma.info("connect_toolbox called")
         return self
 
     def delete_tab(self, tab) -> Any:
@@ -89,17 +91,17 @@ class NchantdTab(NchantdWidget):
         return self
 
     def cmd_tab_edit(self, event=None, *args, **kwargs) -> Any:
-        logma.info(f"cmd_tab_edit invoked")
+        logma.info("cmd_tab_edit invoked")
         return self
 
     def focusInEvent(self, event) -> Any:
         super().focusInEvent(event)
-        logma.info(f"Focus In")
+        logma.info("Focus In")
         return self
 
     def focusOutEvent(self, event=None, *args, **kwargs):
         super().focusOutEvent(event, args, kwargs)
-        logma.info(f"Focus Out")
+        logma.info("Focus Out")
         return self
 
     def on_window_move(self, x, y) -> Any:
@@ -117,7 +119,7 @@ class NchantdTab(NchantdWidget):
         return self
 
     def save(self) -> Any:
-        logma.info(f"save called")
+        logma.info("save called")
         return self
 
     def set_position(self, position) -> Any:
@@ -150,7 +152,7 @@ class NchantdApplicationControlTab(NchantdTab):
         super().__init__(self.parent, self.config)
         self.tree = None
         self.note = None
-        logma.info(f"NchantdApplicationControlTab initialized")
+        logma.info("NchantdApplicationControlTab initialized")
 
     def initModel(self) -> Any:
         """"""
@@ -247,7 +249,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         return self
 
     def changeEvent(self, event) -> Any:
-        logma.info(f"changeEvent called")
+        logma.info("changeEvent called")
         return self
 
     def create_drag_pixmap(self, text, icon) -> Any:
@@ -268,11 +270,11 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         return pixmap
 
     def create_toolbox(self, parent, cfg) -> Any:
-        logma.info(f"create_toolbox called")
+        logma.info("create_toolbox called")
         return self
 
     def defocus(self) -> Any:
-        logma.info(f"defocus called")
+        logma.info("defocus called")
         return self
 
     def dragEnterEvent(self, event) -> None:
@@ -371,7 +373,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         pass
 
     def load_journal(self) -> None:
-        logma.info(f"load_journal called")
+        logma.info("load_journal called")
         return self
 
     def load_toolbox(self) -> Any:
@@ -383,9 +385,9 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
                 position = 0
             self.app.view.panes["right"].removeTab(position)
         cfg = self.config.dikt.get("toolbox", {})
-        logma.info(f"Create Toolbox")
+        logma.info("Create Toolbox")
         self.app.toolbox = self.create_toolbox(self, cfg)
-        logma.info(f"Initialize Toolbox")
+        logma.info("Initialize Toolbox")
         self.app.toolbox.initWidget()
         self.app.toolbox.position = position
         logma.info(f"Toolbox Position {position}")
@@ -441,13 +443,13 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         return self
 
     def on_tab_bar_clicked(self, event) -> Any:
-        logma.info(f"on_tab_bar_clicked event received")
+        logma.info("on_tab_bar_clicked event received")
         if getattr(self, "app", None) is not None and hasattr(self.app, "model"):
             self.app.model.has_changed = True
         return self
 
     def on_tab_bar_clicked_double(self, event) -> Any:
-        logma.info(f"on_tab_bar_clicked_double event received")
+        logma.info("on_tab_bar_clicked_double event received")
         if getattr(self, "app", None) is not None and hasattr(self.app, "model"):
             self.app.model.has_changed = True
         return self
@@ -465,7 +467,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         """Initialize and execute the drag operation."""
         if self.dragged_tab_index == -1:
             return
-        widget = self.widget(self.dragged_tab_index)
+        self.widget(self.dragged_tab_index)
         tab_text = self.tabText(self.dragged_tab_index)
         tab_icon = self.tabIcon(self.dragged_tab_index)
         tab_tooltip = self.tabToolTip(self.dragged_tab_index)
@@ -520,13 +522,13 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         return self
 
     def save(self) -> Any:
-        logma.info(f"save called")
+        logma.info("save called")
         return self
 
     def set_active_tab(self, tabset) -> Any:
-        logma.info(f"set_active_tab called")
+        logma.info("set_active_tab called")
         if hasattr(self, "active_tab"):
-            logma.info(f"  has active_tab attr")
+            logma.info("  has active_tab attr")
         return self
 
     def set_focus(self, tabn=None) -> Any:
@@ -560,26 +562,26 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
             if hasattr(tabW, "widget_initialized") is False or tabW.widget_initialized is False:
                 logma.info(f"Initializing Tab {tabn} for Position {self.pane_position}")
                 tabW.initWidget()
-                logma.info(f"Widget Initialized")
+                logma.info("Widget Initialized")
             tabW.pos = tabn
             self.model.current_tab = tabW
         if self.pane_position == "center":
             self.app.active_tab = self.model.current_tab
-            logma.info(f"Load Journal")
+            logma.info("Load Journal")
             self.load_journal()
-            logma.info(f"Load Toolbox")
-        logma.info(f"Finish Tab Focus")
+            logma.info("Load Toolbox")
+        logma.info("Finish Tab Focus")
         return self
 
     def showEvent(self, event) -> Any:
-        logma.info(f"showEvent called")
+        logma.info("showEvent called")
         return self
 
     def start_drag(self, index) -> Any:
         """Start dragging the tab."""
         logma.info(f"Start Drag {index}")
         tab_text = self.tabText(index)
-        tab_widget = self.widget(index)
+        self.widget(index)
         mime_data = pyqt.QMimeData()
         mime_data.setText(tab_text)
         mime_data.setData("application/x-tab-index", str(index).encode())
@@ -592,7 +594,7 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         painter.end()
         drag.setPixmap(pixmap)
         drag.setHotSpot(pyqt.QPoint(pixmap.width() // 2, pixmap.height() // 2))
-        drop_action = drag.exec(pyqt.Qt.MoveAction)
+        drag.exec(pyqt.Qt.MoveAction)
         return self
 
     def dragEnterEvent(self, event) -> Any:

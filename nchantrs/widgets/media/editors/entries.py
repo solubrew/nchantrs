@@ -1,16 +1,20 @@
 from typing import Any
+
 '\n---\n<(META)>:\n    docid:\n    name:\n    description: >\n    version: 0.0.0.0.0.0\n    authority: filesystem\n    security: seclvl2\n    <(WT)>: -32\n'
-from os.path import abspath, dirname, join
 import datetime as dt
 import logging
+from os.path import abspath, dirname, join
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 from nchantrs.widgets.annotations import NchantdLabel
-from nchantrs.widgets.controls.checkboxes import NchantdCheckbox
-from nchantrs.widgets.media.editors.editors import NchantdEntryEditor, NchantdEntryBox
-from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.controls.buttons import NchantdButton
+from nchantrs.widgets.controls.checkboxes import NchantdCheckbox
+from nchantrs.widgets.media.editors.editors import NchantdEntryBox, NchantdEntryEditor
+from nchantrs.widgets.widgets import NchantdWidget
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -29,7 +33,7 @@ class NchantdEntryEditorExplainer(NchantdWidget):
         super().__init__(self)
         self.config.override(cfg)
         self.explainer = None
-        logma.info(f'NchantdEntryEditorExplainer initialized')
+        logma.info('NchantdEntryEditorExplainer initialized')
 
     def initModel(self) -> Any:
         """"""

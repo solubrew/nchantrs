@@ -1,12 +1,17 @@
 from typing import Any
+
 '\n---\n<(META)>:\n    docid:\n    name:\n    description: >\n    version: 0.0.0.0.0.0\n    authority: filesystem\n    security: seclvl2\n    <(WT)>: -32\n'
-from os.path import abspath, dirname, join
-from kahndor import kahndor
 import logging
+from os.path import abspath, dirname, join
+
+from kahndor import kahndor
+
 from nchantrs.services.telemetry import TelemetryService
+
 logger = logging.getLogger(__name__)
 from kahndor.logma import Logma
-from sentinel.sentinel import Sentinel, Automaton
+from sentinel.sentinel import Automaton, Sentinel
+
 here = join(dirname(__file__), '')
 logma = Logma(__name__)
 logma.off()
@@ -71,7 +76,7 @@ class NchantdSentinel(Sentinel):
 
     def initView(self) -> Any:
         super().initView()
-        logma.info(f'initView {{type(self).__name__}}')
+        logma.info('initView {type(self).__name__}')
         return self
 
     def initWidget(self) -> Any:

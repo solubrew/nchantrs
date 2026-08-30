@@ -1,18 +1,22 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import abspath, dirname, join
 import datetime as dt
 import logging
+from os.path import abspath, dirname, join
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
+from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
-from nchantrs.widgets.groups import NchantdVScrollGroupBox, NchantdHGroupBox, NchantdHScrollGroupBox
+from nchantrs.widgets.groups import NchantdHGroupBox, NchantdHScrollGroupBox, NchantdVScrollGroupBox
 from nchantrs.widgets.media.editors.editors import NchantdEntryEditor
 from nchantrs.widgets.media.images import NchantdImage
-from nchantrs.widgets.widgets import NchantdWidget
-from kahndor.logma import Logma
 from nchantrs.widgets.tabsets import NchantdTab
 from nchantrs.widgets.trees import NchantdTree
+from nchantrs.widgets.widgets import NchantdWidget
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)

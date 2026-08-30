@@ -14,11 +14,14 @@
         <(WT)>: -32  #																||
 """
 from os.path import dirname, join
+from typing import Any, Dict, List, Optional, Tuple
+
 from kahndor import kahndor
+from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidgetMixin
-from typing import Optional, Dict, List, Any, Tuple
-from kahndor.logma import Logma
+
 here = join(dirname(__file__), '')
 log = False
 logma = Logma(__name__)
@@ -67,32 +70,32 @@ class NchantdItem(NchantdWidgetMixin, pyqt.QStandardItem):
 
     def initTriggers(self) -> None:
         """ """
-        logma.info(f'Init Triggers')
+        logma.info('Init Triggers')
         self.doubleClicked.connect(self.onLeftDoubleClick)
         self.expanded.connect(self.onExpand)
         self.clicked.connect(self.onLeftClick)
         return self
 
     def onExpand(self) -> None:
-        logma.info(f'onExpand called')
+        logma.info('onExpand called')
         return self
 
     def onRightClick(self, signal=None) -> None:
         """ """
-        logma.info(f'Right Click')
+        logma.info('Right Click')
         return self
 
     def onLeftDoubleClick(self, signal) -> None:
-        logma.info(f'Left Double Click')
+        logma.info('Left Double Click')
         return self
 
     def onLeftClick(self, signal) -> None:
-        logma.info(f'onLeftClick called')
+        logma.info('onLeftClick called')
         return self
 
     def onMiddleClick(self) -> None:
         """ """
-        logma.info(f'Middle Click')
+        logma.info('Middle Click')
         return self
 
     def onSelection(self, fx, mod=None) -> None:
@@ -113,7 +116,7 @@ class NchantdItem(NchantdWidgetMixin, pyqt.QStandardItem):
         return
 
     def onDelete(self, fx, mod=None) -> None:
-        logma.info(f'onDelete called')
+        logma.info('onDelete called')
         return self
 
 class NchantdTreeItem(NchantdWidgetMixin, pyqt.QTreeWidgetItem):

@@ -1,10 +1,14 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
 from os.path import abspath, dirname, join
+
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidgetMixin
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -18,7 +22,7 @@ class NchantdProxyWidget(NchantdWidgetMixin, pyqt.QGraphicsProxyWidget):
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select('NchantdProxyWidget').override(cfg))
-        logma.info(f'NchantdProxyWidget initialized')
+        logma.info('NchantdProxyWidget initialized')
 
     def initModel(self, cfg=None) -> Any:
         """"""
@@ -77,16 +81,16 @@ class NchantdScene(NchantdWidgetMixin, pyqt.QGraphicsScene):
         self.widgets = []
         self.lines = []
         self.start_widget = None
-        logma.info(f'NchantdScene initialized')
+        logma.info('NchantdScene initialized')
 
     def initModel(self, cfg=None) -> Any:
         super().initModel(cfg)
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self, cfg=None) -> Any:
         """"""
-        logma.info(f'initView {{type(self).__name__}}')
+        logma.info('initView {type(self).__name__}')
         return self
 
     def initWidget(self) -> Any:

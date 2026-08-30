@@ -10,20 +10,21 @@
     <(WT)>: -32
 """
 
-from os.path import abspath, dirname, join
 import datetime as dt
-from typing import Any, Optional, Dict, List
+from os.path import abspath, dirname, join
+from typing import Any, Dict, List, Optional
 
 from kahndor import kahndor
+from kahndor.logma import Logma
+
 from nchantrs.dialogs.colors import NchantdColorSelectSigil
 from nchantrs.libraries import pyqt
 from nchantrs.utilities.utils import lookup
-from kahndor.logma import Logma
-from nchantrs.widgets.media.editors.selectors import NchantdComboBox
-from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
-from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.controls.advanced_buttons import NchantdSpinBox
+from nchantrs.widgets.controls.buttons import NchantdButton
+from nchantrs.widgets.media.editors.selectors import NchantdComboBox
+from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 
 here = join(dirname(__file__), "")
 log = True
@@ -193,7 +194,7 @@ class NchantdSubmissionButtons(NchantdWidget):
 
     def initWidget(self) -> Any:
         super().initWidget()
-        logma.info(f"initWidget {{type(self).__name__}}")
+        logma.info("initWidget {type(self).__name__}")
         return self
 
 
@@ -283,7 +284,7 @@ class NchantdNumberPad(pyqt.QWidget):
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdNumberPad").override(cfg))
 
     def initModel(self) -> None:
-        logma.info(f"initModel {{type(self).__name__}}")
+        logma.info("initModel {type(self).__name__}")
         return self
 
     def initView(self) -> Any:
@@ -337,7 +338,7 @@ class NchantdFontConfigBar(NchantdWidget):
         self.bold_button = None
         self.italic_button = None
         self.underline_button = None
-        logma.info(f"NchantdFontConfigBar initialized")
+        logma.info("NchantdFontConfigBar initialized")
 
     def initModel(self, cfg=None) -> Any:
         """"""
@@ -482,7 +483,7 @@ class NchantdFontConfigBar(NchantdWidget):
         return self
 
     def cmd_on_change_underline_double(self, event, *args, **kwargs) -> Any:
-        logma.info(f"cmd_on_change_underline_double invoked")
+        logma.info("cmd_on_change_underline_double invoked")
         return self
 
     def cmd_on_change_strike(self, event, *args, **kwargs) -> Any:
@@ -588,7 +589,7 @@ class NchantdBorderConfigBar(NchantdWidget):
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdBorderConfigBar").override(cfg))
         self.can_highlight = None
-        logma.info(f"NchantdBorderConfigBar initialized")
+        logma.info("NchantdBorderConfigBar initialized")
 
     def initModel(self, cfg=None) -> Any:
         """"""
@@ -630,11 +631,11 @@ class NchantdBorderConfigBar(NchantdWidget):
         return self
 
     def cmd_on_change_border_style(self, event, *args, **kwargs) -> Any:
-        logma.info(f"cmd_on_change_border_style invoked")
+        logma.info("cmd_on_change_border_style invoked")
         return self
 
     def cmd_on_size_change(self, event, *args, **kwargs) -> Any:
-        logma.info(f"cmd_on_size_change invoked")
+        logma.info("cmd_on_size_change invoked")
         return self
 
     def get_border_styles(self) -> Any:

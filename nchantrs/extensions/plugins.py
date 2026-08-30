@@ -9,14 +9,17 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join
-from typing import Optional, Dict, List, Any, Tuple
 import datetime as dt
 import logging
+from os.path import abspath, dirname, join
+from typing import Any, Dict, List, Optional, Tuple
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
-from nchantrs.widgets.widgets import NchantdWidget
 from kahndor.logma import Logma
+
+from nchantrs.widgets.widgets import NchantdWidget
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)

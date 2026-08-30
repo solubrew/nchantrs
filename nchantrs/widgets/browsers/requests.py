@@ -9,19 +9,22 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join
+import dataclasses
 import datetime as dt
 import enum
-import dataclasses
-import platform as _platform
-from typing import Optional
 import logging
+import platform as _platform
 from collections.abc import Callable
+from os.path import abspath, dirname, join
+from typing import Optional
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
-from nchantrs.libraries import pyqt
 from kahndor.logma import Logma
+
+from nchantrs.libraries import pyqt
 from nchantrs.widgets.browsers.utilities import NchantdURL
+
 here = join(dirname(__file__), '')
 log = False
 logma = Logma(__name__)
@@ -104,7 +107,7 @@ class NchantdRequestInterceptor(pyqt.QWebEngineUrlRequestInterceptor):
         return
 
     def intercept_media(self) -> None:
-        logma.info(f'intercept_media called')
+        logma.info('intercept_media called')
         return self
 
     def _block_javascript(self, info) -> None:
@@ -226,7 +229,7 @@ class CloudflareHandler(pyqt.QWebEngineView):
         self.challenge_timer = QTimer()
         self.challenge_timer.timeout.connect(self.check_challenge_status)
         self.page().loadFinished.connect(self.on_load_finished)
-        logma.info(f'CloudflareHandler initialized')
+        logma.info('CloudflareHandler initialized')
 
     def on_load_finished(self, success) -> None:
         """Check for Cloudflare challenge after page load"""

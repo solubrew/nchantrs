@@ -1,12 +1,16 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import abspath, dirname, join
 import datetime as dt
+from os.path import abspath, dirname, join
+
 from kahndor import kahndor
-from nchantrs.libraries import pyqt
-from nchantrs.widgets.widgets import NchantdWidgetMixin
 from kahndor.logma import Logma
+
+from nchantrs.libraries import pyqt
 from nchantrs.widgets.canvases.scenes import NchantdScene
+from nchantrs.widgets.widgets import NchantdWidgetMixin
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -48,7 +52,7 @@ class NchantdCanvas(NchantdWidgetMixin, pyqt.QGraphicsView):
         self.scene = None
         self.shapes = None
         self._display_pixmap = None
-        logma.info(f'NchantdCanvas initialized')
+        logma.info('NchantdCanvas initialized')
 
     def initModel(self, cfg=None) -> Any:
         """"""
@@ -124,7 +128,7 @@ class NchantdPaintCanvas(NchantdCanvas):
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select('NchantdPaintCanvas').override(cfg))
-        logma.info(f'NchantdPaintCanvas initialized')
+        logma.info('NchantdPaintCanvas initialized')
 
     def initModel(self) -> Any:
         """"""
@@ -208,16 +212,16 @@ class NchantdGameCanvas(NchantdCanvas):
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select('NchantdGameCanvas').override(cfg))
-        logma.info(f'NchantdGameCanvas initialized')
+        logma.info('NchantdGameCanvas initialized')
 
     def initModel(self) -> Any:
         super().initModel()
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> Any:
         super().initView()
-        logma.info(f'initView {{type(self).__name__}}')
+        logma.info('initView {type(self).__name__}')
         return self
 
     def initWidget(self) -> Any:
@@ -227,19 +231,19 @@ class NchantdGameCanvas(NchantdCanvas):
         return self
 
     def startGame(self) -> Any:
-        logma.info(f'startGame called')
+        logma.info('startGame called')
         return self
 
     def pauseGame(self) -> Any:
-        logma.info(f'pauseGame called')
+        logma.info('pauseGame called')
         return self
 
     def exitGame(self) -> Any:
-        logma.info(f'exitGame called')
+        logma.info('exitGame called')
         return self
 
     def resetGame(self) -> Any:
-        logma.info(f'resetGame called')
+        logma.info('resetGame called')
         return self
 
 class NchantdMapCanvas(NchantdCanvas):
@@ -252,12 +256,12 @@ class NchantdMapCanvas(NchantdCanvas):
 
     def initModel(self) -> Any:
         super().initModel()
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> Any:
         super().initView()
-        logma.info(f'initView {{type(self).__name__}}')
+        logma.info('initView {type(self).__name__}')
         return self
 
     def initWidget(self) -> Any:

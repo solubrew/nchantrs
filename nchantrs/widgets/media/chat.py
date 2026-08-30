@@ -1,11 +1,15 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import abspath, dirname, join
 import datetime as dt
+from os.path import abspath, dirname, join
+
 from kahndor import kahndor
 from kahndor.logma import Logma
-from nchantrs.widgets.panes.panes import NchantdPane
+
 from nchantrs.libraries import pyqt
+from nchantrs.widgets.panes.panes import NchantdPane
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -25,7 +29,7 @@ class NchantdChat(NchantdPane):
         self.text_input = None
         self.submit_button = None
         self.input = None
-        logma.info(f'NchantdChat initialized')
+        logma.info('NchantdChat initialized')
 
     def initModel(self, cfg=None) -> Any:
         """"""
@@ -59,12 +63,11 @@ class NchantdChat(NchantdPane):
         self.input.setLayout(layout)
 
     def create_connection(self, connection) -> None:
-        logma.info(f'create_connection called')
+        logma.info('create_connection called')
         return self
 
     def setDisplay(self) -> Any:
         """Initialize the display widget as a multiline text area"""
-        cfg = {'text': '0'}
         self.config.dikt['width'] = None
         self.config.dikt['height'] = None
         self.config.dikt['size'] = None

@@ -1,22 +1,25 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import abspath, dirname, join
 import datetime as dt
 import logging
+from os.path import abspath, dirname, join
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
 pxcfg = join(here, '_data_', '.yaml')
-from PySide6.QtWebEngineWidgets import QWebEngineView
-from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineProfile, QWebEngineSettings
-from PySide6.QtCore import QUrl, pyqtSignal, QTimer
-from PySide6.QtWidgets import QWidget, QVBoxLayout
-from PySide6.QtWebEngineCore import QWebEngineProfile, QWebEngineSettings
-from PySide6.QtCore import QStandardPaths
 import os
+
+from PySide6.QtCore import QStandardPaths, QTimer, QUrl, pyqtSignal
+from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineProfile, QWebEngineSettings
+from PySide6.QtWebEngineWidgets import QWebEngineView
+from PySide6.QtWidgets import QVBoxLayout, QWidget
+
 
 class CloudflareAwareWebEnginePage(QWebEnginePage):
     """Enhanced page that handles Cloudflare challenges"""
@@ -71,7 +74,6 @@ class PersistentGoogleSession:
 
     def create_web_view(self, parent=None) -> Any:
         """Create a QWebEngineView with persistent session and Cloudflare handling."""
-        from PySide6.QtWebEngineWidgets import QWebEngineView
         page = CloudflareAwareWebEnginePage(self.profile, parent)
         web_view = QWebEngineView(parent)
         web_view.setPage(page)
@@ -97,7 +99,7 @@ class NchantdGoogleDriveWidget(QWidget):
         self.session_manager = PersistentGoogleSession('nchantd_office')
         self.setup_ui()
         self.setup_login_detection()
-        logma.info(f'NchantdGoogleDriveWidget initialized')
+        logma.info('NchantdGoogleDriveWidget initialized')
 
     def setup_ui(self) -> None:
         """Setup the user interface."""

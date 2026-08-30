@@ -9,22 +9,25 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join
 import datetime as dt
-import sys
+import json
+import logging
 import socket
 import subprocess
-import json
+import sys
 import threading
 import time
-from typing import Dict, List, Optional, Tuple
 from dataclasses import dataclass
 from enum import Enum
-import logging
+from os.path import abspath, dirname, join
+from typing import Dict, List, Optional, Tuple
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)

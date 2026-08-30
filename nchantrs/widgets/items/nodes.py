@@ -1,15 +1,19 @@
 from typing import Any, Optional
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import abspath, dirname, join
 import datetime as dt
 import json as j
 import threading
-from pandas import DataFrame
+from os.path import abspath, dirname, join
+
 from kahndor import kahndor
+from kahndor.logma import Logma
+from pandas import DataFrame
+
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.items.items import NchantdItem, NchantdTreeItem
 from nchantrs.widgets.widgets import NchantdWidgetMixin
-from kahndor.logma import Logma
+
 here = join(dirname(__file__), '')
 log = False
 logma = Logma(__name__)
@@ -122,15 +126,15 @@ class NchantdNode(NchantdItem):
         return self
 
     def addChildNode(self) -> Any:
-        logma.info(f'addChildNode called')
+        logma.info('addChildNode called')
         return self
 
     def addSibilingNode(self) -> Any:
-        logma.info(f'addSibilingNode called')
+        logma.info('addSibilingNode called')
         return self
 
     def deleteChildren(self, pid) -> Any:
-        logma.info(f'deleteChildren called')
+        logma.info('deleteChildren called')
         return self
 
     def data(self, column) -> Optional[Any]:
@@ -171,15 +175,15 @@ class NchantdNode(NchantdItem):
 
     def initUI(self) -> Any:
         super().initUI()
-        logma.info(f'initUI {{type(self).__name__}}')
+        logma.info('initUI {type(self).__name__}')
         return self
 
     def onExpand(self) -> Any:
-        logma.info(f'onExpand called')
+        logma.info('onExpand called')
         return self
 
     def onRightClick(self) -> None:
-        logma.info(f'onRightClick called')
+        logma.info('onRightClick called')
         return self
 
     def onLeftDoubleClick(self, signal) -> Any:
@@ -189,7 +193,7 @@ class NchantdNode(NchantdItem):
         return self
 
     def onMiddleClick(self) -> Any:
-        logma.info(f'onMiddleClick called')
+        logma.info('onMiddleClick called')
         return self
 
     def onSelection(self, fx, mod=None) -> None:
@@ -210,11 +214,11 @@ class NchantdNode(NchantdItem):
         return
 
     def onDelete(self, fx, mod=None) -> None:
-        logma.info(f'onDelete called')
+        logma.info('onDelete called')
         return self
 
     def update_position(self) -> None:
-        logma.info(f'update_position called')
+        logma.info('update_position called')
         return self
 
     def _set_font(self) -> None:
@@ -352,15 +356,15 @@ class NchantdTreeNode(NchantdTreeItem):
         return self
 
     def addChildNode(self) -> Any:
-        logma.info(f'addChildNode called')
+        logma.info('addChildNode called')
         return self
 
     def addSibilingNode(self) -> Any:
-        logma.info(f'addSibilingNode called')
+        logma.info('addSibilingNode called')
         return self
 
     def deleteChildren(self, pid) -> Any:
-        logma.info(f'deleteChildren called')
+        logma.info('deleteChildren called')
         return self
 
     def hasChildren(self, nid) -> Any:
@@ -606,7 +610,7 @@ class NchantdCanvasNodeMixin(NchantdWidgetMixin):
         return self
 
     def launch_update_sigil(self) -> None:
-        logma.info(f'launch_update_sigil called')
+        logma.info('launch_update_sigil called')
         return self
 
 class NchantdRectangleNode(NchantdCanvasNodeMixin, pyqt.QGraphicsRectItem):

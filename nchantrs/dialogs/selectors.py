@@ -11,11 +11,13 @@
 """
 from os.path import abspath, dirname, join
 from typing import Any, Callable, Dict, List, Optional
+
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
-from nchantrs.widgets.widgets import NchantdWidgetMixin
-from nchantrs.widgets.widgets import NchantdWidget
+from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -114,7 +116,7 @@ class NchantdSelectionDialog(NchantdWidget, pyqt.QDialog):
 
     def initWidget(self) -> None:
         super().initWidget()
-        logma.info(f'initWidget {{type(self).__name__}}')
+        logma.info('initWidget {type(self).__name__}')
         return self
 
     def run_callback(self, item=None) -> None:

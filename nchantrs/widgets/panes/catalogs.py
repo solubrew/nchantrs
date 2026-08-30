@@ -1,24 +1,25 @@
 from typing import Any, Union
 
 "\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n"
-from os.path import abspath, dirname, join
 import datetime as dt
 import logging
+from os.path import abspath, dirname, join
 
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
+from kahndor.logma import Logma
+from subtrix.utilities import uuid
+
 from nchantrs.libraries import pyqt
 from nchantrs.utilities.utils import lookup
+from nchantrs.widgets.controls.button_groups import NchantdAcceptButtons, NchantdFontConfigBar
 from nchantrs.widgets.controls.buttons import NchantdButton
-from nchantrs.widgets.controls.checkboxes import NchantdCheckboxGroup, NchantdCheckbox
+from nchantrs.widgets.controls.checkboxes import NchantdCheckbox, NchantdCheckboxGroup
 from nchantrs.widgets.controls.controls import NchantdSelectionWidget
 from nchantrs.widgets.controls.radios import NchantdRadioButtonGroup
 from nchantrs.widgets.media.editors.editors import NchantdLabeledEntry
 from nchantrs.widgets.media.editors.selectors import NchantdDropDown
 from nchantrs.widgets.panes.panes import NchantdPane
-from nchantrs.widgets.controls.button_groups import NchantdAcceptButtons, NchantdFontConfigBar
-from kahndor.logma import Logma
-from subtrix.utilities import uuid
 
 here = join(dirname(__file__), "")
 log = True
@@ -62,12 +63,12 @@ class NchantdNewNodePane(NchantdPane):
         if self.catalog is None:
             return self
         self.active_item = self.catalog.selected_item
-        logma.info(f"Model Initd")
+        logma.info("Model Initd")
         return self
 
     def initView(self, cfg=None) -> Any:
         """"""
-        logma.info(f"Init View")
+        logma.info("Init View")
         if cfg is None:
             cfg = {}
         cfg["size"] = ["auto", "auto"]
@@ -139,7 +140,7 @@ class NchantdNewNodePane(NchantdPane):
         self.add_feature("center")
 
     def add_field(self, field_widget) -> Any:
-        logma.info(f"add_field called")
+        logma.info("add_field called")
         return self
 
     def add_node(self, tree="left", widgdata=None) -> Any:
@@ -158,7 +159,6 @@ class NchantdNewNodePane(NchantdPane):
                 pass
             pos = 0
             ntype = "usernode"
-            tabset = "center"
             parameters = {"focus": "user", "recent_tab": {}}
             self.app.model.add_node(name, ntype, pid, pos, parameters, None, True)
         return self
@@ -191,7 +191,7 @@ class NchantdNewNodePane(NchantdPane):
         return self
 
     def show_first_tab_options(self) -> None:
-        logma.info(f"show_first_tab_options called")
+        logma.info("show_first_tab_options called")
         return self
 
     def update_pane(self) -> Any:
@@ -202,7 +202,7 @@ class NchantdNewNodePane(NchantdPane):
         if self.active_item is not None:
             self.document_type_entry.set_option_selection(self.active_item.title_txt)
             if self.active_item.file_type == "app":
-                logma.info(f"Set as Node")
+                logma.info("Set as Node")
                 self.tab_name_entry.set_label("Node Name: ")
                 self.add_feature = self.add_node
                 if self.node_radio_buttons is not None:
@@ -218,7 +218,7 @@ class NchantdNewNodePane(NchantdPane):
                     self.node_radio_buttons = NchantdRadioButtonGroup(self, cfg).initWidget()
                     self.center_options_layout.addWidget(self.node_radio_buttons)
                 self.tab_name_entry.set_label("Tab Name: ")
-                logma.info(f"Set as Tab")
+                logma.info("Set as Tab")
                 self.add_feature = self.add_document
         default_txt = self.get_new_tab_name()
         logma.info(f"Update Default Name {default_txt}")

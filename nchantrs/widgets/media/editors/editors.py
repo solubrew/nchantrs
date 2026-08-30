@@ -1,21 +1,25 @@
 from typing import Any, Optional, Tuple
+
 '  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n---  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n<(META)>:  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    docid:   #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    name:   #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    description: >  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n          #\t\t\t||\n    expirary: <[expiration]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    version: <[version]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    path: <[LEXIvrs]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    outline: <[outline]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    authority: document|this  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    security: sec|lvl2  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    <(WT)>: -32  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n'
-from os.path import abspath, dirname, join
 import datetime as dt
-from types import MethodType
-import re
 import logging
+import re
+from os.path import abspath, dirname, join
+from types import MethodType
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
+from kahndor.logma import Logma
+
 from nchantrs.dialogs.files import NchantdFileOpenSigil
 from nchantrs.libraries import pyqt
+from nchantrs.utilities.files import qimage_to_data_uri
 from nchantrs.utilities.formatting import getAlignment
 from nchantrs.widgets.annotations import NchantdLabel
-from nchantrs.widgets.media.images import NchantdImage
 from nchantrs.widgets.controls.buttons import NchantdButton
+from nchantrs.widgets.media.images import NchantdImage
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
-from kahndor.logma import Logma
-from nchantrs.utilities.files import qimage_to_data_uri
+
 here = join(dirname(__file__), '')
 logma = Logma(__name__)
 logma.off()
@@ -269,13 +273,13 @@ class NchantdDocEditor(NchantdWidgetMixin, pyqt.QTextEdit):
     def focusInEvent(self, event) -> Any:
         """ """
         super().focusInEvent(event)
-        logma.info(f'Focus In Event')
+        logma.info('Focus In Event')
         return self
 
     def focusOutEvent(self, event=None, *args, **kwargs):
         """ """
         super().focusOutEvent(event, args, kwargs)
-        logma.info(f'Focus Out Event')
+        logma.info('Focus Out Event')
         return self
 
     def get_text(self) -> str:
@@ -506,7 +510,7 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
         return self
 
     def refresh_view(self, cfg) -> None:
-        logma.info(f'refresh_view called')
+        logma.info('refresh_view called')
         return self
 
     def initWidget(self, handler=None) -> Any:
@@ -541,14 +545,14 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
 
     def on_return_pressed(self, text) -> Any:
         """enter pressed"""
-        logger.debug(f'Enter Pressed')
+        logger.debug('Enter Pressed')
         self.user_editted = dt.datetime.now()
         self.can_save = True
         self.value = text
         return self
 
     def focusOutEvent(self, event=None) -> None:
-        logma.info(f'focusOutEvent called')
+        logma.info('focusOutEvent called')
         return self
 
     def on_editing_finished(self) -> Any:
@@ -561,13 +565,13 @@ class NchantdEntryBox(NchantdWidgetMixin, pyqt.QLineEdit):
         return self
 
     def on_selection_changed(self, val=True) -> None:
-        logma.info(f'on_selection_changed event received')
+        logma.info('on_selection_changed event received')
         if getattr(self, 'app', None) is not None and hasattr(self.app, 'model'):
             self.app.model.has_changed = True
         return self
 
     def on_cursor_position_changed(self, position: int) -> None:
-        logma.info(f'on_cursor_position_changed event received')
+        logma.info('on_cursor_position_changed event received')
         if getattr(self, 'app', None) is not None and hasattr(self.app, 'model'):
             self.app.model.has_changed = True
         return self
@@ -635,7 +639,7 @@ class NchantdLabeledEntry(NchantdWidget):
 
     def getEntry(self, row) -> Tuple[Any, Any]:
         """"""
-        self.name, value = (None, None)
+        self.name, _value = (None, None)
         try:
             self.name = self.item(row, 0).text()
         except Exception:
@@ -736,7 +740,6 @@ class NchantdEntryListEditor(NchantdWidget):
         group = pyqt.QGroupBox()
         self.entry_editor = NchantdEntryEditorActivator(self, self.config).initWidget()
         self.layout.addWidget(self.entry_editor)
-        cfg = {}
         group.setTitle(self.config.dikt['label'])
         self.layout.addWidget(group)
         self.setLayout(self.layout)
@@ -760,7 +763,7 @@ class NchantdAppendOnlyEditor(NchantdDocEditor):
         text_cursor.movePosition(pyqt.QTextCursor.End)
         self.setTextCursor(text_cursor)
         self.user_input_locked = False
-        logma.info(f'NchantdAppendOnlyEditor initialized')
+        logma.info('NchantdAppendOnlyEditor initialized')
 
     def initModel(self) -> Any:
         """"""
@@ -801,7 +804,7 @@ class NchantdScratchEditor(NchantdWidget):
         self.editor = None
         self.button_export = None
         self.button_maketab = None
-        logma.info(f'NchantdScratchEditor initialized')
+        logma.info('NchantdScratchEditor initialized')
 
     def initModel(self) -> Any:
         """ """
@@ -842,15 +845,15 @@ class NchantdScratchEditor(NchantdWidget):
         return self
 
     def clear(self) -> None:
-        logma.info(f'clear called')
+        logma.info('clear called')
         return self
 
     def export(self) -> None:
-        logma.info(f'export called')
+        logma.info('export called')
         return self
 
     def setTheme(self) -> None:
-        logma.info(f'setTheme called')
+        logma.info('setTheme called')
         return self
 
 class NchantdDocEditorView(pyqt.QListView):

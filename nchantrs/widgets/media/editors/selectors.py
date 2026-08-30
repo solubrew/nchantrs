@@ -1,14 +1,18 @@
 from typing import Any, Optional
+
 '\n---\n<(META)>:\n    docid:\n    name:\n    description: >\n    version: 0.0.0.0.0.0\n    authority: filesystem\n    security: seclvl2\n    <(WT)>: -32\n'
 from os.path import dirname, join
+
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.annotations import NchantdLabel
-from nchantrs.widgets.media.editors.editors import NchantdEntryBox
 from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.controls.checkboxes import NchantdCheckbox
+from nchantrs.widgets.media.editors.editors import NchantdEntryBox
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
+
 here = join(dirname(__file__), '')
 logma = Logma(__name__)
 log = False
@@ -111,27 +115,27 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
         return
 
     def on_return_pressed(self) -> Any:
-        logma.info(f'on_return_pressed event received')
+        logma.info('on_return_pressed event received')
         if getattr(self, 'app', None) is not None and hasattr(self.app, 'model'):
             self.app.model.has_changed = True
         return self
 
     def on_text_change(self) -> Any:
-        logma.info(f'on_text_change event received')
+        logma.info('on_text_change event received')
         if getattr(self, 'app', None) is not None and hasattr(self.app, 'model'):
             self.app.model.has_changed = True
         return self
 
     def on_text_edit(self, event, *args, **kwargs) -> Any:
-        logma.info(f'on_text_edit event received')
+        logma.info('on_text_edit event received')
         if getattr(self, 'app', None) is not None and hasattr(self.app, 'model'):
             self.app.model.has_changed = True
         return self
 
     def set_current_text(self) -> Any:
-        logma.info(f'set_current_text called')
+        logma.info('set_current_text called')
         if hasattr(self, 'current_text'):
-            logma.info(f'  has current_text attr')
+            logma.info('  has current_text attr')
         return self
 
     def set_size(self) -> None:
@@ -245,7 +249,7 @@ class NchantdDropDown(NchantdWidget):
         return self.combobox.get_value()
 
     def on_return_pressed(self, method) -> Any:
-        logma.info(f'on_return_pressed event received')
+        logma.info('on_return_pressed event received')
         if getattr(self, 'app', None) is not None and hasattr(self.app, 'model'):
             self.app.model.has_changed = True
         return self
@@ -336,7 +340,7 @@ class NchantdDropDownExplainer(NchantdWidget):
         super().__init__(self)
         self.config.override(cfg)
         self.explainer = None
-        logma.info(f'NchantdDropDownExplainer initialized')
+        logma.info('NchantdDropDownExplainer initialized')
 
     def initModel(self) -> Any:
         """"""

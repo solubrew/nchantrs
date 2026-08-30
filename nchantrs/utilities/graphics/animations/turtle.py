@@ -1,10 +1,13 @@
 from typing import Any, Iterator
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
+import logging
 from os.path import dirname, join
 from random import randint
-import logging
+
 logger = logging.getLogger(__name__)
 from kahndor.logma import Logma
+
 DEFAULT_ANIMATION_FRAMES = 100
 DEFAULT_FRAME_DELAY = 0.05
 DIRECTION_HORIZONTAL = 0
@@ -37,7 +40,6 @@ def animation_panel(background, accent) -> None:
     win.bgcolor('black')
     bounds = [100, 100]
     t = {}
-    frame_delay = DEFAULT_FRAME_DELAY
     x = get_number(int(bounds[0] / 3))
     y = get_number(int(bounds[1] / 3))
     cnt = 0

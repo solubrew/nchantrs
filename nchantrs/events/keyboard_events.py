@@ -11,12 +11,14 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join
 import datetime as dt
 import logging
+from os.path import abspath, dirname, join
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -52,13 +54,13 @@ def on_backspace_release() -> None:
     return
 
 def on_clickleft_release(fx) -> None:
-    logma.info(f'on_clickleft_release event received')
+    logma.info('on_clickleft_release event received')
     if getattr(self, 'app', None) is not None and hasattr(self.app, 'model'):
         self.app.model.has_changed = True
     return self
 
 def on_clickright_release(fx) -> None:
-    logma.info(f'on_clickright_release event received')
+    logma.info('on_clickright_release event received')
     if getattr(self, 'app', None) is not None and hasattr(self.app, 'model'):
         self.app.model.has_changed = True
     return self

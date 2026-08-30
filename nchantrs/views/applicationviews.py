@@ -10,17 +10,19 @@
     <(WT)>: -32
 """
 
-from os.path import abspath, dirname, join
-from typing import Optional, Dict, List, Any, Tuple
 import datetime as dt
-import time
 import inspect
+import time
+from os.path import abspath, dirname, join
+from typing import Any, Dict, List, Optional, Tuple
+
 from kahndor import kahndor
+from kahndor.logma import Logma
 from subtrix.utilities import uuid
+
 from nchantrs.libraries import pyqt
 from nchantrs.themes.themes import NchantdTheme
 from nchantrs.widgets.widgets import loadWidget
-from kahndor.logma import Logma
 
 here = join(dirname(__file__), "")
 log = False

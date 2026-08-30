@@ -1,16 +1,20 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import abspath, dirname, join
 import datetime as dt
-import math
 import logging
+import math
+from os.path import abspath, dirname, join
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
+from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
 from nchantrs.utilities.utils import lookup
-from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 from nchantrs.widgets.media.images import NchantdImage
-from kahndor.logma import Logma
+from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
+
 here = join(dirname(__file__), '')
 log = False
 logma = Logma(__name__)
@@ -132,7 +136,7 @@ class NchantdBadgeBar(NchantdWidget):
         logma.info(f'Action Items {self.actions}')
         for action, button_cfg in self.actions.items():
             if isinstance(action, int):
-                sequence = action
+                pass
             if isinstance(button_cfg, str):
                 action = button_cfg
                 if button_cfg[0] == '_':
@@ -266,7 +270,7 @@ class NchantdProgressBar(NchantdWidgetMixin, pyqt.QProgressBar):
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select('NchantdEntryBox').override(cfg)
         self.setValue(0)
-        logma.info(f'NchantdProgressBar initialized')
+        logma.info('NchantdProgressBar initialized')
 
     def initModel(self) -> Any:
         """ """
@@ -285,5 +289,5 @@ class NchantdProgressBar(NchantdWidgetMixin, pyqt.QProgressBar):
         return self
 
     def updateProgress(self) -> Any:
-        logma.info(f'updateProgress called')
+        logma.info('updateProgress called')
         return self

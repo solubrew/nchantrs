@@ -1,6 +1,7 @@
 """Source-structure tests for nchantrs.utilities.formatting."""
 import ast
 from pathlib import Path
+
 import pytest
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent.parent.parent

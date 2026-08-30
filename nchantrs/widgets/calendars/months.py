@@ -14,25 +14,24 @@
 
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
-from typing import Any
-from os.path import dirname, join
-import datetime as dt
 import calendar
+import datetime as dt
 from calendar import monthrange
+from os.path import dirname, join
+from typing import Any
 
 # ======================================3rd Party Library Modules=====================================================||
-
-
 # ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
+from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
-from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.groups import NchantdVScrollGroupBox
 from nchantrs.widgets.media.editors.selectors import NchantdDropDown
+from nchantrs.widgets.panes.calendars import NchantdMonthCalendarPane
 from nchantrs.widgets.tables.tables import NchantdGrid
 from nchantrs.widgets.tabsets import NchantdTab
-from kahndor.logma import Logma
-from nchantrs.widgets.panes.calendars import NchantdMonthCalendarPane
+from nchantrs.widgets.widgets import NchantdWidget
 
 # ====================================================================================================================||
 HERE = join(dirname(__file__), "")  # ||
@@ -60,7 +59,7 @@ class NchantdMonthCalendar(NchantdTab):
     def initModel(self) -> Any:
         """"""
         super().initModel()
-        datetime = self.config.dikt.get("datetime", dt.datetime.now())
+        self.config.dikt.get("datetime", dt.datetime.now())
         return self
 
     def initView(self) -> Any:
@@ -113,7 +112,7 @@ class NchantdMonthCalendar(NchantdTab):
 
     def insertCalendarWidget(self) -> None:
         """"""
-        year = self.selectedDate.year()
+        self.selectedDate.year()
         cfg = {
             "rows": 6,
             "columns": 7,

@@ -1,13 +1,18 @@
 from typing import Any
+
 "#\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n---  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n<(META)>: #\t\t\t\t\t\t\t\t||\n        DOCid: 'b0383757-eb6b-4d01-a5af-f0b4bc6b3b44' #\t\t\t\t\t\t\t\t||\n        name: Nchantrs Module Widgets Forms Python Excecution Document  #\t\t\t||\n        description: >  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        expirary: <[expiration]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        version: <[version]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        authority: document|this  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        security: sec|lvl2  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        <(WT)>: -32  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n"
-from os.path import abspath, dirname, join
-from kahndor import kahndor
 import logging
+from os.path import abspath, dirname, join
+
+from kahndor import kahndor
+
 from nchantrs.libraries import pyqt
+
 logger = logging.getLogger(__name__)
-from nchantrs.widgets.widgets import NchantdWidget
-from nchantrs.widgets.widgets import loadWidget
 from kahndor.logma import Logma
+
+from nchantrs.widgets.widgets import NchantdWidget, loadWidget
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -119,11 +124,11 @@ class NchantdDynamicEntryForm(NchantdForm):
         self.rid = None
 
     def save_entry(self) -> None:
-        logma.info(f'save_entry called')
+        logma.info('save_entry called')
         return self
 
     def entryFieldModels(self) -> Any:
-        logma.info(f'entryFieldModels called')
+        logma.info('entryFieldModels called')
         return self
 
     def handler(self, key, val: dict) -> Any:

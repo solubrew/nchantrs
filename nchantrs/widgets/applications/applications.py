@@ -1,20 +1,24 @@
 from typing import Any, List, Tuple, Union
+
 "#\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n---  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n<(META)>: '3a0f63bb-96be-4c2f-bd5b-31fc64fd00b3' #\t\t\t\t\t\t\t\t||\n        docid:   #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        name: Nchantrs Module Nchantrs Python Excecution Document  #\t\t\t\t||\n        description: >  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n                Nchantrs allows for the modular creation of a gui app via  #\t\t\t||\n                configuration files.  The main window holds a grid of widgets such  #\t||\n                that each application is its own singular document type saving, new,  #\t||\n                open etc refers to the data used to populate the widgets.  The  #\t\t||\n                default data format for test_nchantrs applications is yaml files with the  #\t||\n                ability to override with an sql storage method  #\t\t\t\t\t\t||\n                leverage PyQt5TableModels to integrate tables\n        expirary: <[expiration]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        version: 0.0.0.0.0.0  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        authority: document|this  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        security: sec|lvl2  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        <(WT)>: -32  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n"
-from os.path import abspath, dirname, exists, join, expanduser
-from os import environ
-from pathlib import Path
-import os
-from sys import argv
-import platform
 import logging
+import os
+import platform
+from os import environ
+from os.path import abspath, dirname, exists, expanduser, join
+from pathlib import Path
+from sys import argv
+
 from kahndor import kahndor
+from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
-from nchantrs.models.applicationmodels import NchantdCloakModel, NchantdPantiesModel
 from nchantrs.library.nchantdlibrary import NchantdLibraryManager
+from nchantrs.models.applicationmodels import NchantdCloakModel, NchantdPantiesModel
 from nchantrs.updates.db import NchantdDBUpdate
 from nchantrs.views.applicationviews import NchantdCloakView, NchantdPantiesView
 from nchantrs.widgets.controls.menus import NchantdContextMenu
-from kahndor.logma import Logma
+
 WINDOW_STATE_MESSAGES = {pyqt.Qt.WindowMinimized: 'Window State: Minimized', pyqt.Qt.WindowMaximized: 'Window State: Maximized', pyqt.Qt.WindowNoState: 'Window State: Normal'}
 WINDOW_STATE_ACTIONS = {pyqt.Qt.WindowMaximized: lambda: logma.info('The window was maximized.'), pyqt.Qt.WindowNoState: lambda: logma.info('The window was restored to normal.')}
 here = join(dirname(__file__), '')
@@ -124,7 +128,7 @@ class NchantdPanties(pyqt.QApplication):
         return self
 
     def initialize_configuration(self) -> None:
-        logma.info(f'initialize_configuration called')
+        logma.info('initialize_configuration called')
         return self
 
     def initialize_context_menu(self) -> Any:
@@ -246,7 +250,7 @@ class NchantdCloak(NchantdPanties):
         return self.model.get_current_version()
 
     def run_on_launch(self) -> None:
-        logma.info(f'run_on_launch called')
+        logma.info('run_on_launch called')
         return self
 
     def set_initial_state(self) -> Any:
@@ -270,7 +274,7 @@ class NchantdCloak(NchantdPanties):
         """Set environment variables for Chromium WebEngine."""
         if isinstance(library_path, str):
             library_path = Path(library_path)
-        logma.info(f'Setting Environment Variables for Nchantd Office')
+        logma.info('Setting Environment Variables for Nchantd Office')
         logma.info(f'library_path: {library_path}')
         chromium_flags = self._build_chromium_flags(library_path)
         environ['QTWEBENGINE_CHROMIUM_FLAGS'] = ' '.join(chromium_flags)
@@ -531,7 +535,7 @@ class NchantdMainWindow(pyqt.QMainWindow):
         help_shortcut.activated.connect(self.cmd_help)
 
     def showEvent(self, event) -> None:
-        logma.info(f'showEvent called')
+        logma.info('showEvent called')
         return self
 
 def detect_linux_display_system() -> str:

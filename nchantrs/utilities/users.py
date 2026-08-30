@@ -1,19 +1,33 @@
 from typing import Any, Iterator, Union
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import abspath, dirname, join
-import datetime as dt
 import base64
+import datetime as dt
 import logging
+from os.path import abspath, dirname, join
+
 logger = logging.getLogger(__name__)
-from uuid_extensions import uuid7
 from kahndor import kahndor
-from pycurity.pycrypt import decrypt_aes, encrypt_aes, create_hash, create_public_private_keccak_keys
-from pycurity.pycrypt import create_public_private_rsa_keys, create_symmetric_aes_key, encrypt_password
-from pycurity.pycrypt import encrypt_rsa, encrypt_rsa, decrypt_rsa, decrypt_password, verify_sha3_signature
-from pycurity.pyvalid import validate_password_strength
-from pycurity.pyhash import encode64, text_hashing_function
-from nchantrs.libraries import pyqt
 from kahndor.logma import Logma
+from pycurity.pycrypt import (
+    create_hash,
+    create_public_private_keccak_keys,
+    create_public_private_rsa_keys,
+    create_symmetric_aes_key,
+    decrypt_aes,
+    decrypt_password,
+    decrypt_rsa,
+    encrypt_aes,
+    encrypt_password,
+    encrypt_rsa,
+    verify_sha3_signature,
+)
+from pycurity.pyhash import encode64, text_hashing_function
+from pycurity.pyvalid import validate_password_strength
+from uuid_extensions import uuid7
+
+from nchantrs.libraries import pyqt
+
 DEFAULT_PASSWORD_ITERATIONS = 100000
 here = join(dirname(__file__), '')
 log = False
@@ -85,22 +99,22 @@ class NchantdUser(object):
             if self.app.model.is_private or self.app.model.is_secure:
                 pword = input(message)
             else:
-                logma.warning(f'Using generated password for non-secure app - this should be replaced')
+                logma.warning('Using generated password for non-secure app - this should be replaced')
                 pword = user.upper() + self.uuid
             while True:
-                logma.info(f'Check Private')
+                logma.info('Check Private')
                 if self.app.model.is_private or self.app.model.is_secure:
                     expiration = self.config.dikt['pword']['rules']['expiration']
                     expired = (dt.datetime.now() - initialization).total_seconds() > expiration
-                    logma.info(f'check Expired')
+                    logma.info('check Expired')
                     if expired:
-                        logma.info(f'Password Verification Expired')
+                        logma.info('Password Verification Expired')
                         break
-                logma.info(f'Check User')
+                logma.info('Check User')
                 if user == self.parent.device.user:
-                    logma.info(f'Verify Password')
+                    logma.info('Verify Password')
                     if self.verify_pword(pword):
-                        logma.info(f'Password Verified')
+                        logma.info('Password Verified')
                         yield password
                     else:
                         # Loop back to re-prompt for password
@@ -134,14 +148,14 @@ class NchantdUser(object):
             users_nms = device_users[device_users['user_nm_txt'] == self.parent.device.user]
             logma.info(f'Users NMS: {users_nms}')
             if users_nms.empty:
-                logma.info(f'Create User')
+                logma.info('Create User')
                 user = self._create_user()
             else:
                 user = data.iloc[0].to_dict()
         else:
             user_nms = data[data['user_nm_txt'] == self.parent.device.user]
             if user_nms.empty:
-                logma.info(f'Create User')
+                logma.info('Create User')
                 user = self._create_user()
             else:
                 user = data.iloc[0].to_dict()
@@ -200,7 +214,7 @@ class NchantdUser(object):
         :return:
         """
         logma.inspect_caller()
-        logma.info(f'Create User')
+        logma.info('Create User')
         self.address, address_private_key = create_public_private_keccak_keys()
         self.rsa_key, private_key = create_public_private_rsa_keys()
         aes_key = create_symmetric_aes_key()
@@ -223,12 +237,12 @@ class NchantdUser(object):
         while True:
             status, message = self._check_password_rules(next(self.pword))
             if status is False:
-                logma.info(f'Verify pword:')
+                logma.info('Verify pword:')
                 verify_pword = next(self.get_password('Verify pword: '))
                 if next(self.pword) == verify_pword:
                     return True
                 else:
-                    message = 'Passwords provided do not match. Please retry'
+                    pass
             else:
                 break
 
@@ -286,9 +300,9 @@ class NchantdUser(object):
         return False
 
 def ask_user_for_account() -> None:
-    logma.info(f'ask_user_for_account called')
+    logma.info('ask_user_for_account called')
     return self
 
 def check_for_account() -> None:
-    logma.info(f'check_for_account called')
+    logma.info('check_for_account called')
     return self

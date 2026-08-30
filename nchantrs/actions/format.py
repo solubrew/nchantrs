@@ -13,6 +13,7 @@
     <(WT)>: -32
 """
 import logging
+
 logger = logging.getLogger(__name__)
 
 def screenfull() -> 'None':

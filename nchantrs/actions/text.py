@@ -9,13 +9,16 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join
 import datetime as dt
 import logging
+from os.path import abspath, dirname, join
+
 logger = logging.getLogger(__name__)
+from typing import Any, Dict, List, Optional, Tuple
+
 from kahndor import kahndor
-from typing import Optional, Dict, List, Any, Tuple
 from kahndor.logma import Logma
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -25,35 +28,35 @@ DEFAULT_FIND_TIMEOUT = 2000
 pxcfg = join(here, '_data_', '.yaml')
 
 def bold() -> None:
-    logma.info(f'bold called')
+    logma.info('bold called')
     return self
 
 def capitalize() -> None:
-    logma.info(f'capitalize called')
+    logma.info('capitalize called')
     return self
 
 def copy() -> None:
-    logma.info(f'copy called')
+    logma.info('copy called')
     return self
 
 def cut() -> None:
-    logma.info(f'cut called')
+    logma.info('cut called')
     return self
 
 def edit() -> None:
-    logma.info(f'edit called')
+    logma.info('edit called')
     return self
 
 def findinapplication() -> None:
-    logma.info(f'findinapplication called')
+    logma.info('findinapplication called')
     return self
 
 def findinsheet() -> None:
-    logma.info(f'findinsheet called')
+    logma.info('findinsheet called')
     return self
 
 def findinworkbook() -> None:
-    logma.info(f'findinworkbook called')
+    logma.info('findinworkbook called')
     return self
 
 def findText(self, word) -> None:
@@ -67,15 +70,15 @@ def findText(self, word) -> None:
             self.statusBar().showMessage('nichts gefunden', DEFAULT_STATUS_MESSAGE_TIMEOUT)
 
 def findreplaceinapplication() -> None:
-    logma.info(f'findreplaceinapplication called')
+    logma.info('findreplaceinapplication called')
     return self
 
 def findreplaceinsheet() -> None:
-    logma.info(f'findreplaceinsheet called')
+    logma.info('findreplaceinsheet called')
     return self
 
 def findreplaceinworkbook() -> None:
-    logma.info(f'findreplaceinworkbook called')
+    logma.info('findreplaceinworkbook called')
     return self
 
 def replaceAll(self) -> None:
@@ -101,55 +104,55 @@ def replaceOne(self) -> None:
         self.statusBar().showMessage('nichts zu ersetzen', DEFAULT_STATUS_MESSAGE_TIMEOUT)
 
 def format() -> None:
-    logma.info(f'format called')
+    logma.info('format called')
     return self
 
 def italic() -> None:
-    logma.info(f'italic called')
+    logma.info('italic called')
     return self
 
 def line_spacing_1_0() -> None:
-    logma.info(f'line_spacing_1_0 called')
+    logma.info('line_spacing_1_0 called')
     return self
 
 def line_spacing_1_5() -> None:
-    logma.info(f'line_spacing_1_5 called')
+    logma.info('line_spacing_1_5 called')
     return self
 
 def line_spacing_2_0() -> None:
-    logma.info(f'line_spacing_2_0 called')
+    logma.info('line_spacing_2_0 called')
     return self
 
 def line_spacing_custom() -> None:
-    logma.info(f'line_spacing_custom called')
+    logma.info('line_spacing_custom called')
     return self
 
 def lowercase() -> None:
-    logma.info(f'lowercase called')
+    logma.info('lowercase called')
     return self
 
 def paste() -> None:
-    logma.info(f'paste called')
+    logma.info('paste called')
     return self
 
 def pasteunformattedtext() -> None:
-    logma.info(f'pasteunformattedtext called')
+    logma.info('pasteunformattedtext called')
     return self
 
 def pastespecial() -> None:
-    logma.info(f'pastespecial called')
+    logma.info('pastespecial called')
     return self
 
 def paragraphspacingincrease() -> None:
-    logma.info(f'paragraphspacingincrease called')
+    logma.info('paragraphspacingincrease called')
     return self
 
 def paragraphspacingdecrease() -> None:
-    logma.info(f'paragraphspacingdecrease called')
+    logma.info('paragraphspacingdecrease called')
     return self
 
 def propercase() -> None:
-    logma.info(f'propercase called')
+    logma.info('propercase called')
     return self
 
 def replaceThis(self) -> None:
@@ -165,65 +168,65 @@ def replaceThis(self) -> None:
             self.myeditor.document().setModified(True)
 
 def selectall() -> None:
-    logma.info(f'selectall called')
+    logma.info('selectall called')
     return self
 
 def select() -> None:
-    logma.info(f'select called')
+    logma.info('select called')
     return self
 
 def sentencecase() -> None:
-    logma.info(f'sentencecase called')
+    logma.info('sentencecase called')
     return self
 
 def shadow() -> None:
-    logma.info(f'shadow called')
+    logma.info('shadow called')
     return self
 
 def spacing() -> None:
-    logma.info(f'spacing called')
+    logma.info('spacing called')
     return self
 
 def strikethrough() -> None:
-    logma.info(f'strikethrough called')
+    logma.info('strikethrough called')
     return self
 
 def superscript() -> None:
-    logma.info(f'superscript called')
+    logma.info('superscript called')
     return self
 
 def subscript() -> None:
-    logma.info(f'subscript called')
+    logma.info('subscript called')
     return self
 
 def styles() -> None:
-    logma.info(f'styles called')
+    logma.info('styles called')
     return self
 
 def text() -> None:
-    logma.info(f'text called')
+    logma.info('text called')
     return self
 
 def textwrap() -> None:
-    logma.info(f'textwrap called')
+    logma.info('textwrap called')
     return self
 
 def togglecase() -> None:
-    logma.info(f'togglecase called')
+    logma.info('togglecase called')
     return self
 
 def trackchanges() -> None:
-    logma.info(f'trackchanges called')
+    logma.info('trackchanges called')
     return self
 
 def underline() -> None:
-    logma.info(f'underline called')
+    logma.info('underline called')
     return self
 
 def underlinedouble() -> None:
-    logma.info(f'underlinedouble called')
+    logma.info('underlinedouble called')
     return self
 
 def uppercase() -> None:
-    logma.info(f'uppercase called')
+    logma.info('uppercase called')
     return self

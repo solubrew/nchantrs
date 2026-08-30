@@ -10,10 +10,13 @@
         <(WT)>: -32
 """
 from os.path import dirname, join
+
 from kahndor import kahndor
 from kahndor.logma import Logma
-from nchantrs.libraries import pyqt
+
 from nchantrs.dialogs.sigil import NchantdSigilMixin
+from nchantrs.libraries import pyqt
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -29,11 +32,11 @@ class NchantdColorSelectSigil(NchantdSigilMixin, pyqt.QColorDialog):
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select('NchantdColorSelectSigil').override(parent.config).override(cfg)
         self.init_variables()
-        logma.info(f'NchantdColorSelectSigil initialized')
+        logma.info('NchantdColorSelectSigil initialized')
 
     def initModel(self, cfg=None) -> None:
         super().initModel()
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self, cfg=None) -> None:

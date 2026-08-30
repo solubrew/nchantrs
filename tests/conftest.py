@@ -45,7 +45,7 @@ def mock_qt_modules():
 def mock_pyqt():
     """Mock PyQt5/PySide6 modules to avoid GUI requirements in tests."""
     mock_qt = mock_qt_modules()
-    
+
     qt_modules = {
         "PyQt5": mock_qt,
         "PyQt5.QtCore": mock_qt,
@@ -69,7 +69,7 @@ def mock_pyqt():
         "PySide6.QtPdf": mock_qt,
         "PySide6.QtSvg": mock_qt,
     }
-    
+
     with patch.dict(sys.modules, qt_modules):
         yield mock_qt
 
@@ -171,7 +171,7 @@ def pytest_configure(config):
 
 class TestDataFactory:
     """Factory for creating test data."""
-    
+
     @staticmethod
     def create_instance_config(
         name: str = "test_instance",
@@ -184,7 +184,7 @@ class TestDataFactory:
             "instance_id_txt": instance_id,
             "instance_path_txt": instance_path,
         }
-    
+
     @staticmethod
     def create_action_config(
         name: str = "test_action",
@@ -202,7 +202,7 @@ class TestDataFactory:
             "widget_txt": "test_widget",
             "params_dict": {},
         }
-    
+
     @staticmethod
     def create_tree_node(
         name: str = "node",
@@ -234,8 +234,8 @@ def mock_external_dependencies():
     For subtrix: replace sys.modules["subtrix"] with a real stub that has
     uuid_generator, so any module-level import captures a working function.
     """
-    import uuid as _uuid_mod
     import sys
+    import uuid as _uuid_mod
     from types import ModuleType
 
     mocks = {

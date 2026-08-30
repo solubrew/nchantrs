@@ -2,15 +2,17 @@ from typing import Any
 
 "\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n"
 from os.path import dirname, join
+
 from kahndor import kahndor
+from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.annotations import NchantdLabel
+from nchantrs.widgets.config.config import NchantdConfigStoreDocument
 from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.controls.toolbars import NchantdButtonBar
 from nchantrs.widgets.media.images import NchantdImage
 from nchantrs.widgets.tabsets import NchantdTab
-from nchantrs.widgets.config.config import NchantdConfigStoreDocument
-from kahndor.logma import Logma
 
 here = join(dirname(__file__), "")
 logma = Logma(__name__)
@@ -27,7 +29,7 @@ class NchantdSettingsWidget(NchantdTab):
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdSettingsWidget").override(cfg))
         self.unsaved = False
         self.document = NchantdConfigStoreDocument()
-        logma.info(f"NchantdSettingsWidget initialized")
+        logma.info("NchantdSettingsWidget initialized")
 
     def initModel(self, cfg=None) -> Any:
         """"""
@@ -59,18 +61,18 @@ class NchantdSettingsWidget(NchantdTab):
         return self
 
     def cmd_export_file(self, event=None, *args, **kwargs):
-        logma.info(f"cmd_export_file invoked")
+        logma.info("cmd_export_file invoked")
         return self
 
     def cmd_import_file(self, event=None, *args, **kwargs):
-        logma.info(f"cmd_import_file invoked")
+        logma.info("cmd_import_file invoked")
         return self
 
     def cmd_refresh(self, event=None, *args, **kwargs):
         """"""
 
     def cmd_save(self) -> None:
-        logma.info(f"cmd_save invoked")
+        logma.info("cmd_save invoked")
         return self
 
     def cmd_show_pane_left(self, event=None, *args, **kwargs) -> Any:
@@ -90,7 +92,7 @@ class NchantdSettingsWidget(NchantdTab):
         return self
 
     def export_settings(self) -> None:
-        logma.info(f"export_settings called")
+        logma.info("export_settings called")
         return self
 
     def get_settings(self, area) -> Any:
@@ -99,11 +101,11 @@ class NchantdSettingsWidget(NchantdTab):
         return df
 
     def import_settings(self) -> None:
-        logma.info(f"import_settings called")
+        logma.info("import_settings called")
         return self
 
     def launch_unsaved_dialog(self) -> None:
-        logma.info(f"launch_unsaved_dialog called")
+        logma.info("launch_unsaved_dialog called")
         return self
 
     def on_changed(self, value) -> None:
@@ -180,7 +182,7 @@ class NchantdThemeSettings(NchantdSettingsWidget):
         self.config.dikt.pop("height", None)
         self.config.dikt.pop("width", None)
         darks = [x for x in self.themes.keys() if "midnight" in x]
-        lights = [x for x in self.themes.keys() if "midday" in x]
+        [x for x in self.themes.keys() if "midday" in x]
         if len(self.themes.keys()) != 0:
             cfg = {"size": ["auto", "auto"]}
             dark_group = pyqt.QGroupBox()
@@ -218,7 +220,7 @@ class NchantdThemeSettings(NchantdSettingsWidget):
         return self
 
     def cmd_change_theme(self, event, *args, **kwargs) -> None:
-        logma.info(f"cmd_change_theme invoked")
+        logma.info("cmd_change_theme invoked")
         return self
 
     def save(self) -> Any:

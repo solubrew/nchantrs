@@ -1,8 +1,9 @@
 """Nchantrs CLI - Command Line Interface for Nchantrs Application."""
-import sys
 import argparse
 import logging
+import sys
 from typing import Optional
+
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger: logging.Logger = logging.getLogger(__name__)
 DEFAULT_AGENT: str = 'arthr'
@@ -10,7 +11,7 @@ DEFAULT_AGENT_NAME: str = 'arthr'
 
 def create_parser() -> argparse.ArgumentParser:
     """Create the argument parser for nchantrs CLI.
-    
+
     Returns:
         argparse.ArgumentParser: Configured argument parser
     """
@@ -30,7 +31,7 @@ def create_parser() -> argparse.ArgumentParser:
 
 def main(agent: Optional[str]=None, args: Optional[list]=None) -> int:
     """Main entry point for the nchantrs CLI.
-    
+
     Args:
         agent: The agent identifier (default: arthr)
     """
@@ -42,7 +43,7 @@ def main(agent: Optional[str]=None, args: Optional[list]=None) -> int:
 
 def cmd_run(args: list[str], agent: Optional[str]=None) -> int:
     """Run the nchantrs application.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -53,7 +54,7 @@ def cmd_run(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_test(args: list[str], agent: Optional[str]=None) -> int:
     """Run tests.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -64,7 +65,7 @@ def cmd_test(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_install(args: list[str], agent: Optional[str]=None) -> int:
     """Install nchantrs.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -75,7 +76,7 @@ def cmd_install(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_uninstall(args: list[str], agent: Optional[str]=None) -> int:
     """Uninstall nchantrs.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -86,7 +87,7 @@ def cmd_uninstall(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_config(args: list[str], agent: Optional[str]=None) -> int:
     """Manage configuration.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -97,7 +98,7 @@ def cmd_config(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_version(args: list[str], agent: Optional[str]=None) -> int:
     """Show version.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -108,7 +109,7 @@ def cmd_version(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_help(args: list[str], agent: Optional[str]=None) -> int:
     """Show help.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -117,7 +118,7 @@ def cmd_help(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_actions(args: list[str], agent: Optional[str]=None) -> int:
     """Work with actions module.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -128,7 +129,7 @@ def cmd_actions(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_dialogs(args: list[str], agent: Optional[str]=None) -> int:
     """Work with dialogs module.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -139,7 +140,7 @@ def cmd_dialogs(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_events(args: list[str], agent: Optional[str]=None) -> int:
     """Work with events module.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -150,7 +151,7 @@ def cmd_events(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_models(args: list[str], agent: Optional[str]=None) -> int:
     """Work with models module.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -161,7 +162,7 @@ def cmd_models(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_services(args: list[str], agent: Optional[str]=None) -> int:
     """Work with services module.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -172,7 +173,7 @@ def cmd_services(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_utilities(args: list[str], agent: Optional[str]=None) -> int:
     """Work with utilities module.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -183,7 +184,7 @@ def cmd_utilities(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_widgets(args: list[str], agent: Optional[str]=None) -> int:
     """Work with widgets module.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -194,7 +195,7 @@ def cmd_widgets(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_wizards(args: list[str], agent: Optional[str]=None) -> int:
     """Work with wizards module.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -205,7 +206,7 @@ def cmd_wizards(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_cli(args: list[str], agent: Optional[str]=None) -> int:
     """Work with CLI module.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -216,7 +217,7 @@ def cmd_cli(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_nchantrs(args: list[str], agent: Optional[str]=None) -> int:
     """Work with nchantrs main module.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -227,7 +228,7 @@ def cmd_nchantrs(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_extensions(args: list[str], agent: Optional[str]=None) -> int:
     """Work with extensions module.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -238,7 +239,7 @@ def cmd_extensions(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_libraries(args: list[str], agent: Optional[str]=None) -> int:
     """Work with libraries module.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -249,7 +250,7 @@ def cmd_libraries(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_library(args: list[str], agent: Optional[str]=None) -> int:
     """Work with library module.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -260,7 +261,7 @@ def cmd_library(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_logging(args: list[str], agent: Optional[str]=None) -> int:
     """Work with logging module.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -271,7 +272,7 @@ def cmd_logging(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_themes(args: list[str], agent: Optional[str]=None) -> int:
     """Work with themes module.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -282,7 +283,7 @@ def cmd_themes(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_updates(args: list[str], agent: Optional[str]=None) -> int:
     """Work with updates module.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier
@@ -293,7 +294,7 @@ def cmd_updates(args: list[str], agent: Optional[str]=None) -> int:
 
 def cmd_views(args: list[str], agent: Optional[str]=None) -> int:
     """Work with views module.
-    
+
     Args:
         args: Command arguments
         agent: The agent identifier

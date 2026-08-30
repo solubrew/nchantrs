@@ -1,12 +1,16 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import abspath, dirname, join
 import datetime as dt
 import subprocess
+from os.path import abspath, dirname, join
+
 import zmq
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 from nchantrs.widgets.managers import NchantdManager
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -51,7 +55,7 @@ class NchantdCommunicationsManager(object):
         return self.send_request(message)
 
     def request_restart_instance(self, instance) -> None:
-        logma.info(f'request_restart_instance called')
+        logma.info('request_restart_instance called')
         return self
 
     def send_request(self, message) -> Any:
@@ -65,7 +69,7 @@ class NchantdCommunicationsManager(object):
         if self.socket in socks and socks[self.socket] == zmq.POLLIN:
             reply = self.socket.recv_string()
         else:
-            logma.info(f'No Response')
+            logma.info('No Response')
             self.start_supervisor()
         logma.info(f'Received Reply: {reply}')
         return reply

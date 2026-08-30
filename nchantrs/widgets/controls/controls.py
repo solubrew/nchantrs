@@ -1,15 +1,21 @@
 from typing import Any
+
 '#\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n---  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n<(META)>:  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    docid:   #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    name:   #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    description: >  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n          #\t\t\t||\n    expirary: <[expiration]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    version: <[version]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    path: <[LEXIvrs]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    outline: <[outline]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    authority: document|this  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    security: sec|lvl2  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    <(WT)>: -32  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n'
-from os.path import abspath, dirname, join
-from kahndor import kahndor
 import logging
+from os.path import abspath, dirname, join
+
+from kahndor import kahndor
+
 from nchantrs.libraries import pyqt
+
 logger = logging.getLogger(__name__)
+from kahndor.logma import Logma
+
 from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.groups import NchantdVScrollGroupBox
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
-from kahndor.logma import Logma
+
 here = join(dirname(__file__), '')
 logma = Logma(__name__)
 logma.off()
@@ -73,7 +79,7 @@ class NchantdWidgetSelector(NchantdWidget):
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select('NchantdWidgetSelector').override(cfg))
         self.widgets = {}
-        logma.info(f'NchantdWidgetSelector initialized')
+        logma.info('NchantdWidgetSelector initialized')
 
     def initModel(self) -> Any:
         """"""

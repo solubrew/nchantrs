@@ -1,9 +1,12 @@
 from typing import Any
+
 '#\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n---  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n<(META)>:  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        docid:   #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        name:\t#\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        description: >  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n\n        expirary: <[expiration]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        version: <[version]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        path: <[LEXIvrs]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        outline: <[outline]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        authority: document|this  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        security: sec|lvl2  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        <(WT)>: -32  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n'
-from os.path import abspath, dirname, join
-from kahndor import kahndor
 import logging
+from os.path import abspath, dirname, join
+
+from kahndor import kahndor
 from kahndor.logma import Logma
+
 logger = logging.getLogger(__name__)
 here = join(dirname(__file__), '')
 log = True
@@ -27,7 +30,7 @@ class NchantdMap:
 
     def initModel(self) -> Any:
         super().initModel()
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> Any:
@@ -58,7 +61,7 @@ class NchantdMindMap:
 
     def initModel(self) -> Any:
         super().initModel()
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> Any:

@@ -9,17 +9,20 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join
-from typing import Optional, Dict, List, Any, Tuple
 import datetime as dt
 import logging
+from os.path import abspath, dirname, join
+from typing import Any, Dict, List, Optional, Tuple
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
 from kahndor.logma import Logma
-from nchantrs.widgets.controls.buttons import NchantdButton
-from nchantrs.widgets.widgets import NchantdWidget
+
 from nchantrs.extensions.install import NchantdExtensionLoader
+from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.groups import NchantdHScrollGroupBox, NchantdVScrollGroupBox
+from nchantrs.widgets.widgets import NchantdWidget
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -60,7 +63,7 @@ class NchantdExtensionsManager(NchantdWidget):
         self.extension_loader.load_extension(ext_name)
 
 def load_extension() -> None:
-    logma.info(f'load_extension called')
+    logma.info('load_extension called')
     return self
 
 def load_extensions(dir_) -> Any:
@@ -75,13 +78,13 @@ def load_extensions(dir_) -> Any:
     return plugins
 
 def decompress_extension() -> None:
-    logma.info(f'decompress_extension called')
+    logma.info('decompress_extension called')
     return self
 
 def register_extension() -> None:
-    logma.info(f'register_extension called')
+    logma.info('register_extension called')
     return self
 
 def remove_extension() -> None:
-    logma.info(f'remove_extension called')
+    logma.info('remove_extension called')
     return self

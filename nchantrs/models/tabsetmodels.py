@@ -1,13 +1,17 @@
 from typing import Any
+
 '#\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n---  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n<(META)>:  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    docid:   #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    name:\t#\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    description: >  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n\n    expirary: <[expiration]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    version: <[version]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    path: <[LEXIvrs]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    outline: <[outline]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    authority: document|this  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    security: sec|lvl2  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    <(WT)>: -32  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n'
-from os.path import abspath, dirname, join
 import json as j
+from os.path import abspath, dirname, join
+
 from kahndor import kahndor
-from nchantrs.libraries import pyqt
 from kahndor.logma import Logma
 from subtrix.utilities import uuid
+
+from nchantrs.libraries import pyqt
 from nchantrs.utilities.models import combine_records
 from nchantrs.widgets.widgets import loadWidget
+
 here = join(dirname(__file__), '')
 log = True
 debug = True
@@ -99,7 +103,7 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
 
     def buildTabSet(self, node, tabset='center', tabsdata=None, toolbox=None) -> None:
         """Dynamically create a tabset based on configurations and data whose parent is the selected node provided
-        
+
         Implements lazy loading: Only the active tab is fully loaded on build.
         Other tabs are created as placeholder widgets to defer loading until needed.
         """
@@ -141,7 +145,7 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         return 0
 
     def delete_tab(self) -> None:
-        logma.info(f'delete_tab called')
+        logma.info('delete_tab called')
         return self
 
     def get_tabs(self, node, tabset) -> None:

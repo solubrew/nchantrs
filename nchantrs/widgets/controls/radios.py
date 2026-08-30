@@ -9,16 +9,19 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join
 import datetime as dt
-from typing import Any, Optional, Dict
 import logging
+from os.path import abspath, dirname, join
+from typing import Any, Dict, Optional
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
+from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
-from kahndor.logma import Logma
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -39,7 +42,7 @@ class NchantdRadioButton(NchantdWidgetMixin, pyqt.QRadioButton):
 
     def initModel(self) -> 'NchantdRadioButton':
         super().initModel()
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> 'NchantdRadioButton':

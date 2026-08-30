@@ -9,11 +9,13 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join
 import datetime as dt
 import logging
+from os.path import abspath, dirname, join
+
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)

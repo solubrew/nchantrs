@@ -14,28 +14,22 @@
 
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
-from os.path import abspath, dirname, join
-from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Union
-from typing import Any, List, Tuple
-
-
-from os.path import abspath, dirname, join
 import datetime as dt
-
-# ======================================3rd Party Library Modules=====================================================||
-from pandas import DataFrame
+from datetime import datetime, timezone
+from os.path import abspath, dirname, join
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
 
-from kahndor import kahndor
+# ======================================3rd Party Library Modules=====================================================||
+from pandas import DataFrame
+from thingery.numbers.numerals import calcArabicNumerals, calcExtendedRomanNumerals
+
 from nchantrs.libraries import pyqt, qpandas
 from nchantrs.widgets.items.cells import NchantdCell, NchantdTableCell
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
-from kahndor.logma import Logma
-from thingery.numbers.numerals import calcExtendedRomanNumerals, calcArabicNumerals
 
 # ====================================================================================================================||
 HERE = join(dirname(__file__), "")  # ||
@@ -131,7 +125,7 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
 
     def get_roman_numeral_headers(self) -> List[Any]:
         """"""
-        logma.warning(f"calc roman numerals")
+        logma.warning("calc roman numerals")
         return [calcExtendedRomanNumerals(x) for x in range(1, self.columnCount() + 1)]
 
     def lookup_column(self, column) -> Any:
@@ -374,7 +368,7 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
     def set_current_cell(self, row, column) -> Any:
         """"""
         logma.info(f"Set Current Cell {row} {column}")
-        logma.info(f"calc roman numerals")
+        logma.info("calc roman numerals")
         column = calcExtendedRomanNumerals(column)
         self.current_cell = f"{column}|{row}"
         return self
@@ -518,7 +512,7 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
         return self
 
     def set_font_size(self) -> Any:
-        font = pyqt.QFont()
+        pyqt.QFont()
 
     def set_handler_cell(self, handler) -> Any:
         if handler is not None and callable(handler):
@@ -551,7 +545,7 @@ class NchantdTable(NchantdWidgetMixin, pyqt.QTableWidget):
         return self
 
     def setSelectionBehavior(self, behavior) -> None:
-        logma.info(f"setSelectionBehavior called")
+        logma.info("setSelectionBehavior called")
         return self
 
     def update_data(self, data) -> Any:
@@ -703,7 +697,7 @@ class NchantdDataFrameTable(NchantdWidgetMixin, qpandas.DataTableWidget):
         self.parent = parent
         self.config = kahndor.Instruct(PXCFG).select("NchantdDataFrameTable").override(parent.config).override(cfg)
         self.model = qpandas.DataFrameModel()
-        logma.info(f"NchantdDataFrameTable initialized")
+        logma.info("NchantdDataFrameTable initialized")
 
     def initModel(self, df=None) -> Any:
         """ """

@@ -1,13 +1,17 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import abspath, dirname, join
 import datetime as dt
 import logging
+from os.path import abspath, dirname, join
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidget
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -57,5 +61,5 @@ class NchantdPane(NchantdWidget):
         return self
 
     def update_pane(self) -> Any:
-        logma.info(f'update_pane called')
+        logma.info('update_pane called')
         return self

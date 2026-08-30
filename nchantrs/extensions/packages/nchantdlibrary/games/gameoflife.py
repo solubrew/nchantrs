@@ -1,12 +1,16 @@
 from typing import Any
+
 '\n---\n<(META)>:\n    docid:\n    name:\n    description: >\n    version: 0.0.0.0.0.0\n    authority: filesystem\n    security: seclvl2\n    <(WT)>: -32\n'
-from os.path import abspath, dirname, join
 import datetime as dt
 import logging
+from os.path import abspath, dirname, join
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
-from nchantrs.widgets.media.games.games import NchantdGameWidget
 from kahndor.logma import Logma
+
+from nchantrs.widgets.media.games.games import NchantdGameWidget
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -24,7 +28,7 @@ class NchantdGameOfLife(NchantdGameWidget):
             self.config.override(parent.config)
         super().__init__(self)
         self.config.override(cfg)
-        logma.info(f'NchantdGameOfLife initialized')
+        logma.info('NchantdGameOfLife initialized')
 
     def initModel(self) -> Any:
         """"""

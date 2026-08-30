@@ -1,13 +1,17 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import abspath, dirname, join
 import datetime as dt
 import logging
+from os.path import abspath, dirname, join
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
+from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidget
-from kahndor.logma import Logma
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -30,7 +34,7 @@ class NchantdTextMarquee(NchantdWidget):
         self.timer = pyqt.QTimer(self)
         self.timer.timeout.connect(self.advance_offset)
         self.timer.start(1000 / 30)
-        logma.info(f'NchantdTextMarquee initialized')
+        logma.info('NchantdTextMarquee initialized')
 
     def advance_offset(self) -> None:
         self.offset += 1

@@ -1,10 +1,14 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
 from os.path import abspath, dirname, join
+
 from kahndor import kahndor
-from nchantrs.utilities.utils import convert_df_to_tree, lookup
-from nchantrs.libraries import pyqt
 from kahndor.logma import Logma
+
+from nchantrs.libraries import pyqt
+from nchantrs.utilities.utils import convert_df_to_tree, lookup
+
 here = join(dirname(__file__), '')
 logma = Logma(__name__)
 log = False
@@ -40,7 +44,7 @@ class NchantdMenu(pyqt.QMenu):
 
     def initWidget(self) -> Any:
         super().initWidget()
-        logma.info(f'initWidget {{type(self).__name__}}')
+        logma.info('initWidget {type(self).__name__}')
         return self
 
     def add_action(self, title, handler) -> Any:

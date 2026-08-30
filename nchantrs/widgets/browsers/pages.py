@@ -14,19 +14,19 @@
 
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
-from typing import Any, Optional
 from os.path import abspath, dirname, join
+from typing import Any, Optional
 
 # ======================================3rd Party Library Modules=====================================================||
 # from PySide6.QtWebEngineCore import QWebEngineProfile, QWebEngineSettings, QWebEnginePage
 # from PySide6.QtWebEngineWidgets import QWebEngineView
 # from PySide6.QtCore import QUrl
-
 # ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
-from subtrix.utilities import uuid
-from nchantrs.libraries import pyqt
 from kahndor.logma import Logma
+from subtrix.utilities import uuid
+
+from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidgetMixin
 
 # ====================================================================================================================||
@@ -139,7 +139,7 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
         to the page's own ``triggerAction`` so the underlying QWebEnginePage
         handles the action dispatch.
         """
-        logma.info(f"createStandardContextMenu called")
+        logma.info("createStandardContextMenu called")
         menu = pyqt.QMenu(self)
         for action_id, label in [
             (pyqt.QWebEnginePage.WebAction.Back, "Back"),

@@ -10,15 +10,17 @@
         <(WT)>: -32
 """
 
-from os.path import abspath, dirname, join
 import json as j
-from typing import Any, Optional, Dict
+from os.path import abspath, dirname, join
+from typing import Any, Dict, Optional
+
 from kahndor import kahndor
+from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.media.images import NchantdImage
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
-from kahndor.logma import Logma
 
 here = join(dirname(__file__), "")
 logma = Logma(__name__)

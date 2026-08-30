@@ -1,20 +1,24 @@
 from typing import Any
+
 '\n---\n<(META)>:\n    docid:\n    name:\n    description: >\n    version: 0.0.0.0.0.0\n    authority: filesystem\n    security: seclvl2\n    <(WT)>: -32\n'
-from os.path import abspath, dirname, join
 import datetime as dt
 import logging
+from os.path import abspath, dirname, join
+
 logger = logging.getLogger(__name__)
 import feedparser
 from kahndor import kahndor
+from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
+from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.controls.checkboxes import NchantdCheckbox, NchantdCheckboxGroup
 from nchantrs.widgets.controls.toolbars import NchantdButtonBar
 from nchantrs.widgets.groups import NchantdVScrollGroupBox
-from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.managers import NchantdManager
-from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.panes.files import NchantdFileDetailsPane
-from kahndor.logma import Logma
+from nchantrs.widgets.widgets import NchantdWidget
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -175,7 +179,7 @@ class NchantdFileViewer(NchantdWidget):
         self.details_pane = None
         self.files = []
         self.viewer_item = None
-        logma.info(f'NchantdFileViewer initialized')
+        logma.info('NchantdFileViewer initialized')
 
     def initModel(self) -> Any:
         """"""
@@ -206,7 +210,7 @@ class NchantdFileViewer(NchantdWidget):
         return self
 
     def find_duplicate(self) -> None:
-        logma.info(f'find_duplicate called')
+        logma.info('find_duplicate called')
         return self
 
     def lazy_load_visible_items(self, scroll_position) -> None:

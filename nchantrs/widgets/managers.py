@@ -1,10 +1,14 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import abspath, dirname, join
 import datetime as dt
+from os.path import abspath, dirname, join
+
 from kahndor import kahndor
-from nchantrs.widgets.widgets import NchantdWidget
 from kahndor.logma import Logma
+
+from nchantrs.widgets.widgets import NchantdWidget
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -115,11 +119,11 @@ class NchantdExtensionManager(NchantdManager):
             self.config.override(parent.config)
         self.config.override(cfg)
         super(NchantdExtensionManager, self).__init__(self.parent, self.config)
-        logma.info(f'NchantdExtensionManager initialized')
+        logma.info('NchantdExtensionManager initialized')
 
     def initModel(self) -> Any:
         super().initModel()
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> Any:
@@ -140,11 +144,11 @@ class NchantdExtensionManager(NchantdManager):
         return self
 
     def add_extension(self) -> None:
-        logma.info(f'add_extension called')
+        logma.info('add_extension called')
         return self
 
     def remove_extension(self) -> None:
-        logma.info(f'remove_extension called')
+        logma.info('remove_extension called')
         return self
 
 class NchantdFileSystemsManager(NchantdManager):
@@ -161,7 +165,7 @@ class NchantdFileSystemsManager(NchantdManager):
 
     def initModel(self) -> Any:
         super().initModel()
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> Any:

@@ -1,17 +1,22 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import abspath, dirname, join
-from kahndor import kahndor
 import logging
+from os.path import abspath, dirname, join
+
+from kahndor import kahndor
+
 from nchantrs.libraries import pyqt
+
 logger = logging.getLogger(__name__)
-from nchantrs.widgets.annotations import NchantdLabel
-from nchantrs.widgets.media.editors.selectors import NchantdDropDownExplainer
-from nchantrs.widgets.groups import NchantdVScrollGroupBox
-from nchantrs.widgets.media.editors.entries import NchantdActivateEntry, NchantdCheckboxEditor, NchantdCheckbox
-from nchantrs.widgets.media.editors.selectors import NchantdDropDown
 from kahndor.logma import Logma
+
+from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.config.settings import NchantdSettingsWidget
+from nchantrs.widgets.groups import NchantdVScrollGroupBox
+from nchantrs.widgets.media.editors.entries import NchantdActivateEntry, NchantdCheckbox, NchantdCheckboxEditor
+from nchantrs.widgets.media.editors.selectors import NchantdDropDown, NchantdDropDownExplainer
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -30,7 +35,7 @@ class NchantdStorageSettings(NchantdSettingsWidget):
             self.config.override(parent.config)
         self.config.override(cfg)
         self.primary_settings_group = None
-        logma.info(f'NchantdStorageSettings initialized')
+        logma.info('NchantdStorageSettings initialized')
 
     def initModel(self) -> Any:
         """"""

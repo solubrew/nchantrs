@@ -11,12 +11,16 @@
     <(WT)>: -32
 """
 from __future__ import annotations
+
 import logging
 from os.path import abspath, dirname, join
 from typing import Any, Optional
+
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
+
 here = join(dirname(__file__), '')
 logma: Logma = Logma(__name__)
 pxcfg = join(here, '_data_', 'formatting.yaml')

@@ -9,15 +9,18 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join
-from typing import Optional, Dict, List, Any, Tuple
 import datetime as dt
 import json as j
 import logging
+from os.path import abspath, dirname, join
+from typing import Any, Dict, List, Optional, Tuple
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
-from nchantrs.libraries import pyqt
 from kahndor.logma import Logma
+
+from nchantrs.libraries import pyqt
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -132,15 +135,15 @@ class NchantdSourceAPI(object):
         self.config = kahndor.Instruct(pxcfg).select('NchantdSourceAPI').override(cfg)
 
     def load_source(self) -> None:
-        logma.info(f'load_source called')
+        logma.info('load_source called')
         return self
 
     def update_source(self) -> None:
-        logma.info(f'update_source called')
+        logma.info('update_source called')
         return self
 
     def save_source(self) -> None:
-        logma.info(f'save_source called')
+        logma.info('save_source called')
         return self
 
 class NchantdStorageAPI(object):
@@ -151,7 +154,7 @@ class NchantdStorageAPI(object):
         self.config = kahndor.Instruct(pxcfg).select('NchantdStorageAPI').override(cfg)
         self.storage_file = 'storage.json'
         self.load_storage()
-        logma.info(f'NchantdStorageAPI initialized')
+        logma.info('NchantdStorageAPI initialized')
 
     def load_storage(self) -> None:
         try:
@@ -218,7 +221,7 @@ class NchantdExtensionAPI(pyqt.QObject):
         """
         request_data = j.loads(request)
         method = request_data.get('method')
-        params = request_data.get('params', {})
+        request_data.get('params', {})
         if method == 'getAccounts':
             response = {'accounts': ['0xYourEthereumAddress']}
         elif method == 'signMessage':

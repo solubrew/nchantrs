@@ -10,21 +10,24 @@
         security: sec|lvl2  #														||
         <(WT)>: -32  #																||
 """
-from os.path import abspath, dirname, join
-import json as j
 import datetime as dt
-from math import isnan
-from typing import Optional, Dict, List, Any, Tuple
+import json as j
 import logging
+from math import isnan
+from os.path import abspath, dirname, join
+from typing import Any, Dict, List, Optional, Tuple
+
 logger = logging.getLogger(__name__)
+from kahndor import kahndor
+from kahndor.logma import Logma
+from kahndor.utils import thingify
 from pandas import DataFrame
 from subtrix.utilities import uuid
-from kahndor.utils import thingify
-from kahndor import kahndor
+
 from nchantrs.libraries import pyqt, qpandas
-from nchantrs.widgets.items.nodes import NchantdNode, NchantdTreeNode
 from nchantrs.utilities.models import combine_records
-from kahndor.logma import Logma
+from nchantrs.widgets.items.nodes import NchantdNode, NchantdTreeNode
+
 here = join(dirname(__file__), '')
 log = False
 logma = Logma(__name__)
@@ -49,7 +52,7 @@ class NchantdFileSystemModel(pyqt.QFileSystemModel):
         return self
 
     def buildNodes(self) -> None:
-        logma.info(f'buildNodes called')
+        logma.info('buildNodes called')
         return self
 
 class NchantdTreeModel(pyqt.QStandardItemModel):
@@ -131,7 +134,7 @@ class NchantdTreeModel(pyqt.QStandardItemModel):
         return self
 
     def add_node_set(self) -> None:
-        logma.info(f'add_node_set called')
+        logma.info('add_node_set called')
         return self
 
     def deleteNode(self, node) -> None:
@@ -147,11 +150,11 @@ class NchantdTreeModel(pyqt.QStandardItemModel):
         :param index:
         :return:
         """
-        node = self.getNode(index)
+        self.getNode(index)
         return True
 
     def deleteChildren(self, pid) -> None:
-        logma.info(f'deleteChildren called')
+        logma.info('deleteChildren called')
         return self
 
     def get_children(self, parent) -> None:
@@ -271,7 +274,7 @@ class NchantdTreeModel(pyqt.QStandardItemModel):
         return self
 
     def updateStatus(self, status) -> None:
-        logma.info(f'updateStatus called')
+        logma.info('updateStatus called')
         return self
 
 class NchantdApplicationTreeModel(NchantdTreeModel):
@@ -314,31 +317,31 @@ class NchantdTimeTreeModel(NchantdApplicationTreeModel):
         self.year = dt.datetime.now().strftime('%Y')
 
     def addCenturyNode(self) -> None:
-        logma.info(f'addCenturyNode called')
+        logma.info('addCenturyNode called')
         return self
 
     def addDayNode(self) -> None:
-        logma.info(f'addDayNode called')
+        logma.info('addDayNode called')
         return self
 
     def addDecadeNode(self) -> None:
-        logma.info(f'addDecadeNode called')
+        logma.info('addDecadeNode called')
         return self
 
     def addHourNode(self) -> None:
-        logma.info(f'addHourNode called')
+        logma.info('addHourNode called')
         return self
 
     def addMinuteNode(self) -> None:
-        logma.info(f'addMinuteNode called')
+        logma.info('addMinuteNode called')
         return self
 
     def addMonthNode(self) -> None:
-        logma.info(f'addMonthNode called')
+        logma.info('addMonthNode called')
         return self
 
     def addWeekNode(self) -> None:
-        logma.info(f'addWeekNode called')
+        logma.info('addWeekNode called')
         return self
 
     def addYearNode(self, nid, name, pid, pos, base, year) -> None:
@@ -353,7 +356,7 @@ class NchantdTimeTreeModel(NchantdApplicationTreeModel):
         return rnid
 
     def define_structure(self, structure) -> None:
-        logma.info(f'define_structure called')
+        logma.info('define_structure called')
         return self
 
     def genYearMonthTreeData(self, src, pos=0, pid=0) -> None:
@@ -386,7 +389,6 @@ class NchantdTimeTreeModel(NchantdApplicationTreeModel):
     def genYearNode(self, tabs, nodes, nid, name, pid, pos, year) -> None:
         """ """
         tbase = [0, 1, 1, 1, 0]
-        tabset = 'NchantdSummaryOfMonthsTabSet'
         icon = ''
         nodes.append([nid, icon, name, 'node', pid, pos] + self.nodebase)
         widget = 'dashboards.NchantdYearSummary'

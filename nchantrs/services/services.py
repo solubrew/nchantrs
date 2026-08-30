@@ -9,12 +9,14 @@
     security: seclvl2
     <(WT)>: -32
 """
-from os.path import dirname, join
-from typing import Optional, Dict, List
 import logging
+from os.path import dirname, join
+from typing import Dict, List, Optional
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -104,9 +106,9 @@ class NchantdService(object):
         }
 
     def set_api_key(self, api_key) -> 'NchantdService':
-        logma.info(f'set_api_key called')
+        logma.info('set_api_key called')
         if hasattr(self, 'api_key'):
-            logma.info(f'  has api_key attr')
+            logma.info('  has api_key attr')
         return self
 
     def set_service_object(self, service) -> 'NchantdService':

@@ -9,13 +9,16 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join
 import datetime as dt
 import logging
+from os.path import abspath, dirname, join
+
 logger = logging.getLogger(__name__)
+from typing import Any, Dict, List, Optional, Tuple
+
 from kahndor import kahndor
-from typing import Optional, Dict, List, Any, Tuple
 from kahndor.logma import Logma
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -162,7 +165,6 @@ def setCurrentFile(self, fileName) -> None:
             self.updateRecentFileActions()
 
 def updateRecentFileActions(self) -> None:
-    mytext = ''
     files = self.settings.value('recentFileList', [])
     numRecentFiles = min(len(files), self.MaxRecentFiles)
     for i in range(numRecentFiles):

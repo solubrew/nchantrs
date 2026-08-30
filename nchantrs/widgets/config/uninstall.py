@@ -1,12 +1,16 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import abspath, dirname, join
 import datetime as dt
 import logging
+from os.path import abspath, dirname, join
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 from nchantrs.widgets.config.settings import NchantdSettingsWidget
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -35,7 +39,7 @@ class NchantdSecuritySettings(NchantdSettingsWidget):
         self.password_group = None
         self.old_password = None
         self.new_password = None
-        logma.info(f'NchantdSecuritySettings initialized')
+        logma.info('NchantdSecuritySettings initialized')
 
     def initModel(self, cfg=None) -> Any:
         """"""
@@ -62,7 +66,7 @@ class NchantdSecuritySettings(NchantdSettingsWidget):
         self.current_user = NchantdLabel(self, cfg).initWidget()
         user_layout.addWidget(self.current_user, 0, 0)
         options = [user, 'New User']
-        cfg = {'label': f'Available Users:', 'layout': 'horizontal', 'combobox': {'options': options, 'size': ['auto', 'auto']}, 'handler': self.cmd_on_change_user_select}
+        cfg = {'label': 'Available Users:', 'layout': 'horizontal', 'combobox': {'options': options, 'size': ['auto', 'auto']}, 'handler': self.cmd_on_change_user_select}
         self.select_user = NchantdDropDown(self, cfg).initWidget()
         user_layout.addWidget(self.select_user, 1, 0, 1, 2)
         user_layout.setColumnStretch(2, 0)
@@ -107,35 +111,35 @@ class NchantdSecuritySettings(NchantdSettingsWidget):
         return self
 
     def cmd_on_change_user_select(self, event=None, *args, **kwargs) -> Any:
-        logma.info(f'cmd_on_change_user_select invoked')
+        logma.info('cmd_on_change_user_select invoked')
         return self
 
     def cmd_on_change_enable_lock_screen(self, event=None, *args, **kwargs) -> Any:
-        logma.info(f'cmd_on_change_enable_lock_screen invoked')
+        logma.info('cmd_on_change_enable_lock_screen invoked')
         return self
 
     def cmd_on_change_enable_lock_screen_pin(self, event=None, *args, **kwargs) -> Any:
-        logma.info(f'cmd_on_change_enable_lock_screen_pin invoked')
+        logma.info('cmd_on_change_enable_lock_screen_pin invoked')
         return self
 
     def cmd_on_change_lock_screen_timeout(self, event=None, *args, **kwargs) -> Any:
-        logma.info(f'cmd_on_change_lock_screen_timeout invoked')
+        logma.info('cmd_on_change_lock_screen_timeout invoked')
         return self
 
     def cmd_on_change_lock_screen_pin_edit(self, event=None, *args, **kwargs) -> Any:
-        logma.info(f'cmd_on_change_lock_screen_pin_edit invoked')
+        logma.info('cmd_on_change_lock_screen_pin_edit invoked')
         return self
 
     def cmd_on_old_password_edit(self, event=None, *args, **kwargs) -> Any:
-        logma.info(f'cmd_on_old_password_edit invoked')
+        logma.info('cmd_on_old_password_edit invoked')
         return self
 
     def cmd_on_new_password_edit(self, event=None, *args, **kwargs) -> Any:
-        logma.info(f'cmd_on_new_password_edit invoked')
+        logma.info('cmd_on_new_password_edit invoked')
         return self
 
     def cmd_on_new_password_cofirm_edit(self, event=None, *args, **kwargs) -> Any:
-        logma.info(f'cmd_on_new_password_cofirm_edit invoked')
+        logma.info('cmd_on_new_password_cofirm_edit invoked')
         return self
 
     def get_settings(self) -> Any:

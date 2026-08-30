@@ -1,6 +1,5 @@
-from typing import Any
-
 from os.path import dirname, join
+from typing import Any
 
 #!/usr/bin/env python3
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
@@ -18,13 +17,11 @@ from os.path import dirname, join
 
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
-from os.path import abspath, dirname, join
 from datetime import datetime, timezone
+from os.path import abspath, dirname, join
 from typing import Any, Dict, List, Optional, Union
 
 # ======================================3rd Party Library Modules=====================================================||
-
-
 # ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
@@ -39,13 +36,14 @@ if not log:
 PXCFG = join(HERE, "_data_", ".yaml")
 
 from kahndor import kahndor
+from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
 from nchantrs.utilities.utils import lookup
 from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.media.editors.editors import NchantdEntryBox, NchantdEntryEditor
 from nchantrs.widgets.media.editors.selectors import NchantdDropDown
 from nchantrs.widgets.widgets import NchantdWidget
-from kahndor.logma import Logma
 
 here = join(dirname(__file__), "")
 logma = Logma(__name__)
@@ -77,13 +75,13 @@ class NchantdButtonBar(NchantdWidget):
         """"""
         super().initView(cfg)
         logma.info(f"Action Items {self.actions}")
-        if not self.actions is None:
+        if self.actions is not None:
             keys = list(self.actions.keys())
             keys.sort()
             for action in keys:
                 button_cfg = self.actions.get(action)
                 if isinstance(action, int):
-                    sequence = action
+                    pass
                 if isinstance(button_cfg, str):
                     action = button_cfg
                     if button_cfg[0] == "_":
@@ -318,7 +316,7 @@ class NchantdApplicationToolBar(NchantdToolBar):
         self.toolbar.addWidget(search_dropdown)
         search_entry = NchantdEntryBox(self, self.config).initWidget()
         self.toolbar.addWidget(search_entry)
-        action = lookup(self.app, "search_go")
+        lookup(self.app, "search_go")
         return self
 
     def initWidget(self) -> Any:
@@ -355,15 +353,15 @@ class NchantdRecordNavigationToolbar(NchantdToolBar):
         self.setLayout(self.layout)
 
     def nextRecord(self) -> Any:
-        logma.info(f"nextRecord called")
+        logma.info("nextRecord called")
         return self
 
     def prevRecord(self) -> Any:
-        logma.info(f"prevRecord called")
+        logma.info("prevRecord called")
         return self
 
     def findRecord(self) -> Any:
-        logma.info(f"findRecord called")
+        logma.info("findRecord called")
         return self
 
 

@@ -1,13 +1,15 @@
 from typing import Any
 
 "\n---\n<(META)>:\n    docid:\n    name:\n    description: >\n    version: 0.0.0.0.0.0\n    authority: filesystem\n    security: seclvl2\n    <(WT)>: -32\n"
-from os.path import dirname, join, exists
 import base64
+from os.path import dirname, exists, join
+
 from kahndor import kahndor
-from nchantrs.libraries import pyqt
-from nchantrs.widgets.widgets import NchantdWidget
-from nchantrs.widgets.media.utilities import render_svg_to_pixmap
 from kahndor.logma import Logma
+
+from nchantrs.libraries import pyqt
+from nchantrs.widgets.media.utilities import render_svg_to_pixmap
+from nchantrs.widgets.widgets import NchantdWidget
 
 here = join(dirname(__file__), "")
 log = True
@@ -44,7 +46,7 @@ class NchantdImage(NchantdWidget):
         self.is_scaled = self.config.dikt.get("scaled", False)
         icon_path_text = self.config.dikt.get("icon", self.config.dikt.get("icon_txt", None))
         if icon_path_text is None:
-            logma.info(f"Icon path is None")
+            logma.info("Icon path is None")
             self.set_file_path(None)
         elif exists(str(icon_path_text)):
             logma.info(f"Icon path: {icon_path_text}")
@@ -87,7 +89,7 @@ class NchantdImage(NchantdWidget):
 
     def loadImage(self, path=None, size_x=None, size_y=None) -> Any:
         """"""
-        logma.depricate(f"Change self.loadImage() method to self.load_image()")
+        logma.depricate("Change self.loadImage() method to self.load_image()")
         self.load_image(path)#, size_x, size_y)
         return self
 
@@ -210,7 +212,7 @@ class NchantdScreenShot(NchantdWidget):
         self.end_point = None
         self.is_selecting = False
         self.setGeometry(0, 0, self.app.primaryScreen().size().width(), self.app.primaryScreen().size().height())
-        logma.info(f"NchantdScreenShot initialized")
+        logma.info("NchantdScreenShot initialized")
 
     def initModel(self) -> Any:
         """"""

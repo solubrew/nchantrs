@@ -11,24 +11,24 @@
     <(WT)>: -32
 """
 
-from os.path import abspath, dirname, join, exists, getmtime, expanduser
-from os import listdir
+import base64
+import datetime as dt
 import inspect
 import json
-import base64
-from typing import Any, Optional
-from typing import Any, Dict, List, Optional
-from pandas import DataFrame
 import re
-import datetime as dt
 import sqlite3
+from os import listdir
+from os.path import abspath, dirname, exists, expanduser, getmtime, join
+from typing import Any, Dict, List, Optional
+
 from kahndor import kahndor
 from kahndor.logma import Logma
+from micromole.storage import MicroStash
+from pandas import DataFrame
+from pycurity.pyhash import encode64, text_hashing_function
+from pycurity.pytime import PyTime
 from squirl.orgnql import fonql
 from subtrix.utilities import uuid
-from pycurity.pytime import PyTime
-from pycurity.pyhash import encode64, text_hashing_function
-from micromole.storage import MicroStash
 
 here = join(dirname(__file__), "")
 log = True
@@ -319,7 +319,7 @@ class NchantdStore(MicroStash):
         return self
 
     def compact_instances(self):
-        logma.info(f"compact_instances called")
+        logma.info("compact_instances called")
         return self
 
     def create_directories(self, path):
@@ -480,7 +480,7 @@ class NchantdStore(MicroStash):
             df = self.get_table(table, cfg, db)
             df = decrypt(df, self.user.get_password())
         else:
-            raise Exception(f"Caller is not Authorized to get data from the secure store")
+            raise Exception("Caller is not Authorized to get data from the secure store")
         return self
 
     def get_app_tree_node(self, cfg, db="db"):
@@ -524,11 +524,11 @@ class NchantdStore(MicroStash):
         return self._get_sorted_app_view_table("doc_tab", params, ["pid_txt", "position_int"], db)
 
     def get_doc_tree_node(self):
-        logma.info(f"get_doc_tree_node requested")
+        logma.info("get_doc_tree_node requested")
         return None
 
     def get_doc_user(self):
-        logma.info(f"get_doc_user requested")
+        logma.info("get_doc_user requested")
         return None
 
     def get_indexes(self, instance_name="db"):
@@ -627,7 +627,7 @@ class NchantdStore(MicroStash):
         return self.get_table(table, cfg, db)
 
     def get_view_tab(self, cfg, db="db"):
-        logma.info(f"get_view_tab requested")
+        logma.info("get_view_tab requested")
         return None
 
     def get_view_tree_node(self, cfg, db="db"):
@@ -790,7 +790,6 @@ class NchantdStore(MicroStash):
         :param g_command:
         :return:
         """
-        table = "app_event"
         if how not in ("INSERT", "UPDATE", "DEACTIVATE", "DELETE", "ARCHIVE"):
             raise Exception(f"{how} is not supported.")
         return self
@@ -908,7 +907,7 @@ class NchantdStore(MicroStash):
             return int(digest[:8], 16) & 2147483647
 
     def store_app_menu(self, db="db", how="INSERT"):
-        logma.info(f"store_app_menu called")
+        logma.info("store_app_menu called")
         return self
 
     def store_app_option(
@@ -961,7 +960,6 @@ class NchantdStore(MicroStash):
         :param record:
         :return:
         """
-        table = "app_policy"
         if how not in ("INSERT", "UPDATE", "DEACTIVATE", "DELETE", "ARCHIVE"):
             raise Exception(f"{how} is not supported.")
         self._store("app_policy", [record])
@@ -988,7 +986,7 @@ class NchantdStore(MicroStash):
             raise Exception(f"{how} is not supported.")
         cfg = {"table": table}
         reader = self.docs["db"].read(cfg)
-        df = next(reader).dikt[table]["df"]
+        next(reader).dikt[table]["df"]
         return self
 
     def store_app_tab(self, row, instance=None, db="db", how="INSERT"):
@@ -1357,7 +1355,7 @@ class GlainNchantdStore:
         )
         if table_prefix:
             self._apply_prefixes()
-        logma.info(f"GlainNchantdStore initialized")
+        logma.info("GlainNchantdStore initialized")
 
     def _apply_prefixes(self):
         """Apply table prefix to internal database."""

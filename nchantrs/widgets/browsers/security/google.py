@@ -9,21 +9,26 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join
 import datetime as dt
 import logging
+from os.path import abspath, dirname, join
+
 logger = logging.getLogger(__name__)
+from typing import Any, Dict, List, Optional, Tuple
+
 from kahndor import kahndor
 from kahndor.logma import Logma
-from typing import Optional, Dict, List, Any, Tuple
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
 logma.off()
 pxcfg = join(here, '_data_', '.yaml')
-from PySide6.QtWebEngineCore import QWebEngineProfile, QWebEngineSettings
-from PySide6.QtCore import QStandardPaths
 import os
+
+from PySide6.QtCore import QStandardPaths
+from PySide6.QtWebEngineCore import QWebEngineProfile, QWebEngineSettings
+
 
 class PersistentGoogleSession:
     """Manage persistent Google login sessions."""
@@ -49,8 +54,8 @@ class PersistentGoogleSession:
 
     def create_web_view(self, parent=None) -> None:
         """Create a QWebEngineView with persistent session."""
-        from PySide6.QtWebEngineWidgets import QWebEngineView
         from PySide6.QtWebEngineCore import QWebEnginePage
+        from PySide6.QtWebEngineWidgets import QWebEngineView
         page = QWebEnginePage(self.profile, parent)
         web_view = QWebEngineView(parent)
         web_view.setPage(page)

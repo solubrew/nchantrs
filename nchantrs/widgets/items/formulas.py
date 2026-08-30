@@ -9,13 +9,15 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join
 import datetime as dt
-from typing import Any, Dict, Optional, Any
 import logging
+from os.path import abspath, dirname, join
+from typing import Any, Dict, Optional
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -33,11 +35,11 @@ class NchantdFormula(object):
         self.value: Optional[Any] = None
 
     def parse(self) -> 'NchantdFormula':
-        logma.info(f'parse called')
+        logma.info('parse called')
         return self
 
     def compute(self, arguments: Optional[Dict[str, Any]]=None) -> Any:
-        logma.info(f'compute called')
+        logma.info('compute called')
         return self
 
     def get_value(self, refresh: bool=False) -> Optional[Any]:

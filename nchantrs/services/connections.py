@@ -11,10 +11,12 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join
-from kahndor import kahndor
 import logging
+from os.path import abspath, dirname, join
+
+from kahndor import kahndor
 from kahndor.logma import Logma
+
 logger = logging.getLogger(__name__)
 here = join(dirname(__file__), '')
 logma = Logma(__name__)
@@ -27,7 +29,7 @@ class NchantdConnections(object):
     def __init__(self) -> None:
         """"""
         self.connections = {}
-        logma.info(f'NchantdConnections initialized')
+        logma.info('NchantdConnections initialized')
 
     def connect_to_database(self, name: str=None) -> 'NchantdConnections':
         """Allow for adhoc connecting to multiple databases"""
@@ -36,11 +38,11 @@ class NchantdConnections(object):
         return self
 
     def connect_to_google(self) -> 'NchantdConnections':
-        logma.info(f'connect_to_google called')
+        logma.info('connect_to_google called')
         return self
 
     def connect_to_wikipedia(self) -> 'NchantdConnections':
-        logma.info(f'connect_to_wikipedia called')
+        logma.info('connect_to_wikipedia called')
         return self
 
     def connect_to_wrlok(self) -> 'NchantdConnections':

@@ -1,19 +1,23 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import dirname, join
 import datetime as dt
 import logging
+from os.path import dirname, join
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
-from nchantrs.libraries import pyqt
-from nchantrs.widgets.annotations import NchantdLabel, NchantdHighLowLabel
-from nchantrs.widgets.managers import NchantdManager
-from nchantrs.widgets.widgets import NchantdWidget
-from nchantrs.widgets.tables.tables import NchantdTable
 from kahndor.logma import Logma
-from nchantrs.widgets.groups import NchantdVScrollGroupBox
+
+from nchantrs.libraries import pyqt
+from nchantrs.widgets.annotations import NchantdHighLowLabel, NchantdLabel
 from nchantrs.widgets.controls.toolbars import NchantdButtonBar
+from nchantrs.widgets.groups import NchantdVScrollGroupBox
+from nchantrs.widgets.managers import NchantdManager
+from nchantrs.widgets.tables.tables import NchantdTable
 from nchantrs.widgets.tabsets import NchantdTab
+from nchantrs.widgets.widgets import NchantdWidget
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -44,7 +48,7 @@ class NchantdDayCalendar(NchantdTab):
         cfg['layout'] = 'vertical'
         super().initView(cfg)
         layout = pyqt.QHBoxLayout()
-        today = dt.datetime.now()
+        dt.datetime.now()
         cfg = {'text': self.config.dikt.get('datetime', None)}
         layout.addWidget(NchantdLabel(self, cfg).initWidget())
         buttons = {0: 'add_task', 4: 'hide_self'}

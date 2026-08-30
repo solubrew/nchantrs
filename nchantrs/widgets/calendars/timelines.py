@@ -14,13 +14,11 @@
 
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
-from os.path import abspath, dirname, join
 from datetime import datetime, timezone
+from os.path import abspath, dirname, join
 from typing import Any, Dict, List, Optional, Union
 
 # ======================================3rd Party Library Modules=====================================================||
-
-
 # ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
@@ -35,20 +33,21 @@ if not log:
 PXCFG = join(HERE, "_data_", ".yaml")
 
 
-from typing import Any
-
-from os.path import dirname, join
 import datetime as dt
 import logging
+from os.path import dirname, join
+from typing import Any
+
 from kahndor import kahndor
+from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.calendars.calendars import NchantdDateSelect
 from nchantrs.widgets.calendars.days import NchantdDayCalendar
 from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.groups import NchantdVScrollGroupBox
-from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.tabsets import NchantdTab
-from kahndor.logma import Logma
+from nchantrs.widgets.widgets import NchantdWidget
 
 here = join(dirname(__file__), "")
 logma = Logma(__name__)
@@ -70,7 +69,7 @@ class NchantdHistory(NchantdWidget):
         self.start_date_selector = None
         self.end_date_selector = None
         self.populate_history = None
-        logma.info(f"NchantdHistory initialized")
+        logma.info("NchantdHistory initialized")
 
     def initModel(self) -> Any:
         """"""
@@ -101,11 +100,11 @@ class NchantdHistory(NchantdWidget):
         return self
 
     def run_populate_history(self) -> Any:
-        logma.info(f"run_populate_history called")
+        logma.info("run_populate_history called")
         return self
 
     def update_history_table(self) -> Any:
-        logma.info(f"update_history_table called")
+        logma.info("update_history_table called")
         return self
 
     def on_focus(self) -> Any:
@@ -310,7 +309,7 @@ class NchantdTimeTrackerForm(NchantdWidget):
         return self
 
     def onEnterEvent(self) -> None:
-        logma.info(f"onEnterEvent called")
+        logma.info("onEnterEvent called")
         return self
 
     def mousePressEvent(self, event) -> Any:

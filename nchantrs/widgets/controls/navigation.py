@@ -1,12 +1,16 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import abspath, dirname, join
 import datetime as dt
 import logging
+from os.path import abspath, dirname, join
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
-from nchantrs.libraries import pyqt
 from kahndor.logma import Logma
+
+from nchantrs.libraries import pyqt
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -46,5 +50,5 @@ class NchantdNavigationButtons(pyqt.QWidget):
 
     def initWidget(self) -> Any:
         super().initWidget()
-        logma.info(f'initWidget {{type(self).__name__}}')
+        logma.info('initWidget {type(self).__name__}')
         return self

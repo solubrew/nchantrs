@@ -9,17 +9,20 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join, exists
-from typing import Optional, Dict, List, Any, Tuple
-from os import listdir
 import datetime as dt
 import json as j
 import logging
+from os import listdir
+from os.path import abspath, dirname, exists, join
+from typing import Any, Dict, List, Optional, Tuple
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
-from nchantrs.libraries import pyqt
 from kahndor.logma import Logma
 from squirl.orgnql import yonql
+
+from nchantrs.libraries import pyqt
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -36,7 +39,7 @@ class NchantdExtensionLoader(pyqt.QObject):
         if self.extensions_path is None:
             self.extensions_path = ''
         self.manifest = None
-        logma.info(f'NchantdExtensionLoader initialized')
+        logma.info('NchantdExtensionLoader initialized')
 
     def load_extension(self, name) -> None:
         """
@@ -93,5 +96,5 @@ class NchantdExtensionLoader(pyqt.QObject):
         logger.info(f'Extension {name} loaded successfully!')
 
     def verify_extension(self, name) -> None:
-        logma.info(f'verify_extension called')
+        logma.info('verify_extension called')
         return self

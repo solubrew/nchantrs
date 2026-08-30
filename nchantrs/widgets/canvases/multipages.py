@@ -1,9 +1,13 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
 from os.path import abspath, dirname, join
+
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -17,7 +21,7 @@ class NchantdGraphicsView(pyqt.QGrpahicsView):
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select('NchantdGraphicsView').override(cfg))
-        logma.info(f'NchantdGraphicsView initialized')
+        logma.info('NchantdGraphicsView initialized')
 
     def initModel(self) -> Any:
         """"""

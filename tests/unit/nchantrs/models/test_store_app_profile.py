@@ -32,7 +32,6 @@ import ast
 import inspect
 from pathlib import Path
 
-
 NCHANTRS_MODELS_PATH = (
     Path(__file__).parents[4]
     / "nchantrs/models/models.py"

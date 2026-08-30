@@ -16,26 +16,29 @@
 
 # -*- coding: utf-8 -*-#														||
 # ================================Core Modules===================================||
-from os.path import dirname, join
-from collections import deque
 import datetime as dt
-import queue
 import logging
+import queue
+from collections import deque
+from os.path import dirname, join
 from typing import Any, Dict, List
+
 from kahndor import kahndor
+from kahndor.logma import Logma
 from subtrix.utilities import uuid
+
 from nchantrs.dialogs.notifications import NchantdNotificationSigil
 from nchantrs.libraries import pyqt
+from nchantrs.services.links import LinkService
 from nchantrs.widgets.browsers.engines import NchantdWebEngineView
+from nchantrs.widgets.browsers.graphics import configure_qt_for_webengine, setup_application_attributes
 from nchantrs.widgets.browsers.profiles import NchantdWebProfile
 from nchantrs.widgets.browsers.requests import NchantdRequestInterceptor
-from nchantrs.widgets.browsers.utilities import NchantdURL, NchantdWebChannel, NchantdBackend as NchantdSafeFunction
-from nchantrs.widgets.media.editors.selectors import NchantdDropDown
+from nchantrs.widgets.browsers.utilities import NchantdBackend as NchantdSafeFunction
+from nchantrs.widgets.browsers.utilities import NchantdURL, NchantdWebChannel
 from nchantrs.widgets.controls.buttons import NchantdButton
+from nchantrs.widgets.media.editors.selectors import NchantdDropDown
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
-from nchantrs.services.links import LinkService
-from kahndor.logma import Logma
-from nchantrs.widgets.browsers.graphics import configure_qt_for_webengine, setup_application_attributes
 
 configure_qt_for_webengine()
 
@@ -112,11 +115,11 @@ class NchantdWebManager(NchantdWidgetMixin, pyqt.QObject):
         return viewer
 
     def kill_engine(self) -> None:
-        logma.info(f"kill_engine called")
+        logma.info("kill_engine called")
         return self
 
     def switch_to_web_app(self, engine) -> None:
-        logma.info(f"switch_to_web_app called")
+        logma.info("switch_to_web_app called")
         return self
 
 
@@ -572,7 +575,7 @@ class NchantdWebViewer(NchantdWidget):
         return self
 
     def open_new_tab(self) -> Any:
-        logma.info(f"open_new_tab called")
+        logma.info("open_new_tab called")
         return self
 
     def on_back_available(self, available) -> None:
@@ -585,13 +588,13 @@ class NchantdWebViewer(NchantdWidget):
         pass
 
     def on_tab_changed(self, index: int) -> Any:
-        logma.info(f"on_tab_changed event received")
+        logma.info("on_tab_changed event received")
         if getattr(self, "app", None) is not None and hasattr(self.app, "model"):
             self.app.model.has_changed = True
         return self
 
     def on_tab_close_requested(self, index: int) -> Any:
-        logma.info(f"on_tab_close_requested event received")
+        logma.info("on_tab_close_requested event received")
         if getattr(self, "app", None) is not None and hasattr(self.app, "model"):
             self.app.model.has_changed = True
         return self

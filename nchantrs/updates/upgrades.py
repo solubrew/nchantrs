@@ -11,13 +11,16 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import dirname, join
-from typing import Optional, Dict, List
 import logging
+from os.path import dirname, join
+from typing import Dict, List, Optional
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
-from nchantrs.libraries import pyqt
 from kahndor.logma import Logma
+
+from nchantrs.libraries import pyqt
+
 try:
     from squirl.orgnql.fonql import RestAPI
 except ImportError:
@@ -81,11 +84,11 @@ class UpgradeManager(object):
         self._finalize_upgrade()
 
     def run_upgrade_unpaid_protocol(self, upgrades: dict) -> None:
-        logma.info(f'run_upgrade_unpaid_protocol called')
+        logma.info('run_upgrade_unpaid_protocol called')
         return self
 
     def run_upgrade_paid_protocol(self, upgrades: dict) -> None:
-        logma.info(f'run_upgrade_paid_protocol called')
+        logma.info('run_upgrade_paid_protocol called')
         return self
 
     def run_upgrade_security_protocol(self, upgrades: dict) -> None:
@@ -172,7 +175,7 @@ class UpgradeCode(object):
     def __init__(self) -> None:
         """"""
         pass
-        logma.info(f'UpgradeCode initialized')
+        logma.info('UpgradeCode initialized')
 
     def run(self, code) -> bool:
         """Execute upgrade code"""
@@ -187,7 +190,7 @@ class UpgradeCode(object):
         pass
 
     def run_unzipped_executable(self) -> None:
-        logma.info(f'run_unzipped_executable called')
+        logma.info('run_unzipped_executable called')
         return self
 
     def move_old_code(self) -> None:
@@ -210,7 +213,7 @@ class UpgradeDatabaseData(object):
         self.appnodes = []
         self.usernodes = []
         self.virtualnodes = []
-        logma.info(f'UpgradeDatabaseData initialized')
+        logma.info('UpgradeDatabaseData initialized')
 
     def add_appnode(self, appnode) -> None:
         """"""
@@ -250,7 +253,7 @@ class UpgradeDatabase(object):
     def __init__(self) -> None:
         """"""
         pass
-        logma.info(f'UpgradeDatabase initialized')
+        logma.info('UpgradeDatabase initialized')
 
     def backup_database(self) -> None:
         """"""
@@ -303,7 +306,7 @@ class UpgradeDatabaseTable(object):
     def __init__(self, name=None) -> None:
         """"""
         self.name = name
-        logma.info(f'UpgradeDatabaseTable initialized')
+        logma.info('UpgradeDatabaseTable initialized')
 
     def run(self, data) -> bool:
         """Execute table upgrade"""
@@ -330,7 +333,7 @@ class UpgradeDatabaseView(object):
 
     def __init__(self) -> None:
         """"""
-        logma.info(f'UpgradeDatabaseView initialized')
+        logma.info('UpgradeDatabaseView initialized')
 
     def copy_view_statement(self) -> None:
         """"""

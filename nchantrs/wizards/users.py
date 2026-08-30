@@ -1,19 +1,23 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import abspath, dirname, join
 import datetime as dt
 import logging
+from os.path import abspath, dirname, join
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
+from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
-from nchantrs.widgets.controls.radios import NchantdRadioButtonGroup
-from nchantrs.widgets.controls.checkboxes import NchantdCheckbox
-from nchantrs.widgets.media.editors.selectors import NchantdDropDown
 from nchantrs.widgets.browsers.browsers import NchantdWebBrowser
+from nchantrs.widgets.controls.checkboxes import NchantdCheckbox
+from nchantrs.widgets.controls.radios import NchantdRadioButtonGroup
 from nchantrs.widgets.media.editors.editors import NchantdDocEditor, NchantdLabeledEntry
+from nchantrs.widgets.media.editors.selectors import NchantdDropDown
 from nchantrs.wizards.pages import NchantdWizardPage
 from nchantrs.wizards.wizards import NchantdWizard
-from kahndor.logma import Logma
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -74,7 +78,7 @@ class NchantdTOSSignOffPage(NchantdWizardPage):
         self.config.override(cfg)
         self.document = None
         self.tos_check = None
-        logma.info(f'NchantdTOSSignOffPage initialized')
+        logma.info('NchantdTOSSignOffPage initialized')
 
     def initModel(self) -> Any:
         """"""
@@ -126,7 +130,7 @@ class NchantdNewUserDetailsPage(NchantdWizardPage):
         self.newUser = False
 
     def initModel(self) -> None:
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> None:

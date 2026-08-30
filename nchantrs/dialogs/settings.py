@@ -9,15 +9,18 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join
 import datetime as dt
-from typing import Optional, Dict, List, Any, Tuple
 import logging
+from os.path import abspath, dirname, join
+from typing import Any, Dict, List, Optional, Tuple
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 from nchantrs.dialogs.dialogs import NchantdSigil
 from nchantrs.widgets.controls.checkboxes import NchantdCheckboxGroup
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -31,7 +34,7 @@ class NchantdSettingsSigil(NchantdSigil):
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select('NchantdSettingsSigil').override(cfg))
-        logma.info(f'NchantdSettingsSigil initialized')
+        logma.info('NchantdSettingsSigil initialized')
 
     def initModel(self) -> None:
         """"""
@@ -52,7 +55,7 @@ class NchantdSettingsSigil(NchantdSigil):
         return self
 
     def on_save(self) -> None:
-        logma.info(f'on_save event received')
+        logma.info('on_save event received')
         if getattr(self, 'app', None) is not None and hasattr(self.app, 'model'):
             self.app.model.has_changed = True
         return self

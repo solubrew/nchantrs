@@ -9,11 +9,14 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join, exists
+from os.path import abspath, dirname, exists, join
+
 from kahndor import kahndor
 from kahndor.logma import Logma
 from squirl.objnql import txtonql
+
 from nchantrs.libraries import pyqt
+
 here = join(dirname(__file__), '')
 log = False
 logma = Logma(__name__)
@@ -94,7 +97,7 @@ class NchantdTheme:
         path = join(here, '_data_', 'icons', self.iconset[icon_type], f'{name}.svg')
         if exists(path):
             return path
-        path = join(here, '_data_', 'icons', self.iconset[icon_type], f'dot-circle.svg')
+        path = join(here, '_data_', 'icons', self.iconset[icon_type], 'dot-circle.svg')
         if exists(path):
             return path
         else:
@@ -142,5 +145,5 @@ class NchantdTheme:
         return self
 
     def generate_theme_name(self, palette) -> None:
-        logma.info(f'generate_theme_name called')
+        logma.info('generate_theme_name called')
         return self

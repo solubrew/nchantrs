@@ -1,14 +1,20 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import dirname, join
-from kahndor import kahndor
 import logging
+from os.path import dirname, join
+
+from kahndor import kahndor
+
 from nchantrs.libraries import pyqt
+
 logger = logging.getLogger(__name__)
+from kahndor.logma import Logma
+
+from nchantrs.dialogs.dialogs import NchantdSigil
 from nchantrs.widgets.media.editors.editors import NchantdScratchEditor
 from nchantrs.widgets.widgets import NchantdWidget
-from nchantrs.dialogs.dialogs import NchantdSigil
-from kahndor.logma import Logma
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -75,12 +81,12 @@ class NchantdStickyNoteManager(NchantdWidget):
 
     def initModel(self) -> Any:
         super().initModel()
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> Any:
         super().initView()
-        logma.info(f'initView {{type(self).__name__}}')
+        logma.info('initView {type(self).__name__}')
         return self
 
     def initWidget(self) -> Any:
@@ -103,12 +109,12 @@ class NchantdRateCard(pyqt.QWidget):
 
     def initModel(self) -> Any:
         super().initModel()
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> Any:
         super().initView()
-        logma.info(f'initView {{type(self).__name__}}')
+        logma.info('initView {type(self).__name__}')
         return self
 
     def initWidget(self) -> Any:

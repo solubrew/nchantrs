@@ -1,16 +1,21 @@
 from typing import Any
+
 '#\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n---  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n<(META)>:  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        DOCid:   #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        name:   #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        description: >  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n                  #\t\t\t||\n        expirary: <[expiration]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        version: <[version]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        path: <[LEXIvrs]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        outline: <[outline]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        authority: document|this  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        security: sec|lvl2  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n        <(WT)>: -32  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n'
-from os.path import abspath, dirname, exists, join
-from kahndor import kahndor
+import array
+import fcntl
 import logging
 import os
 import pty
-import array
-import fcntl
 import termios
+from os.path import abspath, dirname, exists, join
+
+from kahndor import kahndor
+
 from nchantrs.libraries import pyqt
+
 logger = logging.getLogger(__name__)
 from nchantrs.widgets.widgets import NchantdWidget
+
 here = join(dirname(__file__), '')
 version = '0.0.1'
 pxcfg = join(here, '_data_', 'embeds.yaml')
@@ -35,7 +40,7 @@ class NchantdTerminalView(pyqt.QPlainTextEdit):
         self.notifier = pyqt.QSocketNotifier(self.master_fd, pyqt.QSocketNotifier.Read, self)
         self.notifier.activated.connect(self.handle_read)
         self.process.finished.connect(self.on_finished)
-        logma.info(f'NchantdTerminalView initialized')
+        logma.info('NchantdTerminalView initialized')
 
     def _set_default_format(self) -> None:
         self.current_format = pyqt.QTextCharFormat()
@@ -233,12 +238,12 @@ class NchantdTerminalEmbed(NchantdWidget):
 
     def initModel(self) -> Any:
         super().initModel()
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> Any:
         super().initView()
-        logma.info(f'initView {{type(self).__name__}}')
+        logma.info('initView {type(self).__name__}')
         return self
 
     def initWidget(self) -> Any:

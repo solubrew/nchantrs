@@ -1,16 +1,22 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import dirname, join
-from kahndor import kahndor
 import logging
+from os.path import dirname, join
+
+from kahndor import kahndor
+
 from nchantrs.libraries import pyqt
+
 logger = logging.getLogger(__name__)
+from kahndor.logma import Logma
+
 from nchantrs.widgets.browsers.browsers import NchantdWebBrowser
 from nchantrs.widgets.controls.controls import NchantdRadioButtonGroup
 from nchantrs.widgets.media.editors.editors import NchantdEntryEditor
 from nchantrs.wizards.pages import NchantdWizardPage
 from nchantrs.wizards.wizards import NchantdWizard
-from kahndor.logma import Logma
+
 here = join(dirname(__file__), '')
 logma = Logma(__name__)
 logma.off()
@@ -36,15 +42,15 @@ class NchantdAddAPIWizard(NchantdWizard):
         super().__init__(self.parent)
 
     def initModel(self) -> None:
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> None:
-        logma.info(f'initView {{type(self).__name__}}')
+        logma.info('initView {type(self).__name__}')
         return self
 
     def initWidget(self) -> None:
-        logma.info(f'initWidget {{type(self).__name__}}')
+        logma.info('initWidget {type(self).__name__}')
         return self
 
 class NchantdNewAccountWizard(NchantdWizard):
@@ -60,7 +66,7 @@ class NchantdNewAccountWizard(NchantdWizard):
         super(NchantdNewAccountWizard, self).__init__(self.parent)
 
     def initModel(self) -> None:
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> None:

@@ -9,16 +9,20 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import dirname, join
-from kahndor import kahndor
-from typing import Optional, Dict, List, Any, Tuple
 import logging
+from os.path import dirname, join
+from typing import Any, Dict, List, Optional, Tuple
+
+from kahndor import kahndor
+
 logger = logging.getLogger(__name__)
-from nchantrs.dialogs.dialogs import NchantdSigil, NchantdErrorNotifySigil
-from nchantrs.libraries import pyqt
-from nchantrs.widgets.media.editors.editors import NchantdLabeledEntry
-from nchantrs.widgets.controls.buttons import NchantdTabSideButtons
 from kahndor.logma import Logma
+
+from nchantrs.dialogs.dialogs import NchantdErrorNotifySigil, NchantdSigil
+from nchantrs.libraries import pyqt
+from nchantrs.widgets.controls.buttons import NchantdTabSideButtons
+from nchantrs.widgets.media.editors.editors import NchantdLabeledEntry
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -34,7 +38,7 @@ class NewNchantdAPIKeyManualEntrySigil(NchantdSigil):
 
     def initModel(self) -> None:
         super().initModel()
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> None:

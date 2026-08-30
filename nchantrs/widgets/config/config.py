@@ -14,13 +14,11 @@
 
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
-from os.path import abspath, dirname, join
 from datetime import datetime, timezone
+from os.path import abspath, dirname, join
 from typing import Any, Dict, List, Optional, Union
 
 # ======================================3rd Party Library Modules=====================================================||
-
-
 # ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
@@ -38,11 +36,11 @@ PXCFG = join(HERE, "_data_", ".yaml")
 
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 
-from typing import Any
-from os.path import abspath, dirname, join
 import datetime as dt
 import json as j
 import logging
+from os.path import abspath, dirname, join
+from typing import Any
 
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
@@ -64,7 +62,7 @@ class NchantdConfigStoreDocument(object):
         self.interface = None
 
     def get_settings(self) -> Any:
-        logma.info(f"get_settings requested")
+        logma.info("get_settings requested")
         return None
 
     def load_document(self, document=None) -> Any:
@@ -195,15 +193,15 @@ class NchantdConfigStoreDocument(object):
         return self
 
     def set_settings_account(self, account=None) -> Any:
-        logma.info(f"set_settings_account called")
+        logma.info("set_settings_account called")
         if hasattr(self, "settings_account"):
-            logma.info(f"  has settings_account attr")
+            logma.info("  has settings_account attr")
         return self
 
     def set_settings_extensions(self, extensions=None) -> Any:
-        logma.info(f"set_settings_extensions called")
+        logma.info("set_settings_extensions called")
         if hasattr(self, "settings_extensions"):
-            logma.info(f"  has settings_extensions attr")
+            logma.info("  has settings_extensions attr")
         return self
 
     def set_settings_interface(self, interface=None) -> Any:

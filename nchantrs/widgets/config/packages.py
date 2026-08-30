@@ -1,19 +1,23 @@
 from typing import Any
+
 '\n---\n<(META)>:\n    docid:\n    name:\n    description: >\n    version: 0.0.0.0.0.0\n    authority: filesystem\n    security: seclvl2\n    <(WT)>: -32\n'
-from os.path import abspath, dirname, join
 import datetime as dt
 import logging
+from os.path import abspath, dirname, join
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
+from nchantrs.widgets.config.settings import NchantdSettingsWidget
+from nchantrs.widgets.controls.buttons import NchantdButton
+from nchantrs.widgets.controls.checkboxes import NchantdCheckbox
+from nchantrs.widgets.controls.toolbars import NchantdButtonBar
+from nchantrs.widgets.groups import NchantdGridScrollGroupBox, NchantdHGroupBox, NchantdVScrollGroupBox
 from nchantrs.widgets.media.editors.selectors import NchantdDropDown
 from nchantrs.widgets.widgets import NchantdWidget
-from nchantrs.widgets.groups import NchantdVScrollGroupBox, NchantdHGroupBox, NchantdGridScrollGroupBox
-from nchantrs.widgets.controls.toolbars import NchantdButtonBar
-from nchantrs.widgets.controls.checkboxes import NchantdCheckbox
-from nchantrs.widgets.controls.buttons import NchantdButton
-from nchantrs.widgets.config.settings import NchantdSettingsWidget
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -33,7 +37,7 @@ class NchantdPackageSettings(NchantdSettingsWidget):
         super().__init__(parent, self.config)
         self.levels = self.config.dikt.get('levels', [])
         self.primary_settings_group = None
-        logma.info(f'NchantdPackageSettings initialized')
+        logma.info('NchantdPackageSettings initialized')
 
     def initModel(self) -> Any:
         """"""
@@ -73,7 +77,7 @@ class NchantdPackageSettings(NchantdSettingsWidget):
             self.packages[package]['focus'] = NchantdCheckbox(self, cfg).initWidget()
             package_layout.addWidget(self.packages[package]['focus'], 0, 1)
             themes = self.config.dikt.get('themes', [])
-            cfg = {'label': f'Select Theme for Focus: ', 'layout': 'horizontal', 'combobox': {'options': themes}, 'size': ['auto', 30]}
+            cfg = {'label': 'Select Theme for Focus: ', 'layout': 'horizontal', 'combobox': {'options': themes}, 'size': ['auto', 30]}
             self.packages[package]['theme'] = NchantdDropDown(self, cfg).initWidget()
             package_layout.addWidget(self.packages[package]['theme'], 0, 2)
             if self.app.model.user.has_pro is False and packages[package]['requires_pro'] is True:

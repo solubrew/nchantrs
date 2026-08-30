@@ -10,20 +10,23 @@
         security: sec|lvl2  #														||
         <(WT)>: -32  #																||
 """
-import sys
 import logging
+import sys
 from os.path import abspath, dirname, join
+
 logger = logging.getLogger(__name__)
 import datetime as dt
+
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 there = abspath(join(''))
 here = join(dirname(__file__), '')
 log = False
 logma = Logma(__name__)
 
 def leftClickSignalLog(signal, level=0) -> None:
-    logma.info(f'leftClickSignalLog called')
+    logma.info('leftClickSignalLog called')
     return self
 
 def mousePressEventLog(event, level=0) -> None:

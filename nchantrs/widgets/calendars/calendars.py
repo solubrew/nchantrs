@@ -1,17 +1,21 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
 from os.path import dirname, join
+
 from kahndor import kahndor
-from nchantrs.libraries import pyqt
-from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
-from nchantrs.widgets.panes.calendars import NchantdCalendarDetailPane
 from kahndor.logma import Logma
-from nchantrs.widgets.calendars.hours import NchantdMinuteCalendar, NchantdHourCalendar, NchantdQuarterHourCalendar
+
+from nchantrs.libraries import pyqt
 from nchantrs.widgets.calendars.days import NchantdDayCalendar
 from nchantrs.widgets.calendars.decades import NchantdDecadeCalendar
+from nchantrs.widgets.calendars.hours import NchantdHourCalendar, NchantdMinuteCalendar, NchantdQuarterHourCalendar
 from nchantrs.widgets.calendars.months import NchantdMonthCalendar, NchantdQuarterYearCalendar
 from nchantrs.widgets.calendars.weeks import NchantdWeekCalendar
 from nchantrs.widgets.calendars.years import NchantdYearCalendar
+from nchantrs.widgets.panes.calendars import NchantdCalendarDetailPane
+from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -97,11 +101,11 @@ class NchantdDateTimeSelect(NchantdWidgetMixin, pyqt.QDateTimeEdit):
         super().__init__(*args, **kwargs)
 
     def initModel(self, objects=None, get_actions=True) -> None:
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> None:
-        logma.info(f'initView {{type(self).__name__}}')
+        logma.info('initView {type(self).__name__}')
         return self
 
     def initWidget(self, handler=None) -> Any:
@@ -213,12 +217,12 @@ class NchantdEventsList(NchantdWidget):
 
     def initModel(self) -> Any:
         super().initModel()
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> Any:
         super().initView()
-        logma.info(f'initView {{type(self).__name__}}')
+        logma.info('initView {type(self).__name__}')
         return self
 
     def initWidget(self) -> Any:

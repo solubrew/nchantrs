@@ -1,19 +1,22 @@
 from typing import Any
+
 '\n---\n<(META)>:\n    docid: <^(UUID)^>\n    name:\n    description: >\n    expirary: <[expiration]>\n    version: <[version]>\n    authority: document|this\n    security: sec|lvl2\n    <(WT)>: -32\n'
 from os.path import abspath, dirname, join
 from sys import argv
+
 from kahndor import kahndor
-from nchantrs.libraries import pyqt
-from nchantrs.views.applicationviews import NchantdCapeView
-from nchantrs.widgets.applications.applications import NchantdPanties
-from nchantrs.models.applicationmodels import NchantdCapeModel
-from nchantrs.widgets.annotations import NchantdLabel
-from nchantrs.widgets.widgets import NchantdWidgetMixin, loadWidget
-from nchantrs.widgets.controls.button_groups import NchantdAcceptButtons, NchantdOkButtons
-from nchantrs.themes.themes import NchantdTheme
-from nchantrs.widgets.widgets import NchantdWidget
 from kahndor.logma import Logma
+
 from nchantrs.dialogs.sigil import NchantdSigilMixin
+from nchantrs.libraries import pyqt
+from nchantrs.models.applicationmodels import NchantdCapeModel
+from nchantrs.themes.themes import NchantdTheme
+from nchantrs.views.applicationviews import NchantdCapeView
+from nchantrs.widgets.annotations import NchantdLabel
+from nchantrs.widgets.applications.applications import NchantdPanties
+from nchantrs.widgets.controls.button_groups import NchantdAcceptButtons, NchantdOkButtons
+from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin, loadWidget
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -55,15 +58,15 @@ class NchantdCape(NchantdPanties):
         landing widgets"""
         if hasattr(self, '_init_view_called') and self._init_view_called:
             import traceback
-            logma.critical(f'NchantdCape.initView() called TWICE! Second call blocked.')
-            logma.critical(f'Call stack for second call:')
+            logma.critical('NchantdCape.initView() called TWICE! Second call blocked.')
+            logma.critical('Call stack for second call:')
             for line in traceback.format_stack():
                 logma.critical(f'  {line.strip()}')
             return self
         self._init_view_called = True
         if cfg is None:
             cfg = {}
-        logma.critical(f'NchantdCape.initView() STARTING NOW')
+        logma.critical('NchantdCape.initView() STARTING NOW')
         logma.critical(f'cfg passed: {cfg}')
         central_widget = pyqt.QWidget()
         self.main_layout = pyqt.QVBoxLayout()
@@ -96,10 +99,10 @@ class NchantdCape(NchantdPanties):
             widget_instance.initWidget()
             logma.info(f'Widget initialized: {widget_instance}')
             self.main_layout.addWidget(widget_instance)
-            logma.info(f'Widget added to layout')
+            logma.info('Widget added to layout')
             widget_instance.show()
             self.main_widget.update()
-            logma.info(f'Widget displayed')
+            logma.info('Widget displayed')
         except Exception as e:
             logma.error(f'Error adding widget: {e}')
             import traceback
@@ -112,12 +115,12 @@ class NchantdCape(NchantdPanties):
         self.initView(cfg)
         logma.critical('Main widget shown - starting Qt event loop')
         pyqt.QApplication.instance().exec()
-        logma.info(f'Application exiting')
+        logma.info('Application exiting')
         return 0
 
     def closeEvent(self, event) -> Any:
         """Handle application close event"""
-        logma.info(f'NchantdCape Close Event')
+        logma.info('NchantdCape Close Event')
         event.accept()
         self.quit()
         return self
@@ -160,7 +163,7 @@ class NchantdSigil(NchantdSigilMixin, pyqt.QDialog):
 
     def closeEvent(self, event) -> Any:
         """Handle close event and emit finished signal"""
-        logma.info(f'NchantdSigil Close Event')
+        logma.info('NchantdSigil Close Event')
         event.accept()
         self.finished.emit(0)
         return self
@@ -188,7 +191,7 @@ class NchantdSigil(NchantdSigilMixin, pyqt.QDialog):
 
     def run(self, cfg=None) -> None:
         """"""
-        logma.info(f'Run NchantdSigil')
+        logma.info('Run NchantdSigil')
         self.resize(300, 150)
         self.exec_()
 
@@ -199,7 +202,7 @@ class NchantdSplashDialog(NchantdSigil):
         """ """
 
     def buildDialog(self) -> Any:
-        logma.info(f'buildDialog called')
+        logma.info('buildDialog called')
         return self
 
 class NchantdBroach(NchantdWidget):

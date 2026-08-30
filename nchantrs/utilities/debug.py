@@ -6,6 +6,7 @@ Includes database inspection, model state dumps, and configuration logging.
 """
 import logging
 from typing import Any, Dict, List, Optional
+
 logger = logging.getLogger(__name__)
 
 class DataSourceDumper:
@@ -19,7 +20,7 @@ class DataSourceDumper:
         """
         self.store = store
         self.model = model
-        logma.info(f'DataSourceDumper initialized')
+        logma.info('DataSourceDumper initialized')
 
     def get_table_names(self) -> List[str]:
         """Get list of all available table names."""
@@ -102,11 +103,11 @@ class DataSourceDumper:
 def dump_data_sources(store=None, model=None) -> Dict[str, Any]:
     """
     Convenience function to dump all data sources.
-    
+
     Args:
         store: NchantdStore instance
         model: NchantdCapeModel or NchantdCloakModel instance
-        
+
     Returns:
         Dict containing dump of all data sources
     """
@@ -116,7 +117,7 @@ def dump_data_sources(store=None, model=None) -> Dict[str, Any]:
 def log_data_sources(store=None, model=None, level: int=logging.DEBUG) -> None:
     """
     Log all data sources at specified level.
-    
+
     Args:
         store: NchantdStore instance
         model: NchantdCapeModel or NchantdCloakModel instance
@@ -133,7 +134,7 @@ def log_data_sources(store=None, model=None, level: int=logging.DEBUG) -> None:
 def quick_dump(dialog=None) -> None:
     """
     Quick dump from a dialog instance.
-    
+
     Usage in REPL:
         >>> from nchantrs.utilities.debug import quick_dump
         >>> quick_dump(your_dialog_instance)

@@ -12,15 +12,19 @@
 	<(WT)>: -32
 """
 from __future__ import annotations
+
 import logging
-from os.path import dirname, join, expanduser
 import tracemalloc
-from nchantrs.widgets.applications.applications import NchantdCloak
-from nchantrs.dialogs.dialogs import NchantdCape, NchantdClip
-from nchantrs.widgets.browsers.initialize import _configure_qt_environment
-from nchantrs.wizards.apps import NchantdApplicationStartupWizard
+from os.path import dirname, expanduser, join
+
 from kahndor.logma import Logma
 from squirl.objnql import txtonql
+
+from nchantrs.dialogs.dialogs import NchantdCape, NchantdClip
+from nchantrs.widgets.applications.applications import NchantdCloak
+from nchantrs.widgets.browsers.initialize import _configure_qt_environment
+from nchantrs.wizards.apps import NchantdApplicationStartupWizard
+
 here = join(dirname(__file__), '')
 logma: Logma = Logma(__name__)
 debug: bool = False
@@ -133,7 +137,8 @@ def memory_analysis() -> None:
 def memory_summary() -> None:
     """"""
     try:
-        from pympler import muppy as _muppy, summary as _summary
+        from pympler import muppy as _muppy
+        from pympler import summary as _summary
         all_objects = _muppy.get_objects()
         logma.info('Memory Summary:')
         path = join(expanduser('~'), '_work', 'memory_summary.txt')

@@ -1,7 +1,7 @@
 """Regression coverage for link-filter construction."""
 
-from pathlib import Path
 import ast
+from pathlib import Path
 
 
 def test_get_links_uses_existing_where_clause_builder():

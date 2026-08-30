@@ -9,19 +9,23 @@
     security: seclvl2
     <(WT)>: -32
 """
-from os.path import dirname, join
 import json as j
 import logging
+from os.path import dirname, join
+
 logger = logging.getLogger(__name__)
+from typing import Any, Dict, List, Optional, Tuple
+
 from kahndor import kahndor
+from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
 from nchantrs.utilities.utils import lookup
 from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.items.items import NchantdItem
-from typing import Optional, Dict, List, Any, Tuple
-from kahndor.logma import Logma
-from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.media.images import NchantdImage
+from nchantrs.widgets.widgets import NchantdWidget
+
 here = join(dirname(__file__), '')
 logma = Logma(__name__)
 logma.off()
@@ -115,9 +119,9 @@ class NchantdCatalogItem(NchantdWidget):
         """"""
         logma.info(f'Catalog Left Click {signal}')
         super().onLeftClick(signal)
-        logma.info(f'Left Click')
+        logma.info('Left Click')
         self.catalog.item_selected(self)
-        logma.info(f'Selected Item')
+        logma.info('Selected Item')
         return self
 
     def set_size(self) -> None:
@@ -168,12 +172,12 @@ class NchantdExtensionCatalogItem(NchantdCatalogItem):
 
     def initModel(self) -> None:
         super().initModel()
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> None:
         super().initView()
-        logma.info(f'initView {{type(self).__name__}}')
+        logma.info('initView {type(self).__name__}')
         return self
 
     def initWidget(self) -> None:
@@ -196,12 +200,12 @@ class NchantdThemeCatalogItem(NchantdCatalogItem):
 
     def initModel(self) -> None:
         super().initModel()
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> None:
         super().initView()
-        logma.info(f'initView {{type(self).__name__}}')
+        logma.info('initView {type(self).__name__}')
         return self
 
     def initWidget(self) -> None:

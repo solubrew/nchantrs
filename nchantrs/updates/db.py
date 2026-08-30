@@ -11,13 +11,16 @@
     security: seclvl2
     <(WT)>: -32
 """
-from os.path import abspath, dirname, join
-from typing import Optional, Dict, List, Any, Tuple
 import datetime as dt
 from copy import deepcopy
+from os.path import abspath, dirname, join
+from typing import Any, Dict, List, Optional, Tuple
+
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 from nchantrs.models.models import NchantdInstance
+
 here = join(dirname(__file__), '')
 log = False
 logma = Logma(__name__)
@@ -27,19 +30,19 @@ if not log:
 pxcfg = join(here, '_data_', 'db.yaml')
 
 def migrate() -> None:
-    logma.info(f'migrate called')
+    logma.info('migrate called')
     return self
 
 def migrate_index() -> None:
-    logma.info(f'migrate_index called')
+    logma.info('migrate_index called')
     return self
 
 def migrate_table() -> None:
-    logma.info(f'migrate_table called')
+    logma.info('migrate_table called')
     return self
 
 def migrate_view() -> None:
-    logma.info(f'migrate_view called')
+    logma.info('migrate_view called')
     return self
 
 class NchantdDBUpdate(object):
@@ -168,7 +171,7 @@ class NchantdDBUpdate(object):
         return False
 
     def repair_table(self, cmd, db='db') -> None:
-        logma.info(f'repair_table called')
+        logma.info('repair_table called')
         return self
 
     def restore_backup(self, instance, version=None) -> None:

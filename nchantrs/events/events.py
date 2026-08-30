@@ -13,12 +13,15 @@
         security: sec|lvl2  #														||
         <(WT)>: -32  #																||
 """
-from os.path import abspath, dirname, exists, join, expanduser
-from kahndor import kahndor
 import logging
-from kahndor.thing import thingify, getName
+from os.path import abspath, dirname, exists, expanduser, join
+
+from kahndor import kahndor
+from kahndor.thing import getName, thingify
+
 logger = logging.getLogger(__name__)
 from fxsquirl.fxsquirl import Chunker
+
 ECHO_MODES = {0: QLineEdit.Normal, 1: QLineEdit.Password, 2: QLineEdit.PasswordEchoOnEdit, 3: QLineEdit.NoEcho}
 VALIDATOR_TYPES = {0: None, 1: lambda: QIntValidator(self.validatorLineEdit), 2: lambda: QDoubleValidator(MIN_VALIDATOR_VALUE, MAX_VALIDATOR_VALUE, VALIDATOR_DECIMAL_PLACES, self.validatorLineEdit)}
 ALIGNMENT_MODES = {0: Qt.AlignLeft, 1: Qt.AlignCenter, 2: Qt.AlignRight}
@@ -48,18 +51,18 @@ class NchantdEventSet:
         if not parent.newInstance:
             self.restoreEventSet()
         self.lastEvent = self.getLastEvent()
-        logma.info(f'NchantdEventSet initialized')
+        logma.info('NchantdEventSet initialized')
 
     def store(self, event) -> None:
-        logma.info(f'store called')
+        logma.info('store called')
         return self
 
     def restoreEventSet(self) -> None:
-        logma.info(f'restoreEventSet called')
+        logma.info('restoreEventSet called')
         return self
 
     def restoreEvent(self) -> None:
-        logma.info(f'restoreEvent called')
+        logma.info('restoreEvent called')
         return self
 
     def getLastEvent(self) -> None:
@@ -71,10 +74,10 @@ class NchantdEvent:
 
     def __init__(self) -> None:
         """ """
-        logma.info(f'NchantdEvent initialized')
+        logma.info('NchantdEvent initialized')
 
     def store(self, event) -> None:
-        logma.info(f'store called')
+        logma.info('store called')
         return self
 
     def currentCharFormatChanged(self, format) -> None:

@@ -16,13 +16,11 @@ from typing import Any, Iterator, List
 
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
-from os.path import abspath, dirname, join
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional, Union
+from os.path import abspath, dirname, join
+from typing import Dict, Optional, Union
 
 # ======================================3rd Party Library Modules=====================================================||
-
-
 # ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
@@ -37,17 +35,17 @@ if not log:
 PXCFG = join(HERE, "_data_", ".yaml")
 
 
-from os.path import abspath, dirname, join, expanduser
-from pathlib import Path
 import logging
+from os.path import dirname, expanduser, join
+from pathlib import Path
 
 logger = logging.getLogger(__name__)
-from kahndor import kahndor
-from nchantrs.libraries import pyqt
-from nchantrs.views.treeviews import NchantdTreeView
-from nchantrs.models.treemodels import NchantdApplicationTreeModel, NchantdTreeModel, NchantdTimeTreeModel
-from nchantrs.widgets.widgets import NchantdWidgetMixin
 from kahndor.logma import Logma
+
+from nchantrs.libraries import pyqt
+from nchantrs.models.treemodels import NchantdApplicationTreeModel, NchantdTimeTreeModel, NchantdTreeModel
+from nchantrs.views.treeviews import NchantdTreeView
+from nchantrs.widgets.widgets import NchantdWidgetMixin
 
 here = join(dirname(__file__), "")
 logma = Logma(__name__)
@@ -191,9 +189,9 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
             relative_y = event.pos().y() - target_rect.top()
             item_height = target_rect.height()
             if item_height > 0:
-                relative_position = relative_y / item_height
+                relative_y / item_height
             else:
-                relative_position = 0.5
+                pass
         else:
             drop_mode = "root"
         if drop_mode == "child":
@@ -354,7 +352,7 @@ class NchantdTree(NchantdWidgetMixin, pyqt.QTreeWidget):
         self.model.sort(column)
 
     def sort_children(self, pid, column=0) -> None:
-        logma.info(f"sort_children called")
+        logma.info("sort_children called")
         return self
 
     def _reset_tree_state(self, item) -> Any:
@@ -417,7 +415,7 @@ class NchantdApplicationTree(NchantdTree):
         self.config.override(cfg)
         self.model = NchantdApplicationTreeModel(self, None, self.config)
         self.note = None
-        logma.info(f"NchantdApplicationTree initialized")
+        logma.info("NchantdApplicationTree initialized")
 
     def initModel(self) -> Any:
         """"""
@@ -436,7 +434,7 @@ class NchantdApplicationTree(NchantdTree):
         return self
 
     def on_node_changed(self) -> Any:
-        logma.info(f"on_node_changed event received")
+        logma.info("on_node_changed event received")
         if getattr(self, "app", None) is not None and hasattr(self.app, "model"):
             self.app.model.has_changed = True
         return self

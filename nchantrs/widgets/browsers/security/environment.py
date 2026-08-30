@@ -9,24 +9,26 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join
 import datetime as dt
-import platform
-import sys
-import os
-from enum import Enum
-from dataclasses import dataclass
-from typing import Any, Dict, List, Optional
-import subprocess
-import shutil
-from pathlib import Path
-from typing import Dict, List, Optional, Tuple
-import psutil
-import ssl
 import logging
+import os
+import platform
+import shutil
+import ssl
+import subprocess
+import sys
+from dataclasses import dataclass
+from enum import Enum
+from os.path import abspath, dirname, join
+from pathlib import Path
+from typing import Any, Dict, List, Optional, Tuple
+
+import psutil
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -66,7 +68,7 @@ class CrossPlatformSecurityManager:
         self.environment = self.detect_environment()
         self.capabilities = self.assess_security_capabilities()
         self.security_config = self.build_security_configuration()
-        logma.info(f'CrossPlatformSecurityManager initialized')
+        logma.info('CrossPlatformSecurityManager initialized')
 
     def detect_environment(self) -> EnvironmentType:
         """Detect the runtime environment type"""
@@ -186,7 +188,6 @@ class CrossPlatformSecurityManager:
         if self.os_type == OSType.WINDOWS:
             try:
                 import ctypes
-                kernel32 = ctypes.windll.kernel32
                 version = sys.getwindowsversion()
                 return version.major >= 6 and version.minor >= 2
             except Exception:

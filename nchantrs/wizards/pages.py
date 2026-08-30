@@ -1,13 +1,19 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import abspath, dirname, join
-from kahndor import kahndor
 import logging
+from os.path import abspath, dirname, join
+
+from kahndor import kahndor
+
 from nchantrs.libraries import pyqt
+
 logger = logging.getLogger(__name__)
-from nchantrs.widgets import controls
 from kahndor.logma import Logma
+
+from nchantrs.widgets import controls
 from nchantrs.widgets.controls.radios import NchantdRadioButtonGroup
+
 here = join(dirname(__file__), '')
 logma = Logma(__name__)
 logma.off()
@@ -27,7 +33,7 @@ class NchantdWizardPage(pyqt.QWizardPage):
         self.app = self.parent.app
 
     def initModel(self) -> None:
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> Any:

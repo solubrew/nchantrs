@@ -1,10 +1,14 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n            A NchantdSwitchboard Pane will be a pane that builds gui options for cli tools with a basic widet of what it will\n            Do a button to activeate and entry fields for any options\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import abspath, dirname, join
 import datetime as dt
+from os.path import abspath, dirname, join
+
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 from nchantrs.widgets.widgets import NchantdWidget
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -21,7 +25,7 @@ class NchantdSwitchBoard(NchantdWidget):
         self.config.override(kahndor.Instruct(pxcfg).select('NchantdSwitchBoard').override(cfg))
         self.commands = None
         self.options = None
-        logma.info(f'NchantdSwitchBoard initialized')
+        logma.info('NchantdSwitchBoard initialized')
 
     def initModel(self, cfg=None) -> Any:
         """"""

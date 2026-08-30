@@ -9,17 +9,20 @@
     security: seclvl2
     <(WT)>: -32
 """
-from os.path import abspath, dirname, join
 import datetime as dt
+from os.path import abspath, dirname, join
 from typing import Any, Dict, Optional
+
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.annotations import NchantdLabel
+from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.controls.checkboxes import NchantdCheckbox
 from nchantrs.widgets.media.editors.editors import NchantdEntryBox
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
-from nchantrs.widgets.controls.buttons import NchantdButton
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -51,7 +54,7 @@ class NchantdNumberWheelButton(NchantdWidget):
         self.down_button: Optional[Any] = None
         self.number_display: Optional[Any] = None
         self.label: Optional[Any] = None
-        logma.info(f'NchantdNumberWheelButton initialized')
+        logma.info('NchantdNumberWheelButton initialized')
 
     def initModel(self) -> 'NchantdNumberWheelButton':
         """"""
@@ -142,12 +145,12 @@ class NchantdShareButton(NchantdWidgetMixin, pyqt.QPushButton):
 
     def initModel(self) -> Any:
         super().initModel()
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> Any:
         super().initView()
-        logma.info(f'initView {{type(self).__name__}}')
+        logma.info('initView {type(self).__name__}')
         return self
 
     def initWidget(self) -> Any:
@@ -200,7 +203,7 @@ class NchantdEnableSequencer(NchantdWidget):
         """ """
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select('NchantdEnableSequencer').override(cfg))
-        logma.info(f'NchantdEnableSequencer initialized')
+        logma.info('NchantdEnableSequencer initialized')
 
     def initModel(self, cfg=None) -> Any:
         """"""

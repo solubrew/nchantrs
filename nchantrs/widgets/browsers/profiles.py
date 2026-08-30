@@ -9,22 +9,25 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join
-from os import environ
 import datetime as dt
 import json as j
-import platform as _platform
-from enum import Enum
-from typing import Any, Dict, Optional
-import uuid
 import logging
+import platform as _platform
+import uuid
+from enum import Enum
+from os import environ
+from os.path import abspath, dirname, join
+from typing import Any, Dict, Optional
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
-from subtrix.subtrix import Mechanism
 from kahndor.logma import Logma
+from subtrix.subtrix import Mechanism
+
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.browsers.requests import NchantdRequestInterceptor
 from nchantrs.widgets.widgets import NchantdWidgetMixin
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -101,7 +104,11 @@ def install_google_login_ua_script(profile) -> None:
     keeps the real Chrome navigator. See F2 / qutebrowser #5182.
     """
     try:
-        from nchantrs.widgets.browsers.requests import ENABLE_GOOGLE_LOGIN_QUIRK, GOOGLE_LOGIN_HOSTS, google_login_user_agent
+        from nchantrs.widgets.browsers.requests import (
+            ENABLE_GOOGLE_LOGIN_QUIRK,
+            GOOGLE_LOGIN_HOSTS,
+            google_login_user_agent,
+        )
     except Exception as e:
         logma.error(f'[profiles] cannot load google login quirk: {e}')
         return
@@ -248,11 +255,11 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
         return self
 
     def load_local_storage(self) -> Any:
-        logma.info(f'load_local_storage called')
+        logma.info('load_local_storage called')
         return self
 
     def load_cache(self) -> Any:
-        logma.info(f'load_cache called')
+        logma.info('load_cache called')
         return self
 
     def set_persistence(self) -> Any:
@@ -271,9 +278,9 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
         return self
 
     def set_persistent_storage_db(self, path) -> Any:
-        logma.info(f'set_persistent_storage_db called')
+        logma.info('set_persistent_storage_db called')
         if hasattr(self, 'persistent_storage_db'):
-            logma.info(f'  has persistent_storage_db attr')
+            logma.info('  has persistent_storage_db attr')
         return self
 
     def set_persistent_storage_path(self, path) -> Any:
@@ -291,39 +298,39 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
         return self
 
     def set_application_cache_storage(self) -> Any:
-        logma.info(f'set_application_cache_storage called')
+        logma.info('set_application_cache_storage called')
         if hasattr(self, 'application_cache_storage'):
-            logma.info(f'  has application_cache_storage attr')
+            logma.info('  has application_cache_storage attr')
         return self
 
     def set_cache_storage(self) -> Any:
-        logma.info(f'set_cache_storage called')
+        logma.info('set_cache_storage called')
         if hasattr(self, 'cache_storage'):
-            logma.info(f'  has cache_storage attr')
+            logma.info('  has cache_storage attr')
         return self
 
     def set_cookie_storage(self) -> Any:
-        logma.info(f'set_cookie_storage called')
+        logma.info('set_cookie_storage called')
         if hasattr(self, 'cookie_storage'):
-            logma.info(f'  has cookie_storage attr')
+            logma.info('  has cookie_storage attr')
         return self
 
     def set_file_system_api_storage(self) -> Any:
-        logma.info(f'set_file_system_api_storage called')
+        logma.info('set_file_system_api_storage called')
         if hasattr(self, 'file_system_api_storage'):
-            logma.info(f'  has file_system_api_storage attr')
+            logma.info('  has file_system_api_storage attr')
         return self
 
     def set_indexed_db_storage(self) -> Any:
-        logma.info(f'set_indexed_db_storage called')
+        logma.info('set_indexed_db_storage called')
         if hasattr(self, 'indexed_db_storage'):
-            logma.info(f'  has indexed_db_storage attr')
+            logma.info('  has indexed_db_storage attr')
         return self
 
     def set_local_storage(self) -> Any:
-        logma.info(f'set_local_storage called')
+        logma.info('set_local_storage called')
         if hasattr(self, 'local_storage'):
-            logma.info(f'  has local_storage attr')
+            logma.info('  has local_storage attr')
         return self
 
     def set_security_policy(self, policy_code='safe') -> Any:
@@ -348,55 +355,55 @@ class NchantdWebProfile(NchantdWidgetMixin, pyqt.QWebEngineProfile):
         return self
 
     def set_service_worker_storage(self) -> Any:
-        logma.info(f'set_service_worker_storage called')
+        logma.info('set_service_worker_storage called')
         if hasattr(self, 'service_worker_storage'):
-            logma.info(f'  has service_worker_storage attr')
+            logma.info('  has service_worker_storage attr')
         return self
 
     def set_session_storage(self) -> Any:
-        logma.info(f'set_session_storage called')
+        logma.info('set_session_storage called')
         if hasattr(self, 'session_storage'):
-            logma.info(f'  has session_storage attr')
+            logma.info('  has session_storage attr')
         return self
 
     def set_web_sql_storage(self) -> Any:
-        logma.info(f'set_web_sql_storage called')
+        logma.info('set_web_sql_storage called')
         if hasattr(self, 'web_sql_storage'):
-            logma.info(f'  has web_sql_storage attr')
+            logma.info('  has web_sql_storage attr')
         return self
 
     def store_cache(self) -> Any:
         """"""
         data = {'id': cache.id, 'url': cache.url, 'data': cache.data, 'timestamp': cache.timestamp}
-        payload = [Thing().uuid, self.user.app_profile_FK, 'cache', j.dumps(data)]
+        [Thing().uuid, self.user.app_profile_FK, 'cache', j.dumps(data)]
         return self
 
     def store_cookie(self) -> Any:
         """"""
         data = {'id': cookie.id, 'name': cookie.name, 'value': cookie.value, 'domain': cookie.domain, 'path': cookie.path, 'expiration': cookie.expiration}
-        payload = [Thing().uuid, self.user.app_profile_FK, 'cookie', j.dumps(data)]
+        [Thing().uuid, self.user.app_profile_FK, 'cookie', j.dumps(data)]
         return self
 
     def store_indexed_db(self) -> Any:
         """"""
         data = {'id': idb.id, 'key': idb.key, 'value': idb.value}
-        payload = [Thing().uuid, self.user.app_profile_FK, 'indexed_db', j.dumps(data)]
+        [Thing().uuid, self.user.app_profile_FK, 'indexed_db', j.dumps(data)]
         return self
 
     def store_local_file(self) -> Any:
         """"""
         data = {'id': local_file.id, 'key': local_file.key, 'value': local_file.value}
-        payload = [Thing().uuid, self.user.app_profile_FK, 'local_file', j.dumps(data)]
+        [Thing().uuid, self.user.app_profile_FK, 'local_file', j.dumps(data)]
         return self
 
     def store_service_worker(self) -> Any:
         data = {'id': service_worker.id, 'scope': service_worker.scope, 'script_url': service_worker.script_url}
-        payload = [Thing().uuid, self.user.app_profile_FK, 'service_worker', j.dumps(data)]
+        [Thing().uuid, self.user.app_profile_FK, 'service_worker', j.dumps(data)]
         return self
 
     def store_address(self) -> Any:
         data = {'id': address.id, 'chain_id': address.chain_id, 'address': address.address}
-        payload = [Thing().uuid, self.user.app_profile_FK, 'address', j.dumps(data)]
+        [Thing().uuid, self.user.app_profile_FK, 'address', j.dumps(data)]
         return self
 
 class ProfileConfiguration:

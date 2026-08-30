@@ -9,29 +9,24 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join, expandvars, expanduser
 import datetime as dt
 import logging
+from os.path import abspath, dirname, expanduser, expandvars, join
+
 logger = logging.getLogger(__name__)
-import os
-import requests
 import bz2
+import ctypes
 import hashlib
+import os
+import platform
+import tempfile
 from pathlib import Path
 from typing import Any, Optional, Tuple
-import ctypes
-import platform
-from typing import Optional
-import os
-import platform
+
 import requests
-import bz2
-import tempfile
-import ctypes
-from pathlib import Path
-from typing import Optional, Tuple
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)

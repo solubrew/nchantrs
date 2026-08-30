@@ -9,13 +9,16 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join
 import datetime as dt
 import logging
+from os.path import abspath, dirname, join
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
-from nchantrs.libraries import pyqt
 from kahndor.logma import Logma
+
+from nchantrs.libraries import pyqt
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -35,7 +38,7 @@ class LinkService:
         self.app = pyqt.QApplication.instance()
 
     def get_links(self) -> None:
-        logma.info(f'get_links requested')
+        logma.info('get_links requested')
         return None
 
     def store_link(self, name: str, path: str, tags: str) -> None:

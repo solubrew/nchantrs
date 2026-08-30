@@ -10,9 +10,12 @@
         <(WT)>: -32
 """
 from os.path import abspath, dirname, join
+
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 from nchantrs.widgets.widgets import NchantdWidget
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)

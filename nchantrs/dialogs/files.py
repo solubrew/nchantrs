@@ -10,10 +10,13 @@
         <(WT)>: -32
 """
 from os.path import abspath, dirname, join
+
 from kahndor import kahndor
-from nchantrs.libraries import pyqt
 from kahndor.logma import Logma
+
 from nchantrs.dialogs.sigil import NchantdSigilMixin
+from nchantrs.libraries import pyqt
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -118,15 +121,15 @@ class AskSaveDialog:
         """"""
 
     def initModel(self) -> None:
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> None:
-        logma.info(f'initView {{type(self).__name__}}')
+        logma.info('initView {type(self).__name__}')
         return self
 
     def initWidget(self) -> None:
-        logma.info(f'initWidget {{type(self).__name__}}')
+        logma.info('initWidget {type(self).__name__}')
         return self
 
 class SaveAsDialog:
@@ -136,15 +139,15 @@ class SaveAsDialog:
         """"""
 
     def initModel(self) -> None:
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> None:
-        logma.info(f'initView {{type(self).__name__}}')
+        logma.info('initView {type(self).__name__}')
         return self
 
     def initWidget(self) -> None:
-        logma.info(f'initWidget {{type(self).__name__}}')
+        logma.info('initWidget {type(self).__name__}')
         return self
 
 class SaveCopy:
@@ -161,13 +164,13 @@ class SaveCopy:
         super().__init__(parent, self.config)
 
     def initModel(self) -> None:
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> None:
-        logma.info(f'initView {{type(self).__name__}}')
+        logma.info('initView {type(self).__name__}')
         return self
 
     def initWidget(self) -> None:
-        logma.info(f'initWidget {{type(self).__name__}}')
+        logma.info('initWidget {type(self).__name__}')
         return self

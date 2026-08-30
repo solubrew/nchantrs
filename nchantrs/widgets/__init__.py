@@ -8,5 +8,6 @@ trees, and wizards.
 """
 import logging
 from typing import Any
+
 logger: logging.Logger = logging.getLogger(__name__)
 __all__: list[str] = []

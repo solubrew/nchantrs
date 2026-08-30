@@ -9,13 +9,16 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join
 import datetime as dt
 import logging
+from os.path import abspath, dirname, join
+
 logger = logging.getLogger(__name__)
+from typing import Any, Dict, List, Optional, Tuple
+
 from kahndor import kahndor
-from typing import Optional, Dict, List, Any, Tuple
 from kahndor.logma import Logma
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -39,7 +42,7 @@ class ActionBuilder:
                 logma.info(f"Function {cfg['fx_txt']}")
             try:
                 kwargs['triggered'] = thingify(cfg['fx_txt'])
-            except Exception as e:
+            except Exception:
                 kwargs['triggered'] = None
         return pyqt.QAction(icon, cfg['name_txt'], self.parent, **kwargs)
 
@@ -102,7 +105,7 @@ class ActionBuilder:
 
 def about(app, cfg) -> None:
     """Launch dialog with information about application"""
-    launch = NchantdDialog(app, cfg).initWidget()
+    NchantdDialog(app, cfg).initWidget()
     return
 
 def add_tab(app, cfg) -> None:
@@ -111,15 +114,15 @@ def add_tab(app, cfg) -> None:
     return
 
 def mngBookmarks(self) -> None:
-    logma.info(f'mngBookmarks called')
+    logma.info('mngBookmarks called')
     return self
 
 def admin() -> None:
-    logma.info(f'admin called')
+    logma.info('admin called')
     return self
 
 def close(app) -> None:
-    logma.info(f'close called')
+    logma.info('close called')
     return self
 
 def exit(app, ce) -> None:
@@ -127,59 +130,59 @@ def exit(app, ce) -> None:
     app.fileQuit()
 
 def file() -> None:
-    logma.info(f'file called')
+    logma.info('file called')
     return self
 
 def help() -> None:
-    logma.info(f'help called')
+    logma.info('help called')
     return self
 
 def insert() -> None:
-    logma.info(f'insert called')
+    logma.info('insert called')
     return self
 
 def newFile(path) -> None:
-    logma.info(f'newFile called')
+    logma.info('newFile called')
     return self
 
 def newRecord() -> None:
-    logma.info(f'newRecord called')
+    logma.info('newRecord called')
     return self
 
 def open(path) -> None:
-    logma.info(f'open called')
+    logma.info('open called')
     return self
 
 def paste(app) -> None:
-    logma.info(f'paste called')
+    logma.info('paste called')
     return self
 
 def preferences(app, cfg: dict={}) -> None:
-    logma.info(f'preferences called')
+    logma.info('preferences called')
     return self
 
 def redo() -> None:
-    logma.info(f'redo called')
+    logma.info('redo called')
     return self
 
 def save() -> None:
-    logma.info(f'save called')
+    logma.info('save called')
     return self
 
 def saveall() -> None:
-    logma.info(f'saveall called')
+    logma.info('saveall called')
     return self
 
 def saveas(path, data) -> None:
-    logma.info(f'saveas called')
+    logma.info('saveas called')
     return self
 
 def savecopy() -> None:
-    logma.info(f'savecopy called')
+    logma.info('savecopy called')
     return self
 
 def undo() -> None:
-    logma.info(f'undo called')
+    logma.info('undo called')
     return self
 
 def aboutApplication(self) -> None:
@@ -195,65 +198,65 @@ def addBookmark(self) -> None:
     return self
 
 def bookmarks(self) -> None:
-    logma.info(f'bookmarks called')
+    logma.info('bookmarks called')
     return self
 
 def closeEvent(self, ce) -> None:
     self.fileQuit()
 
 def copySelection(self) -> None:
-    logma.info(f'copySelection called')
+    logma.info('copySelection called')
     return self
 
 def createTabDocument(self) -> None:
-    logma.info(f'createTabDocument called')
+    logma.info('createTabDocument called')
     return self
 
 def cutSelection(self) -> None:
-    logma.info(f'cutSelection called')
+    logma.info('cutSelection called')
     return self
 
 def exitAccess(self) -> None:
-    logma.info(f'exitAccess called')
+    logma.info('exitAccess called')
     return self
 
 def exitCherryTree(self) -> None:
-    logma.info(f'exitCherryTree called')
+    logma.info('exitCherryTree called')
     return self
 
 def exitCSV(self) -> None:
-    logma.info(f'exitCSV called')
+    logma.info('exitCSV called')
     return self
 
 def exitExcel(self) -> None:
-    logma.info(f'exitExcel called')
+    logma.info('exitExcel called')
     return self
 
 def exitGui(self) -> None:
-    logma.info(f'exitGui called')
+    logma.info('exitGui called')
     return self
 
 def expCSV(self) -> None:
-    logma.info(f'expCSV called')
+    logma.info('expCSV called')
     return self
 
 def fileQuit(self) -> None:
     self.close()
 
 def findData(self) -> None:
-    logma.info(f'findData called')
+    logma.info('findData called')
     return self
 
 def linkData(self) -> None:
-    logma.info(f'linkData called')
+    logma.info('linkData called')
     return self
 
 def loadData(self) -> None:
-    logma.info(f'loadData called')
+    logma.info('loadData called')
     return self
 
 def loadDevMode(self) -> None:
-    logma.info(f'loadDevMode called')
+    logma.info('loadDevMode called')
     return self
 
 def newFile(self) -> None:

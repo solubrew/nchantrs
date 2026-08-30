@@ -1,12 +1,14 @@
 from typing import Any
 
 "\n---\n<(META)>:\n    docid:\n    name:\n    description: >\n    version: 0.0.0.0.0.0\n    authority: filesystem\n    security: seclvl2\n    <(WT)>: -32\n"
-from os.path import abspath, dirname, join
 import datetime as dt
+from os.path import abspath, dirname, join
+
 from kahndor import kahndor
-from networkx.algorithms.connectivity import minimum_node_cut
-from nchantrs.libraries import pyqt
 from kahndor.logma import Logma
+from networkx.algorithms.connectivity import minimum_node_cut
+
+from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 
 here = join(dirname(__file__), "")
@@ -140,7 +142,7 @@ class NchantdHGroupBox(NchantdWidgetMixin, pyqt.QGroupBox):
         super().__init__(parent, cfg)
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdHGroupBox").override(parent.config).override(cfg)
-        logma.info(f"NchantdHGroupBox initialized")
+        logma.info("NchantdHGroupBox initialized")
 
     def addWidget(self, widget) -> Any:
         """"""
@@ -149,7 +151,7 @@ class NchantdHGroupBox(NchantdWidgetMixin, pyqt.QGroupBox):
 
     def initModel(self) -> Any:
         super().initModel()
-        logma.info(f"initModel {{type(self).__name__}}")
+        logma.info("initModel {type(self).__name__}")
         return self
 
     def initView(self) -> Any:
@@ -173,7 +175,7 @@ class NchantdVGroupBox(pyqt.QGroupBox):
         super().__init__(parent, cfg)
         self.parent = parent
         self.config = kahndor.Instruct(pxcfg).select("NchantdVGroupBox").override(parent.config).override(cfg)
-        logma.info(f"NchantdVGroupBox initialized")
+        logma.info("NchantdVGroupBox initialized")
 
     def addWidget(self, widget) -> Any:
         """"""
@@ -182,7 +184,7 @@ class NchantdVGroupBox(pyqt.QGroupBox):
 
     def initModel(self) -> Any:
         super().initModel()
-        logma.info(f"initModel {{type(self).__name__}}")
+        logma.info("initModel {type(self).__name__}")
         return self
 
     def initView(self) -> Any:
@@ -206,7 +208,7 @@ class NchantdVScrollGroupBox(NchantdWidget):
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdVScrollGroupBox").override(cfg))
         self.initLayout()
-        logma.info(f"NchantdVScrollGroupBox initialized")
+        logma.info("NchantdVScrollGroupBox initialized")
 
     def addWidget(self, widget) -> Any:
         """"""
@@ -371,7 +373,7 @@ class NchantdGridScrollGroupBox(pyqt.QWidget):
             self.config.override(parent.config)
         self.config.override(cfg)
         self.initLayout()
-        logma.info(f"NchantdGridScrollGroupBox initialized")
+        logma.info("NchantdGridScrollGroupBox initialized")
 
     def addWidget(self, widget, row=0, column=0, row_span=1, column_span=1) -> Any:
         """"""

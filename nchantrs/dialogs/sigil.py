@@ -9,14 +9,17 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join
 from datetime import datetime, timezone
+from os.path import abspath, dirname, join
 from typing import Any, Dict, List, Optional, Tuple, Union
+
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
-from nchantrs.widgets.widgets import NchantdWidgetMixin, loadWidget
 from nchantrs.themes.themes import NchantdTheme
+from nchantrs.widgets.widgets import NchantdWidgetMixin, loadWidget
+
 HERE = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -48,12 +51,12 @@ class NchantdSigilMixin(NchantdWidgetMixin):
         return self
 
     def validate(self) -> Any:
-        logma.info(f'validate called')
+        logma.info('validate called')
         return self
 
     def accept_(self, *args, **kwargs) -> Any:
         """"""
-        logma.info(f'Accept')
+        logma.info('Accept')
         self.validate()
         self.set_ok()
         return self
@@ -91,7 +94,7 @@ class NchantdSigilMixin(NchantdWidgetMixin):
         self.setWindowFlags(pyqt.Qt.FramelessWindowHint)
 
     def increase_font_size(self, value) -> None:
-        logma.info(f'increase_font_size called')
+        logma.info('increase_font_size called')
         return self
 
     def increase_height(self, value) -> None:
@@ -129,9 +132,8 @@ class NchantdSigilMixin(NchantdWidgetMixin):
         style = self.dtop['layout']['style']
         if style is None:
             style = '1Pane'
-        singlepane = False
         if style == '1Pane':
-            singlepane = True
+            pass
         if self.config.dikt.get('build', None):
             self.buildPane(style)
         return self
@@ -143,7 +145,7 @@ class NchantdSigilMixin(NchantdWidgetMixin):
         return self
 
     def reject_(self, signal=None, *args, **kwargs) -> Any:
-        logma.info(f'reject_ called')
+        logma.info('reject_ called')
         return self
 
     def set_ok(self) -> Any:
@@ -157,7 +159,7 @@ class NchantdSigilMixin(NchantdWidgetMixin):
         return self
 
     def set_font_size(self, size) -> None:
-        logma.info(f'set_font_size called')
+        logma.info('set_font_size called')
         return self
 
     def set_position(self, where='center') -> Tuple[Any, Any]:

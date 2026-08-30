@@ -1,14 +1,18 @@
 from typing import Any
+
 '\n---\n<(META)>:\n    docid:\n    name:\n    description: >\n    version: 0.0.0.0.0.0\n    authority: filesystem\n    security: seclvl2\n    <(WT)>: -32\n'
-from os.path import abspath, dirname, join
 import datetime as dt
+from os.path import abspath, dirname, join
+
 from kahndor import kahndor
+from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.annotations import NchantdLabel
+from nchantrs.widgets.groups import NchantdCollapsableGroup, NchantdVScrollGroupBox
 from nchantrs.widgets.media.editors.editors import NchantdDocEditor
-from nchantrs.widgets.groups import NchantdVScrollGroupBox, NchantdCollapsableGroup
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
-from kahndor.logma import Logma
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -226,7 +230,7 @@ class NchantdTextList(NchantdWidget):
             self.config.override(parent.config)
         super().__init__(self)
         self.config.override(cfg)
-        logma.info(f'NchantdTextList initialized')
+        logma.info('NchantdTextList initialized')
 
     def initModel(self) -> Any:
         """"""

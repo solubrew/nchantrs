@@ -1,21 +1,21 @@
+import json as j
+import platform
+from os import environ
+from os.path import dirname, expanduser, join
 from typing import Any, Optional
 
-
-from os.path import dirname, join, expanduser
-from os import environ
-import platform
-import json as j
-from pandas import DataFrame
 from kahndor import kahndor
+from kahndor.logma import Logma
+from pandas import DataFrame
+from pycurity.pyvice import Device
 from subtrix.subtrix import Mechanism
 from subtrix.utilities import uuid
-from nchantrs.models.models import NchantdStore, NchantdInstance
-from nchantrs.utilities.users import NchantdUser
+
+from nchantrs.models.models import NchantdInstance, NchantdStore
 from nchantrs.utilities.policies import NchantdDataPolicy
+from nchantrs.utilities.users import NchantdUser
 from nchantrs.widgets.items.nodes import NchantdTreeNode
 from nchantrs.wizards.instances import NchantdNewInstanceWizard
-from kahndor.logma import Logma
-from pycurity.pyvice import Device
 
 here = join(dirname(__file__), "")
 log = False
@@ -109,7 +109,7 @@ class NchantdPantiesModel(object):
         self.instance = instance_object(self)
 
     def init_model_pre(self) -> None:
-        logma.info(f"init_model_pre called")
+        logma.info("init_model_pre called")
         return self
 
     def initModel(self, reset=None, pre=True, post=True) -> None:
@@ -207,7 +207,7 @@ class NchantdCloakModel(NchantdPantiesModel):
 
     def add_node(self, name, ntype, pid, pos, parameters=None, tabset=None, return_node=False) -> None:
         """Add a node to the document tree."""
-        logma.info(f"Add Node")
+        logma.info("Add Node")
         nid, row = self.store.store_doc_tree_node(name, ntype, pid, pos, parameters)
         if return_node is False:
             return nid
@@ -262,7 +262,7 @@ class NchantdCloakModel(NchantdPantiesModel):
             try:
                 widgdata = j.dumps(widgdata)
             except Exception as e:
-                logma.warning(f"Widgdata Cannot be Serialized to JSON")
+                logma.warning("Widgdata Cannot be Serialized to JSON")
                 logma.warning(widgdata)
                 if debug:
                     raise Exception(e)
@@ -313,11 +313,11 @@ class NchantdCloakModel(NchantdPantiesModel):
         return self
 
     def connect_nchantd_office(self) -> None:
-        logma.info(f"connect_nchantd_office called")
+        logma.info("connect_nchantd_office called")
         return self
 
     def convert_database(self, version_from, version_to) -> None:
-        logma.info(f"convert_database called")
+        logma.info("convert_database called")
         return self
 
     def create_new_instance(self) -> None:
@@ -336,7 +336,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         return self
 
     def deactivate(self, table, uuid=None, primary_key=None, db="db") -> None:
-        logma.info(f"deactivate called")
+        logma.info("deactivate called")
         return self
 
     def delete_node(self, node) -> None:
@@ -546,7 +546,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         instance_object(self, cfg)
 
     def integration_config(self) -> None:
-        logma.info(f"integration_config called")
+        logma.info("integration_config called")
         return self
 
     def invalidate_menu_cache(self, name=None) -> None:
@@ -567,7 +567,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.store.compact_instances()
         self.store.compact_database(db)
         if self.instance is None:
-            raise Exception(f"No Instance Configured")
+            raise Exception("No Instance Configured")
         self.store.backup_database(self.instance, db)
         return self
 
@@ -592,7 +592,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         return self
 
     def reload_index(self, index) -> None:
-        logma.info(f"reload_index called")
+        logma.info("reload_index called")
         return self
 
     def reload_table(self, table, keep, map_, filters={}, db="db") -> None:
@@ -656,7 +656,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         return True
 
     def reload_view(self, view) -> None:
-        logma.info(f"reload_view called")
+        logma.info("reload_view called")
         return self
 
     def remove_affiliate_links(self) -> None:
@@ -704,7 +704,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         ``columns``) matches squirl's ``update_record`` contract introduced
         earlier in nchantrs (see Sprint 28 commit ``db5d457``).
         """
-        logma.info(f"save called")
+        logma.info("save called")
         from nchantrs.models.models import NchantdInstance
 
         if self.instance is None:
@@ -770,7 +770,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         return self
 
     def store_link(self, name, url=None, tags=None) -> None:
-        logma.info(f"store_link called")
+        logma.info("store_link called")
         return self
 
     def store_records(self, table, data, db="db") -> None:
@@ -792,11 +792,8 @@ class NchantdCloakModel(NchantdPantiesModel):
                 where the affiliate exists
         :return:
         """
-        API_URL = "https://nchantdoffice.com/api/"
         if reload:
-            last_affilate_update_dttm = "2025-01-01 00:00:00"
             self.remove_affiliate_links()
-        params = {"since_dttm": last_affilate_update_dttm}
         return
 
     def update_node(self, node, data, db="db") -> None:
@@ -944,9 +941,9 @@ class NchantdSigilModel(NchantdPantiesModel):
         self.config = kahndor.Instruct(pxcfg)
         self.config.select("NchantdSigilModel").override(cfg)
         if parent:
-            logger.debug(f"Parent", parent.config.dikt["args"])
+            logger.debug("Parent", parent.config.dikt["args"])
             self.config.override(parent.config)
-            logger.debug(f"Self", self.config.dikt["args"])
+            logger.debug("Self", self.config.dikt["args"])
         self.listeners = {}
 
 
@@ -970,7 +967,7 @@ class DataFilter(object):
         self.includes = []
         self.excludes = []
         self.merge_on_columns = []
-        logma.info(f"DataFilter initialized")
+        logma.info("DataFilter initialized")
 
     def add_exclude(self, column, values) -> None:
         """Add column/value pairs to exclude filter"""

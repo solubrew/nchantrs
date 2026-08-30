@@ -1,14 +1,19 @@
 from typing import Any
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import abspath, dirname, join
 import datetime as dt
-import numpy as np
 import logging
+from os.path import abspath, dirname, join
+
+import numpy as np
+
 logger = logging.getLogger(__name__)
-from PIL import Image, ImageDraw, ImageFont
 import random
+
 from kahndor import kahndor
 from kahndor.logma import Logma
+from PIL import Image, ImageDraw, ImageFont
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -26,7 +31,7 @@ class PixelArtGenerator:
         self.image = None
         self.palette = None
         self.border = None
-        logma.info(f'PixelArtGenerator initialized')
+        logma.info('PixelArtGenerator initialized')
 
     def create_palette(self, colors=None) -> None:
         """"""

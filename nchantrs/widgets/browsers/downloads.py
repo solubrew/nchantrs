@@ -9,26 +9,30 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import abspath, dirname, join
 import datetime as dt
-from os import environ
-import sys
-import os
 import json
+import logging
+import os
+import sys
 import time
+from dataclasses import asdict, dataclass
+from enum import Enum
+from os import environ
+from os.path import abspath, dirname, join
 from pathlib import Path
 from typing import Any, Dict, List, Optional
-from dataclasses import dataclass, asdict
-from enum import Enum
-import logging
+
 logger = logging.getLogger(__name__)
-import sys
 import os
+import sys
+
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
-from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.browsers.codecs.h264 import OpenH264Downloader
+from nchantrs.widgets.widgets import NchantdWidget
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -303,7 +307,7 @@ class DownloadItemWidget(pyqt.QWidget):
         super().__init__(parent)
         self.download_info = download_info
         self.setup_ui()
-        logma.info(f'DownloadItemWidget initialized')
+        logma.info('DownloadItemWidget initialized')
 
     def setup_ui(self) -> None:
         """Setup the download item UI"""
@@ -380,7 +384,7 @@ class DownloadsDialog(pyqt.QDialog):
         self.setup_ui()
         self.setup_connections()
         self.load_downloads()
-        logma.info(f'DownloadsDialog initialized')
+        logma.info('DownloadsDialog initialized')
 
     def setup_ui(self) -> None:
         """Setup downloads dialog UI"""
@@ -557,7 +561,7 @@ class NchantdDownloadsManagerSigil(NchantdWidget):
         super().__init__(self.parent, self.config)
         self.download_list = None
         self.clear_button = None
-        logma.info(f'NchantdDownloadsManagerSigil initialized')
+        logma.info('NchantdDownloadsManagerSigil initialized')
 
     def add_download(self, download) -> Any:
         """"""

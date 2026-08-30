@@ -11,12 +11,15 @@
         <(WT)>: -32  #																||
 """
 from os.path import abspath, dirname, join
+
 from kahndor import kahndor
-from nchantrs.libraries import pyqt
-from subtrix import subtrix
 from kahndor.logma import Logma
+from subtrix import subtrix
+
+from nchantrs.libraries import pyqt
 from nchantrs.widgets.items.nodes import NchantdNode, NchantdTreeNode
 from nchantrs.widgets.widgets import NchantdWidget
+
 here = join(dirname(__file__), '')
 log = False
 logma = Logma(__name__)
@@ -155,7 +158,7 @@ class NchantdTreeView(NchantdWidget):
         try:
             if self.parent.model.current_node != signal:
                 self.set_current_node(signal)
-        except Exception as e:
+        except Exception:
             self.set_current_node(signal)
         logma.info(f'Horizontal set scroll position: {h_scroll}')
         self.parent.horizontalScrollBar().setValue(h_scroll)
@@ -170,7 +173,7 @@ class NchantdTreeView(NchantdWidget):
         - position
         - readonly
         """
-        logger.debug(f'Tested Double Click')
+        logger.debug('Tested Double Click')
         node = self.model.getNodeData(signal.data())
         if node['editable']:
             dialog = self.config.dikt['nodeeditordialog']['widget']
@@ -220,7 +223,7 @@ class NchantdTreeView(NchantdWidget):
         return self
 
     def onDelete(self, fx, mod=None) -> None:
-        logma.info(f'onDelete called')
+        logma.info('onDelete called')
         return self
 
     def set_current_node(self, node) -> None:

@@ -1,18 +1,22 @@
 from typing import Any, Optional, Union
+
 '\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n'
-from os.path import abspath, dirname, join
 import datetime as dt
-from os import environ
 import logging
+from os import environ
+from os.path import abspath, dirname, join
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
+from nchantrs.widgets.browsers.downloads import CodecDownloadThread, NchantdDownloadManager
 from nchantrs.widgets.browsers.javascript.scripts import event_listener_middle_click
 from nchantrs.widgets.browsers.pages import NchantdWebEnginePage
-from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 from nchantrs.widgets.browsers.requests import NchantdRequestInterceptor
-from nchantrs.widgets.browsers.downloads import NchantdDownloadManager, CodecDownloadThread
+from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
+
 here = join(dirname(__file__), '')
 log = False
 logma = Logma(__name__)
@@ -371,7 +375,7 @@ class NchantdWebEngineViewH264(NchantdWidgetMixin, pyqt.QWebEngineView):
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.PlaybackRequiresUserGesture, False)
         settings.setAttribute(pyqt.QWebEngineSettings.WebAttribute.AllowRunningInsecureContent, True)
         if self.downloader.is_available():
-            library_path = self.downloader.get_library_path()
+            self.downloader.get_library_path()
 
     def download_codec(self) -> None:
         """Download OpenH264 codec in background thread."""

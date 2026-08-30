@@ -10,8 +10,10 @@
         <(WT)>: -32
 """
 from os.path import abspath, dirname, join
+
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 here = join(dirname(__file__), '')
 logma = Logma(__name__)
 logma.off()

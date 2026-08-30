@@ -1,16 +1,20 @@
 from typing import Any
+
 '\n---\n<(META)>:\n    docid:\n    name:\n    description: >\n    version: 0.0.0.0.0.0\n    authority: filesystem\n    security: seclvl2\n    <(WT)>: -32\n'
-from os.path import dirname, join
-import math
 import logging
+import math
+from os.path import dirname, join
+
 from kahndor import kahndor
+from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.controls.button_groups import NchantdMathPad, NchantdNumberPad
 from nchantrs.widgets.controls.buttons import NchantdButton
 from nchantrs.widgets.media.editors.editors import NchantdEntryBox
-from nchantrs.widgets.widgets import NchantdWidget
 from nchantrs.widgets.tabsets import NchantdTab
-from kahndor.logma import Logma
+from nchantrs.widgets.widgets import NchantdWidget
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -498,7 +502,6 @@ class NchantdCalculator(NchantdTab):
 
     def setDisplay(self) -> Any:
         """Initialize the display widget as a multiline text area"""
-        cfg = {'text': '0'}
         self.config.dikt['width'] = None
         self.config.dikt['height'] = None
         self.config.dikt['size'] = None
@@ -526,7 +529,7 @@ class NchantdAdvancedCalculator(NchantdCalculator):
         super().__init__(parent, cfg)
         self.config.override(kahndor.Instruct(pxcfg).select('NchantdAdvancedCalculator').override(cfg))
         self.setFocusPolicy(pyqt.Qt.FocusPolicy.StrongFocus)
-        logma.info(f'NchantdAdvancedCalculator initialized')
+        logma.info('NchantdAdvancedCalculator initialized')
 
     def initUI(self) -> Any:
         """Set up the equation log + output panel below the base calculator."""

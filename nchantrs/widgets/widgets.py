@@ -1,17 +1,19 @@
 from typing import Any, Dict, Tuple
 
 "\n---\n<(META)>:\n    docid:\n    name:\n    description: >\n    version: 0.0.0.0.0.0\n    authority: filesystem\n    security: seclvl2\n    <(WT)>: -32\n"
-from os.path import abspath, dirname, join
 import datetime as dt
 import json as j
 import math
+from os.path import abspath, dirname, join
+
 from kahndor import kahndor
-from nchantrs.libraries import pyqt
 from kahndor.logma import Logma
 from kahndor.utils import thingify
+
+from nchantrs.libraries import pyqt
 from nchantrs.themes.colors import NchantdColor
 from nchantrs.utilities.utils import lookup
-from nchantrs.widgets.controls.menus import NchantdMenu, NchantdContextMenu
+from nchantrs.widgets.controls.menus import NchantdContextMenu, NchantdMenu
 
 here = join(dirname(__file__), "")
 debug = True
@@ -223,7 +225,7 @@ class NchantdWidgetMixin(object, metaclass=_NCHANTD_MIXIN_META):
                     raise e
                 cfg = {"actions": {}}
         else:
-            logma.warning(f"No app model available for context menu")
+            logma.warning("No app model available for context menu")
             cfg = {"actions": {}}
         self.context_menu = NchantdContextMenu(self, cfg).initWidget()
         return self
@@ -489,12 +491,12 @@ class NchantdWidgetMixin(object, metaclass=_NCHANTD_MIXIN_META):
 
     def focusInEvent(self, event) -> Any:
         super().focusInEvent(event)
-        logma.info(f"Focus In")
+        logma.info("Focus In")
         return self
 
     def focusOutEvent(self, event=None, *args, **kwargs):
         super().focusOutEvent(event)
-        logma.info(f"Focus Out")
+        logma.info("Focus Out")
         return self
 
     def getAlignment(self, justify) -> Any:
@@ -544,12 +546,12 @@ class NchantdWidgetMixin(object, metaclass=_NCHANTD_MIXIN_META):
     def onLeftClick(self, signal=None) -> Any:
         """"""
         logma.info(f"Left Click {signal}")
-        logma.info(f"Left Click")
+        logma.info("Left Click")
         return self
 
     def onRightClick(self, signal=None) -> Any:
         """ """
-        logma.info(f"Right Click")
+        logma.info("Right Click")
         return self
 
     def onExpand(self) -> Any:
@@ -559,12 +561,12 @@ class NchantdWidgetMixin(object, metaclass=_NCHANTD_MIXIN_META):
         return self
 
     def onLeftDoubleClick(self, signal) -> Any:
-        logma.info(f"Left Double Click")
+        logma.info("Left Double Click")
         return self
 
     def onMiddleClick(self, signal=None) -> Any:
         """ """
-        logma.info(f"Middle Click")
+        logma.info("Middle Click")
         return self
 
     def onSelection(self, fx, mod=None) -> None:
@@ -585,7 +587,7 @@ class NchantdWidgetMixin(object, metaclass=_NCHANTD_MIXIN_META):
         return
 
     def onDelete(self, fx, mod=None) -> None:
-        logma.info(f"onDelete called")
+        logma.info("onDelete called")
         return self
 
     def reject(self) -> Any:
@@ -890,18 +892,18 @@ class NchantdWidget(NchantdWidgetMixin, pyqt.QWidget):
 
     def initTriggers(self) -> Any:
         """ """
-        logma.info(f"Init Triggers")
+        logma.info("Init Triggers")
         try:
             self.doubleClicked.connect(self.onLeftDoubleClick)
-        except Exception as e:
+        except Exception:
             pass
         try:
             self.expanded.connect(self.onExpand)
-        except Exception as e:
+        except Exception:
             pass
         try:
             self.clicked.connect(self.onLeftClick)
-        except Exception as e:
+        except Exception:
             pass
         return self
 

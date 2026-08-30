@@ -1,22 +1,23 @@
+import platform
+import sys
+from os import chmod, environ, makedirs
+from os.path import abspath, dirname, exists, expanduser, isdir, join
 from typing import Any, Tuple, Union
 
-from os.path import dirname, join, isdir, expanduser, abspath, exists
-from os import environ, chmod, makedirs
-import sys
-import platform
 import psutil
 import yaml
 from kahndor import kahndor
-from nchantrs.libraries import pyqt
-from nchantrs.widgets.controls.radios import NchantdRadioButtonGroup
-from nchantrs.wizards.pages import NchantdWizardPage
-from nchantrs.widgets.media.editors.editors import NchantdEntryEditor, NchantdLabeledEntry
-from nchantrs.wizards.instances import NchantdNewInstanceWizard
-from nchantrs.wizards.users import NchantdNewUserWizard
-from nchantrs.wizards.wizards import NchantdWizard
 from kahndor.logma import Logma
 from squirl.orgnql import fonql, yonql
 from subtrix.subtrix import Mechanism
+
+from nchantrs.libraries import pyqt
+from nchantrs.widgets.controls.radios import NchantdRadioButtonGroup
+from nchantrs.widgets.media.editors.editors import NchantdEntryEditor, NchantdLabeledEntry
+from nchantrs.wizards.instances import NchantdNewInstanceWizard
+from nchantrs.wizards.pages import NchantdWizardPage
+from nchantrs.wizards.users import NchantdNewUserWizard
+from nchantrs.wizards.wizards import NchantdWizard
 
 here = join(dirname(__file__), "")
 log = False
@@ -80,7 +81,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         if self.user_home is None:
             self.user_home = expanduser("~")
             if self.user_home is None:
-                raise Exception(f"Cant determine user home directory")
+                raise Exception("Cant determine user home directory")
         self.device = None
         self.install_doc = None
 
@@ -99,17 +100,17 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         self.library_path = self.app.model.library_path
         self.shortcut_path = self.app.model.shortcut_path
         if self.app.is_installable is True:
-            logma.info(f"Application Installable")
+            logma.info("Application Installable")
             installed = self.check_installed()
             logma.info(f"Currently Installed {installed}")
             if installed is True and "setup" not in args:
                 self.run_application()
             else:
-                logma.info(f"Install Application")
+                logma.info("Install Application")
                 self.run_application_install(paths)
                 self.new_instance = True
         else:
-            logma.info(f"Application Not Installable")
+            logma.info("Application Not Installable")
         super().initModel()
         return self
 
@@ -123,7 +124,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         if self.config.dikt.get("profile", None):
             self._load_profile(self.config.dikt["profile"])
         if self.new_application is True:
-            logma.info(f"Setup New Application")
+            logma.info("Setup New Application")
             self.application_setup_details_page = NchantdApplicationSetupDetailsPage(self).initWidget()
             self.addPage(self.application_setup_details_page)
             self.new_instance = True
@@ -169,7 +170,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         return self
 
     def assign_page_sequence(self) -> Any:
-        logma.info(f"assign_page_sequence called")
+        logma.info("assign_page_sequence called")
         if not hasattr(self, "pages") or not self.pages:
             return self
         try:
@@ -179,7 +180,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         return self
 
     def ask_user_to_update(self) -> Any:
-        logma.info(f"ask_user_to_update called")
+        logma.info("ask_user_to_update called")
         from nchantrs.libraries import pyqt
 
         reply = pyqt.QMessageBox.question(
@@ -262,7 +263,8 @@ class NchantdApplicationStartupWizard(NchantdWizard):
             logma.warning("copy_application: src_app or dst_dir missing")
             return self
         from os import walk
-        from os.path import expanduser, exists, isfile, join
+        from os.path import exists, expanduser, isfile, join
+
         from nchantrs.libraries import pyqt
 
         try:
@@ -272,7 +274,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         if src_app.startswith("~"):
             src_app = expanduser(src_app)
         if not exists(src_app):
-            logma.warning(f"copy_application: src_path does not exist")
+            logma.warning("copy_application: src_path does not exist")
             return self
         if isfile(src_app):
             import shutil
@@ -306,9 +308,9 @@ class NchantdApplicationStartupWizard(NchantdWizard):
 
     def create_database_application(self) -> bool:
         """"""
-        logma.info(f"Initialize Application Database")
+        logma.info("Initialize Application Database")
         self.app.model.store.init_database_application()
-        logma.info(f"Create Application Database Objects")
+        logma.info("Create Application Database Objects")
         logma.info(self.app.model.config.dikt["dstruct"]["database"]["objects"])
         self.app.model.store.create_objects(self.app.model.config.dikt["dstruct"]["database"]["objects"])
         self.app.model.store.cache_app_install("installed", ["create_database"])
@@ -337,7 +339,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
                 if self.app.has_library:
                     if not self.create_paths_library(paths):
                         if debug:
-                            raise Exception(f"Installing Library Failed")
+                            raise Exception("Installing Library Failed")
                 if self.create_paths_shortcut(paths):
                     self.app.model.store.cache_app_install(
                         "install_succeeded", ["directories_created", {"paths": paths}]
@@ -459,7 +461,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         self.app.model.initialize_application()
         cfg = {}
         self.app.model.store.init_database_application(cfg)
-        logma.info(f"Check Application is Up to date")
+        logma.info("Check Application is Up to date")
         if self.check_is_up_to_date() is False or debug is True:
             if self.ask_user_to_update() is True or debug is True:
                 self.run_application_update()
@@ -471,7 +473,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         """"""
         self.run_install_application_prep(paths)
         self.initialize_application()  # need to break out the policy, user and instance from application
-        logma.info(f"Create Paths")
+        logma.info("Create Paths")
         paths, state = self.create_paths()
         if state is True:
             self.create_database_application()
@@ -497,7 +499,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         remove temp location
         :return:
         """
-        logma.info(f"Run Application Update")
+        logma.info("Run Application Update")
         self.version = self.app.dbupdate.run_updates("db")
         logma.info(f"New Version {self.version}")
         self.app.set_version(self.version)
@@ -535,7 +537,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         return self
 
     def set_library_status(self) -> Any:
-        logma.info(f"set_library_status")
+        logma.info("set_library_status")
         is_pro = bool(getattr(self.app, "has_pro", False)) if hasattr(self, "app") else False
         if is_pro:
             self.library_active = True
@@ -583,15 +585,15 @@ class NchantdAddExtensionWizard(NchantdWizardPage):
         self.config.override(cfg)
 
     def initModel(self) -> None:
-        logma.info(f"initModel {{type(self).__name__}}")
+        logma.info("initModel {type(self).__name__}")
         return self
 
     def initView(self) -> None:
-        logma.info(f"initView {{type(self).__name__}}")
+        logma.info("initView {type(self).__name__}")
         return self
 
     def initWidget(self) -> None:
-        logma.info(f"initWidget {{type(self).__name__}}")
+        logma.info("initWidget {type(self).__name__}")
         return self
 
 
@@ -608,15 +610,15 @@ class NchantdRemoveExtensionWizard(NchantdWizardPage):
         super(NchantdRemoveExtensionWizard, self).__init__(self.parent, self.config)
 
     def initModel(self) -> None:
-        logma.info(f"initModel {{type(self).__name__}}")
+        logma.info("initModel {type(self).__name__}")
         return self
 
     def initView(self) -> None:
-        logma.info(f"initView {{type(self).__name__}}")
+        logma.info("initView {type(self).__name__}")
         return self
 
     def initWidget(self) -> None:
-        logma.info(f"initWidget {{type(self).__name__}}")
+        logma.info("initWidget {type(self).__name__}")
         return self
 
 

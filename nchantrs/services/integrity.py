@@ -9,14 +9,16 @@
     security: seclvl2
     <(WT)>: -32
 """
-from os.path import abspath, dirname, join, realpath
-import sys
 import hashlib
 import logging
+import sys
+from os.path import abspath, dirname, join, realpath
+
 logger = logging.getLogger(__name__)
 from kahndor import kahndor
 from kahndor.logma import Logma
 from squirl.orgnql.fonql import calculate_hash
+
 here = join(dirname(__file__), '')
 logma = Logma(__name__)
 logma.off()
@@ -26,9 +28,9 @@ HASH_VERIFY_FAIL = False
 
 def exectuableHash() -> 'None':
     """Calculate hash of the current executable."""
-    start_dir = dirname(realpath(sys.executable))
+    dirname(realpath(sys.executable))
     start_file_name = realpath(sys.executable)
-    start_file_name_hash = calculate_hash(start_file_name)
+    calculate_hash(start_file_name)
 
 class Integrity(object):
     """A class to check the integrity of files within the license chain to verify that the specific application is
@@ -42,7 +44,7 @@ class Integrity(object):
         self.interpreter_file = None
         self.interpreter_hash = None
         self.module_hashes = {}
-        logma.info(f'Integrity initialized')
+        logma.info('Integrity initialized')
 
     def addModules(self) -> None:
         """Add Modules and their paths to the list of modules/files needing to be hashed use for both development and

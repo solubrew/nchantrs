@@ -9,13 +9,17 @@
         security: seclvl2
         <(WT)>: -32
 """
-from os.path import dirname, join
-from kahndor import kahndor
 import logging
+from os.path import dirname, join
+
 from _work.subtreemodels import NchantdProjectSubTreeModel
+from kahndor import kahndor
+
 logger = logging.getLogger(__name__)
+from typing import Any, Dict, List, Optional, Tuple
+
 from kahndor.logma import Logma
-from typing import Optional, Dict, List, Any, Tuple
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -36,12 +40,12 @@ class NchantdSubTree:
 
     def initModel(self) -> None:
         super().initModel()
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> None:
         super().initView()
-        logma.info(f'initView {{type(self).__name__}}')
+        logma.info('initView {type(self).__name__}')
         return self
 
     def initWidget(self) -> None:
@@ -70,7 +74,7 @@ class NchantdProjectSubTree(NchantdSubTree):
 
     def initView(self) -> None:
         super().initView()
-        logma.info(f'initView {{type(self).__name__}}')
+        logma.info('initView {type(self).__name__}')
         return self
 
     def initWidget(self) -> None:
@@ -93,12 +97,12 @@ class NchantdFileSystemSubTree(NchantdSubTree):
 
     def initModel(self) -> None:
         super().initModel()
-        logma.info(f'initModel {{type(self).__name__}}')
+        logma.info('initModel {type(self).__name__}')
         return self
 
     def initView(self) -> None:
         super().initView()
-        logma.info(f'initView {{type(self).__name__}}')
+        logma.info('initView {type(self).__name__}')
         return self
 
     def initWidget(self) -> None:

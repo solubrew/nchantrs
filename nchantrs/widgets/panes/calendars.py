@@ -14,20 +14,20 @@
 
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
-from typing import Any
-from os.path import abspath, dirname, join
-import datetime as dt
 import calendar
+import datetime as dt
 from calendar import monthrange
+from os.path import abspath, dirname, join
+from typing import Any
 
 # ======================================3rd Party Library Modules=====================================================||
-
 # ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
-from nchantrs.widgets.panes.panes import NchantdPane
+
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.media.editors.selectors import NchantdDropDown
+from nchantrs.widgets.panes.panes import NchantdPane
 from nchantrs.widgets.tables.tables import NchantdGrid
 
 # ====================================================================================================================||
@@ -83,7 +83,7 @@ class NchantdMonthCalendarPane(NchantdPane):
     def initModel(self) -> Any:
         """"""
         super().initModel()
-        datetime = self.config.dikt.get("datetime", dt.datetime.now())
+        self.config.dikt.get("datetime", dt.datetime.now())
         return self
 
     def initView(self, cfg=None) -> Any:
@@ -138,7 +138,7 @@ class NchantdMonthCalendarPane(NchantdPane):
 
     def insertCalendarWidget(self) -> None:
         """"""
-        year = self.selectedDate.year()
+        self.selectedDate.year()
         cfg = {
             "rows": 6,
             "columns": 7,

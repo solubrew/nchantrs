@@ -10,26 +10,28 @@
     <(WT)>: -32
 """
 
-from os.path import abspath, dirname, join
-from os import listdir
 import json as j
 import logging
+from os import listdir
+from os.path import abspath, dirname, join
 
 logger = logging.getLogger(__name__)
-from pandas import DataFrame
+from typing import Any, Dict, List, Optional, Tuple
+
 from kahndor import kahndor
+from kahndor.logma import Logma
+from pandas import DataFrame
+from subtrix.utilities import uuid
+
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.annotations import NchantdLabel
-from typing import Optional, Dict, List, Any, Tuple
 from nchantrs.widgets.controls.buttons import NchantdButton
-from nchantrs.widgets.media.editors.editors import NchantdEntryEditor
-from nchantrs.widgets.media.images import NchantdImage
 from nchantrs.widgets.groups import NchantdGridScrollGroupBox
 from nchantrs.widgets.items.catalogs import NchantdCatalogItem
+from nchantrs.widgets.media.editors.editors import NchantdEntryEditor
+from nchantrs.widgets.media.images import NchantdImage
 from nchantrs.widgets.panes.catalogs import NchantdNewNodePane
 from nchantrs.widgets.widgets import NchantdWidget
-from kahndor.logma import Logma
-from subtrix.utilities import uuid
 
 here = join(dirname(__file__), "")
 logma = Logma(__name__)
@@ -111,7 +113,7 @@ class NchantdCatalog(NchantdWidget):
             self.item_pane_group = pyqt.QGroupBox()
             if pane_obj is None:
                 pane_obj = NchantdNewNodePane
-            logma.info(f"Pane Obj")
+            logma.info("Pane Obj")
             cfg = {"options": self.all_items["name_txt"].values.tolist()}
             logma.info(f"CFG {cfg}")
             self.item_pane = pane_obj(self, cfg).initWidget()
@@ -157,7 +159,7 @@ class NchantdImageCatalog(NchantdCatalog):
             self.config.override(parent.config)
         self.config.override(cfg)
         super().__init__(self.parent, self.config)
-        logma.info(f"NchantdImageCatalog initialized")
+        logma.info("NchantdImageCatalog initialized")
 
     def initModel(self) -> None:
         """"""

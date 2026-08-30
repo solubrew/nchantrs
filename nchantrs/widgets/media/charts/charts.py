@@ -1,20 +1,24 @@
 from typing import Any
+
 "\n---\n<(META)>:\n    docid: 'e49e63fd-aad8-4ae3-b176-8ca67718fac6'\n    name:\n    description: >\n        leverage visualizer to generate charts to displayed\n        through test_nchantrs or warlock via an integrated test_nchantrs browser\n    expirary: <[expiration]>\n    version: <[version]>\n    authority: document|this\n    security: sec|lvl2\n    <(WT)>: -32\n"
-from os.path import abspath, dirname, join
 import datetime as dt
 import logging
+from os.path import abspath, dirname, join
+
 logger = logging.getLogger(__name__)
-import numpy as np
-import mplfinance as mpf
-import seaborn as sns
-import matplotlib as mat
-import plotly.graph_objects as go
-import matplotlib.pyplot as plt
 # Force a backend that works for both Qt and headless test runs. The
 # audit harness runs ``sasquatch analyze`` from a headless shell, where
 # QtAgg raises ImportError. Only require QtAgg when an event loop is
 # present (i.e. when the user is actually rendering a window).
 import os as _os
+
+import matplotlib as mat
+import matplotlib.pyplot as plt
+import mplfinance as mpf
+import numpy as np
+import plotly.graph_objects as go
+import seaborn as sns
+
 if _os.environ.get("QT_QPA_PLATFORM") == "offscreen" or not _os.environ.get("DISPLAY"):
     mat.use("Agg")
 else:
@@ -22,17 +26,19 @@ else:
         mat.use("QtAgg")
     except ImportError:
         mat.use("Agg")
+import matplotlib.colors as mcolors
+from kahndor import kahndor
+from kahndor.logma import Logma
 from matplotlib.backends.backend_qtagg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 from matplotlib.patches import Rectangle
 from matplotlib.sankey import Sankey
-import matplotlib.colors as mcolors
+from pandas import DataFrame, date_range
 from wordcloud import WordCloud
-from pandas import date_range, DataFrame
-from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidgetMixin
-from kahndor import kahndor
+
 here = join(dirname(__file__), '')
 log = True
 logma = Logma(__name__)
@@ -348,10 +354,9 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
         """Generate and plot a 3D doughnut chart (mocked with pie visualization)."""
         self.clear_axes(projection='3d')
 
-        categories = ['A', 'B', 'C', 'D']
         values = [40, 30, 20, 10]
         cumulative_values = np.cumsum(values)
-        fractional = cumulative_values / sum(values)
+        cumulative_values / sum(values)
         for i, val in enumerate(values):
             self.axes.bar3d([i], [0], [0], 0.5, 1, val, color=plt.cm.Set3(i / len(values)), alpha=0.8)
         self.axes.set_title('3D Doughnut Chart (Mocked)')
@@ -431,7 +436,7 @@ class NchantdChart(NchantdWidgetMixin, FigureCanvas):
 
     def plot_line_chart(self) -> None:
         """Plot a basic line chart."""
-        logma.info(f'Plot Line Chart')
+        logma.info('Plot Line Chart')
         self.clear_axes()
         self.axes.plot(self.x, self.y1, label='Sine Wave', linewidth=2)
         self.axes.plot(self.x, self.y2, label='Cosine Wave', linewidth=2)
@@ -735,7 +740,7 @@ class FunnelChartCanvas(FigureCanvas):
         funnel_chart = go.Figure(go.Funnel(y=stages, x=values, textinfo='value+percent previous'))
         funnel_chart.update_layout(title='Funnel Chart (with Plotly)', title_font_size=18, title_x=0.5, showlegend=False, margin=dict(l=50, r=50, t=100, b=50))
         funnel_chart.write_html('funnel_chart.html')
-        logger.info(f"Saved 'funnel_chart.html'. Open it in a web browser!")
+        logger.info("Saved 'funnel_chart.html'. Open it in a web browser!")
 
     def clear_canvas(self) -> None:
         """Clear the chart canvas (this is only relevant if you adapt this for live PySide6)."""

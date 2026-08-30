@@ -10,10 +10,10 @@
     <(WT)>: -32
 """
 
-from os.path import abspath, dirname, join
 import datetime as dt
 import platform
 import subprocess
+from os.path import abspath, dirname, join
 
 try:
     import winreg
@@ -22,11 +22,13 @@ except ImportError:
 import logging
 
 logger = logging.getLogger(__name__)
+from typing import Any, Dict, List, Optional, Tuple
+
 from kahndor import kahndor
 from kahndor.logma import Logma
+
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.widgets import NchantdWidgetMixin
-from typing import Optional, Dict, List, Any, Tuple
 
 here = join(dirname(__file__), "")
 logma = Logma(__name__)
