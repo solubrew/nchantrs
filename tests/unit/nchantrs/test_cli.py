@@ -44,8 +44,14 @@ class TestCreateParser:
     def test_create_parser_has_run_command(self):
         """Test that parser has run subcommand."""
         parser = create_parser()
-        {action: None for action in parser._subparsers._actions}
-        assert "run" in [sp.dest for sp in parser._subparsers._actions[1].choices.values()]
+        # Find the _SubParsersAction among the subparsers' own _actions
+        subparsers_action = None
+        for action in parser._subparsers._actions:
+            if action.__class__.__name__ == "_SubParsersAction":
+                subparsers_action = action
+                break
+        assert subparsers_action is not None, "No _SubParsersAction found"
+        assert "run" in subparsers_action.choices
 
     def test_create_parser_has_version_flag(self):
         """Test that parser has version flag."""

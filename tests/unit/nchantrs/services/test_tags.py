@@ -104,30 +104,24 @@ class TestTag:
         tag = Tag(name="OriginalName")
         original_uuid = tag.uuid
 
-        tag.rename("NewName")
+        result = tag.rename("NewName")
 
         assert tag.name == "NewName"
         assert tag.uuid == original_uuid  # UUID should not change
+        assert result is tag  # rename() returns self (fluent)
 
     def test_storage_returns_dataframe(self):
-        """Test storage method returns DataFrame."""
+        """Test storage method returns a DataFrame."""
         from nchantrs.services.tags import Tag
 
-        tag = Tag(
-            name="TestTag",
-            description="Description",
-            uuid="test-uuid"
-        )
+        tag = Tag(name="TestTag", description="Description", uuid="test-uuid")
+        result = tag.storage()
 
-        with patch('nchantrs.services.tags.qpandas'):
-            # Mock qpandas.DataFrame
-            mock_df = MagicMock()
-            mock_df.columns = ['name', 'description', 'uuid']
-            with patch.dict('sys.modules', {'nchantrs.libraries.qpandas': MagicMock(DataFrame=mock_df)}):
-                # Re-import with mocked qpandas
-                result = tag.storage()
-                # Verify it returns something with expected structure
-                assert result is not None
+        assert result is not None
+        assert hasattr(result, "columns")
+        assert "name" in result.columns
+        assert "description" in result.columns
+        assert "uuid" in result.columns
 
 
 class TestTagsIntegration:

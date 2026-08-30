@@ -695,34 +695,34 @@ class NchantdStore(MicroStash):
         super().initDocument(name, doc_type, path, objects, reset)
         return self
 
-    # def save_instance_settings(self, db: str = "db") -> "NchantdStore":
-    #     """Persist the instance settings cache to ``app_instance_setting``.
-    #
-    #     Each entry is a row of ``[instance_id, key, value, MODON_DTTM]``.
-    #     ``MODON_DTTM`` is set by the store at write time.
-    #     """
-    #     if not self._instance_settings:
-    #         return self
-    #     instance_id = getattr(self, "instance", None) and self.instance.instance_id
-    #     if instance_id is None:
-    #         logma.warning("save_instance_settings: no current instance; skipping")
-    #         return self
-    #     records = [[instance_id, key, str(value)] for key, value in self._instance_settings.items()]
-    #     payload = {
-    #         "table": {
-    #             "app_instance_setting": {
-    #                 "records": records,
-    #                 "columns": ["instance_id_txt", "key_txt", "value_ltxt"],
-    #             }
-    #         }
-    #     }
-    #     self.write(payload, db)
-    #     return self
+    def save_instance_settings(self, db: str = "db") -> "NchantdStore":
+        """Persist the instance settings cache to ``app_instance_setting``.
 
-    # def set_instance_setting(self, key: str, value: Any) -> "NchantdStore":
-    #     """Set a per-instance setting (held in the in-memory cache)."""
-    #     self._instance_settings[key] = value
-    #     return self
+        Each entry is a row of ``[instance_id, key, value, MODON_DTTM]``.
+        ``MODON_DTTM`` is set by the store at write time.
+        """
+        if not self._instance_settings:
+            return self
+        instance_id = getattr(self, "instance", None) and self.instance.instance_id
+        if instance_id is None:
+            logma.warning("save_instance_settings: no current instance; skipping")
+            return self
+        records = [[instance_id, key, str(value)] for key, value in self._instance_settings.items()]
+        payload = {
+            "table": {
+                "app_instance_setting": {
+                    "records": records,
+                    "columns": ["instance_id_txt", "key_txt", "value_ltxt"],
+                }
+            }
+        }
+        self.write(payload, db)
+        return self
+
+    def set_instance_setting(self, key: str, value: Any) -> "NchantdStore":
+        """Set a per-instance setting (held in the in-memory cache)."""
+        self._instance_settings[key] = value
+        return self
 
     def store_app_action(self, data, cfg=None, db="db", how="INSERT"):
         """Refactored with centralized validation and payload building"""
@@ -968,7 +968,14 @@ class NchantdStore(MicroStash):
         return self
 
     def store_app_profile(self, record, db="db", how="INSERT"):
-        logma.info(f"store_app_profile called")
+        """Persist a profile row to the ``app_profile`` table.
+
+        Mirrors the ``store_app_tab`` pattern. Valid ``how`` values:
+        ``INSERT``, ``UPDATE``, ``DEACTIVATE``, ``DELETE``, ``ARCHIVE``.
+        """
+        if how not in ("INSERT", "UPDATE", "DEACTIVATE", "DELETE", "ARCHIVE"):
+            raise Exception(f"{how} is not supported.")
+        self._store("app_profile", [record])
         return self
 
     def store_app_secure_store(self, db="db", how="INSERT"):

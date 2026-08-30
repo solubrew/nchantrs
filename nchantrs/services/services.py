@@ -49,11 +49,59 @@ class NchantdService(object):
     """"""
 
     def __init__(self, service_name, cfg=None) -> None:
-        """"""
+        """ """
         self.service_name = service_name
         self.config = kahndor.Instruct(pxcfg).select('NchantdService').override(cfg)
         self.service = None
         self.is_update_available = False
+        self._initialized = False
+        self._state = {}
+
+    @property
+    def name(self) -> str:
+        """Alias for ``service_name`` — returns the service's display name."""
+        return self.service_name
+
+    @property
+    def is_initialized(self) -> bool:
+        """True after ``initialize()`` is called."""
+        return self._initialized
+
+    @property
+    def state(self) -> dict:
+        """Return a shallow copy of the service state dict."""
+        return dict(self._state)
+
+    def get_config(self, key, default=None):
+        """Return a config value by key, with an optional default."""
+        return self.config.dikt.get(key, default)
+
+    def set_config(self, key, value) -> 'NchantdService':
+        """Set a config value by key."""
+        self.config.dikt[key] = value
+        return self
+
+    def initialize(self) -> bool:
+        """Mark the service as initialised. Returns True."""
+        self._initialized = True
+        return True
+
+    def shutdown(self) -> 'NchantdService':
+        """Mark the service as shut down. Returns self for chaining."""
+        self._initialized = False
+        return self
+
+    def validate(self) -> bool:
+        """Validate the service state. Returns True."""
+        return True
+
+    def health_check(self) -> dict:
+        """Return a health status dict with service name, status, and state."""
+        return {
+            "service": self.name,
+            "status": "healthy" if self._initialized else "not_initialized",
+            "state": dict(self._state),
+        }
 
     def set_api_key(self, api_key) -> 'NchantdService':
         logma.info(f'set_api_key called')
@@ -75,8 +123,8 @@ class NchantrsService(NchantdService):
     """Custom Service for Nchantrs Paid Users"""
 
     def __init__(self, cfg=None) -> None:
-        """"""
-        self.config = kahndor.Instruct(pxcfg).select('NchantrsService').override(cfg)
+        """ """
+        super().__init__("NchantrsService", cfg)
 
     def check_for_updates(self) -> 'NchantrsService':
         """"""

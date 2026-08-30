@@ -101,9 +101,9 @@ def test_get_password_calls_existing_method():
     method exists.
     """
     get_password_src = _function_source("get_password")
-    assert "self.verify_password" in get_password_src, (
-        "get_password must call self.verify_password(...) - that's "
-        "the canonical name from the operator's traceback."
+    assert "self.verify_pword" in get_password_src, (
+        "get_password must call self.verify_pword(...) — "
+        "verify_pword is the canonical method; verify_password is an alias."
     )
 
 

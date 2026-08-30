@@ -1,5 +1,6 @@
 """Unit tests for NchantrsService base class."""
 
+import pytest
 
 
 class TestNchantrsService:
@@ -11,7 +12,9 @@ class TestNchantrsService:
 
         service = NchantrsService()
 
-        assert service.config == {}
+        # config is a kahndor.Instruct (not a plain dict)
+        assert service.config is not None
+        assert hasattr(service.config, "dikt")
         assert service.name == "NchantrsService"
         assert service._initialized is False
         assert service._state == {}
@@ -21,9 +24,11 @@ class TestNchantrsService:
         from nchantrs.services.services import NchantrsService
 
         config = {"debug": True, "timeout": 30}
-        service = NchantrsService(config=config)
+        service = NchantrsService(cfg=config)
 
-        assert service.config == config
+        # Instruct.dikt holds the merged config values
+        assert service.config.dikt.get("debug") is True
+        assert service.config.dikt.get("timeout") == 30
         assert service.get_config("debug") is True
         assert service.get_config("timeout") == 30
 

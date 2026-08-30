@@ -234,6 +234,50 @@ class NchantdWebViewer(NchantdWidget):
     # dropdown-update path but still load the URL — the
     # toolbar is a nicety, not a requirement for the page
     # to render.
+    def _to_dict(self) -> dict:
+        """Return a snapshot of the current browser state.
+
+        Includes the URL, page title, and profile name. Gracefully
+        handles missing attributes (e.g. when not fully initialised).
+        """
+        snapshot = {}
+        try:
+            snapshot["current_url"] = (
+                self.engine.url().toString()
+                if hasattr(self.engine, "url")
+                else getattr(self, "active_url", None)
+            )
+        except Exception:
+            snapshot["current_url"] = None
+        try:
+            snapshot["title"] = self.engine.title() if hasattr(self.engine, "title") else None
+        except Exception:
+            snapshot["title"] = None
+        try:
+            profile = self.engine.page().profile() if hasattr(self.engine, "page") else None
+            snapshot["profile_name"] = (
+                profile.defaultProfileName()
+                if profile is not None and hasattr(profile, "defaultProfileName")
+                else None
+            )
+        except Exception:
+            snapshot["profile_name"] = None
+        return snapshot
+
+    def save(self) -> dict:
+        """Capture a browser-state snapshot and mark the app model as changed.
+
+        Returns the snapshot dict (same as ``_to_dict``). No-op when
+        ``self.app`` or ``self.app.model`` is absent.
+        """
+        snapshot = self._to_dict()
+        try:
+            if hasattr(self.app, "model") and self.app.model is not None:
+                self.app.model.has_changed = True
+        except Exception:
+            pass
+        return snapshot
+
     def populate_viewport(self, url) -> Any:
         """Set the url-select dropdown to ``url`` and load the page.
 

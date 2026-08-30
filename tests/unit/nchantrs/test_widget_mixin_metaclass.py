@@ -24,20 +24,12 @@ where ``_NCHANTD_MIXIN_META`` subclasses BOTH ``type(pyqt.QObject)`` AND
 ``type`` (plain Python metaclass). This satisfies Python's MRO check
 WITHOUT introducing Qt runtime side-effects.
 
-This test file does NOT use pytest fixtures because the root
-``tests/conftest.py`` mocks ``kahndor``, ``squirl``, ``subtrix``,
-``pycurity``, ``micromole``, AND ``pyqt`` (PySide6) with MagicMock —
-which breaks ``type(QObject)`` when ``QObject`` itself gets mocked.
-
-Run with::
-
-    QT_QPA_PLATFORM=offscreen python -m pytest \\
-        tests/unit/nchantrs/test_widget_mixin_metaclass.py \\
-        --noconftest
-
-The ``--noconftest`` flag bypasses the SB-stack mocking. Without it,
-``pyqt.QObject`` becomes a MagicMock and ``type(QObject)`` raises
-``TypeError: type.__new__() takes exactly 3 arguments (0 given)``.
+When run under the standard SB-stack conftest.py, ``pyqt.QObject`` is
+replaced by a MagicMock, which makes ``type(pyqt.QObject)`` return
+``type(MagicMock())`` instead of a real Qt metaclass. These tests
+detect this automatically and skip when the conftest mock is active
+(without needing ``--noconftest``). To run the full test suite for
+this file, use ``--noconftest``.
 """
 
 from __future__ import annotations
@@ -62,16 +54,46 @@ def _reset_widgets_module():
             del sys.modules[mod]
 
 
+def _conftest_mocked_pyqt():
+    """Return True when the root conftest.py has replaced Qt with a MagicMock.
+
+    The conftest fixture mocks PySide6/PyQt5 entries in sys.modules.  If those
+    entries exist as MagicMock (or a mock's ``__class__`` is MagicMock), we
+    know the real Qt is unavailable and the metaclass tests cannot run.
+    No import of nchantrs modules is needed — we inspect sys.modules directly.
+    """
+    import sys
+    for key in list(sys.modules):
+        if key in ("PySide6", "PyQt5", "PySide6.QtCore", "PyQt5.QtCore"):
+            mod = sys.modules[key]
+            # If the module itself is mocked, that's the signal
+            if mod is None or str(type(mod)) == "<class 'unittest.mock._MagicMock'>":
+                return True
+            # If it's a MagicMock instance (the standard SB-stack pattern)
+            from unittest.mock import MagicMock
+            if isinstance(mod, MagicMock):
+                return True
+    return False
+
+
 def test_mixin_metaclass_subclasses_both_type_and_qt():
     """NchantdWidgetMixin's metaclass must subclass BOTH plain ``type``
     AND ``type(pyqt.QObject)`` so it can coexist with Qt widgets
-    in multiple inheritance without conflict."""
+    in multiple inheritance without conflict.
+
+    Skips automatically when the root conftest.py has replaced ``pyqt.QObject``
+    with a MagicMock (the standard SB-stack test isolation pattern). Run
+    ``--noconftest`` to execute these tests without mocking.
+    """
     import pytest
 
     try:
         import PySide6.QtCore  # noqa: F401
     except ImportError:
         pytest.skip("PySide6 not installed")
+
+    if _conftest_mocked_pyqt():
+        pytest.skip("conftest.py mocks pyqt.QObject — run with --noconftest")
 
     _reset_widgets_module()
     from nchantrs.widgets.widgets import NchantdWidgetMixin
@@ -90,13 +112,19 @@ def test_mixin_metaclass_subclasses_both_type_and_qt():
 
 
 def test_mixin_combines_with_qtablewidget():
-    """The originally-failing case: NchantdWidgetMixin + QTableWidget."""
+    """The originally-failing case: NchantdWidgetMixin + QTableWidget.
+
+    Skips automatically when conftest.py mocks pyqt — run with --noconftest.
+    """
     import pytest
 
     try:
         import PySide6.QtCore  # noqa: F401
     except ImportError:
         pytest.skip("PySide6 not installed")
+
+    if _conftest_mocked_pyqt():
+        pytest.skip("conftest.py mocks pyqt.QObject — run with --noconftest")
 
     _reset_widgets_module()
     from PySide6.QtWidgets import QTableWidget
@@ -114,13 +142,19 @@ def test_mixin_combines_with_qtablewidget():
 
 
 def test_mixin_combines_with_qlabel():
-    """NchantdWidgetMixin + QLabel (a previously-working widget)."""
+    """NchantdWidgetMixin + QLabel (a previously-working widget).
+
+    Skips automatically when conftest.py mocks pyqt — run with --noconftest.
+    """
     import pytest
 
     try:
         import PySide6.QtCore  # noqa: F401
     except ImportError:
         pytest.skip("PySide6 not installed")
+
+    if _conftest_mocked_pyqt():
+        pytest.skip("conftest.py mocks pyqt.QObject — run with --noconftest")
 
     _reset_widgets_module()
     from PySide6.QtWidgets import QLabel
@@ -136,13 +170,19 @@ def test_mixin_combines_with_qlabel():
 
 
 def test_mixin_combines_with_other_qt_widgets():
-    """All the other previously-working widgets must still mix."""
+    """All the other previously-working widgets must still mix.
+
+    Skips automatically when conftest.py mocks pyqt — run with --noconftest.
+    """
     import pytest
 
     try:
         import PySide6.QtCore  # noqa: F401
     except ImportError:
         pytest.skip("PySide6 not installed")
+
+    if _conftest_mocked_pyqt():
+        pytest.skip("conftest.py mocks pyqt.QObject — run with --noconftest")
 
     _reset_widgets_module()
     from PySide6.QtWidgets import (
@@ -169,9 +209,7 @@ def test_mixin_combines_with_other_qt_widgets():
 def test_mixin_combines_with_qpandas_datatablewidget():
     """The originally-failing case with bundled pyside6pandas.
 
-    Skipped if pyside6pandas isn't installed locally — but in the
-    self-contained .deb it always IS installed, so this case applies
-    to the real failure scenario.
+    Skipped automatically when conftest.py mocks pyqt — run with --noconftest.
     """
     import pytest
 
@@ -179,6 +217,9 @@ def test_mixin_combines_with_qpandas_datatablewidget():
         import PySide6.QtCore  # noqa: F401
     except ImportError:
         pytest.skip("PySide6 not installed")
+
+    if _conftest_mocked_pyqt():
+        pytest.skip("conftest.py mocks pyqt.QObject — run with --noconftest")
 
     try:
         from pyside6pandas.views.DataTableView import DataTableWidget

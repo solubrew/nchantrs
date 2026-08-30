@@ -14,10 +14,11 @@
 from os.path import abspath, dirname, join
 from kahndor import kahndor
 import logging
+from pandas import DataFrame
 from nchantrs.libraries import qpandas
 logger = logging.getLogger(__name__)
 from kahndor.logma import Logma
-from subtrix import thing
+import subtrix
 here = join(dirname(__file__), '')
 logma = Logma(__name__)
 logma.off()
@@ -32,7 +33,7 @@ class TagGroup:
         self.description = description
         self.uuid = uuid
         if self.uuid is None:
-            self.uuid = thing.What().uuid().ruuid
+            self.uuid = subtrix.uuid_generator()
         self.tags = {}
 
 class Tag:
@@ -44,14 +45,16 @@ class Tag:
         self.description = description
         self.uuid = uuid
         if self.uuid is None:
-            self.uuid = thing.What().uuid().ruuid
+            self.uuid = subtrix.uuid_generator()
 
-    def rename(self, name: str) -> None:
-        logma.info(f'rename called')
+    def rename(self, name: str) -> 'Tag':
+        """Rename the tag and return self for chaining."""
+        logma.info(f'rename called: {self.name} -> {name}')
+        self.name = name
         return self
 
     def storage(self) -> 'qpandas.DataFrame':
         """"""
         columns = ['name', 'description', 'uuid']
-        df = qpandas.DataFrame([[self.name, self.description, self.uuid]], columns=columns)
+        df = DataFrame([[self.name, self.description, self.uuid]], columns=columns)
         return df

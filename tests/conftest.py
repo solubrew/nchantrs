@@ -229,17 +229,32 @@ def factory() -> TestDataFactory:
 
 @pytest.fixture(autouse=True)
 def mock_external_dependencies():
-    """Mock external dependencies that may not be available in test environment."""
+    """Mock external dependencies that may not be available in test environment.
+
+    For subtrix: replace sys.modules["subtrix"] with a real stub that has
+    uuid_generator, so any module-level import captures a working function.
+    """
+    import uuid as _uuid_mod
+    import sys
+    from types import ModuleType
+
     mocks = {
         "kahndor": MagicMock(),
         "kahndor.kahndor": MagicMock(),
-        "squirl": MagicMock(),
-        "squirl.orgnql": MagicMock(),
-        "subtrix": MagicMock(),
         "pycurity": MagicMock(),
         "micromole": MagicMock(),
         "micromole.storage": MagicMock(),
+        "squirl": MagicMock(),
+        "squirl.orgnql": MagicMock(),
     }
-    
+
+    # Stash real subtrix before patching
+    _real_subtrix = sys.modules.get("subtrix")
+
+    # Set stub OUTSIDE the context manager so it persists across tests
+    _stub = ModuleType("subtrix")
+    _stub.uuid_generator = lambda: _uuid_mod.uuid4().hex
+    sys.modules["subtrix"] = _stub
+
     with patch.dict("sys.modules", {k: v for k, v in mocks.items() if k not in sys.modules}):
         yield

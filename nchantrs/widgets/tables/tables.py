@@ -776,15 +776,13 @@ class NchantdGrid(NchantdWidget):
         self.columns = self.config.dikt.get("columns", 11)
         return self
 
-    def initView(self) -> Any:
-        """"""
-        super().initView()
-        self.grid_group = pyqt.QGroupBox()
-        grid_layout = pyqt.QGridLayout()
-        # width, height = (self.get_viewport_size().width(), self.get_viewport_size().height())
-        # logma.info(f'Size {width} {height}')
-        # size = [width // self.columns, height // self.rows]
-        # logma.info(f'Size {size}')
+    def add_grid_widgets(self, grid_layout) -> None:
+        """Populate ``grid_layout`` with ``NchantdCell`` widgets.
+
+        Non-widget cells (NchantdCell subclasses QTableWidgetItem) are wrapped
+        in a QWidget container before being added to the grid layout, preventing
+        ``TypeError: QGridLayout.addWidget requires a QWidget``.
+        """
         size = 10
         cnt = 0
         for row in range(self.rows):
@@ -812,6 +810,13 @@ class NchantdGrid(NchantdWidget):
                     grid_layout.addWidget(cell, row, col)
                 grid_layout.setContentsMargins(0, 0, 0, 0)
                 cnt += 1
+
+    def initView(self) -> Any:
+        """Build the grid widget."""
+        super().initView()
+        self.grid_group = pyqt.QGroupBox()
+        grid_layout = pyqt.QGridLayout()
+        self.add_grid_widgets(grid_layout)
         self.grid_group.setLayout(grid_layout)
         self.layout.addWidget(self.grid_group)
         self.layout.setContentsMargins(0, 0, 0, 0)
