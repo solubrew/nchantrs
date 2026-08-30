@@ -11,12 +11,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Debug utilities module (`nchantrs/utilities/debug.py`) - DataSourceDumper for inspecting store/model state
 - Password dialog authentication flow in NchantdCape
 - Detailed logging to trace initView and _show_password_dialog
+- 12 new AST-only test files covering previously untested modules (2026-08-29):
+  - `widgets/test_groups.py`, `widgets/test_embeds.py`, `widgets/test_calendars.py`,
+    `widgets/test_canvases.py`, `widgets/test_launch.py`
+  - `services/test_bonds.py`, `services/test_directories.py`
+  - `utilities/test_formatting.py`, `utilities/test_files.py`
+  - `dialogs/test_new.py`, `dialogs/test_search.py`, `dialogs/test_save.py`
+- `subtrix` installed via shieldface and made available in nchantrs test env via `.pth` file
 
 ### Changed
 - Refactored auth code to single auth flow in initView()
 - Force authentication - always show password dialog
+- `tests/conftest.py`: `mock_external_dependencies` now provides a real `uuid.uuid4().hex` stub
+  for `subtrix.uuid_generator` (persisted outside `patch.dict` context so it survives function-scope)
+- `tests/unit/nchantrs/services/conftest.py`: created — overrides session-scoped `mock_pyqt`
+  with no-op for tags subtree (avoids Qt hang during headless collection/execution)
 
 ### Fixed
+- **42 pre-existing test failures resolved** (`7e2ceec`, 2026-08-29):
+  - `services/services.py`: `NchantrsService.__init__` now calls `super().__init__("NchantrsService", cfg)`
+  - `models/models.py`: `set_instance_setting`/`save_instance_settings` unstubbed; `store_app_profile`
+    implemented with `_store()` + validation
+  - `services/tags.py`: uses `subtrix.uuid_generator()`; `rename()` now actually updates `self.name`
+  - `widgets/browsers/browsers.py`: `NchantdWebViewer` gains `save()` + `_to_dict()`
+  - `widgets/tables/tables.py`: `NchantdGrid` gains `add_grid_widgets()` helper
+  - 6 test files updated to match actual API surfaces
 - **H25 — Catalog Tab Wrong Child Count** (`commit fa05530`): `NchantdNode.loadChildren()` in
   `widgets/items/nodes.py` now consistently uses `pid_txt` field for parent filtering instead of
   mixing `parentid` and `pid_txt`. Fixes incorrect child counts across all node types including
@@ -42,6 +61,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - logma.off() causing dialogs not to show (commits b5d5e92 + 1931cf5)
 - Checkable attribute bug in `toolbars.py:switch_to_toggle()` - added safety checks to prevent double-call
 - call initView() in NchantdCape.__init__
+
+### Test Suite Status
+- **666 passed, 5 skipped, 0 failed** (as of `82b3fb7`, 2026-08-29)
+- Prior: 611 passed, 42 failed, 5 skipped
+- 5 skipped tests in `test_widget_mixin_metaclass.py` require `--noconftest` (metaclass + MagicMock QObject incompatibility)
 
 ---
 

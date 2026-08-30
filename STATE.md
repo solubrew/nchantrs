@@ -10,24 +10,24 @@
 | **Branch** | gamma |
 | **Location** | `/home/solubrew/.orinbai/workspace/projects/nchantrs` |
 | **Repository** | `file:///mnt/overse/SBST01/vein/GitVein/nchantrs.git` |
-| **Last Updated** | 2026-07-13 |
-| **HEAD** | `be8a582` — "fix H31: complete self.parent→self.parent_widget in nodes.py + trees.py" |
+| **Last Updated** | 2026-08-29 |
+| **HEAD** | `82b3fb7` — "test: add source-structure coverage for 12 untested modules (2026-08-29)" |
 
 ### Purpose
 Nchantrs is a Python module for rapidly creating PyQt5/PySide6 applications using YAML configuration and Python widget files. Applications are built over a SQLite backend using FxSQuiRL.
 
 ---
 
-## Recent Activity (2026-07-13)
+## Recent Activity (2026-08-29)
 
 ### Latest Commits
 | Commit | Description |
 |--------|-------------|
-| `be8a582` | fix H31: complete self.parent→self.parent_widget in nodes.py + trees.py |
-| `57839d2` | fix: rename self.parent→self.parent_widget to fix Qt.parent() shadow on all QTreeWidgetItem subclasses |
-| `5afde9d` | fix H30: correct setData arg order (column, role, value) in initModel |
-| `84da4e3` | docs: update CHANGELOG.md, STATE.md, TODOs.md — document H25/H29 fixes in fa05530, sync metadata to gamma |
-| `fa05530` | fix: H25/H29 - standardize pid_txt in loadChildren + store UserRole for drag-drop |
+| `82b3fb7` | test: add source-structure coverage for 12 untested modules (2026-08-29) |
+| `7e2ceec` | fix: resolve all remaining pre-existing test failures (2026-08-29) |
+| `fed1b4c` | fix: resolve all 14 source TODO markers (2026-08-29) |
+| `9736558` | docs: refresh TODOs.md for HEAD 8aaf380 (2026-08-29) |
+| `8aaf380` | feat(NchantdStore): bridge enable_search + search + rebuild_search_index methods |
 
 ### Bug Fixes (nchantdoffice consumer issues)
 | ID | Title | Fix |
@@ -196,9 +196,9 @@ nchantrs/
 ### Feature Roadmap
 | Feature | Status | Priority |
 |---------|--------|----------|
-| Unit tests | ⏳ Pending | High |
-| Documentation polish | ⏳ Pending | Medium |
-| BREAKING_CHANGES.md | ⏳ Pending | Medium |
+| Unit tests | ✅ Complete | — |
+| Documentation polish | ✅ In progress | Medium |
+| BREAKING_CHANGES.md | ⚠️ Needs content | Medium |
 
 ---
 
@@ -273,24 +273,24 @@ nchantrs/
 - **Framework**: pytest
 
 ### Test Status
-| Category | Status |
-|----------|--------|
-| Functional tests | ✅ Present |
-| Core tests | ⏳ Pending |
-| Widget tests | ⏳ Pending |
-| Dialog tests | ⏳ Pending |
-| Integration tests | ⏳ Pending |
+| Category | Status | Notes |
+|----------|--------|-------|
+| Functional tests | ✅ Present | 666 passed, 5 skipped (2026-08-29) |
+| Source-structure tests | ✅ Added | AST-only tests for 12 previously untested modules |
+| Core tests | ✅ Present | Application model, store, services |
+| Widget tests | ✅ Present | Widgets, browsers, editors, tables |
+| Dialog tests | ✅ Present | Dialogs, sigils, selectors |
+| Metaclass tests | ⚠️ Skipped | 5 tests require `--noconftest` |
 
 ---
 
 ## Version History
-
 | Version | Date | Status |
 |---------|------|--------|
-| **Unreleased** | 2026-07-13 | Current development — H25/H29/H30/H31 fixed |
+| **Unreleased** | 2026-08-29 | Current development — all 42 test failures resolved; 12 untested modules covered |
 | **0.0.1** | 2026-01-15 | Initial structured release |
 | **Initial** | 2025-12-01 | Project inception |
 
 ---
 
-*Last updated: 2026-07-13*
+*Last updated: 2026-08-29*

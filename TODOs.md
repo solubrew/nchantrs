@@ -3,7 +3,7 @@
 > Auto-generated on **2026-08-29** from inline source markers (`# TODO`, `# FIXME`, `# HACK`, `# XXX`, `# BUG` across `.py` files).
 > **Last Updated:** 2026-08-29
 > **Branch:** gamma
-> **HEAD:** `8aaf380` — "feat(NchantdStore): bridge enable_search + search + rebuild_search_index methods"
+> **HEAD:** `82b3fb7` — "test: add source-structure coverage for 12 untested modules (2026-08-29)"
 > **Scan:** 2026-08-29 — Zero `# TODO` markers remain in source. All 14 items resolved.
 
 ## Real TODOs
@@ -59,31 +59,6 @@ The following stale TODOs from the 2026-08-01 scan are already fixed or removed:
 All T-NEW-001 through T-NEW-012 are marked resolved in CHANGES.md.
 The T-NEW-NNN cards below are historical only.
 
-### T-NEW-001 — Charts 3D/advanced ✅
-### T-NEW-002 — Calculator key routing ✅
-### T-NEW-003 — App model path/save/version ✅
-### T-NEW-004 — Browser context menu + hit test ✅
-### T-NEW-005 — Editors sorting + config ✅
-### T-NEW-006 — Catalog/tree data-model gaps ✅
-### T-NEW-007 — Wizard method stubs ✅
-### T-NEW-008 — Misc (side-process, FAQs) ✅
-### T-NEW-009 through T-NEW-012 — All resolved
-
-## Pre-existing test failures (42 failures, 580 passed)
-
-These failures predate this review session and are not addressed here.
-They appear to stem from source refactors not propagating to the test suite.
-
-| Group | Count | Likely cause |
-|-------|-------|-------------|
-| `test_widget_mixin_metaclass.py` | 3 | metaclass + QTableWidget / QLabel interaction |
-| `test_verify_password.py` | 1 | path to `nchantrs.utilities.users` changed |
-| `test_store_app_profile.py` | 2 | `store_app_profile` method signature/impl changed |
-| `test_services.py` (TestNchantrsService) | 11 | service class refactor |
-| `test_tags.py` (TestTagGroup, TestTag) | 5 | tag class refactor |
-| `test_grid_add_widget_nchantd_cell.py` | 2 | grid cell widget refactor |
-| Other | ~18 | Various source refactors |
-
 ## NOTE comments (informational)
 
 These are developer notes, not TODOs:
@@ -104,21 +79,13 @@ These are developer notes, not TODOs:
 
 ## Recent commits (gamma, since 2026-08-20)
 
-| Commit | Description |
-|--------|-------------|
-| `8aaf380` | feat(NchantdStore): bridge enable_search + search + rebuild_search_index methods |
-| `89362aa` | Merge remote-tracking branch 'local/gamma' into gamma |
-| `58f70d1` | add auto save on focus change to Nchantd Script |
-| `969f484` | fix(tests): resolve conflict markers in test_verify_password.py, fix path to users.py |
-| `c0c1735` | fix(nchantrs): tolerate url_select_entry=None in populate_viewport (DESK T-NEW-059) |
-| `0a4640d` | debug columns in models and widgets |
-| `fbe77dc` | debug index creation |
-| `4a6c729` | Merge remote-tracking branch 'local/delta' into gamma |
-| `c965779` | refactor User and Instance initialization |
-| `16dc79f` | browser refactor |
-| `720205c` | browser refactor |
-| `5e1999d` | fix(nchantrs): alias verify_pword as verify_password (T-NEW-151) |
-| `4d7170b` | fix(nchantrs): implement store_app_profile persistence (T-NEW-162 part B nchantrs side) |
+|| Commit | Description ||
+|--------|-------------||
+| `82b3fb7` | test: add source-structure coverage for 12 untested modules (2026-08-29) ||
+| `7e2ceec` | fix: resolve all remaining pre-existing test failures (2026-08-29) ||
+| `fed1b4c` | fix: resolve all 14 source TODO markers (2026-08-29) ||
+| `9736558` | docs: refresh TODOs.md for HEAD 8aaf380 (2026-08-29) ||
+| `8aaf380` | feat(NchantdStore): bridge enable_search + search + rebuild_search_index methods ||
 
 ## Architectural facts (as of 2026-08-29)
 
@@ -146,4 +113,4 @@ These are developer notes, not TODOs:
 
 ---
 
-*Last auto-scan: 2026-08-29 — HEAD `8aaf380`.*
+*Last auto-scan: 2026-08-29 — HEAD `82b3fb7`.*
