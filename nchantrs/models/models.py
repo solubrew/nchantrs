@@ -1239,6 +1239,46 @@ class NchantdStore(MicroStash):
         """Centralized operation validation"""
         return PayloadBuilder.validate_and_get_operation(operation)
 
+    def enable_search(self, *, tables=None, analyzer="simple", index_dir=None):
+        """Enable whoosh full-text search on this store's tables.
+
+        Delegates to ``micromole.search.enable_search`` so this
+        method is available regardless of which micromole version
+        is installed. The live deployment may run an older micromole
+        that doesn't carry this method on MicroStash directly.
+
+        Args:
+            tables: mapping of table name -> field config dict.
+            analyzer: ``"simple"`` (default) or ``"porter"`` (stemming).
+            index_dir: override the default ``{self.path}.whoosh/``.
+
+        Returns:
+            True on success, False on any error (logged).
+        """
+        try:
+            from micromole.search import enable_search as _enable_search
+
+            _enable_search(
+                self, tables=tables, analyzer=analyzer, index_dir=index_dir
+            )
+            return True
+        except ImportError:
+            return False
+        except Exception:
+            return False
+
+    def search(self, query_text, table, *, limit=10, filters=None):
+        """Query the whoosh index. Delegates to micromole.search."""
+        from micromole.search import search as _search
+
+        return _search(self, query_text, table, limit=limit, filters=filters)
+
+    def rebuild_search_index(self, *, table=None):
+        """Rebuild whoosh index. Delegates to micromole.search."""
+        from micromole.search import rebuild_search_index as _rebuild
+
+        _rebuild(self, table=table)
+
 
 def get_node_base(nodetype, treeid=0, tabfocus=0):
     """"""
