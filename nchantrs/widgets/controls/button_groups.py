@@ -214,8 +214,12 @@ class NchantdTabSideButtons(NchantdWidget):
 
     def initView(self) -> Any:
         """
-        TODO: make this a checkable group? or maybe switch to a radio button?
-        :return:
+        Tab-side navigation buttons (center tab / right tab).
+
+        NOTE: these are toggle-style buttons, not a true exclusive group.
+        Making them a proper QButtonGroup with radio-style exclusivity would
+        require connecting the group's `buttonClicked[int]` signal to drive
+        the tab-switch logic. Left as-is until tab-selection UX is revised.
         """
         super().initView({"layout": "horizontal"})
         self.config.override({"buttons": {"center_tab": lookup(self.app, "left_tab_active")}})

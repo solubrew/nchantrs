@@ -596,12 +596,22 @@ class NchantdCloakModel(NchantdPantiesModel):
         return self
 
     def reload_table(self, table, keep, map_, filters={}, db="db") -> None:
-        """This method reloads a table allowing changes to the table strucuture and the ability to reinject the
-        previous data and new data as needed.
+        """Reload a table's data, replacing its current contents.
 
-        TODO: there is an opportunity here to stream line I'm sure however we must ensure that primary keys of the
-            existing data are maintained and that new data is inserted in the correct order.
+        Current strategy: copy-to-temp → delete → create → copy-from-new →
+        delete → create (full table cycle). This is safe but copies the entire
+        table twice.
 
+        OPTIMIZATION: streaming row-by-row would avoid the full-table copies,
+        provided the row-order is preserved so primary keys map correctly to
+        their original positions. The streaming approach would need to:
+        1. Open a cursor over the source table.
+        2. For each row, upsert into the new table (INSERT OR REPLACE) so
+           primary keys of the existing data are maintained.
+        3. Delete any rows from the new table that are not in the source.
+
+        This is safe to implement once a row-by-row upsert protocol is agreed
+        on (bulk COPY is currently the store's batch primitive).
         """
         if keep:
             logma.info(f"Copy Table {table} to temp_table")

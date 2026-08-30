@@ -225,8 +225,6 @@ class NchantdNode(NchantdItem):
 
 class NchantdTreeNode(NchantdTreeItem):
     """
-    NchantdTreeNode - TODO: is failing due to not accepting NchantdTreeItem to the NchantdTreeModel
-
     This class represents a node in the Nchantd tree structure.
 
     __init__(self, parent, item, nid, node, df=DataFrame())

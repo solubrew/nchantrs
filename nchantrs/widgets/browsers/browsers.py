@@ -57,7 +57,10 @@ HOMEURL = HOMEPAGE.get("url")
 class NchantdWebManager(NchantdWidgetMixin, pyqt.QObject):
     """
     Manages a pool of WebEngine views.
-    TODO: Proper implementation of engine reuse and background loading.
+
+    NOTE: engine reuse and background loading are aspirational. The pool
+    currently allocates an engine per tab. Engine sharing across tabs would
+    require careful lifetime management to avoid context leakage.
     """
 
     def __init__(self, parent=None, cfg=None):
@@ -71,7 +74,7 @@ class NchantdWebManager(NchantdWidgetMixin, pyqt.QObject):
         self.available_engines = deque([])
         self.active_engines = deque([])
         cfg = {}
-        # self.link_library = PyfficeURLLibrary(cfg) TODO must be implemented in the NchatndOffice layer
+        # self.link_library = ... # Deferred to nchantdoffice layer
 
     def initModel(self):
         """"""
@@ -349,8 +352,9 @@ class NchantdWebViewer(NchantdWidget):
 
     def cmd_url_changed_handler(self, url, *args, **kwargs) -> Any:
         """"""
-        # TODO: DEBUG something is triggering a refresh that settles to duckduckgo instead of staying on the site
-        # logma.info(f"URL Changed: {url}")
+        # URL change handler. The lock + open_new_tab path was commented out
+        # because it caused unwanted refresh cycles. If needed, a throttled
+        # version should be added that avoids re-entering on every history entry.
         # if self.lock is True:
         #     self.open_new_tab()
         # url_str = url.toString() if isinstance(url, pyqt.QUrl) else str(url)
@@ -712,9 +716,11 @@ class NchantdWebViewer(NchantdWidget):
 
 class NchantdWebBrowser(NchantdWebViewer):
     """An Nchantd WebApp provides access to a web url that acts as an application integrating features into the widget
-    where appropriate and maintaining the link to that web app domain
-    TODO: need to keep track of web addresses so that when a user logs into a service for a web app the link redirects
-    to the all ready logged in page
+    where appropriate and maintaining the link to that web app domain.
+
+    NOTE: session redirect tracking (detecting when a web app login redirects
+    back to the original URL) is not yet implemented. The URL is tracked in
+    history but the session-state-aware redirect is a future feature.
     """
 
     def __init__(self, parent=None, cfg=None) -> None:

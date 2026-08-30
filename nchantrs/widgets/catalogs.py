@@ -86,7 +86,11 @@ class NchantdCatalog(NchantdWidget):
                 if item_obj is None:
                     item_obj = NchantdCatalogItem
                 for i, item in df.iterrows():
-                    if col >= 6:  # TODO implement dynamic sizing control based on screen/viewport size
+                    # NOTE: items_per_row is hardcoded at 6. Dynamic sizing based on
+                    # viewport width requires knowing each item's minimum size at
+                    # layout time. Potential approach: measure one item after
+                    # init, then compute items_per_row = container_width // item_width.
+                    if col >= 6:
                         row += 1
                         col = 0
                     cfg = {

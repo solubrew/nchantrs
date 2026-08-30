@@ -65,8 +65,9 @@ class NchantdImage(NchantdWidget):
         self.label.setAlignment(alignment_flag)
         self.label.setSizePolicy(pyqt.QSizePolicy.Policy.Expanding, pyqt.QSizePolicy.Policy.Expanding)
         self.label.setScaledContents(False)
-        # if self.is_scaled: #TODO this was causing non ratio locked scaling of images.  testing to determine if any further changes are needed
-        #     self.label.setScaledContents(True)
+        # NOTE: setScaledContents(True) caused non-ratio-locked scaling.
+        # Using a QLabel with pixmap + scaledContents=False + manual size
+        # update is the reliable ratio-locked approach.
         if self.config.dikt.get("color"):
             self.label.setStyleSheet(f"background-color: {self.config.dikt.get('color')};")
         self.set_size()

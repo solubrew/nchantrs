@@ -73,15 +73,15 @@ class NchantdDynamicEntryForm(NchantdForm):
         return self
 
     def initView(self) -> Any:
-        """The pane is built with fields not sure how to abstract this
+        """Build the form pane with a grid layout.
 
-        TODO: need to get max columns grid in order to span other fields
+        Controls occupy row 0; form fields follow. Fields without an explicit
+        ``grid`` spec span the full width of the form (max_grid_x columns).
         """
         super().initView({'layout': 'grid'})
-        x, y = (0, 0)
-        y = self._build_controls(y, x)
+        y, max_grid_x = self._build_controls(0, 0)
         y += 1
-        self._build_fields(y)
+        self._build_fields(y, max_grid_x=max_grid_x)
         return self
 
     def initWidget(self) -> Any:
@@ -163,10 +163,21 @@ class NchantdDynamicEntryForm(NchantdForm):
             self.navBTNs.nextbutton.clicked.connect(self.nextEntry)
         return self
 
-    def _build_controls(self, y=0, x=0) -> Any:
-        """"""
+    def _build_controls(self, y=0, x=0) -> tuple:
+        """Add control widgets and return the next row index + the max column used.
+
+        The returned ``max_grid_x`` is either explicitly set via
+        ``cfg['max_x']`` or inferred from the highest column index used by
+        any control widget.
+        """
         max_grid_x = self.config.dikt.get('max_x', x)
-        return y
+        controls_cfg = self.config.dikt.get('controls', {})
+        for name, cfg in controls_cfg.items():
+            grid_spec = cfg.get('grid', '')
+            if '|' in str(grid_spec):
+                col = int(str(grid_spec).split('|')[-1])
+                max_grid_x = max(max_grid_x, col)
+        return y, max_grid_x
 
     def _build_fields(self, y=0, x=0, max_grid_x=1) -> Any:
         """"""

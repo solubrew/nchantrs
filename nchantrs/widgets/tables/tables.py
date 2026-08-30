@@ -643,6 +643,23 @@ class NchantdLargeTable(NchantdTable):
         """
         raise NotImplementedError("NchantdLargeTable._fetch_chunk: provider protocol not implemented")
 
+    def _splice_chunk(self, chunk_index, rows) -> None:
+        """Splice a chunk's rows into ``self._data`` at the correct offset.
+
+        :param chunk_index: index of the chunk being spliced.
+        :param rows: list of row lists (one list per row) returned by
+            ``_fetch_chunk``. Inserted in-place at
+            ``chunk_index * self.chunk_size``.
+        """
+        if rows is None:
+            return
+        offset = chunk_index * self.chunk_size
+        # Extend _data to accommodate the new rows before splicing
+        if len(self._data) < offset:
+            self._data.extend([None] * (offset - len(self._data)))
+        # Replace or extend at the chunk's position
+        self._data[offset:offset + len(rows)] = rows
+
     def _ensure_rows_loaded(self, start, end) -> None:
         """Ensure every chunk spanning the half-open range ``[start, end)`` has
         been fetched into ``self._data`` before the inherited renderer builds
@@ -650,10 +667,6 @@ class NchantdLargeTable(NchantdTable):
 
         No-op when no provider is registered, so the class behaves like a plain
         :class:`NchantdTable` over the in-memory ``self._data``.
-
-        STUB: wiring only -- delegates to :meth:`_fetch_chunk` and records
-        fetched chunks; splicing rows into ``self._data`` is left to the
-        concrete implementation.
         """
         if self.provider is None or end <= start:
             return
@@ -662,7 +675,8 @@ class NchantdLargeTable(NchantdTable):
         for chunk_index in range(first_chunk, last_chunk + 1):
             if chunk_index in self._loaded_chunks:
                 continue
-            self._fetch_chunk(chunk_index)  # TODO: splice returned rows into self._data at their offset
+            rows = self._fetch_chunk(chunk_index)
+            self._splice_chunk(chunk_index, rows)
             self._loaded_chunks.add(chunk_index)
 
     def _populate_visible_rows(self) -> None:

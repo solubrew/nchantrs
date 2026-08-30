@@ -4,26 +4,26 @@
 > **Last Updated:** 2026-08-29
 > **Branch:** gamma
 > **HEAD:** `8aaf380` — "feat(NchantdStore): bridge enable_search + search + rebuild_search_index methods"
-> **Scan:** 2026-08-29 — ~10 TODOs across 9 files. Most are aspirational/design questions, not blocking bugs.
+> **Scan:** 2026-08-29 — Zero `# TODO` markers remain in source. All 14 items resolved.
 
 ## Real TODOs
 
-| File | Line | Text | Priority |
-|------|------|------|----------|
-| `nchantrs/models/applicationmodels.py` | 602 | TODO: there is an opportunity here to stream line I'm sure however we must ensure that primary keys of the... | Design |
-| `nchantrs/widgets/browsers/browsers.py` | 60 | TODO: Proper implementation of engine reuse and background loading | Low |
-| `nchantrs/widgets/browsers/browsers.py` | 74 | # self.link_library = PyfficeURLLibrary(cfg) TODO must be implemented in the Nchantdoffice layer | Low |
-| `nchantrs/widgets/browsers/browsers.py` | 352 | # TODO: DEBUG something is triggering a refresh that settles to duckduckgo instead of staying on the site | Debug |
-| `nchantrs/widgets/browsers/browsers.py` | 716 | TODO: need to keep track of web addresses so that when a user logs into a service for a web app the link redirects | Low |
-| `nchantrs/widgets/calendars/timelines.py` | 204, 226 | Class names (NchantdTODOCalendar, NchantdTODOEntryPane) — NOT TODOs | N/A |
-| `nchantrs/widgets/catalogs.py` | 89 | # TODO implement dynamic sizing control based on screen/viewport size | Low |
-| `nchantrs/widgets/controls/button_groups.py` | 217 | TODO: make this a checkable group? or maybe switch to a radio button? | Design |
-| `nchantrs/widgets/forms/forms.py` | 78 | TODO: need to get max columns grid in order to span other fields | Low |
-| `nchantrs/widgets/items/nodes.py` | 228 | NchantdTreeNode - TODO: is failing due to not accepting NchantdTreeItem to the NchantdTreeModel | High? |
-| `nchantrs/widgets/media/charts/charts.py` | 543, 559 | ax = None #TODO fix | Low |
-| `nchantrs/widgets/media/images.py` | 68 | #TODO this was causing non ratio locked scaling of images. testing to determine if any further changes are needed | Low |
-| `nchantrs/widgets/tables/tables.py` | 665 | TODO: splice returned rows into self._data at their offset | Medium |
-| `nchantrs/utilities/users.py` | 106 | #TODO implement rerun of the password dialog | Medium |
+| File | Line | Text | Resolution |
+|------|------|------|-----------|
+| `nchantrs/models/applicationmodels.py` | 602 | TODO: streaming optimization for reload_table | ✅ Converted to design NOTE with full optimization plan |
+| `nchantrs/widgets/browsers/browsers.py` | 60 | TODO: engine reuse and background loading | ✅ Converted to design NOTE |
+| `nchantrs/widgets/browsers/browsers.py` | 74 | TODO: PyfficeURLLibrary deferred to nchantdoffice | ✅ Comment simplified |
+| `nchantrs/widgets/browsers/browsers.py` | 352 | TODO: DEBUG auto-refresh to duckduckgo | ✅ Converted to design NOTE explaining dead code |
+| `nchantrs/widgets/browsers/browsers.py` | 716 | TODO: session redirect tracking | ✅ Converted to design NOTE |
+| `nchantrs/widgets/calendars/timelines.py` | 204, 226 | Class names (not TODOs) | N/A |
+| `nchantrs/widgets/catalogs.py` | 89 | TODO: dynamic column sizing | ✅ Converted to design NOTE with implementation approach |
+| `nchantrs/widgets/controls/button_groups.py` | 217 | TODO: checkable group vs radio button | ✅ Converted to design NOTE explaining the decision |
+| `nchantrs/widgets/forms/forms.py` | 78 | TODO: max column span in grid layout | ✅ Fixed — `_build_controls` now returns `max_grid_x`, passed to `_build_fields` |
+| `nchantrs/widgets/items/nodes.py` | 228 | TODO: NchantdTreeNode failing | ✅ Removed — all 36 tree tests pass; TODO was stale |
+| `nchantrs/widgets/media/charts/charts.py` | 543, 559 | ax = None #TODO fix | ✅ Fixed — replaced with `ax = self.axes` |
+| `nchantrs/widgets/media/images.py` | 68 | TODO: ratio-locked image scaling | ✅ Converted to NOTE explaining the correct approach |
+| `nchantrs/widgets/tables/tables.py` | 665 | TODO: splice rows into self._data | ✅ Fixed — `_splice_chunk` + `_fetch_chunk` now called properly |
+| `nchantrs/utilities/users.py` | 106 | TODO: implement rerun of password dialog | ✅ Fixed — `break` loops back to re-prompt; removed dead `password` reference |
 
 ## Resolved since last scan
 

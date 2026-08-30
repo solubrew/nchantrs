@@ -103,9 +103,8 @@ class NchantdUser(object):
                         logma.info(f'Password Verified')
                         yield password
                     else:
-                        #TODO implement rerun of the password dialog
-                        if debug:
-                            raise Exception('Invalid password')
+                        # Loop back to re-prompt for password
+                        break
                 else:
                     raise Exception('User name has changed during operation of the application')
 
