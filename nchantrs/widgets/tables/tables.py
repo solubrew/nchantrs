@@ -31,6 +31,24 @@ from nchantrs.libraries import pyqt, qpandas
 from nchantrs.widgets.items.cells import NchantdCell, NchantdTableCell
 from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 
+# T-NEW fix (2026-09-02): resolve metaclass conflict for NchantdDataFrameTable.
+# NchantdWidgetMixin uses _NCHANTD_MIXIN_META (a Shiboken.ObjectType subclass named
+# ``nchantrs.widgets.widgets.ObjectType``). pyside6pandas.DataTableWidget uses
+# Shiboken.ObjectType directly. Direct combination via ``type()`` fails because
+# the nchantd meta's Shiboken.ObjectType ≠ qpandas's Shiboken.ObjectType (different
+# classes, same-named).
+#
+# Solution: ``type('_CM', (_nchantd_meta, _qtable_meta), {})``.
+# Python's C3 linearization resolves the diamond since nchantd's ObjectType
+# inherits from Shiboken.ObjectType — both sides converge on the same base.
+# The combined meta satisfies Python's "derived class's metaclass must be a
+# subclass of all parent metaclasses" rule.
+_CombinedDataTableMeta: type = type(  # type: ignore[assignment, misc]
+    "_CombinedDataTableMeta",
+    (type(NchantdWidgetMixin), type(qpandas.DataTableWidget)),
+    {},
+)
+
 # ====================================================================================================================||
 HERE = join(dirname(__file__), "")  # ||
 log = False
@@ -688,7 +706,7 @@ class NchantdLargeTable(NchantdTable):
         super()._populate_visible_rows()
 
 
-class NchantdDataFrameTable(NchantdWidgetMixin, qpandas.DataTableWidget):
+class NchantdDataFrameTable(NchantdWidgetMixin, qpandas.DataTableWidget, metaclass=_CombinedDataTableMeta):
     """A pandas-backed table widget."""
 
     def __init__(self, parent=None, cfg=None) -> None:
