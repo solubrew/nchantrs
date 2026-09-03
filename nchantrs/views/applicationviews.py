@@ -182,7 +182,7 @@ class NchantdCloakView(NchantdPantiesView):
         create_objects = True
         if pos == "right":
             create_objects = False
-        self.panes[pos].initWidget({"create_objects": create_objects})
+        self.panes[pos].initWidget()#{"create_objects": create_objects})
         return self
 
     def on_window_move(self, event) -> None:

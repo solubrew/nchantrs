@@ -114,22 +114,23 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         super().initModel()
         return self
 
-    def initView(self, cfg) -> Any:
+    def initView(self, cfg=None) -> Any:
         """"""
         logma.info(f"Init View {cfg}")
+        cfg = cfg or {}
         super().initView(cfg)
-        if "scratch" in cfg:
-            self.wizard = False
-            return self
+        # if "scratch" in cfg:
+        #     self.wizard = False
+        #     return self
         if self.config.dikt.get("profile", None):
             self._load_profile(self.config.dikt["profile"])
-        if self.new_application is True:
+        if self.new_application:
             logma.info("Setup New Application")
             self.application_setup_details_page = NchantdApplicationSetupDetailsPage(self).initWidget()
             self.addPage(self.application_setup_details_page)
             self.new_instance = True
             self.new_user = True
-            if self.has_configuration_methods is True:
+            if self.has_configuration_methods:
                 self.application_configuration_page = NchantdApplicationConfigurationPage(self).initWidget()
                 self.addPage(self.application_configuration_page)
         else:
@@ -139,12 +140,18 @@ class NchantdApplicationStartupWizard(NchantdWizard):
                 if not user:
                     self.new_user = True
         if self.new_user:
-            new_user_pages = NchantdNewUserWizard(self).initWidget()
+            if hasattr(self.app.model, "create_new_user"):
+                new_user_pages = self.app.model.create_new_user(cfg)
+            else:
+                new_user_pages = NchantdNewUserWizard(self).initWidget()
             for page_id in new_user_pages.pageIds():
                 logma.info(f"User Page Added {page_id}")
                 self.addPage(new_user_pages.page(page_id))
-        if self.new_application is True:
-            instance_pages = NchantdNewInstanceWizard(self).initWidget()
+        if self.new_application:
+            if hasattr(self.app.model, "create_new_instance"):
+                instance_pages = self.app.model.create_new_instance(cfg)
+            else:
+                instance_pages = NchantdNewInstanceWizard(self).initWidget()
             for page_id in instance_pages.pageIds():
                 logma.info(f"Instance Page Added {page_id}")
                 self.addPage(instance_pages.page(page_id))
@@ -329,6 +336,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
 
     def create_instance(self):
         """"""
+        self.app.model.create_new_instance()
 
     def create_paths(self, os_type="linux") -> Tuple[str, Any]:
         """Create the app's filesystem paths (config, application, library, shortcut)."""
@@ -423,6 +431,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
 
     def create_user(self):
         """"""
+        self.app.model.create_new_user()
 
     def initialize_application(self):
         """"""
@@ -458,12 +467,12 @@ class NchantdApplicationStartupWizard(NchantdWizard):
 
     def run_application(self) -> Any:
         """"""
-        self.app.model.initialize_application()
+        self.initialize_application()
         cfg = {}
         self.app.model.store.init_database_application(cfg)
         logma.info("Check Application is Up to date")
-        if self.check_is_up_to_date() is False or debug is True:
-            if self.ask_user_to_update() is True or debug is True:
+        if self.check_is_up_to_date() is False:  # or debug is True:
+            if self.ask_user_to_update() is True:  # or debug is True:
                 self.run_application_update()
         self.new_application = False
         self.is_installed = True
@@ -479,7 +488,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
             self.create_database_application()
             self.create_user()
             self.create_instance()
-            self.copy_application()
+            # self.copy_application() dont think this is needed
             self.create_icon()
             self.run_install_complete()
         else:

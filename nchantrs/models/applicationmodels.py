@@ -18,7 +18,7 @@ from nchantrs.widgets.items.nodes import NchantdTreeNode
 from nchantrs.wizards.instances import NchantdNewInstanceWizard
 
 here = join(dirname(__file__), "")
-log = False
+log = True
 logma = Logma(__name__)
 debug = True
 if not log:
@@ -70,6 +70,7 @@ class NchantdPantiesModel(object):
         self.instance_cfg = None
         self.reset = None
         self.web_profiles = None
+        self.MODEL_OBJECTS = self.config.get("dstruct", {}).get("database", {}).get("objects")
 
     def get_web_profiles(self) -> Any:
         """Return the app-level web profile pool, creating it on first use.
@@ -96,10 +97,7 @@ class NchantdPantiesModel(object):
         self.device = Device()
         self.policy = NchantdDataPolicy(self)
         self._reset_cache()
-        cfg = {}
-        requires_auth = self.config.dikt.get("config", {}).get("requires_auth", False)
-        if requires_auth:
-            self.user = NchantdUser(self, cfg)
+
         self.initialize_instance()
 
     def initialize_instance(self, instance_object=None) -> None:
@@ -168,6 +166,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.is_saved = False
         self.are_services_active = False
         self.menu_cache = {}
+        self.MODEL_OBJECTS = self.config.get("dstruct", {}).get("database", {}).get("objects")
 
     def initModel(self, reset=None) -> None:
         """"""
@@ -320,20 +319,26 @@ class NchantdCloakModel(NchantdPantiesModel):
         logma.info("convert_database called")
         return self
 
-    def create_new_instance(self) -> None:
+    def create_new_instance(self, cfg=None, primary=False) -> None:
         """"""
         self.is_install_active = False
-        cfg = {}
-        instance = NchantdNewInstanceWizard(self, cfg).initWizard()
-        if self.instance is None:
-            self.instance = instance
-        self.instance.set_independent()
+        cfg = cfg or {}
+        instance_pages = NchantdNewInstanceWizard(self, cfg).initWizard()
+        if primary:
+            self.instance = instance_pages.instance
+        # self.instance.set_independent()
         logma.info("Request New Instance")
-        if not self.app.comms_manager.request_new_instance(self.instance.instance_id):
-            self.app.comms_manager.launch_supervisor()
-            if not self.app.comms_manager.request_new_instance(self.instance.instance_id):
-                raise Exception("No Supervisor Communication Bridge to Request New Instance")
-        return self
+        # PUSH to 0.0.3 - requires instance supervisor
+        # if not self.app.comms_manager.request_new_instance(self.instance.instance_id):
+        #     self.app.comms_manager.launch_supervisor()
+        #     if not self.app.comms_manager.request_new_instance(self.instance.instance_id):
+        #         raise Exception("No Supervisor Communication Bridge to Request New Instance")
+        return instance_pages
+
+    def create_new_user(self, cfg=None):
+        """Creates a new user for single user auth apps that is triggered from the install wizard for multi user apps
+        we connect various triggers"""
+        cfg = cfg or {}
 
     def deactivate(self, table, uuid=None, primary_key=None, db="db") -> None:
         logma.info("deactivate called")
@@ -537,6 +542,16 @@ class NchantdCloakModel(NchantdPantiesModel):
             filters["WHERE"]["IN"]["pid_txt"].append("0")
         filters["ORDER"] = [5]
         return self.store.get_view_tab(filters)
+
+    def initialize_application(self) -> None:
+        """"""
+        super().initialize_application()
+        # cfg = {}
+        # requires_auth = self.config.dikt.get("config", {}).get("requires_auth", False)
+        # if requires_auth:
+        #     # self.user = NchantdUser(self, cfg)
+        #     self.create_new_user()  #
+        return self
 
     def initialize_instance(self, instance_object=None):
         """"""

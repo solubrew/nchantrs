@@ -1088,6 +1088,8 @@ class NchantdStore(MicroStash):
         if how not in ("INSERT", "UPDATE", "DEACTIVATE", "DELETE", "ARCHIVE"):
             raise Exception(f"{how} is not supported.")
         payload = [row]
+        logma.info(f"Add Doc Tab")
+        logma.info(f"Payload {payload}")
         self._store(table, payload, db, columns=self._get_columns(table))
         return self
 
@@ -1263,9 +1265,7 @@ class NchantdStore(MicroStash):
         try:
             from micromole.search import enable_search as _enable_search
 
-            _enable_search(
-                self, tables=tables, analyzer=analyzer, index_dir=index_dir
-            )
+            _enable_search(self, tables=tables, analyzer=analyzer, index_dir=index_dir)
             return True
         except ImportError:
             return False

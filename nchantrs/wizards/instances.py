@@ -1,11 +1,7 @@
 from typing import Any
-
-"\n---\n<(META)>:\n        docid:\n        name:\n        description: >\n        version: 0.0.0.0.0.0\n        authority: filesystem\n        security: seclvl2\n        <(WT)>: -32\n"
 import datetime as dt
-import logging
 from os.path import abspath, dirname, join
 
-logger = logging.getLogger(__name__)
 from kahndor import kahndor
 from kahndor.logma import Logma
 
@@ -26,7 +22,6 @@ class NchantdNewInstanceWizard(NchantdWizard):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent)
-        self.parent = parent
         self.config.override(kahndor.Instruct(pxcfg).select("NchantdNewInstanceWizard").override(cfg))
         self.app_pages = {}
         self.app = self.parent.app
