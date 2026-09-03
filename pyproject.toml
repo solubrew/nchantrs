@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "nchantrs"
 version = "0.0.1.0.1.1"
-description = "Python module for rapidly building PySide6/PyQt5 desktop apps from YAML configuration and Python widget files, with SQLite-backed state via FxSQuiRL."
+description = "Python module for building PySide6 desktop apps from YAML configuration and Python widget files, with SQLite-backed state via SQuiRL."
 readme = { file = "README.md", content-type = "text/markdown" }
 license = { file = "LICENSE.md" }
 authors = [{ name = "Maintainers", email = "solubrew@solutionsbrewer.com" }]
