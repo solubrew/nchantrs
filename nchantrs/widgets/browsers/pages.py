@@ -309,7 +309,7 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
         When the owning view opts into in-place navigation we capture the
         intended URL with a throwaway page and load it into the current view.
         """
-        view = self.parent()
+        view = self.parent
         if hasattr(view, "get_available_engine"):
             new_viewer = view.get_available_engine()
             return new_viewer.browser.page()

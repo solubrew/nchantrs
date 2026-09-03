@@ -18,7 +18,7 @@ from nchantrs.widgets.items.nodes import NchantdTreeNode
 from nchantrs.wizards.instances import NchantdNewInstanceWizard
 
 here = join(dirname(__file__), "")
-log = False
+log = True
 logma = Logma(__name__)
 debug = True
 if not log:
@@ -70,6 +70,7 @@ class NchantdPantiesModel(object):
         self.instance_cfg = None
         self.reset = None
         self.web_profiles = None
+        self.MODEL_OBJECTS = self.config.get("dstruct", {}).get("database", {}).get("objects")
 
     def get_web_profiles(self) -> Any:
         """Return the app-level web profile pool, creating it on first use.
@@ -168,6 +169,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.is_saved = False
         self.are_services_active = False
         self.menu_cache = {}
+        self.MODEL_OBJECTS = self.config.get("dstruct", {}).get("database", {}).get("objects")
 
     def initModel(self, reset=None) -> None:
         """"""
