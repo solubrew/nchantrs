@@ -1455,9 +1455,9 @@ NchantdPantiesModel:
               - ['<+(UUID)+>', 'security', 'lock_screen_timeout_mins', 'None', 'settings', "{}", "{}", '', '', 0, 0, 0, 0, 1]
               - ['<+(UUID)+>', 'security', 'enable_lock_screen_pin', 'false', 'settings', "{}", "{}", '', '', 0, 0, 0, 0, 1]
               - ['<+(UUID)+>', 'security', 'lock_screen_pin_exists', 'true', 'settings', "{}", "{}", '', '', 0, 0, 0, 0, 1]
-              - ['<+(UUID)+>', 'nchantrs_account', 'status', 'false', 'settings', "{}", "{}", '', '', 0, 0, 0, 0, 1]
-              - ['<+(UUID)+>', 'nchantrs_account', 'credits', '0', 'settings', "{}", "{}", '', '', 0, 0, 0, 0, 1]
-              - ['<+(UUID)+>', 'nchantrs_account', 'profile', '', 'settings', "{'name': '', 'etc': ''}", "{}", '', '', 0, 0, 0, 0, 1]
+              - ['<+(UUID)+>', 'nchantd_account', 'status', 'false', 'settings', "{}", "{}", '', '', 0, 0, 0, 0, 1]
+              - ['<+(UUID)+>', 'nchantd_account', 'credits', '0', 'settings', "{}", "{}", '', '', 0, 0, 0, 0, 1]
+              - ['<+(UUID)+>', 'nchantd_account', 'profile', '', 'settings', "{'name': '', 'etc': ''}", "{}", '', '', 0, 0, 0, 0, 1]
               - ['<+(UUID)+>', 'settings', '', '', 'sources', "{}", "{}", '', '', 0, 0, 0, 0, 1]
               - ['<+(UUID)+>', 'settings', '', '', 'automation', "{}", "{}", '', '', 0, 0, 0, 0, 1]
               #Journal Settings
@@ -2440,7 +2440,7 @@ NchantdPantiesModel:
                 SELECT
                   *
                 FROM vw_settings vs
-                WHERE vs.key_txt = 'nchantrs_account'
+                WHERE vs.key_txt = 'nchantd_account'
           vw_sources:
             cmd: >
               CREATE VIEW vw_sources AS

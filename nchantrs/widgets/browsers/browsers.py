@@ -27,7 +27,7 @@ from kahndor import kahndor
 from kahndor.logma import Logma
 from subtrix.utilities import uuid
 
-from nchantrs.dialogs.notifications import NchantdNotificationSigil
+#from nchantrs.dialogs.notifications import NchantdNotificationSigil
 from nchantrs.libraries import pyqt
 from nchantrs.services.links import LinkService
 from nchantrs.widgets.browsers.engines import NchantdWebEngineView
@@ -360,11 +360,12 @@ class NchantdWebViewer(NchantdWidget):
                 "title": "Pro feature",
                 "message": "Multiple profiles are a Pro feature. Upgrade to Pro to manage more than one profile.",
             }
-            try:
-                pro_user_warning = NchantdNotificationSigil(self, cfg)
-                pro_user_warning.initWidget()
-            except Exception as e:
-                logma.warning(f"could not show pro warning notification: {e}")
+            #TODO:
+            # try:
+            #     pro_user_warning = NchantdNotificationSigil(self, cfg)
+            #     pro_user_warning.initWidget()
+            # except Exception as e:
+            #     logma.warning(f"could not show pro warning notification: {e}")
             return self
         self.profiles[profile_name] = {"default": False, "profile": NchantdWebProfile(profile_name)}
         return self

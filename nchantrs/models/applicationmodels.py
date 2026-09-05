@@ -14,6 +14,7 @@ from subtrix.utilities import uuid
 from nchantrs.models.models import NchantdInstance, NchantdStore
 from nchantrs.utilities.policies import NchantdDataPolicy
 from nchantrs.utilities.users import NchantdUser
+from nchantrs.wizards.users import NchantdNewUserWizard
 from nchantrs.widgets.items.nodes import NchantdTreeNode
 from nchantrs.wizards.instances import NchantdNewInstanceWizard
 
@@ -321,11 +322,15 @@ class NchantdCloakModel(NchantdPantiesModel):
         logma.info("convert_database called")
         return self
 
-    def create_new_instance(self, cfg=None, primary=False) -> None:
+    def create_new_instance(self, cfg=None, primary=False, activate=True) -> None:
         """"""
         self.is_install_active = False
         cfg = cfg or {}
-        instance_pages = NchantdNewInstanceWizard(self, cfg).initWizard()
+        instance_pages = NchantdNewInstanceWizard(self, cfg)
+        if activate:
+            instance_pages.initWizard()
+        else:
+            instance_pages.initWidget()
         if primary:
             self.instance = instance_pages.instance
         # self.instance.set_independent()
@@ -337,10 +342,16 @@ class NchantdCloakModel(NchantdPantiesModel):
         #         raise Exception("No Supervisor Communication Bridge to Request New Instance")
         return instance_pages
 
-    def create_new_user(self, cfg=None):
+    def create_new_user(self, cfg=None, primary=False, activate=True):
         """Creates a new user for single user auth apps that is triggered from the install wizard for multi user apps
         we connect various triggers"""
         cfg = cfg or {}
+        user_pages = NchantdNewUserWizard(self, cfg)
+        if activate:
+            user_pages.initWizard()
+        else:
+            user_pages.initWidget()
+        return user_pages
 
     def deactivate(self, table, uuid=None, primary_key=None, db="db") -> None:
         logma.info("deactivate called")

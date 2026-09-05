@@ -1,10 +1,32 @@
+#!/usr/bin/env python3
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+"""
+---
+<(META)>:
+        docid:
+        name:
+        description: >
+        version: 0.0.0.0.0.0
+        authority: filesystem
+        security: seclvl2
+        <(WT)>: -32
+"""
+
+# -*- coding: utf-8 -*
+# ======================================Standard Library Modules======================================================||
+from os.path import abspath, dirname, join
+from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional, Union
 from typing import Any
 import datetime as dt
 from os.path import abspath, dirname, join
 
+# ======================================3rd Party Library Modules=====================================================||
+
+
+# ======================================Solutions Brewer Library Modules==============================================||
 from kahndor import kahndor
 from kahndor.logma import Logma
-
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.browsers.browsers import NchantdWebBrowser
 from nchantrs.widgets.controls.checkboxes import NchantdCheckbox
@@ -13,12 +35,16 @@ from nchantrs.widgets.media.editors.editors import NchantdDocEditor, NchantdLabe
 from nchantrs.widgets.media.editors.selectors import NchantdDropDown
 from nchantrs.wizards.pages import NchantdWizardPage
 from nchantrs.wizards.wizards import NchantdWizard
+from nchantrs.utilities.users import NchantdUser
 
-here = join(dirname(__file__), "")
+# ====================================================================================================================||
+HERE = join(dirname(__file__), "")  # ||
 log = True
 logma = Logma(__name__)
-logma.off()
-pxcfg = join(here, "_data_", "users.yaml")
+if not log:
+    logma.off()
+# ====================================================================================================================||
+PXCFG = join(HERE, "_data_", "users.yaml")
 
 
 class NchantdNewUserWizard(NchantdWizard):
@@ -27,9 +53,8 @@ class NchantdNewUserWizard(NchantdWizard):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdNewUserWizard").override(cfg))
-        self.app = self.parent.app
-        self.new_application = self.parent.new_application
+        self.config.override(kahndor.Instruct(PXCFG).select("NchantdNewUserWizard").override(cfg))
+        # self.new_application = self.parent.new_application
 
     def initModel(self) -> Any:
         """"""
@@ -47,9 +72,9 @@ class NchantdNewUserWizard(NchantdWizard):
         self.addPage(self.tos_page)
         self.account_details_page = NchantdNewUserDetailsPage(self, self.config).initWidget()
         self.addPage(self.account_details_page)
-        if self.app.new_account and self.app.user.nchantrs_account_wizard_visible:
-            self.nchantrs_account_signup_page = NchantdNewUserSignupPage(self.parent, self.config).initWidget()
-            self.addPage(self.nchantrs_account_signup_page)
+        if self.app.new_account and self.app.user.nchantd_account_wizard_visible:
+            self.nchantd_account_signup_page = NchantdNewUserSignupPage(self.parent, self.config).initWidget()
+            self.addPage(self.nchantd_account_signup_page)
         return self
 
     def initWidget(self) -> Any:
@@ -58,6 +83,12 @@ class NchantdNewUserWizard(NchantdWizard):
         self.initView()
         return self
 
+    def create_user(self, user, user_object=NchantdUser):
+        """"""
+        user = user_object(self, user)
+        self.app.model.add_user(user)
+        self.app.model.set_user_active(user)
+
 
 class NchantdTOSSignOffPage(NchantdWizardPage):
     """"""
@@ -65,11 +96,7 @@ class NchantdTOSSignOffPage(NchantdWizardPage):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         super().__init__(parent, cfg)
-        self.parent = parent
-        self.config.override(kahndor.Instruct(pxcfg).select("NchantdTOSSignOffPage"))
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(PXCFG).select("NchantdTOSSignOffPage").override(cfg))
         self.document = None
         self.tos_check = None
         logma.info("NchantdTOSSignOffPage initialized")
@@ -80,19 +107,21 @@ class NchantdTOSSignOffPage(NchantdWizardPage):
         return self
 
     def initView(self) -> Any:
-        """"""
+        """TOSSignOffPage
+        2026-09-05
+        """
         super().initView()
         text = self.config.dikt["TOS"]
         cfg = {"read-only": True, "text": text}
         self.document = NchantdDocEditor(self, cfg).initWidget()
         self.layout.addWidget(self.document)
-        self.registerField("document", self.document)
+        self.registerField("document", self.document.getText)
         self.layout.addSpacing(10)
         cfg = {"text": "by checking this box, I agree to the Terms of Service.", "size": ["auto", "auto"]}
         self.tos_check = NchantdCheckbox(self, cfg).initWidget()
         self.tos_check.setToolTip(cfg["text"])
         self.layout.addWidget(self.tos_check)
-        self.registerField("tos_check", self.tos_check)
+        self.registerField("tos_check", self.tos_check.isChecked)
         return self
 
     def initWidget(self) -> Any:
@@ -102,7 +131,9 @@ class NchantdTOSSignOffPage(NchantdWizardPage):
         return self
 
     def validatePage(self) -> bool:
-        """"""
+        """Validates that user has manually selected to agree with the TOSSignOffPage
+        2026-09-05
+        """
         if not self.tos_check.isChecked():
             pyqt.QMessageBox.warning(
                 self, "Agreement Required", "You must agree to the terms and conditions to proceed."
@@ -116,18 +147,16 @@ class NchantdNewUserDetailsPage(NchantdWizardPage):
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdFundAccountsTab")
-        if parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
-        super(NchantdNewUserDetailsPage, self).__init__(self.parent, self.config)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(PXCFG).select("NchantdFundAccountsTab").override(cfg))
         self.is_app_owner = True
-        self.app = self.parent.app
         self.newUser = False
+        self.account_nm = None
+        self.email = None
 
     def initModel(self) -> None:
         logma.info("initModel {type(self).__name__}")
+        super().initModel()
         return self
 
     def initView(self) -> None:
@@ -140,12 +169,12 @@ class NchantdNewUserDetailsPage(NchantdWizardPage):
             self.account_nm = NchantdLabeledEntry(self, cfg).initWidget()
             self.account_nm.setPlaceholderText("Millie Madison")
             self.layout.addWidget(self.account_nm)
-            self.registerField("account_nm", self.account_nm)
+            self.registerField("account_nm", self.account_nm.getText)
             cfg = {"text": "Enter Email Address:", "layout": "horizontal"}
             self.email = NchantdLabeledEntry(self, cfg).initWidget()
             self.email.setPlaceholderText("jon.smith@email.com")
             self.layout.addWidget(self.email)
-            self.registerField("email", self.email)
+            self.registerField("email", self.email.getText)
         cfg = {
             "text": "Enter Home Location:",
             "layout": "horizontal",
@@ -154,27 +183,30 @@ class NchantdNewUserDetailsPage(NchantdWizardPage):
         self.location = NchantdLabeledEntry(self, cfg).initWidget()
         self.location.setPlaceholderText("Zip Code, Area Code, City, State or Address")
         self.layout.addWidget(self.location)
-        self.registerField("email", self.location)
-        cfg = {"text": "Select Theme:", "options": ["Blue", "Green", "Red", "Yellow", "Purple", "Pink", "Orange"]}
-        self.color = NchantdRadioButtonGroup(self, cfg).initWidget()
-        self.layout.addWidget(self.color)
-        self.registerField("color", self.color)
+        self.registerField("email", self.location.getText)
+        # PUSH TO 0.0.3
+        # cfg = {"text": "Select Theme:", "options": ["Blue", "Green", "Red", "Yellow", "Purple", "Pink", "Orange"]}
+        # self.color = NchantdRadioButtonGroup(self, cfg).initWidget()
+        # self.layout.addWidget(self.color)
+        # self.registerField("color", self.color)
+        self.new_application = True
         if self.is_app_owner:
-            if self.parent.new_application:
+            if self.new_application:
                 cfg = {"text": "Select Role: ", "options": ["Admin"]}
                 self.role = NchantdRadioButtonGroup(self, cfg).initWidget()
                 self.layout.addWidget(self.role)
-                self.registerField("role", self.role)
+                self.registerField("role", self.role.get_state)
             else:
                 cfg = {"text": "Select Role: ", "options": ["Admin", "User"]}
                 self.role = NchantdRadioButtonGroup(self, cfg).initWidget()
                 self.layout.addWidget(self.role)
-                self.registerField("role", self.role)
+                self.registerField("role", self.role.get_state)
         else:
             cfg = {"text": "Select Role: ", "options": ["User"]}
             self.role = NchantdRadioButtonGroup(self, cfg).initWidget()
             self.layout.addWidget(self.role)
-            self.registerField("role", self.role)
+            self.registerField("role", self.role.get_state)
+        return self
 
     def initWidget(self) -> Any:
         """"""
@@ -188,12 +220,8 @@ class NchantdNewUserSignupPage(NchantdWebBrowser):
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdNewUserSignupPage")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
-        super(NchantdNewUserSignupPage, self).__init__(self.parent, self.config)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(PXCFG).select("NchantdNewUserSignupPage").override(cfg))
 
     def initModel(self) -> Any:
         """"""
@@ -217,12 +245,9 @@ class NchantdUserNameSelectorPage(NchantdWizardPage):
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdUserNameSelectorPage")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
-        super(NchantdUserNameSelectorPage, self).__init__(self.parent, self.config)
+        super().__init__(parent, cfg)
+        self.config.override(kahndor.Instruct(PXCFG).select("NchantdUserNameSelectorPage").override(cfg))
+        self.name_selector = None
 
     def initModel(self) -> None:
         """"""
@@ -235,7 +260,7 @@ class NchantdUserNameSelectorPage(NchantdWizardPage):
         cfg = {}
         self.name_selector = NchantdDropDown(self, cfg).initWidget()
         self.layout.addWidget(self.name_selector)
-        self.registerField("name_selector", self.name_selector)
+        self.registerField("name_selector", self.name_selector.get_selection)
         return self
 
     def initWidget(self) -> Any:
@@ -243,3 +268,8 @@ class NchantdUserNameSelectorPage(NchantdWizardPage):
         self.initModel()
         self.initView()
         return self
+
+
+# ====================================================================================================================||
+
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

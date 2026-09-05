@@ -140,24 +140,26 @@ class NchantdApplicationStartupWizard(NchantdWizard):
                 if not user:
                     self.new_user = True
         if self.new_user:
+            cfg = {}
             if hasattr(self.app.model, "create_new_user"):
-                new_user_pages = self.app.model.create_new_user(cfg)
+                new_user_pages = self.create_user(cfg, True, False)
             else:
-                new_user_pages = NchantdNewUserWizard(self).initWidget()
+                new_user_pages = NchantdNewUserWizard(self, cfg).initWidget()
             for page_id in new_user_pages.pageIds():
                 logma.info(f"User Page Added {page_id}")
                 self.addPage(new_user_pages.page(page_id))
         if self.new_application:
+            cfg = {}
             if hasattr(self.app.model, "create_new_instance"):
-                instance_pages = self.app.model.create_new_instance(cfg)
+                instance_pages = self.create_instance(cfg, True, False)
             else:
-                instance_pages = NchantdNewInstanceWizard(self).initWidget()
+                instance_pages = NchantdNewInstanceWizard(self, cfg).initWidget()
             for page_id in instance_pages.pageIds():
                 logma.info(f"Instance Page Added {page_id}")
                 self.addPage(instance_pages.page(page_id))
         for page in self.pageIds():
             logma.info(f"Overall Page Index {page}")
-
+        self.install_user_data()
         return self
 
     def initWizard(self, cfg=None) -> Any:
@@ -334,9 +336,10 @@ class NchantdApplicationStartupWizard(NchantdWizard):
             raise Exception(f"Path {path} does not exist")
         return False
 
-    def create_instance(self):
+    def create_instance(self, cfg=None):
         """"""
-        self.app.model.create_new_instance()
+        instance_pages = self.app.model.create_new_instance(cfg, True, False)
+        return instance_pages
 
     def create_paths(self, os_type="linux") -> Tuple[str, Any]:
         """Create the app's filesystem paths (config, application, library, shortcut)."""
@@ -429,13 +432,19 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         logma.info(f"Icon created at {self.icon_path}")
         return self
 
-    def create_user(self):
+    def create_user(self, cfg=None):
         """"""
-        self.app.model.create_new_user()
+        user_pages = self.app.model.create_new_user(cfg, True, False)
+        return user_pages
 
     def initialize_application(self):
         """"""
         self.app.model.initialize_application()
+
+    def install_user_data(self, instance_pages, user_pages):
+        """"""
+        instance_pages.create_instance()
+        user_pages.create_user()
 
     def reject(self) -> None:
         """"""
@@ -486,8 +495,6 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         paths, state = self.create_paths()
         if state is True:
             self.create_database_application()
-            self.create_user()
-            self.create_instance()
             # self.copy_application() dont think this is needed
             self.create_icon()
             self.run_install_complete()
