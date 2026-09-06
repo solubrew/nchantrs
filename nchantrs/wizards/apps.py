@@ -170,7 +170,8 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         if self.wizard and len(self.pageIds()) > 0:
             self.show()
             self.exec_()
-        self.install_user_data()
+        if self.new_application:
+            self.install_user_data()
         return self
 
     def add_page(self, page) -> Any:

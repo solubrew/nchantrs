@@ -1,6 +1,6 @@
 from typing import Any
 
-'#\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n---  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n<(META)>:  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    docid:   #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    name:\t#\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    description: >  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n\n    expirary: <[expiration]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    version: <[version]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    path: <[LEXIvrs]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    outline: <[outline]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    authority: document|this  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    security: sec|lvl2  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    <(WT)>: -32  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n'
+"#\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n---  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n<(META)>:  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    docid:   #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    name:\t#\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    description: >  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n\n    expirary: <[expiration]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    version: <[version]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    path: <[LEXIvrs]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    outline: <[outline]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    authority: document|this  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    security: sec|lvl2  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    <(WT)>: -32  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n"
 import json as j
 from os.path import abspath, dirname, join
 
@@ -12,13 +12,14 @@ from nchantrs.libraries import pyqt
 from nchantrs.utilities.models import combine_records
 from nchantrs.widgets.widgets import loadWidget
 
-here = join(dirname(__file__), '')
+here = join(dirname(__file__), "")
 log = True
 debug = True
 logma = Logma(__name__)
 if not log:
     logma.off()
-pxcfg = join(abspath(here), '_data_', 'tabsetmodels.yaml')
+pxcfg = join(abspath(here), "_data_", "tabsetmodels.yaml")
+
 
 class NchantdTabSetModel(pyqt.QAbstractItemModel):
     """Model class for a given tabset filled with data from both configuration
@@ -27,7 +28,7 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select('NchantdTabSetModel')
+        self.config = kahndor.Instruct(pxcfg).select("NchantdTabSetModel")
         if parent is not None:
             self.config.override(parent.config)
         self.config.override(cfg)
@@ -40,8 +41,8 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         self.tabsets = None
         self.tabsdata = []
         self.tab_widgets = []
-        self.table = 'app_tab'
-        self.tabcolumns = self.config.dikt['dstruct']['database']['objects']['table'][self.table]['columns']
+        self.table = "app_tab"
+        self.tabcolumns = self.config.dikt["dstruct"]["database"]["objects"]["table"][self.table]["columns"]
         self.tabbase = [0, 1, 1, 1]
         self.max_position = 0
         self.initialize_database_objects = True
@@ -69,28 +70,33 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         Example usage:
             model = initModel('left', '2', True)
         """
-        db = 'db'
+        db = "db"
         if self.parent.app.model.instance is not None:
             if self.parent.app.model.instance.internal is False:
                 db = self.parent.app.model.instance.db_instance_id
-        objects = combine_records(self.config.dikt['dstruct']['database']['objects'])
+        objects = combine_records(self.config.dikt["dstruct"]["database"]["objects"])
+        if "table" not in objects:
+            return self
         if self.parent.app.new_application and create_objects is True:
-            if 'table' not in objects:
-                return self
-            records = objects['table']['app_tab']['records']
-            objects['table']['app_tab']['records'] = [x + self.tabbase + [uuid()] for x in records if x is not None]
-            app_objects = {'table': {'app_tab': {'records': objects['table']['app_tab']['records'], 'columns': objects['table']['app_tab']['columns']}}, 'view': self.config.dikt['dstruct']['database']['objects'].get('view', {})}
-            self.parent.app.model.store.create_objects(app_objects, 'db', False)
-            self.config.dikt['dstruct']['database']['objects']['table']['app_tab']['records'] = []
-            self.config.dikt['dstruct']['database']['objects']['table']['app_tab']['system_records'] = []
-        if self.parent.app.new_application and create_objects is True:
-            records = objects['table']['doc_tab']['records']
-            objects['table']['doc_tab']['records'] = [x + self.tabbase + [uuid()] for x in records if x is not None]
-            doc_objects = {'table': {'doc_tab': {'records': objects['table']['doc_tab']['records'], 'columns': objects['table']['doc_tab']['columns']}}}
-            self.parent.app.model.store.create_objects(doc_objects, db, False)
+            for table in ["app_tab", "doc_tab"]:
+                records = objects["table"][table]["records"]
+                records = [list(r) for r in dict.fromkeys(map(tuple, records))]
+                objects["table"][table]["records"] = [x + self.tabbase + [uuid()] for x in records if x is not None]
+                _objects = {
+                    "table": {
+                        table: {
+                            "records": objects["table"][table]["records"],
+                            "columns": objects["table"][table]["columns"],
+                        }
+                    },
+                    "view": self.config.dikt["dstruct"]["database"]["objects"].get("view", {}),
+                }
+                self.parent.app.model.store.create_objects(_objects, "db", False)
+                self.config.dikt["dstruct"]["database"]["objects"]["table"][table]["records"] = []
+                self.config.dikt["dstruct"]["database"]["objects"]["table"][table]["system_records"] = []
         return self
 
-    def add_tab(self, name, pid, pos, widget, widgdata='{}', doc_type='custom_widget', tabset_type='center') -> None:
+    def add_tab(self, name, pid, pos, widget, widgdata="{}", doc_type="custom_widget", tabset_type="center") -> None:
         """
         :param name: Name of the tab to be added.
         :param pid: Process ID associated with the tab.
@@ -101,30 +107,30 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         self.parent.app.model.add_tab(name, pid, pos, widget, widgdata, doc_type, tabset_type)
         return self
 
-    def buildTabSet(self, node, tabset='center', tabsdata=None, toolbox=None) -> None:
+    def buildTabSet(self, node, tabset="center", tabsdata=None, toolbox=None) -> None:
         """Dynamically create a tabset based on configurations and data whose parent is the selected node provided
 
         Implements lazy loading: Only the active tab is fully loaded on build.
         Other tabs are created as placeholder widgets to defer loading until needed.
         """
-        if hasattr(self, '_building') and self._building:
+        if hasattr(self, "_building") and self._building:
             return self
         self._building = True
         try:
             self.tabset = tabset
             self.current_node = node
             self.tab_widgets = []
-            logma.info(f'Tabsdata {tabsdata}')
+            logma.info(f"Tabsdata {tabsdata}")
             if tabsdata is None or tabsdata == []:
                 tabsdata = self.get_tabs(node, tabset)
                 if tabsdata is None:
-                    logma.info('No tabs in the tabset')
+                    logma.info("No tabs in the tabset")
                     return self
                 if not tabsdata.empty:
-                    tabsdata = [tab for tab in tabsdata.to_dict(orient='records')]
+                    tabsdata = [tab for tab in tabsdata.to_dict(orient="records")]
                 else:
                     return self
-            logma.info(f'Tabsdata {tabsdata}')
+            logma.info(f"Tabsdata {tabsdata}")
             self.tabsdata = tabsdata
             active_tab_position = self._get_active_tab_position(node, 0)
             for tabn, tab in enumerate(self.tabsdata):
@@ -137,6 +143,7 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
     def create_toolbox(self, parent=None, cfg=None) -> None:
         """"""
         from nchantrs.widgets.controls.toolboxes import NchantdToolBox
+
         toolbox = NchantdToolBox(parent, cfg)
         return toolbox
 
@@ -145,12 +152,12 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         return 0
 
     def delete_tab(self) -> None:
-        logma.info('delete_tab called')
+        logma.info("delete_tab called")
         return self
 
     def get_tabs(self, node, tabset) -> None:
         """"""
-        logma.info(f'Get Node Nid {node.nid} Tabset {tabset}  ')
+        logma.info(f"Get Node Nid {node.nid} Tabset {tabset}  ")
         tabs = self.parent.app.model.get_tabs(node.nid, tabset)
         return tabs
 
@@ -161,55 +168,55 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         self.parent.setCurrentIndex(self.current_node.tab_focus)
         return self
 
-    def load_tab(self, tab, tabn=0, tabset='center', active_tab_position=0) -> None:
+    def load_tab(self, tab, tabn=0, tabset="center", active_tab_position=0) -> None:
         """"""
         if tabn in self.tab_widgets and self.tab_widgets[tabn].dummy is True:
             self.parent.remove_tab(tabn)
         if tabn == tabn:
-            logma.info(f'Loading Tab {tab}')
+            logma.info(f"Loading Tab {tab}")
             self.tab_widgets.insert(tabn, self.load_widget(self.parse_widget_data(tab), tabset, tab))
             if len(self.tab_widgets) <= tabn:
-                logma.error(f'[tabsetmodels] load_tab: insert failed to populate index {tabn}; skipping dummy reset')
+                logma.error(f"[tabsetmodels] load_tab: insert failed to populate index {tabn}; skipping dummy reset")
                 return
             self.tab_widgets[tabn].dummy = False
         else:
             self.tab_widgets.insert(tabn, pyqt.QWidget(self.parent))
             if len(self.tab_widgets) <= tabn:
-                logma.error(f'[tabsetmodels] load_tab: dummy-insert failed to populate index {tabn}')
+                logma.error(f"[tabsetmodels] load_tab: dummy-insert failed to populate index {tabn}")
                 return
             self.tab_widgets[tabn].dummy = True
         self.tab_widgets[tabn].position = tabn
-        self.tab_widgets[tabn].name = tab.get('name', tab.get('name_txt', None))
-        _type = tab.get('tab_type', tab.get('tab_type_txt', None))
-        self.tab_widgets[tabn].type = _type[-len(_type) + _type.rfind('_') + 1:]
-        if tabset == 'right':
-            if self.tab_widgets[tabn].name == 'ToolBox':
+        self.tab_widgets[tabn].name = tab.get("name", tab.get("name_txt", None))
+        _type = tab.get("tab_type", tab.get("tab_type_txt", None))
+        self.tab_widgets[tabn].type = _type[-len(_type) + _type.rfind("_") + 1 :]
+        if tabset == "right":
+            if self.tab_widgets[tabn].name == "ToolBox":
                 self.parent.app.toolbox = self.tab_widgets[tabn]
                 self.parent.app.toolbox.position = tabn
         self.parent.insertTab(tabn, self.tab_widgets[tabn], self.tab_widgets[tabn].name)
         return self
 
-    def load_widget(self, cfg, tabset='center', document=None, tab_type='custom_widget') -> None:
+    def load_widget(self, cfg, tabset="center", document=None, tab_type="custom_widget") -> None:
         """"""
         if document is None:
             document = {}
-        cfg['widget'] = document.get('widget', document.get('widget_txt', None))
-        cfg['tid'] = document.get('tid', document.get('tid_txt', None))
-        cfg['apps'] = self.parent.app.config.dikt.get('apps', ['nchantrs', self.parent.app.application_name.lower()])
-        cfg['app'] = self.parent.app.application_name.lower()
-        cfg['pos'] = tabset
-        cfg['document'] = document
+        cfg["widget"] = document.get("widget", document.get("widget_txt", None))
+        cfg["tid"] = document.get("tid", document.get("tid_txt", None))
+        cfg["apps"] = self.parent.app.config.dikt.get("apps", ["nchantrs", self.parent.app.application_name.lower()])
+        cfg["app"] = self.parent.app.application_name.lower()
+        cfg["pos"] = tabset
+        cfg["document"] = document
         tabW = loadWidget(self.parent, cfg)
         return tabW
 
     def parse_widget_data(self, tab) -> None:
         """"""
-        cfg = tab.get('widgdata_dict', '{}')
+        cfg = tab.get("widgdata_dict", "{}")
         if isinstance(cfg, str):
-            logma.info(f'TAB WIDGDATA {cfg}')
+            logma.info(f"TAB WIDGDATA {cfg}")
             cfg = j.loads(cfg.replace("'", '"'))
-        cfg['tab'] = tab
-        cfg['file_path'] = cfg.get('file_path', cfg.get('path', ''))
+        cfg["tab"] = tab
+        cfg["file_path"] = cfg.get("file_path", cfg.get("path", ""))
         return cfg
 
     def rowCount(self, arg) -> None:
@@ -218,7 +225,7 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
 
     def update_position(self, from_index, to_index) -> None:
         """"""
-        logma.info(f'From Index {from_index} To Index {to_index}')
+        logma.info(f"From Index {from_index} To Index {to_index}")
         if from_index == to_index:
             return self
         self.tab_widgets.insert(to_index, self.tab_widgets.pop(from_index))
@@ -230,10 +237,10 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
 
     def set_active_tab(self, tabset) -> None:
         """"""
-        tabset = 'error'
-        if tabset == 'center':
+        tabset = "error"
+        if tabset == "center":
             tabn = self.parent.active_node.current_tab
-        elif tabset == 'right':
+        elif tabset == "right":
             tabn = self.parent.active_node.recent_right_tab
         else:
             tabn = len(self.tabs) - 1
@@ -252,8 +259,8 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         Returns:
             Integer tab position (0-indexed)
         """
-        if hasattr(node, 'parameters') and node.parameters:
-            active_pos = node.parameters.get('active_tab_position', default)
+        if hasattr(node, "parameters") and node.parameters:
+            active_pos = node.parameters.get("active_tab_position", default)
             try:
                 active_pos = int(active_pos)
                 if active_pos < 0:
@@ -264,4 +271,6 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
             except (ValueError, TypeError):
                 return default
         return default
-'\n'
+
+
+"\n"

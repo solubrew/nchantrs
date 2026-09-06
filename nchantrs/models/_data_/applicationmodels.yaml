@@ -1821,6 +1821,7 @@ NchantdPantiesModel:
               *
               FROM app_tab
               WHERE ACTIVE_BIT = 1 AND DELETE_BIT = 0 AND ARCHIVE_BIT = 0
+              GROUP BY did_txt
           'vw_app_tree_node':
             cmd: >
               CREATE VIEW vw_app_tree_node AS
@@ -1856,6 +1857,7 @@ NchantdPantiesModel:
               *
               FROM doc_tab
               WHERE ACTIVE_BIT = 1 AND DELETE_BIT = 0 AND ARCHIVE_BIT = 0
+              GROUP BY did_txt
           'vw_doc_tree_node':
             cmd: >
               CREATE VIEW vw_doc_tree_node AS
