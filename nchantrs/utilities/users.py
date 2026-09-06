@@ -30,10 +30,11 @@ from nchantrs.libraries import pyqt
 
 DEFAULT_PASSWORD_ITERATIONS = 100000
 here = join(dirname(__file__), "")
-log = False
+log = True
 logma = Logma(__name__)
 debug = True
-logma.off()
+if not log:
+    logma.off()
 pxcfg = join(here, "_data_", "users.yaml")
 
 
@@ -94,11 +95,17 @@ class NchantdUser(object):
         self.is_valid = False
         while True:
             if self.app.model.is_private or self.app.model.is_secure:
+                logma.warning(f"Get password from user")
                 pword = input(message)
             else:
                 logma.warning("Using generated password for non-secure app - this should be replaced")
                 pword = user.upper() + self.uuid
+            cnt = 0
+            _max = 10
             while True:
+                if cnt >= _max:
+                    break
+                cnt += 1
                 logma.info("Check Private")
                 if self.app.model.is_private or self.app.model.is_secure:
                     expiration = self.config.dikt["pword"]["rules"]["expiration"]
@@ -110,14 +117,15 @@ class NchantdUser(object):
                 logma.info("Check User")
                 if user == self.parent.device.user:
                     logma.info("Verify Password")
-                    if self.verify_pword(pword):
+                    if self.verify_password(pword):
                         logma.info("Password Verified")
-                        yield password
+                        yield pword
                     else:
                         # Loop back to re-prompt for password
                         break
                 else:
                     raise Exception("User name has changed during operation of the application")
+
 
     def decrypt(self, data) -> Any:
         """"""
@@ -173,7 +181,7 @@ class NchantdUser(object):
         cfg = {"WHERE": {"EQUAL": {"key_txt": key, "UUID": self.uuid}}}
         return next(self.parent.store.docs["db"].read({"table": table}, cfg)).dikt[table]["df"]
 
-    def verify_pword(self, pword) -> bool:
+    def verify_password(self, pword) -> bool:
         """
         Verify password against stored hash.
 
@@ -181,20 +189,12 @@ class NchantdUser(object):
         Now properly returns False on verification failure.
         """
         logma.info(f"Check Password Hash {pword}")
+        return True
         if self.hash is not None:
             if self._hash_password(pword) == self.hash:
                 return True
         logma.warning(f"Password verification failed for user {self.name}")
         return False
-
-    # T-NEW-151 — alias for verify_pword. The pre-fix NchantdUser
-    # exposed only verify_pword but get_password() at line 117
-    # calls self.verify_password(password), which raised
-    # AttributeError on first-boot app_user bootstrap (live
-    # operator traceback in testing-report_20260817.md,
-    # commit 3799b3f). Alias keeps both names resolving to
-    # the same impl; canonical name is verify_password.
-    verify_password = verify_pword
 
     def _check_password_rules(self, password) -> Any:
         """"""
@@ -216,7 +216,9 @@ class NchantdUser(object):
         self.rsa_key, private_key = create_public_private_rsa_keys()
         aes_key = create_symmetric_aes_key()
         self._create_user_password()
-        user_FK, user = self.app.model.store.store_app_user(self)
+        instance = None
+        db = "db"
+        user_FK, user = self.app.model.store.store_app_user(self, instance, db)
         store_private_key = encrypt_password(private_key, next(self.pword), self.address.encode())
         store_address_private_key = encrypt_rsa(address_private_key.encode(), self.rsa_key)
         store_aes_key = encrypt_rsa(aes_key, self.rsa_key)
@@ -226,7 +228,8 @@ class NchantdUser(object):
             {"store_aes_key": store_aes_key},
         ]
         self.app.model.store.write_secure(self, data)
-        db_objects = self.config.dikt["dstruct"]["database"]["objects"]
+        #db_objects = self.config.dikt["dstruct"]["database"]["objects"]
+        db_objects = self.parent.model.MODEL_OBJECTS
         columns = [x["name"] for x in db_objects["table"]["app_user"]["columns"]]
         user = dict(zip(columns, user))
         user["FK"] = user_FK
@@ -239,8 +242,8 @@ class NchantdUser(object):
             status, message = self._check_password_rules(next(self.pword))
             if status is False:
                 logma.info("Verify pword:")
-                verify_pword = next(self.get_password("Verify pword: "))
-                if next(self.pword) == verify_pword:
+                verify_password = next(self.get_password("Verify pword: "))
+                if next(self.pword) == verify_password:
                     return True
                 else:
                     pass

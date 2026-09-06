@@ -142,24 +142,25 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         if self.new_user:
             cfg = {}
             if hasattr(self.app.model, "create_new_user"):
-                new_user_pages = self.create_user(cfg, True, False)
+                self.new_user_pages = self.create_user(cfg, True, False)
             else:
-                new_user_pages = NchantdNewUserWizard(self, cfg).initWidget()
-            for page_id in new_user_pages.pageIds():
+                self.new_user_pages = NchantdNewUserWizard(self, cfg).initWidget()
+            if self.new_user_pages is None:
+                raise Exception("New User Wizard not initialized")
+            for page_id in self.new_user_pages.pageIds():
                 logma.info(f"User Page Added {page_id}")
-                self.addPage(new_user_pages.page(page_id))
+                self.addPage(self.new_user_pages.page(page_id))
         if self.new_application:
             cfg = {}
             if hasattr(self.app.model, "create_new_instance"):
-                instance_pages = self.create_instance(cfg, True, False)
+                self.instance_pages = self.create_instance(cfg, True, False)
             else:
-                instance_pages = NchantdNewInstanceWizard(self, cfg).initWidget()
-            for page_id in instance_pages.pageIds():
+                self.instance_pages = NchantdNewInstanceWizard(self, cfg).initWidget()
+            for page_id in self.instance_pages.pageIds():
                 logma.info(f"Instance Page Added {page_id}")
-                self.addPage(instance_pages.page(page_id))
+                self.addPage(self.instance_pages.page(page_id))
         for page in self.pageIds():
             logma.info(f"Overall Page Index {page}")
-        self.install_user_data()
         return self
 
     def initWizard(self, cfg=None) -> Any:
@@ -169,6 +170,7 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         if self.wizard and len(self.pageIds()) > 0:
             self.show()
             self.exec_()
+        self.install_user_data()
         return self
 
     def add_page(self, page) -> Any:
@@ -336,9 +338,9 @@ class NchantdApplicationStartupWizard(NchantdWizard):
             raise Exception(f"Path {path} does not exist")
         return False
 
-    def create_instance(self, cfg=None):
+    def create_instance(self, cfg=None, primary=True, activate=False):
         """"""
-        instance_pages = self.app.model.create_new_instance(cfg, True, False)
+        instance_pages = self.app.model.create_new_instance(cfg, primary, activate)
         return instance_pages
 
     def create_paths(self, os_type="linux") -> Tuple[str, Any]:
@@ -432,19 +434,19 @@ class NchantdApplicationStartupWizard(NchantdWizard):
         logma.info(f"Icon created at {self.icon_path}")
         return self
 
-    def create_user(self, cfg=None):
+    def create_user(self, cfg=None, primary=True, activate=False):
         """"""
-        user_pages = self.app.model.create_new_user(cfg, True, False)
+        user_pages = self.app.model.create_new_user(cfg, primary, activate)
         return user_pages
 
     def initialize_application(self):
         """"""
         self.app.model.initialize_application()
 
-    def install_user_data(self, instance_pages, user_pages):
+    def install_user_data(self):
         """"""
-        instance_pages.create_instance()
-        user_pages.create_user()
+        self.instance_pages.create_instance()
+        self.new_user_pages.create_user()
 
     def reject(self) -> None:
         """"""

@@ -23,12 +23,10 @@ class NchantdWizard(pyqt.QWizard):
 
     def __init__(self, parent=None, cfg=None) -> None:
         """ """
-        self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdWizard")
-        if self.parent:
-            self.config.override(parent.config)
-        self.config.override(cfg)
         super().__init__()
+        self.parent = parent
+        self.config = kahndor.Instruct(pxcfg).select("NchantdWizard").override(parent.config).override(cfg)
+        self.app = self.parent.app
         self.theme = NchantdTheme(self)
         self.set_theme(self.config.dikt["gui"]["desktop"]["theme"])
 

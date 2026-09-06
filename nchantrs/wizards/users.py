@@ -83,10 +83,10 @@ class NchantdNewUserWizard(NchantdWizard):
         self.initView()
         return self
 
-    def create_user(self, user, user_object=NchantdUser):
+    def create_user(self, user=None, user_object=NchantdUser):
         """"""
-        user = user_object(self, user)
-        self.app.model.add_user(user)
+        user = user_object(self.app, user)
+        user.create_user()
         self.app.model.set_user_active(user)
 
 
@@ -115,13 +115,13 @@ class NchantdTOSSignOffPage(NchantdWizardPage):
         cfg = {"read-only": True, "text": text}
         self.document = NchantdDocEditor(self, cfg).initWidget()
         self.layout.addWidget(self.document)
-        self.registerField("document", self.document.getText)
+        self.registerField("document", self.document)
         self.layout.addSpacing(10)
         cfg = {"text": "by checking this box, I agree to the Terms of Service.", "size": ["auto", "auto"]}
         self.tos_check = NchantdCheckbox(self, cfg).initWidget()
         self.tos_check.setToolTip(cfg["text"])
         self.layout.addWidget(self.tos_check)
-        self.registerField("tos_check", self.tos_check.isChecked)
+        self.registerField("tos_check", self.tos_check)
         return self
 
     def initWidget(self) -> Any:
@@ -169,12 +169,12 @@ class NchantdNewUserDetailsPage(NchantdWizardPage):
             self.account_nm = NchantdLabeledEntry(self, cfg).initWidget()
             self.account_nm.setPlaceholderText("Millie Madison")
             self.layout.addWidget(self.account_nm)
-            self.registerField("account_nm", self.account_nm.getText)
+            self.registerField("account_nm", self.account_nm)
             cfg = {"text": "Enter Email Address:", "layout": "horizontal"}
             self.email = NchantdLabeledEntry(self, cfg).initWidget()
             self.email.setPlaceholderText("jon.smith@email.com")
             self.layout.addWidget(self.email)
-            self.registerField("email", self.email.getText)
+            self.registerField("email", self.email)
         cfg = {
             "text": "Enter Home Location:",
             "layout": "horizontal",
@@ -183,7 +183,7 @@ class NchantdNewUserDetailsPage(NchantdWizardPage):
         self.location = NchantdLabeledEntry(self, cfg).initWidget()
         self.location.setPlaceholderText("Zip Code, Area Code, City, State or Address")
         self.layout.addWidget(self.location)
-        self.registerField("email", self.location.getText)
+        self.registerField("email", self.location)
         # PUSH TO 0.0.3
         # cfg = {"text": "Select Theme:", "options": ["Blue", "Green", "Red", "Yellow", "Purple", "Pink", "Orange"]}
         # self.color = NchantdRadioButtonGroup(self, cfg).initWidget()
@@ -195,17 +195,17 @@ class NchantdNewUserDetailsPage(NchantdWizardPage):
                 cfg = {"text": "Select Role: ", "options": ["Admin"]}
                 self.role = NchantdRadioButtonGroup(self, cfg).initWidget()
                 self.layout.addWidget(self.role)
-                self.registerField("role", self.role.get_state)
+                self.registerField("role", self.role)
             else:
                 cfg = {"text": "Select Role: ", "options": ["Admin", "User"]}
                 self.role = NchantdRadioButtonGroup(self, cfg).initWidget()
                 self.layout.addWidget(self.role)
-                self.registerField("role", self.role.get_state)
+                self.registerField("role", self.role)
         else:
             cfg = {"text": "Select Role: ", "options": ["User"]}
             self.role = NchantdRadioButtonGroup(self, cfg).initWidget()
             self.layout.addWidget(self.role)
-            self.registerField("role", self.role.get_state)
+            self.registerField("role", self.role)
         return self
 
     def initWidget(self) -> Any:

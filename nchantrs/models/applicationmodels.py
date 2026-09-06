@@ -278,6 +278,10 @@ class NchantdCloakModel(NchantdPantiesModel):
             self.store.store_app_tab(row, self.app.model.instance, db)
         return tid
 
+    def add_user(self, user, db="db"):
+        """"""
+        return self.store.store_app_user(user, self.app.model.instance, db)
+
     def check_policy(self, policy, table, condition, value, db="db") -> None:
         """"""
         if policy == "Data Retention Policy":
@@ -714,10 +718,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         cfg = {"telemetry": {"WHERE": {"LESS": {"CREON_DTTM": self.time.store_now()}}}}
         self.docs[db].mark_delete(cfg)
 
-    def set_is_saved(self, saved=False) -> None:
-        """"""
-        self.is_saved = saved
-        return self
+
 
     def save(self) -> Any:
         """Persist the application-level state to the store.
@@ -787,6 +788,16 @@ class NchantdCloakModel(NchantdPantiesModel):
         self.app_path = join(expanduser("~"), ".local", "share", self.APP_NAME.lower())
         self.venv_path = join(self.app_path, ".venv")
         return self
+
+    def set_is_saved(self, saved=False) -> None:
+        """"""
+        self.is_saved = saved
+        return self
+
+    def set_user_active(self, user):
+        """"""
+        self.user = user
+
 
     def store_cache(self, df, table) -> None:
         """"""

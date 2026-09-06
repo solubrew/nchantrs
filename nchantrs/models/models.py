@@ -678,7 +678,7 @@ class NchantdStore(MicroStash):
         :return:
         """
         document_type = "sonql"
-        tables = self.config.dikt.get("tables").dikt
+        tables = self.config.get("tables")
         self.initDocument(instance.db_instance_id, document_type, instance.get_file_path(), tables, reset)
         document_type = "conql"
         self.initDocument(instance.dbc_instance_id, document_type)
@@ -1036,7 +1036,7 @@ class NchantdStore(MicroStash):
         self.docs["db"].write(data)
         return (nid, row)
 
-    def store_app_user(self, user, db="db", how="INSERT"):
+    def store_app_user(self, user, instance, db="db", how="INSERT"):
         """
                     'columns': ['UUID', 'mac_hash', 'user_nm_txt', 'password_txt', 'saltUUID', 'iterations_txt', 'address_txt',
                         'public_key_txt', 'is_private_bit', 'is_secure_bit', 'instance_FK', 'application_new_bit',
