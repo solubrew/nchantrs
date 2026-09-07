@@ -1,6 +1,5 @@
 from typing import Any
 
-"#\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n---  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n<(META)>:  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    docid:   #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    name:\t#\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    description: >  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n\n    expirary: <[expiration]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    version: <[version]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    path: <[LEXIvrs]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    outline: <[outline]>  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    authority: document|this  #\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    security: sec|lvl2  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n    <(WT)>: -32  #\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t||\n"
 import json as j
 from os.path import abspath, dirname, join
 
@@ -11,6 +10,7 @@ from subtrix.utilities import uuid
 from nchantrs.libraries import pyqt
 from nchantrs.utilities.models import combine_records
 from nchantrs.widgets.widgets import loadWidget
+from nchantrs.widgets.media.images import NchantdImage
 
 here = join(dirname(__file__), "")
 log = True
@@ -194,6 +194,7 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
                 self.parent.app.toolbox = self.tab_widgets[tabn]
                 self.parent.app.toolbox.position = tabn
         self.parent.insertTab(tabn, self.tab_widgets[tabn], self.tab_widgets[tabn].name)
+        self._set_tab_icon(tabn)
         return self
 
     def load_widget(self, cfg, tabset="center", document=None, tab_type="custom_widget") -> None:
@@ -272,5 +273,12 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
                 return default
         return default
 
-
-"\n"
+    def _set_tab_icon(self, tabn, name=None):
+        """"""
+        if name is None:
+            name = self.config.dikt.get("icon_txt", self.config.dikt.get("icon", None))
+        # need to connect to the default icon for each tab type
+        icon_path = self.parent.app.view.theme.get_icon_path(name, "base")
+        image = NchantdImage(self, {"path": icon_path}).initWidget()
+        self.parent.setTabIcon(tabn, pyqt.QIcon(image.image))
+        return self
