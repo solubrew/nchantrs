@@ -168,7 +168,7 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
         self.parent.setCurrentIndex(self.current_node.tab_focus)
         return self
 
-    def load_tab(self, tab, tabn=0, tabset="center", active_tab_position=0) -> None:
+    def load_tab(self, tab, tabn=0, tabset="center", active_tab_position=0, icon_name=None) -> None:
         """"""
         if tabn in self.tab_widgets and self.tab_widgets[tabn].dummy is True:
             self.parent.remove_tab(tabn)
@@ -194,7 +194,15 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
                 self.parent.app.toolbox = self.tab_widgets[tabn]
                 self.parent.app.toolbox.position = tabn
         self.parent.insertTab(tabn, self.tab_widgets[tabn], self.tab_widgets[tabn].name)
-        self._set_tab_icon(tabn)
+        self._set_tab_icon(tabn, icon_name)
+
+        # self.setStyleSheet("""
+        #     QTabBar::tab {
+        #         padding: 6px 8px;
+        #         min-width: 0px;
+        #     }
+        # """)
+
         return self
 
     def load_widget(self, cfg, tabset="center", document=None, tab_type="custom_widget") -> None:
@@ -273,12 +281,17 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
                 return default
         return default
 
-    def _set_tab_icon(self, tabn, name=None):
+    def _get_tab_icon(self, tabn, name=None):
         """"""
         if name is None:
             name = self.config.dikt.get("icon_txt", self.config.dikt.get("icon", None))
         # need to connect to the default icon for each tab type
         icon_path = self.parent.app.view.theme.get_icon_path(name, "base")
         image = NchantdImage(self, {"path": icon_path}).initWidget()
-        self.parent.setTabIcon(tabn, pyqt.QIcon(image.image))
+        return pyqt.QIcon(image.image)
+
+    def _set_tab_icon(self, tabn, name=None):
+        """"""
+        icon = self._get_tab_icon(tabn, name)
+        self.parent.setTabIcon(tabn, icon)
         return self
