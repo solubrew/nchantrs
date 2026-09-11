@@ -594,6 +594,30 @@ class NchantdWebViewer(NchantdWidget):
         self.save()
         return self
 
+    def populate_document(self, url) -> Any:
+        """Cross-repo navigation contract (T-NEW-069, T-NEW-051).
+
+        nchantdoffice callers (e.g. ``NchantdOfficeAdTab._load_ad_layout``)
+        invoke ``populate_document(url)`` on the inner viewer. The
+        alias must live on the **Viewer** base class so every
+        subclass (and every viewer instance) honors it — not on
+        the Browser subclass where only the full-fat desktop
+        browser uses it. Delegates to ``populate_viewport``,
+        which is the engine-load implementation every Viewer
+        owns.
+
+        Defensive: swallows engine-load exceptions (logged
+        elsewhere) so callers don't have to wrap every invocation.
+        """
+        try:
+            return self.populate_viewport(url)
+        except Exception as _exc:
+            logma.warning(
+                f"[webviewer] populate_document delegation failed "
+                f"(non-blocking): {_exc}"
+            )
+            return self
+
     def run_js_script(self, script) -> Any:
         """"""
         if script not in self.known_scripts:
