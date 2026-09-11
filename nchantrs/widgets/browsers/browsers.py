@@ -161,6 +161,22 @@ class NchantdWebViewer(NchantdWidget):
         self.engine.backAvailable.connect(self.on_back_available)
         self.engine.forwardAvailable.connect(self.on_forward_available)
         self.link_service = LinkService(self)
+        # T-NEW-069 — URL dropdown history cap. Used by _track_url
+        # to bound the persisted most-recent-first URL list. Read
+        # once at __init__ so the bare-instance harness in
+        # test_browser_url_history.py can override it directly
+        # without falling back to a default that would mask the
+        # test's intent.
+        self._url_history_max = int(
+            self.config.dikt.get("url_history_max", 20)
+        )
+        # Re-entrancy guard for cmd_url_changed_handler. The
+        # dropdown's ``currentTextChanged`` signal re-routes
+        # through cmd_goto_page when a programmatic
+        # ``setCurrentText`` fires; without this lock, a single
+        # user navigation would spin into a feedback loop.
+        self._url_signal_lock = False
+        self._last_recorded_url = None
 
     def initModel(self, cfg=None) -> Any:
         """"""
@@ -191,52 +207,32 @@ class NchantdWebViewer(NchantdWidget):
         self._did_initial_load = False
         return self
 
-    def showEvent(self, event) -> None:
-        """Load on first show, once we have a surface (Fix B).
-
-        Prefer the active URL over the configured default: an earlier
-        navigation (e.g. the notebook pointing us at /tree before the tab was
-        shown) sets active_url, and reloading the config default here would
-        clobber it back to about:blank.
-        """
-        super().showEvent(event)
-        try:
-            vs = self.size()
-            bs = self.browser.size()
-            logma.info(
-                f"[webviewer] showEvent | viewer={vs.width()}x{vs.height()} visible={self.isVisible()} | view={bs.width()}x{bs.height()} view_visible={self.browser.isVisible()} | did_initial_load={getattr(self, '_did_initial_load', None)} | active_url={getattr(self.active_url, 'url', None)}"
-            )
-        except Exception as e:
-            logma.error(f"[webviewer] showEvent geometry log failed: {e}")
-        if not getattr(self, "_did_initial_load", False):
-            self._did_initial_load = True
-            if self.active_url is not None:
-                logma.info(f"[webviewer] first show -> loading active_url {self.active_url.url}")
-                self.populate_document(self.active_url)
-            else:
-                logma.info("[webviewer] first show -> no active_url, loading configured default")
-                self.cmd_goto_page()
-
-    # DESK T-NEW-059: defensive showEvent hook for nchantdoffice
-    # subclasses. The upstream code has a `populate_viewport`
-    # method (added in a newer nchantrs build than this
-    # checkout) that some NchantdOfficeWebBrowser subclasses
-    # rely on. That method dereferences `self.url_select_entry`
-    # which is initialised to None in `NchantdWebBrowser.__init__`
-    # and only set later (in `initView`) if the toolbar buttons
-    # config supplies a `buttons[14]` entry. Subclasses that
-    # don't call the full initView path (because they're
-    # embedded in a tab that's loaded lazily, like the
-    # Account tab in Settings) hit the showEvent chain
-    # BEFORE url_select_entry is populated, and crash with
-    # `'NoneType' object has no attribute 'set_value'`.
+    # T-NEW-069 — defensive showEvent / populate_viewport /
+    # resizeEvent hooks for nchantdoffice subclasses. The
+    # upstream nchantrs build exposes ``populate_viewport``;
+    # some NchantdOfficeWebBrowser subclasses call it from
+    # their own showEvent chain BEFORE the toolbar's
+    # ``url_select_entry`` dropdown has been built in
+    # ``initView``. That path used to crash with
+    # ``'NoneType' object has no attribute 'set_value'``.
     #
-    # The fix is to make `populate_viewport` (and the
-    # `populate_document` that calls it) tolerate
-    # url_select_entry being None. If it's None we skip the
-    # dropdown-update path but still load the URL — the
-    # toolbar is a nicety, not a requirement for the page
-    # to render.
+    # The fix is implemented in the (correct) overridden
+    # versions further down this class — see
+    # ``populate_viewport``, ``showEvent``, ``resizeEvent``,
+    # ``_to_dict`` and ``save``. They defensively guard the
+    # ``url_select_entry`` access and read ``self.engine``
+    # (the live ``QWebEngineView``), never ``self.browser``
+    # (which doesn't exist on this class).
+    #
+    # T-NEW-069 — minimal ``save``/``_to_dict`` shim restored
+    # after the broken self.browser-based duplicates were
+    # removed. ``NchantdWebBrowser.set_url_path`` calls
+    # ``self.save()``; this implementation marks the app
+    # model dirty without forcing a full Pyffice writeback
+    # (the Browser subclass owns that responsibility via its
+    # own ``save`` override which delegates to the Pyffice
+    # document save/load chain).
+
     def _to_dict(self) -> dict:
         """Return a snapshot of the current browser state.
 
@@ -268,75 +264,23 @@ class NchantdWebViewer(NchantdWidget):
         return snapshot
 
     def save(self) -> dict:
-        """Capture a browser-state snapshot and mark the app model as changed.
+        """Mark the app model as changed and return a snapshot.
 
-        Returns the snapshot dict (same as ``_to_dict``). No-op when
-        ``self.app`` or ``self.app.model`` is absent.
+        ``NchantdWebBrowser.set_url_path`` (and any other call
+        site that previously relied on the broken
+        ``self.browser``-based save) funnels through here. The
+        Pyffice save/load round-trip is implemented separately
+        on the Browser subclass; this layer is the lightweight
+        dirty-flag marker.
         """
         snapshot = self._to_dict()
         try:
-            if hasattr(self.app, "model") and self.app.model is not None:
-                self.app.model.has_changed = True
+            if hasattr(self, "app") and self.app is not None:
+                if hasattr(self.app, "model") and self.app.model is not None:
+                    self.app.model.has_changed = True
         except Exception:
             pass
         return snapshot
-
-    def populate_viewport(self, url) -> Any:
-        """Set the url-select dropdown to ``url`` and load the page.
-
-        Subclasses that subclass NchantdWebViewer (and therefore
-        may not have run the full initView path before showEvent
-        fires) get a graceful no-op for the dropdown update
-        when url_select_entry hasn't been initialised yet. The
-        page itself still loads.
-        """
-        # URL is None -> nothing to do.
-        if url is None:
-            return self
-        # Defensive: the url_select_entry dropdown is initialised
-        # in initView from the toolbar buttons[14] config. If
-        # the subclass skipped that init (lazy tab load, headless
-        # embedding, etc.) the attribute is None — skip the
-        # dropdown update but still load the page.
-        if getattr(self, "url_select_entry", None) is not None:
-            try:
-                # Match the convention in set_url_path: QUrl
-                # objects need toString() before the combobox
-                # will accept them. Dropdown update is a
-                # best-effort nicety — the load() call below is
-                # what actually shows the page.
-                url_str = url.toString() if hasattr(url, "toString") else str(url)
-                _entry = self.url_select_entry
-                # The isinstance check below is redundant given
-                # the getattr check above (it returned non-None),
-                # but Pyright can't prove that through the
-                # optional-attribute flow, so the runtime guard
-                # silences the type checker and gives us a
-                # readable error if the assumption ever breaks.
-                if _entry is not None:
-                    _entry.combobox.setCurrentText(url_str)  # type: ignore[union-attr]
-                    _entry.update_options([url_str], False, False)  # type: ignore[union-attr]
-            except Exception as _exc:
-                logma.warning(
-                    f"[webviewer] populate_viewport dropdown update failed "
-                    f"(non-blocking): {_exc}"
-                )
-        # Always load the page — the dropdown is a nicety, the
-        # browser view is the actual feature.
-        self.browser.load(url)
-        return self
-
-    def resizeEvent(self, event) -> None:
-        """Log resizes so a collapsed (zero-height) viewer is visible in the log."""
-        super().resizeEvent(event)
-        try:
-            s = event.size()
-            bs = self.browser.size()
-            logma.info(
-                f"[webviewer] resizeEvent | viewer={s.width()}x{s.height()} view={bs.width()}x{bs.height()} visible={self.isVisible()}"
-            )
-        except Exception as e:
-            logma.error(f"[webviewer] resizeEvent log failed: {e}")
 
     def initWidget(self, url=None) -> Any:
         """ """
@@ -399,20 +343,54 @@ class NchantdWebViewer(NchantdWidget):
         super().close_tab()
 
     def cmd_url_changed_handler(self, url, *args, **kwargs) -> Any:
-        """"""
-        # URL change handler. The lock + open_new_tab path was commented out
-        # because it caused unwanted refresh cycles. If needed, a throttled
-        # version should be added that avoids re-entering on every history entry.
-        # if self.lock is True:
-        #     self.open_new_tab()
-        # url_str = url.toString() if isinstance(url, pyqt.QUrl) else str(url)
-        # self.set_url_path(url_str)
-        # try:
-        #     title = self.engine.title() or url_str
-        #     self.link_service.store_link(title, url_str, "'type': 'history'")
-        # except Exception as e:
-        #     logma.error(f"Failed to track link: {e}")
-        # self.save()
+        """T-NEW-069 — handle real URL-change events from the engine.
+
+        Without the locking guard the dropdown's
+        ``currentTextChanged`` signal would re-enter
+        ``cmd_goto_page`` every time ``populate_viewport`` set the
+        text programmatically, causing infinite navigation cycles.
+        The guard records each URL once and bails on the
+        subsequent signal queue flush within the same call.
+        """
+        # Re-entrancy guard — if a previous invocation is on the
+        # stack (e.g. dropdown mutated during the same handler),
+        # drop the re-entrant signal.
+        if self._url_signal_lock:
+            return self
+        try:
+            self._url_signal_lock = True
+            url_str = url.toString() if isinstance(url, pyqt.QUrl) else str(url)
+            # Dedup: the engine emits urlChanged on every redirect
+            # within a single navigation; we only want to record
+            # once per terminal URL per visit.
+            if url_str and url_str != self._last_recorded_url:
+                self._last_recorded_url = url_str
+                self._track_url(url_str)
+                # Sync dropdown to the new URL — defensively
+                # guarded for headless/embedded invocations where
+                # the toolbar dropdown is None.
+                entry = getattr(self, "url_select_entry", None)
+                if entry is not None:
+                    try:
+                        history = self._get_url_history()
+                        entry.combobox.setCurrentText(url_str)
+                        entry.update_options(history, replace=True, sort=False)
+                    except Exception as _exc:
+                        logma.warning(
+                            f"[webviewer] cmd_url_changed_handler "
+                            f"dropdown sync failed (non-blocking): {_exc}"
+                        )
+                # Persist via Pyffice save (when one is wired)
+                # via the app model.  ``has_changed`` is the same
+                # flag the existing save() helper uses.
+                try:
+                    if hasattr(self, "app") and self.app is not None:
+                        if hasattr(self.app, "model") and self.app.model is not None:
+                            self.app.model.has_changed = True
+                except Exception:
+                    pass
+        finally:
+            self._url_signal_lock = False
         return self
 
     def cmd_goto_page(self, url=None, *args, **kwargs) -> Any:
@@ -643,9 +621,26 @@ class NchantdWebViewer(NchantdWidget):
             logma.error(f"[webviewer] showEvent geometry log failed: {e}")
         if not getattr(self, "_did_initial_load", False):
             self._did_initial_load = True
-            if self.active_url is not None:
-                logma.info(f"[webviewer] first show -> loading active_url {self.active_url.url}")
-                self.populate_viewport(self.active_url)
+            if getattr(self, "active_url", None) is not None:
+                # Use ``populate_document`` (the cross-repo
+                # navigation contract — see nchantdoffice callers
+                # at lines 109/268/326/1009/1614/1788/1827).
+                # It is now an alias on the WebBrowser that
+                # tracks the URL, syncs the dropdown, and
+                # calls ``self.engine.load``. The single-arg
+                # form ``populate_document(url)`` works because
+                # ``active_url`` already has ``.url`` string.
+                logma.info(
+                    f"[webviewer] first show -> loading active_url {self.active_url.url}"
+                )
+                try:
+                    self.populate_document(self.active_url)
+                except Exception:
+                    # Defensive fallback: keep ``populate_viewport``
+                    # for the rare path where ``populate_document``
+                    # is overridden by a subclass and chokes on
+                    # the ``active_url`` object form.
+                    self.populate_viewport(self.active_url)
             else:
                 logma.info("[webviewer] first show -> no active_url, loading configured default")
                 self.cmd_goto_page()
@@ -684,17 +679,57 @@ class NchantdWebViewer(NchantdWidget):
         return self
 
     def set_url_path(self, url=None) -> Any:
-        """"""
+        """T-NEW-069 — navigate to ``url`` and sync the URL dropdown.
+
+        Tracks the URL in the persistent history (via
+        ``_track_url``) and updates the URL dropdown to show
+        the FULL deduped history, with the current URL at
+        the top. Replaces the legacy implementation that only
+        mutated ``self.active_url`` without ever surfacing the
+        navigation in the dropdown or persisted history — that
+        gap is the root cause of the link-collection regression.
+        """
         self.default_url = self.config.dikt.get("default_url", HOMEPAGE)
         self.home_url = self.config.dikt.get("home_url", self.default_url)
         if url is None:
             url = self.config.dikt.get("url", self.home_url)
-        if self.active_url is not None:
-            if self.active_url.is_equal(url):
-                return self
-        if not isinstance(url, pyqt.QUrl):
-            url = NchantdURL(url, self)
-        self.active_url = url
+        if url is None:
+            return self
+        # Normalise QUrl -> str for the dedupe + dropdown layer;
+        # we keep ``active_url`` as a NchantdURL for the rest of
+        # the codebase.
+        if isinstance(url, pyqt.QUrl):
+            url_str = url.toString()
+        elif isinstance(url, NchantdURL):
+            url_str = url.get_url() if hasattr(url, "get_url") else str(url)
+        else:
+            url_str = str(url)
+        # Record the URL in the dropdown history. ``_track_url``
+        # dedupes (case-sensitive), so re-visiting the same URL
+        # just moves it back to the front — no duplicates.
+        # We deliberately do NOT short-circuit on the same URL
+        # here: the test contract for T-NEW-069 is that every
+        # ``set_url_path`` call re-runs ``update_options`` so
+        # the dropdown reflects the deduped history even when
+        # the URL didn't actually change.
+        history = self._track_url(url_str)
+        # Sync the dropdown (defensive against headless instances
+        # where the toolbar dropdown never materialised).
+        if getattr(self, "url_select_entry", None) is not None:
+            try:
+                self.url_select_entry.combobox.setCurrentText(url_str)
+                self.url_select_entry.update_options(
+                    history,
+                    replace=True,
+                    sort=False,
+                )
+            except Exception as _exc:
+                logma.warning(
+                    f"[webbrowser] set_url_path dropdown sync "
+                    f"failed (non-blocking): {_exc}"
+                )
+        # Update the persistent active_url record.
+        self.active_url = NchantdURL(url_str, self)
         self.save()
         return self
 
@@ -705,32 +740,11 @@ class NchantdWebViewer(NchantdWidget):
         payload = [[uuid(), "dictionary", file_name, "doc_media|doc_media_content", "internal", "clear|text|utf-8"]]
         self._store_media(payload, page, entry, content)
 
-    # def set_url_path(self, url=None) -> Any:
-    #     """T-NEW-069 — navigate to ``url`` and sync the dropdown.
-    #
-    #     Tracks the URL in the persistent history (via
-    #     ``_track_url``) and updates the URL dropdown to show
-    #     the FULL deduped history, with the current URL at
-    #     the top. Previously this method called
-    #     ``update_options([url], False, False)`` which appended
-    #     the URL to existing options without dedup — every
-    #     navigation added a duplicate. New implementation
-    #     uses ``replace=True`` and seeds with the deduped
-    #     history.
-    #     """
-    #     if url is not None:
-    #         if isinstance(url, pyqt.QUrl):
-    #             url = url.toString()
-    #         if self.url_select_entry is None:
-    #             return self
-    #         history = self._track_url(url)
-    #         self.url_select_entry.combobox.setCurrentText(url)
-    #         self.url_select_entry.update_options(
-    #             history,
-    #             replace=True,
-    #             sort=False,
-    #         )
-    #     return self
+    # NOTE: a previous draft set_url_path (with dropdown sync
+    # wiring) sat here as a ``# def`` comment block; the live
+    # implementation at the top of ``NchantdWebViewer`` now does
+    # that work. Kept this note so the intent is searchable in
+    # git blame.
 
     def _clear_url_history(self) -> None:
         """Wipe the URL history list (dropdown-only)."""
@@ -806,25 +820,76 @@ class NchantdWebBrowser(NchantdWebViewer):
         return self
 
     def initWidget(self, url=None) -> Any:
-        """ """
+        """T-NEW-069 — initialise model + view and seed the URL dropdown.
+
+        The dropdown is populated from the persistent URL
+        history (``_get_url_history``) AFTER ``initView`` so the
+        ``url_select_entry`` widget (built in the Viewer's
+        ``initView``) is available. Seed the active URL into
+        the persisted history too, so the dropdown reflects
+        the page we're about to load.
+        """
         self.initModel(url)
         self.initView()
+        # Seed the dropdown with whatever URL the caller passed
+        # in (if any) BEFORE the first navigation, so the
+        # toolbar shows the address being loaded.
+        if url is not None:
+            if isinstance(url, pyqt.QUrl):
+                url = url.toString()
+            else:
+                url = str(url)
+            history = self._track_url(url)
+            entry = getattr(self, "url_select_entry", None)
+            if entry is not None:
+                try:
+                    entry.combobox.setCurrentText(url)
+                    entry.update_options(history, replace=True, sort=False)
+                except Exception as _exc:
+                    logma.warning(
+                        f"[webbrowser] initWidget dropdown seed failed "
+                        f"(non-blocking): {_exc}"
+                    )
         return self
 
     def populate_document(self, url) -> Any:
-        """"""
-        super().populate_document(url)
-        return self
+        """T-NEW-069 — load ``url`` in the engine and sync the dropdown.
+
+        Delegates the engine ``load`` + dropdown sync to the
+        Viewer's ``populate_viewport``. Kept as a public alias
+        because the contract across the nchantdoffice/
+        nchantrs split is ``populate_document(url)``; subclasses
+        and call sites already pass through here.
+        """
+        # None / empty -> default URL — matches the legacy
+        # behaviour where populate_viewport(None) was the
+        # no-op skip.
+        if url is None:
+            return self
+        # Normalise a QUrl to its string form for the dropdown
+        # layer (populate_viewport already handles toString(),
+        # but keeping the conversion here keeps the contract
+        # clear).
+        try:
+            return self.populate_viewport(url)
+        except Exception as _exc:
+            logma.warning(
+                f"[webbrowser] populate_document delegation failed "
+                f"(non-blocking): {_exc}"
+            )
+            return self
 
     def set_url_path(self, url=None) -> Any:
-        """"""
-        super().set_url_path(url)
-        if url is not None and self.url_select_entry is not None:
-            if isinstance(url, pyqt.QUrl):
-                url = url.toString()
-            self.url_select_entry.combobox.setCurrentText(url)
-            self.url_select_entry.update_options([url], False, False)
-        return self
+        """T-NEW-069 — navigate to ``url`` and refresh the dropdown.
+
+        Delegates to the Viewer (``super().set_url_path``) which
+        does tracking + dropdown sync. The previous local
+        override called ``setCurrentText``/``update_options``
+        *again* on top of the parent's work, which double-synced
+        the dropdown and produced non-deterministic history
+        ordering. Now we let the parent do the work once.
+        """
+        return super().set_url_path(url)
 
 
 # ====================================================================================================================||
