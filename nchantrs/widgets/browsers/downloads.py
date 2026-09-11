@@ -147,8 +147,28 @@ class NchantdDownloadManager(pyqt.QObject):
         download_info = NchantdDownloadInfo(id=download_id, url=download.url().toString(), filename=os.path.basename(save_path), save_path=save_path, total_bytes=download.totalBytes(), mime_type=download.mimeType(), suggested_filename=suggested_name, start_time=time.time(), status=NchantdDownloadStatus.IN_PROGRESS)
         download.setDownloadDirectory(os.path.dirname(save_path))
         download.setDownloadFileName(os.path.basename(save_path))
-        download.downloadProgress.connect(lambda received, total, did=download_id: self._on_download_progress(did, received, total))
-        download.finished.connect(lambda did=download_id: self._on_download_finished(did))
+        # Qt6 port (T-NEW-051 desktop fix): Qt5's QWebEngineDownloadItem had
+        # ``downloadProgress(received, total)``, ``finished()``, etc.
+        # Qt6's QWebEngineDownloadRequest dropped those and replaced them
+        # with ``*-Changed`` notifier signals. We re-read the live values
+        # off the request object inside the slots instead of trusting
+        # signal payload args. ``isFinishedChanged`` fires once when the
+        # download completes; we ignore it for cancelled downloads
+        # (``stateChanged`` handles that path) so the two signal trees
+        # don't double-fire ``_on_download_finished``.
+        download.receivedBytesChanged.connect(
+            lambda did=download_id: self._on_download_progress(
+                did, download.receivedBytes(), download.totalBytes()
+            )
+        )
+        download.totalBytesChanged.connect(
+            lambda did=download_id: self._on_download_progress(
+                did, download.receivedBytes(), download.totalBytes()
+            )
+        )
+        download.isFinishedChanged.connect(
+            lambda did=download_id: self._on_download_qt6_finished(did)
+        )
         download.stateChanged.connect(lambda state, did=download_id: self._on_download_state_changed(did, state))
         self.downloads[download_id] = download_info
         self.active_downloads[download_id] = download
@@ -179,6 +199,21 @@ class NchantdDownloadManager(pyqt.QObject):
             self.downloadProgress.emit(download_id, received, total)
 
     @pyqt.Slot(str)
+    def _on_download_qt6_finished(self, download_id: str) -> None:
+        """Qt6 replacement for the removed Qt5 ``finished`` signal.
+
+        ``isFinishedChanged`` fires for ALL terminal states —
+        completed, cancelled, and interrupted alike — so we guard
+        on ``isFinished()`` actually being True and delegate to
+        ``_on_download_finished``, which derives the terminal
+        status from ``state()`` (it handles all three cases).
+        """
+        download = self.active_downloads.get(download_id)
+        if download is None or not download.isFinished():
+            return
+        self._on_download_finished(download_id)
+
+    @pyqt.Slot(str)
     def _on_download_finished(self, download_id: str) -> None:
         """Handle download completion"""
         if download_id in self.downloads:
@@ -186,14 +221,25 @@ class NchantdDownloadManager(pyqt.QObject):
             download_info.end_time = time.time()
             if download_id in self.active_downloads:
                 download_request = self.active_downloads[download_id]
-                success = download_request.state() == pyqt.QWebEngineDownloadRequest.DownloadState.DownloadCompleted
-                if success:
+                state = download_request.state()
+                if state == pyqt.QWebEngineDownloadRequest.DownloadState.DownloadCompleted:
+                    success = True
                     download_info.status = NchantdDownloadStatus.COMPLETED
                     logma.info(f'Download completed: {download_info.filename}')
+                elif state == pyqt.QWebEngineDownloadRequest.DownloadState.DownloadCancelled:
+                    # Qt6: isFinishedChanged fires for cancels too —
+                    # keep the CANCELLED status stateChanged set rather
+                    # than clobbering it with FAILED.
+                    success = False
+                    download_info.status = NchantdDownloadStatus.CANCELLED
+                    if not download_info.error_message:
+                        download_info.error_message = 'Cancelled by user'
+                    logma.info(f'Download cancelled: {download_info.filename}')
                 else:
+                    success = False
                     download_info.status = NchantdDownloadStatus.FAILED
-                    download_info.error_message = 'Download failed'
-                    logma.info(f'Download failed: {download_info.filename}')
+                    download_info.error_message = download_request.interruptReasonString() or 'Download failed'
+                    logma.info(f'Download failed: {download_info.filename} ({download_info.error_message})')
                 del self.active_downloads[download_id]
                 self.downloadFinished.emit(download_id, success)
                 self.downloadStatusChanged.emit(download_id, download_info.status)
