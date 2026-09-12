@@ -5,10 +5,30 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [Unreleased] — 2026-09-12 (slim-ad rotation landing + Get Pro interception)
 
 ### Added
-- Debug utilities module (`nchantrs/utilities/debug.py`) - DataSourceDumper for inspecting store/model state
+- **`tests/test_browser_ncho_interception_tnew165.py` (`7cbf413`)** —
+  9 AST-shaped checks pinning the Ad tab's `ncho://` interception
+  wiring in `nchantdoffice/widgets/documents/atnrg/browsers.py`:
+  - `_NchoInterceptionPage(NchantdWebEnginePage)` subclass exists
+  - `acceptNavigationRequest` override returns `False` for `ncho://`
+  - `_ncho_action_handlers` registry has the `open_settings` →
+    `self._open_settings_node` mapping
+  - `_install_ncho_interception_page` method is on `NchantdOfficeAdTab`
+  - Page is wired via `self.engine.setPage(...)`
+  - `NCHANTDOFFICE_OPEN_SETTINGS_LAUNCHER` / `switch_to_account_tab`
+    handler is referenced
+- **T-NEW-069 follow-up (`ad7c63a` style row)** — see prior
+  [Unreleased] block: the empty-`active_url` clobbering fix that
+  pinned the Ad tab on stack3 is now superseded by T-NEW-164's
+  server-side rotation landing on `origin/gamma`.
+
+### Changed
+- The Ad tab's WebEngine page is now swapped at `initView` time
+  (per nchantdoffice `5d334b9`) so `_NchoInterceptionPage` replaces
+  the default `NchantdWebEnginePage` only on the slim-ad surface.
+  Other web viewers are unaffected.
 - Password dialog authentication flow in NchantdCape
 - Detailed logging to trace initView and _show_password_dialog
 - 12 new AST-only test files covering previously untested modules (2026-08-29):

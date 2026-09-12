@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""T-NEW-075 (desk): ncho:// action interception on the Ad tab.
+"""T-NEW-165 (desk): ncho:// action interception on the Ad tab.
 
 The slim-ad footer's "Get Pro" button uses the custom
 ``ncho://action/open_settings`` scheme. The desktop's WebEngine
