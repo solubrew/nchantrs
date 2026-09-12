@@ -645,29 +645,46 @@ class NchantdWebViewer(NchantdWidget):
             logma.error(f"[webviewer] showEvent geometry log failed: {e}")
         if not getattr(self, "_did_initial_load", False):
             self._did_initial_load = True
-            if getattr(self, "active_url", None) is not None:
-                # Use ``populate_document`` (the cross-repo
-                # navigation contract — see nchantdoffice callers
-                # at lines 109/268/326/1009/1614/1788/1827).
-                # It is now an alias on the WebBrowser that
-                # tracks the URL, syncs the dropdown, and
-                # calls ``self.engine.load``. The single-arg
-                # form ``populate_document(url)`` works because
-                # ``active_url`` already has ``.url`` string.
+            _active = getattr(self, "active_url", None)
+            # T-NEW-069 live fix: an active_url whose ``.url`` is
+            # empty/None must NOT be treated as a navigation target —
+            # loading it reproduces the blank-Ad-tab regression
+            # (engine.load("") over a page that _load_ad_layout had
+            # already loaded correctly). Fall back to cmd_goto_page()
+            # (config default) instead — but the AdTab pre-loads via
+            # populate_document BEFORE show, so the engine already has
+            # the right page; re-check the engine's current URL first.
+            _active_str = ""
+            if _active is not None:
+                _active_str = (getattr(_active, "url", None) or "").strip()
+            if _active_str:
                 logma.info(
-                    f"[webviewer] first show -> loading active_url {self.active_url.url}"
+                    f"[webviewer] first show -> loading active_url {_active_str}"
                 )
                 try:
-                    self.populate_document(self.active_url)
-                except Exception:
-                    # Defensive fallback: keep ``populate_viewport``
-                    # for the rare path where ``populate_document``
-                    # is overridden by a subclass and chokes on
-                    # the ``active_url`` object form.
-                    self.populate_viewport(self.active_url)
+                    self.populate_document(_active_str)
+                except Exception as _exc:
+                    logma.warning(
+                        f"[webviewer] first-show populate_document failed "
+                        f"(non-blocking): {_exc}"
+                    )
+                    self.populate_viewport(_active_str)
             else:
-                logma.info("[webviewer] first show -> no active_url, loading configured default")
-                self.cmd_goto_page()
+                _engine_url = ""
+                try:
+                    _engine_url = self.engine.url().toString().strip()
+                except Exception:
+                    pass
+                if _engine_url and _engine_url != "about:blank":
+                    logma.info(
+                        f"[webviewer] first show -> active_url empty but engine "
+                        f"already at {_engine_url} — keeping it"
+                    )
+                else:
+                    logma.info(
+                        "[webviewer] first show -> no active_url, loading configured default"
+                    )
+                    self.cmd_goto_page()
 
     def resizeEvent(self, event) -> None:
         """Log resizes so a collapsed (zero-height) viewer is visible in the log."""
@@ -722,12 +739,33 @@ class NchantdWebViewer(NchantdWidget):
         # Normalise QUrl -> str for the dedupe + dropdown layer;
         # we keep ``active_url`` as a NchantdURL for the rest of
         # the codebase.
-        if isinstance(url, pyqt.QUrl):
+        # NOTE (T-NEW-069 live fix): NchantdURL *subclasses* QUrl,
+        # so this check MUST come before the plain-QUrl branch.
+        # The wrapper's ``.url`` attribute (set via ``set_url``,
+        # and re-stamped by nchantdoffice's NchantdOfficeURL from
+        # its config) is authoritative; the QUrl internal state
+        # can be empty for wrappers built from a PyfficeURL chain
+        # — reading toString() first blanked the Ad tab (live log
+        # 2026-09-12: "first show -> loading active_url ''").
+        if isinstance(url, NchantdURL):
+            url_str = url.get_url() if hasattr(url, "get_url") else None
+            if not url_str and isinstance(url, pyqt.QUrl):
+                url_str = url.toString()
+        elif isinstance(url, pyqt.QUrl):
             url_str = url.toString()
-        elif isinstance(url, NchantdURL):
-            url_str = url.get_url() if hasattr(url, "get_url") else str(url)
         else:
             url_str = str(url)
+        url_str = (url_str or "").strip()
+        if not url_str:
+            # Empty after normalisation — do NOT record an empty
+            # history entry and do NOT clobber ``active_url`` with
+            # an empty wrapper (that is what made showEvent load
+            # about:blank over an already-good page).
+            logma.info(
+                "[webviewer] set_url_path: normalised URL empty — "
+                "leaving active_url untouched"
+            )
+            return self
         # Record the URL in the dropdown history. ``_track_url``
         # dedupes (case-sensitive), so re-visiting the same URL
         # just moves it back to the front — no duplicates.
