@@ -28,6 +28,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   with no-op for tags subtree (avoids Qt hang during headless collection/execution)
 
 ### Fixed
+- **T-NEW-069 empty-`active_url` blanking (`af7c19e`, 2026-09-12)** — the Ad tab rendered
+  blank after rotation. Live log showed `Load Document: <correct stack3 url>` followed 9ms
+  later by `first show -> loading active_url ''` → `engine.load('')`, clobbering the page
+  `_load_ad_layout` had already loaded. Root cause: `NchantdURL` subclasses `QUrl`, so
+  `set_url_path`'s `isinstance(url, QUrl)` branch fired before the `NchantdURL` branch and
+  read the wrapper's (empty) QUrl internal state instead of the authoritative `.url`
+  attribute. Fixes: (1) `set_url_path` checks `NchantdURL` first, falls back to `toString()`
+  only when `.url` is empty, and bails out when normalisation yields `''` (no history entry,
+  no `active_url` clobber); (2) `showEvent` first-load requires a non-empty `.url` string —
+  when empty it keeps the engine's already-loaded page (AdTab pre-loads before show), else
+  falls back to `cmd_goto_page()`. Restored Ad tab on live desktop; rotation verified.
+- **T-NEW-069 `populate_document` Viewer alias (`1a0c23c`, 2026-09-11)** — hoisted the
+  cross-repo navigation contract alias (`populate_document(url)`) from the `NchantdWebBrowser`
+  subclass to the `NchantdWebViewer` base class so the Ad tab's direct viewer calls
+  (`_load_ad_layout` → `viewer.populate_document(url)`) resolve. With the alias only on the
+  Browser, viewer-level calls raised `AttributeError` which was silently swallowed, leaving
+  the tab blank with no error.
+- **T-NEW-069 URL dropdown + history wiring (`8f0db6b`, 2026-09-11)** — `set_url_path`
+  now tracks every navigation in a deduped most-recent-first `url_history` (capped at
+  `url_history_max`, default 20) and syncs the URL dropdown (`update_options(replace=True,
+  sort=False)` + `setCurrentText`). `NchantdWebBrowser.set_url_path` delegates to the
+  Viewer's implementation (no double-sync). `save()` snapshot persists history via
+  `_to_dict()`.
 - **42 pre-existing test failures resolved** (`7e2ceec`, 2026-08-29):
   - `services/services.py`: `NchantrsService.__init__` now calls `super().__init__("NchantrsService", cfg)`
   - `models/models.py`: `set_instance_setting`/`save_instance_settings` unstubbed; `store_app_profile`
