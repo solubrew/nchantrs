@@ -31,6 +31,9 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
         self.handler = None
         self.value = None
         self.options = []
+        # Re-entrancy flag for on_index_change (pre-seeded so the
+        # attribute exists before init_triggers connects signals).
+        self._in_index_change = False
 
     def initModel(self, handler=None) -> Any:
         """"""
@@ -104,14 +107,38 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
 
     def on_index_change(self, index) -> None:
         """
+        Fires on every currentIndexChanged — INCLUDING the
+        synthetic index ``-1`` emitted while the combobox is
+        being programmatically cleared/repopulated (dropdown
+        history sync in ``set_url_path``). Guard:
+
+        1. index -1 (mid-repopulation) must NOT call the
+           handler — the old code forwarded it, producing
+           ``cmd_goto_page(-1)`` -> ``goto_page(None)`` ->
+           ``set_url_path`` -> ``update_options(replace=True)``
+           -> ``combobox.clear()`` -> currentIndexChanged(-1)
+           -> ... infinite ping-pong (surfaced as
+           RecursionError inside the logging formatter).
+        2. Re-entrancy guard: if the handler itself mutates
+           the dropdown (it does — URL tracking updates
+           options), the nested signal is dropped.
+
         :param index:
         :return:
         """
-        self.value = self.itemText(index)
-        self.setCurrentText(self.value)
-        if index is not None and self.handler is not None:
-            logma.info(f'Handler {self.handler}')
-            self.handler(index, self.itemText(index))
+        if index is None or index < 0:
+            return
+        if getattr(self, "_in_index_change", False):
+            return
+        self._in_index_change = True
+        try:
+            self.value = self.itemText(index)
+            self.setCurrentText(self.value)
+            if self.handler is not None:
+                logma.info(f'Handler {self.handler}')
+                self.handler(index, self.itemText(index))
+        finally:
+            self._in_index_change = False
         return
 
     def on_return_pressed(self) -> Any:
@@ -194,8 +221,13 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
             self.options.sort()
         self.options = [str(x) for x in self.options]
         logma.info(f'Options {self.options}')
-        self.clear()
-        self.addItems(self.options)
+        # Programmatic clear+repopulate must NOT fire
+        # currentIndexChanged — the -1/-0 pairs emitted here
+        # would re-enter the URL handler loop (RecursionError).
+        # QSignalBlocker suppresses them for the scope.
+        with pyqt.QSignalBlocker(self):
+            self.clear()
+            self.addItems(self.options)
         return self
 
 class NchantdDropDown(NchantdWidget):
@@ -290,7 +322,15 @@ class NchantdDropDown(NchantdWidget):
             options = [options]
         if replace:
             self.options = []
-            self.combobox.clear()
+            # Block signals during the clear: combobox.clear()
+            # emits currentIndexChanged(-1) which would re-enter
+            # the handler loop (T-NEW-069 RecursionError).
+            combobox = getattr(self, 'combobox', None)
+            if combobox is not None:
+                with pyqt.QSignalBlocker(combobox):
+                    combobox.clear()
+            else:
+                pass  # combobox not built yet — nothing to clear
         self.options += options
         for x in self.options:
             if x is None:

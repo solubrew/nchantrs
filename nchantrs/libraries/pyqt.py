@@ -22,6 +22,7 @@ from PySide6.QtCore import (
     QRectF,
     QSettings,
     QSize,
+    QSignalBlocker,
     QSocketNotifier,
     QStandardPaths,
     Qt,
