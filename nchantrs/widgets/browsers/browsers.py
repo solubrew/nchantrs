@@ -558,13 +558,67 @@ class NchantdWebViewer(NchantdWidget):
         return self
 
     def on_back_available(self, available) -> None:
-        """Handle back availability change"""
-        if hasattr(self, "toolbar") and hasattr(self.toolbar, "buttons"):
-            pass
+        """Handle back availability change. Toggle the Back
+        button's enabled state so users see they can't go
+        further back than the start of the history stack.
+        """
+        try:
+            btn = self._get_nav_button("web_page_back")
+            if btn is not None:
+                btn.setEnabled(bool(available))
+        except Exception as _exc:
+            logma.warning(
+                f"[webviewer] on_back_available toggle failed: {_exc}"
+            )
 
     def on_forward_available(self, available) -> None:
-        """Handle forward availability change"""
-        pass
+        """Handle forward availability change."""
+        try:
+            btn = self._get_nav_button("web_page_forward")
+            if btn is not None:
+                btn.setEnabled(bool(available))
+        except Exception as _exc:
+            logma.warning(
+                f"[webviewer] on_forward_available toggle failed: {_exc}"
+            )
+
+    def _get_nav_button(self, action_name) -> Any:
+        """Look up a toolbar button by action name (Back, Forward,
+        Refresh, Go). Returns None if the toolbar or the
+        specific button doesn't exist yet — the signal fires
+        mid-construction too, on the first navigation after
+        build_toolbar.
+
+        The toolbar widget lives on the embedding document
+        (e.g. ``NchantdOfficeWebBrowser.document_toolbar``), not
+        on the viewer itself — search ``self.toolbar`` first,
+        then the parent's toolbar-ish attributes.
+        """
+        candidates = []
+        own = getattr(self, "toolbar", None)
+        if own is not None:
+            candidates.append(own)
+        parent = getattr(self, "parent", None)
+        if parent is not None:
+            for attr in ("document_toolbar", "toolbar", "button_bar"):
+                bar = getattr(parent, attr, None)
+                if bar is not None:
+                    candidates.append(bar)
+        for bar in candidates:
+            try:
+                buttons = getattr(bar, "buttons", None) or {}
+                entry = buttons.get(action_name)
+                if entry is None:
+                    continue
+                if isinstance(entry, dict):
+                    widget = entry.get("widget")
+                    if widget is not None:
+                        return widget
+                else:
+                    return entry
+            except Exception:
+                continue
+        return None
 
     def on_tab_changed(self, index: int) -> Any:
         logma.info("on_tab_changed event received")
@@ -756,6 +810,13 @@ class NchantdWebViewer(NchantdWidget):
         else:
             url_str = str(url)
         url_str = (url_str or "").strip()
+        # T-NEW-071 — bare-hostname expansion. Users type
+        # "google.com" or "ncho.local:8443/tree" in the URL bar;
+        # QWebEngineView rejects anything without a scheme, so
+        # expand to https:// before it reaches the engine. Full
+        # URLs ("https://…", "http://…", "file://…", "about:…")
+        # already containing a scheme pass through untouched.
+        url_str = self._expand_bare_url(url_str)
         if not url_str:
             # Empty after normalisation — do NOT record an empty
             # history entry and do NOT clobber ``active_url`` with
@@ -807,6 +868,47 @@ class NchantdWebViewer(NchantdWidget):
     # implementation at the top of ``NchantdWebViewer`` now does
     # that work. Kept this note so the intent is searchable in
     # git blame.
+
+    # T-NEW-071 — bare-hostname expansion table. Any string whose
+    # first non-space token matches one of these prefixes is
+    # already a valid QWebEngineView target; everything else is
+    # treated as a bare host (``google.com``) or host+path
+    # (``ncho.local:8443/tree``) and expanded to https://.
+    _KNOWN_SCHEME_PREFIXES = (
+        "https://",
+        "http://",
+        "file://",
+        "about:",
+        "data:",
+        "view-source:",
+        "chrome://",
+        "qrc:",
+    )
+
+    @classmethod
+    def _expand_bare_url(cls, url_str: str) -> str:
+        """Expand a bare hostname to a navigable https URL.
+
+        ``google.com`` -> ``https://google.com`` (the engine then
+        follows the site's canonical redirect to www). Bare
+        ``host:port/path`` forms, and strings that already carry
+        a scheme, pass through untouched. Empty/None -> empty.
+
+        Deliberately NOT adding ``www.`` ourselves: the site's own
+        redirect handles host canonicalisation; injecting www
+        breaks intranet hosts like ``ncho.local``.
+        """
+        if not url_str:
+            return url_str
+        s = url_str.strip()
+        if not s:
+            return s
+        lowered = s.lower()
+        for prefix in cls._KNOWN_SCHEME_PREFIXES:
+            if lowered.startswith(prefix):
+                return s
+        # Bare host / host+port / host+path — expand to https.
+        return f"https://{s}"
 
     def _clear_url_history(self) -> None:
         """Wipe the URL history list (dropdown-only)."""

@@ -61,7 +61,14 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
     def init_triggers(self) -> Any:
         """"""
         self.lineEdit().returnPressed.connect(self.on_return_pressed)
-        self.handler = self.config.dikt.get('handler', None)
+        # T-NEW-071 — handler set on the instance takes
+        # precedence over config.dikt.get('handler'). Buttons
+        # pass handlers via __init__/initWidget; the previous
+        # unconditional overwrite silently dropped navigation
+        # events on the Enter path. Mirror the
+        # `_in_index_change` / `options` guard style.
+        if self.handler is None:
+            self.handler = self.config.dikt.get('handler', None)
         self.activated.connect(self.on_activated)
         self.currentIndexChanged.connect(self.on_index_change)
         self.currentTextChanged.connect(self.on_text_change)
@@ -97,13 +104,35 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
         return self
 
     def on_activated(self, index) -> None:
-        """"""
+        """fires when the user picks an item OR presses Enter
+        on an editable combobox. index == -1 means the typed
+        text was committed; add it (deduped) and invoke the
+        handler directly so Enter navigates.
+        """
         if index == -1:
             text = self.lineEdit().text().strip()
-            if text:
+            if not text:
+                return
+            existing = self.findText(text)
+            if existing == -1:
                 self.addItem(text)
-                self.setCurrentIndex(self.findText(text))
-                self.lineEdit().clear()
+                existing = self.findText(text)
+            # setCurrentIndex would fire currentIndexChanged ->
+            # on_index_change -> handler, but the duplicate
+            # addItem path above may have left the edit text
+            # in an odd state; block signals while we move the
+            # index and call the handler ourselves (this IS a
+            # real user navigation).
+            with pyqt.QSignalBlocker(self):
+                self.setCurrentIndex(existing)
+            if self.handler is not None:
+                logma.info(f'Handler {self.handler}')
+                try:
+                    self.handler(existing, text)
+                except Exception as _exc:
+                    logma.error(
+                        f'handler error in on_activated for {text!r}: {_exc}'
+                    )
 
     def on_index_change(self, index) -> None:
         """
@@ -142,7 +171,16 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
         return
 
     def on_return_pressed(self) -> Any:
-        logma.info('on_return_pressed event received')
+        """Enter on the URL bar.
+
+        QComboBox natively emits ``activated(-1)`` (new text) or
+        ``activated(matched_index)`` (text matches an item) when
+        Enter is pressed on the inner QLineEdit — our connected
+        ``on_activated`` does the navigation. Do NOT call the
+        handler here as well: that double-fires the navigation
+        (verified live: two identical handler calls per Enter).
+        Bookkeeping only.
+        """
         if getattr(self, 'app', None) is not None and hasattr(self.app, 'model'):
             self.app.model.has_changed = True
         return self
