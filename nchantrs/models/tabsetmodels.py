@@ -13,7 +13,7 @@ from nchantrs.widgets.widgets import loadWidget
 from nchantrs.widgets.media.images import NchantdImage
 
 here = join(dirname(__file__), "")
-log = True
+log = False
 debug = True
 logma = Logma(__name__)
 if not log:

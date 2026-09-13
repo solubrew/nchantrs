@@ -1,6 +1,6 @@
 from typing import Any, Dict, Tuple
 
-"\n---\n<(META)>:\n    docid:\n    name:\n    description: >\n    version: 0.0.0.0.0.0\n    authority: filesystem\n    security: seclvl2\n    <(WT)>: -32\n"
+
 import datetime as dt
 import json as j
 import math
@@ -17,7 +17,7 @@ from nchantrs.widgets.controls.menus import NchantdContextMenu, NchantdMenu
 
 here = join(dirname(__file__), "")
 debug = True
-log = True
+log = False
 logma = Logma(__name__)
 if not log:
     logma.off()
