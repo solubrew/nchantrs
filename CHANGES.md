@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — 2026-09-12 (T-NEW-167 card-number reservation)
+
+### Notes
+
+- **T-NEW-167 reserved for ad telemetry** in the T-NEW card
+  namespace (shared with `nchantdoffice_com` + `nchantdoffice`).
+  No source code change in this repo — the emitter lives in
+  `nchantdoffice/nchantdoffice/widgets/documents/atnrg/ad_telemetry.py`
+  and the ingest blueprint in
+  `nchantdoffice_com/nchantdoffice_com/app/routes/ad_telemetry.py`.
+  This row exists so the cross-repo sweep doc knows the number
+  is taken.
+
 ## [Unreleased] — 2026-09-12 (slim-ad rotation landing + Get Pro interception)
 
 ### Added
