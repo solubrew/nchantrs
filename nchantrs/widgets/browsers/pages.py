@@ -314,12 +314,30 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
             new_viewer = view.get_available_engine()
             return new_viewer.browser.page()
         in_place = False
+        # ``links_in_place`` can be set on the page's own config, the engine
+        # config (inherited from the viewer), or the viewer's config directly.
+        # Walk the chain so a value set on any link is honoured.
         try:
-            cfg = getattr(view, "config", None)
-            dikt = getattr(cfg, "dikt", {}) if cfg is not None else {}
-            in_place = bool(dikt.get("links_in_place", dikt.get("is_app", False)))
+            grandparent = getattr(view, "parent", None)
+            grandparent = grandparent() if callable(grandparent) else grandparent
+            candidates = [self, view, grandparent]
+            for node in candidates:
+                if node is None:
+                    continue
+                cfg = getattr(node, "config", None)
+                dikt = getattr(cfg, "dikt", None) if cfg is not None else None
+                if isinstance(dikt, dict) and dikt.get("links_in_place"):
+                    in_place = True
+                    break
         except Exception:
             in_place = False
+        if not in_place:
+            try:
+                cfg = getattr(view, "config", None)
+                dikt = getattr(cfg, "dikt", {}) if cfg is not None else {}
+                in_place = bool(dikt.get("links_in_place", dikt.get("is_app", False)))
+            except Exception:
+                in_place = False
         if in_place:
             logma.info(f"[webpage] createWindow type={type_} in_place=True -> capture+redirect to current view")
             return _RedirectCapturePage(self)

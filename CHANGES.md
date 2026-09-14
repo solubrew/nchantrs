@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased] — 2026-09-12 (T-NEW-167 card-number reservation)
 
+### Fixed
+
+- **WebEnginePage.createWindow now walks page → engine → viewer**
+  when looking up `links_in_place` (was: engine only). The Jupyter
+  notebook view sets the flag on the viewer cfg; in some install
+  paths the engine `config.dikt` did not inherit the flag at the
+  exact moment `createWindow` fired, so the handler fell through
+  to `super().createWindow` ("default handling"), which returned
+  a NULL page and triggered JupyterLab's
+  `Cannot read properties of null (reading 'updateRenderOption')`.
+  The walk now consults every node in the chain, and tolerates
+  both the QObject-parent method shape and the Python-attribute
+  shape set in `NchantdWebEngineView.__init__`. Tests in
+  `tests/test_links_in_place_propagation.py` (8 cases).
+
+## [Unreleased] — 2026-09-12 (T-NEW-167 card-number reservation)
+
 ### Notes
 
 - **T-NEW-167 reserved for ad telemetry** in the T-NEW card
