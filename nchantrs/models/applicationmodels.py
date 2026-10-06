@@ -269,6 +269,7 @@ class NchantdCloakModel(NchantdPantiesModel):
         tabbase = self.app.view.panes[tabset].model.tabbase
         tid = uuid()
         logma.info(f"Widget {widget}")
+        logma.info(f"Doc Type {doc_type}")
         row = [name, widget, widgdata, pid, did, pos, doc_type, tabset] + tabbase + [tid]
         if in_doc is True:
             logma.info(f"Store Doc Tab")
@@ -718,8 +719,6 @@ class NchantdCloakModel(NchantdPantiesModel):
         cfg = {"telemetry": {"WHERE": {"LESS": {"CREON_DTTM": self.time.store_now()}}}}
         self.docs[db].mark_delete(cfg)
 
-
-
     def save(self) -> Any:
         """Persist the application-level state to the store.
 
@@ -797,7 +796,6 @@ class NchantdCloakModel(NchantdPantiesModel):
     def set_user_active(self, user):
         """"""
         self.user = user
-
 
     def store_cache(self, df, table) -> None:
         """"""

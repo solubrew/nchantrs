@@ -27,7 +27,7 @@ from kahndor import kahndor
 from kahndor.logma import Logma
 from subtrix.utilities import uuid
 
-#from nchantrs.dialogs.notifications import NchantdNotificationSigil
+# from nchantrs.dialogs.notifications import NchantdNotificationSigil
 from nchantrs.libraries import pyqt
 from nchantrs.services.links import LinkService
 from nchantrs.widgets.browsers.engines import NchantdWebEngineView
@@ -68,16 +68,11 @@ class NchantdWebManager(NchantdWidgetMixin, pyqt.QObject):
 
     def __init__(self, parent=None, cfg=None):
         """ """
+        super().__init__(parent, cfg)
         self.parent = parent
-        self.config = kahndor.Instruct(pxcfg).select("NchantdWebManager")
-        if self.parent:
-            self.config.override(parent.config)
-        super().__init__(parent)
-        self.config.override(cfg)
+        self.config.override(kahndor.Instruct(pxcfg).select("NchantdWebManager").override(parent.config).override(cfg))
         self.available_engines = deque([])
         self.active_engines = deque([])
-        cfg = {}
-        # self.link_library = ... # Deferred to nchantdoffice layer
 
     def initModel(self):
         """"""
@@ -143,9 +138,10 @@ class NchantdWebViewer(NchantdWidget):
         self.url_options = []
         self.lock = False
         self.pinned_url = None
-        self.default_url = None
-        self.active_url = None
-        self.home_url = None
+        cfg = {}
+        self.home_url = NchantdURL(HOMEURL, self, cfg)
+        self.default_url = self.home_url
+        self.active_url = self.home_url
         self.layout = None
         self.storage_path = None
         self.pre_view_initialized = False
@@ -154,7 +150,7 @@ class NchantdWebViewer(NchantdWidget):
         self.navigation_layout = None
         self.profile_select_entry = None
         self.url_select_entry = None
-        self.known_scripts = self.config.dikt.get("javascript", {}).get("code", {})
+        self.known_scripts = self.config.get("javascript", {}).get("code", {})
         self.engine.urlChanged.connect(self.cmd_url_changed_handler)
         self.engine.titleChanged.connect(self.title_changed.emit)
         self.engine.loadProgress.connect(self.load_progress.emit)
@@ -167,9 +163,7 @@ class NchantdWebViewer(NchantdWidget):
         # test_browser_url_history.py can override it directly
         # without falling back to a default that would mask the
         # test's intent.
-        self._url_history_max = int(
-            self.config.dikt.get("url_history_max", 20)
-        )
+        self._url_history_max = int(self.config.get("url_history_max", 20))
         # Re-entrancy guard for cmd_url_changed_handler. The
         # dropdown's ``currentTextChanged`` signal re-routes
         # through cmd_goto_page when a programmatic
@@ -182,12 +176,12 @@ class NchantdWebViewer(NchantdWidget):
         """"""
         self.config.override(cfg)
         super().initModel()
-        self.is_app = self.config.dikt.get("is_app", False)
+        self.is_app = self.config.get("is_app", False)
         if self.is_app is True:
-            self.is_simple = self.config.dikt.get("is_simple", True)
+            self.is_simple = self.config.get("is_simple", True)
         else:
-            self.is_simple = self.config.dikt.get("is_simple", False)
-        self.set_url_path(self.config.dikt.get("url", None))
+            self.is_simple = self.config.get("is_simple", False)
+        self.set_url_path(self.config.get("url", None))
         return self
 
     def initView(self, cfg=None) -> Any:
@@ -206,81 +200,6 @@ class NchantdWebViewer(NchantdWidget):
         self.layout.setSpacing(0)
         self._did_initial_load = False
         return self
-
-    # T-NEW-069 — defensive showEvent / populate_viewport /
-    # resizeEvent hooks for nchantdoffice subclasses. The
-    # upstream nchantrs build exposes ``populate_viewport``;
-    # some NchantdOfficeWebBrowser subclasses call it from
-    # their own showEvent chain BEFORE the toolbar's
-    # ``url_select_entry`` dropdown has been built in
-    # ``initView``. That path used to crash with
-    # ``'NoneType' object has no attribute 'set_value'``.
-    #
-    # The fix is implemented in the (correct) overridden
-    # versions further down this class — see
-    # ``populate_viewport``, ``showEvent``, ``resizeEvent``,
-    # ``_to_dict`` and ``save``. They defensively guard the
-    # ``url_select_entry`` access and read ``self.engine``
-    # (the live ``QWebEngineView``), never ``self.browser``
-    # (which doesn't exist on this class).
-    #
-    # T-NEW-069 — minimal ``save``/``_to_dict`` shim restored
-    # after the broken self.browser-based duplicates were
-    # removed. ``NchantdWebBrowser.set_url_path`` calls
-    # ``self.save()``; this implementation marks the app
-    # model dirty without forcing a full Pyffice writeback
-    # (the Browser subclass owns that responsibility via its
-    # own ``save`` override which delegates to the Pyffice
-    # document save/load chain).
-
-    def _to_dict(self) -> dict:
-        """Return a snapshot of the current browser state.
-
-        Includes the URL, page title, and profile name. Gracefully
-        handles missing attributes (e.g. when not fully initialised).
-        """
-        snapshot = {}
-        try:
-            snapshot["current_url"] = (
-                self.engine.url().toString()
-                if hasattr(self.engine, "url")
-                else getattr(self, "active_url", None)
-            )
-        except Exception:
-            snapshot["current_url"] = None
-        try:
-            snapshot["title"] = self.engine.title() if hasattr(self.engine, "title") else None
-        except Exception:
-            snapshot["title"] = None
-        try:
-            profile = self.engine.page().profile() if hasattr(self.engine, "page") else None
-            snapshot["profile_name"] = (
-                profile.defaultProfileName()
-                if profile is not None and hasattr(profile, "defaultProfileName")
-                else None
-            )
-        except Exception:
-            snapshot["profile_name"] = None
-        return snapshot
-
-    def save(self) -> dict:
-        """Mark the app model as changed and return a snapshot.
-
-        ``NchantdWebBrowser.set_url_path`` (and any other call
-        site that previously relied on the broken
-        ``self.browser``-based save) funnels through here. The
-        Pyffice save/load round-trip is implemented separately
-        on the Browser subclass; this layer is the lightweight
-        dirty-flag marker.
-        """
-        snapshot = self._to_dict()
-        try:
-            if hasattr(self, "app") and self.app is not None:
-                if hasattr(self.app, "model") and self.app.model is not None:
-                    self.app.model.has_changed = True
-        except Exception:
-            pass
-        return snapshot
 
     def initWidget(self, url=None) -> Any:
         """ """
@@ -304,7 +223,7 @@ class NchantdWebViewer(NchantdWidget):
                 "title": "Pro feature",
                 "message": "Multiple profiles are a Pro feature. Upgrade to Pro to manage more than one profile.",
             }
-            #TODO:
+            # TODO:
             # try:
             #     pro_user_warning = NchantdNotificationSigil(self, cfg)
             #     pro_user_warning.initWidget()
@@ -342,7 +261,7 @@ class NchantdWebViewer(NchantdWidget):
         """"""
         super().close_tab()
 
-    def cmd_url_changed_handler(self, url, *args, **kwargs) -> Any:
+    def cmd_url_changed_handler(self, event, *args, **kwargs) -> Any:
         """T-NEW-069 — handle real URL-change events from the engine.
 
         Without the locking guard the dropdown's
@@ -355,8 +274,24 @@ class NchantdWebViewer(NchantdWidget):
         # Re-entrancy guard — if a previous invocation is on the
         # stack (e.g. dropdown mutated during the same handler),
         # drop the re-entrant signal.
+        if self.url_select_entry is None:
+            return self
         if self._url_signal_lock:
             return self
+        # ``urlChanged`` passes the engine's NEW url as ``event`` —
+        # that is the authoritative post-navigation address for
+        # every engine-driven change (Back/Forward buttons,
+        # server redirects, in-page link clicks). Previously this
+        # read ``self.url_select_entry.get_value()`` (the dropdown's
+        # CURRENT text), so Back/Forward moved the engine but the
+        # address bar kept showing the old URL. Fall back to the
+        # dropdown only if the signal arrives without a usable url.
+        if isinstance(event, pyqt.QUrl):
+            url = event
+        elif isinstance(event, str) and event:
+            url = event
+        else:
+            url = self.url_select_entry.get_value()
         try:
             self._url_signal_lock = True
             url_str = url.toString() if isinstance(url, pyqt.QUrl) else str(url)
@@ -377,8 +312,7 @@ class NchantdWebViewer(NchantdWidget):
                         entry.update_options(history, replace=True, sort=False)
                     except Exception as _exc:
                         logma.warning(
-                            f"[webviewer] cmd_url_changed_handler "
-                            f"dropdown sync failed (non-blocking): {_exc}"
+                            f"[webviewer] cmd_url_changed_handler " f"dropdown sync failed (non-blocking): {_exc}"
                         )
                 # Persist via Pyffice save (when one is wired)
                 # via the app model.  ``has_changed`` is the same
@@ -393,8 +327,9 @@ class NchantdWebViewer(NchantdWidget):
             self._url_signal_lock = False
         return self
 
-    def cmd_goto_page(self, url=None, *args, **kwargs) -> Any:
+    def cmd_goto_page(self, event, *args, **kwargs) -> Any:
         """"""
+        url = self.url_select_entry.get_value()
         logma.info(f"Goto Page {url}")
         if not isinstance(url, pyqt.QUrl) and (not isinstance(url, str)):
             url = None
@@ -484,7 +419,7 @@ class NchantdWebViewer(NchantdWidget):
         """"""
         if self.active_url is None:
             return self.default_url
-        url = self.active_url.path
+        url = self.active_url.url
         return url
 
     def goto_page(self, url) -> Any:
@@ -567,9 +502,7 @@ class NchantdWebViewer(NchantdWidget):
             if btn is not None:
                 btn.setEnabled(bool(available))
         except Exception as _exc:
-            logma.warning(
-                f"[webviewer] on_back_available toggle failed: {_exc}"
-            )
+            logma.warning(f"[webviewer] on_back_available toggle failed: {_exc}")
 
     def on_forward_available(self, available) -> None:
         """Handle forward availability change."""
@@ -578,47 +511,7 @@ class NchantdWebViewer(NchantdWidget):
             if btn is not None:
                 btn.setEnabled(bool(available))
         except Exception as _exc:
-            logma.warning(
-                f"[webviewer] on_forward_available toggle failed: {_exc}"
-            )
-
-    def _get_nav_button(self, action_name) -> Any:
-        """Look up a toolbar button by action name (Back, Forward,
-        Refresh, Go). Returns None if the toolbar or the
-        specific button doesn't exist yet — the signal fires
-        mid-construction too, on the first navigation after
-        build_toolbar.
-
-        The toolbar widget lives on the embedding document
-        (e.g. ``NchantdOfficeWebBrowser.document_toolbar``), not
-        on the viewer itself — search ``self.toolbar`` first,
-        then the parent's toolbar-ish attributes.
-        """
-        candidates = []
-        own = getattr(self, "toolbar", None)
-        if own is not None:
-            candidates.append(own)
-        parent = getattr(self, "parent", None)
-        if parent is not None:
-            for attr in ("document_toolbar", "toolbar", "button_bar"):
-                bar = getattr(parent, attr, None)
-                if bar is not None:
-                    candidates.append(bar)
-        for bar in candidates:
-            try:
-                buttons = getattr(bar, "buttons", None) or {}
-                entry = buttons.get(action_name)
-                if entry is None:
-                    continue
-                if isinstance(entry, dict):
-                    widget = entry.get("widget")
-                    if widget is not None:
-                        return widget
-                else:
-                    return entry
-            except Exception:
-                continue
-        return None
+            logma.warning(f"[webviewer] on_forward_available toggle failed: {_exc}")
 
     def on_tab_changed(self, index: int) -> Any:
         logma.info("on_tab_changed event received")
@@ -643,7 +536,7 @@ class NchantdWebViewer(NchantdWidget):
             url = self.get_home_page() or self.config.get("homepage", HOMEPAGE)
             if url is None:
                 raise Exception("No URL Provided")
-        #self.url_select_entry.set_value(url)
+        # self.url_select_entry.set_value(url)
         self.engine.load(url)
         self.save()
         return self
@@ -666,10 +559,7 @@ class NchantdWebViewer(NchantdWidget):
         try:
             return self.populate_viewport(url)
         except Exception as _exc:
-            logma.warning(
-                f"[webviewer] populate_document delegation failed "
-                f"(non-blocking): {_exc}"
-            )
+            logma.warning(f"[webviewer] populate_document delegation failed " f"(non-blocking): {_exc}")
             return self
 
     def run_js_script(self, script) -> Any:
@@ -712,16 +602,11 @@ class NchantdWebViewer(NchantdWidget):
             if _active is not None:
                 _active_str = (getattr(_active, "url", None) or "").strip()
             if _active_str:
-                logma.info(
-                    f"[webviewer] first show -> loading active_url {_active_str}"
-                )
+                logma.info(f"[webviewer] first show -> loading active_url {_active_str}")
                 try:
                     self.populate_document(_active_str)
                 except Exception as _exc:
-                    logma.warning(
-                        f"[webviewer] first-show populate_document failed "
-                        f"(non-blocking): {_exc}"
-                    )
+                    logma.warning(f"[webviewer] first-show populate_document failed " f"(non-blocking): {_exc}")
                     self.populate_viewport(_active_str)
             else:
                 _engine_url = ""
@@ -735,9 +620,7 @@ class NchantdWebViewer(NchantdWidget):
                         f"already at {_engine_url} — keeping it"
                     )
                 else:
-                    logma.info(
-                        "[webviewer] first show -> no active_url, loading configured default"
-                    )
+                    logma.info("[webviewer] first show -> no active_url, loading configured default")
                     self.cmd_goto_page()
 
     def resizeEvent(self, event) -> None:
@@ -751,6 +634,25 @@ class NchantdWebViewer(NchantdWidget):
             )
         except Exception as e:
             logma.error(f"[webviewer] resizeEvent log failed: {e}")
+
+    def save(self) -> dict:
+        """Mark the app model as changed and return a snapshot.
+
+        ``NchantdWebBrowser.set_url_path`` (and any other call
+        site that previously relied on the broken
+        ``self.browser``-based save) funnels through here. The
+        Pyffice save/load round-trip is implemented separately
+        on the Browser subclass; this layer is the lightweight
+        dirty-flag marker.
+        """
+        snapshot = self._to_dict()
+        try:
+            if hasattr(self, "app") and self.app is not None:
+                if hasattr(self.app, "model") and self.app.model is not None:
+                    self.app.model.has_changed = True
+        except Exception:
+            pass
+        return snapshot
 
     def set_channel(self) -> Any:
         """"""
@@ -784,10 +686,10 @@ class NchantdWebViewer(NchantdWidget):
         navigation in the dropdown or persisted history — that
         gap is the root cause of the link-collection regression.
         """
-        self.default_url = self.config.dikt.get("default_url", HOMEPAGE)
-        self.home_url = self.config.dikt.get("home_url", self.default_url)
+        self.default_url = self.config.get("default_url", HOMEPAGE)
+        self.home_url = self.config.get("home_url", self.default_url)
         if url is None:
-            url = self.config.dikt.get("url", self.home_url)
+            url = self.config.get("url", self.home_url)
         if url is None:
             return self
         # Normalise QUrl -> str for the dedupe + dropdown layer;
@@ -822,10 +724,7 @@ class NchantdWebViewer(NchantdWidget):
             # history entry and do NOT clobber ``active_url`` with
             # an empty wrapper (that is what made showEvent load
             # about:blank over an already-good page).
-            logma.info(
-                "[webviewer] set_url_path: normalised URL empty — "
-                "leaving active_url untouched"
-            )
+            logma.info("[webviewer] set_url_path: normalised URL empty — " "leaving active_url untouched")
             return self
         # Record the URL in the dropdown history. ``_track_url``
         # dedupes (case-sensitive), so re-visiting the same URL
@@ -847,10 +746,7 @@ class NchantdWebViewer(NchantdWidget):
                     sort=False,
                 )
             except Exception as _exc:
-                logma.warning(
-                    f"[webbrowser] set_url_path dropdown sync "
-                    f"failed (non-blocking): {_exc}"
-                )
+                logma.warning(f"[webbrowser] set_url_path dropdown sync " f"failed (non-blocking): {_exc}")
         # Update the persistent active_url record.
         self.active_url = NchantdURL(url_str, self)
         self.save()
@@ -914,12 +810,75 @@ class NchantdWebViewer(NchantdWidget):
         """Wipe the URL history list (dropdown-only)."""
         self.config.dikt["url_history"] = []
 
+    def _get_nav_button(self, action_name) -> Any:
+        """Look up a toolbar button by action name (Back, Forward,
+        Refresh, Go). Returns None if the toolbar or the
+        specific button doesn't exist yet — the signal fires
+        mid-construction too, on the first navigation after
+        build_toolbar.
+
+        The toolbar widget lives on the embedding document
+        (e.g. ``NchantdOfficeWebBrowser.document_toolbar``), not
+        on the viewer itself — search ``self.toolbar`` first,
+        then the parent's toolbar-ish attributes.
+        """
+        candidates = []
+        own = getattr(self, "toolbar", None)
+        if own is not None:
+            candidates.append(own)
+        parent = getattr(self, "parent", None)
+        if parent is not None:
+            for attr in ("document_toolbar", "toolbar", "button_bar"):
+                bar = getattr(parent, attr, None)
+                if bar is not None:
+                    candidates.append(bar)
+        for bar in candidates:
+            try:
+                buttons = getattr(bar, "buttons", None) or {}
+                entry = buttons.get(action_name)
+                if entry is None:
+                    continue
+                if isinstance(entry, dict):
+                    widget = entry.get("widget")
+                    if widget is not None:
+                        return widget
+                else:
+                    return entry
+            except Exception:
+                continue
+        return None
+
     def _get_url_history(self) -> List[str]:
         """Return the URL history list (most-recent-first)."""
-        return list(self.config.dikt.get("url_history", []) or [])
+        return list(self.config.get("url_history", []) or [])
 
     # T-NEW-069 — URL dropdown history helpers (live on the
     # WebViewer because that's where set_url_path lives).
+    def _to_dict(self) -> dict:
+        """Return a snapshot of the current browser state.
+
+        Includes the URL, page title, and profile name. Gracefully
+        handles missing attributes (e.g. when not fully initialised).
+        """
+        snapshot = {}
+        try:
+            snapshot["current_url"] = (
+                self.engine.url().toString() if hasattr(self.engine, "url") else getattr(self, "active_url", None)
+            )
+        except Exception:
+            snapshot["current_url"] = None
+        try:
+            snapshot["title"] = self.engine.title() if hasattr(self.engine, "title") else None
+        except Exception:
+            snapshot["title"] = None
+        try:
+            profile = self.engine.page().profile() if hasattr(self.engine, "page") else None
+            snapshot["profile_name"] = (
+                profile.defaultProfileName() if profile is not None and hasattr(profile, "defaultProfileName") else None
+            )
+        except Exception:
+            snapshot["profile_name"] = None
+        return snapshot
 
     def _track_url(self, url) -> List[str]:
         """Add ``url`` to the persistent URL history.
@@ -931,8 +890,8 @@ class NchantdWebViewer(NchantdWidget):
         history list (most-recent-first).
         """
         if not url or not isinstance(url, str):
-            return list(self.config.dikt.get("url_history", []) or [])
-        history = list(self.config.dikt.get("url_history", []) or [])
+            return list(self.config.get("url_history", []) or [])
+        history = list(self.config.get("url_history", []) or [])
         history = [u for u in history if u != url]
         history.insert(0, url)
         history = history[: max(1, int(self._url_history_max))]
@@ -972,7 +931,7 @@ class NchantdWebBrowser(NchantdWebViewer):
         if cfg is None:
             cfg = {}
         if "url" not in cfg:
-            cfg["url"] = self.config.dikt.get("url", self.home_url)
+            cfg["url"] = self.config.get("url", self.home_url)
         logma.info(cfg["url"])
         super().initModel(cfg)
         self.url_options = self.get_important_urls()
@@ -1010,10 +969,7 @@ class NchantdWebBrowser(NchantdWebViewer):
                     entry.combobox.setCurrentText(url)
                     entry.update_options(history, replace=True, sort=False)
                 except Exception as _exc:
-                    logma.warning(
-                        f"[webbrowser] initWidget dropdown seed failed "
-                        f"(non-blocking): {_exc}"
-                    )
+                    logma.warning(f"[webbrowser] initWidget dropdown seed failed " f"(non-blocking): {_exc}")
         return self
 
     def populate_document(self, url) -> Any:
@@ -1037,10 +993,7 @@ class NchantdWebBrowser(NchantdWebViewer):
         try:
             return self.populate_viewport(url)
         except Exception as _exc:
-            logma.warning(
-                f"[webbrowser] populate_document delegation failed "
-                f"(non-blocking): {_exc}"
-            )
+            logma.warning(f"[webbrowser] populate_document delegation failed " f"(non-blocking): {_exc}")
             return self
 
     def set_url_path(self, url=None) -> Any:

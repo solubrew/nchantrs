@@ -556,7 +556,9 @@ class NchantdTabSet(NchantdWidgetMixin, pyqt.QTabWidget):
         if tabW is None:
             return self
         if tabW.dummy is True:
-            self.model.load_tab(self.model.tabsdata[tabn], tabn, self.pane_position, tabn)
+            tab = self.model.tabsdata[tabn]
+            icon_name = tab.get("icon_name", "dot")
+            self.model.load_tab(tab, tabn, self.pane_position, tabn, icon_name)
             tabW = self.model.tab_widgets[tabn]
         if tabW is not None:
             if hasattr(tabW, "widget_initialized") is False or tabW.widget_initialized is False:

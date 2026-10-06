@@ -1,11 +1,8 @@
 from typing import Any, Optional
-
-'\n---\n<(META)>:\n    docid:\n    name:\n    description: >\n    version: 0.0.0.0.0.0\n    authority: filesystem\n    security: seclvl2\n    <(WT)>: -32\n'
 from os.path import dirname, join
 
 from kahndor import kahndor
 from kahndor.logma import Logma
-
 from nchantrs.libraries import pyqt
 from nchantrs.widgets.annotations import NchantdLabel
 from nchantrs.widgets.controls.buttons import NchantdButton
@@ -15,7 +12,7 @@ from nchantrs.widgets.widgets import NchantdWidget, NchantdWidgetMixin
 
 here = join(dirname(__file__), '')
 logma = Logma(__name__)
-log = False
+log = True
 if not log:
     logma.off()
 pxcfg = join(here, '_data_', 'selectors.yaml')
@@ -39,9 +36,14 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
         """"""
         self.init_variables()
         self.setEditable(True)
-        self.set_options(self.config.dikt.get('options', []), self.config.dikt.get('sort', True))
+        self.set_options(self.config.get('options', []), self.config.get('sort', True))
         self.lineEdit().setPlaceholderText('Type or select an item')
-        value = self.config.dikt.get('value', None)
+        value = self.config.get('value', None)
+        if value is None:
+            value = ""
+        if not isinstance(value, str):
+            logma.info(f"Type {type(value)}")
+            raise Exception(f"Assigned Value Type Incorrect")
         logma.info(f'Value {value}')
         if value not in self.options:
             self.add_option(value)
@@ -54,7 +56,23 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
 
     def initView(self) -> Any:
         """"""
-        self.setInsertPolicy(pyqt.QComboBox.InsertAtTop)
+        # NoInsert: on Enter, Qt must NOT auto-insert the typed text.
+        # InsertAtTop inserted it at index 0, which SHIFTED the
+        # previously-current item to index 1 and fired a spurious
+        # currentIndexChanged(1) -> on_index_change, which then
+        # reset the line edit back to that shifted item (the old
+        # URL) and navigated there — i.e. Enter "defaulted back to
+        # the original". With NoInsert no such signal fires; Enter
+        # navigation is driven explicitly from on_return_pressed
+        # using the actual line-edit text.
+        self.setInsertPolicy(pyqt.QComboBox.NoInsert)
+        # Drop the inline autocompleter. It was silently rewriting
+        # the user's partial text to a matching existing item (a
+        # typed prefix became 'https://www.pyffice.com/'), so Enter
+        # matched an existing item and navigated to that URL instead
+        # of the manually-typed one. Removing it preserves manual
+        # input verbatim; the dropdown history is still selectable.
+        self.setCompleter(None)
         self.set_size()
         return self
 
@@ -68,7 +86,7 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
         # events on the Enter path. Mirror the
         # `_in_index_change` / `options` guard style.
         if self.handler is None:
-            self.handler = self.config.dikt.get('handler', None)
+            self.handler = self.config.get('handler', None)
         self.activated.connect(self.on_activated)
         self.currentIndexChanged.connect(self.on_index_change)
         self.currentTextChanged.connect(self.on_text_change)
@@ -92,7 +110,14 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
         return self
 
     def get_value(self) -> Any:
-        """"""
+        """Current entry = whatever the line edit shows.
+
+        Deliberately NOT ``self.value or currentText()``: ``self.value``
+        is only refreshed by the signal handlers, so it goes stale
+        when the user types a new URL and clicks the Go button
+        without pressing Enter — get_value would then return the
+        previously-navigated URL instead of what's typed.
+        """
         return self.currentText()
 
     def toggle_editable(self) -> Any:
@@ -104,35 +129,17 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
         return self
 
     def on_activated(self, index) -> None:
-        """fires when the user picks an item OR presses Enter
-        on an editable combobox. index == -1 means the typed
-        text was committed; add it (deduped) and invoke the
-        handler directly so Enter navigates.
+        """Fires when the user picks an item from the dropdown popup.
+
+        Navigation for a pick is handled by ``on_index_change``
+        (currentIndexChanged fires alongside activated), and Enter
+        on typed text is handled by ``on_return_pressed``. With the
+        ``NoInsert`` policy Qt never emits ``activated(-1)`` for new
+        text, so there is nothing to commit here — this is
+        informational only.
         """
-        if index == -1:
-            text = self.lineEdit().text().strip()
-            if not text:
-                return
-            existing = self.findText(text)
-            if existing == -1:
-                self.addItem(text)
-                existing = self.findText(text)
-            # setCurrentIndex would fire currentIndexChanged ->
-            # on_index_change -> handler, but the duplicate
-            # addItem path above may have left the edit text
-            # in an odd state; block signals while we move the
-            # index and call the handler ourselves (this IS a
-            # real user navigation).
-            with pyqt.QSignalBlocker(self):
-                self.setCurrentIndex(existing)
-            if self.handler is not None:
-                logma.info(f'Handler {self.handler}')
-                try:
-                    self.handler(existing, text)
-                except Exception as _exc:
-                    logma.error(
-                        f'handler error in on_activated for {text!r}: {_exc}'
-                    )
+        logma.info(f"Activated Index {index}")
+        logma.info(f"Activated Text {self.lineEdit().text().strip()}")
 
     def on_index_change(self, index) -> None:
         """
@@ -171,18 +178,51 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
         return
 
     def on_return_pressed(self) -> Any:
-        """Enter on the URL bar.
+        """Enter on the URL bar — the single navigation path.
 
-        QComboBox natively emits ``activated(-1)`` (new text) or
-        ``activated(matched_index)`` (text matches an item) when
-        Enter is pressed on the inner QLineEdit — our connected
-        ``on_activated`` does the navigation. Do NOT call the
-        handler here as well: that double-fires the navigation
-        (verified live: two identical handler calls per Enter).
-        Bookkeeping only.
+        With ``NoInsert`` (see initView) Qt fires no
+        activated/currentIndexChanged on Enter, so this is the
+        deterministic place to commit a manually-typed entry.
+        We read the *actual* line-edit text (immune to the
+        index-shift clobber that InsertAtTop caused), register it
+        as an option + active value, and invoke the handler so
+        Enter navigates to exactly what was typed. Picks from the
+        dropdown popup still go through on_index_change.
         """
+        text = self.lineEdit().text().strip()
+        if not text:
+            return self
+        # All widget mutations under a signal blocker: addItem on an
+        # empty combobox, and setCurrentIndex, would otherwise fire
+        # currentIndexChanged -> on_index_change and re-enter the
+        # handler. We call the handler ourselves once, below.
+        with pyqt.QSignalBlocker(self):
+            existing = self.findText(text)
+            if existing == -1:
+                self.addItem(text)
+                existing = self.findText(text)
+            self.setCurrentIndex(existing)
+            self.setCurrentText(text)
+        # Keep the tracked option list(s) in sync with the widget so
+        # a manual entry survives a later replace/repopulate and is
+        # counted in set_size (mirrors the parent NchantdDropDown).
+        if text not in self.options:
+            self.options.append(text)
+        parent = getattr(self, 'parent', None)
+        if parent is not None and hasattr(parent, 'options') \
+                and text not in parent.options:
+            parent.options.append(text)
+        self.value = text
         if getattr(self, 'app', None) is not None and hasattr(self.app, 'model'):
             self.app.model.has_changed = True
+        if self.handler is not None:
+            logma.info(f'Handler {self.handler}')
+            try:
+                self.handler(existing, text)
+            except Exception as _exc:
+                logma.error(
+                    f'handler error in on_return_pressed for {text!r}: {_exc}'
+                )
         return self
 
     def on_text_change(self) -> Any:
@@ -207,7 +247,7 @@ class NchantdComboBox(NchantdWidgetMixin, pyqt.QComboBox):
         """"""
         min_width_min = None
         min_height_min = None
-        if self.config.dikt.get('size', None) is None:
+        if self.config.get('size', None) is None:
             max_width = 500
             min_width_min = 50
             min_height_min = 20
@@ -285,23 +325,23 @@ class NchantdDropDown(NchantdWidget):
         :return:
         """
         super().initModel()
-        self.options = self.config.dikt.get('options', [])
+        self.options = self.config.get('options', [])
         return self
 
     def initView(self, handler=None) -> Any:
         """Build the dropdown view: a label above the combobox."""
         cfg = {}
         super().initView(cfg)
-        logma.info(f"Label {self.config.dikt.get('label', 'Missing Label')}")
-        self.config.dikt['label'] = self.config.dikt.get('label', 'Missing Label')
+        logma.info(f"Label {self.config.get('label', 'Missing Label')}")
+        self.config.dikt['label'] = self.config.get('label', 'Missing Label')
         self.label = NchantdLabel(self, self.config).initWidget()
         self.layout.setAlignment(self.label, pyqt.Qt.AlignTop | pyqt.Qt.AlignLeft)
         self.layout.addWidget(self.label)
         self.layout.addSpacing(3)
-        cfg = self.config.dikt.get('combobox')
+        cfg = self.config.get('combobox')
         logma.info(f'{cfg}')
         self.combobox = NchantdComboBox(self, cfg).initWidget(handler)
-        self.update_options(self.options, False, self.config.dikt.get('sort', True))
+        self.update_options(self.options, False, self.config.get('sort', True))
         self.layout.setAlignment(self.combobox, pyqt.Qt.AlignTop | pyqt.Qt.AlignLeft)
         self.layout.addWidget(self.combobox)
         return self
@@ -322,6 +362,7 @@ class NchantdDropDown(NchantdWidget):
         logma.info('on_return_pressed event received')
         if getattr(self, 'app', None) is not None and hasattr(self.app, 'model'):
             self.app.model.has_changed = True
+            
         return self
 
     def set_option_selection(self, value) -> Any:
@@ -395,7 +436,7 @@ class NchantdDropDownActivator(NchantdDropDown):
     def initView(self, cfg=None) -> Any:
         """"""
         super().initView(cfg)
-        cfg = {'action': self.config.dikt.get('action', {})}
+        cfg = {'action': self.config.get('action', {})}
         self.activate_button = NchantdButton(self, cfg).initWidget()
         self.layout.addWidget(self.activate_button)
         return self

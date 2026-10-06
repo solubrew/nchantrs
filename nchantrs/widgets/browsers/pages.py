@@ -13,7 +13,7 @@
 """
 
 # -*- coding: utf-8 -*
-# ======================================Standard Library Modules======================================================||
+# ======================================Standard Library Modules======================================================||80288
 from os.path import abspath, dirname, join
 from typing import Any, Optional
 
@@ -112,7 +112,7 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
     def __init__(self, parent=None, profile=None, intercept=None, cfg=None) -> None:
         super().__init__(profile, parent)
         self.parent = parent
-        self.config = kahndor.Instruct(PXCFG).select("NchantdOfficeWebPage").override(cfg)
+        self.config = kahndor.Instruct(PXCFG).select("NchantdOfficeWebPage").override(parent.config).override(cfg)
 
     def initModel(self, cfg=None) -> Any:
         """Initialize the model with audio and fullscreen settings."""
@@ -129,6 +129,23 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
         self.initModel()
         self.initView()
         return self
+
+    def acceptNavigationRequest(self, url, navigation_type, is_main_frame) -> Any:
+        """Override to handle navigation requests"""
+        self._log_navigation_details(url, navigation_type, is_main_frame)
+        navigation_types = {
+            pyqt.QWebEnginePage.NavigationType.NavigationTypeLinkClicked: "Link Clicked",
+            pyqt.QWebEnginePage.NavigationType.NavigationTypeFormSubmitted: "Form Submitted",
+            pyqt.QWebEnginePage.NavigationType.NavigationTypeBackForward: "Back/Forward",
+            pyqt.QWebEnginePage.NavigationType.NavigationTypeReload: "Reload",
+            pyqt.QWebEnginePage.NavigationType.NavigationTypeRedirect: "Redirect",
+            pyqt.QWebEnginePage.NavigationType.NavigationTypeOther: "Other",
+        }
+        nav_type_str = navigation_types.get(navigation_type, "Unknown")
+        logma.info(f"Navigation request: {url.toString()} - Type: {nav_type_str} - Main frame: {is_main_frame}")
+        self.navigationRequested.emit(url, nav_type_str)
+        self._update_frame_state(is_main_frame)
+        return super().acceptNavigationRequest(url, navigation_type, is_main_frame)
 
     def createStandardContextMenu(self) -> Any:
         """Build the right-click context menu for the web page.
@@ -172,133 +189,6 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
                 action.setText(label)
                 menu.addAction(action)
         return menu
-
-    def hitTestContent(self, position) -> Any:
-        """Hit-test the page content at ``position`` (a QPoint).
-
-        Returns a dict describing what element is at the position:
-        ``{'tag': str, 'link': Optional[QUrl], 'media': bool, 'editable': bool}``.
-        Returns ``None`` if no element is at the position.
-        """
-        logma.info(f"hitTestContent called for {position}")
-        # The QWebEnginePage base class exposes hitTestContent via C++
-        # but the shim doesn't always make it visible.  The structural
-        # return here lets callers (e.g. contextMenuEvent) populate
-        # the dict fields via a JS-injection probe when more detail is
-        # needed; the basic shape is stable.
-        return {
-            "tag": "",
-            "link": None,
-            "media": False,
-            "editable": False,
-        }
-
-    def setup_page(self) -> None:
-        """Initialize page settings and connections"""
-        self.loadStarted.connect(self.on_load_started)
-        self.loadFinished.connect(self.on_load_finished)
-        self.urlChanged.connect(self.on_url_changed)
-        self.titleChanged.connect(self.on_title_changed)
-        self.featurePermissionRequested.connect(self.handle_feature_permission)
-
-    def acceptNavigationRequest(self, url, navigation_type, is_main_frame) -> Any:
-        """Override to handle navigation requests"""
-        self._log_navigation_details(url, navigation_type, is_main_frame)
-        navigation_types = {
-            pyqt.QWebEnginePage.NavigationType.NavigationTypeLinkClicked: "Link Clicked",
-            pyqt.QWebEnginePage.NavigationType.NavigationTypeFormSubmitted: "Form Submitted",
-            pyqt.QWebEnginePage.NavigationType.NavigationTypeBackForward: "Back/Forward",
-            pyqt.QWebEnginePage.NavigationType.NavigationTypeReload: "Reload",
-            pyqt.QWebEnginePage.NavigationType.NavigationTypeRedirect: "Redirect",
-            pyqt.QWebEnginePage.NavigationType.NavigationTypeOther: "Other",
-        }
-        nav_type_str = navigation_types.get(navigation_type, "Unknown")
-        logma.info(f"Navigation request: {url.toString()} - Type: {nav_type_str} - Main frame: {is_main_frame}")
-        self.navigationRequested.emit(url, nav_type_str)
-        self._update_frame_state(is_main_frame)
-        return super().acceptNavigationRequest(url, navigation_type, is_main_frame)
-
-    @pyqt.Slot()
-    def on_load_started(self) -> None:
-        """Handle page load start"""
-        current_url = self.url()
-        logma.info(f"Page load started: {current_url.toString()}")
-        self.pageLoadStarted.emit(current_url)
-
-    @pyqt.Slot(bool)
-    def on_load_finished(self, success) -> None:
-        """Handle page load completion"""
-        current_url = self.url()
-        status = "successfully" if success else "with errors"
-        logma.info(f"Page loaded {status}: {current_url.toString()}")
-        self.pageLoadFinished.emit(current_url, success)
-
-    @pyqt.Slot(pyqt.QUrl)
-    def on_url_changed(self, url) -> None:
-        """Handle URL changes"""
-        logma.info(f"URL changed to: {url.toString()}")
-
-    @pyqt.Slot(str)
-    def on_title_changed(self, title) -> None:
-        logma.info(f"Page title changed to: {title}")
-
-    @pyqt.Slot(pyqt.QUrl, "QWebEnginePage::Feature")
-    def handle_feature_permission(self, url, feature) -> None:
-        features = {
-            pyqt.QWebEnginePage.Feature.Notifications: "Notifications",
-            pyqt.QWebEnginePage.Feature.Geolocation: "Geolocation",
-            pyqt.QWebEnginePage.Feature.MediaAudioCapture: "Audio Capture",
-            pyqt.QWebEnginePage.Feature.MediaVideoCapture: "Video Capture",
-            pyqt.QWebEnginePage.Feature.MediaAudioVideoCapture: "Audio/Video Capture",
-            pyqt.QWebEnginePage.Feature.MouseLock: "Mouse Lock",
-            pyqt.QWebEnginePage.Feature.DesktopVideoCapture: "Desktop Video Capture",
-            pyqt.QWebEnginePage.Feature.DesktopAudioVideoCapture: "Desktop Audio/Video Capture",
-        }
-        feature_name = features.get(feature, "Unknown Feature")
-        logma.info(f"Feature permission requested: {feature_name} for {url.toString()}")
-        self.setFeaturePermission(url, feature, pyqt.QWebEnginePage.PermissionPolicy.PermissionDeniedByUser)
-
-    def _log_navigation_details(self, url, request_type, is_main_frame) -> None:
-        """Log navigation request details for debugging."""
-        logma.info(f"Navigate to {url}")
-        logma.info(f"Request Type: {request_type}")
-        logma.info(f"Is Main Frame: {is_main_frame}")
-
-    def javaScriptConsoleMessage(self, level, message, line_number, source_id) -> None:
-        """Handle console messages from JavaScript"""
-        if message.startswith("middleClick:"):
-            url = message[len("middleClick:") :]
-            logma.info(f"Middle-click on link: {url}")
-            if hasattr(self.parent(), "get_available_engine"):
-                new_viewer = self.parent().get_available_engine()
-                new_viewer.browser.setUrl(pyqt.QUrl(url))
-                if hasattr(self.parent().parent, "add_tab"):
-                    self.parent().parent.add_tab(new_viewer)
-            return
-        super().javaScriptConsoleMessage(level, message, line_number, source_id)
-
-    def _resolve_new_window_target(self) -> Optional[Any]:
-        """Walk the owning view/widget chain for an object exposing
-        ``open_new_window(url)``.
-
-        The chain mixes Qt parent() methods and ``self.parent`` attributes set by
-        the widget framework, so at each hop we take the attribute if present
-        (not callable) else call the bound parent() method. Bounded to a few hops.
-        """
-        node = self.parent()
-        for _ in range(6):
-            if node is None:
-                break
-            if node is not self and hasattr(node, "open_new_window"):
-                return node
-            nxt = getattr(node, "parent", None)
-            if callable(nxt):
-                try:
-                    nxt = nxt()
-                except Exception:
-                    nxt = None
-            node = nxt
-        return None
 
     def createWindow(self, type_) -> Any:
         """Handle requests to create new windows (e.g. target="_blank").
@@ -347,6 +237,116 @@ class NchantdWebEnginePage(NchantdWidgetMixin, pyqt.QWebEnginePage):
             return _NewWindowCapturePage(self, target.open_new_window)
         logma.info(f"[webpage] createWindow type={type_} in_place=False -> default handling")
         return super().createWindow(type_)
+
+    @pyqt.Slot(pyqt.QUrl, "QWebEnginePage::Feature")
+    def handle_feature_permission(self, url, feature) -> None:
+        features = {
+            pyqt.QWebEnginePage.Feature.Notifications: "Notifications",
+            pyqt.QWebEnginePage.Feature.Geolocation: "Geolocation",
+            pyqt.QWebEnginePage.Feature.MediaAudioCapture: "Audio Capture",
+            pyqt.QWebEnginePage.Feature.MediaVideoCapture: "Video Capture",
+            pyqt.QWebEnginePage.Feature.MediaAudioVideoCapture: "Audio/Video Capture",
+            pyqt.QWebEnginePage.Feature.MouseLock: "Mouse Lock",
+            pyqt.QWebEnginePage.Feature.DesktopVideoCapture: "Desktop Video Capture",
+            pyqt.QWebEnginePage.Feature.DesktopAudioVideoCapture: "Desktop Audio/Video Capture",
+        }
+        feature_name = features.get(feature, "Unknown Feature")
+        logma.info(f"Feature permission requested: {feature_name} for {url.toString()}")
+        self.setFeaturePermission(url, feature, pyqt.QWebEnginePage.PermissionPolicy.PermissionDeniedByUser)
+
+    def hitTestContent(self, position) -> Any:
+        """Hit-test the page content at ``position`` (a QPoint).
+
+        Returns a dict describing what element is at the position:
+        ``{'tag': str, 'link': Optional[QUrl], 'media': bool, 'editable': bool}``.
+        Returns ``None`` if no element is at the position.
+        """
+        logma.info(f"hitTestContent called for {position}")
+        # The QWebEnginePage base class exposes hitTestContent via C++
+        # but the shim doesn't always make it visible.  The structural
+        # return here lets callers (e.g. contextMenuEvent) populate
+        # the dict fields via a JS-injection probe when more detail is
+        # needed; the basic shape is stable.
+        return {
+            "tag": "",
+            "link": None,
+            "media": False,
+            "editable": False,
+        }
+
+    def javaScriptConsoleMessage(self, level, message, line_number, source_id) -> None:
+        """Handle console messages from JavaScript"""
+        if message.startswith("middleClick:"):
+            url = message[len("middleClick:") :]
+            logma.info(f"Middle-click on link: {url}")
+            if hasattr(self.parent(), "get_available_engine"):
+                new_viewer = self.parent().get_available_engine()
+                new_viewer.browser.setUrl(pyqt.QUrl(url))
+                if hasattr(self.parent().parent, "add_tab"):
+                    self.parent().parent.add_tab(new_viewer)
+            return
+        super().javaScriptConsoleMessage(level, message, line_number, source_id)
+
+    @pyqt.Slot()
+    def on_load_started(self) -> None:
+        """Handle page load start"""
+        current_url = self.url()
+        logma.info(f"Page load started: {current_url.toString()}")
+        self.pageLoadStarted.emit(current_url)
+
+    @pyqt.Slot(bool)
+    def on_load_finished(self, success) -> None:
+        """Handle page load completion"""
+        current_url = self.url()
+        status = "successfully" if success else "with errors"
+        logma.info(f"Page loaded {status}: {current_url.toString()}")
+        self.pageLoadFinished.emit(current_url, success)
+
+    @pyqt.Slot(str)
+    def on_title_changed(self, title) -> None:
+        logma.info(f"Page title changed to: {title}")
+
+    @pyqt.Slot(pyqt.QUrl)
+    def on_url_changed(self, url) -> None:
+        """Handle URL changes"""
+        logma.info(f"URL changed to: {url.toString()}")
+
+    def setup_page(self) -> None:
+        """Initialize page settings and connections"""
+        self.loadStarted.connect(self.on_load_started)
+        self.loadFinished.connect(self.on_load_finished)
+        self.urlChanged.connect(self.on_url_changed)
+        self.titleChanged.connect(self.on_title_changed)
+        self.featurePermissionRequested.connect(self.handle_feature_permission)
+
+    def _log_navigation_details(self, url, request_type, is_main_frame) -> None:
+        """Log navigation request details for debugging."""
+        logma.info(f"Navigate to {url}")
+        logma.info(f"Request Type: {request_type}")
+        logma.info(f"Is Main Frame: {is_main_frame}")
+
+    def _resolve_new_window_target(self) -> Optional[Any]:
+        """Walk the owning view/widget chain for an object exposing
+        ``open_new_window(url)``.
+
+        The chain mixes Qt parent() methods and ``self.parent`` attributes set by
+        the widget framework, so at each hop we take the attribute if present
+        (not callable) else call the bound parent() method. Bounded to a few hops.
+        """
+        node = self.parent()
+        for _ in range(6):
+            if node is None:
+                break
+            if node is not self and hasattr(node, "open_new_window"):
+                return node
+            nxt = getattr(node, "parent", None)
+            if callable(nxt):
+                try:
+                    nxt = nxt()
+                except Exception:
+                    nxt = None
+            node = nxt
+        return None
 
     def _update_frame_state(self, is_main_frame) -> None:
         """Update internal frame state based on navigation context."""

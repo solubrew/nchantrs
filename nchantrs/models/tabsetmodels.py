@@ -194,18 +194,12 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
                 self.parent.app.toolbox = self.tab_widgets[tabn]
                 self.parent.app.toolbox.position = tabn
         self.parent.insertTab(tabn, self.tab_widgets[tabn], self.tab_widgets[tabn].name)
+        if icon_name is None:
+            icon_name = tab.get("icon_name", "dot")
         self._set_tab_icon(tabn, icon_name)
-
-        # self.setStyleSheet("""
-        #     QTabBar::tab {
-        #         padding: 6px 8px;
-        #         min-width: 0px;
-        #     }
-        # """)
-
         return self
 
-    def load_widget(self, cfg, tabset="center", document=None, tab_type="custom_widget") -> None:
+    def load_widget(self, cfg, tabset="center", document=None) -> None:
         """"""
         if document is None:
             document = {}
@@ -284,8 +278,9 @@ class NchantdTabSetModel(pyqt.QAbstractItemModel):
     def _get_tab_icon(self, tabn, name=None):
         """"""
         if name is None:
-            name = self.config.dikt.get("icon_txt", self.config.dikt.get("icon", None))
+            name = self.config.get("icon_txt", self.config.get("icon", None))
         # need to connect to the default icon for each tab type
+        logma.info(f"Tab Icon Name {name}")
         icon_path = self.parent.app.view.theme.get_icon_path(name, "base")
         image = NchantdImage(self, {"path": icon_path}).initWidget()
         return pyqt.QIcon(image.image)
